@@ -1,0 +1,29 @@
+========= COMPUTE-SANITIZER
+========= Error: Failed to initialize WDDM debugger interface. Please run EnableDebuggerInterface.bat as an administrator
+========= 
+========= Error: Device not supported. Please refer to the "Supported Devices" section of the sanitizer documentation
+========= 
+case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=7e8b5b398e58fb09d296594d4ddc0c7392f04c06df29929fbcca4205488c9660
+case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=7e8b5b398e58fb09d296594d4ddc0c7392f04c06df29929fbcca4205488c9660
+case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=5ebc3f4f836d75a27069a32fd348deb42772ee40746fee9d35a67ab91ba6a762
+case=isolation-baseline-frames-0-through-2 mode=pipelined rings=1,2,8,8 delay_seed=11 packets=3 config_sha256=3f738a70ef6c43df2c73d3afa7b7b4fbbae595a0c03a91f04e41d33a3355b962
+case=fixed-failure-after_update mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+case=fixed-failure-repeat-after_update mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+case=fixed-failure-after_update mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=6944a556983f536294e778921d32339543c6653696708dbc16dc2a4445ef6842
+case=cancel-after_h2d mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=92259db802473241f16aec61feacc0a3277ff46bc03f6b506bec2669b74167d5
+case=cancel-after_h2d mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=f99c1d5a1cabea7ccf03b845bfb3fcfe262d8ac9cabc46bbd9ca5cb3d1800b7e
+case=cancel-after_fft mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=ca5e8a97f70d029d205518a44b3aade4d3feeb78cce1456f682c28e3e7edaf4c
+case=cancel-after_fft mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=a71a99e7b83704b4959da8af393557e181223776535ed40bfba16ecefa62eadb
+case=observation-success-off mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=3cad30be0cc634ab69ae38c04d4bf9b220e899329a03d8bcd15dda86a9cc8790
+case=observation-success-on mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=4e5125d0730de45a0c3d3b4377a88667e5824160d4282184ed156f86198d8db0
+case=observation-success-off mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=3d5f4ffd5c5a0e24c16534997568948e1cafac8cbcac11de5d49175f1f90ef60
+case=observation-success-on mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=f95a21992e35819fca63a65ef33f082102454e5c2bd5471705a81f02e98ffb72
+case=observation-failure-after_update-off mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=a522f26c735d6bebbead83f3d9bf215e5e07272bd62caaf930eb51581d648dee
+case=observation-failure-after_update-on mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+case=observation-failure-after_update-off mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=8a90aac62c7dc207a4cdabfcd0e09949ebb8cdf41b244d06821385aeedcaa758
+case=observation-failure-after_update-on mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=6944a556983f536294e778921d32339543c6653696708dbc16dc2a4445ef6842
+cuda_synthetic_tests: 8057 checks, 19 GPU sessions passed (representative sanitizer subset)
+========= Error: process didn't terminate successfully
+=========     The application may have hit an error when dereferencing Unified Memory from the host. Please rerun the application under cuda-gdb or a host debugger to catch host side errors.
+========= Target application returned an error
+========= RACECHECK SUMMARY: 2 hazards displayed (2 errors, 0 warnings)

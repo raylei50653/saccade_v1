@@ -35,4 +35,4 @@ MI／CS 的 payload 寫入、header 寫入，以及 consumer 的讀前／讀後 
 
 2026-10-28 本版本執行結果：216／216 基準通過，15／15 變異類被抓到。移除 mi_consumed 或 cs_consumed wait 各被 84／216 組抓到，移除 host staging wait 被 108／216 組抓到；其他組合存在間接同步遮蔽。移除終端等待只在 108 組 D-only tail 中失敗，因正常 drain 的 packet 已間接涵蓋 D／M 工作。這些是本工具的重跑結果，不是舊模型腳本的移植或舊執行紀錄的重現。
 
-這是有限組合的協定檢查，不能據此宣稱所有 slot 數或任意 CUDA 實作均已證明正確。模型以單一 operation 表示計算階段，不驗證 kernel 內部 block 的 guard、原子操作、浮點數值、TensorRT／cuFFT 的實際 stream 行為、裝置錯誤、tracker 或 MOT。失敗控制與 packet 編碼由獨立 CPU 測例驗證；實際 GPU V03–V05 仍待相應實作。
+這是有限組合的協定檢查，不能據此宣稱所有 slot 數或任意 CUDA 實作均已證明正確。模型以單一 operation 表示計算階段，不驗證 kernel 內部 block 的 guard、原子操作、浮點數值、TensorRT／cuFFT 的實際 stream 行為、裝置錯誤、tracker 或 MOT。失敗控制與 packet 編碼由獨立 CPU 測例驗證；合成資料 CUDA 執行器以真實 streams／events／cuFFT 補充 V03–V05，實機命令、結果及有限覆蓋範圍見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。模型與 GPU 測試互相補充，均不涵蓋完整模型、GMC、tracker 或 MOT。

@@ -1,6 +1,6 @@
 # ResultPacket v1 與失敗狀態模型
 
-日期：2026-10-28。這是第一個 C++ 協定實作 profile，配合 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的控制規則；不代表 CUDA pipeline、實際 tracker 或 MOT writer 已實作。程式入口是 [protocol.hpp](../include/saccade/protocol.hpp)、[protocol.cpp](../src/protocol.cpp) 與 [protocol_tests.cpp](../tests/protocol_tests.cpp)。
+日期：2026-10-28。這是第一個 C++ 協定實作 profile，配合 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的控制規則。CPU 模型入口是 [protocol.hpp](../include/saccade/protocol.hpp)、[protocol.cpp](../src/protocol.cpp) 與 [protocol_tests.cpp](../tests/protocol_tests.cpp)；同一 wire profile 的合成資料 GPU writer 與完整原始封包驗證見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。實際 tracker 與 MOT writer 仍待各自任務實作。
 
 ## 型別與初始化
 
@@ -20,7 +20,7 @@
 
 模型以 4 個 uint64 payload words 表示追蹤／頻譜內容，驗證的是提交與保護語義。FFT 每幀都執行並只改 FFT scratch；prepare_stage 之後的 publish 才能把 scratch 交付到 working SPEC。predict／update 只寫 working TS，成功 commit 才切換共同 slot。失敗後即使後續 FFT 工作繼續完成，也不碰最後成功的 TS／SPEC。
 
-`commit()` 與 `packet()` 不受 run_stage 限制。已有 sticky failure 時，commit 不更動首次錯誤及版本。packet 使用 current_frame 回報身份：首次失敗幀 FAILED；後續幀 SKIPPED_AFTER_FAILURE，附原 fail_frame／fail_code。SKIPPED 的 frame_error 固定 0，後續診斷錯誤不冒充新的首次失敗。模型以 API 順序表示 stream 先後；實際 GPU 仍需以 atomic OR 累積錯誤並遵守控制 kernel phase boundary。
+`commit()` 與 `packet()` 不受 run_stage 限制。已有 sticky failure 時，commit 不更動首次錯誤及版本。packet 使用 current_frame 回報身份：首次失敗幀 FAILED；後續幀 SKIPPED_AFTER_FAILURE，附原 fail_frame／fail_code。SKIPPED 的 frame_error 固定 0，後續診斷錯誤不冒充新的首次失敗。CPU 模型以 API 順序表示 stream 先後；合成 CUDA 執行器以獨立控制 kernel 固定階段旗標，計算 kernel 以 atomic OR 累積錯誤，遵守控制 kernel phase boundary。
 
 ## 固定 wire profile
 
@@ -81,3 +81,5 @@ packet_compare 接受一個或多個完整 v1 封包串接而成的檔案，逐�
 exit code：0 全部相同；1 內容或完整封包數不同；2 用法、讀檔、空檔或截斷錯誤。差異回報含檔案 byte offset、packet 序號及 packet 內 offset。
 
 protocol_tests 涵蓋首幀／兩種 parity、失敗各階段、本幀不提交、首次錯誤不可覆寫、後續多幀 FFT scratch 寫入及 SKIPPED、同 grid 凍結旗標、缺少產物、重複 predict、錯誤序號、golden endian／float bytes、完整 roundtrip、初始化、容量／非有限值及全 byte 比較。`protocol_tests --fixtures DIR` 可建立同封包、reserved／未用 byte 差異、空檔與截斷 fixture，供 CLI 測試。這些測試不取代 GPU 時序擾動、sanitizer、實際 serial／pipeline 或 MOT 的逐位元比較。
+
+合成 CUDA writer 在 device 上逐欄產生完整 12,368 bytes，包含 header、reserved 與全部 256 rows；每幀只以一次完整 D2H 交付 pinned host packet slot。host 保存該次 D2H 的原始 bytes，使用 `decode_packet` 檢查 canonical 合法性，並與獨立預期答案及 serial／pipelined 原始輸出比較。host 預期封包的編碼只作 oracle，不取代 GPU 輸出檔。這些入口及實際執行範圍記於 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。

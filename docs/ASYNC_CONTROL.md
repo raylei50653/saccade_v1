@@ -1,12 +1,12 @@
 # Saccade v1 非同步狀態流程控制
 
-狀態：設計草案。日期：2026-10-28。上層文件：[DATAFLOW.md](DATAFLOW.md)。
+狀態：同步協定與合成 CUDA 執行骨架。日期：2026-10-28。上層文件：[DATAFLOW.md](DATAFLOW.md)；實作資源、設定及實機驗證紀錄見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。模型推論、完整 GMC、tracker 與 MOT 仍依各自任務接續。
 
 本文件把 DATAFLOW §5–§7 的所有權、提交與結束語義落成可實作的執行協定，要求如下：
 
 - 每一對跨執行者的衝突存取，都有明確的 happens-before 邊。
 - 狀態提交、失敗與結束，不依賴 host 在幀中途讀回。
-- 在任何 slot 數量下都不死鎖。
+- 設計要求是在各 ring slot 數量 N ≥ 1 下都不死鎖；已驗證的有限範圍另外列於 §7，不將測試結果視為任意 N 的證明。
 
 範圍是單一 session 內 host 與 stream 之間的順序。kernel 內部的 block 間順序（top-k、auction 的 phase boundary）屬 DATAFLOW §3.2，驗證方式見 §7。
 
@@ -62,8 +62,10 @@ D 與 M 都以 `cudaStreamNonBlocking` 建立。協定只依賴以下語義，�
 
 - **原圖只需一份。** 原圖只在 D 內使用，D 串行執行已保證 decode(k+1) 在 F02(k) 讀完後才覆寫 RAW。真正需要兩份的是 STAGE：nvJPEG decoupled API 的 host phase 寫入 pinned buffer，transfer 以 DMA 讀取它；兩幀要重疊，就得各用一組 state 與 pinned buffer。這取代 DATAFLOW 早期寫的「兩組原圖」。
 - **DB 的複製是必要的。** F04b 把 kept 與補回的候選壓實到 M 擁有的 DB，CS slot 因此在 F04b 後就能歸還，不必保留到 F08b。
-- **slot 數只影響重疊程度。** 協定在任何 N ≥ 1 下都正確（§7 V01）。雙緩衝基線取 N_MI = N_CS = N_H = 2、N_RP ≥ 2，具體值屬 P04。
+- **slot 數與驗證範圍。** 各 ring 的任意 N ≥ 1 都應符合相同所有權與進度協定，這是設計要求。§7 V01 僅檢查明列的 216 組有限 CPU 模型；合成 CUDA 實機的 ring 組合與重用次數見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)，兩者均不證明任意 N。雙緩衝基線取 N_MI = N_CS = N_H = 2、N_RP ≥ 2，完整模組的具體容量仍屬 P04。
 - **函式庫的 stream 行為須驗證。** TensorRT 若使用 auxiliary streams，enqueue 對外仍須表現為 D 上的有序工作。cuFFT plan 以 `cufftSetStream` 綁定 M，每個 session 各有一份 plan 與 work area。這兩點列入 P01／P05 驗證。
+
+目前合成 CUDA profile 只落地上述協定所需的子集：STAGE 為 pinned 合成 metadata；D 以它生成獨立 MI 與最多兩筆 CS，M 將 CS 複製至獨立 DB。MI／CS 各 slot 有 ready／consumed event，STAGE 與 HP 各 slot 有 host lease event，所有 event 都記錄成功 record 的 frame generation。CTL、TS[2]、SPEC[2]、FFT_TMP、固定 RP、cuFFT plan／workspace 及終端診斷的 pinned 區均預先配置。此 profile 沒有 nvJPEG、RAW、模型、PRIOR 或 tracker 資料結構；詳細對應與生命週期見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。
 
 ## 4. 每幀提交程序
 
@@ -147,7 +149,7 @@ CTL 欄位：
 
 **header 核對的界限。** consumer 前後核對 header 的 epoch、frame、producer status，身份不符累積 PROTOCOL；producer 的 overflow／NaN 等 status 也合入本幀錯誤。預期 frame 是 begin 核對過的 k，另與已提交版本的下一幀核對。兩次 header 相同只能作診斷：producer 可能先覆寫 payload、尚未更新 header，兩次都讀到相同舊 header。缺邊時還可能形成未定義的衝突存取，不能保證 PROTOCOL 一定被偵測。正確性由 A02／A03 的 ready／consumed 邊及 A04 綁定保證，header 不能補救缺少同步。
 
-**初始化與版本讀取。** session 開始明定 `committed_frame = -1`、`committed_slot = 1`、`working_frame = -1`、`working_slot = 0`、`frame_status = fail_code = 0`、`fail_frame = -1`、`run_stage = false`。TS[0]／TS[1] 均初始化成同 epoch 的空 TrackState（count／UID 配置起點／生命週期與所有欄位有明定初值）；SPEC[0]／SPEC[1] 與 scratch 清零，但頻譜 valid=false、reference frame=-1。slot header 初始化 invalid（frame=-1），RP／HP／未使用 rows／reserved bytes 清零並填入固定 schema 欄位。初始化完成後依 A09 同步，實際型別與封包初值見 [RESULT_PACKET.md](RESULT_PACKET.md)。
+**初始化與版本讀取。** session 開始明定 `committed_frame = -1`、`committed_slot = 1`、`working_frame = -1`、`working_slot = 0`、`frame_status = fail_code = 0`、`fail_frame = -1`、`run_stage = false`。TS[0]／TS[1] 均初始化成同 epoch 的空 TrackState（count／UID 配置起點／生命週期與所有欄位有明定初值）；SPEC[0]／SPEC[1] 與 scratch 清零，但頻譜 valid=false、reference frame=-1。slot header 初始化 invalid（frame=-1）。合成 CUDA profile 的 RP／HP 儲存區初始化為全零；每次 packet kernel 再清零完整封包並寫入固定 schema、有效身份及資料，之後才允許 D2H／host 消費，未使用 rows／reserved bytes 固定全零。初始化完成後依 A09 同步，實際型別與封包初值見 [RESULT_PACKET.md](RESULT_PACKET.md)。
 
 F08a 一律讀 TS[committed_slot]，所以首幀讀的是空 TS[1]，寫 TS[0]，絕不對 −1 作 modulo。F06 僅在 `committed_frame ≥ 0` 時讀前譜；否則輸出 uninitialized MotionContext。SPEC 的 guarded 交付與 F08a／F08b 只能寫 working_slot，即使交付後或更新途中失敗也保留最後提交 slot。成功 commit 才切換共同版本。
 
@@ -172,6 +174,8 @@ DATAFLOW §3.1 規定失敗即終止序列。已排入的後續幀仍有 begin�
 4. 之後才釋放資源、交給下一個 session 重用或銷毀 event。
 5. 判定結果：每幀 packet 都是 OK，且以正常 EOF 結束，才進入 DATAFLOW §7 的定稿與 completion。
 
+合成執行器的普通模式在 H 消費到 FAILED 後停止新增幀。驗收專用的 `fixed_submit=true` 則使用事先固定並記錄的完整 frame 範圍，保留失敗後的全部 SKIPPED 封包，供 serial／pipelined 比較同一提交範圍；不藉由截掉尾端封包取得相同結果。後續幀另注入不同診斷錯誤，檢查首次失敗不被覆寫。`terminal_snapshot=true` 的 CTL／完整 committed TS／完整 committed SPEC 讀回只在 D、M 終端 event 都完成之後執行，與正常每幀唯一 ResultPacket D2H 分開，用以獨立核對最後成功狀態及 FFT 尾端完成情形。
+
 **reset 與 epoch。** 基線中一個 session 處理一個序列，對應一個 epoch；序列中途表示 key 改變即失敗（DATAFLOW §5），沒有中途 reset。若日後擴充中途 reset，採靜止式做法：
 
 1. 先完成上述收尾的第 1–3 步。
@@ -187,13 +191,13 @@ DATAFLOW §3.1 規定失敗即終止序列。已排入的後續幀仍有 begin�
 | 編號 | 方法 | 能抓到的問題 |
 | --- | --- | --- |
 | V01 協定模型 | [C++ 模型](../tools/protocol_model.cpp) 把 §4 的 enqueue 程序寫成 happens-before 圖（同 stream 順序、wait 綁定最近已 enqueue 的 record、host 等待），檢查每對衝突存取有序、每次讀取的預期 producer、圖無環。執行與覆蓋見 [PROTOCOL_MODEL.md](PROTOCOL_MODEL.md)。 | 有限模型中的缺邊、錯綁與死鎖；不代表實際 CUDA 實作已符合模型。 |
-| V02 header 核對 | §5 的 header 診斷，後續 GPU 實作所有 build 常開。 | 可定位身份／producer status 錯誤；兩次相同 header 無法證明 payload 未遭覆寫，不能取代 ready／consumed。 |
+| V02 header 核對 | §5 的 header 診斷，合成 CUDA 執行器所有 build 常開。 | 可定位身份／producer status 錯誤；兩次相同 header 無法證明 payload 未遭覆寫，不能取代 ready／consumed。 |
 | V03 時序擾動 | debug build 在 D、M 各階段前後插入隨機長度的延遲 kernel，以多個 seed 執行；host 的 N_H、N_RP 設得大於 slot 數。 | 一般時序下不會出現的競態。 |
 | V04 serial 對照 | serial 模式使用相同 kernel，但每個階段後同步；與 pipelined 及 V03 的輸出逐位元比較每幀 ResultPacket 與最終 MOT 檔。前提是兩次 serial 執行本身逐位元相同；若 TensorRT tactic 等元件不具決定性，須先固定，或改從錄製的 RawPredictions 開始比較。 | 任何改變結果的競態或非決定性。 |
 | V05 compute-sanitizer | memcheck、initcheck、synccheck、racecheck。racecheck 只檢查 shared memory hazard，不涵蓋跨 stream 的 global memory，因此不能取代 V01–V04。 | kernel 內越界、未初始化讀取（例如首幀頻譜）、block 內同步錯誤。 |
 | V06 審查清單 | 每個新 buffer 或 kernel 都標明：A01 類別、寫入者與讀取者、ready／consumed edge、最後讀取 event，以及失敗時的 guard 行為。幀路徑出現 A06 禁用的 API 即不通過審查。 | 新程式碼偏離協定。 |
 
-設定治理與行為驗證的規則由 [DATAFLOW §4.4、§8.1](DATAFLOW.md) 定義。首批 [C++ 狀態／封包模型](RESULT_PACKET.md) 已覆蓋 begin／固定階段旗標／commit／packet、錯誤注入及穩定編碼；`packet_compare` 比較完整固定容量封包串流。resolved 設定 schema／hash、tracker lifecycle／bridge 事件模型、GPU serial／pipelined 輸出與 MOT 比較仍待實作。行為 hash 與閾值距離不縮減 A10／V04 的逐位元比較範圍，也不取代 V01–V06。
+設定治理與行為驗證的規則由 [DATAFLOW §4.4、§8.1](DATAFLOW.md) 定義。[C++ 狀態／封包模型](RESULT_PACKET.md) 覆蓋 begin／固定階段旗標／commit／packet、錯誤注入及穩定編碼；`packet_compare` 比較完整固定容量封包串流。合成資料的最小 typed resolved 設定、穩定序列化／hash、GPU packet writer、serial／pipelined 執行與驗證入口見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。此設定只涵蓋本骨架；完整模型與 tracker 的 P08 設定、lifecycle／bridge 事件模型及 MOT 比較仍待各自模組實作。行為 hash 與閾值距離不縮減 A10／V04 的逐位元比較範圍，也不取代 V01–V06。
 
 V01 的早期外部腳本紀錄沒有隨 `e08a1da` 入庫，不作可重跑證據。2026-10-28 已從本規格重新建立 repo 內的 C++ 模型，以下數字由 `build/protocol_model --self-test` 重跑得到：
 

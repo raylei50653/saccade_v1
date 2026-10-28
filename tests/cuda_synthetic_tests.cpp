@@ -1,4 +1,5 @@
 #include "saccade/synthetic_runtime.hpp"
+#include "saccade/file_io.hpp"
 
 #include <algorithm>
 #include <array>
@@ -6,7 +7,6 @@
 #include <cstdint>
 #include <exception>
 #include <filesystem>
-#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -115,8 +115,9 @@ void check_ledger(const SyntheticConfig& config, const SyntheticRun& run) {
     using Key = std::pair<std::string, int>;
     std::map<Key, long long> records, waits, host_waits;
     std::set<long long> packets_recorded, packets_consumed, stage_recorded;
-    bool d_terminal = false, m_terminal = false;
+    bool d_terminal = false, m_terminal = false, snapshot_seen = false, finalized = false;
     for (const auto& line : run.ledger) {
+        if (finalized) check(false, "no ledger operation follows successful resource finalization");
         std::istringstream input(line);
         std::string operation, resource, slot_text, generation_text;
         input >> operation >> resource;
@@ -131,6 +132,16 @@ void check_ledger(const SyntheticConfig& config, const SyntheticRun& run) {
         }
         if (operation == "terminal_snapshot") {
             check(d_terminal && m_terminal, "terminal diagnostics follow both stream drains");
+            check(config.terminal_snapshot && !snapshot_seen, "terminal diagnostics follow resolved observation setting exactly once");
+            snapshot_seen = true;
+            continue;
+        }
+        if (operation == "finalize") {
+            check(resource == "resources_released" && d_terminal && m_terminal,
+                  "successful resource release follows both terminal drains");
+            check(snapshot_seen == config.terminal_snapshot,
+                  "resource release follows optional terminal diagnostics");
+            finalized = true;
             continue;
         }
         input >> slot_text >> generation_text;
@@ -194,13 +205,9 @@ void check_ledger(const SyntheticConfig& config, const SyntheticRun& run) {
         } else check(false, "unknown event ledger operation");
     }
     check(d_terminal && m_terminal, "both terminal records and waits appear in ledger");
+    check(finalized, "successful return records checked resource finalization");
     check(packets_recorded.size() == run.packet_copies && packets_recorded == packets_consumed,
           "ledger packet generations account for all original D2H copies");
-}
-void save_text(const std::filesystem::path& path, const std::string& value) {
-    std::ofstream output(path, std::ios::binary | std::ios::trunc);
-    output.write(value.data(), static_cast<std::streamsize>(value.size()));
-    if (!output) throw std::runtime_error("cannot save evidence: " + path.string());
 }
 void save_evidence(const SyntheticConfig& config, const SyntheticRun& run, const std::string& label) {
     if (evidence_directory.empty()) return;
@@ -210,15 +217,12 @@ void save_evidence(const SyntheticConfig& config, const SyntheticRun& run, const
     std::filesystem::create_directories(directory);
     // This is the untouched GPU D2H stream. It is saved before either decode or
     // oracle comparison, and is never replaced with the CPU's expected bytes.
-    std::ofstream packets(directory / "packets.bin", std::ios::binary | std::ios::trunc);
-    if (!run.packets.empty())
-        packets.write(reinterpret_cast<const char*>(run.packets.data()), static_cast<std::streamsize>(run.packets.size()));
-    if (!packets) throw std::runtime_error("cannot save original GPU packet stream");
-    save_text(directory / "resolved.cfg", canonical_config(config));
-    save_text(directory / "behavior.cfg", behavior_config(config));
-    save_text(directory / "config.sha256", config_hash(config) + "\n");
-    save_text(directory / "behavior.sha256", behavior_hash(config) + "\n");
-    save_text(directory / "identity.txt", run.identity);
+    write_binary_file(directory / "packets.bin", run.packets);
+    write_text_file(directory / "resolved.cfg", canonical_config(config));
+    write_text_file(directory / "behavior.cfg", behavior_config(config));
+    write_text_file(directory / "config.sha256", config_hash(config) + "\n");
+    write_text_file(directory / "behavior.sha256", behavior_hash(config) + "\n");
+    write_text_file(directory / "identity.txt", run.identity);
     std::ostringstream audit;
     audit << "label=" << label << '\n'
           << "d_frames=" << run.d_frames << '\n'
@@ -229,36 +233,38 @@ void save_evidence(const SyntheticConfig& config, const SyntheticRun& run, const
           << "cancelled=" << run.cancelled << '\n'
           << "stopped_on_failure=" << run.stopped_on_failure << '\n';
     for (const auto& line : run.ledger) audit << line << '\n';
-    save_text(directory / "audit.txt", audit.str());
-    const auto& state = run.snapshot;
-    std::ostringstream snapshot;
-    snapshot << "current_frame=" << state.current_frame << '\n'
-             << "committed_frame=" << state.committed_frame << '\n'
-             << "committed_slot=" << state.committed_slot << '\n'
-             << "fail_frame=" << state.fail_frame << '\n'
-             << "fail_code=" << state.fail_code << '\n'
-             << "tracks_frame=" << state.tracks_frame << '\n'
-             << "spectrum_frame=" << state.spectrum_frame << '\n'
-             << "scratch_frame=" << state.scratch_frame << '\n'
-             << "predict_count=" << state.predict_count << '\n'
-             << "update_count=" << state.update_count << '\n'
-             << "input_sum=" << state.input_sum << '\n'
-             << "fft_completed=" << state.fft_completed << '\n'
-             << "spectrum_bits=";
-    for (std::size_t index = 0; index < state.spectrum_bits.size(); ++index) {
-        if (index) snapshot << ',';
-        snapshot << std::hex << std::setw(8) << std::setfill('0') << state.spectrum_bits[index];
+    write_text_file(directory / "audit.txt", audit.str());
+    if (config.terminal_snapshot) {
+        const auto& state = run.snapshot;
+        std::ostringstream snapshot;
+        snapshot << "current_frame=" << state.current_frame << '\n'
+                 << "committed_frame=" << state.committed_frame << '\n'
+                 << "committed_slot=" << state.committed_slot << '\n'
+                 << "fail_frame=" << state.fail_frame << '\n'
+                 << "fail_code=" << state.fail_code << '\n'
+                 << "tracks_frame=" << state.tracks_frame << '\n'
+                 << "spectrum_frame=" << state.spectrum_frame << '\n'
+                 << "scratch_frame=" << state.scratch_frame << '\n'
+                 << "predict_count=" << state.predict_count << '\n'
+                 << "update_count=" << state.update_count << '\n'
+                 << "input_sum=" << state.input_sum << '\n'
+                 << "fft_completed=" << state.fft_completed << '\n'
+                 << "spectrum_bits=";
+        for (std::size_t index = 0; index < state.spectrum_bits.size(); ++index) {
+            if (index) snapshot << ',';
+            snapshot << std::hex << std::setw(8) << std::setfill('0') << state.spectrum_bits[index];
+        }
+        snapshot << '\n' << "tracks_bytes=";
+        for (const auto byte : state.tracks_bytes)
+            snapshot << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(byte);
+        snapshot << '\n';
+        write_text_file(directory / "terminal-snapshot.txt", snapshot.str());
     }
-    snapshot << '\n' << "tracks_bytes=";
-    for (const auto byte : state.tracks_bytes)
-        snapshot << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(byte);
-    snapshot << '\n';
-    save_text(directory / "terminal-snapshot.txt", snapshot.str());
-    std::ofstream index(evidence_directory / "index.tsv", std::ios::app);
+    std::ostringstream index;
     index << number.str() << '\t' << label << '\t' << config.mode << '\t'
           << config_hash(config) << '\t' << behavior_hash(config) << '\t'
           << run.packets.size() << '\n';
-    if (!index) throw std::runtime_error("cannot save evidence index");
+    append_text_file(evidence_directory / "index.tsv", index.str());
 }
 SyntheticRun execute(const SyntheticConfig& config, const std::string& label) {
     auto run = run_synthetic(config);
@@ -397,6 +403,45 @@ void extra_shapes() {
         check_state(config, run, 7, 7, 7, 8);
     }
 }
+void observation_invariance() {
+    // Preserve the original 72-case regression matrix above, then vary only
+    // the allowlisted terminal observation field for identical submitted work.
+    for (const bool failed : {false, true}) {
+        for (const std::string mode : {"serial", "pipelined"}) {
+            SyntheticConfig hidden;
+            hidden.mode = mode;
+            hidden.n_mi = 1; hidden.n_cs = 2; hidden.n_h = 8; hidden.n_rp = 8;
+            hidden.frames = 8;
+            hidden.terminal_snapshot = false;
+            if (failed) {
+                hidden.fail_frame = 3;
+                hidden.fail_stage = "after_update";
+                hidden.fixed_submit = true;
+            }
+            auto observed = hidden;
+            observed.terminal_snapshot = true;
+            check(behavior_hash(hidden) == behavior_hash(observed),
+                  "terminal observation does not change resolved behavior hash");
+            check(config_hash(hidden) != config_hash(observed),
+                  "terminal observation remains visible in full resolved config hash");
+            const std::string label = failed ? "observation-failure-after_update" : "observation-success";
+            const auto without_snapshot = execute(hidden, label + "-off");
+            const auto with_snapshot = execute(observed, label + "-on");
+            check_packets(hidden, without_snapshot, hidden.frames);
+            check_packets(observed, with_snapshot, observed.frames);
+            check(compare_packet_bytes(without_snapshot.packets, with_snapshot.packets).equal,
+                  "normal-path raw GPU packets equal terminal-observation packets byte for byte");
+            check(without_snapshot.snapshot.tracks_bytes.empty() && without_snapshot.snapshot.spectrum_bits.empty(),
+                  "disabled terminal observation returns no TS/SPEC readback buffers");
+            check(without_snapshot.snapshot.current_frame == no_frame && without_snapshot.snapshot.fft_completed == 0,
+                  "disabled terminal observation leaves diagnostic fields unpopulated");
+            check(without_snapshot.d_frames == hidden.frames && without_snapshot.m_frames == hidden.frames &&
+                  with_snapshot.d_frames == observed.frames && with_snapshot.m_frames == observed.frames,
+                  "observation pair retains identical complete submitted frame range");
+            check_state(observed, with_snapshot, failed ? 2 : 7, 7, 7, 8);
+        }
+    }
+}
 } // namespace
 
 int main(int argc, char** argv) {
@@ -410,12 +455,13 @@ int main(int argc, char** argv) {
         }
         if (!evidence_directory.empty()) {
             std::filesystem::create_directories(evidence_directory);
-            save_text(evidence_directory / "index.tsv", "case\tlabel\tmode\tconfig_sha256\tbehavior_sha256\tpacket_bytes\n");
+            write_text_file(evidence_directory / "index.tsv", "case\tlabel\tmode\tconfig_sha256\tbehavior_sha256\tpacket_bytes\n");
         }
         success_matrix(sanitizer);
         failures(sanitizer);
         cancellations(sanitizer);
         if (!sanitizer) extra_shapes();
+        observation_invariance();
         std::cout << "cuda_synthetic_tests: " << checks << " checks, " << sessions << " GPU sessions passed"
                   << (sanitizer ? " (representative sanitizer subset)" : " (full finite acceptance matrix)") << '\n';
         return 0;

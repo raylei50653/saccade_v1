@@ -1,4 +1,5 @@
 #include "saccade/synthetic_runtime.hpp"
+#include "saccade/cleanup.hpp"
 
 #include <cuda_runtime.h>
 #include <cufft.h>
@@ -200,32 +201,51 @@ struct Lease { Event ready, consumed; };
 class Session {
 public:
     explicit Session(const SyntheticConfig& config) : cfg(config) {}
-    ~Session() {
+    Session(const Session&) = delete;
+    Session& operator=(const Session&) = delete;
+    ~Session() noexcept {
         // On a recoverable host/API exception, finish both streams before any free/destroy.
         // Fatal context errors cannot yield a completed run; checked normal drain throws.
         if (!drained) {
             if (d) cudaStreamSynchronize(d);
             if (m) cudaStreamSynchronize(m);
         }
-        if (plan) cufftDestroy(plan);
-        for (auto p : device_allocations) cudaFree(p);
-        for (auto p : host_allocations) cudaFreeHost(p);
-        for (auto e : events) cudaEventDestroy(e);
-        if (d) cudaStreamDestroy(d);
-        if (m) cudaStreamDestroy(m);
+        release_resources(); // No throw; only handles never attempted by close().
+    }
+    void release_resources() noexcept {
+        cleanup.release(plan, [](auto handle) { FFT(cufftDestroy(handle)); });
+        for (auto& p : device_allocations) cleanup.release(p, [](auto handle) { CUDA(cudaFree(handle)); });
+        for (auto& p : host_allocations) cleanup.release(p, [](auto handle) { CUDA(cudaFreeHost(handle)); });
+        for (auto& e : events) cleanup.release(e, [](auto handle) { CUDA(cudaEventDestroy(handle)); });
+        cleanup.release(d, [](auto handle) { CUDA(cudaStreamDestroy(handle)); });
+        cleanup.release(m, [](auto handle) { CUDA(cudaStreamDestroy(handle)); });
+    }
+    void close() {
+        if (!drained) throw std::logic_error("close requires both terminal drains and completed diagnostics");
+        if (closed) return;
+        release_resources();
+        cleanup.throw_if_failed(); // Never return a successful run on a release error.
+        result.ledger.push_back("finalize resources_released");
+        closed=true;
     }
     template <typename T> T* allocate(std::size_t count) {
-        void* p{}; CUDA(cudaMalloc(&p, count * sizeof(T))); device_allocations.push_back(p);
+        void* p{}; CUDA(cudaMalloc(&p, count * sizeof(T)));
+        try { device_allocations.push_back(p); }
+        catch (...) { cudaFree(p); throw; } // Acquired but not registered/used yet.
         CUDA(cudaMemsetAsync(p, 0, count * sizeof(T), m));
         return static_cast<T*>(p);
     }
     template <typename T> T* pinned(std::size_t count) {
-        void* p{}; CUDA(cudaMallocHost(&p, count * sizeof(T))); host_allocations.push_back(p);
+        void* p{}; CUDA(cudaMallocHost(&p, count * sizeof(T)));
+        try { host_allocations.push_back(p); }
+        catch (...) { cudaFreeHost(p); throw; }
         std::memset(p, 0, count * sizeof(T)); return static_cast<T*>(p);
     }
     Event event() {
         Event e; CUDA(cudaEventCreateWithFlags(&e.handle,cudaEventDisableTiming));
-        events.push_back(e.handle); return e;
+        try { events.push_back(e.handle); }
+        catch (...) { cudaEventDestroy(e.handle); throw; }
+        return e;
     }
     void log(const char* op, const std::string& resource, int slot, long long gen) {
         result.ledger.push_back(std::string(op)+" "+resource+" slot="+std::to_string(slot)+" gen="+std::to_string(gen));
@@ -414,6 +434,8 @@ public:
     const SyntheticConfig& cfg;
     SyntheticRun result;
     cudaStream_t d{},m{}; cufftHandle plan{}; bool drained=false;
+    CleanupReport cleanup;
+    bool closed=false;
     std::vector<void*> device_allocations,host_allocations;
     std::vector<cudaEvent_t> events;
     std::vector<Event> staged,pkt; std::vector<Lease> mi,cs;
@@ -427,6 +449,9 @@ public:
 } // namespace
 SyntheticRun run_synthetic(const SyntheticConfig& config) {
     validate_config(config); // Must complete before any CUDA session resource exists.
-    Session session(config); session.execute(); return std::move(session.result);
+    Session session(config);
+    session.execute();
+    session.close();
+    return std::move(session.result);
 }
 } // namespace saccade

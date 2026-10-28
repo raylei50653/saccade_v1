@@ -1,7 +1,7 @@
 #include "saccade/synthetic_runtime.hpp"
+#include "saccade/file_io.hpp"
 
 #include <filesystem>
-#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -9,25 +9,6 @@
 #include <string>
 
 namespace {
-std::string read_text(const std::filesystem::path& path) {
-    std::ifstream input(path, std::ios::binary);
-    if (!input) throw std::runtime_error("cannot open config: " + path.string());
-    std::ostringstream text;
-    text << input.rdbuf();
-    if (input.bad()) throw std::runtime_error("cannot read config: " + path.string());
-    return text.str();
-}
-void write_text(const std::filesystem::path& path, const std::string& text) {
-    std::ofstream output(path, std::ios::binary | std::ios::trunc);
-    output.write(text.data(), static_cast<std::streamsize>(text.size()));
-    if (!output) throw std::runtime_error("cannot write: " + path.string());
-}
-void write_packets(const std::filesystem::path& path, const std::vector<std::uint8_t>& bytes) {
-    std::ofstream output(path, std::ios::binary | std::ios::trunc);
-    if (!bytes.empty())
-        output.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
-    if (!output) throw std::runtime_error("cannot write raw packets: " + path.string());
-}
 std::string snapshot_text(const saccade::SyntheticSnapshot& state) {
     std::ostringstream text;
     text << "current_frame=" << state.current_frame << '\n'
@@ -61,18 +42,18 @@ int main(int argc, char** argv) {
         return 2;
     }
     try {
-        const auto config = saccade::parse_config(read_text(argv[1]));
+        const auto config = saccade::parse_config(saccade::read_text_file(argv[1]));
         const std::filesystem::path directory(argv[2]);
         std::filesystem::create_directories(directory);
-        write_text(directory / "resolved.cfg", saccade::canonical_config(config));
-        write_text(directory / "behavior.cfg", saccade::behavior_config(config));
-        write_text(directory / "config.sha256", saccade::config_hash(config) + "\n");
-        write_text(directory / "behavior.sha256", saccade::behavior_hash(config) + "\n");
+        saccade::write_text_file(directory / "resolved.cfg", saccade::canonical_config(config));
+        saccade::write_text_file(directory / "behavior.cfg", saccade::behavior_config(config));
+        saccade::write_text_file(directory / "config.sha256", saccade::config_hash(config) + "\n");
+        saccade::write_text_file(directory / "behavior.sha256", saccade::behavior_hash(config) + "\n");
         const auto run = saccade::run_synthetic(config);
         // Preserve exactly the single-copy GPU output before any decoding. The
         // logical CPU encoder is used only by independent test expectations.
-        write_packets(directory / "packets.bin", run.packets);
-        write_text(directory / "identity.txt", run.identity);
+        saccade::write_binary_file(directory / "packets.bin", run.packets);
+        saccade::write_text_file(directory / "identity.txt", run.identity);
         std::ostringstream audit;
         audit << "d_frames=" << run.d_frames << '\n'
               << "m_frames=" << run.m_frames << '\n'
@@ -82,9 +63,9 @@ int main(int argc, char** argv) {
               << "stopped_on_failure=" << run.stopped_on_failure << '\n'
               << "cancelled=" << run.cancelled << '\n';
         for (const auto& line : run.ledger) audit << line << '\n';
-        write_text(directory / "audit.txt", audit.str());
+        saccade::write_text_file(directory / "audit.txt", audit.str());
         if (config.terminal_snapshot)
-            write_text(directory / "terminal-snapshot.txt", snapshot_text(run.snapshot));
+            saccade::write_text_file(directory / "terminal-snapshot.txt", snapshot_text(run.snapshot));
         if (run.packets.size() % saccade::packet_bytes != 0)
             throw std::runtime_error("runtime returned truncated GPU packet bytes");
         std::size_t failures = 0, skipped = 0;

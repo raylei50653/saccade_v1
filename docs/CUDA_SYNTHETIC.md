@@ -2,7 +2,7 @@
 
 日期：2026-10-28。基線：`a895ba27bf2b74c0552e7f9941b6af81015474be`；開始時 fetch 後的 `origin/main` 與基線相同。這個 profile 只驗證實際 CUDA 的執行、同步、提交與狀態隔離。YOLO／Mamba、完整 phase correlation／GMC、tracker、MOT writer、P01 模型 artifact 與完整 P08 設定不在本次實作範圍。
 
-程式：[`synthetic_runtime.cu`](../cuda/synthetic_runtime.cu)、[`synthetic_runtime.hpp`](../include/saccade/synthetic_runtime.hpp)、[`synthetic_config.cpp`](../src/synthetic_config.cpp)、[`cuda_synthetic_tests.cpp`](../tests/cuda_synthetic_tests.cpp)。實測與尚未通過項目記於 [GPU 證據](../evidence/cuda-synthetic/2026-10-28/REPORT.md)；不能把工具未啟用時的測試程式成功當作 sanitizer 成功。
+程式：[`synthetic_runtime.cu`](../cuda/synthetic_runtime.cu)、[`synthetic_runtime.hpp`](../include/saccade/synthetic_runtime.hpp)、[`synthetic_config.cpp`](../src/synthetic_config.cpp)、[`cuda_synthetic_tests.cpp`](../tests/cuda_synthetic_tests.cpp)、[`file_io.cpp`](../src/file_io.cpp)、[`cleanup.hpp`](../include/saccade/cleanup.hpp)。[原始 GPU 證據](../evidence/cuda-synthetic/2026-10-28/REPORT.md) 保留首次 72 個 sessions 的結果；收尾、I/O 及觀察開關對照的後續實測與未通過項目另記於 [closeout 證據](../evidence/cuda-synthetic/2026-10-28-closeout/REPORT.md)。不能把工具未啟用時的測試程式成功當作 sanitizer 成功。
 
 ## 建置與重跑
 
@@ -28,7 +28,9 @@ build-cuda/cuda_synthetic examples/synthetic/pipelined.cfg build-cuda/pipelined
 build-cuda/packet_compare build-cuda/serial/packets.bin build-cuda/pipelined/packets.bin
 ```
 
-CTest 的 GPU test 會保存到 `build-cuda/gpu-evidence`。CLI `cuda_synthetic CONFIG OUTPUT_DIRECTORY` 的 exit code：0 為正常完成，1 為 sticky failure 或取消，2 為設定／I/O／CUDA API 錯誤。`examples/synthetic/failure.cfg` 是預期 exit 1 的固定尾端實驗。每次重跑使用新的 output directory，避免保留前次更多案例的殘留目錄。
+CTest 包含六項 CPU tests，加上 `cuda_synthetic_protocol` 與 `cuda_synthetic_cli_io`；Linux GNU／Clang 另建置 `cuda_checked_cleanup`，本次共九項。GPU suite 會保存到 `build-cuda/gpu-evidence`。CLI `cuda_synthetic CONFIG OUTPUT_DIRECTORY` 的 exit code：0 為正常完成，1 為 sticky failure 或取消，2 為設定／I/O／CUDA API 錯誤。`examples/synthetic/failure.cfg` 是預期 exit 1 的固定尾端實驗。每次重跑使用新的 output directory，避免保留前次更多案例的殘留目錄。
+
+空的普通設定檔合法，使用 typed defaults；讀取錯誤、目錄或不存在的路徑不會被當成空檔。設定讀取成功並完成驗證後才建立輸出目錄與 CUDA session。合成 CLI 及 GPU 測試的所有證據檔案寫入與 index append 都明確 close 並檢查結果，避免小型緩衝寫入在 destructor 才失敗而仍回報成功；不承諾 `fsync`、斷電耐久性或整組輸出的原子發布。CPU `file_io_tests` 驗證讀取、原始 bytes、append 與錯誤傳播；CLI I/O 測試包含目錄／缺失設定，以及 Linux `/dev/full` 的 resolved config、identity、packet 三類寫入失敗，逐項核對 exit 2 和對應診斷。
 
 每次 CMake configure 嵌入當時 `git rev-parse HEAD` 與 dirty 旗標；要取得乾淨 commit 的身分，先 commit，再重新 configure/build。各案例的 identity 記錄 compiler、nvcc、CUDA runtime／driver API、cuFFT、GPU 型號／UUID／PCI／compute capability 及 plan workspace 大小；driver 的完整版本另保存在證據的 `environment.txt`。本次小型 plan 所需 workspace 可以是 0 bytes，仍關閉 cuFFT 自動配置並設定獨立的預配置 work area。
 
@@ -83,6 +85,12 @@ M 每幀的 begin／prepare／commit 都是前序單 thread 控制 kernel。計�
 
 可選診斷使用額外 pinned allocation，僅在雙 terminal drain 後讀 CTL、TS 兩份及 SPEC 兩份，再回傳 committed TS 的完整原始 bytes、committed SPEC 的所有 float bits、控制版本與 FFT 完成計數。這些額外 D2H 不屬於正常每幀資料面。TS 診斷 bytes 是本 build 的內部布局（含已初始化 padding），不是跨 build wire ABI；ResultPacket 始終使用逐欄位 v1 ABI。
 
+`run_synthetic` 在返回結果前執行明確的正常 `Session::close`：要求雙 terminal drain 與可選診斷都已完成，依序嘗試釋放 plan、device allocations、pinned allocations、events、D／M streams。每次釋放前先移除該 handle 的所有權；錯誤不阻止其他獨立資源的釋放，最後傳播首次錯誤，不能回報成功。CUDA free／destroy 可能回報先前非同步錯誤，失敗時釋放結果不確定，因此不重試已嘗試的 handle。`noexcept` destructor 只對尚未嘗試的資源作 best-effort 收尾；初始化註冊失敗時，立即嘗試釋放尚未使用的新資源。成功的事件帳本最後才加入 `finalize resources_released`。
+
+CPU `cleanup_tests` 以 fake plan／device／pinned／event／stream handles 驗證同一個 `CleanupReport` 的嘗試順序、錯誤傳播與不重複釋放政策，包含多個錯誤與非標準例外。這驗證 host 所有權政策，不等同實際 CUDA／cuFFT API 錯誤注入；fatal context、實際釋放失敗及 OOM 的 GPU 故障測試仍未驗證。
+
+Linux `cuda_checked_cleanup` 另以 linker wrappers 跑七個真實 GPU sessions：正常執行、五類 release API 各一例及再次正常執行。wrapper 先呼叫真正的 `cufftDestroy`／`cudaFree`／`cudaFreeHost`／`cudaEventDestroy`／`cudaStreamDestroy`，成功後只修改一次回傳碼，核對 `Session::close` 的錯誤確實傳至 caller、其他釋放仍完成、handle 不重試及後續新 session 可正常執行。這是錯誤傳播整合測試，不代表真的造成 driver／記憶體故障，也不取代 sanitizer。
+
 ## 獨立合成答案與有限驗收
 
 令 k 為 frame、P=width×height、a=seed mod 13、b=seed mod 7。MI 全部像素為精確整數 float `a+k+1`，所以實際 R2C FFT 的 DC=`P*(a+k+1)`，其餘 words 全 +0。本次測試用解析答案檢查整份 committed spectrum，不使用另一個 GPU 執行器作唯一答案。
@@ -93,16 +101,17 @@ M 每幀的 begin／prepare／commit 都是前序單 thread 控制 kernel。計�
 
 測試的 CPU encoder 只產生上述獨立預期值；GPU 原始 D2H bytes 不經 host 重建就保存、全 bytes 比較及交給既有 decode_packet。所有失敗／取消案例保留自身 frame 身分和全部已完成 packet。
 
-完整 suite 有72個 GPU sessions：
+完整 suite 保留原有72個 GPU sessions，再加入8個觀察開關對照，共80個：
 
 - 成功：4組 rings `(1,1,1,1)`、`(2,2,2,2)`、`(1,2,3,4)`、`(2,1,3,4)` × delay seeds 11、29、97 × serial兩次＋pipelined，每次16幀；最大 ring=4，至少初次使用加三輪重用。
 - 失敗：獨立成功0..2 baseline；4種階段各 serial兩次＋pipelined 的固定0..7範圍，及各自首幀失敗；普通 stop-on-observed-FAILED 一例。固定失敗測試 N_H=N_RP=8，全部0..7先 enqueue 才讀 FAILED，核對4..7的cuFFT全完成，不裁掉SKIPPED。
 - 取消：frame7 的8種切點各 serial／pipelined，共16例，含已重用 rings 的D-only尾端。
 - 額外 shape：16×8、32×32，8幀，seed=uint32最大值。
+- 觀察開關：成功與 update 後失敗兩種情境，各 serial／pipelined，分別關閉／啟用 `terminal_snapshot`，共8例。每對固定相同的0..7提交範圍，核對 behavior hash 相同、完整 config hash 不同，原始 packet bytes 相同；關閉時診斷欄位與 TS／SPEC readback buffers 保持未填入。
 
 這不證明所有合法 N／shape／seed／frame 數皆無競態，不涵蓋 GPU fatal／OOM／API 失敗注入、header 損毀負測試、效能加速比、跨 GPU／跨 build 數值一致性或完整 tracker 行為。
 
-Sanitizer 的代表 subset 為11個 sessions（mixed rings成功serial兩次／pipeline、成功baseline、update後失敗serial兩次／pipeline、after_h2d與after_fft取消各兩模式），逐個執行：
+Sanitizer 的代表 subset 保留原有11個 sessions（mixed rings成功serial兩次／pipeline、成功baseline、update後失敗serial兩次／pipeline、after_h2d與after_fft取消各兩模式），並加入上述8個觀察開關對照，共19個。以下是重跑命令；應用程式與 sanitizer 各自的實際結果見 closeout 證據，不能由 session 數推定工具已成功啟用：
 
 ```sh
 for tool in memcheck initcheck synccheck racecheck; do

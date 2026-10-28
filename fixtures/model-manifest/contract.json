@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "purpose": "test_fixture",
+  "model_family": "YOLO26s-backbone-neck+Mamba-FPN-head",
+  "artifacts": [{
+    "id": "fixture", "role": "fixture", "path": "bytes.txt", "format": "fixture_bytes",
+    "source": "repository parser test fixture; not a model",
+    "revision": "fixture-v1", "license": "CC0-1.0",
+    "generated_by": "literal ASCII abc, no newline",
+    "size_bytes": 3,
+    "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+  }],
+  "boundary": {
+    "packaging": "incomplete",
+    "components": [
+      {"role": "backbone", "artifact": "fixture"},
+      {"role": "neck", "artifact": "fixture"},
+      {"role": "head", "artifact": null}
+    ],
+    "classification_owner": "unverified", "regression_owner": "unverified", "decode_owner": "unverified"
+  },
+  "tensors": [
+    {"name": "images", "order": 0, "direction": "input", "component": "model", "shape": [1,3,640,640], "dtype": "float32", "layout": "NCHW", "semantic": "declared image contract; fixture does not contain a graph"},
+    {"name": "fixture_output", "order": 0, "direction": "output", "component": "model", "shape": [1,2], "dtype": "float32", "layout": "NC", "semantic": "parser-only output declaration; not real cls/reg tensors"}
+  ],
+  "input_profile": {
+    "tensor": "images", "batch": 1, "color": "RGB", "layout": "CHW", "dtype": "float32",
+    "range_min": 0, "range_max": 1, "width": 640, "height": 640
+  },
+  "scan": {
+    "status": "unverified",
+    "operator": {"domain": "unverified", "op_type": "unverified", "opset": 0, "plugin_name": "unverified", "plugin_namespace": "unverified", "plugin_version": "unverified"},
+    "attributes_status": "unverified", "attributes": [], "inputs": [],
+    "direction": "unverified", "flatten_order": "unverified", "initial_state": "unverified", "state_lifetime": "per_frame_reset", "outputs": [],
+    "formula_source": "unverified", "formula_revision": "unverified", "formula_locator": "unverified", "semantics": "unverified"
+  },
+  "precision": {
+    "compute_dtype": "float32", "accumulation_dtype": "unverified", "tf32": false, "fp16": false, "int8": false, "builder_options": [],
+    "comparison": {"status": "unverified", "reference_source": "unverified", "metric": "unverified", "atol": "0", "rtol": "0"}
+  },
+  "content_review": {
+    "status": "not_reviewed", "method": "parser fixture only", "evidence_source": "fixtures/model-manifest/README.md",
+    "unverified_fields": ["all actual tensors", "all graph structure", "all scan identity and semantics", "model precision and numerical comparison"]
+  }
+}

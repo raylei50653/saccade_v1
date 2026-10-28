@@ -1,5 +1,7 @@
 #pragma once
 
+#include "saccade/sha256.hpp"
+
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -35,7 +37,6 @@ std::string canonical_config(const SyntheticConfig& config);
 // Comparison allowlist removes only mode, n_mi/n_cs/n_h/n_rp, delay_seed,
 // delay_cycles and terminal_snapshot. All other fields must match.
 std::string behavior_config(const SyntheticConfig& config);
-std::string sha256_hex(std::string_view bytes);
 std::string config_hash(const SyntheticConfig& config);
 std::string behavior_hash(const SyntheticConfig& config);
 

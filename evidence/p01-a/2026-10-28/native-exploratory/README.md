@@ -1,0 +1,10 @@
+# Exploratory native SDK attempts
+
+These are developmental observations at base commit `437c99edbae1a34854aa6966dc210b5053069929`, with dirty/uncommitted source. They are not the final clean-source attestation; see the parent P01-A evidence report for that run.
+
+- Attempt 001: `build-trt-agent/tensorrt_smoke build-trt-agent/exploratory.engine build-trt-agent/exploratory.txt > build-trt-agent/run.log 2>&1`. C++ configure probe and compilation succeeded, but runtime builder failed to load `libnvinfer_builder_resource_sm120.so.10.16.1`. `attempt-001-run.log` preserves the original failure. The initial shell did not separately capture this command's numeric exit; its subsequent CTest run reported both native tests FAILED and returned 8. Do not treat this attempt as a PASS.
+- Cause/fix: the binary had ELF `DT_RUNPATH`, which does not supply transitive lookup for TensorRT's `dlopen` of its per-SM builder resource. The isolated SDK tool now uses `DT_RPATH`, and configure checks the resource file exists for the detected GPU.
+- Attempt 002: same native command after the linker correction, `run2.log` preserved as `attempt-002-run.log`; all 256 values matched exactly. This run preceded the inspector-report addition.
+- Attempt 003: `ctest --test-dir build-trt-agent -R native_tensorrt --output-on-failure`, exit 0. The roundtrip and explicit CLI I/O failure tests both passed, with engine inspector reporting enabled. No sanitizer was run concurrently with the final evidence collection.
+
+SDK files were freshly downloaded from `https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/`, matching package rows from its `Packages.gz`. `sdk-packages.txt` retains those exact rows; `sdk-downloads.sha256` is the actual local hash command output. Each `.deb`'s `data.tar.xz` was extracted with `ar p FILE data.tar.xz | tar -xJ -C SDK_ROOT` into `/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk`. No package was installed into the system. `sdk-package-copyright.txt` preserves the package's accompanying copyright declaration.

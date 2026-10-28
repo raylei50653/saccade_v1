@@ -11,7 +11,10 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 - [ResultPacket 與失敗狀態模型](docs/RESULT_PACKET.md)：固定容量布局、穩定編碼、初始化與完整封包比較工具。
 - [可重跑的協定模型](docs/PROTOCOL_MODEL.md)：216 組 happens-before 檢查與同步邊變異測試。
 - [合成資料 CUDA 執行骨架](docs/CUDA_SYNTHETIC.md)：可選建置、typed resolved 設定、真實 streams／events／cuFFT、原始 ResultPacket 輸出、重跑命令與實機證據。
-- [模型 artifact／native scan 可行性](docs/MODEL_FEASIBILITY.md)：P01 的輸入契約、工具觀察與待驗證範圍。
+- [模型 artifact／native scan 可行性](docs/MODEL_FEASIBILITY.md)：P01-A 的三項獨立驗收與 S01 接續條件。
+- [模型 manifest schema 與 C++ CLI](docs/MODEL_MANIFEST.md)：嚴格 JSON、穩定序列化／hash、artifact 檔案完整性及 fixtures。
+- [Native TensorRT SDK 最小驗證](docs/NATIVE_TENSORRT.md)：獨立可選 SDK 目標、版本 pin、固定小網路與重跑命令。
+- [新模型來源與缺件](docs/MODEL_ARTIFACT_READINESS.md)：官方一般 YOLO26s 的 native 結構查核；目標 Mamba-FPN head 與 scan 契約仍缺失。
 
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
 
@@ -23,7 +26,14 @@ ctest --test-dir build --output-on-failure
 
 `build/protocol_model --self-test` 檢查同步協定；`build/protocol_tests` 驗證首幀初始化、錯誤注入、失敗鎖定、頻譜隔離與封包編碼。`build/packet_compare serial.bin pipelined.bin` 比較整份固定容量封包串流，包含未使用 rows 與 reserved bytes。
 
-`synthetic_config_tests` 另外驗證最小設定 schema、非法輸入、穩定序列化與 hash；`file_io_tests` 驗證讀取及明確 close 的錯誤傳播，`cleanup_tests` 以 CPU fake 驗證資源釋放錯誤與所有權政策。CUDA 關閉時六項 CPU 測試均可獨立執行。
+`synthetic_config_tests` 另外驗證最小設定 schema、非法輸入、穩定序列化與 hash；`file_io_tests` 驗證讀取及明確 close 的錯誤傳播，`cleanup_tests` 以 CPU fake 驗證資源釋放錯誤與所有權政策。`model_manifest_tests` 與 CLI 測試加入模型輸入契約及失敗條件；預設建置不需 GPU。
+
+```sh
+build/model_manifest validate fixtures/model-manifest/contract.json
+build/model_manifest verify fixtures/model-manifest/contract.json build/canonical-manifest.json
+```
+
+這份 fixture 只驗證工具；CLI 將宣告、檔案完整性、模型內容分開回報，不能用 fixture 或檔案 hash 通過推導真實模型已就緒。
 
 CUDA 骨架採可選建置，預設關閉；需 CUDA Toolkit、cuFFT 及可執行的 NVIDIA GPU：
 

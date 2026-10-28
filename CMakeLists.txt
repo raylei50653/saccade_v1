@@ -30,8 +30,15 @@ add_test(NAME packet_compare_cli
     -DFIXTURE_DIR=${CMAKE_CURRENT_BINARY_DIR}/packet-fixtures
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/PacketCompareTest.cmake)
 
+add_library(saccade_sha256 src/sha256.cpp)
+target_include_directories(saccade_sha256 PUBLIC include)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(saccade_sha256 PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 add_library(saccade_synthetic_config src/synthetic_config.cpp)
 target_include_directories(saccade_synthetic_config PUBLIC include)
+target_link_libraries(saccade_synthetic_config PUBLIC saccade_sha256)
 add_executable(synthetic_config_tests tests/synthetic_config_tests.cpp)
 target_link_libraries(synthetic_config_tests PRIVATE saccade_synthetic_config)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -53,6 +60,29 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 add_test(NAME checked_file_io COMMAND file_io_tests)
 add_test(NAME checked_resource_cleanup COMMAND cleanup_tests)
+
+add_library(saccade_model_manifest src/model_manifest.cpp)
+target_include_directories(saccade_model_manifest PUBLIC include)
+target_link_libraries(saccade_model_manifest PUBLIC saccade_file_io saccade_sha256)
+add_executable(model_manifest tools/model_manifest.cpp)
+target_link_libraries(model_manifest PRIVATE saccade_model_manifest)
+add_executable(model_manifest_tests tests/model_manifest_tests.cpp)
+target_link_libraries(model_manifest_tests PRIVATE saccade_model_manifest)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_model_manifest model_manifest model_manifest_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  endforeach()
+endif()
+add_test(NAME model_manifest_contract COMMAND model_manifest_tests
+  ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/model-manifest)
+add_test(NAME model_manifest_cli
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:model_manifest>
+    -DFIXTURE_SOURCE=${CMAKE_CURRENT_SOURCE_DIR}/fixtures/model-manifest
+    -DFIXTURE_DIR=${CMAKE_CURRENT_BINARY_DIR}/manifest-fixtures
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ManifestTest.cmake)
+
+include(cmake/TensorRT.cmake)
 
 option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)
 if(SACCADE_ENABLE_CUDA)

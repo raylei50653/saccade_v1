@@ -1,0 +1,173 @@
+Start testing: Oct 28 22:05 CST
+----------------------------------------------------------
+1/5 Testing: protocol_happens_before
+1/5 Test: protocol_happens_before
+Command: "/home/ray/developer/ai/saccade_v1/build-cuda/protocol_model" "--self-test"
+Directory: /home/ray/developer/ai/saccade_v1/build-cuda
+"protocol_happens_before" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+PASS baseline 216/216 configurations; 10 frames each; conflicts, producer identity, event binding, DAG
+PASS mutation remove-init-sync rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered initialize all session storage / F04 header frame=0
+PASS mutation remove-mi-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: MI.header[0]: unordered F05 header frame=0 / MI pre-header frame=0
+PASS mutation remove-mi-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-mi-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: MI.header[0]: unordered MI pre-header frame=0 / F05 header frame=1
+PASS mutation remove-mi-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered F04 header frame=0 / CS pre-header frame=0
+PASS mutation remove-cs-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: CS.header[0]: unordered CS pre-header frame=0 / F04 header frame=1
+PASS mutation remove-cs-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-staged-host-wait rejected 108/216; witness MI=1,CS=1,H=1,RP=2,normal: STAGE[0]: unordered H2D and nvJPEG transfer frame=0 / fill STAGE frame=1
+PASS mutation remove-staged-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: staged[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-packet-host-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: HP[0]: unordered D2H frame=0 / consume packet frame=0
+PASS mutation remove-packet-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: pkt[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-terminal-waits rejected 108/216; witness MI=1,CS=1,H=1,RP=1,D-only-tail: CS.header[0]: unordered F04 header frame=9 / release or reset session storage
+PASS mutation enqueue-main-before-detect rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS 15 mutation families detected
+<end of output>
+Test time =   0.34 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_happens_before" end time: Oct 28 22:05 CST
+"protocol_happens_before" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: protocol_state_and_packet
+2/5 Test: protocol_state_and_packet
+Command: "/home/ray/developer/ai/saccade_v1/build-cuda/protocol_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-cuda
+"protocol_state_and_packet" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+protocol_tests: 630 checks passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_state_and_packet" end time: Oct 28 22:05 CST
+"protocol_state_and_packet" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: packet_compare_cli
+3/5 Test: packet_compare_cli
+Command: "/usr/sbin/cmake" "-DPROTOCOL_TESTS=/home/ray/developer/ai/saccade_v1/build-cuda/protocol_tests" "-DPACKET_COMPARE=/home/ray/developer/ai/saccade_v1/build-cuda/packet_compare" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-cuda/packet-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/cmake/PacketCompareTest.cmake"
+Directory: /home/ray/developer/ai/saccade_v1/build-cuda
+"packet_compare_cli" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"packet_compare_cli" end time: Oct 28 22:05 CST
+"packet_compare_cli" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/5 Testing: synthetic_resolved_config
+4/5 Test: synthetic_resolved_config
+Command: "/home/ray/developer/ai/saccade_v1/build-cuda/synthetic_config_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-cuda
+"synthetic_resolved_config" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+synthetic_config_tests: 88 checks passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"synthetic_resolved_config" end time: Oct 28 22:05 CST
+"synthetic_resolved_config" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/5 Testing: cuda_synthetic_protocol
+5/5 Test: cuda_synthetic_protocol
+Command: "/home/ray/developer/ai/saccade_v1/build-cuda/cuda_synthetic_tests" "/home/ray/developer/ai/saccade_v1/build-cuda/gpu-evidence"
+Directory: /home/ray/developer/ai/saccade_v1/build-cuda
+"cuda_synthetic_protocol" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+case=serial-repeat-1 mode=serial rings=1,1,1,1 delay_seed=11 packets=16 config_sha256=9c399c6b004001417409847d6ede3655fa5c119ca766bf3173703be11741b74b
+case=serial-repeat-2 mode=serial rings=1,1,1,1 delay_seed=11 packets=16 config_sha256=9c399c6b004001417409847d6ede3655fa5c119ca766bf3173703be11741b74b
+case=pipelined mode=pipelined rings=1,1,1,1 delay_seed=11 packets=16 config_sha256=13fec2cfe7087b07e11e1f7ef020e915b422f8e9270b3a3366d2d665591495b7
+case=serial-repeat-1 mode=serial rings=1,1,1,1 delay_seed=29 packets=16 config_sha256=32579370d5351f57955f59243040ff99c99aa827253882a0b72084df15f0a90f
+case=serial-repeat-2 mode=serial rings=1,1,1,1 delay_seed=29 packets=16 config_sha256=32579370d5351f57955f59243040ff99c99aa827253882a0b72084df15f0a90f
+case=pipelined mode=pipelined rings=1,1,1,1 delay_seed=29 packets=16 config_sha256=7e52316a09e3c3fd4ac7ea8ee0704a583f1729e8ccec3deb99c4e3fb1aac66e9
+case=serial-repeat-1 mode=serial rings=1,1,1,1 delay_seed=97 packets=16 config_sha256=f68b26726689c7ca71c4a7ef717b337957ced6ec069ee7f3f83d94c67b675cfe
+case=serial-repeat-2 mode=serial rings=1,1,1,1 delay_seed=97 packets=16 config_sha256=f68b26726689c7ca71c4a7ef717b337957ced6ec069ee7f3f83d94c67b675cfe
+case=pipelined mode=pipelined rings=1,1,1,1 delay_seed=97 packets=16 config_sha256=195b21fed1a260e9543e7d5a601e423656d584277d472df933f4360bf2799f69
+case=serial-repeat-1 mode=serial rings=2,2,2,2 delay_seed=11 packets=16 config_sha256=dbf8007b624b9cf7053ae21da7519028aeeddadccee1fc9d12e8f62e1b70e99e
+case=serial-repeat-2 mode=serial rings=2,2,2,2 delay_seed=11 packets=16 config_sha256=dbf8007b624b9cf7053ae21da7519028aeeddadccee1fc9d12e8f62e1b70e99e
+case=pipelined mode=pipelined rings=2,2,2,2 delay_seed=11 packets=16 config_sha256=e79052b31f758024c6c409cbfcd8bd75ffafa1aed862433e976c914e12d1ddbd
+case=serial-repeat-1 mode=serial rings=2,2,2,2 delay_seed=29 packets=16 config_sha256=ecb94f211c5e6c4077d8a8043215c864367b78c751ce29abb610a87a2f8f17f9
+case=serial-repeat-2 mode=serial rings=2,2,2,2 delay_seed=29 packets=16 config_sha256=ecb94f211c5e6c4077d8a8043215c864367b78c751ce29abb610a87a2f8f17f9
+case=pipelined mode=pipelined rings=2,2,2,2 delay_seed=29 packets=16 config_sha256=fc94fd850d6747ea5c07a637adbf1f8861fa8efadb353ae89824b94548ced97c
+case=serial-repeat-1 mode=serial rings=2,2,2,2 delay_seed=97 packets=16 config_sha256=4e6312cff5b18037fe15f96460c035240412e1b43d218cc6bcea603b41e29d21
+case=serial-repeat-2 mode=serial rings=2,2,2,2 delay_seed=97 packets=16 config_sha256=4e6312cff5b18037fe15f96460c035240412e1b43d218cc6bcea603b41e29d21
+case=pipelined mode=pipelined rings=2,2,2,2 delay_seed=97 packets=16 config_sha256=9c2961486d229e183077ac8317dd413b0f7d34db170def0b5fffb9937653da65
+case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=7e8b5b398e58fb09d296594d4ddc0c7392f04c06df29929fbcca4205488c9660
+case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=7e8b5b398e58fb09d296594d4ddc0c7392f04c06df29929fbcca4205488c9660
+case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=5ebc3f4f836d75a27069a32fd348deb42772ee40746fee9d35a67ab91ba6a762
+case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=29 packets=16 config_sha256=e1b87b2b6966e18a951fdf77e58b3bed0f5679f49a8c36cae9ae853d0b8ce2be
+case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=29 packets=16 config_sha256=e1b87b2b6966e18a951fdf77e58b3bed0f5679f49a8c36cae9ae853d0b8ce2be
+case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=29 packets=16 config_sha256=6d37a2542fa2b030e7998b09ae7e480793cf7fd173cfbc6383103b000e2d97a6
+case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=97 packets=16 config_sha256=9c3729fefad785a106570e6889974672c04beceaae88ad12b553b59c3560b35c
+case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=97 packets=16 config_sha256=9c3729fefad785a106570e6889974672c04beceaae88ad12b553b59c3560b35c
+case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=97 packets=16 config_sha256=b388b735eebf5a322efb38ac9e762bdb1cd023c19a226b408fbb45af1a92d99a
+case=serial-repeat-1 mode=serial rings=2,1,3,4 delay_seed=11 packets=16 config_sha256=5357a3cfc3b88bc093549fd4649e54458b238ffd239f8b96d325eeba033d90ae
+case=serial-repeat-2 mode=serial rings=2,1,3,4 delay_seed=11 packets=16 config_sha256=5357a3cfc3b88bc093549fd4649e54458b238ffd239f8b96d325eeba033d90ae
+case=pipelined mode=pipelined rings=2,1,3,4 delay_seed=11 packets=16 config_sha256=df9f77be2a9373d2981a874ea9ab4ac86cef4a569fe508a8a99d0a887560644d
+case=serial-repeat-1 mode=serial rings=2,1,3,4 delay_seed=29 packets=16 config_sha256=5f645bfe7677e6c1cee22a71a7ee0152760a9faaa1fe927377e1b54e66cf14c5
+case=serial-repeat-2 mode=serial rings=2,1,3,4 delay_seed=29 packets=16 config_sha256=5f645bfe7677e6c1cee22a71a7ee0152760a9faaa1fe927377e1b54e66cf14c5
+case=pipelined mode=pipelined rings=2,1,3,4 delay_seed=29 packets=16 config_sha256=e5dcb86f693400c524f9d48088e03e34331ad2288bb4d52aa9802ddb622bf866
+case=serial-repeat-1 mode=serial rings=2,1,3,4 delay_seed=97 packets=16 config_sha256=e0bc1d55baa580378ec52106c96627e3bb6f47da7905cd59a650321f609de300
+case=serial-repeat-2 mode=serial rings=2,1,3,4 delay_seed=97 packets=16 config_sha256=e0bc1d55baa580378ec52106c96627e3bb6f47da7905cd59a650321f609de300
+case=pipelined mode=pipelined rings=2,1,3,4 delay_seed=97 packets=16 config_sha256=8562c400d54c78612aec5c81b53608e642d67dd4586aaed526fd515599b4fcbc
+case=isolation-baseline-frames-0-through-2 mode=pipelined rings=1,2,8,8 delay_seed=11 packets=3 config_sha256=3f738a70ef6c43df2c73d3afa7b7b4fbbae595a0c03a91f04e41d33a3355b962
+case=fixed-failure-before_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=d9520fda0c45c1d6944c069951c54bc5b7161b8bf2ffdb63c585bce5bc36f2d6
+case=fixed-failure-repeat-before_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=d9520fda0c45c1d6944c069951c54bc5b7161b8bf2ffdb63c585bce5bc36f2d6
+case=fixed-failure-before_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=acf06639fd550c4852b2416c01fe2d5d23606a971b6439b9e3944e8dc7e270a6
+case=first-frame-failure-before_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=31a940b608b7a4fe616b4309446bbc1e09d9041013366fb640f95f9d6fb5eab7
+case=fixed-failure-after_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=e4dc2efc124136f5c10bc624fc49d387a62f50754c7995f422706df28d016b4f
+case=fixed-failure-repeat-after_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=e4dc2efc124136f5c10bc624fc49d387a62f50754c7995f422706df28d016b4f
+case=fixed-failure-after_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=a82dd523d2069ec8213fe7e57d7dd72e5c27bbf60f8d2db8924afa4e50faacbf
+case=first-frame-failure-after_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=cfe44417e61f0bbf949198f3df6bc0791d717460b7254c1da879b32350da4d0a
+case=fixed-failure-after_predict mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=66cb47cb353e2770191bc2ee590f63ef6cd76c8fb2f83dd0b2c44d0e8cd204c5
+case=fixed-failure-repeat-after_predict mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=66cb47cb353e2770191bc2ee590f63ef6cd76c8fb2f83dd0b2c44d0e8cd204c5
+case=fixed-failure-after_predict mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=99dc1e052216926138571ee6948d4e4e1404a641a769ff3c374bfd870b05492d
+case=first-frame-failure-after_predict mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=6a2bc1a9806f8f8e7e7c551613cefdf46cefd4c1def75b0304ec948b6c74b56a
+case=fixed-failure-after_update mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+case=fixed-failure-repeat-after_update mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+case=fixed-failure-after_update mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=6944a556983f536294e778921d32339543c6653696708dbc16dc2a4445ef6842
+case=first-frame-failure-after_update mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=ba893a915c0b6f525b56dc9f605f48c31bd781647816ee5e9f2ea70b7fcfce81
+case=ordinary-stop-on-observed-FAILED mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=8ba2f9876c95f12485b90d3dfb5db6cb91b7d37cbd0485c49b6d209d1073dd1d
+case=cancel-after_h2d mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=92259db802473241f16aec61feacc0a3277ff46bc03f6b506bec2669b74167d5
+case=cancel-after_h2d mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=f99c1d5a1cabea7ccf03b845bfb3fcfe262d8ac9cabc46bbd9ca5cb3d1800b7e
+case=cancel-after_mi mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=1804c738d5a467ce3cfaadb8f60b1bb9daba486ada18042552440ec2d6910060
+case=cancel-after_mi mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=5d5160d46c79ee78c8835533ff8c6c74146f065bf11bd306191e4eaacec0b7a4
+case=cancel-after_cs mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=b361804ae3ab787d3620076407ef95646c6118398cf0dc548e7ca81c54e94fc9
+case=cancel-after_cs mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=0c5e07657119e6ba3bfc3331df2f8387c1bcad4263282b08562522877bd48b77
+case=cancel-after_begin mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=c37d00dd2b16a70ef1377e36873898e4b2c354addf01537cf8efa28f991e1b6e
+case=cancel-after_begin mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=32c7e9554d3aad169b398afa9ed4c936e8bcbf49da151bc73cc8921aae2cd46b
+case=cancel-after_fft mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=ca5e8a97f70d029d205518a44b3aade4d3feeb78cce1456f682c28e3e7edaf4c
+case=cancel-after_fft mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=a71a99e7b83704b4959da8af393557e181223776535ed40bfba16ecefa62eadb
+case=cancel-after_predict mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=5b514756b31e98c7843331af06d26884e5e703768d9e53f3515c993d952bac29
+case=cancel-after_predict mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=85e60d313d3ea0abef0d24680800e99b130a587427f544b044c65766c6421f1b
+case=cancel-after_update mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=bb3aae1639340ff341d868367037495055aced89a8cefefa3ac41fc20810a63a
+case=cancel-after_update mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=3e3f752fb6d32f88d257036c0b6997607d782245a73cdfa87ccb89a73e0149a6
+case=cancel-after_packet mode=serial rings=1,2,3,4 delay_seed=11 packets=8 config_sha256=67244a3f7076a6e97eb109dba52ae9b29e2f836355a43450e6dfe0d4b7a44ac0
+case=cancel-after_packet mode=pipelined rings=1,2,3,4 delay_seed=11 packets=8 config_sha256=382a861c86e7b996616bb191176b9729c50d1f63dce0900dba8d6cbfe18249f6
+case=shape-and-maximum-input-seed mode=pipelined rings=2,2,2,2 delay_seed=11 packets=8 config_sha256=5ce6304b332e108129862548ad01b55987e225b727f721c4c4949db60b468df0
+case=shape-and-maximum-input-seed mode=pipelined rings=2,2,2,2 delay_seed=11 packets=8 config_sha256=ecebe1942ad3eefb443c03974672f92a666dfe2a7981016fa3b224bdbaaedcf3
+cuda_synthetic_tests: 40618 checks, 72 GPU sessions passed (full finite acceptance matrix)
+<end of output>
+Test time =   4.01 sec
+----------------------------------------------------------
+Test Passed.
+"cuda_synthetic_protocol" end time: Oct 28 22:05 CST
+"cuda_synthetic_protocol" time elapsed: 00:00:04
+----------------------------------------------------------
+
+End testing: Oct 28 22:05 CST
+
+gpu =   4.01 sec*proc
+

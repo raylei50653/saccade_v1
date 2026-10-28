@@ -1,0 +1,82 @@
+Start testing: Oct 28 22:05 CST
+----------------------------------------------------------
+1/4 Testing: protocol_happens_before
+1/4 Test: protocol_happens_before
+Command: "/home/ray/developer/ai/saccade_v1/build-cpu/protocol_model" "--self-test"
+Directory: /home/ray/developer/ai/saccade_v1/build-cpu
+"protocol_happens_before" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+PASS baseline 216/216 configurations; 10 frames each; conflicts, producer identity, event binding, DAG
+PASS mutation remove-init-sync rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered initialize all session storage / F04 header frame=0
+PASS mutation remove-mi-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: MI.header[0]: unordered F05 header frame=0 / MI pre-header frame=0
+PASS mutation remove-mi-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-mi-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: MI.header[0]: unordered MI pre-header frame=0 / F05 header frame=1
+PASS mutation remove-mi-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered F04 header frame=0 / CS pre-header frame=0
+PASS mutation remove-cs-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: CS.header[0]: unordered CS pre-header frame=0 / F04 header frame=1
+PASS mutation remove-cs-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-staged-host-wait rejected 108/216; witness MI=1,CS=1,H=1,RP=2,normal: STAGE[0]: unordered H2D and nvJPEG transfer frame=0 / fill STAGE frame=1
+PASS mutation remove-staged-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: staged[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-packet-host-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: HP[0]: unordered D2H frame=0 / consume packet frame=0
+PASS mutation remove-packet-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: pkt[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-terminal-waits rejected 108/216; witness MI=1,CS=1,H=1,RP=1,D-only-tail: CS.header[0]: unordered F04 header frame=9 / release or reset session storage
+PASS mutation enqueue-main-before-detect rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS 15 mutation families detected
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_happens_before" end time: Oct 28 22:05 CST
+"protocol_happens_before" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/4 Testing: protocol_state_and_packet
+2/4 Test: protocol_state_and_packet
+Command: "/home/ray/developer/ai/saccade_v1/build-cpu/protocol_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-cpu
+"protocol_state_and_packet" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+protocol_tests: 630 checks passed
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_state_and_packet" end time: Oct 28 22:05 CST
+"protocol_state_and_packet" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/4 Testing: packet_compare_cli
+3/4 Test: packet_compare_cli
+Command: "/usr/sbin/cmake" "-DPROTOCOL_TESTS=/home/ray/developer/ai/saccade_v1/build-cpu/protocol_tests" "-DPACKET_COMPARE=/home/ray/developer/ai/saccade_v1/build-cpu/packet_compare" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-cpu/packet-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/cmake/PacketCompareTest.cmake"
+Directory: /home/ray/developer/ai/saccade_v1/build-cpu
+"packet_compare_cli" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"packet_compare_cli" end time: Oct 28 22:05 CST
+"packet_compare_cli" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/4 Testing: synthetic_resolved_config
+4/4 Test: synthetic_resolved_config
+Command: "/home/ray/developer/ai/saccade_v1/build-cpu/synthetic_config_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-cpu
+"synthetic_resolved_config" start time: Oct 28 22:05 CST
+Output:
+----------------------------------------------------------
+synthetic_config_tests: 88 checks passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"synthetic_resolved_config" end time: Oct 28 22:05 CST
+"synthetic_resolved_config" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 22:05 CST

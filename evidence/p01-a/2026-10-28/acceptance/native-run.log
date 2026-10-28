@@ -1,0 +1,123 @@
+TensorRT[3] [MemUsageChange] Init CUDA: CPU +0, GPU +0, now: CPU 50, GPU 1173 (MiB)
+TensorRT[4] CUDA lazy loading is enabled.
+TensorRT[4] could not open /sys/fs/cgroup/memory/memory.limit_in_bytes or /sys/fs/cgroup/memory.max
+TensorRT[4] Compiler backend convergence mode enabled
+TensorRT[4] Trying to load shared library libnvinfer_builder_resource_sm120.so.10.16.1
+TensorRT[4] Loaded shared library libnvinfer_builder_resource_sm120.so.10.16.1
+TensorRT[3] [MemUsageChange] Init builder kernel library: CPU +286, GPU +4, now: CPU 534, GPU 1177 (MiB)
+TensorRT[4] Original: 4 layers
+TensorRT[4] After dead-layer removal: 4 layers
+TensorRT[4] SYMBOLIC CHECKS
+TensorRT[4] GRAPH NODES
+TensorRT[4] CONSTANT (Unnamed Layer* 0) [Constant]
+TensorRT[4]     Output 0
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4] CONSTANT (Unnamed Layer* 1) [Constant]
+TensorRT[4]     Output 0
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4] ELEMENTWISE (Unnamed Layer* 2) [ElementWise]
+TensorRT[4]     Input 0
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         256	256
+TensorRT[4]     Input 1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]     Output 0
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         256	256
+TensorRT[4] ELEMENTWISE (Unnamed Layer* 3) [ElementWise]
+TensorRT[4]     Input 0
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         256	256
+TensorRT[4]     Input 1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]     Output 0
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         1	1
+TensorRT[4]         256	256
+TensorRT[4] Graph construction completed in 0.000806243 seconds.
+TensorRT[4] After adding DebugOutput nodes: 4 layers
+TensorRT[4] After Myelin optimization: 1 layers
+TensorRT[4] Applying ScaleNodes fusions.
+TensorRT[4] After scale fusion: 1 layers
+TensorRT[4] After dupe layer removal: 1 layers
+TensorRT[4] After final dead-layer removal: 1 layers
+TensorRT[4] After tensor merging: 1 layers
+TensorRT[4] After vertical fusions: 1 layers
+TensorRT[4] After dupe layer removal: 1 layers
+TensorRT[4] After final dead-layer removal: 1 layers
+TensorRT[4] After tensor merging: 1 layers
+TensorRT[4] After slice removal: 1 layers
+TensorRT[4] After concat removal: 1 layers
+TensorRT[4] Trying to split Reshape and strided tensor
+TensorRT[4] Graph optimization time: 0.000290208 seconds.
+TensorRT[4] Building graph using backend strategy 0
+TensorRT[3] Local timing cache in use. Profiling results in this builder pass will not be stored.
+TensorRT[4] Constructing optimization profile number 0 [1/1].
+TensorRT[4] Applying generic optimizations to the graph for inference.
+TensorRT[4] Reserving memory for host IO tensors. Host: 0 bytes
+TensorRT[4] =============== Computing costs for {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]}
+TensorRT[4] ForeignNode {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]} metadata: 
+TensorRT[4] *************** Autotuning format combination: Float(256,256,256,1) -> Float(256,256,256,1) ***************
+TensorRT[4] --------------- Timing Runner: {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]} (Myelin[0x80000023])
+TensorRT[3] Compiler backend is used during engine build.
+TensorRT[4] Disabling gemm+pointwise/reduce fusions at optimization level 0
+TensorRT[4] Set number of tactics to 1 at optimization level 0
+TensorRT[4]  (foreignNode) Set user's cuda kernel library
+TensorRT[4] Subgraph compilation completed in 0.041 seconds.
+TensorRT[4] Tactic: 0x0000000000000000 Time: 0
+TensorRT[4] Tactic: 0x0000000000000000 A valid tactic is found. Rest of the tactics are skipped.
+TensorRT[4] >>>>>>>>>>>>>>> Chose Runner Type: Myelin Tactic: 0x0000000000000000
+TensorRT[4] =============== Computing reformatting costs for available format set
+TensorRT[4] =============== Computing reformatting costs for available format set
+TensorRT[4] Formats and tactics selection completed in 0.0439884 seconds.
+TensorRT[4] After reformat layers: 1 layers
+TensorRT[4] Total number of blocks in pre-optimized block assignment: 1
+TensorRT[3] Detected 1 inputs and 1 output network tensors.
+TensorRT[4] Layer: {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]} Host Persistent: 80 bytes Device Persistent: 0 bytes Scratch Memory: 0 bytes
+TensorRT[4] Skipped printing memory information for 0 layers with 0 memory size i.e. Host Persistent + Device Persistent + Scratch Memory == 0.
+TensorRT[3] Total Host Persistent Memory: 80 bytes
+TensorRT[3] Total Device Persistent Memory: 0 bytes
+TensorRT[3] Max Scratch Memory: 0 bytes
+TensorRT[4] Total number of blocks in optimized block assignment: 0
+TensorRT[3] Total Activation Memory: 0 bytes
+TensorRT[3] Total Weights Memory: 4 bytes
+TensorRT[4] Total number of generated kernels selected for the engine: 0
+TensorRT[3] Compiler backend is used during engine execution.
+TensorRT[4] Disabling unused tactic source: EDGE_MASK_CONVOLUTIONS
+TensorRT[4] Disabling unused tactic source: JIT_CONVOLUTIONS
+TensorRT[3] Engine generation completed in 0.0630971 seconds.
+TensorRT[4] Layers:
+Name: __myl_MulAdd_myl0_0, LayerType: kgen, Inputs: [ { Name: x, Dimensions: [1,1,1,256], Format/Datatype: Float }], Outputs: [ { Name: y, Dimensions: [1,1,1,256], Format/Datatype: Float }], TacticName: __myl_MulAdd_0x3f242f4e15f28f48dfccb2005c35cfc4, StreamId: 0, Metadata: 
+
+Bindings:
+x
+y
+TensorRT[3] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 0 MiB, GPU 0 MiB
+TensorRT[4] Adding 1 engine(s) to plan file.
+TensorRT[4] Adding 1 engine weights(s) to plan file.
+TensorRT[3] Loaded engine size: 0 MiB
+TensorRT[4] Deserialization required 1130 microseconds.
+TensorRT[4] Total per-runner device persistent memory is 0
+TensorRT[4] Total per-runner host persistent memory is 80
+TensorRT[3] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 0 (MiB)
+TensorRT[4] CUDA lazy loading is enabled.
+PASS native TensorRT build/save/reload/enqueue; elements=256 max_abs_error=0 engine_sha256=e59b00754e82853bbe1ef49ea903e111ba042b99d32d014a05ac191dcdf1a65f

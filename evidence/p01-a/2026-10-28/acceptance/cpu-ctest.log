@@ -1,0 +1,91 @@
+UpdateCTestConfiguration  from :/home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/DartConfiguration.tcl
+Test project /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: protocol_happens_before
+
+1: Test command: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/protocol_model "--self-test"
+1: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+1: Test timeout computed to be: 10000000
+1: PASS baseline 216/216 configurations; 10 frames each; conflicts, producer identity, event binding, DAG
+1: PASS mutation remove-init-sync rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered initialize all session storage / F04 header frame=0
+1: PASS mutation remove-mi-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: MI.header[0]: unordered F05 header frame=0 / MI pre-header frame=0
+1: PASS mutation remove-mi-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-mi-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: MI.header[0]: unordered MI pre-header frame=0 / F05 header frame=1
+1: PASS mutation remove-mi-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_consumed[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-cs-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered F04 header frame=0 / CS pre-header frame=0
+1: PASS mutation remove-cs-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_ready[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-cs-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: CS.header[0]: unordered CS pre-header frame=0 / F04 header frame=1
+1: PASS mutation remove-cs-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_consumed[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-staged-host-wait rejected 108/216; witness MI=1,CS=1,H=1,RP=2,normal: STAGE[0]: unordered H2D and nvJPEG transfer frame=0 / fill STAGE frame=1
+1: PASS mutation remove-staged-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: staged[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-packet-host-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: HP[0]: unordered D2H frame=0 / consume packet frame=0
+1: PASS mutation remove-packet-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: pkt[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-terminal-waits rejected 108/216; witness MI=1,CS=1,H=1,RP=1,D-only-tail: CS.header[0]: unordered F04 header frame=9 / release or reset session storage
+1: PASS mutation enqueue-main-before-detect rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+1: PASS 15 mutation families detected
+1/8 Test #1: protocol_happens_before ..........   Passed    0.34 sec
+test 2
+    Start 2: protocol_state_and_packet
+
+2: Test command: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/protocol_tests
+2: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+2: Test timeout computed to be: 10000000
+2: protocol_tests: 630 checks passed
+2/8 Test #2: protocol_state_and_packet ........   Passed    0.00 sec
+test 3
+    Start 3: packet_compare_cli
+
+3: Test command: /usr/sbin/cmake "-DPROTOCOL_TESTS=/home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/protocol_tests" "-DPACKET_COMPARE=/home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/packet_compare" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/packet-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/cmake/PacketCompareTest.cmake"
+3: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+3: Test timeout computed to be: 10000000
+3/8 Test #3: packet_compare_cli ...............   Passed    0.02 sec
+test 4
+    Start 4: synthetic_resolved_config
+
+4: Test command: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/synthetic_config_tests
+4: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+4: Test timeout computed to be: 10000000
+4: synthetic_config_tests: 88 checks passed
+4/8 Test #4: synthetic_resolved_config ........   Passed    0.01 sec
+test 5
+    Start 5: checked_file_io
+
+5: Test command: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/file_io_tests
+5: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+5: Test timeout computed to be: 10000000
+5: file_io_tests: 23 checks passed
+5/8 Test #5: checked_file_io ..................   Passed    0.00 sec
+test 6
+    Start 6: checked_resource_cleanup
+
+6: Test command: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/cleanup_tests
+6: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+6: Test timeout computed to be: 10000000
+6: cleanup_tests: 79 checks passed
+6/8 Test #6: checked_resource_cleanup .........   Passed    0.00 sec
+test 7
+    Start 7: model_manifest_contract
+
+7: Test command: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/model_manifest_tests "/home/ray/developer/ai/saccade_v1/fixtures/model-manifest"
+7: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+7: Test timeout computed to be: 10000000
+7: model_manifest_tests: 75 checks passed
+7/8 Test #7: model_manifest_contract ..........   Passed    0.00 sec
+test 8
+    Start 8: model_manifest_cli
+
+8: Test command: /usr/sbin/cmake "-DPROGRAM=/home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/model_manifest" "-DFIXTURE_SOURCE=/home/ray/developer/ai/saccade_v1/fixtures/model-manifest" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/manifest-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/cmake/ManifestTest.cmake"
+8: Working Directory: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu
+8: Test timeout computed to be: 10000000
+8: -- manifest CLI checks passed; raw outputs: /home/ray/developer/ai/saccade_v1/build-p01-verified/cpu/manifest-fixtures/manifest-47a00221f4b61500
+8/8 Test #8: model_manifest_cli ...............   Passed    0.04 sec
+
+100% tests passed out of 8
+
+Total Test time (real) =   0.41 sec

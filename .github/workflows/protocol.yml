@@ -1,0 +1,18 @@
+name: C++ protocol verification
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  protocol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --parallel 2
+      - name: Verify protocol, mutations, failure state and packet encoding
+        run: ctest --test-dir build --output-on-failure

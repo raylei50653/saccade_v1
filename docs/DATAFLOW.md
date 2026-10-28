@@ -10,7 +10,7 @@
 | --- | --- |
 | 已確定 | 從零重寫，不復用舊程式；實作採 C++／CUDA GPU 路徑，不使用 Python。 |
 | 已確定 | 舊實驗數據不遷移，不要求保證舊實驗成績。 |
-| 已確定 | 本階段只整理資料流與架構規劃。 |
+| 目前交付 | 資料流／架構規劃與第一批 C++ 協定模型、失敗狀態模型及封包編碼／比較工具；GPU pipeline 尚未實作。 |
 | 沿用架構基線 | §1.1 列明的模型家族、觀測／GMC／追蹤主線、native sequence 輸入輸出與排程方向，作為重寫起點。 |
 | 重抽象設計 | 顯式資料契約、狀態 owner、續追資格、完成條件與錯誤語義；差異集中列於 §9。 |
 | OPEN | §9 的具體差異與工程規格；不重開 §1.1 已有依據的整體架構選型。 |
@@ -139,7 +139,7 @@ candidate ID 在 F04 篩選前由固定模型輸出序號建立，kept／suppres
 
 ## 4. 跨階段資料契約
 
-以下名稱代表邏輯資料，尚未指定 C++ 型別、記憶體排列與 ABI。
+以下名稱代表邏輯資料。首批 frame／epoch／status 型別與 ResultPacket v1 wire layout 見 [RESULT_PACKET.md](RESULT_PACKET.md)；其他 GPU 資料的排列／ABI 仍待補齊。
 
 | 資料 | 必須攜帶或能明確取得的資訊 |
 | --- | --- |
@@ -218,11 +218,11 @@ schema 拒絕未知或重複欄位、錯誤型別、超出範圍的值、非有�
 
 TrackingSession 擁有領域狀態，執行層擁有工作與資源。更換排程、增加 stream 或使用 CUDA graph，必須保持資料依賴與狀態提交語義。
 
-F06 將 MotionImage(k) 轉成由 main 擁有的獨立頻譜，再與前譜相關。MotionImage 的最後一次讀取完成即可歸還其 slot；頻譜不引用這個 slot，也不引用原圖。相關操作只讀前譜／本幀頻譜，cross-power 與 IFFT 使用獨立 scratch，不破壞待提交的頻譜。相關讀取前譜完成後才可覆寫舊頻譜區；本幀頻譜作為工作版本，在 F08b 成功時與 TrackState 一同推進參考 frame。
+F06 將 MotionImage(k) 先經 cuFFT 寫入獨立 FFT_TMP，再由受固定階段旗標控制的自訂 kernel 交付至工作頻譜；cuFFT 與其他函式庫工作不得直接寫 SPEC／TS。MotionImage 的最後一次讀取（含 FFT 與 header 診斷）完成即可歸還其 slot；頻譜不引用這個 slot，也不引用原圖。相關操作只讀前譜／工作頻譜，cross-power 與 IFFT 使用獨立 scratch，不破壞待提交的頻譜。SPEC／TS 的工作 slot 與最後成功提交 slot 分開，後者只讀；F08b 成功時由同一次 commit 切換共同版本。失敗後已排入的函式庫工作仍可寫 scratch，不得改動最後成功狀態，具體 guard／控制 kernel 規則見 ASYNC_CONTROL §5。
 
 基線每個 sequence 的尺寸與表示設定固定；表示 key 改變不能無聲重建前譜繼續追蹤，須建立新 epoch 或令序列失敗。
 
-首幀沒有前譜時不讀未初始化資料：回傳 `uninitialized`，F08a 使用零 camera control，仍只執行一次 predict，成功後保存當前頻譜。其後的 `invalid` 不自動套 identity 並假裝有效；未明列可接受的處置前，令本序列失敗。P03 若定義繼續策略，必須同時寫清 frame 參考如何推進，不能讓 MotionState 與 TrackState 停在不同時點。
+首幀沒有前譜時不讀未初始化資料：回傳 `uninitialized`，F08a 使用零 camera control，仍只執行一次 predict，成功後保存當前頻譜。`committed_frame = -1` 時明定讀已初始化的空 TS[1]、寫 TS[0]；不得對負數版本作 modulo。其後的 `invalid` 不自動套 identity 並假裝有效；未明列可接受的處置前，令本序列失敗。P03 若定義繼續策略，必須同時寫清 frame 參考如何推進，不能讓 MotionState 與 TrackState 停在不同時點。
 
 結果輸出採單向消費。若未來某種 identity resolve 需要改變追蹤決策，應歸入 F08 或新增明列的回饋資料邊，不讓 writer 隱式修改 TrackState。
 
@@ -349,7 +349,7 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 
 ### 8.1 行為驗證
 
-本節規則已採納；事件編碼、可執行狀態機及測試工具仍待 C++ 實作。基準來自新專案自己的明定規格與執行結果，不承接舊系統的輸出或實驗成績。
+本節規則已採納；首批 C++ 工具已實作 frame 提交／失敗狀態模型、ResultPacket v1 穩定編碼及完整封包比較，見 [RESULT_PACKET.md](RESULT_PACKET.md)。tracker lifecycle／bridge 事件編碼與模型、resolved 設定 schema／hash 仍待實作。基準來自新專案自己的明定規格與執行結果，不承接舊系統的輸出或實驗成績。
 
 行為驗證分成三項獨立檢查，通過其中一項不能代替其他項目：
 
@@ -404,14 +404,14 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 
 | 編號 | OPEN 規格 | 已有基線 |
 | --- | --- | --- |
-| P01 模型 artifact | 新模型檔案的來源／版本、engine 精度／shape binding、Mamba scan 的相容規格。 | YOLO26s＋Mamba-FPN、640、幀內 GPU 推論；不繼承舊權重 pin 或舊數字。 |
+| P01 模型 artifact | 新模型檔案的來源／版本、engine 精度／shape binding、Mamba scan 的相容規格。 | YOLO26s＋Mamba-FPN、640、幀內 GPU 推論；輸入清單與 native scan 分階段驗證見 [MODEL_FEASIBILITY.md](MODEL_FEASIBILITY.md)，P01 仍 OPEN。 |
 | P02 邊界數值規格 | resize 取樣與像素邊界、clipping／退化框、class 範圍、NMS 決勝與排序。 | RGB CHW 正規化、stretch、原圖 xyxy、穩定候選順序、class 保留。 |
 | P03 決策參數與簡化 | GMC downscale／可信度及 invalid 處置、分數／關聯／生命週期／bridge 閾值、預測後 prior 資格與 DDA 等歷史開關去留。 | F08a → predicted prior → F04b → F08b 已定；所有 top-k 與 auction 平手依 §3.2 的 `(cost, track UID, candidate ID)` 字典序，auction 保留 bid 主排序。 |
-| P04 容量與記憶體 | detections、suppressed candidates、tracks、top-k、獨立小影像／頻譜與序列輸出儲存的上限、dtype／layout、固定 ResultPacket layout。 | counts／valid mask／status 在 device；依容量 launch、kernel 內讀 count；每幀一次結果封包 D2H，容量不足顯式失敗。 |
+| P04 容量與記憶體 | detections、suppressed candidates、GPU TrackState、top-k、獨立小影像／頻譜與序列輸出儲存的上限、dtype／layout；GPU 封包 writer 與容量驗證。 | [ResultPacket v1](RESULT_PACKET.md) 的最小 wire profile 已定為 256 rows、80-byte header＋48-byte rows，共 12368 bytes；有 C++ codec。此 profile 不代替其他 GPU 容量決策；每幀一次封包 D2H，容量不足顯式失敗。 |
 | P05 graph 與比較鍵封裝 | capture／event／資源封裝、warm-up／cache 政策、fixed output 交付，以及 packed winner key 的位寬／序碼或分階段比較方式。 | serial／double-buffer 均滿足 E01–E11 與 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的 A01–A10；F05 在 detect、原圖不跨 stream；物理比較必須完全等價於 §3.2 已定的全序與 phase boundary。 |
 | P06 輸出細節 | MOT 數值精度、輸出／預測框政策、插值適用條件與窗口、序列尾資料落點及記憶體預算。 | 每序列 MOT、首次出現 ID 映射、序列尾插值／定稿；完成後提交。 |
 | P07 故障與支援 | 部分輸出檔案處理、額外 durability、GPU fatal 後清理／恢復與實際 GPU／CUDA／推論版本支援矩陣。 | 必要輸入／計算／輸出失敗即失敗，取消不是 EOF，不隱式重試或降為其他計算路徑。 |
-| P08 設定與行為驗證落地 | resolved schema 與覆寫優先序、穩定序列化／hash 規格、事件編碼與覆蓋範圍、可執行狀態機及合法／非法測例。 | §4.4 與 §8.1 的治理與驗證規則已定；C++ 工具待實作，A10／V04 的逐位元契約維持。 |
+| P08 設定與行為驗證落地 | resolved schema 與覆寫優先序、設定序列化／hash、tracker lifecycle／bridge 事件編碼與完整模型。 | repo 已有 C++ happens-before／提交失敗模型、錯誤注入、封包 codec 與逐位元比較；§4.4 與 §8.1 的其餘工具仍 OPEN，A10／V04 契約維持。 |
 
 ### 9.3 需要另列架構差異的擴充
 

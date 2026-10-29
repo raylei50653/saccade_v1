@@ -15,6 +15,7 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 - [模型 manifest schema 與 C++ CLI](docs/MODEL_MANIFEST.md)：嚴格 JSON、穩定序列化／hash、artifact 檔案完整性及 fixtures。
 - [Native TensorRT SDK 最小驗證](docs/NATIVE_TENSORRT.md)：獨立可選 SDK 目標、版本 pin、固定小網路與重跑命令。
 - [新模型來源與缺件](docs/MODEL_ARTIFACT_READINESS.md)：官方一般 YOLO26s 的 native 結構查核；目標 Mamba-FPN head 與 scan 契約仍缺失。
+- [新 head 的 scan 契約查核](docs/SCAN_CONTRACT.md)：2026-10-29 新增架構規格定位、上游身分比對、S01 精確缺欄與待裁定設計；尚未取得目標 scan 語義。
 
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
 

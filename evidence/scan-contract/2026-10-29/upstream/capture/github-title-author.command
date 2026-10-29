@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers -o evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://api.github.com/search/repositories?q=MambaFPN+Liang+in%3Areadme&per_page=100

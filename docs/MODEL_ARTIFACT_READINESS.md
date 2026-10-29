@@ -2,6 +2,8 @@
 
 查核日期：2026-10-28。來源、檔案與內容分別記錄。此次下載新上游檔案，沒有使用舊專案的程式、權重或數值結論，也沒有執行 Python。
 
+2026-10-29 追加來源查核見 [§6](#6-2026-10-29-追加來源查核與解除阻塞)；前五節保留 P01-A 原始觀察，未重新下載既有 YOLO26s 或把工具 fixtures 升格為模型證據。
+
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
 ## 1. 來源與完整性
@@ -88,3 +90,34 @@ sha256sum build-artifact-replay/yolo26s.canonical.json
 ```
 
 [實際 CLI 輸出](../evidence/p01-a/2026-10-28/artifact/manifest-verify.log)／[exit code](../evidence/p01-a/2026-10-28/artifact/manifest-verify.exit) 保存 `manifest_declaration=verified`、`artifact_files=verified`、`model_content=not_checked`、`real_model_ready=false`。上面的人工外部結構查核不被 CLI 冒充為內容驗證。
+
+## 6. 2026-10-29 追加來源查核與解除阻塞
+
+本輪 fetch 後 `HEAD=origin/main=9f2c11a838a229c05ba7e9e17fa182bf0799746b`，起始工作樹乾淨，無後續 main 差異。這輪完成下列先前未做的查核；沒有重跑一般 YOLO26s 下載／inspection、舊模型或舊數值實驗。所有新增來源、原始命令／exit／輸出、日期／環境與 hashes 見 [本輪報告](../evidence/scan-contract/2026-10-29/REPORT.md)。
+
+### 6.1 新增證據及來源身分
+
+| 查找範圍 | 本輪新增核實 | 結果與界線 |
+| --- | --- | --- |
+| v1 repository 交付渠道 | [GitHub API captures](../evidence/scan-contract/2026-10-29/repository/README.md)：branches、releases、all-state PRs／issues | 僅 `main` 在上述 SHA；其餘三項皆空。未定位其他已發布 head 包；不代表沒有私人／未發布實作。 |
+| DATAFLOW 明列的歷史架構規格 | 固定 `e48f3b39` 的 math_model §4.1 lines 397–464、SVG／授權文件；[design evidence](../evidence/scan-contract/2026-10-29/design/FINDINGS.md) | 新定位 down4 → two-block → up4、128 model size／16 state size、400/100/25 tokens、80 cls／4 reg／8400 raw anchors 及 decode 意圖。未提供 scan recurrence／方向／state ABI；只作架構依據，沒有讀取／復用舊程式或權重。 |
+| MambaFPN DOI metadata／全文入口／作者／repository | [upstream evidence](../evidence/scan-contract/2026-10-29/upstream/FINDINGS.md)：Crossref、Elsevier API、PubMed／大學作者頁、arXiv title query、GitHub README 作者限定查詢 | Elsevier HTTP200 僅 coredata，全文未取得；出版搜尋預覽描述 neck，不能當目標 head。arXiv title query=0 屬有限負結果。新查詢找到 `raphaelkach/mamba-neck@6dec69675c362ef9837800ad084657850756e56b`：ResNet50＋ATSS、四入五出 neck／MMDetection，身分不同。README 6,830 bytes，SHA-256 `111addbc7dcd46ccb951d41255caf4fcc8b7255c069916a884e3d9b6e5a105aa`；tree 無 native bundle／LICENSE，API license=null。不以其四向 scan 取代本目標。 |
+| MambaPSA 作者完整 tree／modules／YAML／dependencies／training args／論文 v1 | 固定 `2940f1634cfce1f63201e6411ffe9008951461f3`，current main 相同；[MambaPSA evidence](../evidence/scan-contract/2026-10-29/mambapsa/FINDINGS.md) | 主 YAML 改造 backbone、P4 變體改造 neck，都使用一般 Detect。small scale 確實存在，但 paper／交付 args 是 nano/VOC。13 個 `.pt` 已存在（未下載／載入，僅 tree 宣告），沒有所需 ONNX/native/export 交付。CPU 分支直接 bypass scan，不可作 oracle；沒有推定論文實測用了此分支。README AGPL 宣告與缺少 LICENSE 文本分開記錄。 |
+
+取得檔案的 URL、固定 revision（有提供者）、size／SHA-256 與 lineage／授權欄位見各 evidence 的 FINDINGS 與 hash/size 清單。沒有取得的權重、exporter revision、訓練 lineage 或授權不補推。公開論文 DOI、Git blob SHA、package version 各有用途，不能互當新 head 的不可變 source revision。
+
+### 6.2 精確缺件、持有人與解鎖步驟
+
+本輪仍無目標新 head 的固定 source/config/artifact。**是否已實作但尚未交付、或尚未設計定案，目前未知**；已見候選不是同一目標，不能把身分差異稱為目標內部公式衝突。逐欄語義與待裁定決策見 [SCAN_CONTRACT](SCAN_CONTRACT.md)。
+
+| 缺件／分類 | 可直接交付的材料與責任來源 | 阻塞範圍 → 解鎖後下一步 |
+| --- | --- | --- |
+| H01 目標身分未取得；是否存在未知 | v1 模型負責人提供新 head repository／不可變 revision／config／module map，確認是否採用已引用 D1 lane 設計；具名實作者／artifact custodian 未定位。 | S01、P01、S04 → 逐 module 對上 scan 與 component I/O。若尚無設計，裁定 SCAN_CONTRACT 的 D01–D04，明標新設計。 |
+| H02 目標 scan 精確公式／ABI 未取得；設計決策未能由文件核實 | 模型／scan 設計者提供精確 recurrence/discretization、A/B/C/D（若有）、delta/bias/softplus/gate/skip、方向與 index/merge、ordered tensor/stride/broadcast/容量、initial/final/empty/reset、operator attributes 的固定規格與 locator。 | S01 → 按已核實範圍從零實作 scalar reference；不等待無關 GPU/plugin 工程。 |
+| H03 目標數值比較政策缺失 | 模型／數值驗證者固定 compute/accumulation precision、build options、metric／有依據 atol/rtol、獨立 expected 推導方法。可在公式核實後手算；不強制先取得作者數值向量。 | S01 → 先固定政策，製作小尺寸非退化 fixtures／正反案例，CPU CTest＋ASan／UBSan。 |
+| H04 新模型權重及 native 交付缺失 | 模型交付者提供新 ONNX＋external data，或明確 C++ 可讀 tensor bundle／架構。包括 matching backbone/neck ordered P3/P4/P5 或合併圖、URL/revision/授權/訓練與匯出 lineage/size/hash。不能交舊權重或只重發 pickle。 | P01／S04；S03 與實際 head 整合另需此材料，獨立 plugin 驗證不以完整權重為前提。不單獨阻塞 standalone scan → native inspection／manifest 檔案查核，再依相應階段驗收。 |
+| H05 新 cls/reg/decode 契約缺失 | 模型／F04 負責人給出 ordered cls/reg 名稱、class list/ID、stride、box/score 編碼、decode/NMS owner、容量/padding/invalid mask，核對 D1 與新圖差異。 | P01、S04／P02 → 完整輸出對照；不單獨阻塞 S01。 |
+| U01 論文全文／作者實作未取得，與 target 映射未知 | 若 v1 owner 確認指的是 Liang/Wang/Zhang 論文，可向通訊作者 Lefei Zhang（PubMed：`zhanglefei@whu.edu.cn`）索取固定作者實作/config／公式／授權／native 交付；出版預覽將 software contribution 列給 Cheng Wang。只定位取得渠道，未認定作者持有 v1 head，也未對外聯絡。 | 只有被 owner 確認選用後才影響 H01–H04；論文全文本身仍不等於新 artifact。 |
+| U02 候選已有 PyTorch 實作／checkpoint，但 native 途徑與授權文本未交付 | 僅當 owner 明確選用 MambaPSA 時，向作者 repo 持有人／README 聯絡 Jen-Shiun Chiang 取得 matching small lineage、固定 dependency code、LICENSE 與 native bundle；先記錄對 B03 的架構影響。 | 不是目前 target readiness；不建議因有 checkpoint 就替代既定 head。 |
+
+最直接的後續動作：**由 v1 模型負責人交付 H01 的固定 source/config/module map；若沒有現成設計，裁定 D01–D04。** 這一步能決定要向哪個實作者索取 H02/H03，而不是再重跑一般 YOLO 或舊權重。未知公式未填入 manifest 的 `specified` 欄位；S01、P01 與真實 artifact readiness 維持 OPEN。

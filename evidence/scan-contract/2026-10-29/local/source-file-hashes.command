@@ -1,0 +1,1 @@
+bash -o pipefail -c git\ ls-tree\ -r\ --name-only\ \"\$1\"\ CMakeLists.txt\ cmake\ src\ include\ cuda\ tools\ tests\ fixtures\ scripts\ .github\ \|\ while\ IFS=\ read\ -r\ path\;\ do\ sha256sum\ \"\$2/\$path\"\;\ done _ 9f2c11a838a229c05ba7e9e17fa182bf0799746b build-scan-contract-20261029/source 

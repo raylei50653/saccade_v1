@@ -1,6 +1,8 @@
 # P01 模型 artifact 與 native scan 可行性
 
-P01 保持 OPEN。P01-A 將 manifest 工具、native SDK 路徑、真實 artifact readiness 分別驗收，不能互相替代。調查日期：2026-10-28。
+P01 保持 OPEN。P01-A 將 manifest 工具、native SDK 路徑、真實 artifact readiness 分別驗收，不能互相替代。P01-A 調查日期：2026-10-28；新 head 契約追加查核：2026-10-29。
+
+最新 [scan 契約矩陣](SCAN_CONTRACT.md) 已定位引用架構的 lane／cls／reg／decode 設計，但仍無對應新 head 的 scan 精確公式及 ABI；S01 保持 OPEN。[本輪來源與 CPU 回歸證據](../evidence/scan-contract/2026-10-29/REPORT.md) 不代表 scan 數值驗收。
 
 [DATAFLOW §1.1 B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 維持 YOLO26s backbone／neck＋Mamba-FPN head、640×640、P3／P4／P5、幀內推論、C++／CUDA。從驗收基線 `437c99edbae1a34854aa6966dc210b5053069929` fetch 後確認 `origin/main` 相同，再接續實作；沒有搬用舊程式、權重或實驗結論。
 
@@ -36,11 +38,11 @@ P01 保持 OPEN。P01-A 將 manifest 工具、native SDK 路徑、真實 artifac
 
 | 階段 | 必要驗證 | 成功後可聲稱的範圍 |
 | --- | --- | --- |
-| S01 語義／容量 | 先取得新 head 與已查核 scan 契約，再實作獨立 C++ scalar reference 及數值 fixtures：零／單 token、非零 initial state（若支援）、長短序列、不同通道／state size、極端有限值、非法 shape／非有限值拒絕。 | 該明定 scan 契約的可執行參考 |
+| S01 語義／容量 | 先固定新 head 對應的 source/config/module map 與已查核 scan 契約，再實作獨立 C++ scalar reference 及數值 fixtures：零／單 token、非零 initial state（若支援）、長短序列、不同通道／state size、極端有限值、非法 shape／非有限值拒絕。 | 該明定 scan 契約的可執行參考 |
 | S02 CUDA forward | 同一契約的獨立 CUDA forward 對照 reference；顯式 D stream、固定 workspace、無幀中途 D2H、無 default-stream 依賴；initcheck／memcheck。 | 該 scan 的實作及數值結果 |
 | S03 TensorRT 接入 | 新 pin SDK 的 plugin build／deserialize、身分及參數 round-trip、shape／dtype 拒絕、顯式 stream、session workspace 隔離、固定輸出生命週期。 | 該 plugin 在指定環境可執行 |
 | S04 完整 head／F03 | 同一新 artifact、固定輸入與完整輸出對照；重跑決定性、graph replay、重疊與資源需求；cls／reg／候選邊界。 | 有證據的完整推論範圍 |
 
-S01 依賴的 head artifact／scan 精確公式目前尚未交付，具體所需輸入見 [缺件紀錄](MODEL_ARTIFACT_READINESS.md)。本次不自行替未知模型選一個公式，因此尚未產生可宣稱為目標 scan 的 scalar reference 或數值 fixtures。取得該契約後，下一個工作直接從 S01 接續。
+S01 依賴的新 head 對應與 scan 精確契約目前尚未交付，具體所需輸入見 [缺件紀錄 §6](MODEL_ARTIFACT_READINESS.md#6-2026-10-29-追加來源查核與解除阻塞)。最低輸入是固定 head source/config/module map、完整 scan 數學／tensor／狀態規格及獨立比較政策；已核實公式後可獨立推導微型 expected。完整新權重、native 模型檔案與 cls/reg/decode 另阻塞 P01／S04，不與獨立 scan 的 gate 混同。尚未產生目標 scan 的 scalar reference 或數值 fixtures；取得該契約後直接從 S01 接續。
 
 `enqueue` 不使用 host count readback 決定正式工作量；固定 shape／容量在 session 前配置。未來 plugin 只在 D 及其明定資源執行；新增 stream 須先補 ASYNC_CONTROL 的交付／回收邊。失敗交由 F04 slot header／M 控制流程鎖定首次錯誤，既有 TensorRT 工作仍須依 stream／event 收尾。此次 affine 工具的 D2H 屬獨立驗證流程。

@@ -1,0 +1,1 @@
+bash -o pipefail -c for\ path\ in\ docs/reference/math_model.md\ docs/reference/yolo_model_architecture.svg\ LICENSE\;\ do\ printf\ \"%s\\t\"\ \"\$path\"\;\ git\ -C\ \"\$1\"\ cat-file\ -s\ \"\$2:\$path\"\;\ git\ -C\ \"\$1\"\ show\ \"\$2:\$path\"\ \|\ sha256sum\;\ done _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 

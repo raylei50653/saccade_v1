@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers -o evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://jszy.whu.edu.cn/zhanglefei/en/index/427766/list/index.htm

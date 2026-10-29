@@ -1,0 +1,1 @@
+bash -o pipefail -c git\ -C\ \"\$1\"\ show\ \"\$2:docs/reference/math_model.md\"\ \|\ nl\ -ba\ \|\ sed\ -n\ \"369\,468p\"\ \|\ rg\ -n\ -i\ \"mamba\|state\|scan\|delta\|softplus\|flatten\|stride\|reg_max\|cls\|gate\|initial\|final\|reset\|bias\|direction\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 

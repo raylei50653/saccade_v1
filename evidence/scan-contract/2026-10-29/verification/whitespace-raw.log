@@ -1,0 +1,1438 @@
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.command:1: trailing whitespace.
++bash -o pipefail -c git\ -C\ \"\$1\"\ show\ \"\$2:docs/reference/math_model.md\"\ \|\ nl\ -ba\ \|\ sed\ -n\ \"369\,468p\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:2: trailing whitespace.
++   370	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:6: trailing whitespace.
++   374	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:8: trailing whitespace.
++   376	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:11: trailing whitespace.
++   379	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:25: trailing whitespace.
++   393	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:28: trailing whitespace.
++   396	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:34: trailing whitespace.
++   402	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:37: trailing whitespace.
++   405	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:41: trailing whitespace.
++   409	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:62: trailing whitespace.
++   430	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:65: trailing whitespace.
++   433	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:67: trailing whitespace.
++   435	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:73: trailing whitespace.
++   441	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:76: trailing whitespace.
++   444	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:80: trailing whitespace.
++   448	
+evidence/scan-contract/2026-10-29/design/architecture-excerpt.log:97: trailing whitespace.
++   465	
+evidence/scan-contract/2026-10-29/design/environment.command:1: trailing whitespace.
++bash -c date\ -Is\;\ uname\ -srmo\;\ git\ --version\;\ sed\ --version\ \|\ head\ -1\;\ sha256sum\ --version\ \|\ head\ -1 
+evidence/scan-contract/2026-10-29/design/identity.command:1: trailing whitespace.
++git -C /home/ray/developer/ai/saccade rev-parse e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2:docs/reference/math_model.md e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2:docs/reference/yolo_model_architecture.svg e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2:LICENSE 
+evidence/scan-contract/2026-10-29/design/license-declaration.command:1: trailing whitespace.
++bash -o pipefail -c git\ -C\ \"\$1\"\ show\ \"\$2:LICENSE\"\ \|\ sed\ -n\ \"1\,12p\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 
+evidence/scan-contract/2026-10-29/design/license-declaration.log:12: new blank line at EOF.
+evidence/scan-contract/2026-10-29/design/scan-fields-in-architecture.command:1: trailing whitespace.
++bash -o pipefail -c git\ -C\ \"\$1\"\ show\ \"\$2:docs/reference/math_model.md\"\ \|\ nl\ -ba\ \|\ sed\ -n\ \"369\,468p\"\ \|\ rg\ -n\ -i\ \"mamba\|state\|scan\|delta\|softplus\|flatten\|stride\|reg_max\|cls\|gate\|initial\|final\|reset\|bias\|direction\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 
+evidence/scan-contract/2026-10-29/design/source-metadata.command:1: trailing whitespace.
++bash -o pipefail -c for\ path\ in\ docs/reference/math_model.md\ docs/reference/yolo_model_architecture.svg\ LICENSE\;\ do\ printf\ \"%s\\t\"\ \"\$path\"\;\ git\ -C\ \"\$1\"\ cat-file\ -s\ \"\$2:\$path\"\;\ git\ -C\ \"\$1\"\ show\ \"\$2:\$path\"\ \|\ sha256sum\;\ done _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 
+evidence/scan-contract/2026-10-29/design/svg-structure.command:1: trailing whitespace.
++bash -o pipefail -c git\ -C\ \"\$1\"\ show\ \"\$2:docs/reference/yolo_model_architecture.svg\"\ \|\ rg\ -n\ -i\ \"desc\|mamba\|scan\|state\|softplus\|P3\|P4\|P5\|cls\|reg\|gate\|delta\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 
+evidence/scan-contract/2026-10-29/local/archive-hash.command:1: trailing whitespace.
++sha256sum build-scan-contract-20261029/source.tar 
+evidence/scan-contract/2026-10-29/local/baseline-evidence-hashes.command:1: trailing whitespace.
++sha256sum -c evidence/p01-a/2026-10-28/SHA256SUMS 
+evidence/scan-contract/2026-10-29/local/cpu-build.command:1: trailing whitespace.
++cmake --build build-scan-contract-20261029/cpu --parallel 4 
+evidence/scan-contract/2026-10-29/local/cpu-configure.command:1: trailing whitespace.
++cmake -S build-scan-contract-20261029/source -B build-scan-contract-20261029/cpu -DCMAKE_BUILD_TYPE=Release 
+evidence/scan-contract/2026-10-29/local/cpu-ctest.command:1: trailing whitespace.
++ctest --test-dir build-scan-contract-20261029/cpu --verbose 
+evidence/scan-contract/2026-10-29/local/environment.command:1: trailing whitespace.
++bash -c date\ -Is\;\ uname\ -srmo\;\ git\ --version\;\ cmake\ --version\;\ c++\ --version\;\ node\ --version\;\ jq\ --version 
+evidence/scan-contract/2026-10-29/local/historical-evidence-unchanged.command:1: trailing whitespace.
++git diff 9f2c11a838a229c05ba7e9e17fa182bf0799746b -- evidence/p01-a evidence/cuda-synthetic 
+evidence/scan-contract/2026-10-29/local/no-runtime-change.command:1: trailing whitespace.
++git diff 9f2c11a838a229c05ba7e9e17fa182bf0799746b -- CMakeLists.txt cmake src include cuda tools tests fixtures scripts .github 
+evidence/scan-contract/2026-10-29/local/source-archive.command:1: trailing whitespace.
++git archive --format=tar --output=build-scan-contract-20261029/source.tar 9f2c11a838a229c05ba7e9e17fa182bf0799746b 
+evidence/scan-contract/2026-10-29/local/source-extract.command:1: trailing whitespace.
++tar -xf build-scan-contract-20261029/source.tar -C build-scan-contract-20261029/source 
+evidence/scan-contract/2026-10-29/local/source-file-hashes.command:1: trailing whitespace.
++bash -o pipefail -c git\ ls-tree\ -r\ --name-only\ \"\$1\"\ CMakeLists.txt\ cmake\ src\ include\ cuda\ tools\ tests\ fixtures\ scripts\ .github\ \|\ while\ IFS=\ read\ -r\ path\;\ do\ sha256sum\ \"\$2/\$path\"\;\ done _ 9f2c11a838a229c05ba7e9e17fa182bf0799746b build-scan-contract-20261029/source 
+evidence/scan-contract/2026-10-29/local/source.command:1: trailing whitespace.
++git rev-parse HEAD origin/main 
+evidence/scan-contract/2026-10-29/local/task-file-hash.command:1: trailing whitespace.
++sha256sum /tmp/Saccade\ v1\ 新\ head\ 契約核實與\ S01\ C++\ 參考實作.md 
+evidence/scan-contract/2026-10-29/local/tracked-tree.command:1: trailing whitespace.
++git ls-tree -r --long 9f2c11a838a229c05ba7e9e17fa182bf0799746b 
+evidence/scan-contract/2026-10-29/local/working-tree.command:1: trailing whitespace.
++git status --porcelain=v1 
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:7: trailing whitespace.
++tree	runs	68854633378506335eca16863d2e218ab4a66719	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:8: trailing whitespace.
++tree	runs/detect	2f797dbd986405683e1ef9b5fe5f0abec44c2173	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:9: trailing whitespace.
++tree	runs/detect/runs	ee84e633b0f0c9c82c34efb77f092b5a0641d6cc	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:10: trailing whitespace.
++tree	runs/detect/runs/voc_baseline-3	3ff311ceb104ffcf86a43830cc8976cdc7db2eac	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:33: trailing whitespace.
++tree	runs/detect/runs/voc_baseline-3/weights	7463bcdb94022c5c1423a3f657d0f5bd48dd74de	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:36: trailing whitespace.
++tree	runs/detect/runs/voc_dualmamba	58d2803c44fa5d6ff0361cdd8f3f66cd06f2672a	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:46: trailing whitespace.
++tree	runs/detect/runs/voc_dualmamba/weights	078353ed884da1e5f074a82cbef356b5738b8bbc	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:49: trailing whitespace.
++tree	runs/detect/runs/voc_mamba-3	0e2ce74ba7e64ffa6947205416c65be2de510efa	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:72: trailing whitespace.
++tree	runs/detect/runs/voc_mamba-3/weights	d68cb9c3a412f2c53877eaeee6ac52aefbfeefee	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:75: trailing whitespace.
++tree	runs/detect/runs/voc_mambapsa	ebb79069ec3c843d377906794ba6bea652743cd0	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:98: trailing whitespace.
++tree	runs/detect/runs/voc_mambapsa/weights	101c8389fdd2d558821e1644accda84a006a935c	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:101: trailing whitespace.
++tree	runs/detect/runs/voc_p3mamba	d44ae3738622fe006ace09d58992338e11b40b68	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:124: trailing whitespace.
++tree	runs/detect/runs/voc_p3mamba/weights	07aa4c44be5f918df5a8ee88b53a1859468899ed	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:127: trailing whitespace.
++tree	runs/detect/runs/voc_p4mamba-2	c8fa32fecd7382e75cce24e402bad5f67647da3a	
+evidence/scan-contract/2026-10-29/mambapsa/inventory.log:150: trailing whitespace.
++tree	runs/detect/runs/voc_p4mamba-2/weights	6f9f82f23604bac2ed9dec8735bfd8fa18df7a20	
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:11: trailing whitespace.
++  // enact the browser preference if "automatic", 
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:210: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:217: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:381: trailing whitespace.
++<li id="S1.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span> 
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:385: trailing whitespace.
++<li id="S1.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span> 
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:389: trailing whitespace.
++<li id="S1.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span> 
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:521: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:529: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:536: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:544: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:552: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:560: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:568: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:576: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:584: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:592: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:600: trailing whitespace.
++      
+evidence/scan-contract/2026-10-29/mambapsa/paper.html:608: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:2: trailing whitespace.
++x-cloud-trace-context: 8f9d96cc1dc97354df73a3715419a3ab
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:3: trailing whitespace.
++server: Google Frontend
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:4: trailing whitespace.
++via: 1.1 google, 1.1 varnish, 1.1 varnish, 1.1 varnish
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:5: trailing whitespace.
++content-type: application/atom+xml; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:6: trailing whitespace.
++accept-ranges: bytes
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:7: trailing whitespace.
++age: 72
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:8: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:47 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:9: trailing whitespace.
++x-served-by: cache-lga-kjfk8660046-LGA, cache-lga-kjfk8660046-LGA, cache-lga-kjfk8660046-LGA, cache-nrt-rjaa8190051-NRT
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:10: trailing whitespace.
++x-cache: MISS, HIT, HIT
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:11: trailing whitespace.
++x-cache-hits: 0, 1, 0
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:12: trailing whitespace.
++x-timer: S1793272187.045396,VS0,VE3
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:13: trailing whitespace.
++strict-transport-security: max-age=300
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:14: trailing whitespace.
++content-length: 696
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:15: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers:15: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:1: trailing whitespace.
++<!DOCTYPE html>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:2: trailing whitespace.
++<head><meta name="renderer" content="webkit"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"/>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:3: trailing whitespace.
++    <meta charset="utf-8">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:4: trailing whitespace.
++    <title>Wuhan University Zhang Lefei--Home--Home</title><META Name="keywords" Content="张乐飞," />
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:5: trailing whitespace.
++<META Name="description" Content="张乐飞,Zhang Lefei,武汉大学张乐飞," />
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:6: trailing whitespace.
++<META Name="format-detection" Content="telephone=no" />
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:7: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:8: trailing whitespace.
++    <link rel="stylesheet" href="/_ts/whdx_qj_en_mb/css/style.css">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:9: trailing whitespace.
++    <script language="javascript" src="/system/resource/js/jquery/jquery-latest.min.js"></script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:10: trailing whitespace.
++    <script src="/_ts/whdx_qj_en_mb/js/js.js"></script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:11: trailing whitespace.
++<!--Announced by Visual SiteBuilder 9-->
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:12: trailing whitespace.
++<link rel="stylesheet" type="text/css" href="/_ts/whdx_qj_en_mb/_sitegray/_sitegray_d.css" />
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:13: trailing whitespace.
++<script language="javascript" src="/_ts/whdx_qj_en_mb/_sitegray/_sitegray.js"></script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:14: trailing whitespace.
++<!-- CustomerNO:7765626265723230747f475750515742000300014351 -->
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:15: trailing whitespace.
++<link rel="stylesheet" type="text/css" href="/whdx_qj_en_mb/index.vsb.css" />
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:16: trailing whitespace.
++<script type="text/javascript" src="/system/resource/js/vsbscreen.min.js" id="_vsbscreen" ></script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:17: trailing whitespace.
++<script type="text/javascript" src="/system/resource/js/counter.js"></script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:18: trailing whitespace.
++<script type="text/javascript">_jsq_(1001,'/index.jsp',-1,1480887860)</script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:19: trailing whitespace.
++</head>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:20: trailing whitespace.
++<body > <div style='width:0px;height:0px;overflow: hidden;'><img src=""  /></div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:21: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:22: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:23: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:24: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:25: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:26: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:27: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:33: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:34: trailing whitespace.
++<div class="top">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:35: trailing whitespace.
++    <div class="areaheart">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:36: trailing whitespace.
++        <div class="logo lf">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:37: trailing whitespace.
++            <a class="lf" href="/_ts/whdx_qj_en_mb/index.html">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:38: trailing whitespace.
++                
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:39: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:40: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:41: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:42: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:44: trailing whitespace.
++<a  href="http://jszy.whu.edu.cn" class="lf"><img src="/_resources/group1/M00/00/CE/wKgCBWQ1fcmAEoXPAACKbOzHYkM284.png"  /></a>  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:45: trailing whitespace.
++            </a>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:46: trailing whitespace.
++            <h2 class="lf">Personal Homepage</h2>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:47: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:48: trailing whitespace.
++        <div class="top_more rgt">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:49: trailing whitespace.
++            <div class="top_txt clearfix">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:50: trailing whitespace.
++                <ul>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:51: trailing whitespace.
++                    <li>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:52: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:53: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:54: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:55: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:56: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:68: trailing whitespace.
++   </ol>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:69: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:70: trailing whitespace.
++                    </li>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:71: trailing whitespace.
++                    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:80: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:81: trailing whitespace.
++                    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:83: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:84: trailing whitespace.
++                </ul>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:85: trailing whitespace.
++            </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:86: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:87: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:88: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:92: trailing whitespace.
++    <input class="sec lf"  placeholder="search..." name="keyWord_temp" id="keyWord_temp" value=""> 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:104: trailing whitespace.
++</script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:105: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:106: trailing whitespace.
++    </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:107: trailing whitespace.
++</div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:108: trailing whitespace.
++<div class="banner areaheart">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:109: trailing whitespace.
++    <div class="part_one">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:110: trailing whitespace.
++        <div class="hd_pic lf">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:111: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:112: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:116: trailing whitespace.
++<script type="text/javascript"> 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:119: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:120: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:121: trailing whitespace.
++     <div class="txt lf">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:122: trailing whitespace.
++           
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:123: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:124: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:128: trailing whitespace.
++      </p>   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:130: trailing whitespace.
++<script language="javascript" src="/system/resource/tsites/tsitesencrypt.js"></script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:139: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:140: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:141: trailing whitespace.
++      <div class="recommend rgt">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:145: trailing whitespace.
++</p>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:146: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:147: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:148: trailing whitespace.
++    </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:149: trailing whitespace.
++    <div class="data">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:150: trailing whitespace.
++        <p>Click: 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:152: trailing whitespace.
++</p>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:156: trailing whitespace.
++</p>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:157: trailing whitespace.
++    </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:158: trailing whitespace.
++    <div class="nav">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:179: trailing whitespace.
++        </ul>  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:188: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:199: trailing whitespace.
++                var templiobj = jliobj;      
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:214: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:215: trailing whitespace.
++        var tempotherli = jQuery(othernavary[i]);   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:217: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:222: trailing whitespace.
++</script> 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:231: trailing whitespace.
++</style>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:232: trailing whitespace.
++    </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:233: trailing whitespace.
++</div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:234: trailing whitespace.
++<div class="content">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:235: trailing whitespace.
++    <div class="areaheart content_in clearfix">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:236: trailing whitespace.
++        <div class="oneself rgt">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:237: trailing whitespace.
++            <div class="part_two">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:238: trailing whitespace.
++                <div class="info_tit">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:239: trailing whitespace.
++                    <h2>Personal Information</h2>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:240: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:241: trailing whitespace.
++                <div class="info_con">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:242: trailing whitespace.
++                    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:243: trailing whitespace.
++                    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:244: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:245: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:248: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:254: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:255: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:259: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:260: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:263: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:264: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:265: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:273: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:274: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:278: trailing whitespace.
++            
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:280: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:282: trailing whitespace.
++        <li><h4>E-Mail:</h4><span><span _tsites_encrypt_field="_tsites_encrypt_field" id="_tsites_encryp_tsteacher_tsemail" style="display:none;">a4093762f07b7ec5e3980df32f69ba2cc1c212c0249a8fee1de0872f7908eb150bfa68c714cdeb2a655030346efaf482fcbea9ef8947c09eb137df0c1a6924811d61100f05500c8c79d5f740f551870fa2671c73a2ea89ad882f1559cb8b46ba44adf7256a0adbe78c02a19597df38ab41978d0c932207761f868801d2f57aba</span></span></li>      
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:283: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:288: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:289: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:290: trailing whitespace.
++            </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:291: trailing whitespace.
++            <div class="part_two part_four">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:292: trailing whitespace.
++               
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:293: trailing whitespace.
++                    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:294: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:295: trailing whitespace.
++                
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:296: trailing whitespace.
++            </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:297: trailing whitespace.
++            <div class="part_three">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:298: trailing whitespace.
++                <div class="ewm">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:299: trailing whitespace.
++                    
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:300: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:312: trailing whitespace.
++        render: !!document.createElement('canvas').getContext?"canvas":"table",//设置渲染方式  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:313: trailing whitespace.
++        width: 150,     //设置宽度  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:314: trailing whitespace.
++        height: 150,     //设置高度  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:315: trailing whitespace.
++        correctLevel: 2,//纠错等级  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:316: trailing whitespace.
++        background: "#ffffff",//背景颜色  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:317: trailing whitespace.
++        foreground: "#000000",//前景颜色  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:321: trailing whitespace.
++</script>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:322: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:323: trailing whitespace.
++            </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:324: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:325: trailing whitespace.
++        <div class="message lf">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:326: trailing whitespace.
++            <div class="message_in">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:327: trailing whitespace.
++                <div class="m_bg bg_tp"><img src="/_ts/whdx_qj_en_mb/img/bg_tp.png" alt=""></div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:328: trailing whitespace.
++                <div class="m_bg bg_lf"><img src="/_ts/whdx_qj_en_mb/img/bg_lf.png" alt=""></div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:329: trailing whitespace.
++                <div class="m_bg bg_rt"><img src="/_ts/whdx_qj_en_mb/img/bg_rt.png" alt=""></div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:330: trailing whitespace.
++                <div class="m_bg bg_bt"><img src="/_ts/whdx_qj_en_mb/img/bg_bt.png" alt=""></div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:331: trailing whitespace.
++                <div class="resume">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:332: trailing whitespace.
++                   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:333: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:334: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:335: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:336: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:337: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:338: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:339: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:340: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:341: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:342: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:343: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:344: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:345: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:377: trailing whitespace.
++       
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:379: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:380: trailing whitespace.
++            <div style="clear:both;"></div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:381: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:382: trailing whitespace.
++                <div class="resume">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:389: trailing whitespace.
++<p  [1]  style="display:inline;"  >武汉大学  </p><p>博士 </p>  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:390: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:391: trailing whitespace.
++   </li>                           
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:396: trailing whitespace.
++<p  [2]  style="display:inline;"  >武汉大学  </p><p>本科 </p>  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:397: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:398: trailing whitespace.
++   </li>                           
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:403: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:404: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:405: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:406: trailing whitespace.
++                <div class="resume">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:408: trailing whitespace.
++  <ul class="p40">                      
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:410: trailing whitespace.
++ <h4   style="display:inline;"  > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:412: trailing whitespace.
++ <p   style="display:inline;" > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:413: trailing whitespace.
++  武汉大学 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:414: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:415: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:416: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:417: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:418: trailing whitespace.
++  教授&nbsp; 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:420: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:422: trailing whitespace.
++ <h4   style="display:inline;"  > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:424: trailing whitespace.
++ <p   style="display:inline;" > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:425: trailing whitespace.
++  武汉大学 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:426: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:427: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:428: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:429: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:430: trailing whitespace.
++  副教授&nbsp; 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:432: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:434: trailing whitespace.
++ <h4   style="display:inline;"  > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:436: trailing whitespace.
++ <p   style="display:inline;" > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:437: trailing whitespace.
++  香港理工大学 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:438: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:439: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:440: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:441: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:442: trailing whitespace.
++  香江学者&nbsp; 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:444: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:446: trailing whitespace.
++ <h4   style="display:inline;"  > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:448: trailing whitespace.
++ <p   style="display:inline;" > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:449: trailing whitespace.
++  武汉大学 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:450: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:451: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:452: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:453: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:454: trailing whitespace.
++  讲师&nbsp; 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:456: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:458: trailing whitespace.
++ <h4   style="display:inline;"  > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:460: trailing whitespace.
++ <p   style="display:inline;" > 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:461: trailing whitespace.
++  武汉大学 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:462: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:463: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:464: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:465: trailing whitespace.
++   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:466: trailing whitespace.
++  博士后&nbsp; 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:468: trailing whitespace.
++                        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:470: trailing whitespace.
++</li>                  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:473: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:474: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:475: trailing whitespace.
++                <div class="resume research">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:476: trailing whitespace.
++                   
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:477: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:478: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:479: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:480: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:481: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:482: trailing whitespace.
++                <div class="resume">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:526: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:527: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:528: trailing whitespace.
++                <div class="resume">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:529: trailing whitespace.
++                  
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:530: trailing whitespace.
++<script type="text/javascript"> 
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:533: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:534: trailing whitespace.
++                </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:535: trailing whitespace.
++            </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:536: trailing whitespace.
++        </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:537: trailing whitespace.
++    </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:538: trailing whitespace.
++</div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:539: trailing whitespace.
++<div class="footer">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:540: trailing whitespace.
++    <div class="areaheart">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:541: trailing whitespace.
++        
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:542: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:543: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:544: trailing whitespace.
++<p>Copyright @ 2017 Wuhan University </p>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:545: trailing whitespace.
++    </div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:546: trailing whitespace.
++</div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:547: trailing whitespace.
++<div class="rTop">
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:548: trailing whitespace.
++    <span>Back</span><br>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:549: trailing whitespace.
++    <span>Top</span>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:550: trailing whitespace.
++</div>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:551: trailing whitespace.
++</body>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.body:552: trailing whitespace.
++</html>
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:1: trailing whitespace.
++HTTP/1.1 200 OK
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:2: trailing whitespace.
++Date: Thu, 29 Oct 2026 11:09:46 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:3: trailing whitespace.
++Content-Type: text/html
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:4: trailing whitespace.
++Content-Length: 18227
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:5: trailing whitespace.
++Connection: keep-alive
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:6: trailing whitespace.
++X-Frame-Options: SAMEORIGIN
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:7: trailing whitespace.
++Last-Modified: Thu, 24 Sep 2026 13:38:40 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:8: trailing whitespace.
++ETag: "4733-65c3ab7bb0ab8"
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:9: trailing whitespace.
++Accept-Ranges: bytes
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:10: trailing whitespace.
++Vary: User-Agent,Accept-Encoding
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:11: trailing whitespace.
++Cache-Control: private, max-age=600
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:12: trailing whitespace.
++Expires: Thu, 29 Oct 2026 11:19:46 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:13: trailing whitespace.
++Content-Language: zh-CN
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:14: trailing whitespace.
++Diag-Info: 210.42.122.153:80 0.173 0.171
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:15: trailing whitespace.
++Server: WHU-AppSrv 1.0.0
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:16: trailing whitespace.
++X-Powered-By: WHU-AppSrv 1.0.0
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:17: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/corresponding-author.headers:17: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:44 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:3: trailing whitespace.
++content-type: application/json
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:4: trailing whitespace.
++access-control-expose-headers: Link
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:5: trailing whitespace.
++access-control-allow-headers: X-Requested-With, Accept, Accept-Encoding, Accept-Charset, Accept-Language, Accept-Ranges, Cache-Control
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:6: trailing whitespace.
++access-control-allow-origin: *
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:7: trailing whitespace.
++server: Jetty(9.4.40.v20210413)
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:8: trailing whitespace.
++x-rate-limit-limit: 5
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:9: trailing whitespace.
++x-rate-limit-interval: 1s
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:10: trailing whitespace.
++x-concurrency-limit: 1
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:11: trailing whitespace.
++x-api-pool: public-single
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:12: trailing whitespace.
++permissions-policy: interest-cohort=()
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:13: trailing whitespace.
++strict-transport-security: max-age=31536000;
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:14: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers:14: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:45 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:3: trailing whitespace.
++content-type: text/xml;charset=UTF-8
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:4: trailing whitespace.
++content-length: 1806
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:5: trailing whitespace.
++allow: GET
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:6: trailing whitespace.
++content-disposition: inline;filename=f.txt
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:7: trailing whitespace.
++last-modified: Mon, 06 Apr 2026 17:55:56 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:8: trailing whitespace.
++tdm-policy: https://www.elsevier.com/tdm/tdmrep-policy.json
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:9: trailing whitespace.
++tdm-reservation: 1
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:10: trailing whitespace.
++vary: Origin
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:11: trailing whitespace.
++vary: Access-Control-Request-Method
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:12: trailing whitespace.
++vary: Access-Control-Request-Headers
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:13: trailing whitespace.
++warning: Unauthorized request results in minimized metadata response.
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:14: trailing whitespace.
++x-els-reqid: 9a9d78c8a07a8e8c
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:15: trailing whitespace.
++x-els-resourceversion: default
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:16: trailing whitespace.
++x-els-status: WARNING - Unauthorized request results in minimized metadata response.
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:17: trailing whitespace.
++x-els-transid: 9a9d78c8a07a8e8c
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:18: trailing whitespace.
++pragma: no-cache
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:19: trailing whitespace.
++cf-cache-status: DYNAMIC
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:20: trailing whitespace.
++set-cookie: __cf_bm=YVB4ToMEESCKfMH77vnQ6Fl6gJkY1853I3s6ovG9r_c-1793272184.8761914-1.0.1.1-g.mw8GqVn7Mk8f.AoqnngBgFs.jzTS8GuBVz7wC0l8vLPaa2Tq9EkXVKEVzaoNJEQ85poVwzABfK5xWEym88ySMF2bDMtH9lTZSY3wGkFLV49b3gVHoxIypQi7C49fDR; HttpOnly; SameSite=None; Secure; Path=/; Domain=elsevier.com; Expires=Thu, 29 Oct 2026 11:39:45 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:21: trailing whitespace.
++cache-control: no-store, no-cache, must-revalidate, max-age=0
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:22: trailing whitespace.
++expires: Thu, 01 Jan 1970 00:00:00 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:23: trailing whitespace.
++server: cloudflare
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:24: trailing whitespace.
++cf-ray: a521bad3785fa9a9-TPE
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:25: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/elsevier-api.headers:25: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:47 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:3: trailing whitespace.
++content-type: application/json; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:4: trailing whitespace.
++cache-control: no-cache
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:5: trailing whitespace.
++vary: Accept,Accept-Encoding, Accept, X-Requested-With
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:6: trailing whitespace.
++x-github-media-type: github.v3; format=json
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:7: trailing whitespace.
++x-github-api-version-selected: 2022-11-28
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:8: trailing whitespace.
++access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:9: trailing whitespace.
++access-control-allow-origin: *
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:10: trailing whitespace.
++strict-transport-security: max-age=31536000; includeSubdomains; preload
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:11: trailing whitespace.
++x-frame-options: deny
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:12: trailing whitespace.
++x-content-type-options: nosniff
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:13: trailing whitespace.
++x-xss-protection: 0
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:14: trailing whitespace.
++referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:15: trailing whitespace.
++content-security-policy: default-src 'none'
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:16: trailing whitespace.
++server: github.com
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:17: trailing whitespace.
++accept-ranges: bytes
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:18: trailing whitespace.
++x-ratelimit-limit: 10
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:19: trailing whitespace.
++x-ratelimit-remaining: 9
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:20: trailing whitespace.
++x-ratelimit-used: 1
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:21: trailing whitespace.
++x-ratelimit-resource: search
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:22: trailing whitespace.
++x-ratelimit-reset: 1793272247
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:23: trailing whitespace.
++content-length: 12899
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:24: trailing whitespace.
++x-github-request-id: 6E55:3A3B1:46A7E:6C5E5:6AE3297B
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:25: trailing whitespace.
++x-github-edge-region: japaneast
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:26: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/github-title-author.headers:26: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:2: trailing whitespace.
++cache-control: max-age=300
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:3: trailing whitespace.
++content-security-policy: default-src 'none'; style-src 'unsafe-inline'; sandbox
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:4: trailing whitespace.
++content-type: text/plain; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:5: trailing whitespace.
++etag: "493b6ff64b7a2b8a12f89373d6a485ad8ffada455a276d6dffdd9fcfd4962955"
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:6: trailing whitespace.
++strict-transport-security: max-age=31536000
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:7: trailing whitespace.
++x-content-type-options: nosniff
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:8: trailing whitespace.
++x-frame-options: deny
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:9: trailing whitespace.
++x-xss-protection: 1; mode=block
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:10: trailing whitespace.
++x-github-request-id: 185C:28C662:CFDAEF:E82D84:6AE32934
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:11: trailing whitespace.
++x-github-edge-region: southeastasia
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:12: trailing whitespace.
++accept-ranges: bytes
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:13: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:48 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:14: trailing whitespace.
++via: 1.1 varnish
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:15: trailing whitespace.
++x-served-by: cache-sin-wsat1880045-SIN
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:16: trailing whitespace.
++x-cache: HIT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:17: trailing whitespace.
++x-cache-hits: 0
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:18: trailing whitespace.
++x-timer: S1793272189.730137,VS0,VE1
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:19: trailing whitespace.
++vary: Authorization,Accept-Encoding
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:20: trailing whitespace.
++access-control-allow-origin: *
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:21: trailing whitespace.
++cross-origin-resource-policy: cross-origin
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:22: trailing whitespace.
++x-fastly-request-id: 43382d8ce4b72aff815474bb2d404a6457baa632
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:23: trailing whitespace.
++expires: Thu, 29 Oct 2026 11:14:48 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:24: trailing whitespace.
++source-age: 71
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:25: trailing whitespace.
++content-length: 6830
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:26: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-readme.headers:26: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:47 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:3: trailing whitespace.
++content-type: application/json; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:4: trailing whitespace.
++cache-control: public, max-age=60, s-maxage=60
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:5: trailing whitespace.
++vary: Accept,Accept-Encoding, Accept, X-Requested-With
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:6: trailing whitespace.
++etag: W/"edcdd1f0d65df7b9c8c711f19840ebc549548a790830fbb10fe43fd74922d95c"
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:7: trailing whitespace.
++last-modified: Sun, 10 May 2026 19:50:11 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:8: trailing whitespace.
++x-github-media-type: github.v3; format=json
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:9: trailing whitespace.
++x-github-api-version-selected: 2022-11-28
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:10: trailing whitespace.
++access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:11: trailing whitespace.
++access-control-allow-origin: *
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:12: trailing whitespace.
++strict-transport-security: max-age=31536000; includeSubdomains; preload
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:13: trailing whitespace.
++x-frame-options: deny
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:14: trailing whitespace.
++x-content-type-options: nosniff
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:15: trailing whitespace.
++x-xss-protection: 0
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:16: trailing whitespace.
++referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:17: trailing whitespace.
++content-security-policy: default-src 'none'
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:18: trailing whitespace.
++server: github.com
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:19: trailing whitespace.
++accept-ranges: bytes
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:20: trailing whitespace.
++x-ratelimit-limit: 60
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:21: trailing whitespace.
++x-ratelimit-remaining: 58
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:22: trailing whitespace.
++x-ratelimit-used: 2
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:23: trailing whitespace.
++x-ratelimit-resource: core
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:24: trailing whitespace.
++x-ratelimit-reset: 1793273758
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:25: trailing whitespace.
++content-length: 5677
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:26: trailing whitespace.
++x-github-request-id: 9EFF:2315A3:42AED:68708:6AE3297B
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:27: trailing whitespace.
++x-github-edge-region: japaneast
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:28: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers:28: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:49 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:3: trailing whitespace.
++content-type: application/json; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:4: trailing whitespace.
++cache-control: public, max-age=86400, s-maxage=86400
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:5: trailing whitespace.
++vary: Accept,Accept-Encoding, Accept, X-Requested-With
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:6: trailing whitespace.
++etag: W/"cdcfe27e19e300576c5b163ec1ce17b14774b2aac367ca55fc82ef750ce39b5c"
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:7: trailing whitespace.
++last-modified: Sun, 10 May 2026 19:50:11 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:8: trailing whitespace.
++x-github-media-type: github.v3; format=json
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:9: trailing whitespace.
++x-github-api-version-selected: 2022-11-28
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:10: trailing whitespace.
++access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:11: trailing whitespace.
++access-control-allow-origin: *
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:12: trailing whitespace.
++strict-transport-security: max-age=31536000; includeSubdomains; preload
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:13: trailing whitespace.
++x-frame-options: deny
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:14: trailing whitespace.
++x-content-type-options: nosniff
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:15: trailing whitespace.
++x-xss-protection: 0
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:16: trailing whitespace.
++referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:17: trailing whitespace.
++content-security-policy: default-src 'none'
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:18: trailing whitespace.
++server: github.com
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:19: trailing whitespace.
++accept-ranges: bytes
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:20: trailing whitespace.
++x-ratelimit-limit: 60
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:21: trailing whitespace.
++x-ratelimit-remaining: 58
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:22: trailing whitespace.
++x-ratelimit-used: 2
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:23: trailing whitespace.
++x-ratelimit-resource: core
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:24: trailing whitespace.
++x-ratelimit-reset: 1793275652
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:25: trailing whitespace.
++x-github-request-id: C62A:2B6ABA:4594C:6B339:6AE3297C
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:26: trailing whitespace.
++x-github-edge-region: japaneast
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:27: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers:27: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:1: trailing whitespace.
++HTTP/2 403 
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:44 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:3: trailing whitespace.
++content-type: text/html; charset=UTF-8
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:4: trailing whitespace.
++cache-control: private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:5: trailing whitespace.
++expires: Thu, 01 Jan 1970 00:00:01 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:6: trailing whitespace.
++referrer-policy: same-origin
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:7: trailing whitespace.
++x-frame-options: SAMEORIGIN
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:8: trailing whitespace.
++strict-transport-security: max-age=2678400; preload
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:9: trailing whitespace.
++x-content-type-options: nosniff
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:10: trailing whitespace.
++set-cookie: __cf_bm=ek6cOo25aHQCYVZxS9XWWW3Anhn_I21r4GqKL7hK1NY-1793272184.7125-1.0.1.1-dN5FG60uv8QXfALlnPcD_skU0L6mMvJ85cCSZZz0SJ4SMwAOMCxlFR8Ocdy_PSKjPJ3ffPpGU5vaf0fE7xFlCgiPUXLivWeQxtib9VlucNa7WvdqCdoLrMyTaHG2dxGj; HttpOnly; SameSite=None; Secure; Path=/; Domain=sciencedirect.com; Expires=Thu, 29 Oct 2026 11:39:44 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:11: trailing whitespace.
++tdm-policy: https://www.elsevier.com/tdm/tdmrep-policy.json
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:12: trailing whitespace.
++tdm-reservation: 1
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:13: trailing whitespace.
++server: cloudflare
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:14: trailing whitespace.
++cf-ray: a521bad26c1a8091-TPE
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:15: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers:15: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:1: trailing whitespace.
++148:TI  - MambaFPN: A SSM-based feature pyramid network for object detection.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:2: trailing whitespace.
++150:LID - S0893-6080(26)00007-9 [pii]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:3: trailing whitespace.
++151:LID - 10.1016/j.neunet.2026.108544 [doi]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:4: trailing whitespace.
++171:AU  - Liang L
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:5: trailing whitespace.
++172:AD  - School of Computer Science, Wuhan University, Wuhan, 430072, China.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:6: trailing whitespace.
++174:AU  - Wang C
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:7: trailing whitespace.
++175:AD  - School of Electronic Information and Communications, Huazhong University of 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:8: trailing whitespace.
++178:AU  - Zhang L
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:9: trailing whitespace.
++179:AD  - School of Computer Science, Wuhan University, Wuhan, 430072, China. Electronic 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:10: trailing whitespace.
++201:COIS- Declaration of competing interest The authors declare that they have no known 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:11: trailing whitespace.
++207:PHST- 2025/06/10 00:00 [received]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:12: trailing whitespace.
++208:PHST- 2025/12/02 00:00 [revised]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:13: trailing whitespace.
++209:PHST- 2026/01/04 00:00 [accepted]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:14: trailing whitespace.
++210:PHST- 2026/03/07 16:14 [medline]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:15: trailing whitespace.
++211:PHST- 2026/01/25 00:37 [pubmed]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:16: trailing whitespace.
++212:PHST- 2026/01/24 18:11 [entrez]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:17: trailing whitespace.
++213:AID - S0893-6080(26)00007-9 [pii]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:18: trailing whitespace.
++214:AID - 10.1016/j.neunet.2026.108544 [doi]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial-locators.log:19: trailing whitespace.
++216:SO  - Neural Netw. 2026 Jun;198:108544. doi: 10.1016/j.neunet.2026.108544. Epub 2026 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:16: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:21: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:22: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:24: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:28: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:29: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:30: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:32: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:34: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:36: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:41: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:42: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:74: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:76: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:78: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:80: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:82: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:84: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:86: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:88: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:90: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:92: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:94: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:96: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:98: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:103: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:105: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:107: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:109: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:111: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:116: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:128: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:130: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:136: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:138: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:139: trailing whitespace.
++      <pre class="article-details" id="article-details">PMID- 41579822
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:140: trailing whitespace.
++OWN - NLM
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:141: trailing whitespace.
++STAT- MEDLINE
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:142: trailing whitespace.
++DCOM- 20260701
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:143: trailing whitespace.
++LR  - 20260701
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:144: trailing whitespace.
++IS  - 1879-2782 (Electronic)
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:145: trailing whitespace.
++IS  - 0893-6080 (Linking)
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:146: trailing whitespace.
++VI  - 198
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:147: trailing whitespace.
++DP  - 2026 Jun
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:148: trailing whitespace.
++TI  - MambaFPN: A SSM-based feature pyramid network for object detection.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:149: trailing whitespace.
++PG  - 108544
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:150: trailing whitespace.
++LID - S0893-6080(26)00007-9 [pii]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:151: trailing whitespace.
++LID - 10.1016/j.neunet.2026.108544 [doi]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:152: trailing whitespace.
++AB  - Object detection is a fundamental task in computer vision, aiming to localize and 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:153: trailing whitespace.
++      classify objects within images. Feature pyramid networks (FPNs) play a crucial 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:154: trailing whitespace.
++      role in modern object detectors by constructing hierarchical multi-scale feature 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:155: trailing whitespace.
++      maps to effectively handle objects of varying sizes. However, most existing 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:156: trailing whitespace.
++      advanced FPN methods rely heavily on convolutional neural networks (CNNs), which 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:157: trailing whitespace.
++      struggle to capture global context information. To address this limitation, we 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:158: trailing whitespace.
++      propose leveraging vision mamba blocks to enhance global modeling capabilities. 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:159: trailing whitespace.
++      The vanilla vision mamba block, through its state space mechanism, enables global 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:160: trailing whitespace.
++      context modeling for every spatial pixel within a single feature map. Building on 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:161: trailing whitespace.
++      this, we first use vision mamba blocks to extract global information from 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:162: trailing whitespace.
++      individual feature maps in the hierarchy. Subsequently, additional vision mamba 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:163: trailing whitespace.
++      blocks facilitate inter-scale information exchange among multi-scale feature 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:164: trailing whitespace.
++      maps, ensuring comprehensive global context integration. The proposed method, 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:165: trailing whitespace.
++      termed MambaFPN, significantly enhances object detector performance. For 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:166: trailing whitespace.
++      instance, it improves the Average Precision (AP) of vanilla FPN from 38.6 to 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:167: trailing whitespace.
++      39.4, with fewer parameters. This demonstrates the effectiveness and efficiency 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:168: trailing whitespace.
++      of MambaFPN in advancing object detection.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:169: trailing whitespace.
++CI  - Copyright © 2026 Elsevier Ltd. All rights reserved.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:170: trailing whitespace.
++FAU - Liang, Le
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:171: trailing whitespace.
++AU  - Liang L
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:172: trailing whitespace.
++AD  - School of Computer Science, Wuhan University, Wuhan, 430072, China.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:173: trailing whitespace.
++FAU - Wang, Cheng
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:174: trailing whitespace.
++AU  - Wang C
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:175: trailing whitespace.
++AD  - School of Electronic Information and Communications, Huazhong University of 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:176: trailing whitespace.
++      Science and Technology, Wuhan, 430074, China.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:177: trailing whitespace.
++FAU - Zhang, Lefei
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:178: trailing whitespace.
++AU  - Zhang L
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:179: trailing whitespace.
++AD  - School of Computer Science, Wuhan University, Wuhan, 430072, China. Electronic 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:180: trailing whitespace.
++      address: zhanglefei@whu.edu.cn.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:181: trailing whitespace.
++LA  - eng
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:182: trailing whitespace.
++PT  - Journal Article
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:183: trailing whitespace.
++DEP - 20260109
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:184: trailing whitespace.
++PL  - United States
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:185: trailing whitespace.
++TA  - Neural Netw
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:186: trailing whitespace.
++JT  - Neural networks : the official journal of the International Neural Network 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:187: trailing whitespace.
++      Society
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:188: trailing whitespace.
++JID - 8805018
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:189: trailing whitespace.
++SB  - IM
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:190: trailing whitespace.
++MH  - Detection Algorithms
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:191: trailing whitespace.
++MH  - *Neural Networks, Computer
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:192: trailing whitespace.
++MH  - Convolutional Neural Networks
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:193: trailing whitespace.
++MH  - *Image Processing, Computer-Assisted/methods
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:194: trailing whitespace.
++MH  - Algorithms
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:195: trailing whitespace.
++MH  - *Pattern Recognition, Automated/methods
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:196: trailing whitespace.
++MH  - Humans
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:197: trailing whitespace.
++OTO - NOTNLM
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:198: trailing whitespace.
++OT  - Feature pyramid network
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:199: trailing whitespace.
++OT  - Object detection
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:200: trailing whitespace.
++OT  - State space models
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:201: trailing whitespace.
++COIS- Declaration of competing interest The authors declare that they have no known 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:202: trailing whitespace.
++      competing financial interests or personal relationships that could have appeared 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:203: trailing whitespace.
++      to influence the work reported in this paper.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:204: trailing whitespace.
++EDAT- 2026/01/25 00:37
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:205: trailing whitespace.
++MHDA- 2026/03/07 16:14
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:206: trailing whitespace.
++CRDT- 2026/01/24 18:11
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:207: trailing whitespace.
++PHST- 2025/06/10 00:00 [received]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:208: trailing whitespace.
++PHST- 2025/12/02 00:00 [revised]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:209: trailing whitespace.
++PHST- 2026/01/04 00:00 [accepted]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:210: trailing whitespace.
++PHST- 2026/03/07 16:14 [medline]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:211: trailing whitespace.
++PHST- 2026/01/25 00:37 [pubmed]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:212: trailing whitespace.
++PHST- 2026/01/24 18:11 [entrez]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:213: trailing whitespace.
++AID - S0893-6080(26)00007-9 [pii]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:214: trailing whitespace.
++AID - 10.1016/j.neunet.2026.108544 [doi]
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:215: trailing whitespace.
++PST - ppublish
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:216: trailing whitespace.
++SO  - Neural Netw. 2026 Jun;198:108544. doi: 10.1016/j.neunet.2026.108544. Epub 2026 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:217: trailing whitespace.
++      Jan 9.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:219: trailing whitespace.
++    
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:223: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:224: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.body:227: trailing whitespace.
++  
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:1: trailing whitespace.
++HTTP/2 200 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:08:34 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:3: trailing whitespace.
++server: nginx
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:4: trailing whitespace.
++strict-transport-security: max-age=31536000; includeSubDomains; preload
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:5: trailing whitespace.
++vary: origin,Accept-Encoding
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:6: trailing whitespace.
++content-type: text/html; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:7: trailing whitespace.
++cache-control: private
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:8: trailing whitespace.
++content-length: 8877
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:9: trailing whitespace.
++referrer-policy: same-origin
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:10: trailing whitespace.
++x-frame-options: DENY
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:11: trailing whitespace.
++x-content-type-options: nosniff
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:12: trailing whitespace.
++cross-origin-opener-policy: same-origin
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:13: trailing whitespace.
++set-cookie: pm-sessionid=4vdvh3sf47kmtst7c5i9hszhagh1ayq2; expires=Thu, 29 Oct 2026 19:08:34 GMT; HttpOnly; Max-Age=28800; Path=/; Secure
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:14: trailing whitespace.
++set-cookie: ncbi_sid=D81E0A86AE2CE293_33316SID; Domain=.nih.gov; expires=Fri, 29 Oct 2027 11:08:34 GMT; HttpOnly; Max-Age=31536000; Path=/; Secure
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:15: trailing whitespace.
++x-ua-compatible: IE=Edge
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:16: trailing whitespace.
++x-xss-protection: 1; mode=block
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:17: trailing whitespace.
++via: 1.1 google
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:18: trailing whitespace.
++alt-svc: clear
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:19: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed-initial.headers:19: new blank line at EOF.
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:1: trailing whitespace.
++HTTP/2 203 
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:2: trailing whitespace.
++date: Thu, 29 Oct 2026 11:09:45 GMT
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:3: trailing whitespace.
++server: Microsoft-IIS/10.0
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:4: trailing whitespace.
++strict-transport-security: max-age=31536000; includeSubDomains; preload
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:5: trailing whitespace.
++vary: X-NCBI-CAPTCHA,X-GCP-Client-IP,User-Agent,Cookie,Accept-Encoding
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:6: trailing whitespace.
++caf: 2.0.1
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:7: trailing whitespace.
++cache-control: no-store, no-cache, must-revalidate
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:8: trailing whitespace.
++x-ua-compatible: IE=Edge
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:9: trailing whitespace.
++x-xss-protection: 1; mode=block
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:10: trailing whitespace.
++content-length: 5590
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:11: trailing whitespace.
++content-type: text/html; charset=utf-8
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:12: trailing whitespace.
++via: 1.1 google
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:13: trailing whitespace.
++alt-svc: clear
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:14: trailing whitespace.
++
+evidence/scan-contract/2026-10-29/upstream/capture/pubmed.headers:14: new blank line at EOF.
+evidence/scan-contract/2026-10-29/verification/bash-syntax.command:1: trailing whitespace.
++bash -n evidence/scan-contract/2026-10-29/capture-local.sh evidence/scan-contract/2026-10-29/design/capture.sh 
+evidence/scan-contract/2026-10-29/verification/design-replay.command:1: trailing whitespace.
++bash evidence/scan-contract/2026-10-29/design/capture.sh build-scan-design-verified 
+evidence/scan-contract/2026-10-29/verification/historical-evidence-unchanged.command:1: trailing whitespace.
++git diff --exit-code 9f2c11a838a229c05ba7e9e17fa182bf0799746b -- evidence/p01-a evidence/cuda-synthetic 
+evidence/scan-contract/2026-10-29/verification/mambapsa-source-hashes.command:1: trailing whitespace.
++bash -c cd\ evidence/scan-contract/2026-10-29/mambapsa\ \&\&\ sha256sum\ -c\ SHA256SUMS 
+evidence/scan-contract/2026-10-29/verification/mambapsa-syntax.command:1: trailing whitespace.
++sh -n evidence/scan-contract/2026-10-29/mambapsa/replay.sh 
+evidence/scan-contract/2026-10-29/verification/runtime-unchanged.command:1: trailing whitespace.
++git diff --exit-code 9f2c11a838a229c05ba7e9e17fa182bf0799746b -- CMakeLists.txt cmake src include cuda tools tests fixtures scripts .github 
+evidence/scan-contract/2026-10-29/verification/upstream-syntax.command:1: trailing whitespace.
++sh -n evidence/scan-contract/2026-10-29/upstream/replay.sh 
+evidence/scan-contract/2026-10-29/verification/whitespace.command:1: trailing whitespace.
++git diff --check 

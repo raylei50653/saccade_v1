@@ -1,0 +1,1 @@
+curl --fail --location --silent --show-error --max-time 45 https://raw.githubusercontent.com/henrychan0719/MambaPSA/2940f1634cfce1f63201e6411ffe9008951461f3/yolo26n-mamba.yaml -o evidence/scan-contract/2026-10-29/mambapsa/yolo26n-mamba.yaml.txt

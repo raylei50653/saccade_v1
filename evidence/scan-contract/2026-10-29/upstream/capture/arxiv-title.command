@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.headers -o evidence/scan-contract/2026-10-29/upstream/capture/arxiv-title.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://export.arxiv.org/api/query?search_query=ti%3AMambaFPN&start=0&max_results=20

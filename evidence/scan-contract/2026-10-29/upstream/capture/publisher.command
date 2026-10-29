@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/publisher.headers -o evidence/scan-contract/2026-10-29/upstream/capture/publisher.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://www.sciencedirect.com/science/article/pii/S0893608026000079

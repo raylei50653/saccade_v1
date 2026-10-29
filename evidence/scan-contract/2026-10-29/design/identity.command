@@ -1,0 +1,1 @@
+git -C /home/ray/developer/ai/saccade rev-parse e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2:docs/reference/math_model.md e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2:docs/reference/yolo_model_architecture.svg e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2:LICENSE 

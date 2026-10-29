@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.headers -o evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-tree.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://api.github.com/repos/raphaelkach/mamba-neck/git/trees/6dec69675c362ef9837800ad084657850756e56b?recursive=1

@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/crossref.headers -o evidence/scan-contract/2026-10-29/upstream/capture/crossref.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://api.crossref.org/works/10.1016/j.neunet.2026.108544

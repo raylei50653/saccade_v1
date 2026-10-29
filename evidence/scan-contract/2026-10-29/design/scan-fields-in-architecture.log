@@ -1,0 +1,29 @@
+3:   371	detect 鏈分兩段：detector（TRT backbone + Mamba head，§4.1，輸出 raw
+7:   375	### 4.1 Detector 內部結構（FPN → Mamba head → Decode）
+17:   385	[Mamba head]   repeat lane ×(P3,P4,P5)    Flow B
+18:   386	   │  cls_N, reg_N（per level，raw）
+29:   397	| level `N` | stride `s_N` | `H_N = W_N = 640/s_N` | backbone 通道 `C_N` | token 數 `L_N = (H_N/4)²` |
+35:   403	（`s_N = 2^N`、`C_N = 2^(N+4)`；源 `in_channels=(128,256,512)`、`strides=(8,16,32)`，
+36:   404	[mamba_head.py](../../src/saccade/perception/temporal_yolo/mamba_head.py):1177/1225。）
+39:   407	`d_state=16`，源 mamba_head.py:1220–1226）。** 重點是 U-Net 式的 skip：`X_N` 一邊
+40:   408	進 down→Mamba→up，一邊**跳接**直接和 `U_N` concat，所以 head 輸入是 256 ch：
+49:   417	[Down4]  stride-4 conv → 128×(H_N/4)×(W_N/4) │
+51:   419	[flatten]  → Z_N : L_N tokens × 128          │
+53:   421	[MambaBlock] ┐                               │
+54:   422	[MambaBlock] ┘ ×2   (SSM, d_state=16)        │
+63:   431	先 `Down4` 把 SSM 序列壓到 `L_N ≤ 400`（控 scan 成本，coarse grid 仍保 long-range
+64:   432	依賴），上採樣後再和未壓縮的 `X_N` concat 把細節補回（mamba_head.py:1208–1211）。
+66:   434	**Flow C — Head（per level，純卷積，無 Mamba；mamba_head.py:1365–1385）。**
+70:   438	   ├─[cls head]  Conv3x3 256→128 → SiLU → Conv1x1 128→80  → cls_N : 80×H_N×W_N
+74:   442	輸出通道 `no = nc + 4·reg_max = 80 + 4 = 84`（`reg_max=1`，box 直接是 4 維距離，
+75:   443	無 DFL softmax；mamba_head.py:1258）。
+78:   446	[mamba_gated_detector.cpp](../../src/perception/mamba_gated_detector.cpp):158
+82:   450	cls_N (80×H_N×W_N), reg_N (4×H_N×W_N)   for N∈{3,4,5}
+83:   451	   │  flatten(2) + concat over levels
+85:   453	cls_all : 80×N , reg_all : 4×N          N = 80²+40²+20² = 8400 anchors
+87:   455	   │  anchor = grid 中心 (x+0.5, y+0.5)，每點帶 stride 8/16/32
+89:   457	reg=(lt,rb) ─dist2bbox→ c=anchor+(rb−lt)/2, wh=lt+rb ─×stride→ xyxy（像素）
+90:   458	cls ─sigmoid→ max over 80 類 → score, class_id（argmax）
+98:   466	> baseline 的 frozen Mamba head checkpoint 是
+99:   467	> `runs/mamba_gt_v14replica_t3_t1/best.ckpt`（§1）；ReID embedding 支線
+100:   468	> `emb_dim=0`（off），故 head 只出 cls/reg 兩支。

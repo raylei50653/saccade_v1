@@ -1,0 +1,21 @@
+1:<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="912" viewBox="0 0 1000 912" role="img" aria-labelledby="title desc">
+3:  <desc id="desc">High-level structure of the detector: Input, YOLO26s TensorRT backbone, three FPN lanes (P3/P4/P5) each FPN to Mamba head to Head, merged into Decode + NMS. Per-level sizes are in a side table; step-by-step flows live in math_model.md section 4.1.</desc>
+18:      .src { font: 500 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #b0b8c4; }
+19:      .th { font: 700 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+20:      .num { font: 600 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+27:      .mamba { fill: #ede9fe; stroke: #7c3aed; stroke-width: 1.5; }
+49:    <text class="leg" x="510" y="104">Mamba head</text>
+79:    <text class="num" x="678" y="130">P3</text>
+83:    <text class="num" x="678" y="152">P4</text>
+87:    <text class="num" x="678" y="174">P5</text>
+101:    <text class="hdr" x="160" y="246" text-anchor="middle">P3</text>
+102:    <text class="hdr" x="385" y="246" text-anchor="middle">P4</text>
+103:    <text class="hdr" x="610" y="246" text-anchor="middle">P5</text>
+117:    <!-- Mamba row -->
+118:    <rect class="box mamba" x="80" y="358" width="160" height="78"/>
+119:    <text class="hdr" x="160" y="394" text-anchor="middle">Mamba</text>
+121:    <rect class="box mamba" x="305" y="358" width="160" height="78"/>
+122:    <text class="hdr" x="385" y="394" text-anchor="middle">Mamba</text>
+124:    <rect class="box mamba" x="530" y="358" width="160" height="78"/>
+125:    <text class="hdr" x="610" y="394" text-anchor="middle">Mamba</text>
+154:  <text class="src" x="500" y="898" text-anchor="middle">sources · mamba_head.py · mamba_gated_detector.cpp · mamba_whole_graph.yaml</text>

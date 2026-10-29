@@ -1,0 +1,1 @@
+curl -L --silent --show-error --max-time 40 -D evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.headers -o evidence/scan-contract/2026-10-29/upstream/capture/mamba-neck-repository.body -w http=%{http_code}\nurl=%{url_effective}\nsize=%{size_download}\n https://api.github.com/repos/raphaelkach/mamba-neck

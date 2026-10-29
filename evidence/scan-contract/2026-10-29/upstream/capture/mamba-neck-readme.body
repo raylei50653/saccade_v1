@@ -1,0 +1,89 @@
+# BA Mamba-Neck
+
+Code-Repository zur Bachelorarbeit *„Analyse Vision-Mamba-basierter Feature-Fusionsarchitekturen für die Detektion kleiner Objekte in hochaufgelösten Luftbilddaten"* (Raphael Kach, DHBW Stuttgart, 2026).
+
+Kontrollierter Vergleich dreier Neck-Architekturen auf VisDrone-DET 2019:
+
+- **FPN** (CNN-Baseline, Lin et al. 2017)
+- **AIFI + CCFM** (Transformer-Neck, adaptiert aus RT-DETR, Zhao et al. 2024)
+- **MambaFPN** (SSM-Neck, Liang et al. 2026)
+
+Backbone (ResNet-50, eingefroren) und Detection Head (ATSS mit Single-Anchor-Konfiguration) sind über alle drei Varianten identisch. Der Neck ist die einzige unabhängige Variable (Ceteris-paribus-Design).
+
+## Forschungsfrage
+
+Wie beeinflusst die Wahl des Feature-Fusionsmoduls die Detektionsleistung kleiner Objekte, die Recheneffizienz und das effektive Rezeptivfeld eines Detektors für hochaufgelöste Luftbilddaten?
+
+Die Frage zerfällt in drei quantitative Teilfragen sowie eine diagnostische Ergänzungsfrage:
+
+- **Q₁ (Allgemeine Detektionsleistung):** Welche Unterschiede zeigen sich in der allgemeinen Detektionsleistung der drei Fusionsarchitekturen unter identischen Rahmenbedingungen?
+- **Q₂ (Kleine Objekte):** Welche statistisch signifikanten Unterschiede zeigen sich in der Detektionsleistung für kleine Objekte ($\text{AP}_S$)?
+- **Q₃ (Trade-off):** Wie verhalten sich die drei Fusionsarchitekturen im Trade-off zwischen Detektionsgenauigkeit und Recheneffizienz?
+- **Q₄ (Effektives Rezeptivfeld, diagnostisch):** Wie unterscheiden sich Reichweite und Konzentration des effektiven Rezeptivfelds zwischen den drei Fusionsarchitekturen?
+
+## Experimentelles Design
+
+- **Backbone:** ResNet-50 (ImageNet-vortrainiert, `frozen_stages=4`), am häufigsten verwendeter Backbone in der zitierten Literatur (Lin 2017, Tan 2020, Zhu 2021, Carion 2020, Liang 2026). Eingefroren, damit nur der Neck als unabhängige Variable variiert.
+- **Detection Head:** ATSS (Zhang et al. 2020) mit ATSSHead und Single-Anchor-Konfiguration. Die ATSS-spezifische Sample-Selection bestimmt positive Stichproben adaptiv pro Ground-Truth-Objekt anhand der statistischen Verteilung geeigneter Kandidaten über die Pyramidenebenen. Das ist relevant für Luftbilder, in denen kleine Objekte und ausgeprägte Skalierungsunterschiede gemeinsam auftreten.
+- **Neck (unabhängige Variable, drei Stufen):**
+  - **V1, FPN** (Lin et al. 2017): CNN-Baseline.
+  - **V2, Efficient Hybrid Encoder** (Zhao et al. 2024, RT-DETR), adaptiert als Transformer-Neck: AIFI (MHSA auf C5) + CCFM (CNN-Cross-Scale-Fusion).
+  - **V3, MambaFPN** (Liang et al. 2026) als Vorlage, SSM-Neck: VSS-Blöcke mit Cross-Scan in vier Richtungen ersetzen die Conv-Layer in FPN.
+- **Datensatz:** VisDrone-DET 2019 (Zhu et al. 2022). Zehn Klassen, achsenparallele Boxen, 50 bis 100 Objekte pro Bild.
+- **Seeds:** 42, 123, 456, 789, 1024, 2048, 3407, 4096, 5555, 7777
+- **Metriken:**
+  - Q₁: COCO-Metriken `mAP`, $\text{AP}_S$, $\text{AP}_M$, $\text{AP}_L$.
+  - Q₂: $\text{AP}_S$ je Trainingslauf, $p_\text{adj}$ der Nemenyi-Vergleiche, Cliff's $\delta$.
+  - Q₃: `GFLOPs`, Parameteranzahl, Inferenzlatenz über mehrere Eingabeauflösungen.
+  - Q₄: `area_10`, `max_distance`, Gini-Koeffizient.
+- **Statistik:** Friedman-Test (Demšar 2006) mit Kendall's $W$ als Konkordanzmaß, Nemenyi-Post-hoc-Test und Cliff's $\delta$ als nicht-parametrische Effektstärke (Cliff 1993, Schwellen nach Meissel/Yao 2024).
+- **Framework:** MMDetection 3.x
+- **Hardware:** Google Colab A100
+
+## Ceteris-paribus-Regel
+
+Zwischen V1, V2 und V3 unterscheidet sich ausschließlich `neck=dict(...)`. Backbone, Detection Head, Optimizer, LR-Schedule, Augmentierungen, Batch-Size, Epochenzahl und Seeds sind identisch. Der maschinelle Beleg dafür liegt in `scripts/check_ceteris_paribus.py` und vergleicht die drei Configs nach Redaktion des `neck`-Eintrags strukturell.
+
+## Neck-Schnittstelle
+
+| Richtung | Datentyp | Inhalt |
+|---|---|---|
+| Eingang | `List[Tensor]` | vier Feature-Maps `{C2, C3, C4, C5}` aus ResNet-50 |
+| Ausgang | `Tuple[Tensor]` | fünf Feature-Maps `{P3, P4, P5, P6, P7}` für `ATSSHead` |
+
+## Notebooks (Colab)
+
+| # | Notebook | Beschreibung | |
+|---|---|---|---|
+| 1 | `01_data.ipynb` | Datenvorbereitung (Download, COCO-Konvertierung, SAHI-Slicing) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/raphaelkach/mamba-neck/blob/main/notebooks/01_data.ipynb) |
+| 2a | `02_train_fpn.ipynb` | Training V1 (CNN-/FPN-Neck) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/raphaelkach/mamba-neck/blob/main/notebooks/02_train_fpn.ipynb) |
+| 2b | `02_train_aifi.ipynb` | Training V2 (AIFI+CCFM-Transformer-Neck) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/raphaelkach/mamba-neck/blob/main/notebooks/02_train_aifi.ipynb) |
+| 2c | `02_train_mamba.ipynb` | Training V3 (MambaFPN-Neck) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/raphaelkach/mamba-neck/blob/main/notebooks/02_train_mamba.ipynb) |
+| 3 | `03_eval.ipynb` | Auswertung und Abbildungen (Metriken, Statistik, Skalierung, Qualitatives) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/raphaelkach/mamba-neck/blob/main/notebooks/03_eval.ipynb) |
+| 4 | `04_erf.ipynb` | Effective-Receptive-Field-Analyse (drei Necks × drei Pyramidenstufen) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/raphaelkach/mamba-neck/blob/main/notebooks/04_erf.ipynb) |
+
+## Einrichtung (Google Colab A100)
+
+```bash
+!git clone https://github.com/raphaelkach/mamba-neck.git
+%cd mamba-neck
+!pip install -r requirements.txt
+!python data/prepare.py
+```
+
+## Training
+
+Die drei Trainings laufen über die Notebooks `02_train_fpn.ipynb`, `02_train_aifi.ipynb` und `02_train_mamba.ipynb`. Jedes Notebook iteriert über die zehn Seeds mit Resume-Logik und harten Versions-Pins. Drei parallele Colab-Sessions sind vorgesehen.
+
+## Repository-Struktur
+
+- `configs/`: MMDetection-Configs (V1/V2/V3) und gemeinsame `_base_/`-Module
+- `necks/`: eigene Neck-Implementierungen (`AifiNeck`, `MambaNeck`)
+- `data/`: VisDrone-zu-COCO-Konvertierung
+- `eval/`: Metriken, Statistik (Friedman/Nemenyi/Cliff), Skalierung, ERF
+- `notebooks/`: Colab-Workflow (Daten, Training, Auswertung, ERF)
+- `scripts/`: Ceteris-paribus-Check, Neck-Tests, Report-Generatoren
+- `results/`: empirische Ergebnisse (CSVs, CD-Diagramme)
+- `hooks/`: MMEngine-Hooks (Epoch-Timer)
+- `losses/`: numerisch stabile Loss-Variante (`BF16SafeFocalLoss`)
+- `tests/`: Unit-Tests (Cliff's $\delta$)

@@ -1,0 +1,1 @@
+bash -o pipefail -c git\ -C\ \"\$1\"\ show\ \"\$2:docs/reference/yolo_model_architecture.svg\"\ \|\ rg\ -n\ -i\ \"desc\|mamba\|scan\|state\|softplus\|P3\|P4\|P5\|cls\|reg\|gate\|delta\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 

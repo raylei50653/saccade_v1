@@ -126,6 +126,29 @@ if(SACCADE_ENABLE_CUDA)
     target_compile_options(cuda_synthetic PRIVATE -Wall -Wextra -Wpedantic -Werror)
     target_compile_options(cuda_synthetic_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
   endif()
+  # S02 CUDA FP32 forward of the S01 scan contract (docs/SCAN_CUDA.md §3): no
+  # fast math and subnormals kept; the kernels spell out every rounding with
+  # __*_rn intrinsics, so contraction cannot change the scan's results.
+  set(SACCADE_SCAN_CUDA_FLAGS --ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo)
+  string(JOIN " " SACCADE_SCAN_CUDA_FLAGS_TEXT ${SACCADE_SCAN_CUDA_FLAGS})
+  add_library(saccade_selective_scan_cuda cuda/selective_scan.cu)
+  set_target_properties(saccade_selective_scan_cuda PROPERTIES CUDA_STANDARD 20 CUDA_STANDARD_REQUIRED ON)
+  target_compile_definitions(saccade_selective_scan_cuda PRIVATE
+    SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}"
+    SACCADE_SCAN_CUDA_FLAGS="${SACCADE_SCAN_CUDA_FLAGS_TEXT}")
+  target_compile_options(saccade_selective_scan_cuda PRIVATE ${SACCADE_SCAN_CUDA_FLAGS})
+  target_link_libraries(saccade_selective_scan_cuda PUBLIC saccade_selective_scan CUDA::cudart)
+  add_executable(selective_scan_cuda_tests tests/selective_scan_cuda_tests.cpp)
+  target_link_libraries(selective_scan_cuda_tests PRIVATE saccade_selective_scan_cuda saccade_file_io)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(selective_scan_cuda_tests PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endif()
+  add_test(NAME selective_scan_cuda COMMAND selective_scan_cuda_tests)
+  set_tests_properties(selective_scan_cuda PROPERTIES LABELS "gpu" TIMEOUT 300)
+  # Kernels are loaded explicitly, so the held-stream test also passes under lazy loading.
+  add_test(NAME selective_scan_cuda_lazy_streams COMMAND selective_scan_cuda_tests --group streams)
+  set_tests_properties(selective_scan_cuda_lazy_streams PROPERTIES LABELS "gpu" TIMEOUT 120
+    ENVIRONMENT CUDA_MODULE_LOADING=LAZY)
   add_test(NAME cuda_synthetic_protocol COMMAND cuda_synthetic_tests ${CMAKE_CURRENT_BINARY_DIR}/gpu-evidence)
   set_tests_properties(cuda_synthetic_protocol PROPERTIES LABELS "gpu" TIMEOUT 180)
   add_test(NAME cuda_synthetic_cli_io

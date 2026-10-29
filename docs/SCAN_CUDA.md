@@ -17,6 +17,7 @@
 
 | 項目 | 契約 |
 | --- | --- |
+| 初始化 | 每個 process 在 session 初始化、尚無 frame 工作進行時呼叫一次 `selective_scan_cuda_load_kernels()`，以 `cudaFuncGetAttributes` 載入全部 kernels，並回傳各 kernel 的 registers／local／shared 用量。CUDA 13 預設 lazy loading：未載入的 kernel 在第一次 launch 時才載入，而載入會等待裝置上已在執行的工作。開發中實測：stream 被 host callback 擋住時，新 process 的第一次 `selective_scan_cuda` 會卡在提交呼叫內（`CUDA_MODULE_LOADING=EAGER` 或先載入則正常）。這是 ASYNC_CONTROL A06 禁止的隱式同步，所以列入呼叫契約，並以 mutation 驗證（§6）。 |
 | host 拒絕 | 在提交任何 GPU 工作前檢查：shape 規則與 int32 容量（診斷與 S01 相同）、非空 tensor 的指標非 null 且 4-byte 對齊、y 與 status 不與任何輸入或彼此重疊、stream 為顯式非預設 stream（拒絕 `0`、`cudaStreamLegacy`、`cudaStreamPerThread`）。違反時拋 `std::invalid_argument`，不 enqueue 任何工作。 |
 | 提交順序 | 全部在 caller 的 stream：①`cudaMemsetAsync` 清零 status；②有限值檢查 kernel；③scan kernel（L=0 時省略）；④finalize kernel。不配置記憶體、不同步、不讀回 host、不使用 default stream，也不 record event；完成通知由 caller 在其後 record。 |
 | workspace | **0 bytes。** 遞推狀態全部在 registers；唯一的每次呼叫 device 記憶體是 caller 擁有的 8-byte `ScanStatus`，每次呼叫先清零。不跨呼叫保留任何狀態。 |
@@ -97,6 +98,8 @@ thread 配置：每個 (b,d) lane 用 N 個連續 threads（N 整除 32），256
 | Cross-Scan：S01 手列順序、非對稱矩形（3×5、1×4、4×1）、batch 2、m 的 20²／10²／5²×128；合併溢位；非有限值；展開→scan→合併串接 | 翻轉、展平、還原順序 |
 | 同一輸入重跑 | 逐位元決定性 |
 
-compute-sanitizer memcheck／initcheck／racecheck／synccheck 執行完整 GPU 測試。kernel 不用 shared memory；synccheck 檢查 warp shuffle／reduce 的 mask。
+compute-sanitizer memcheck／racecheck／synccheck 執行完整 GPU 測試。initcheck 會讓 enqueue 內的 stream 操作等待被 host callback 擋住的 stream，該測試在工具下必然死結，所以 initcheck 以 `--no-held-stream` 只略過這一項並在報告記錄；同一項在一般執行與其他三個工具下照常執行。每個工具另以 [sanitizer-control](../evidence/s02/2026-10-29/sanitizer-control.cu) 植入對應缺陷（越界寫、未初始化讀、跨 warp shared race、`__syncwarp` 非法 mask），必須被回報，證明工具在本機確實啟用。
 
-Mutation 以私有副本修改一處 CUDA 實作，未修改的測試必須失敗：舊式 softplus、移除 Cody–Waite 分支、一般 FP32 drive、移除部分和縮放重算、去掉 D skip、per-channel A 讀第 0 列、full C 讀第 0 個 state、butterfly 少一層、status 不清零、失敗不覆寫 NaN、不寫 `done`、有限值檢查略過 D、scan 改送 default stream、合併不取平均、方向 2 改翻 H。
+kernel 不用 shared memory 與 barrier，racecheck／synccheck 在此是回歸防線而非主要證據。**synccheck 不檢查 `__shfl_sync` 的 mask**（control 中排除自身的 shuffle mask 不被回報，已記錄）；shuffle 的正確性依靠 group-uniform 控制流程（同一 (b,d) 的 N 個 thread 一起提前結束）與 N=1…32 的數值測試。
+
+Mutation 以私有副本修改一處 CUDA 實作，未修改的測試必須失敗（[mutation-check.sh](../evidence/s02/2026-10-29/mutation-check.sh)）：舊式 softplus、移除 Cody–Waite 分支、一般 FP32 drive、移除部分和縮放重算、去掉 D skip、per-channel A 讀第 0 列、full C 讀第 0 個 state、butterfly 少一層、status 不清零、失敗不覆寫 NaN、不寫 `done`、有限值檢查略過 D、scan 改送 default stream、遞推改為 h＋decay·drive、合併不取平均、方向 2 改翻 H、不載入 kernels（lazy loading 下單獨執行 stream 測試，預期卡住而逾時）。default stream 的 mutation 另須分別被 host callback 測試與 graph capture 測試單獨抓到。

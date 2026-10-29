@@ -1,0 +1,175 @@
+group s01_values
+group coverage
+group softplus
+group intermediate_range
+identity	build_commit=unknown
+identity	build_dirty=unknown
+identity	nvcc=13.4.92
+identity	scan_cuda_flags=unknown
+identity	cuda_arch_list=1200
+identity	host_compiler=16.2.1 20260810
+identity	cuda_runtime=13040
+identity	cuda_driver_api=13040
+identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+identity	compute_capability=12.0
+identity	uuid=825ae551ba16539ae44422726b59ee9a
+identity	kernel=check_finite registers=20 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=scan_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=finalize registers=16 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=expand_kernel registers=28 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=merge_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+element	s01_single_token	0	3.7725887222397811	3.77258873	0x40717218	7.62e-09	4.32e-06
+element	s01_single_token	1	-164	-164	0xc3240000	0	0.000242
+case	s01_single_token	count=2	max_abs=7.62e-09	max_rel=2.02e-09	max_err_over_tol=0.00176	failures=0	worst_index=0	worst_gpu=3.77258873(0x40717218)	worst_ref=3.7725887222397811	worst_tol=4.32e-06	PASS
+element	s01_three_token_decay	0	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+element	s01_three_token_decay	1	1.7328679513998633	1.73286796	0x3fddce9e	4.76e-09	2.68e-06
+element	s01_three_token_decay	2	2.9458755173797675	2.94587564	0x403c893a	1.27e-07	5.08e-06
+case	s01_three_token_decay	count=3	max_abs=1.27e-07	max_rel=4.32e-08	max_err_over_tol=0.025	failures=0	worst_index=2	worst_gpu=2.94587564(0x403c893a)	worst_ref=2.9458755173797675	worst_tol=5.08e-06	PASS
+element	s01_softplus_branches	0	9.3576229688397368e-14	9.35762291e-14	0x29d2b706	5.66e-22	1.23e-19
+element	s01_softplus_branches	1	2.0611536203143808e-09	2.06115347e-09	0x310da432	1.5e-16	2.7e-15
+element	s01_softplus_branches	2	0.31326168751822286	0.313261718	0x3ea063d7	3e-08	4.11e-07
+element	s01_softplus_branches	3	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+element	s01_softplus_branches	4	20.000000002061153	20	0x41a00000	2.06e-09	2.62e-05
+element	s01_softplus_branches	5	20.5	20.5	0x41a40000	0	2.69e-05
+case	s01_softplus_branches	count=6	max_abs=3e-08	max_rel=9.59e-08	max_err_over_tol=0.0731	failures=0	worst_index=2	worst_gpu=0.313261718(0x3ea063d7)	worst_ref=0.31326168751822286	worst_tol=4.11e-07	PASS
+case	s01_geometric_p3_length	count=1600	max_abs=1.01e-06	max_rel=9.04e-08	max_err_over_tol=0.0461	failures=0	worst_index=38	worst_gpu=9.52699852(0x41186e96)	worst_ref=9.5269993815202607	worst_tol=1.87e-05	PASS
+case	s01_per_channel_a	count=75	max_abs=6.95e-06	max_rel=4.22e-07	max_err_over_tol=0.0465	failures=0	worst_index=71	worst_gpu=15.7889652(0x417c9f9a)	worst_ref=15.788958763816108	worst_tol=0.000139	PASS
+case	s01_state_32_p4_length	count=200	max_abs=5.52e-06	max_rel=2.4e-07	max_err_over_tol=0.0555	failures=0	worst_index=118	worst_gpu=22.9995613(0x41b7ff1a)	worst_ref=22.999555792551934	worst_tol=9.93e-05	PASS
+case	s01_varying_direct_sum	count=42	max_abs=3.02e-07	max_rel=1.42e-05	max_err_over_tol=0.0525	failures=0	worst_index=22	worst_gpu=-2.00063515(0xc0000a68)	worst_ref=-2.0006354494702681	worst_tol=5.76e-06	PASS
+case	s01_m_head_abi_L25	count=25600	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=13092	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+case	s01_m_head_abi_L100	count=102400	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=51492	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+case	s01_m_head_abi_L400	count=409600	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=205092	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+element	s01_extreme_large_delta_memoryless	0	3	3	0x40400000	0	3.93e-06
+element	s01_extreme_large_delta_memoryless	1	-5	-5	0xc0a00000	0	6.56e-06
+element	s01_extreme_large_delta_memoryless	2	7	7	0x40e00000	0	9.18e-06
+case	s01_extreme_large_delta_memoryless	count=3	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=3(0x40400000)	worst_ref=3	worst_tol=3.93e-06	PASS
+element	s01_extreme_negative_delta	0	1	1	0x3f800000	0	2.38e-07
+element	s01_extreme_negative_delta	1	-1	-1	0xbf800000	0	2.38e-07
+case	s01_extreme_negative_delta	count=2	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1(0x3f800000)	worst_ref=1	worst_tol=2.38e-07	PASS
+element	s01_extreme_fp32_max_input	0	6.3293812912304522e-06	6.32938145e-06	0x36d460f9	1.58e-13	8.3e-12
+case	s01_extreme_fp32_max_input	count=1	max_abs=1.58e-13	max_rel=2.5e-08	max_err_over_tol=0.019	failures=0	worst_index=0	worst_gpu=6.32938145e-06(0x36d460f9)	worst_ref=6.3293812912304522e-06	worst_tol=8.3e-12	PASS
+element	s01_extreme_near_fp32_limit_output	0	1.1165515164593293e+38	1.11655152e+38	0x7ea80000	0	1.46e+32
+case	s01_extreme_near_fp32_limit_output	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1.11655152e+38(0x7ea80000)	worst_ref=1.1165515164593293e+38	worst_tol=1.46e+32	PASS
+element	s01_extreme_subnormal_input	0	9.7130607966972803e-46	1.40129846e-45	0x00000001	4.3e-46	5.61e-45
+element	s01_extreme_subnormal_input	1	1.456959119504592e-45	2.80259693e-45	0x00000002	1.35e-45	7.01e-45
+case	s01_extreme_subnormal_input	count=2	max_abs=1.35e-45	max_rel=0.924	max_err_over_tol=0.192	failures=0	worst_index=1	worst_gpu=2.80259693e-45(0x00000002)	worst_ref=1.456959119504592e-45	worst_tol=7.01e-45	PASS
+element	s01_extreme_most_negative_a	0	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+element	s01_extreme_most_negative_a	1	1.3862943611198906	1.38629436	0x3fb17218	3.81e-09	1.82e-06
+element	s01_extreme_most_negative_a	2	2.0794415416798357	2.07944155	0x40051592	5.71e-09	2.73e-06
+case	s01_extreme_most_negative_a	count=3	max_abs=5.71e-09	max_rel=2.75e-09	max_err_over_tol=0.0021	failures=0	worst_index=2	worst_gpu=2.07944155(0x40051592)	worst_ref=2.0794415416798357	worst_tol=2.73e-06	PASS
+case	shared_a_rank1_c_d_N1	count=370	max_abs=4.48e-07	max_rel=4.32e-06	max_err_over_tol=0.295	failures=0	worst_index=0	worst_gpu=-1.13328409(0xbf910f74)	worst_ref=-1.1332841729075716	worst_tol=2.74e-07	PASS
+case	per_channel_a_full_c_no_d_N1	count=231	max_abs=4.6e-07	max_rel=6.18e-06	max_err_over_tol=0.0875	failures=0	worst_index=6	worst_gpu=0.00413588621(0x3b878654)	worst_ref=0.0041358857328494631	worst_tol=5.42e-09	PASS
+element	single_token_per_channel_a_N1	0	0.76921209857815864	0.769212067	0x3f44eb15	3.15e-08	1.07e-06
+element	single_token_per_channel_a_N1	1	-0.45184747165583461	-0.451847464	0xbee7588d	7.81e-09	1.21e-07
+element	single_token_per_channel_a_N1	2	0.40233526487012755	0.402335256	0x3ecdfee3	8.53e-09	9.86e-08
+case	single_token_per_channel_a_N1	count=3	max_abs=3.15e-08	max_rel=4.09e-08	max_err_over_tol=0.0865	failures=0	worst_index=2	worst_gpu=0.402335256(0x3ecdfee3)	worst_ref=0.40233526487012755	worst_tol=9.86e-08	PASS
+case	shared_a_rank1_c_d_N2	count=370	max_abs=1.02e-06	max_rel=5.65e-06	max_err_over_tol=0.102	failures=0	worst_index=3	worst_gpu=-1.42886472(0xbfb6e50a)	worst_ref=-1.4288646433437122	worst_tol=7.25e-07	PASS
+case	per_channel_a_full_c_no_d_N2	count=231	max_abs=5.44e-07	max_rel=1.6e-06	max_err_over_tol=0.0849	failures=0	worst_index=2	worst_gpu=0.00184214837(0x3af1743e)	worst_ref=0.0018421487475507531	worst_tol=4.46e-09	PASS
+element	single_token_per_channel_a_N2	0	0.33532656874875211	0.335326582	0x3eabafed	1.34e-08	2.58e-07
+element	single_token_per_channel_a_N2	1	0.057655464290090837	0.0576554611	0x3d6c2822	3.16e-09	8.32e-08
+element	single_token_per_channel_a_N2	2	-1.1157913404474669	-1.11579132	0xbf8ed240	1.96e-08	9.04e-07
+case	single_token_per_channel_a_N2	count=3	max_abs=1.96e-08	max_rel=5.48e-08	max_err_over_tol=0.0521	failures=0	worst_index=0	worst_gpu=0.335326582(0x3eabafed)	worst_ref=0.33532656874875211	worst_tol=2.58e-07	PASS
+case	shared_a_rank1_c_d_N4	count=370	max_abs=1.81e-06	max_rel=1.81e-05	max_err_over_tol=0.11	failures=0	worst_index=187	worst_gpu=-0.213304922(0xbe5a6c9b)	worst_ref=-0.213304910546709	worst_tol=1.04e-07	PASS
+case	per_channel_a_full_c_no_d_N4	count=231	max_abs=1.25e-06	max_rel=5.59e-05	max_err_over_tol=0.0981	failures=0	worst_index=77	worst_gpu=-0.695421517(0xbf320725)	worst_ref=-0.69542138751199034	worst_tol=1.32e-06	PASS
+element	single_token_per_channel_a_N4	0	-1.5446057893149439	-1.54460573	0xbfc5b5a4	5.74e-08	1.91e-06
+element	single_token_per_channel_a_N4	1	0.015183122722373798	0.0151831219	0x3c78c2a1	8.25e-10	8.58e-09
+element	single_token_per_channel_a_N4	2	-0.95079904655879	-0.950799048	0xbf736791	1.39e-09	8.94e-07
+case	single_token_per_channel_a_N4	count=3	max_abs=5.74e-08	max_rel=5.43e-08	max_err_over_tol=0.0962	failures=0	worst_index=1	worst_gpu=0.0151831219(0x3c78c2a1)	worst_ref=0.015183122722373798	worst_tol=8.58e-09	PASS
+case	shared_a_rank1_c_d_N8	count=370	max_abs=3.46e-06	max_rel=2.98e-05	max_err_over_tol=0.0635	failures=0	worst_index=19	worst_gpu=1.03958774(0x3f851136)	worst_ref=1.0395876809810256	worst_tol=8.69e-07	PASS
+case	per_channel_a_full_c_no_d_N8	count=231	max_abs=2.54e-06	max_rel=4.63e-05	max_err_over_tol=0.0777	failures=0	worst_index=77	worst_gpu=-15.311059(0xc174fa19)	worst_ref=-15.311061538342612	worst_tol=3.27e-05	PASS
+element	single_token_per_channel_a_N8	0	5.9251646444446591	5.92516422	0x40bd9af2	4.22e-07	9.4e-06
+element	single_token_per_channel_a_N8	1	0.66387745159332112	0.663877428	0x3f29f3df	2.4e-08	4.83e-07
+element	single_token_per_channel_a_N8	2	3.7598311699568994	3.75983119	0x4070a113	2.02e-08	6.03e-06
+case	single_token_per_channel_a_N8	count=3	max_abs=4.22e-07	max_rel=7.12e-08	max_err_over_tol=0.0498	failures=0	worst_index=1	worst_gpu=0.663877428(0x3f29f3df)	worst_ref=0.66387745159332112	worst_tol=4.83e-07	PASS
+case	shared_a_rank1_c_d_N16	count=370	max_abs=3.99e-06	max_rel=6.48e-06	max_err_over_tol=0.0944	failures=0	worst_index=199	worst_gpu=0.309907079(0x3e9eac24)	worst_ref=0.3099071080135048	worst_tol=3.1e-07	PASS
+case	per_channel_a_full_c_no_d_N16	count=231	max_abs=2.82e-06	max_rel=7.54e-06	max_err_over_tol=0.0381	failures=0	worst_index=118	worst_gpu=-16.3610039(0xc182e356)	worst_ref=-16.361006694850257	worst_tol=7.4e-05	PASS
+element	single_token_per_channel_a_N16	0	-6.0963748535098379	-6.09637547	0xc0c31582	6.12e-07	6.81e-05
+element	single_token_per_channel_a_N16	1	5.3384216556802393	5.33842087	0x40aad458	7.88e-07	6.35e-05
+element	single_token_per_channel_a_N16	2	-0.12456344035593049	-0.124563433	0xbdff1b1d	7.13e-09	1.25e-07
+case	single_token_per_channel_a_N16	count=3	max_abs=7.88e-07	max_rel=1.48e-07	max_err_over_tol=0.0571	failures=0	worst_index=2	worst_gpu=-0.124563433(0xbdff1b1d)	worst_ref=-0.12456344035593049	worst_tol=1.25e-07	PASS
+case	shared_a_rank1_c_d_N32	count=370	max_abs=6.45e-06	max_rel=4.02e-05	max_err_over_tol=0.0314	failures=0	worst_index=4	worst_gpu=0.149558067(0x3e1925c0)	worst_ref=0.14955805308352726	worst_tol=4.53e-07	PASS
+case	per_channel_a_full_c_no_d_N32	count=231	max_abs=7.43e-06	max_rel=8.82e-06	max_err_over_tol=0.0361	failures=0	worst_index=11	worst_gpu=16.56007(0x41847b06)	worst_ref=16.56007336134747	worst_tol=9.2e-05	PASS
+element	single_token_per_channel_a_N32	0	0.41121214311553106	0.411212146	0x3ed28a66	3.17e-09	1.28e-06
+element	single_token_per_channel_a_N32	1	-5.1124458829689825	-5.11244488	0xc0a39926	1.01e-06	6.94e-05
+element	single_token_per_channel_a_N32	2	2.3284650537351266	2.32846498	0x40150592	6.88e-08	1.71e-05
+case	single_token_per_channel_a_N32	count=3	max_abs=1.01e-06	max_rel=1.97e-07	max_err_over_tol=0.0145	failures=0	worst_index=1	worst_gpu=-5.11244488(0xc0a39926)	worst_ref=-5.1124458829689825	worst_tol=6.94e-05	PASS
+element	tail_1x1x1_N1	0	0.1940664171229344	0.19406642	0x3e46b959	3.07e-09	2.54e-07
+case	tail_1x1x1_N1	count=1	max_abs=3.07e-09	max_rel=1.58e-08	max_err_over_tol=0.0121	failures=0	worst_index=0	worst_gpu=0.19406642(0x3e46b959)	worst_ref=0.1940664171229344	worst_tol=2.54e-07	PASS
+case	tail_Dc13_N2	count=195	max_abs=7.7e-07	max_rel=4.67e-05	max_err_over_tol=0.202	failures=0	worst_index=95	worst_gpu=-0.549208343(0xbf0c98eb)	worst_ref=-0.54920838579961451	worst_tol=2.11e-07	PASS
+case	tail_Dc257_N4	count=2056	max_abs=2.71e-06	max_rel=0.00332	max_err_over_tol=0.197	failures=0	worst_index=175	worst_gpu=0.0680834204(0x3d8b6f52)	worst_ref=0.068083426860914412	worst_tol=3.29e-08	PASS
+case	tail_Dc33_N32	count=99	max_abs=2.04e-06	max_rel=2.44e-05	max_err_over_tol=0.0644	failures=0	worst_index=9	worst_gpu=-0.341477573(0xbeaed626)	worst_ref=-0.34147759966805125	worst_tol=4.16e-07	PASS
+case	empty_sequence	count=0	PASS
+case	long_slow_decay_L2000	count=8000	max_abs=9.27e-05	max_rel=2.49	max_err_over_tol=0.0629	failures=0	worst_index=249	worst_gpu=-0.535624802(0xbf091eb5)	worst_ref=-0.53562484174925029	worst_tol=6.3e-07	PASS
+case	m_head_random_L25	count=25600	max_abs=1.16e-05	max_rel=0.0214	max_err_over_tol=0.0988	failures=0	worst_index=7219	worst_gpu=-2.38666701(0xc018bf27)	worst_ref=-2.3866668094030108	worst_tol=2.06e-06	PASS
+case	m_head_random_L100	count=102400	max_abs=1.28e-05	max_rel=0.0819	max_err_over_tol=0.117	failures=0	worst_index=25882	worst_gpu=-2.21362495(0xc00dac08)	worst_ref=-2.2136247385488934	worst_tol=1.84e-06	PASS
+case	m_head_random_L400	count=409600	max_abs=1.75e-05	max_rel=0.049	max_err_over_tol=0.132	failures=0	worst_index=39502	worst_gpu=2.10278749(0x40069412)	worst_ref=2.1027872762376525	worst_tol=1.65e-06	PASS
+case	cancellation_two_states	count=150	max_abs=5.71e-07	max_rel=0.415	max_err_over_tol=0.0362	failures=0	worst_index=23	worst_gpu=-4.05311584e-06(0xb6880000)	worst_ref=-3.8316439938679281e-06	worst_tol=6.11e-06	PASS
+note	cancellation_two_states	max_rel_to_|y|=0.415	(threshold scales with the term magnitude, not |y|)
+element	softplus_minus18	0	1.5229979628736487	1.52299809	0x3fc2f19a	1.32e-07	2e-06
+case	softplus_minus18	count=1	max_abs=1.32e-07	max_rel=8.65e-08	max_err_over_tol=0.0659	failures=0	worst_index=0	worst_gpu=1.52299809(0x3fc2f19a)	worst_ref=1.5229979628736487	worst_tol=2e-06	PASS
+discrimination	softplus_minus18	ref=1.522997963	legacy=0	tol=2e-06	legacy_err_over_tol=7.63e+05
+sweep	-1100	0	0	0	5.61e-45	legacy_err=0
+sweep	-1024	0	0	0	5.61e-45	legacy_err=0
+sweep	-1000	0	0	0	5.61e-45	legacy_err=0
+sweep	-300	1.1103616274243276e-62	0	1.11e-62	5.61e-45	legacy_err=1.11e-62
+sweep	-160	0.070257373677735671	0.0702573732	5.24e-10	9.21e-08	legacy_err=0.0703	legacy_rejected
+sweep	-150	1.5112515997515612	1.51125157	3.1e-08	1.98e-06	legacy_err=1.51	legacy_rejected
+sweep	-120	1.8360369502981073	1.83603692	2.98e-08	2.41e-06	legacy_err=1.84	legacy_rejected
+sweep	-110	1.234173739127884	1.23417377	3.56e-08	1.62e-06	legacy_err=1.23	legacy_rejected
+sweep	-103.5	1.6033209693437245	1.60332108	1.06e-07	2.1e-06	legacy_err=0.397	legacy_rejected
+sweep	-100	1.6592093292083157	1.65920937	4.14e-08	2.18e-06	legacy_err=0.0283	legacy_rejected
+sweep	-95	1.9238163918771338	1.92381632	6.86e-08	2.52e-06	legacy_err=1.17e-05	legacy_rejected
+sweep	-90	1.1153112041086168	1.11531115	5.83e-08	1.46e-06	legacy_err=5.35e-07
+sweep	-87.5	1.6984090010447681	1.69840908	7.95e-08	2.23e-06	legacy_err=7.95e-08
+sweep	-85	1.2931785873770192	1.29317868	9.02e-08	1.7e-06	legacy_err=2.9e-08
+sweep	-80.5	1.8188785421084446	1.81887853	1.07e-08	2.39e-06	legacy_err=1.07e-08
+sweep	-80.0000076	1.4994004310360285	1.4994005	6.54e-08	1.97e-06	legacy_err=5.38e-08
+sweep	-80	1.4994118705971158	1.49941194	7e-08	1.97e-06	legacy_err=4.92e-08
+sweep	-79.9999924	1.4994233102454801	1.49942327	4.48e-08	1.97e-06	legacy_err=4.48e-08
+sweep	-79.5	1.2360561222968662	1.23605609	3.29e-08	1.62e-06	legacy_err=3.29e-08
+sweep	-60	1.3550044096969232	1.35500443	2.01e-08	1.78e-06	legacy_err=2.01e-08
+sweep	-50	1.8216527271729459	1.82165277	4.29e-08	2.39e-06	legacy_err=4.29e-08
+sweep	-30	1.6462104420132904	1.64621043	9.96e-09	2.16e-06	legacy_err=9.96e-09
+sweep	-25	1.9087444706652836	1.90874457	1.03e-07	2.5e-06	legacy_err=1.63e-08
+sweep	-20.5	1.3423414181938633	1.34234142	4.84e-09	1.76e-06	legacy_err=4.84e-09
+sweep	-20	1.1065734239102833	1.10657334	8.06e-08	1.45e-06	legacy_err=1.11	legacy_rejected
+sweep	-19.5	1.8244311403726174	1.82443118	4.06e-08	2.39e-06	legacy_err=1.82	legacy_rejected
+sweep	-18	1.0220666316276474	1.02206671	8.08e-08	1.34e-06	legacy_err=1.02	legacy_rejected
+sweep	-17	1.3891325579375089	1.38913262	6.1e-08	1.82e-06	legacy_err=1.39	legacy_rejected
+sweep	-15	1.2830471302465527	1.28304708	5.02e-08	1.68e-06	legacy_err=0.217	legacy_rejected
+sweep	-12	1.6106634550267886	1.61066341	4.1e-08	2.11e-06	legacy_err=0.0143	legacy_rejected
+sweep	-10	1.4876311295382207	1.4876312	7.22e-08	1.95e-06	legacy_err=0.000616	legacy_rejected
+sweep	-9	1.0109107382129363	1.01091075	1.12e-08	1.33e-06	legacy_err=0.000231	legacy_rejected
+sweep	-8	1.3738245033810692	1.37382448	2.62e-08	1.8e-06	legacy_err=3.15e-05	legacy_rejected
+sweep	-6	1.2675507905179901	1.26755083	3.56e-08	1.66e-06	legacy_err=1.7e-05	legacy_rejected
+sweep	-4	1.1615953867398232	1.16159546	7.7e-08	1.52e-06	legacy_err=2.1e-06	legacy_rejected
+sweep	-2	1.01542408834378	1.01542413	4.4e-08	1.33e-06	legacy_err=2.82e-07
+sweep	-1	1.2530467500728915	1.25304687	1.2e-07	1.64e-06	legacy_err=1.18e-07
+sweep	-0.5	1.8963079367204267	1.89630795	8.53e-09	2.49e-06	legacy_err=8.53e-09
+sweep	0	1.3862943611198906	1.38629436	3.81e-09	1.82e-06	legacy_err=3.81e-09
+sweep	0.5	1.9481539683602134	1.94815397	4.27e-09	2.55e-06	legacy_err=4.27e-09
+sweep	1	1.3132616875182228	1.31326163	5.94e-08	1.72e-06	legacy_err=5.94e-08
+sweep	2	1.0634640055214863	1.06346405	4e-08	1.39e-06	legacy_err=4e-08
+sweep	5	1.2516788371222796	1.25167882	1.27e-08	1.64e-06	legacy_err=1.27e-08
+sweep	10	1.2500056748624022	1.25000572	4.72e-08	1.64e-06	legacy_err=4.72e-08
+sweep	15	1.8750000382377843	1.875	3.82e-08	2.46e-06	legacy_err=3.82e-08
+sweep	19.5	1.2187500002123917	1.21875	2.12e-10	1.6e-06	legacy_err=2.12e-10
+sweep	20	1.2500000001288221	1.25	1.29e-10	1.64e-06	legacy_err=1.29e-10
+sweep	20.0000019	1.2500001192092896	1.25000012	0	1.64e-06	legacy_err=0
+sweep	20.5	1.28125	1.28125	0	1.68e-06	legacy_err=0
+sweep	25	1.5625	1.5625	0	2.05e-06	legacy_err=0
+sweep	100	1.5625	1.5625	0	2.05e-06	legacy_err=0
+sweep	1000	1.953125	1.953125	0	2.56e-06	legacy_err=0
+case	softplus_sweep	count=52	max_abs=1.2e-07	max_rel=1	max_err_over_tol=0.0731	failures=0	legacy_rejected=18	PASS
+element	drive_intermediate_overflow	0	1.2676506002282294e+30	1.2676506e+30	0x71800000	0	1.66e+24
+element	drive_intermediate_overflow	1	1.2676506002282294e+30	1.2676506e+30	0x71800000	0	1.66e+24
+case	drive_intermediate_overflow	count=2	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1.2676506e+30(0x71800000)	worst_ref=1.2676506002282294e+30	worst_tol=1.66e+24	PASS
+element	drive_delta_underflow_minus100	0	6.3293812912304522e-06	6.32938145e-06	0x36d460f9	1.58e-13	8.3e-12
+case	drive_delta_underflow_minus100	count=1	max_abs=1.58e-13	max_rel=2.5e-08	max_err_over_tol=0.019	failures=0	worst_index=0	worst_gpu=6.32938145e-06(0x36d460f9)	worst_ref=6.3293812912304522e-06	worst_tol=8.3e-12	PASS
+element	drive_delta_underflow_minus150	0	207704838302.74039	2.07704834e+11	0x524170b1	4.25e+03	2.72e+05
+case	drive_delta_underflow_minus150	count=1	max_abs=4.25e+03	max_rel=2.05e-08	max_err_over_tol=0.0156	failures=0	worst_index=0	worst_gpu=2.07704834e+11(0x524170b1)	worst_ref=207704838302.74039	worst_tol=2.72e+05	PASS
+element	drive_subnormal_b	0	0.00012207030784548248	0.000122070312	0x39000000	4.65e-12	1.6e-10
+case	drive_subnormal_b	count=1	max_abs=4.65e-12	max_rel=3.81e-08	max_err_over_tol=0.0291	failures=0	worst_index=0	worst_gpu=0.000122070312(0x39000000)	worst_ref=0.00012207030784548248	worst_tol=1.6e-10	PASS
+element	butterfly_partial_sum_overflow	0	1	nan	0x7fffffff	nan	1.21e+33
+case	butterfly_partial_sum_overflow	count=1	max_abs=0	max_rel=0	max_err_over_tol=nan	failures=1	worst_index=0	worst_gpu=nan(0x7fffffff)	worst_ref=1	worst_tol=1.21e+33	FAIL
+selective_scan_cuda_tests: butterfly_partial_sum_overflow: every element within 2x the running error bound

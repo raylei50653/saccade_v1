@@ -1,0 +1,25 @@
+group streams
+identity	build_commit=unknown
+identity	build_dirty=unknown
+identity	nvcc=13.4.92
+identity	scan_cuda_flags=unknown
+identity	cuda_arch_list=1200
+identity	host_compiler=16.2.1 20260810
+identity	cuda_runtime=13040
+identity	cuda_driver_api=13040
+identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+identity	compute_capability=12.0
+identity	uuid=825ae551ba16539ae44422726b59ee9a
+identity	kernel=check_finite registers=20 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=scan_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=finalize registers=16 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=expand_kernel registers=28 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=merge_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+case	stream_gate	count=594	max_abs=1.54e-06	max_rel=9.75e-05	max_err_over_tol=0.107	failures=0	worst_index=308	worst_gpu=-0.295527101(0xbe974f54)	worst_ref=-0.29552708002989314	worst_tol=1.91e-07	PASS
+case	graph_replay_new_inputs	count=102400	max_abs=1.69e-05	max_rel=0.00787	max_err_over_tol=0.101	failures=0	worst_index=63898	worst_gpu=-2.26566696(0xc01100b0)	worst_ref=-2.2656671608126011	worst_tol=1.97e-06	PASS
+graph	nodes=memset:1,kernel:3,other:0	PASS
+case	concurrent_stream_1	count=25600	max_abs=6.86e-06	max_rel=0.00388	max_err_over_tol=0.118	failures=0	worst_index=6439	worst_gpu=-0.0333438665(0xbd089394)	worst_ref=-0.033343869372699342	worst_tol=2.46e-08	PASS
+case	concurrent_stream_2	count=6000	max_abs=5e-06	max_rel=0.000468	max_err_over_tol=0.0816	failures=0	worst_index=29	worst_gpu=-0.0860669538(0xbdb043df)	worst_ref=-0.086066966838886483	worst_tol=1.59e-07	PASS
+group_only	streams
+checks	17
+selective_scan_cuda_tests: 17 checks passed

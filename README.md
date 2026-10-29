@@ -49,6 +49,6 @@ build-cuda/cuda_synthetic config.txt output-directory
 
 CPU 模型與合成 GPU 測試各驗證明列的有限範圍。真實模型推論、phase correlation／GMC、tracker、MOT 輸出及模型 artifact P01 不在本骨架驗收範圍；實際 GPU 與工具身分、已執行及未驗證項目見 [CUDA_SYNTHETIC](docs/CUDA_SYNTHETIC.md)。
 
-CUDA 建置另含 `selective_scan_cuda_tests`：以相同 FP32 輸入對照 S01 reference，並驗證失敗 status、每次呼叫重設、指定 stream、graph capture、host 拒絕與 Cross-Scan；`--no-held-stream` 只供 initcheck 略過 host callback 擋住 stream 的那一項（[SCAN_CUDA §6](docs/SCAN_CUDA.md#6-測試矩陣與-mutation)）。
+CUDA 建置另含 `selective_scan_cuda_tests`：以相同 FP32 輸入對照 S01 reference，並驗證失敗 status、每次呼叫重設、指定 stream、graph capture、host 拒絕與 Cross-Scan；`--no-held-stream` 只供 initcheck 略過 host callback 擋住 stream 的那一項（[SCAN_CUDA §6](docs/SCAN_CUDA.md#6-測試矩陣與-mutation)）。結果與 sanitizer、mutation 證據見 [S02 證據](evidence/s02/2026-10-29/REPORT.md)；PASS 限 SCAN_CUDA 所列範圍，FP16、plugin 與完整 head 仍待 S03／S04。
 
 CUDA suite 保留原有 72 個 sessions，另加 8 個 terminal observation 開關對照；CLI／證據檔案寫入會明確 close 並檢查結果，正常 session close 亦檢查所有資源釋放結果。這些檢查不承諾 `fsync` 耐久性；CPU cleanup fake 不代表實際 GPU API 錯誤注入已驗證。[原始 GPU 證據](evidence/cuda-synthetic/2026-10-28/REPORT.md) 保留不變，後續收尾與 I/O 驗證見 [closeout 證據](evidence/cuda-synthetic/2026-10-28-closeout/REPORT.md)；sanitizer 結論以該報告為準。

@@ -1,0 +1,4 @@
+64c64
+<     for (unsigned offset = width / 2; offset > 0; offset /= 2) v = __fadd_rn(v, __shfl_xor_sync(mask, v, offset, width));
+---
+>     for (unsigned offset = width / 4; offset > 0; offset /= 2) v = __fadd_rn(v, __shfl_xor_sync(mask, v, offset, width));

@@ -103,3 +103,7 @@ compute-sanitizer memcheck／racecheck／synccheck 執行完整 GPU 測試。ini
 kernel 不用 shared memory 與 barrier，racecheck／synccheck 在此是回歸防線而非主要證據。**synccheck 不檢查 `__shfl_sync` 的 mask**（control 中排除自身的 shuffle mask 不被回報，已記錄）；shuffle 的正確性依靠 group-uniform 控制流程（同一 (b,d) 的 N 個 thread 一起提前結束）與 N=1…32 的數值測試。
 
 Mutation 以私有副本修改一處 CUDA 實作，未修改的測試必須失敗（[mutation-check.sh](../evidence/s02/2026-10-29/mutation-check.sh)）：舊式 softplus、移除 Cody–Waite 分支、一般 FP32 drive、移除部分和縮放重算、去掉 D skip、per-channel A 讀第 0 列、full C 讀第 0 個 state、butterfly 少一層、status 不清零、失敗不覆寫 NaN、不寫 `done`、有限值檢查略過 D、scan 改送 default stream、遞推改為 h＋decay·drive、合併不取平均、方向 2 改翻 H、不載入 kernels（lazy loading 下單獨執行 stream 測試，預期卡住而逾時）。default stream 的 mutation 另須分別被 host callback 測試與 graph capture 測試單獨抓到。
+
+## 7. 執行紀錄
+
+**S02 PASS（2026-10-29，受測 source `7f7bfa73d53d5ee5d41b416e8abf0b20b1d8e434`）**，範圍與數值見 [S02 證據](../evidence/s02/2026-10-29/REPORT.md)。§3–§5 自政策 commit `7ab618f` 起未修改；之後的文件變更只有 §2 新增初始化列（lazy loading 的隱式同步）與 §6 的 sanitizer 說明（initcheck 略過一項、synccheck 不檢查 shuffle mask），理由見證據報告「開發過程的發現與處理」。

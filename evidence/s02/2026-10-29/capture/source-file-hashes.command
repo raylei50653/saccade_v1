@@ -1,0 +1,1 @@
+bash -c cd\ \"\$1\"\ \&\&\ sha256sum\ CMakeLists.txt\ include/saccade/selective_scan_cuda.hpp\ cuda/selective_scan.cu\ tests/selective_scan_cuda_tests.cpp\ docs/SCAN_CUDA.md\ evidence/s02/2026-10-29/\*.sh\ evidence/s02/2026-10-29/\*.cu _ build-s02-evidence/source 

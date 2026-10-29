@@ -2,7 +2,7 @@
 
 P01 保持 OPEN。P01-A 將 manifest 工具、native SDK 路徑、真實 artifact readiness 分別驗收，不能互相替代。P01-A 調查日期：2026-10-28；head 契約查核與 S01：2026-10-29。
 
-2026-10-29 使用者決策將 v1 模型基線改為 YOLO26m backbone／neck＋原版 m T3→T1 Mamba-FPN head、單幀 T=1。[SCAN_CONTRACT](SCAN_CONTRACT.md) 已由該 head 的實作、checkpoint 容器與部署 ONNX 核實 scan 契約；**S01 PASS，範圍限該文件 §3–§5 的 `SelectiveScan` 算子與 Cross-Scan**（§3 表後說明）。證據見 [S01 evidence](../evidence/s01/2026-10-29/REPORT.md)；同日稍早的 s／D1 查核（[scan-contract evidence](../evidence/scan-contract/2026-10-29/REPORT.md)）保留為歷史。
+2026-10-29 使用者決策將 v1 模型基線改為 YOLO26m backbone／neck＋原版 m T3→T1 Mamba-FPN head、單幀 T=1。[SCAN_CONTRACT](SCAN_CONTRACT.md) 已由該 head 的實作、checkpoint 容器與部署 ONNX 核實 scan 契約；**S01 PASS，範圍限該文件 §3–§5 的 `SelectiveScan` 算子與 Cross-Scan**（§3 表後說明）。**S02 PASS，範圍限 [SCAN_CUDA](SCAN_CUDA.md) 的 CUDA FP32 forward**（§3 表後說明，[S02 evidence](../evidence/s02/2026-10-29/REPORT.md)）。證據見 [S01 evidence](../evidence/s01/2026-10-29/REPORT.md)；同日稍早的 s／D1 查核（[scan-contract evidence](../evidence/scan-contract/2026-10-29/REPORT.md)）保留為歷史。
 
 [DATAFLOW §1.1 B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 現為 YOLO26m＋原版 m head、640×640、P3／P4／P5、單幀推論、C++／CUDA。下面 §1–§2 的 P01-A 於 2026-10-28 以當時的 s 目標完成（從驗收基線 `437c99edbae1a34854aa6966dc210b5053069929` fetch 後接續），其結論保留原適用範圍，不改寫成 m 驗收；m 的 artifact 查核見 [readiness §7](MODEL_ARTIFACT_READINESS.md#7-2026-10-29-原版-m-head-的-artifact-對應)。沒有搬用舊程式、權重或實驗結論。
 
@@ -45,6 +45,10 @@ P01 保持 OPEN。P01-A 將 manifest 工具、native SDK 路徑、真實 artifac
 
 **S01 判定：PASS（2026-10-29，受測 source `97f9b8c43f4127feb4bd1056893648f9b6cfc6c5`）。** 條件逐項：原版 m head 的 source／config／module map 已固定（[SCAN_CONTRACT §1–§2](SCAN_CONTRACT.md#1-目標與來源)）；scan 數學、tensor 邊界、狀態生命週期與比較政策已核實並先行固定（§3–§5）；[`selective_scan_reference`](../include/saccade/selective_scan.hpp) 為獨立 binary64 C++ 實作。[fixtures](../fixtures/selective-scan/README.md) 覆蓋零／單 token、長短序列（含 m 的 L=25／100／400、B=4、Dc=256、N=16）、N=1／2／4／8／16／32 與多種 channel 數、shared／per-channel A、rank-1／full C、D 有無、四方向展開與合併、極端有限值，以及非法 shape、容量溢位、非有限值與 FP32 範圍溢出的拒絕。非零 initial state 不受支援，ABI 中沒有該欄位。預設 CPU CTest 與 ASan／UBSan 均通過，expected 由 bc 重產逐 byte 相同，8 個語義 mutation 全部被測出。
 
-PASS 不涵蓋：MambaBlock 的投影、conv1d 與 gate（以標準 ONNX 算子實現，於 S04 對照）、FP32／FP16 CUDA kernel 的數值容差（S02）、plugin（S03）、完整 head 與真實權重（S04／P01）。可供 v1 native 載入的 m 權重、engine 身分與 cls／reg／decode 容量缺件見 [SCAN_CONTRACT §7](SCAN_CONTRACT.md#7-來源差異衝突與缺件) 與 [readiness §7](MODEL_ARTIFACT_READINESS.md#7-2026-10-29-原版-m-head-的-artifact-對應)。下一個可執行階段是 S02：以同一契約實作 CUDA forward，先依 kernel 的 FP32 運算訂定對照本 reference 的容差。
+PASS 不涵蓋：MambaBlock 的投影、conv1d 與 gate（以標準 ONNX 算子實現，於 S04 對照）、FP32／FP16 CUDA kernel 的數值容差（S02）、plugin（S03）、完整 head 與真實權重（S04／P01）。可供 v1 native 載入的 m 權重、engine 身分與 cls／reg／decode 容量缺件見 [SCAN_CONTRACT §7](SCAN_CONTRACT.md#7-來源差異衝突與缺件) 與 [readiness §7](MODEL_ARTIFACT_READINESS.md#7-2026-10-29-原版-m-head-的-artifact-對應)。S02 已接續完成（下段）。
+
+**S02 判定：PASS（2026-10-29，受測 source `7f7bfa73d53d5ee5d41b416e8abf0b20b1d8e434`，本機分支未推送）。** [SCAN_CUDA](SCAN_CUDA.md) 在第一次 GPU 執行前固定呼叫契約、FP32 算法、支援範圍與逐元素 running error bound 政策。`selective_scan_cuda` 與 Cross-Scan 展開／合併對 S01 reference 使用同一份 FP32 輸入 bytes：70 個案例、1,294,286 個元素全部在 2×E 內，最大 誤差／門檻 0.295，含 S01 全部 fixtures、m 的 L=25／100／400 形狀、N=1…32 與各種 broadcast、softplus 掃描（舊式 `logf(1+expf(x))` 在 18 點超出門檻）、中間量溢位／下溢與相消案例。失敗以 device status 回報、整個輸出改為 NaN；每次呼叫重設；工作只在顯式 stream、可被 global-mode capture 成 1 memset＋3 kernels，沒有配置、同步或 D2H；workspace 為 0。memcheck／racecheck／synccheck 完整通過，initcheck 只略過 host callback 擋住 stream 的一項，四個工具都有正控制組；17 個 CUDA mutation 全部被測出。開發中發現 lazy loading 會讓第一次呼叫隱式等待已在執行的工作，已列入呼叫契約（`selective_scan_cuda_load_kernels`）。
+
+S02 PASS 不涵蓋：FLT_MAX 附近幾個 ulp 的範圍判定灰區（SCAN_CUDA §4）、FP16 I/O、plugin 與其 status 通道（S03）、MambaBlock 其他算子、完整 head 與真實權重（S04／P01）、效能與跨 GPU 一致性。下一個可執行階段是 S03：以 v1 自建 plugin 接上同一個 kernel，並記錄完整 build 身分。
 
 `enqueue` 不使用 host count readback 決定正式工作量；固定 shape／容量在 session 前配置。未來 plugin 只在 D 及其明定資源執行；新增 stream 須先補 ASYNC_CONTROL 的交付／回收邊。失敗交由 F04 slot header／M 控制流程鎖定首次錯誤，既有 TensorRT 工作仍須依 stream／event 收尾。此次 affine 工具的 D2H 屬獨立驗證流程。

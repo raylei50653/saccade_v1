@@ -1,0 +1,19 @@
+group streams
+identity	build_commit=unknown
+identity	build_dirty=unknown
+identity	nvcc=13.4.92
+identity	scan_cuda_flags=unknown
+identity	cuda_arch_list=1200
+identity	host_compiler=16.2.1 20260810
+identity	cuda_runtime=13040
+identity	cuda_driver_api=13040
+identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+identity	compute_capability=12.0
+identity	uuid=825ae551ba16539ae44422726b59ee9a
+identity	kernel=check_finite registers=20 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=scan_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=finalize registers=16 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=expand_kernel registers=28 local_bytes=0 shared_bytes=0 max_threads=1024
+identity	kernel=merge_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+case	stream_gate	count=594	max_abs=18.8	max_rel=1	max_err_over_tol=1.64e+06	failures=594	worst_index=26	worst_gpu=-2.87351825e-16(0xa5a5a5a5)	worst_ref=-0.18630798065169726	worst_tol=1.14e-07	FAIL
+selective_scan_cuda_tests: stream_gate: every element within 2x the running error bound

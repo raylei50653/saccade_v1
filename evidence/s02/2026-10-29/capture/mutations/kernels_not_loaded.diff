@@ -1,0 +1,4 @@
+252c252
+<         CUDA(cudaFuncGetAttributes(&attributes, kernel)); // loads the kernel under lazy loading
+---
+>         (void)kernel; // loads the kernel under lazy loading

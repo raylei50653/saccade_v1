@@ -78,7 +78,7 @@ T 另含 `temporal_blocks`／`flow_gate_conv`，T=1 時繞過，O 中沒有對�
 | `relative` 容差 | atol＝0、rtol＝1e−10，用於量級極端但無相消的案例（相對界 ≈ 1.5e−14）。 |
 | 等式 | broadcast、共用 A、batch 隔離、重設、缺 D、零長度為值相等。 |
 | 門檻點 | softplus(20) 另以 1e−13 直接檢查 log1p 分支；20.5 為 passthrough。 |
-| 適用範圍 | 本政策只驗 reference 是否實現契約。FP32 CUDA kernel 的 `logf(1+expf(x))`、warp tree reduction 與 FP16 I/O 誤差須在 S02／S03 另訂容差。 |
+| 適用範圍 | 本政策只驗 reference 是否實現契約。S02 的 FP32 CUDA 比較政策另訂於 [SCAN_CUDA §5](SCAN_CUDA.md#5-數值比較政策首次執行前固定)（逐元素 running error bound，不沿用本節 1e−10）；FP16 I/O 誤差屬 S03。 |
 
 ## 6. Head 的 ordered cls／reg 與 decode
 
@@ -93,11 +93,11 @@ T 另含 `temporal_blocks`／`flow_gate_conv`，T=1 時繞過，O 中沒有對�
 
 | 項目 | 具體內容與處理 | 影響階段 |
 | --- | --- | --- |
-| softplus 精度 | K：x>20 原值、x<−20 為 `expf(x)`、其餘 `logf(1+expf(x))`（FP32）；H JIT：`F.softplus` 門檻 20、`log1p(exp)`。數學相同，K 在 (−20,−8) 有 FP32 相消誤差。reference 採 log1p 形式。 | S02 容差 |
-| reduction 次序 | K 為 warp xor tree，JIT 為 `sum(-1)`，reference 依 n 遞增。 | S02 容差 |
+| softplus 精度 | K：x>20 原值、x<−20 為 `expf(x)`、其餘 `logf(1+expf(x))`（FP32）；H JIT：`F.softplus` 門檻 20、`log1p(exp)`。數學相同，K 在 (−20,−8) 有 FP32 相消誤差。reference 採 log1p 形式。 | S02 已處理：v1 kernel 用 `log1pf(expf(x))`，x < −80 另以縮放的 e^x 避免下溢（[SCAN_CUDA §3](SCAN_CUDA.md#3-fp32-算法s02-基準)） |
+| reduction 次序 | K 為 warp xor tree，JIT 為 `sum(-1)`，reference 依 n 遞增。 | S02 已處理：v1 kernel 為固定 butterfly，誤差界見 SCAN_CUDA §5 |
 | A rows 判定 | H：`rows == Dc` 才 per-channel，否則讀第 0 列；P：`rows > 1` 即 per-channel，rows<Dc 會越界。合法值 {1,Dc} 下一致，非法值 v1 拒絕。 | 已處理（v1 決策） |
 | C width | H：`expand` 只允許 1；P：只有 1 才 broadcast，其他值會讀越界。合法 {1,N}，其餘拒絕。 | 已處理（v1 決策） |
-| D skip 時點 | 訓練期 K（R）在第二個迴圈對已存的 y 加 D·u；H 版同一迴圈。FP32 相同、FP16 會多一次 half 捨入。 | S02／S03 |
+| D skip 時點 | 訓練期 K（R）在第二個迴圈對已存的 y 加 D·u；H 版同一迴圈。FP32 相同、FP16 會多一次 half 捨入。 | S02 為同一迴圈（FP32）；FP16 屬 S03 |
 | 部署精度 | 現行 `build_mamba_head_trt.py` 預設開 FP16 與 TF32，且 plugin 接受 HALF；7 月 engine 的實際 build revision 與 flags 未記錄。 | 缺件：P01／S03 |
 | checkpoint ↔ 部署 | preset 指定 T1 主線 T，但 head engine 的 sibling ONNX O 來自 `…_gpu_decode/best_recall.ckpt`（X 的預設值，65/65 initializer 相符）。engine `c0c0e3e1…` bytes 本身仍未歸屬。 | 缺件：P01 |
 | 訓練 source 身分 | checkpoint 未記錄 source revision；T 的 args 鍵指向 ≥ R 或含相同變更的 dirty tree。scan 定義在 R 與 H 間語義相同，但這不是逐位元 provenance。 | 記錄於 evidence；不阻塞 S01 |

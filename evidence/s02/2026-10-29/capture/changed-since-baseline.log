@@ -1,0 +1,11 @@
+ CMakeLists.txt                               |  23 +
+ README.md                                    |   5 +-
+ cuda/selective_scan.cu                       | 344 ++++++++++
+ docs/SCAN_CUDA.md                            | 105 +++
+ evidence/s02/2026-10-29/capture.sh           |  70 ++
+ evidence/s02/2026-10-29/historical-hashes.sh |  11 +
+ evidence/s02/2026-10-29/mutation-check.sh    |  73 ++
+ evidence/s02/2026-10-29/sanitizer-control.cu |  42 ++
+ include/saccade/selective_scan_cuda.hpp      |  89 +++
+ tests/selective_scan_cuda_tests.cpp          | 991 +++++++++++++++++++++++++++
+ 10 files changed, 1752 insertions(+), 1 deletion(-)

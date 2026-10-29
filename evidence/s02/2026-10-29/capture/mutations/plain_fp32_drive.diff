@@ -1,0 +1,4 @@
+94c94
+<         const float drive = ldexpf(__fmul_rn(__fmul_rn(delta.m, sb.m), su.m), delta.e + sb.e + su.e);
+---
+>         const float drive = __fmul_rn(__fmul_rn(ldexpf(delta.m, delta.e), bv), u);

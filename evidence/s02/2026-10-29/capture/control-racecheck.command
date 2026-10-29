@@ -1,0 +1,1 @@
+bash -c \"\$1\"\ --tool\ \"\$2\"\ --error-exitcode\ 99\ \"\$3\"\ \"\$2\"\;\ code=\$\?\;\ echo\ \"tool\ exit=\$code\"\;\ \[\[\ \$code\ ==\ 99\ \]\] _ /opt/cuda/bin/compute-sanitizer racecheck build-s02-evidence/sanitizer-control 

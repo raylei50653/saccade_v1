@@ -168,3 +168,11 @@ if(SACCADE_ENABLE_CUDA)
     set_tests_properties(cuda_checked_cleanup PROPERTIES LABELS "gpu" TIMEOUT 180)
   endif()
 endif()
+
+# S03 TensorRT scan plugins, minimal engines and frame harness: they need the
+# S02 CUDA library and the pinned native TensorRT SDK (docs/SCAN_TRT.md).
+if(SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT)
+  include(cmake/ScanTensorRT.cmake)
+elseif(SACCADE_ENABLE_TENSORRT)
+  message(STATUS "S03 scan TensorRT plugins need SACCADE_ENABLE_CUDA=ON; not built")
+endif()

@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/src/scan_trt_plugin.cpp	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/src/scan_trt_plugin.cpp	2026-10-29 23:00:03.805838616 +0800
+@@ -201,7 +201,7 @@
+     std::int32_t enqueue(const PluginTensorDesc* in_desc, const PluginTensorDesc* out_desc, const void* const* in, void* const* out,
+                          void*, cudaStream_t stream) noexcept override {
+         try {
+-            require_bound(stream);
++            require_bound(stream); cudaStreamSynchronize(stream);
+             Call call;
+             const auto why = check(in_desc, out_desc, call);
+             if (!why.empty()) throw std::invalid_argument(why);

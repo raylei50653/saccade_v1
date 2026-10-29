@@ -1,0 +1,20 @@
+group frame
+identity	tensorrt_headers=10.16.1.11
+identity	tensorrt_library=101601.11
+identity	plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+identity	plugin_namespace=saccade
+identity	plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+identity	build_commit=e468044f0ab003fe5f76d6d2ef7260b618121516
+identity	build_dirty=false
+identity	nvcc=13.4.92
+identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+identity	cuda_arch_list=1200
+identity	host_compiler=16.2.1 20260810
+identity	tensorrt=10.16.1
+identity	cuda_runtime=13040
+identity	cuda_driver_api=13040
+identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+identity	compute_capability=12.0
+case	frame_p5_oracle	count=6400	max_abs=2.17e-06	max_rel=0.000341	max_err_over_tol=0.0375	failures=0	worst_index=4881	worst_gpu=-10.5652008(0xc1290b10)	worst_ref=-10.565202406344548	worst_tol=4.27e-05	PASS
+engine	pipeline_1x256x5x5_N16_d	plan_bytes=33492	build_seconds=0.619
+scan_trt_tests: valid_frames: every consumed status is retired to zero

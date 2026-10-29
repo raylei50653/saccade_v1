@@ -1,0 +1,13 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/cuda/scan_frame.cu	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/cuda/scan_frame.cu	2026-10-29 22:59:03.300896491 +0800
+@@ -55,8 +55,8 @@
+         if (flags) ctl->frame_status |= kNumeric;
+         if (flags & ~kKnownScanFlags) ctl->frame_status |= kProtocol;
+         ctl->scan_flags |= flags;
+-        s->flags = 0;
+-        s->done = 0; // retired: only the next plugin call can make it valid again
++        // flags not retired
++        // done not retired // retired: only the next plugin call can make it valid again
+         if (record) { record->flags[i] = flags; record->done[i] = done; }
+     }
+     if (list.count == 0) ctl->frame_status |= kProtocol; // a frame without a producer status cannot pass

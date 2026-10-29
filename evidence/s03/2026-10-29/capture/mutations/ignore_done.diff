@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/cuda/scan_frame.cu	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/cuda/scan_frame.cu	2026-10-29 22:58:54.805973849 +0800
+@@ -51,7 +51,7 @@
+     for (unsigned i = 0; i < list.count; ++i) {
+         ScanStatus* s = list.status[i];
+         const std::uint32_t flags = s->flags, done = s->done;
+-        if (done != kScanDone) ctl->frame_status |= kProtocol;
++        if (false) ctl->frame_status |= kProtocol;
+         if (flags) ctl->frame_status |= kNumeric;
+         if (flags & ~kKnownScanFlags) ctl->frame_status |= kProtocol;
+         ctl->scan_flags |= flags;

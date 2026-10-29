@@ -1,0 +1,20 @@
+ CMakeLists.txt                            |    8 +
+ cmake/ScanTensorRT.cmake                  |   58 ++
+ cuda/scan_frame.cu                        |  190 +++++
+ evidence/s03/2026-10-29/capture.sh        |   64 ++
+ evidence/s03/2026-10-29/mutation-check.sh |   73 ++
+ include/saccade/scan_frame_kernels.hpp    |   67 ++
+ include/saccade/scan_trt_frame.hpp        |  105 +++
+ include/saccade/scan_trt_network.hpp      |   46 ++
+ include/saccade/scan_trt_plugin.hpp       |   51 ++
+ src/scan_trt_frame.cpp                    |  523 ++++++++++++++
+ src/scan_trt_network.cpp                  |  151 ++++
+ src/scan_trt_plugin.cpp                   |  455 ++++++++++++
+ tests/scan_cuda_suite.hpp                 |  723 +++++++++++++++++++
+ tests/scan_trt_api_trace.cpp              |  113 +++
+ tests/scan_trt_api_trace.hpp              |   29 +
+ tests/scan_trt_fault.cu                   |   23 +
+ tests/scan_trt_tests.cpp                  | 1069 +++++++++++++++++++++++++++++
+ tests/selective_scan_cuda_tests.cpp       |  683 +-----------------
+ tools/scan_trt_engine.cpp                 |  299 ++++++++
+ 19 files changed, 4056 insertions(+), 674 deletions(-)

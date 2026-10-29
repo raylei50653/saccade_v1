@@ -1,0 +1,1 @@
+bash -c cd\ \"\$1\"\ \&\&\ sha256sum\ CMakeLists.txt\ cmake/ScanTensorRT.cmake\ include/saccade/scan\*\ cuda/scan_frame.cu\ src/scan_trt\*\ tests/scan_trt\*\ tests/scan_cuda_suite.hpp\ tools/scan_trt_engine.cpp\ evidence/s03/2026-10-29/\*.sh _ build-s03-evidence-final/source 

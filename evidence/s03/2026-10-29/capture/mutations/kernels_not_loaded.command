@@ -1,0 +1,1 @@
+env CUDA_MODULE_LOADING=LAZY timeout 45 /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/build/scan_trt_engine run /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/baseline.engine /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/kernels_not_loaded.report.txt 

@@ -1,0 +1,1 @@
+bash -c for\ f\ in\ evidence/s01/2026-10-29/audit/\*.sh\ evidence/s01/2026-10-29/reference/\*.sh\ evidence/s01/2026-10-29/verification/run.sh\ fixtures/selective-scan/derive.sh\;\ do\ bash\ -n\ \"\$f\"\ \&\&\ echo\ \"\$f:\ ok\"\;\ done 

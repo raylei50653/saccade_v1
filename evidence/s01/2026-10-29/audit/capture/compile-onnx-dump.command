@@ -1,0 +1,1 @@
+bash -c c++\ -std=c++20\ -O2\ -Wall\ -Wextra\ -Wpedantic\ -Werror\ -I\ include\ -I\ \"\$2\"\ \"\$1/onnx_graph_dump.cpp\"\ src/file_io.cpp\ src/sha256.cpp\ \"\$2/onnx.pb.cc\"\ \$\(pkg-config\ --cflags\ --libs\ protobuf\)\ -o\ \"\$2/onnx_graph_dump\" _ evidence/s01/2026-10-29/audit build-s01-audit-run/work 

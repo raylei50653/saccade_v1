@@ -27,7 +27,7 @@ C++ host 負責設定、來源控制、工作提交、錯誤處理與 I/O；前�
 | --- | --- | --- |
 | B01 主線邊界 | geometry-first、ReID-free MOT；不把 embedding、crop bank、Redis、RAG 或 cognition 納入追蹤必要依賴。 | [ADR 019 Decision](../../saccade/docs/decisions/019-demote-reid-geometry-first-production-tracker.md)、[architecture §3](../../saccade/docs/architecture/README.md) |
 | B02 第一個具體 profile | JPEG sequence＋序列 metadata → 每序列一份 MOT 結果；C++ native 入口。一般影片、RTSP 與多來源並行是擴充範圍。 | [native shipping boundary §3](../../saccade/docs/reference/native_runtime_shipping_boundary.md) |
-| B03 偵測器 | YOLO26 backbone／neck＋Mamba-FPN head，P3／P4／P5，s 為起點；幀內推論。C++ GPU 推論以 TensorRT＋native CUDA scan 為規劃方向，不使用 Python 前向。 | [math model §4.1](../../saccade/docs/reference/math_model.md)；native 實現須符合本次 C++／GPU 要求 |
+| B03 偵測器 | YOLO26m backbone／neck＋原版 m T3→T1 對應的 Mamba-FPN head（P3／P4／P5 channels 256／512／512、`d_model` 128、`d_state` 16、每尺度 1 block、spatial reduction 4、四方向 Cross-Scan、PixelShuffle、cls 80／reg 4、無 DFL），640×640、單幀 T=1，不跨幀保留 ModelState。C++ GPU 推論以 TensorRT＋native CUDA scan 為規劃方向，不使用 Python 前向。2026-10-29 使用者決策由 s 改為 m。 | [TRAINING_WORKFLOW](TRAINING_WORKFLOW.md)、[SCAN_CONTRACT](SCAN_CONTRACT.md)；s 時期的 [math model §4.1](../../saccade/docs/reference/math_model.md) 只作歷史設計意圖 |
 | B04 影像轉換 | RGB、CHW、float32 正規化至 0–1，再 stretch 到 640×640；保留回原圖的座標映射。主線不加入 tiling、letterbox、gamma 或 contrast 調整。 | [native resolved config §11.1](../../saccade/docs/reference/native_runtime_resolved_config.md)、[math model §1、§4.1](../../saccade/docs/reference/math_model.md) |
 | B05 觀測形成 | anchor-free decode、sigmoid／class 選擇、篩選與穩定 compact、NMS、原圖 xyxy boxes；保留 class ID。suppression 的責任只執行一次。 | [math model §4.1–4.2](../../saccade/docs/reference/math_model.md) |
 | B06 續追候選 | 從 NMS suppressed candidates 補回與本幀 predicted prior 重疊的觀測，只可續追、不可 birth；prior 在本幀 GMC control＋Kalman predict 後產生。 | [math model §9.1](../../saccade/docs/reference/math_model.md) 提供續追機制；prior 時點改變明列為 D06 |
@@ -37,7 +37,7 @@ C++ host 負責設定、來源控制、工作提交、錯誤處理與 I/O；前�
 | B10 排程 | serial 作依賴參考，double-buffer 為運行目標，`detect(k+1)` 與 `main(k)` 重疊。兩組候選 slots、獨立小影像 slots 與 host 端 JPEG staging；原圖是 detect stream 內的單一 buffer，main 頻譜與 TrackState 依 device 提交版本輪替；偵測串行，最多一個 detection 執行。跨 stream 協定見 [ASYNC_CONTROL](ASYNC_CONTROL.md)。 | [native resolved config §14.1](../../saccade/docs/reference/native_runtime_resolved_config.md)、[async ownership §2.1](../../saccade/docs/architecture/async_ownership_538.md)；v1 分離見 D07 |
 | B11 設定與資源 | C++ 讀取單一 resolved 設定；語義參數顯式下發，graph 綁定的設定固定。模型等 run 資源可共用；tracker／GMC／frame pool／輸出按 sequence 隔離。 | [native resolved config §8、§13–§14](../../saccade/docs/reference/native_runtime_resolved_config.md) |
 
-舊實作含不同 head 載入路徑；B03 選定的是新規劃方向，不表示舊版已具備或驗證整條 TensorRT-only 路徑。模型檔案、精度與 scan 相容規格仍須補齊，模型家族及 GPU 資料流已有基線。
+舊實作含不同 head 載入路徑；B03 選定的是新規劃方向，不表示舊版已具備或驗證整條 TensorRT-only 路徑。scan 契約已由原版 m 實作核實（[SCAN_CONTRACT](SCAN_CONTRACT.md)）；可供 native 載入的模型檔案、精度與完整 head 對照仍須補齊。新訓練的起點、cache、split 與選模另依 TRAINING_WORKFLOW 固定，模型選擇不表示訓練已啟動。
 
 ## 2. 邏輯資料流
 
@@ -404,7 +404,7 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 
 | 編號 | OPEN 規格 | 已有基線 |
 | --- | --- | --- |
-| P01 模型 artifact | 新模型檔案的來源／版本、engine 精度／shape binding、Mamba scan 的相容規格。 | YOLO26s＋Mamba-FPN、640、幀內 GPU 推論；輸入清單與 native scan 分階段驗證見 [MODEL_FEASIBILITY.md](MODEL_FEASIBILITY.md)，P01 仍 OPEN。 |
+| P01 模型 artifact | 新模型檔案的來源／版本、engine 精度／shape binding、可供 native 載入的 m 權重與 component I/O。 | YOLO26m＋原版 m Mamba-FPN head、640、單幀 GPU 推論；scan 契約與 S01 reference 見 [SCAN_CONTRACT](SCAN_CONTRACT.md)，分階段驗證見 [MODEL_FEASIBILITY.md](MODEL_FEASIBILITY.md)，P01 仍 OPEN。 |
 | P02 邊界數值規格 | resize 取樣與像素邊界、clipping／退化框、class 範圍、NMS 決勝與排序。 | RGB CHW 正規化、stretch、原圖 xyxy、穩定候選順序、class 保留。 |
 | P03 決策參數與簡化 | GMC downscale／可信度及 invalid 處置、分數／關聯／生命週期／bridge 閾值、預測後 prior 資格與 DDA 等歷史開關去留。 | F08a → predicted prior → F04b → F08b 已定；所有 top-k 與 auction 平手依 §3.2 的 `(cost, track UID, candidate ID)` 字典序，auction 保留 bid 主排序。 |
 | P04 容量與記憶體 | detections、suppressed candidates、GPU TrackState、top-k、獨立小影像／頻譜與序列輸出儲存的上限、dtype／layout；GPU 封包 writer 與容量驗證。 | [ResultPacket v1](RESULT_PACKET.md) 的最小 wire profile 已定為 256 rows、80-byte header＋48-byte rows，共 12368 bytes；有 C++ codec。此 profile 不代替其他 GPU 容量決策；每幀一次封包 D2H，容量不足顯式失敗。 |

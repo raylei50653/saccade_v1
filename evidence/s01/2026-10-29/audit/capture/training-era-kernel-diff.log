@@ -1,0 +1,179 @@
+diff --git a/include/tracking/mamba_scan.cuh b/include/tracking/mamba_scan.cuh
+index df43c497..8f51a9a9 100644
+--- a/include/tracking/mamba_scan.cuh
++++ b/include/tracking/mamba_scan.cuh
+@@ -67,3 +67,10 @@ void selective_scan_bwd(
+     void* stream = nullptr
+ );
+ 
++// Broadcast a rank-1-in-the-last-dim C tensor (shape (B, L, 1)) out to
++// (B, L, N) so the selective_scan kernels (which expect full N) read the
++// same value for every state n.  Used by the SelectiveScan TRT plugin when
++// loading legacy checkpoints with c_rank=1.  Launchers are async on `stream`.
++void broadcast_C_float(const float* c_in, float* c_out, int B, int L, int N, void* stream);
++void broadcast_C_half(const void* c_in, void* c_out, int B, int L, int N, void* stream);
++
+diff --git a/src/tracking/mamba_scan.cu b/src/tracking/mamba_scan.cu
+index d8097bbe..47673aba 100644
+--- a/src/tracking/mamba_scan.cu
++++ b/src/tracking/mamba_scan.cu
+@@ -5,11 +5,12 @@
+ 
+ // Number of D-dim channels processed per thread block.
+ // With N=16 states, this gives K*N threads per block:
+-//   K=4  →  64 threads (2 warps)  was 16 (0.5 warp)
++//   K=1  →  16 threads (0.5 warp) — original, low occupancy
++//   K=4  →  64 threads (2 warps)  — current (nsys-verified SM Issue 22% → target ~35%)
+ //   K=8  → 128 threads (4 warps)
+ //   K=16 → 256 threads (8 warps)
+ #ifndef MAMBA_CHANNELS_PER_BLOCK
+-#define MAMBA_CHANNELS_PER_BLOCK 1
++#define MAMBA_CHANNELS_PER_BLOCK 4
+ #endif
+ 
+ __device__ inline float softplus_f32(float x) {
+@@ -18,6 +19,15 @@ __device__ inline float softplus_f32(float x) {
+     return logf(1.0f + expf(x));
+ }
+ 
++inline bool valid_scan_state_count(int N) {
++    return N > 0 && N <= 32 && (N & (N - 1)) == 0;
++}
++
++__device__ inline unsigned scan_mask_for_n(int N, int channel_in_warp) {
++    unsigned base = (N == 32) ? 0xffffffffu : ((1u << N) - 1u);
++    return N == 32 ? base : (base << (channel_in_warp * N));
++}
++
+ template <typename T>
+ __global__ void selective_scan_fwd_kernel(
+     const T* __restrict__ u,
+@@ -42,13 +52,14 @@ __global__ void selective_scan_fwd_kernel(
+     if (d >= D_dim || b >= B) return;
+ 
+     float A_n = static_cast<float>(A[a_per_channel ? (d * N + n) : n]);
++    float D_d = (has_D && n == 0) ? static_cast<float>(D[d]) : 0.0f;
+     float h = 0.0f;
+ 
+     // Each channel's N=16 threads are consecutive within a single warp.
+     // Compute the mask for __shfl_xor_sync using warp-local lane.
+     int lane = tid % 32;
+     int channel_in_warp = lane / N;
+-    unsigned mask = ((1u << N) - 1u) << (channel_in_warp * N);
++    unsigned mask = scan_mask_for_n(N, channel_in_warp);
+ 
+     for (int t = 0; t < L; t++) {
+         float u_btd = static_cast<float>(u[((b * L + t) * D_dim) + d]);
+@@ -71,19 +82,10 @@ __global__ void selective_scan_fwd_kernel(
+ 
+         // Thread 0 of each channel group writes the reduced result.
+         if (n == 0) {
++            if (has_D) acc += D_d * u_btd;
+             y[((b * L + t) * D_dim) + d] = static_cast<T>(acc);
+         }
+     }
+-
+-    // D skip connection — thread 0 of each channel group
+-    if (has_D && n == 0) {
+-        float D_d = static_cast<float>(D[d]);
+-        for (int t = 0; t < L; t++) {
+-            float val = static_cast<float>(y[((b * L + t) * D_dim) + d]);
+-            val += D_d * static_cast<float>(u[((b * L + t) * D_dim) + d]);
+-            y[((b * L + t) * D_dim) + d] = static_cast<T>(val);
+-        }
+-    }
+ }
+ 
+ __device__ inline float sigmoid_f32(float x) {
+@@ -123,7 +125,7 @@ __global__ void selective_scan_bwd_kernel(
+     if (d >= D_dim || b >= B) return;
+ 
+     int n = threadIdx.x;  // 0 .. N-1, all lanes within one warp
+-    unsigned mask = (1u << N) - 1u;
++    unsigned mask = scan_mask_for_n(N, 0);
+ 
+     float A_n = A[a_per_channel ? (d * N + n) : n];
+ 
+@@ -221,8 +223,8 @@ void selective_scan_bwd(
+     void* stream
+ ) {
+     int B = params.B, L = params.L, D_dim = params.D, N = params.N;
+-    if (N > 32) {
+-        fprintf(stderr, "[mamba_scan] bwd requires N<=32 (warp reduce), got %d\n", N);
++    if (!valid_scan_state_count(N)) {
++        fprintf(stderr, "[mamba_scan] bwd requires power-of-two N in [1,32], got %d\n", N);
+         return;
+     }
+     dim3 grid(B, D_dim);
+@@ -249,8 +251,8 @@ void selective_scan_fwd(
+     constexpr int K = MAMBA_CHANNELS_PER_BLOCK;
+     int B = params.B, L = params.L, D_dim = params.D, N = params.N;
+ 
+-    if (N > 1024 || K * N > 1024) {
+-        fprintf(stderr, "[mamba_scan] K*N=%d exceeds block thread limit 1024\n", K * N);
++    if (!valid_scan_state_count(N) || K * N > 1024) {
++        fprintf(stderr, "[mamba_scan] fwd requires power-of-two N in [1,32] and K*N<=1024, got N=%d K*N=%d\n", N, K * N);
+         return;
+     }
+ 
+@@ -279,8 +281,8 @@ void selective_scan_fwd_half(
+     constexpr int K = MAMBA_CHANNELS_PER_BLOCK;
+     int B = params.B, L = params.L, D_dim = params.D, N = params.N;
+ 
+-    if (N > 1024 || K * N > 1024) {
+-        fprintf(stderr, "[mamba_scan] K*N=%d exceeds block thread limit 1024\n", K * N);
++    if (!valid_scan_state_count(N) || K * N > 1024) {
++        fprintf(stderr, "[mamba_scan] fwd_half requires power-of-two N in [1,32] and K*N<=1024, got N=%d K*N=%d\n", N, K * N);
+         return;
+     }
+ 
+@@ -300,3 +302,49 @@ void selective_scan_fwd_half(
+         B, L, D_dim, N, params.has_D ? 1 : 0, params.a_per_channel ? 1 : 0
+     );
+ }
++
++// ── C rank-1 broadcast helpers (used by the SelectiveScan TRT plugin) ───────
++// Expand a (B, L, 1) C tensor to (B, L, N) by replicating the single value
++// across all N states.  c_in has B*L elements; c_out has B*L*N elements.
++__global__ void broadcast_C_float_kernel(
++    const float* __restrict__ c_in, float* __restrict__ c_out,
++    int B, int L, int N)
++{
++    int idx = blockIdx.x * blockDim.x + threadIdx.x;
++    int total = B * L * N;
++    if (idx >= total) return;
++    int bt = idx / N;  // (b, t) linear index into the (B, L, 1) source
++    c_out[idx] = c_in[bt];
++}
++
++__global__ void broadcast_C_half_kernel(
++    const __half* __restrict__ c_in, __half* __restrict__ c_out,
++    int B, int L, int N)
++{
++    int idx = blockIdx.x * blockDim.x + threadIdx.x;
++    int total = B * L * N;
++    if (idx >= total) return;
++    int bt = idx / N;
++    c_out[idx] = c_in[bt];
++}
++
++void broadcast_C_float(const float* c_in, float* c_out, int B, int L, int N, void* stream)
++{
++    int total = B * L * N;
++    if (total <= 0) return;
++    const int threads = 256;
++    const int blocks = (total + threads - 1) / threads;
++    cudaStream_t s = static_cast<cudaStream_t>(stream);
++    broadcast_C_float_kernel<<<blocks, threads, 0, s>>>(c_in, c_out, B, L, N);
++}
++
++void broadcast_C_half(const void* c_in, void* c_out, int B, int L, int N, void* stream)
++{
++    int total = B * L * N;
++    if (total <= 0) return;
++    const int threads = 256;
++    const int blocks = (total + threads - 1) / threads;
++    cudaStream_t s = static_cast<cudaStream_t>(stream);
++    broadcast_C_half_kernel<<<blocks, threads, 0, s>>>(
++        static_cast<const __half*>(c_in), static_cast<__half*>(c_out), B, L, N);
++}

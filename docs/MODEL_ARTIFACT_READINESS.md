@@ -2,7 +2,7 @@
 
 查核日期：2026-10-28。來源、檔案與內容分別記錄。此次下載新上游檔案，沒有使用舊專案的程式、權重或數值結論，也沒有執行 Python。
 
-2026-10-29 追加來源查核見 [§6](#6-2026-10-29-追加來源查核與解除阻塞)；前五節保留 P01-A 原始觀察，未重新下載既有 YOLO26s 或把工具 fixtures 升格為模型證據。
+2026-10-29 追加來源查核見 [§6](#6-2026-10-29-追加來源查核與解除阻塞)；前五節保留 P01-A 原始觀察，未重新下載既有 YOLO26s 或把工具 fixtures 升格為模型證據。同日使用者決策將 v1 目標改為 YOLO26m＋原版 m head：§1–§6 是 s 時期紀錄，m 的 artifact 對應見 [§7](#7-2026-10-29-原版-m-head-的-artifact-對應)。
 
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
@@ -121,3 +121,43 @@ sha256sum build-artifact-replay/yolo26s.canonical.json
 | U02 候選已有 PyTorch 實作／checkpoint，但 native 途徑與授權文本未交付 | 僅當 owner 明確選用 MambaPSA 時，向作者 repo 持有人／README 聯絡 Jen-Shiun Chiang 取得 matching small lineage、固定 dependency code、LICENSE 與 native bundle；先記錄對 B03 的架構影響。 | 不是目前 target readiness；不建議因有 checkpoint 就替代既定 head。 |
 
 最直接的後續動作：**由 v1 模型負責人交付 H01 的固定 source/config/module map；若沒有現成設計，裁定 D01–D04。** 這一步能決定要向哪個實作者索取 H02/H03，而不是再重跑一般 YOLO 或舊權重。未知公式未填入 manifest 的 `specified` 欄位；S01、P01 與真實 artifact readiness 維持 OPEN。
+
+## 7. 2026-10-29 原版 m head 的 artifact 對應
+
+依使用者決策，v1 目標改為 YOLO26m backbone／neck＋原版 m T3→T1 Mamba-FPN head；§1–§6 為 s 時期的原始紀錄，結論維持其原適用範圍。本輪查核 [TRAINING_WORKFLOW](TRAINING_WORKFLOW.md) 定位的本機 artifacts（舊庫 `/home/ray/developer/ai/saccade`，source 快照 `e48f3b39`），只以本輪撰寫的 native C++ 讀取 pickle 容器與 ONNX protobuf；沒有執行 Python、舊程式或匯入 checkpoint 類別，大型檔案不放入 Git。命令、輸出與 hashes 見 [S01 evidence](../evidence/s01/2026-10-29/REPORT.md)。
+
+### 7.1 檔案身分與 lineage
+
+下列檔案都位於舊庫 gitignored 的 `runs/`、`models/yolo/`，沒有遠端 URL 或不可變 revision；舊庫 tracked 檔案為 Apache-2.0，這些產物本身沒有授權宣告，base `yolo26m.pt` 的上游授權本輪未查核。
+
+| Artifact | bytes／SHA-256 | 本輪 native 讀取的內容 |
+| --- | --- | --- |
+| T1 主線 `runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt` | 126,802,369／`a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c` | archive `best`；epoch 15；parent `…_t3/best.ckpt`；`selection.status=diagnostic_train_loss`、holdout 空；108 個 student tensors；`mamba_args` 與形狀見 [SCAN_CONTRACT §1](SCAN_CONTRACT.md#1-目標與來源)。訓練 source revision 未記錄。 |
+| GPU-cache 追加 `…_t3_t1_gpu_decode/best.ckpt` | 126,802,625／`477fe1ab41bd7948028fd6a84f7ef63f6f5af4a70849ff352199d7d82fe6f3f9` | epoch 15；parent 為 T1 主線；`mamba_args` 結構與 T1 相同，另有 `reg_max=1`、`head_depth=1`、`reduction_variant=conv`。 |
+| 同 run `best_recall.ckpt` | 126,816,653／`dc186f546a9e33afe3566a07346f2cf5e42735fcac7274cb8f362355ac912626` | archive 名稱 `epoch_0011`、epoch 11；`selection` 欄位仍是 train-loss，以 recall 選取的程序未記錄於檔案。 |
+| `models/yolo/mamba_head_26m.onnx` | 40,768,852／`7330db0c40a026064d65d1d60a219eb7f019952041bd3c5ade849ba19405b167` | producer pytorch 2.11.0；IR 8；opset `""` 17、`saccade` 1；494 nodes、65 個內嵌 initializer（無 external data）、3 個 `saccade::SelectiveScan`。**65/65 initializer 逐 byte 對上 `best_recall.ckpt`**，對 T1 主線只對上 17 個凍結 SSM 參數；與匯出腳本預設值一致。 |
+| `models/yolo/mamba_head_26m.engine` | 22,549,364／`c0c0e3e1a99e1707996d876334af2217c9c725d03bb1fe6838073a47723806cf` | TensorRT plan，本輪未解析。build 腳本現行版本修改於 2026-09-27，晚於 engine 的 2026-07-07；實際 flags、TensorRT 版本與 plugin binary 未記錄。 |
+
+### 7.2 對 m 目標的判定
+
+| 層級 | 狀態 |
+| --- | --- |
+| 架構與 scan 契約 | **已核實**：T 的 `mamba_args`／state_dict 形狀與 O 的圖結構一致，S01 PASS（[MODEL_FEASIBILITY §3](MODEL_FEASIBILITY.md#3-s01s04-的接續條件)）。 |
+| 權重的 native 交付 | **OPEN**：T1 主線只有 pickle checkpoint，不是 native 入口；O 雖可 native 讀取，但屬 `best_recall.ckpt`，不是 preset 主線；新訓練尚未啟動，既有 checkpoint 也未被採為 v1 權重。 |
+| backbone／neck component I/O | **未查核**：舊庫有 `models/yolo/yolo26m_backbone_640.onnx`（75,900,061 bytes；舊 inventory 將其 initializers 歸屬 m teacher），本輪未 native 檢查其 ordered P3／P4／P5。 |
+| engine／plugin | **OPEN**：bytes 未歸屬，不作 v1 驗收；v1 plugin 依 S03 從零實作並記錄 build evidence。 |
+| 目標真實 artifact readiness | **OPEN**。manifest schema 1 的 `model_family` 只接受 s 字串（[MODEL_MANIFEST](MODEL_MANIFEST.md)），m 候選需 schema 升版。 |
+
+### 7.3 缺件更新
+
+§6.2 的 H01–H03 已由原版 m 實作解決；U01／U02 因 m 決策不再適用。
+
+| 缺件 | 本輪狀態與所需材料 | 阻塞 → 解鎖後下一步 |
+| --- | --- | --- |
+| H01 目標身分 | **已解決**：原版 m head，module map 見 SCAN_CONTRACT §2。 | — |
+| H02 scan 公式／ABI | **已解決**：SCAN_CONTRACT §3–§4。 | — → S02 |
+| H03 數值比較 | **S01 已固定** binary64 reference 政策；FP32／FP16 kernel 對照容差未定。 | S02 → 依 kernel 實際運算訂定容差後再比較。 |
+| H04 權重 native 交付 | **OPEN**：v1 選定權重的 head ONNX＋external data 或文件化 C++ 權重，以及匹配的 m backbone／neck（ordered P3 `[1,256,80,80]`、P4 `[1,512,40,40]`、P5 `[1,512,20,20]`），附 lineage、size、hash、授權。持有人為 v1 模型負責人（本 repository 擁有者）。 | P01／S04 → 依 TRAINING_WORKFLOW §5 固定新 run 後匯出；或明確指定沿用既有 checkpoint，再做 native inspection 與 manifest 檔案查核。 |
+| H05 cls／reg／decode | **部分**：輸出順序、box／score 編碼已核實（SCAN_CONTRACT §6）；候選容量、padding、invalid mask、class tie 未定。 | P02／S04 → F04 規格。 |
+| H06 engine 身分（新增） | **OPEN**：舊 engine 的 build revision、flags、TensorRT 與 plugin 身分未記錄。 | P01／S03 → 以 v1 自建 plugin 重建，不沿用舊 engine。 |
+| H07 manifest schema（新增） | **OPEN**：schema 1 僅接受 s family。 | P01 → schema 2 加入 m family 與 scan 欄位後再宣告 m 候選。 |

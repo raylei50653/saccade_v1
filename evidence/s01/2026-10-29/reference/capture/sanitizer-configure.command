@@ -1,0 +1,1 @@
+cmake -S build-s01-reference/source -B build-s01-reference/sanitize -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=-fsanitize=address\,undefined\ -fno-sanitize-recover=all\ -fno-omit-frame-pointer -DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address\,undefined\ -fno-sanitize-recover=all\ -fno-omit-frame-pointer 

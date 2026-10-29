@@ -1,0 +1,1 @@
+bash -c date\ -Is\;\ uname\ -srmo\;\ git\ --version\;\ c++\ --version\ \|\ head\ -1\;\ protoc\ --version\;\ pkg-config\ --modversion\ protobuf\;\ unzip\ -v\ \|\ head\ -1\;\ curl\ --version\ \|\ head\ -1 

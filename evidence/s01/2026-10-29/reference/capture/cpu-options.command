@@ -1,0 +1,1 @@
+bash -c grep\ -E\ \"\^\(CMAKE_BUILD_TYPE\|CMAKE_CXX_COMPILER\|CMAKE_CXX_FLAGS_RELEASE\|SACCADE_ENABLE_CUDA\|SACCADE_ENABLE_TENSORRT\):\"\ \"\$1/CMakeCache.txt\" _ build-s01-reference/cpu 

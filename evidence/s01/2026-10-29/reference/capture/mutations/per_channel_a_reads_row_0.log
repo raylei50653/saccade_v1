@@ -1,0 +1,17 @@
+element	single_token	0	3.77258872223978123771	3.7725887222397811	9.28e-17
+element	single_token	1	-164	-164	0
+case	single_token	unit	count=2	max_abs=9.28e-17	max_rel=2.46e-17	worst_index=0	PASS
+element	three_token_decay	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	three_token_decay	1	1.73286795139986327357	1.7328679513998633	2.49e-18
+element	three_token_decay	2	2.94587551737976756513	2.9458755173797675	7.09e-17
+case	three_token_decay	unit	count=3	max_abs=7.09e-17	max_rel=3.35e-17	worst_index=2	PASS
+element	softplus_branches	0	9.35762296883973677941e-14	9.3576229688397368e-14	6.16e-31
+element	softplus_branches	1	2.0611536203143807032e-09	2.0611536203143808e-09	1.01e-25
+element	softplus_branches	2	0.313261687518222834044	0.31326168751822286	3.04e-17
+element	softplus_branches	3	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	softplus_branches	4	20.000000002061153621	20.000000002061153	5.95e-16
+element	softplus_branches	5	20.5	20.5	0
+case	softplus_branches	relative	count=6	max_abs=5.95e-16	max_rel=9.69e-17	worst_index=4	PASS
+case	geometric_p3_length	unit	count=1600	max_abs=3.15e-15	max_rel=3.02e-16	worst_index=191	PASS
+case	per_channel_a	unit	count=75	max_abs=15.8	max_rel=0.96	worst_index=74	FAIL
+selective_scan_tests: per_channel_a: within unit tolerance

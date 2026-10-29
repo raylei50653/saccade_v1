@@ -1,0 +1,577 @@
+scope=structural-dump-only; no semantic check, inference or execution
+ir_version	8
+producer	pytorch	2.11.0
+opset	""	17
+opset	"saccade"	1
+graph	nodes=494	initializers=65	functions=0
+input	0	p3	FLOAT	[batch,256,80,80]
+input	1	p4	FLOAT	[batch,512,40,40]
+input	2	p5	FLOAT	[batch,512,20,20]
+output	0	cls_p3	FLOAT	[batch,80,80,80]
+output	1	cls_p4	FLOAT	[batch,80,40,40]
+output	2	cls_p5	FLOAT	[batch,80,20,20]
+output	3	reg_p3	FLOAT	[batch,4,80,80]
+output	4	reg_p4	FLOAT	[batch,4,40,40]
+output	5	reg_p5	FLOAT	[batch,4,20,20]
+value_info	0	/head/mamba_blocks.0.0/SelectiveScan_output_0	FLOAT	[SelectiveScan/head/mamba_blocks.0.0/SelectiveScan_output_0_dim_0,SelectiveScan/head/mamba_blocks.0.0/SelectiveScan_output_0_dim_1,256]
+value_info	1	/head/mamba_blocks.1.0/SelectiveScan_output_0	FLOAT	[SelectiveScan/head/mamba_blocks.1.0/SelectiveScan_output_0_dim_0,SelectiveScan/head/mamba_blocks.1.0/SelectiveScan_output_0_dim_1,256]
+value_info	2	/head/mamba_blocks.2.0/SelectiveScan_output_0	FLOAT	[SelectiveScan/head/mamba_blocks.2.0/SelectiveScan_output_0_dim_0,SelectiveScan/head/mamba_blocks.2.0/SelectiveScan_output_0_dim_1,256]
+initializer	0	head.input_proj.0.weight	FLOAT	[128,256,1,1]	bytes=131072 sha256=6a810a722f3cb757f17e8e2284cd1f37bd0313dbc0c86536445ac5289840fea2
+initializer	1	head.input_proj.0.bias	FLOAT	[128]	bytes=512 sha256=3658fabd121acbc4555d220e39ae6ba7f838f0aa582e630c391697f4683b6d9d
+initializer	2	head.input_proj.1.weight	FLOAT	[128,512,1,1]	bytes=262144 sha256=ebb88b56df08b5343f442f813212cedd40f39be6c8bd5438489e72110221fb5d
+initializer	3	head.input_proj.1.bias	FLOAT	[128]	bytes=512 sha256=88df3ac7a69b8b1a90d40c6f649a2567f23db020dd72895b28cdf2ed2e421471
+initializer	4	head.input_proj.2.weight	FLOAT	[128,512,1,1]	bytes=262144 sha256=2c75bbcc53bcff2e3e8902634b6d7c45269a0df98ab5141e14011fa454c78b02
+initializer	5	head.input_proj.2.bias	FLOAT	[128]	bytes=512 sha256=40744cba429d47c7ef938d766094f1510dc92a268b587cfdcaa0a98f2952639a
+initializer	6	head.downsample.0.weight	FLOAT	[128,128,4,4]	bytes=1048576 sha256=fce64abd535ca6e9851f5bae64b358dd850b0ed007f186c334ca205509e7c9e1
+initializer	7	head.downsample.0.bias	FLOAT	[128]	bytes=512 sha256=3a1319c2413f2b034e3b98cbbc27ed9b44185c6dc02e252e4d654d2b3db85e44
+initializer	8	head.downsample.1.weight	FLOAT	[128,128,4,4]	bytes=1048576 sha256=da6323c9df9fa6f28c9f9824029e8d53657a4aebcfc45cb88baa73a9608dd6af
+initializer	9	head.downsample.1.bias	FLOAT	[128]	bytes=512 sha256=88c10500f93b431aa91e440a05256cb4ad66073581f171548cd16c043191d24f
+initializer	10	head.downsample.2.weight	FLOAT	[128,128,4,4]	bytes=1048576 sha256=c578b691b0bcb19aa9093f80bba5f3b608b4d8634caca21f7a097a61e71dd89e
+initializer	11	head.downsample.2.bias	FLOAT	[128]	bytes=512 sha256=e4facb6fdee1023c35806364284c4dd977847d5c9eeda541281d3387bded1248
+initializer	12	head.mamba_blocks.0.0.D	FLOAT	[256]	bytes=1024 sha256=893a106828fbdb9521e1d868c985aab7ad2ae2f606edc55329265a5e7676006c
+initializer	13	head.mamba_blocks.0.0.conv1d.weight	FLOAT	[256,1,4]	bytes=4096 sha256=05a2d93fe4b4dd2347a5e1c62699efbf7e4c082f7a1415683c249388202a5aaf
+initializer	14	head.mamba_blocks.0.0.conv1d.bias	FLOAT	[256]	bytes=1024 sha256=0973d0aa6ddfef1f978c7dadfd2b04784168b6b5ceebe5a8cadd72622212c6ec
+initializer	15	head.mamba_blocks.0.0.dt_proj.bias	FLOAT	[256]	bytes=1024 sha256=3a3c2614abb1d588f540350c1e8f85e6884252c0c213c91e7fb9138690e53f58
+initializer	16	head.mamba_blocks.1.0.conv1d.weight	FLOAT	[256,1,4]	bytes=4096 sha256=2464e9f917eb8524940af83a69fce04c04ab7e889d53e7695cb7bea6ba205ea4
+initializer	17	head.mamba_blocks.1.0.conv1d.bias	FLOAT	[256]	bytes=1024 sha256=f096525dfe3d9bc8aff7e7fdd8b22eda6c82aeb55af7a02ec8c1ce89f8bc68a1
+initializer	18	head.mamba_blocks.1.0.dt_proj.bias	FLOAT	[256]	bytes=1024 sha256=645f09ea015b0cbb45fa47c23e68588338f7a4e068de1de8205b54664053afb7
+initializer	19	head.mamba_blocks.2.0.conv1d.weight	FLOAT	[256,1,4]	bytes=4096 sha256=cf8a6b062b5c07b91d489b87f4815bab520b9870d52c677aa33edc39f4a0b0ee
+initializer	20	head.mamba_blocks.2.0.conv1d.bias	FLOAT	[256]	bytes=1024 sha256=d4a9d95b35a0206ca1ce9ce256a5cb5d3c7379749b2f90db584d521bb1d8e89b
+initializer	21	head.mamba_blocks.2.0.dt_proj.bias	FLOAT	[256]	bytes=1024 sha256=494767c6df69eb43b4e6eb176037fb0c294426ba28e0b6d3f859c59e555ac605
+initializer	22	head.cls_head.0.0.weight	FLOAT	[128,256,3,3]	bytes=1179648 sha256=4a42346e45d29c30103c30945eef4d83d8972921abc4eade64e3b384f93a8c36
+initializer	23	head.cls_head.0.0.bias	FLOAT	[128]	bytes=512 sha256=11c2318c6d7d90bbf38a61bce734868b84a97b4be6b58221e8fdf6d8025ab193
+initializer	24	head.cls_head.0.2.weight	FLOAT	[80,128,1,1]	bytes=40960 sha256=37915e78bb25d589e2697acae4c8abf343dfb01b791513af300dc8926278fe22
+initializer	25	head.cls_head.0.2.bias	FLOAT	[80]	bytes=320 sha256=1e85f360a5bc6bbbe14dc4483bc458d88d29e6c0d149e125505fce912168106b
+initializer	26	head.cls_head.1.0.weight	FLOAT	[128,256,3,3]	bytes=1179648 sha256=3290dc3d21ecdfb153eb2f18db44ece85c67a4e4c7c0a7b72d7b38dd2bda7edf
+initializer	27	head.cls_head.1.0.bias	FLOAT	[128]	bytes=512 sha256=ea8a4cef591f6e5b2a6e295fd77a33898c8a3de736ae2578f41b292dcb9bafb2
+initializer	28	head.cls_head.1.2.weight	FLOAT	[80,128,1,1]	bytes=40960 sha256=5b6bafced1bef9b7308368b82183e884ec02ab1730586f9f906d454a8a1bba6b
+initializer	29	head.cls_head.1.2.bias	FLOAT	[80]	bytes=320 sha256=e8e7421bf22e19f9f33bcc5916353561d8a4a7714a12cd6770ab218f2c2af28d
+initializer	30	head.cls_head.2.0.weight	FLOAT	[128,256,3,3]	bytes=1179648 sha256=00c4d70bba530ecb0b0bd333a86e0663ee7ea178fa0eb1728842f09102ef55b0
+initializer	31	head.cls_head.2.0.bias	FLOAT	[128]	bytes=512 sha256=d4385cd0d560b5fac950207644d1f0ccf42d67eac79253532f63fc8e4b401d2f
+initializer	32	head.cls_head.2.2.weight	FLOAT	[80,128,1,1]	bytes=40960 sha256=307237a5f5822249329c8554b4b16a72a2ecf144cdbc4e6d6d70365d26900af7
+initializer	33	head.cls_head.2.2.bias	FLOAT	[80]	bytes=320 sha256=63dc78cad26ab005a4b2796aaa3a9d5cb7749734e4a81b4d9f542aa5436269f2
+initializer	34	head.reg_head.0.0.weight	FLOAT	[128,256,3,3]	bytes=1179648 sha256=bd9be374a0510b9725d1d40a97e6bfbd4f2ee8e0e68c76534475b938e9e42077
+initializer	35	head.reg_head.0.0.bias	FLOAT	[128]	bytes=512 sha256=75776a9ceab65ff60d0644e746ef7aede88d041ea928e2887f55fe103dbc2e50
+initializer	36	head.reg_head.0.2.weight	FLOAT	[4,128,1,1]	bytes=2048 sha256=e30554e8f718473a846e0ef81f0f731bb56a3e693b62a4710dc9e29c85c73770
+initializer	37	head.reg_head.0.2.bias	FLOAT	[4]	bytes=16 sha256=576374ff5e58748a886ecd6a9323bf980739bbc19f23a4583468624c8ae3e2cc values=[-0.0231253095,0.00428214669,0.139755562,0.132285103]
+initializer	38	head.reg_head.1.0.weight	FLOAT	[128,256,3,3]	bytes=1179648 sha256=ea69e16b1f61e1e4ea6946c7c593c0c89441d3693acb82610ef1427fc07f13d1
+initializer	39	head.reg_head.1.0.bias	FLOAT	[128]	bytes=512 sha256=d8dce08ccdf0c4203fc6ece665113684d5d5e3498f38c4eff95e2f27da95afa7
+initializer	40	head.reg_head.1.2.weight	FLOAT	[4,128,1,1]	bytes=2048 sha256=ade981fe8948d964cf599212c122cf2f9aa7170a81158d95e3f4c219cae76cc4
+initializer	41	head.reg_head.1.2.bias	FLOAT	[4]	bytes=16 sha256=9a442bec18832a5a2bfe5707dad45a189d10b4c94ca2489b8307239925e22ba2 values=[0.180154741,0.197086379,0.131201655,0.0248612631]
+initializer	42	head.reg_head.2.0.weight	FLOAT	[128,256,3,3]	bytes=1179648 sha256=48424d9defb749ff4566cbdf7024dc6f7131caa5ee1338c469b27738e797a709
+initializer	43	head.reg_head.2.0.bias	FLOAT	[128]	bytes=512 sha256=f43cdf5ce41c5ef21a9351508c7f4818521e8f0a7e3e6be3802ba162f089219f
+initializer	44	head.reg_head.2.2.weight	FLOAT	[4,128,1,1]	bytes=2048 sha256=552626681075c221753ae620ad6aec31e1670f0fd7e115cbfed38deb66bb9e35
+initializer	45	head.reg_head.2.2.bias	FLOAT	[4]	bytes=16 sha256=190e7cdf40bab43f4f0d265e06db17126d57687d4fd228c3785d926fb4082c04 values=[0.195715472,0.11878895,0.212347299,0.0900643319]
+initializer	46	head.upsample.0.0.weight	FLOAT	[2048,128,3,3]	bytes=9437184 sha256=438de9959cb6802855724bd925a76c32c3e2c5fa566cd63d9c5594f753d12b16
+initializer	47	head.upsample.0.0.bias	FLOAT	[2048]	bytes=8192 sha256=c0a8860e76173be6077ac06b7fbade1594e08b09106c3e5e911c610ac62a209b
+initializer	48	head.upsample.1.0.weight	FLOAT	[2048,128,3,3]	bytes=9437184 sha256=4ffa4ba9d716f4d74b55304aaf33abeaf5b164f7789361488a12c878a4cb62ca
+initializer	49	head.upsample.1.0.bias	FLOAT	[2048]	bytes=8192 sha256=3d787fab6ada3f9b2de3791afc22664e3b9f18e2faa98998b814f315e3890571
+initializer	50	head.upsample.2.0.weight	FLOAT	[2048,128,3,3]	bytes=9437184 sha256=07c04b69e171f588df1fcfa9ba1dbad0c31e555f4bf53d61412fbd570e6b4a7d
+initializer	51	head.upsample.2.0.bias	FLOAT	[2048]	bytes=8192 sha256=912ec3c79dba38914cbb25b1f6326703d293929256d0d50db16a3948286699fe
+initializer	52	onnx::MatMul_693	FLOAT	[128,512]	bytes=262144 sha256=ed65a80d532204b618421bd97882002d315ce5cc112d49a5e63c503d970349dc sha256_transposed=060d8ec5d55ddd6360a5ae965449fba1565e5bbbbdea2bd1f645ed9ac913102c
+initializer	53	onnx::MatMul_705	FLOAT	[256,33]	bytes=33792 sha256=cba88165211bd899e1d95fb415a6d92b5f546720f43ff3241d41260cbc4e05cf sha256_transposed=0554a253695ca591e9fa44f1067291ddcbc6830db1b72144e85afae279d38aad
+initializer	54	onnx::MatMul_710	FLOAT	[16,256]	bytes=16384 sha256=2efccc1ce2cc43cf38ee53dd9908be1be6f3e0dbda0b63eca2fda8509c91fe5d sha256_transposed=8c28ffc41b917ba305ce590f1bc52850b205e525cafc176a322ee389071c2a32
+initializer	55	onnx::Exp_719	FLOAT	[1,16]	bytes=64 sha256=187fa27fa4ea0de9e866518d723d588cc7e2c2be6d82de148987878cca8942de sha256_transposed=187fa27fa4ea0de9e866518d723d588cc7e2c2be6d82de148987878cca8942de values=[0,0.693147182,1.09861231,1.38629436,1.60943794,1.79175949,1.94591022,2.07944155,2.19722462,2.30258512,2.39789534,2.48490667,2.56494927,2.6390574,2.70805025,2.77258873]
+initializer	56	onnx::MatMul_720	FLOAT	[256,128]	bytes=131072 sha256=01127598b71dae92f44e6cdfb8ce785ebbed5146058860ec7959bf4f3e0ef761 sha256_transposed=56fbb531bb8d5a69fb8f158d805074657ab2b176ec580687804d3826cbbc35d4
+initializer	57	onnx::MatMul_722	FLOAT	[128,512]	bytes=262144 sha256=cb94920d4b21ec5824bb34231c9ba7867d47d01fa2a37a46fa7403dae3d4104a sha256_transposed=97fa7d78cd0747023320cd24097203a5696dc888282ee4ae669762c6b6ad516b
+initializer	58	onnx::MatMul_734	FLOAT	[256,33]	bytes=33792 sha256=f49c535a415a3ed082af9a9151cd92b23fe0347f9a2cd328d6841fffff5df493 sha256_transposed=2501841467702a22942c6b933fc84915ec4dff7a4f186a945ed71a57a4727f80
+initializer	59	onnx::MatMul_739	FLOAT	[16,256]	bytes=16384 sha256=afaea59074020ad67d0befe0d2dd819e907d84e3a28c8e2573b3a50f3a8cc4d3 sha256_transposed=e6fbd64e843b5e74b5acc43f850e7e5773621ba59c3bacef2458edfa16f1b90c
+initializer	60	onnx::MatMul_749	FLOAT	[256,128]	bytes=131072 sha256=ccb15b77aaf1d68b28c3f3ff607b28e9ab4d161ac074e858c2c483325185b474 sha256_transposed=61b7891410df1a68163e5fd9b9cb217f45a863167a34ff5a2e2313391e006923
+initializer	61	onnx::MatMul_751	FLOAT	[128,512]	bytes=262144 sha256=78e6bf61b08c07a4781c3df09c4fe9b7da76b5ceb29278ee4fd84c2c78251dfd sha256_transposed=6ebead48da9ab035a6233c1919cbd71c553cfd9ef5610ece921f27811e438bc9
+initializer	62	onnx::MatMul_763	FLOAT	[256,33]	bytes=33792 sha256=2ea2938fc47455199493329870ced42eb54c63e0241f08bcfdef947d114ab07b sha256_transposed=19ee2118f41657d057f09415bd3068e79db28ee082d20e9fe264ac8f25512130
+initializer	63	onnx::MatMul_768	FLOAT	[16,256]	bytes=16384 sha256=c9c2aec7c932e6223afde53b2b35b81bed92de8afba8b476ecbab6e34a4eefcf sha256_transposed=3c04d18f16c9a43cde71bc7961f67711bb86af62fefb9680f2057ec767ad35f5
+initializer	64	onnx::MatMul_778	FLOAT	[256,128]	bytes=131072 sha256=15a543396f060f8e4b0b10b8f02bb40bf57ae5105e2284baa514f2adce7133fd sha256_transposed=1a4f74ca5cc3941d5318f2e8242fb55647cefd60e9e82bd5d1dcdf5bcfb3d69e
+node	0	Identity_229	::Identity	inputs=onnx::Exp_719;	outputs=onnx::Exp_777;	attributes=
+node	1	Identity_230	::Identity	inputs=onnx::Exp_719;	outputs=onnx::Exp_748;	attributes=
+node	2	Identity_231	::Identity	inputs=head.mamba_blocks.0.0.D;	outputs=head.mamba_blocks.2.0.D;	attributes=
+node	3	Identity_232	::Identity	inputs=head.mamba_blocks.0.0.D;	outputs=head.mamba_blocks.1.0.D;	attributes=
+node	4	/head/input_proj.0/Constant	::Constant	inputs=	outputs=/head/input_proj.0/Constant_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	5	/head/input_proj.0/Conv	::Conv	inputs=p3;head.input_proj.0.weight;head.input_proj.0.bias;	outputs=/head/input_proj.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	6	/head/downsample.0/Conv	::Conv	inputs=/head/input_proj.0/Conv_output_0;head.downsample.0.weight;head.downsample.0.bias;	outputs=/head/downsample.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[4,4];pads:INTS=[0,0,0,0];strides:INTS=[4,4];
+node	7	/head/Constant	::Constant	inputs=	outputs=/head/Constant_output_0;	attributes=value:TENSOR=tensor[] values=[2];
+node	8	/head/Shape	::Shape	inputs=/head/downsample.0/Conv_output_0;	outputs=/head/Shape_output_0;	attributes=
+node	9	/head/Constant_1	::Constant	inputs=	outputs=/head/Constant_1_output_0;	attributes=value:TENSOR=tensor[] values=[2];
+node	10	/head/Gather	::Gather	inputs=/head/Shape_output_0;/head/Constant_1_output_0;	outputs=/head/Gather_output_0;	attributes=axis:INT=0;
+node	11	/head/Constant_2	::Constant	inputs=	outputs=/head/Constant_2_output_0;	attributes=value:TENSOR=tensor[] values=[3];
+node	12	/head/Shape_1	::Shape	inputs=/head/downsample.0/Conv_output_0;	outputs=/head/Shape_1_output_0;	attributes=
+node	13	/head/Constant_3	::Constant	inputs=	outputs=/head/Constant_3_output_0;	attributes=value:TENSOR=tensor[] values=[3];
+node	14	/head/Gather_1	::Gather	inputs=/head/Shape_1_output_0;/head/Constant_3_output_0;	outputs=/head/Gather_1_output_0;	attributes=axis:INT=0;
+node	15	/head/Constant_4	::Constant	inputs=	outputs=/head/Constant_4_output_0;	attributes=value:TENSOR=tensor[] values=[0];
+node	16	/head/Shape_2	::Shape	inputs=/head/downsample.0/Conv_output_0;	outputs=/head/Shape_2_output_0;	attributes=
+node	17	/head/Constant_5	::Constant	inputs=	outputs=/head/Constant_5_output_0;	attributes=value:TENSOR=tensor[] values=[0];
+node	18	/head/Gather_2	::Gather	inputs=/head/Shape_2_output_0;/head/Constant_5_output_0;	outputs=/head/Gather_2_output_0;	attributes=axis:INT=0;
+node	19	/head/Shape_3	::Shape	inputs=/head/downsample.0/Conv_output_0;	outputs=/head/Shape_3_output_0;	attributes=
+node	20	/head/Constant_6	::Constant	inputs=	outputs=/head/Constant_6_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	21	/head/Gather_3	::Gather	inputs=/head/Shape_3_output_0;/head/Constant_6_output_0;	outputs=/head/Gather_3_output_0;	attributes=axis:INT=0;
+node	22	/head/Constant_7	::Constant	inputs=	outputs=/head/Constant_7_output_0;	attributes=value:TENSOR=tensor[2] values=[2,3];
+node	23	/head/Constant_8	::Constant	inputs=	outputs=/head/Constant_8_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	24	/head/Constant_9	::Constant	inputs=	outputs=/head/Constant_9_output_0;	attributes=value:TENSOR=tensor[2] values=[-9223372036854775807,-9223372036854775807];
+node	25	/head/Constant_10	::Constant	inputs=	outputs=/head/Constant_10_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	26	/head/Slice	::Slice	inputs=/head/downsample.0/Conv_output_0;/head/Constant_8_output_0;/head/Constant_9_output_0;/head/Constant_7_output_0;/head/Constant_10_output_0;	outputs=/head/Slice_output_0;	attributes=
+node	27	/head/Constant_11	::Constant	inputs=	outputs=/head/Constant_11_output_0;	attributes=value:TENSOR=tensor[1] values=[3];
+node	28	/head/Constant_12	::Constant	inputs=	outputs=/head/Constant_12_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	29	/head/Constant_13	::Constant	inputs=	outputs=/head/Constant_13_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	30	/head/Constant_14	::Constant	inputs=	outputs=/head/Constant_14_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	31	/head/Slice_1	::Slice	inputs=/head/downsample.0/Conv_output_0;/head/Constant_12_output_0;/head/Constant_13_output_0;/head/Constant_11_output_0;/head/Constant_14_output_0;	outputs=/head/Slice_1_output_0;	attributes=
+node	32	/head/Constant_15	::Constant	inputs=	outputs=/head/Constant_15_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	33	/head/Constant_16	::Constant	inputs=	outputs=/head/Constant_16_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	34	/head/Constant_17	::Constant	inputs=	outputs=/head/Constant_17_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	35	/head/Constant_18	::Constant	inputs=	outputs=/head/Constant_18_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	36	/head/Slice_2	::Slice	inputs=/head/downsample.0/Conv_output_0;/head/Constant_16_output_0;/head/Constant_17_output_0;/head/Constant_15_output_0;/head/Constant_18_output_0;	outputs=/head/Slice_2_output_0;	attributes=
+node	37	/head/Constant_19	::Constant	inputs=	outputs=/head/Constant_19_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	38	/head/Unsqueeze	::Unsqueeze	inputs=/head/downsample.0/Conv_output_0;/head/Constant_19_output_0;	outputs=/head/Unsqueeze_output_0;	attributes=
+node	39	/head/Constant_20	::Constant	inputs=	outputs=/head/Constant_20_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	40	/head/Unsqueeze_1	::Unsqueeze	inputs=/head/Slice_output_0;/head/Constant_20_output_0;	outputs=/head/Unsqueeze_1_output_0;	attributes=
+node	41	/head/Constant_21	::Constant	inputs=	outputs=/head/Constant_21_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	42	/head/Unsqueeze_2	::Unsqueeze	inputs=/head/Slice_1_output_0;/head/Constant_21_output_0;	outputs=/head/Unsqueeze_2_output_0;	attributes=
+node	43	/head/Constant_22	::Constant	inputs=	outputs=/head/Constant_22_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	44	/head/Unsqueeze_3	::Unsqueeze	inputs=/head/Slice_2_output_0;/head/Constant_22_output_0;	outputs=/head/Unsqueeze_3_output_0;	attributes=
+node	45	/head/Concat	::Concat	inputs=/head/Unsqueeze_output_0;/head/Unsqueeze_1_output_0;/head/Unsqueeze_2_output_0;/head/Unsqueeze_3_output_0;	outputs=/head/Concat_output_0;	attributes=axis:INT=0;
+node	46	/head/Constant_23	::Constant	inputs=	outputs=/head/Constant_23_output_0;	attributes=value:TENSOR=tensor[] values=[4];
+node	47	/head/Mul	::Mul	inputs=/head/Gather_2_output_0;/head/Constant_23_output_0;	outputs=/head/Mul_output_0;	attributes=
+node	48	Constant_277	::Constant	inputs=	outputs=onnx::Unsqueeze_155;	attributes=value:TENSOR=tensor[1] values=[0];
+node	49	/head/Unsqueeze_4	::Unsqueeze	inputs=/head/Mul_output_0;onnx::Unsqueeze_155;	outputs=/head/Unsqueeze_4_output_0;	attributes=
+node	50	Constant_279	::Constant	inputs=	outputs=onnx::Unsqueeze_157;	attributes=value:TENSOR=tensor[1] values=[0];
+node	51	/head/Unsqueeze_5	::Unsqueeze	inputs=/head/Gather_3_output_0;onnx::Unsqueeze_157;	outputs=/head/Unsqueeze_5_output_0;	attributes=
+node	52	Constant_281	::Constant	inputs=	outputs=onnx::Unsqueeze_159;	attributes=value:TENSOR=tensor[1] values=[0];
+node	53	/head/Unsqueeze_6	::Unsqueeze	inputs=/head/Gather_output_0;onnx::Unsqueeze_159;	outputs=/head/Unsqueeze_6_output_0;	attributes=
+node	54	Constant_283	::Constant	inputs=	outputs=onnx::Unsqueeze_161;	attributes=value:TENSOR=tensor[1] values=[0];
+node	55	/head/Unsqueeze_7	::Unsqueeze	inputs=/head/Gather_1_output_0;onnx::Unsqueeze_161;	outputs=/head/Unsqueeze_7_output_0;	attributes=
+node	56	/head/Concat_1	::Concat	inputs=/head/Unsqueeze_4_output_0;/head/Unsqueeze_5_output_0;/head/Unsqueeze_6_output_0;/head/Unsqueeze_7_output_0;	outputs=/head/Concat_1_output_0;	attributes=axis:INT=0;
+node	57	/head/Reshape	::Reshape	inputs=/head/Concat_output_0;/head/Concat_1_output_0;	outputs=/head/Reshape_output_0;	attributes=allowzero:INT=0;
+node	58	/head/Shape_4	::Shape	inputs=/head/Reshape_output_0;	outputs=/head/Shape_4_output_0;	attributes=
+node	59	/head/Constant_24	::Constant	inputs=	outputs=/head/Constant_24_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	60	/head/Constant_25	::Constant	inputs=	outputs=/head/Constant_25_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	61	/head/Constant_26	::Constant	inputs=	outputs=/head/Constant_26_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	62	/head/Slice_3	::Slice	inputs=/head/Shape_4_output_0;/head/Constant_25_output_0;/head/Constant_26_output_0;/head/Constant_24_output_0;	outputs=/head/Slice_3_output_0;	attributes=
+node	63	/head/Constant_27	::Constant	inputs=	outputs=/head/Constant_27_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	64	/head/Concat_2	::Concat	inputs=/head/Slice_3_output_0;/head/Constant_27_output_0;	outputs=/head/Concat_2_output_0;	attributes=axis:INT=0;
+node	65	/head/Reshape_1	::Reshape	inputs=/head/Reshape_output_0;/head/Concat_2_output_0;	outputs=/head/Reshape_1_output_0;	attributes=allowzero:INT=0;
+node	66	/head/Transpose	::Transpose	inputs=/head/Reshape_1_output_0;	outputs=/head/Transpose_output_0;	attributes=perm:INTS=[0,2,1];
+node	67	/head/mamba_blocks.0.0/Shape	::Shape	inputs=/head/Transpose_output_0;	outputs=/head/mamba_blocks.0.0/Shape_output_0;	attributes=
+node	68	/head/mamba_blocks.0.0/Constant	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	69	/head/mamba_blocks.0.0/Gather	::Gather	inputs=/head/mamba_blocks.0.0/Shape_output_0;/head/mamba_blocks.0.0/Constant_output_0;	outputs=/head/mamba_blocks.0.0/Gather_output_0;	attributes=axis:INT=0;
+node	70	/head/mamba_blocks.0.0/in_proj/MatMul	::MatMul	inputs=/head/Transpose_output_0;onnx::MatMul_693;	outputs=/head/mamba_blocks.0.0/in_proj/MatMul_output_0;	attributes=
+node	71	/head/mamba_blocks.0.0/Constant_1	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_1_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	72	/head/mamba_blocks.0.0/Constant_2	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_2_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	73	/head/mamba_blocks.0.0/Constant_3	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_3_output_0;	attributes=value:TENSOR=tensor[1] values=[256];
+node	74	/head/mamba_blocks.0.0/Constant_4	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_4_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	75	/head/mamba_blocks.0.0/Slice	::Slice	inputs=/head/mamba_blocks.0.0/in_proj/MatMul_output_0;/head/mamba_blocks.0.0/Constant_2_output_0;/head/mamba_blocks.0.0/Constant_3_output_0;/head/mamba_blocks.0.0/Constant_1_output_0;/head/mamba_blocks.0.0/Constant_4_output_0;	outputs=/head/mamba_blocks.0.0/Slice_output_0;	attributes=
+node	76	/head/mamba_blocks.0.0/Constant_5	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_5_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	77	/head/mamba_blocks.0.0/Constant_6	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_6_output_0;	attributes=value:TENSOR=tensor[1] values=[256];
+node	78	/head/mamba_blocks.0.0/Constant_7	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_7_output_0;	attributes=value:TENSOR=tensor[1] values=[9223372036854775807];
+node	79	/head/mamba_blocks.0.0/Constant_8	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_8_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	80	/head/mamba_blocks.0.0/Slice_1	::Slice	inputs=/head/mamba_blocks.0.0/in_proj/MatMul_output_0;/head/mamba_blocks.0.0/Constant_6_output_0;/head/mamba_blocks.0.0/Constant_7_output_0;/head/mamba_blocks.0.0/Constant_5_output_0;/head/mamba_blocks.0.0/Constant_8_output_0;	outputs=/head/mamba_blocks.0.0/Slice_1_output_0;	attributes=
+node	81	/head/mamba_blocks.0.0/Transpose	::Transpose	inputs=/head/mamba_blocks.0.0/Slice_output_0;	outputs=/head/mamba_blocks.0.0/Transpose_output_0;	attributes=perm:INTS=[0,2,1];
+node	82	/head/mamba_blocks.0.0/conv1d/Conv	::Conv	inputs=/head/mamba_blocks.0.0/Transpose_output_0;head.mamba_blocks.0.0.conv1d.weight;head.mamba_blocks.0.0.conv1d.bias;	outputs=/head/mamba_blocks.0.0/conv1d/Conv_output_0;	attributes=dilations:INTS=[1];group:INT=256;kernel_shape:INTS=[4];pads:INTS=[3,3];strides:INTS=[1];
+node	83	/head/mamba_blocks.0.0/Constant_9	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_9_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	84	/head/mamba_blocks.0.0/Constant_10	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_10_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	85	/head/mamba_blocks.0.0/Constant_11	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_11_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	86	/head/mamba_blocks.0.0/Unsqueeze	::Unsqueeze	inputs=/head/mamba_blocks.0.0/Gather_output_0;/head/mamba_blocks.0.0/Constant_11_output_0;	outputs=/head/mamba_blocks.0.0/Unsqueeze_output_0;	attributes=
+node	87	/head/mamba_blocks.0.0/Constant_12	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_12_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	88	/head/mamba_blocks.0.0/Slice_2	::Slice	inputs=/head/mamba_blocks.0.0/conv1d/Conv_output_0;/head/mamba_blocks.0.0/Constant_10_output_0;/head/mamba_blocks.0.0/Unsqueeze_output_0;/head/mamba_blocks.0.0/Constant_9_output_0;/head/mamba_blocks.0.0/Constant_12_output_0;	outputs=/head/mamba_blocks.0.0/Slice_2_output_0;	attributes=
+node	89	/head/mamba_blocks.0.0/Transpose_1	::Transpose	inputs=/head/mamba_blocks.0.0/Slice_2_output_0;	outputs=/head/mamba_blocks.0.0/Transpose_1_output_0;	attributes=perm:INTS=[0,2,1];
+node	90	/head/mamba_blocks.0.0/Sigmoid	::Sigmoid	inputs=/head/mamba_blocks.0.0/Transpose_1_output_0;	outputs=/head/mamba_blocks.0.0/Sigmoid_output_0;	attributes=
+node	91	/head/mamba_blocks.0.0/Mul	::Mul	inputs=/head/mamba_blocks.0.0/Transpose_1_output_0;/head/mamba_blocks.0.0/Sigmoid_output_0;	outputs=/head/mamba_blocks.0.0/Mul_output_0;	attributes=
+node	92	/head/mamba_blocks.0.0/x_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.0.0/Mul_output_0;onnx::MatMul_705;	outputs=/head/mamba_blocks.0.0/x_proj/MatMul_output_0;	attributes=
+node	93	/head/mamba_blocks.0.0/Constant_13	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_13_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	94	/head/mamba_blocks.0.0/Constant_14	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_14_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	95	/head/mamba_blocks.0.0/Constant_15	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_15_output_0;	attributes=value:TENSOR=tensor[1] values=[16];
+node	96	/head/mamba_blocks.0.0/Constant_16	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_16_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	97	/head/mamba_blocks.0.0/Slice_3	::Slice	inputs=/head/mamba_blocks.0.0/x_proj/MatMul_output_0;/head/mamba_blocks.0.0/Constant_14_output_0;/head/mamba_blocks.0.0/Constant_15_output_0;/head/mamba_blocks.0.0/Constant_13_output_0;/head/mamba_blocks.0.0/Constant_16_output_0;	outputs=/head/mamba_blocks.0.0/Slice_3_output_0;	attributes=
+node	98	/head/mamba_blocks.0.0/dt_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.0.0/Slice_3_output_0;onnx::MatMul_710;	outputs=/head/mamba_blocks.0.0/dt_proj/MatMul_output_0;	attributes=
+node	99	/head/mamba_blocks.0.0/dt_proj/Add	::Add	inputs=head.mamba_blocks.0.0.dt_proj.bias;/head/mamba_blocks.0.0/dt_proj/MatMul_output_0;	outputs=/head/mamba_blocks.0.0/dt_proj/Add_output_0;	attributes=
+node	100	/head/mamba_blocks.0.0/Constant_17	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_17_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	101	/head/mamba_blocks.0.0/Constant_18	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_18_output_0;	attributes=value:TENSOR=tensor[1] values=[16];
+node	102	/head/mamba_blocks.0.0/Constant_19	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_19_output_0;	attributes=value:TENSOR=tensor[1] values=[32];
+node	103	/head/mamba_blocks.0.0/Constant_20	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_20_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	104	/head/mamba_blocks.0.0/Slice_4	::Slice	inputs=/head/mamba_blocks.0.0/x_proj/MatMul_output_0;/head/mamba_blocks.0.0/Constant_18_output_0;/head/mamba_blocks.0.0/Constant_19_output_0;/head/mamba_blocks.0.0/Constant_17_output_0;/head/mamba_blocks.0.0/Constant_20_output_0;	outputs=/head/mamba_blocks.0.0/Slice_4_output_0;	attributes=
+node	105	/head/mamba_blocks.0.0/Constant_21	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_21_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	106	/head/mamba_blocks.0.0/Constant_22	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_22_output_0;	attributes=value:TENSOR=tensor[1] values=[32];
+node	107	/head/mamba_blocks.0.0/Constant_23	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_23_output_0;	attributes=value:TENSOR=tensor[1] values=[9223372036854775807];
+node	108	/head/mamba_blocks.0.0/Constant_24	::Constant	inputs=	outputs=/head/mamba_blocks.0.0/Constant_24_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	109	/head/mamba_blocks.0.0/Slice_5	::Slice	inputs=/head/mamba_blocks.0.0/x_proj/MatMul_output_0;/head/mamba_blocks.0.0/Constant_22_output_0;/head/mamba_blocks.0.0/Constant_23_output_0;/head/mamba_blocks.0.0/Constant_21_output_0;/head/mamba_blocks.0.0/Constant_24_output_0;	outputs=/head/mamba_blocks.0.0/Slice_5_output_0;	attributes=
+node	110	/head/mamba_blocks.0.0/Exp	::Exp	inputs=onnx::Exp_719;	outputs=/head/mamba_blocks.0.0/Exp_output_0;	attributes=
+node	111	/head/mamba_blocks.0.0/Neg	::Neg	inputs=/head/mamba_blocks.0.0/Exp_output_0;	outputs=/head/mamba_blocks.0.0/Neg_output_0;	attributes=
+node	112	/head/mamba_blocks.0.0/SelectiveScan	saccade::SelectiveScan	inputs=/head/mamba_blocks.0.0/Mul_output_0;/head/mamba_blocks.0.0/dt_proj/Add_output_0;/head/mamba_blocks.0.0/Neg_output_0;/head/mamba_blocks.0.0/Slice_4_output_0;/head/mamba_blocks.0.0/Slice_5_output_0;head.mamba_blocks.0.0.D;	outputs=/head/mamba_blocks.0.0/SelectiveScan_output_0;	attributes=domain:STRING="saccade";
+node	113	/head/mamba_blocks.0.0/Sigmoid_1	::Sigmoid	inputs=/head/mamba_blocks.0.0/Slice_1_output_0;	outputs=/head/mamba_blocks.0.0/Sigmoid_1_output_0;	attributes=
+node	114	/head/mamba_blocks.0.0/Mul_1	::Mul	inputs=/head/mamba_blocks.0.0/Slice_1_output_0;/head/mamba_blocks.0.0/Sigmoid_1_output_0;	outputs=/head/mamba_blocks.0.0/Mul_1_output_0;	attributes=
+node	115	/head/mamba_blocks.0.0/Mul_2	::Mul	inputs=/head/mamba_blocks.0.0/SelectiveScan_output_0;/head/mamba_blocks.0.0/Mul_1_output_0;	outputs=/head/mamba_blocks.0.0/Mul_2_output_0;	attributes=
+node	116	/head/mamba_blocks.0.0/out_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.0.0/Mul_2_output_0;onnx::MatMul_720;	outputs=/head/mamba_blocks.0.0/out_proj/MatMul_output_0;	attributes=
+node	117	/head/Add	::Add	inputs=/head/mamba_blocks.0.0/out_proj/MatMul_output_0;/head/Transpose_output_0;	outputs=/head/Add_output_0;	attributes=
+node	118	/head/Transpose_1	::Transpose	inputs=/head/Add_output_0;	outputs=/head/Transpose_1_output_0;	attributes=perm:INTS=[0,2,1];
+node	119	/head/Constant_28	::Constant	inputs=	outputs=/head/Constant_28_output_0;	attributes=value:TENSOR=tensor[1] values=[4];
+node	120	Constant_349	::Constant	inputs=	outputs=onnx::Unsqueeze_261;	attributes=value:TENSOR=tensor[1] values=[0];
+node	121	/head/Unsqueeze_8	::Unsqueeze	inputs=/head/Gather_2_output_0;onnx::Unsqueeze_261;	outputs=/head/Unsqueeze_8_output_0;	attributes=
+node	122	Constant_351	::Constant	inputs=	outputs=onnx::Unsqueeze_263;	attributes=value:TENSOR=tensor[1] values=[0];
+node	123	/head/Unsqueeze_9	::Unsqueeze	inputs=/head/Gather_3_output_0;onnx::Unsqueeze_263;	outputs=/head/Unsqueeze_9_output_0;	attributes=
+node	124	Constant_353	::Constant	inputs=	outputs=onnx::Unsqueeze_265;	attributes=value:TENSOR=tensor[1] values=[0];
+node	125	/head/Unsqueeze_10	::Unsqueeze	inputs=/head/Gather_output_0;onnx::Unsqueeze_265;	outputs=/head/Unsqueeze_10_output_0;	attributes=
+node	126	Constant_355	::Constant	inputs=	outputs=onnx::Unsqueeze_267;	attributes=value:TENSOR=tensor[1] values=[0];
+node	127	/head/Unsqueeze_11	::Unsqueeze	inputs=/head/Gather_1_output_0;onnx::Unsqueeze_267;	outputs=/head/Unsqueeze_11_output_0;	attributes=
+node	128	/head/Concat_3	::Concat	inputs=/head/Constant_28_output_0;/head/Unsqueeze_8_output_0;/head/Unsqueeze_9_output_0;/head/Unsqueeze_10_output_0;/head/Unsqueeze_11_output_0;	outputs=/head/Concat_3_output_0;	attributes=axis:INT=0;
+node	129	/head/Reshape_2	::Reshape	inputs=/head/Transpose_1_output_0;/head/Concat_3_output_0;	outputs=/head/Reshape_2_output_0;	attributes=allowzero:INT=0;
+node	130	/head/Gather_4	::Gather	inputs=/head/Reshape_2_output_0;/head/Constant_4_output_0;	outputs=/head/Gather_4_output_0;	attributes=axis:INT=0;
+node	131	/head/Gather_5	::Gather	inputs=/head/Reshape_2_output_0;/head/input_proj.0/Constant_output_0;	outputs=/head/Gather_5_output_0;	attributes=axis:INT=0;
+node	132	/head/Constant_29	::Constant	inputs=	outputs=/head/Constant_29_output_0;	attributes=value:TENSOR=tensor[2] values=[2,3];
+node	133	/head/Constant_30	::Constant	inputs=	outputs=/head/Constant_30_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	134	/head/Constant_31	::Constant	inputs=	outputs=/head/Constant_31_output_0;	attributes=value:TENSOR=tensor[2] values=[-9223372036854775807,-9223372036854775807];
+node	135	/head/Constant_32	::Constant	inputs=	outputs=/head/Constant_32_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	136	/head/Slice_4	::Slice	inputs=/head/Gather_5_output_0;/head/Constant_30_output_0;/head/Constant_31_output_0;/head/Constant_29_output_0;/head/Constant_32_output_0;	outputs=/head/Slice_4_output_0;	attributes=
+node	137	/head/Gather_6	::Gather	inputs=/head/Reshape_2_output_0;/head/Constant_output_0;	outputs=/head/Gather_6_output_0;	attributes=axis:INT=0;
+node	138	/head/Constant_33	::Constant	inputs=	outputs=/head/Constant_33_output_0;	attributes=value:TENSOR=tensor[1] values=[3];
+node	139	/head/Constant_34	::Constant	inputs=	outputs=/head/Constant_34_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	140	/head/Constant_35	::Constant	inputs=	outputs=/head/Constant_35_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	141	/head/Constant_36	::Constant	inputs=	outputs=/head/Constant_36_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	142	/head/Slice_5	::Slice	inputs=/head/Gather_6_output_0;/head/Constant_34_output_0;/head/Constant_35_output_0;/head/Constant_33_output_0;/head/Constant_36_output_0;	outputs=/head/Slice_5_output_0;	attributes=
+node	143	/head/Gather_7	::Gather	inputs=/head/Reshape_2_output_0;/head/Constant_2_output_0;	outputs=/head/Gather_7_output_0;	attributes=axis:INT=0;
+node	144	/head/Constant_37	::Constant	inputs=	outputs=/head/Constant_37_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	145	/head/Constant_38	::Constant	inputs=	outputs=/head/Constant_38_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	146	/head/Constant_39	::Constant	inputs=	outputs=/head/Constant_39_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	147	/head/Constant_40	::Constant	inputs=	outputs=/head/Constant_40_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	148	/head/Slice_6	::Slice	inputs=/head/Gather_7_output_0;/head/Constant_38_output_0;/head/Constant_39_output_0;/head/Constant_37_output_0;/head/Constant_40_output_0;	outputs=/head/Slice_6_output_0;	attributes=
+node	149	/head/Constant_41	::Constant	inputs=	outputs=/head/Constant_41_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	150	/head/Unsqueeze_12	::Unsqueeze	inputs=/head/Gather_4_output_0;/head/Constant_41_output_0;	outputs=/head/Unsqueeze_12_output_0;	attributes=
+node	151	/head/Constant_42	::Constant	inputs=	outputs=/head/Constant_42_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	152	/head/Unsqueeze_13	::Unsqueeze	inputs=/head/Slice_4_output_0;/head/Constant_42_output_0;	outputs=/head/Unsqueeze_13_output_0;	attributes=
+node	153	/head/Constant_43	::Constant	inputs=	outputs=/head/Constant_43_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	154	/head/Unsqueeze_14	::Unsqueeze	inputs=/head/Slice_5_output_0;/head/Constant_43_output_0;	outputs=/head/Unsqueeze_14_output_0;	attributes=
+node	155	/head/Constant_44	::Constant	inputs=	outputs=/head/Constant_44_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	156	/head/Unsqueeze_15	::Unsqueeze	inputs=/head/Slice_6_output_0;/head/Constant_44_output_0;	outputs=/head/Unsqueeze_15_output_0;	attributes=
+node	157	/head/Concat_4	::Concat	inputs=/head/Unsqueeze_12_output_0;/head/Unsqueeze_13_output_0;/head/Unsqueeze_14_output_0;/head/Unsqueeze_15_output_0;	outputs=/head/Concat_4_output_0;	attributes=axis:INT=0;
+node	158	/head/ReduceMean	::ReduceMean	inputs=/head/Concat_4_output_0;	outputs=/head/ReduceMean_output_0;	attributes=axes:INTS=[0];keepdims:INT=0;
+node	159	/head/upsample.0/upsample.0.0/Conv	::Conv	inputs=/head/ReduceMean_output_0;head.upsample.0.0.weight;head.upsample.0.0.bias;	outputs=/head/upsample.0/upsample.0.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	160	/head/upsample.0/upsample.0.1/DepthToSpace	::DepthToSpace	inputs=/head/upsample.0/upsample.0.0/Conv_output_0;	outputs=/head/upsample.0/upsample.0.1/DepthToSpace_output_0;	attributes=blocksize:INT=4;mode:STRING="CRD";
+node	161	/head/Concat_5	::Concat	inputs=/head/input_proj.0/Conv_output_0;/head/upsample.0/upsample.0.1/DepthToSpace_output_0;	outputs=/head/Concat_5_output_0;	attributes=axis:INT=1;
+node	162	/head/cls_head.0/cls_head.0.0/Conv	::Conv	inputs=/head/Concat_5_output_0;head.cls_head.0.0.weight;head.cls_head.0.0.bias;	outputs=/head/cls_head.0/cls_head.0.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	163	/head/cls_head.0/cls_head.0.1/Sigmoid	::Sigmoid	inputs=/head/cls_head.0/cls_head.0.0/Conv_output_0;	outputs=/head/cls_head.0/cls_head.0.1/Sigmoid_output_0;	attributes=
+node	164	/head/cls_head.0/cls_head.0.1/Mul	::Mul	inputs=/head/cls_head.0/cls_head.0.0/Conv_output_0;/head/cls_head.0/cls_head.0.1/Sigmoid_output_0;	outputs=/head/cls_head.0/cls_head.0.1/Mul_output_0;	attributes=
+node	165	/head/cls_head.0/cls_head.0.2/Conv	::Conv	inputs=/head/cls_head.0/cls_head.0.1/Mul_output_0;head.cls_head.0.2.weight;head.cls_head.0.2.bias;	outputs=cls_p3;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	166	/head/reg_head.0/reg_head.0.0/Conv	::Conv	inputs=/head/Concat_5_output_0;head.reg_head.0.0.weight;head.reg_head.0.0.bias;	outputs=/head/reg_head.0/reg_head.0.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	167	/head/reg_head.0/reg_head.0.1/Sigmoid	::Sigmoid	inputs=/head/reg_head.0/reg_head.0.0/Conv_output_0;	outputs=/head/reg_head.0/reg_head.0.1/Sigmoid_output_0;	attributes=
+node	168	/head/reg_head.0/reg_head.0.1/Mul	::Mul	inputs=/head/reg_head.0/reg_head.0.0/Conv_output_0;/head/reg_head.0/reg_head.0.1/Sigmoid_output_0;	outputs=/head/reg_head.0/reg_head.0.1/Mul_output_0;	attributes=
+node	169	/head/reg_head.0/reg_head.0.2/Conv	::Conv	inputs=/head/reg_head.0/reg_head.0.1/Mul_output_0;head.reg_head.0.2.weight;head.reg_head.0.2.bias;	outputs=reg_p3;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	170	/head/input_proj.1/Conv	::Conv	inputs=p4;head.input_proj.1.weight;head.input_proj.1.bias;	outputs=/head/input_proj.1/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	171	/head/downsample.1/Conv	::Conv	inputs=/head/input_proj.1/Conv_output_0;head.downsample.1.weight;head.downsample.1.bias;	outputs=/head/downsample.1/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[4,4];pads:INTS=[0,0,0,0];strides:INTS=[4,4];
+node	172	/head/Shape_5	::Shape	inputs=/head/downsample.1/Conv_output_0;	outputs=/head/Shape_5_output_0;	attributes=
+node	173	/head/Constant_45	::Constant	inputs=	outputs=/head/Constant_45_output_0;	attributes=value:TENSOR=tensor[] values=[2];
+node	174	/head/Gather_8	::Gather	inputs=/head/Shape_5_output_0;/head/Constant_45_output_0;	outputs=/head/Gather_8_output_0;	attributes=axis:INT=0;
+node	175	/head/Shape_6	::Shape	inputs=/head/downsample.1/Conv_output_0;	outputs=/head/Shape_6_output_0;	attributes=
+node	176	/head/Constant_46	::Constant	inputs=	outputs=/head/Constant_46_output_0;	attributes=value:TENSOR=tensor[] values=[3];
+node	177	/head/Gather_9	::Gather	inputs=/head/Shape_6_output_0;/head/Constant_46_output_0;	outputs=/head/Gather_9_output_0;	attributes=axis:INT=0;
+node	178	/head/Shape_7	::Shape	inputs=/head/downsample.1/Conv_output_0;	outputs=/head/Shape_7_output_0;	attributes=
+node	179	/head/Constant_47	::Constant	inputs=	outputs=/head/Constant_47_output_0;	attributes=value:TENSOR=tensor[] values=[0];
+node	180	/head/Gather_10	::Gather	inputs=/head/Shape_7_output_0;/head/Constant_47_output_0;	outputs=/head/Gather_10_output_0;	attributes=axis:INT=0;
+node	181	/head/Shape_8	::Shape	inputs=/head/downsample.1/Conv_output_0;	outputs=/head/Shape_8_output_0;	attributes=
+node	182	/head/Constant_48	::Constant	inputs=	outputs=/head/Constant_48_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	183	/head/Gather_11	::Gather	inputs=/head/Shape_8_output_0;/head/Constant_48_output_0;	outputs=/head/Gather_11_output_0;	attributes=axis:INT=0;
+node	184	/head/Constant_49	::Constant	inputs=	outputs=/head/Constant_49_output_0;	attributes=value:TENSOR=tensor[2] values=[2,3];
+node	185	/head/Constant_50	::Constant	inputs=	outputs=/head/Constant_50_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	186	/head/Constant_51	::Constant	inputs=	outputs=/head/Constant_51_output_0;	attributes=value:TENSOR=tensor[2] values=[-9223372036854775807,-9223372036854775807];
+node	187	/head/Constant_52	::Constant	inputs=	outputs=/head/Constant_52_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	188	/head/Slice_7	::Slice	inputs=/head/downsample.1/Conv_output_0;/head/Constant_50_output_0;/head/Constant_51_output_0;/head/Constant_49_output_0;/head/Constant_52_output_0;	outputs=/head/Slice_7_output_0;	attributes=
+node	189	/head/Constant_53	::Constant	inputs=	outputs=/head/Constant_53_output_0;	attributes=value:TENSOR=tensor[1] values=[3];
+node	190	/head/Constant_54	::Constant	inputs=	outputs=/head/Constant_54_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	191	/head/Constant_55	::Constant	inputs=	outputs=/head/Constant_55_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	192	/head/Constant_56	::Constant	inputs=	outputs=/head/Constant_56_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	193	/head/Slice_8	::Slice	inputs=/head/downsample.1/Conv_output_0;/head/Constant_54_output_0;/head/Constant_55_output_0;/head/Constant_53_output_0;/head/Constant_56_output_0;	outputs=/head/Slice_8_output_0;	attributes=
+node	194	/head/Constant_57	::Constant	inputs=	outputs=/head/Constant_57_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	195	/head/Constant_58	::Constant	inputs=	outputs=/head/Constant_58_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	196	/head/Constant_59	::Constant	inputs=	outputs=/head/Constant_59_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	197	/head/Constant_60	::Constant	inputs=	outputs=/head/Constant_60_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	198	/head/Slice_9	::Slice	inputs=/head/downsample.1/Conv_output_0;/head/Constant_58_output_0;/head/Constant_59_output_0;/head/Constant_57_output_0;/head/Constant_60_output_0;	outputs=/head/Slice_9_output_0;	attributes=
+node	199	/head/Constant_61	::Constant	inputs=	outputs=/head/Constant_61_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	200	/head/Unsqueeze_16	::Unsqueeze	inputs=/head/downsample.1/Conv_output_0;/head/Constant_61_output_0;	outputs=/head/Unsqueeze_16_output_0;	attributes=
+node	201	/head/Constant_62	::Constant	inputs=	outputs=/head/Constant_62_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	202	/head/Unsqueeze_17	::Unsqueeze	inputs=/head/Slice_7_output_0;/head/Constant_62_output_0;	outputs=/head/Unsqueeze_17_output_0;	attributes=
+node	203	/head/Constant_63	::Constant	inputs=	outputs=/head/Constant_63_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	204	/head/Unsqueeze_18	::Unsqueeze	inputs=/head/Slice_8_output_0;/head/Constant_63_output_0;	outputs=/head/Unsqueeze_18_output_0;	attributes=
+node	205	/head/Constant_64	::Constant	inputs=	outputs=/head/Constant_64_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	206	/head/Unsqueeze_19	::Unsqueeze	inputs=/head/Slice_9_output_0;/head/Constant_64_output_0;	outputs=/head/Unsqueeze_19_output_0;	attributes=
+node	207	/head/Concat_6	::Concat	inputs=/head/Unsqueeze_16_output_0;/head/Unsqueeze_17_output_0;/head/Unsqueeze_18_output_0;/head/Unsqueeze_19_output_0;	outputs=/head/Concat_6_output_0;	attributes=axis:INT=0;
+node	208	/head/Constant_65	::Constant	inputs=	outputs=/head/Constant_65_output_0;	attributes=value:TENSOR=tensor[] values=[4];
+node	209	/head/Mul_1	::Mul	inputs=/head/Gather_10_output_0;/head/Constant_65_output_0;	outputs=/head/Mul_1_output_0;	attributes=
+node	210	Constant_439	::Constant	inputs=	outputs=onnx::Unsqueeze_351;	attributes=value:TENSOR=tensor[1] values=[0];
+node	211	/head/Unsqueeze_20	::Unsqueeze	inputs=/head/Mul_1_output_0;onnx::Unsqueeze_351;	outputs=/head/Unsqueeze_20_output_0;	attributes=
+node	212	Constant_441	::Constant	inputs=	outputs=onnx::Unsqueeze_353;	attributes=value:TENSOR=tensor[1] values=[0];
+node	213	/head/Unsqueeze_21	::Unsqueeze	inputs=/head/Gather_11_output_0;onnx::Unsqueeze_353;	outputs=/head/Unsqueeze_21_output_0;	attributes=
+node	214	Constant_443	::Constant	inputs=	outputs=onnx::Unsqueeze_355;	attributes=value:TENSOR=tensor[1] values=[0];
+node	215	/head/Unsqueeze_22	::Unsqueeze	inputs=/head/Gather_8_output_0;onnx::Unsqueeze_355;	outputs=/head/Unsqueeze_22_output_0;	attributes=
+node	216	Constant_445	::Constant	inputs=	outputs=onnx::Unsqueeze_357;	attributes=value:TENSOR=tensor[1] values=[0];
+node	217	/head/Unsqueeze_23	::Unsqueeze	inputs=/head/Gather_9_output_0;onnx::Unsqueeze_357;	outputs=/head/Unsqueeze_23_output_0;	attributes=
+node	218	/head/Concat_7	::Concat	inputs=/head/Unsqueeze_20_output_0;/head/Unsqueeze_21_output_0;/head/Unsqueeze_22_output_0;/head/Unsqueeze_23_output_0;	outputs=/head/Concat_7_output_0;	attributes=axis:INT=0;
+node	219	/head/Reshape_3	::Reshape	inputs=/head/Concat_6_output_0;/head/Concat_7_output_0;	outputs=/head/Reshape_3_output_0;	attributes=allowzero:INT=0;
+node	220	/head/Shape_9	::Shape	inputs=/head/Reshape_3_output_0;	outputs=/head/Shape_9_output_0;	attributes=
+node	221	/head/Constant_66	::Constant	inputs=	outputs=/head/Constant_66_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	222	/head/Constant_67	::Constant	inputs=	outputs=/head/Constant_67_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	223	/head/Constant_68	::Constant	inputs=	outputs=/head/Constant_68_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	224	/head/Slice_10	::Slice	inputs=/head/Shape_9_output_0;/head/Constant_67_output_0;/head/Constant_68_output_0;/head/Constant_66_output_0;	outputs=/head/Slice_10_output_0;	attributes=
+node	225	/head/Constant_69	::Constant	inputs=	outputs=/head/Constant_69_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	226	/head/Concat_8	::Concat	inputs=/head/Slice_10_output_0;/head/Constant_69_output_0;	outputs=/head/Concat_8_output_0;	attributes=axis:INT=0;
+node	227	/head/Reshape_4	::Reshape	inputs=/head/Reshape_3_output_0;/head/Concat_8_output_0;	outputs=/head/Reshape_4_output_0;	attributes=allowzero:INT=0;
+node	228	/head/Transpose_2	::Transpose	inputs=/head/Reshape_4_output_0;	outputs=/head/Transpose_2_output_0;	attributes=perm:INTS=[0,2,1];
+node	229	/head/mamba_blocks.1.0/Shape	::Shape	inputs=/head/Transpose_2_output_0;	outputs=/head/mamba_blocks.1.0/Shape_output_0;	attributes=
+node	230	/head/mamba_blocks.1.0/Constant	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	231	/head/mamba_blocks.1.0/Gather	::Gather	inputs=/head/mamba_blocks.1.0/Shape_output_0;/head/mamba_blocks.1.0/Constant_output_0;	outputs=/head/mamba_blocks.1.0/Gather_output_0;	attributes=axis:INT=0;
+node	232	/head/mamba_blocks.1.0/in_proj/MatMul	::MatMul	inputs=/head/Transpose_2_output_0;onnx::MatMul_722;	outputs=/head/mamba_blocks.1.0/in_proj/MatMul_output_0;	attributes=
+node	233	/head/mamba_blocks.1.0/Constant_1	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_1_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	234	/head/mamba_blocks.1.0/Constant_2	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_2_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	235	/head/mamba_blocks.1.0/Constant_3	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_3_output_0;	attributes=value:TENSOR=tensor[1] values=[256];
+node	236	/head/mamba_blocks.1.0/Constant_4	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_4_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	237	/head/mamba_blocks.1.0/Slice	::Slice	inputs=/head/mamba_blocks.1.0/in_proj/MatMul_output_0;/head/mamba_blocks.1.0/Constant_2_output_0;/head/mamba_blocks.1.0/Constant_3_output_0;/head/mamba_blocks.1.0/Constant_1_output_0;/head/mamba_blocks.1.0/Constant_4_output_0;	outputs=/head/mamba_blocks.1.0/Slice_output_0;	attributes=
+node	238	/head/mamba_blocks.1.0/Constant_5	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_5_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	239	/head/mamba_blocks.1.0/Constant_6	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_6_output_0;	attributes=value:TENSOR=tensor[1] values=[256];
+node	240	/head/mamba_blocks.1.0/Constant_7	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_7_output_0;	attributes=value:TENSOR=tensor[1] values=[9223372036854775807];
+node	241	/head/mamba_blocks.1.0/Constant_8	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_8_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	242	/head/mamba_blocks.1.0/Slice_1	::Slice	inputs=/head/mamba_blocks.1.0/in_proj/MatMul_output_0;/head/mamba_blocks.1.0/Constant_6_output_0;/head/mamba_blocks.1.0/Constant_7_output_0;/head/mamba_blocks.1.0/Constant_5_output_0;/head/mamba_blocks.1.0/Constant_8_output_0;	outputs=/head/mamba_blocks.1.0/Slice_1_output_0;	attributes=
+node	243	/head/mamba_blocks.1.0/Transpose	::Transpose	inputs=/head/mamba_blocks.1.0/Slice_output_0;	outputs=/head/mamba_blocks.1.0/Transpose_output_0;	attributes=perm:INTS=[0,2,1];
+node	244	/head/mamba_blocks.1.0/conv1d/Conv	::Conv	inputs=/head/mamba_blocks.1.0/Transpose_output_0;head.mamba_blocks.1.0.conv1d.weight;head.mamba_blocks.1.0.conv1d.bias;	outputs=/head/mamba_blocks.1.0/conv1d/Conv_output_0;	attributes=dilations:INTS=[1];group:INT=256;kernel_shape:INTS=[4];pads:INTS=[3,3];strides:INTS=[1];
+node	245	/head/mamba_blocks.1.0/Constant_9	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_9_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	246	/head/mamba_blocks.1.0/Constant_10	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_10_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	247	/head/mamba_blocks.1.0/Constant_11	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_11_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	248	/head/mamba_blocks.1.0/Unsqueeze	::Unsqueeze	inputs=/head/mamba_blocks.1.0/Gather_output_0;/head/mamba_blocks.1.0/Constant_11_output_0;	outputs=/head/mamba_blocks.1.0/Unsqueeze_output_0;	attributes=
+node	249	/head/mamba_blocks.1.0/Constant_12	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_12_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	250	/head/mamba_blocks.1.0/Slice_2	::Slice	inputs=/head/mamba_blocks.1.0/conv1d/Conv_output_0;/head/mamba_blocks.1.0/Constant_10_output_0;/head/mamba_blocks.1.0/Unsqueeze_output_0;/head/mamba_blocks.1.0/Constant_9_output_0;/head/mamba_blocks.1.0/Constant_12_output_0;	outputs=/head/mamba_blocks.1.0/Slice_2_output_0;	attributes=
+node	251	/head/mamba_blocks.1.0/Transpose_1	::Transpose	inputs=/head/mamba_blocks.1.0/Slice_2_output_0;	outputs=/head/mamba_blocks.1.0/Transpose_1_output_0;	attributes=perm:INTS=[0,2,1];
+node	252	/head/mamba_blocks.1.0/Sigmoid	::Sigmoid	inputs=/head/mamba_blocks.1.0/Transpose_1_output_0;	outputs=/head/mamba_blocks.1.0/Sigmoid_output_0;	attributes=
+node	253	/head/mamba_blocks.1.0/Mul	::Mul	inputs=/head/mamba_blocks.1.0/Transpose_1_output_0;/head/mamba_blocks.1.0/Sigmoid_output_0;	outputs=/head/mamba_blocks.1.0/Mul_output_0;	attributes=
+node	254	/head/mamba_blocks.1.0/x_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.1.0/Mul_output_0;onnx::MatMul_734;	outputs=/head/mamba_blocks.1.0/x_proj/MatMul_output_0;	attributes=
+node	255	/head/mamba_blocks.1.0/Constant_13	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_13_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	256	/head/mamba_blocks.1.0/Constant_14	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_14_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	257	/head/mamba_blocks.1.0/Constant_15	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_15_output_0;	attributes=value:TENSOR=tensor[1] values=[16];
+node	258	/head/mamba_blocks.1.0/Constant_16	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_16_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	259	/head/mamba_blocks.1.0/Slice_3	::Slice	inputs=/head/mamba_blocks.1.0/x_proj/MatMul_output_0;/head/mamba_blocks.1.0/Constant_14_output_0;/head/mamba_blocks.1.0/Constant_15_output_0;/head/mamba_blocks.1.0/Constant_13_output_0;/head/mamba_blocks.1.0/Constant_16_output_0;	outputs=/head/mamba_blocks.1.0/Slice_3_output_0;	attributes=
+node	260	/head/mamba_blocks.1.0/dt_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.1.0/Slice_3_output_0;onnx::MatMul_739;	outputs=/head/mamba_blocks.1.0/dt_proj/MatMul_output_0;	attributes=
+node	261	/head/mamba_blocks.1.0/dt_proj/Add	::Add	inputs=head.mamba_blocks.1.0.dt_proj.bias;/head/mamba_blocks.1.0/dt_proj/MatMul_output_0;	outputs=/head/mamba_blocks.1.0/dt_proj/Add_output_0;	attributes=
+node	262	/head/mamba_blocks.1.0/Constant_17	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_17_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	263	/head/mamba_blocks.1.0/Constant_18	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_18_output_0;	attributes=value:TENSOR=tensor[1] values=[16];
+node	264	/head/mamba_blocks.1.0/Constant_19	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_19_output_0;	attributes=value:TENSOR=tensor[1] values=[32];
+node	265	/head/mamba_blocks.1.0/Constant_20	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_20_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	266	/head/mamba_blocks.1.0/Slice_4	::Slice	inputs=/head/mamba_blocks.1.0/x_proj/MatMul_output_0;/head/mamba_blocks.1.0/Constant_18_output_0;/head/mamba_blocks.1.0/Constant_19_output_0;/head/mamba_blocks.1.0/Constant_17_output_0;/head/mamba_blocks.1.0/Constant_20_output_0;	outputs=/head/mamba_blocks.1.0/Slice_4_output_0;	attributes=
+node	267	/head/mamba_blocks.1.0/Constant_21	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_21_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	268	/head/mamba_blocks.1.0/Constant_22	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_22_output_0;	attributes=value:TENSOR=tensor[1] values=[32];
+node	269	/head/mamba_blocks.1.0/Constant_23	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_23_output_0;	attributes=value:TENSOR=tensor[1] values=[9223372036854775807];
+node	270	/head/mamba_blocks.1.0/Constant_24	::Constant	inputs=	outputs=/head/mamba_blocks.1.0/Constant_24_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	271	/head/mamba_blocks.1.0/Slice_5	::Slice	inputs=/head/mamba_blocks.1.0/x_proj/MatMul_output_0;/head/mamba_blocks.1.0/Constant_22_output_0;/head/mamba_blocks.1.0/Constant_23_output_0;/head/mamba_blocks.1.0/Constant_21_output_0;/head/mamba_blocks.1.0/Constant_24_output_0;	outputs=/head/mamba_blocks.1.0/Slice_5_output_0;	attributes=
+node	272	/head/mamba_blocks.1.0/Exp	::Exp	inputs=onnx::Exp_748;	outputs=/head/mamba_blocks.1.0/Exp_output_0;	attributes=
+node	273	/head/mamba_blocks.1.0/Neg	::Neg	inputs=/head/mamba_blocks.1.0/Exp_output_0;	outputs=/head/mamba_blocks.1.0/Neg_output_0;	attributes=
+node	274	/head/mamba_blocks.1.0/SelectiveScan	saccade::SelectiveScan	inputs=/head/mamba_blocks.1.0/Mul_output_0;/head/mamba_blocks.1.0/dt_proj/Add_output_0;/head/mamba_blocks.1.0/Neg_output_0;/head/mamba_blocks.1.0/Slice_4_output_0;/head/mamba_blocks.1.0/Slice_5_output_0;head.mamba_blocks.1.0.D;	outputs=/head/mamba_blocks.1.0/SelectiveScan_output_0;	attributes=domain:STRING="saccade";
+node	275	/head/mamba_blocks.1.0/Sigmoid_1	::Sigmoid	inputs=/head/mamba_blocks.1.0/Slice_1_output_0;	outputs=/head/mamba_blocks.1.0/Sigmoid_1_output_0;	attributes=
+node	276	/head/mamba_blocks.1.0/Mul_1	::Mul	inputs=/head/mamba_blocks.1.0/Slice_1_output_0;/head/mamba_blocks.1.0/Sigmoid_1_output_0;	outputs=/head/mamba_blocks.1.0/Mul_1_output_0;	attributes=
+node	277	/head/mamba_blocks.1.0/Mul_2	::Mul	inputs=/head/mamba_blocks.1.0/SelectiveScan_output_0;/head/mamba_blocks.1.0/Mul_1_output_0;	outputs=/head/mamba_blocks.1.0/Mul_2_output_0;	attributes=
+node	278	/head/mamba_blocks.1.0/out_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.1.0/Mul_2_output_0;onnx::MatMul_749;	outputs=/head/mamba_blocks.1.0/out_proj/MatMul_output_0;	attributes=
+node	279	/head/Add_1	::Add	inputs=/head/mamba_blocks.1.0/out_proj/MatMul_output_0;/head/Transpose_2_output_0;	outputs=/head/Add_1_output_0;	attributes=
+node	280	/head/Transpose_3	::Transpose	inputs=/head/Add_1_output_0;	outputs=/head/Transpose_3_output_0;	attributes=perm:INTS=[0,2,1];
+node	281	/head/Constant_70	::Constant	inputs=	outputs=/head/Constant_70_output_0;	attributes=value:TENSOR=tensor[1] values=[4];
+node	282	Constant_511	::Constant	inputs=	outputs=onnx::Unsqueeze_452;	attributes=value:TENSOR=tensor[1] values=[0];
+node	283	/head/Unsqueeze_24	::Unsqueeze	inputs=/head/Gather_10_output_0;onnx::Unsqueeze_452;	outputs=/head/Unsqueeze_24_output_0;	attributes=
+node	284	Constant_513	::Constant	inputs=	outputs=onnx::Unsqueeze_454;	attributes=value:TENSOR=tensor[1] values=[0];
+node	285	/head/Unsqueeze_25	::Unsqueeze	inputs=/head/Gather_11_output_0;onnx::Unsqueeze_454;	outputs=/head/Unsqueeze_25_output_0;	attributes=
+node	286	Constant_515	::Constant	inputs=	outputs=onnx::Unsqueeze_456;	attributes=value:TENSOR=tensor[1] values=[0];
+node	287	/head/Unsqueeze_26	::Unsqueeze	inputs=/head/Gather_8_output_0;onnx::Unsqueeze_456;	outputs=/head/Unsqueeze_26_output_0;	attributes=
+node	288	Constant_517	::Constant	inputs=	outputs=onnx::Unsqueeze_458;	attributes=value:TENSOR=tensor[1] values=[0];
+node	289	/head/Unsqueeze_27	::Unsqueeze	inputs=/head/Gather_9_output_0;onnx::Unsqueeze_458;	outputs=/head/Unsqueeze_27_output_0;	attributes=
+node	290	/head/Concat_9	::Concat	inputs=/head/Constant_70_output_0;/head/Unsqueeze_24_output_0;/head/Unsqueeze_25_output_0;/head/Unsqueeze_26_output_0;/head/Unsqueeze_27_output_0;	outputs=/head/Concat_9_output_0;	attributes=axis:INT=0;
+node	291	/head/Reshape_5	::Reshape	inputs=/head/Transpose_3_output_0;/head/Concat_9_output_0;	outputs=/head/Reshape_5_output_0;	attributes=allowzero:INT=0;
+node	292	/head/Gather_12	::Gather	inputs=/head/Reshape_5_output_0;/head/Constant_4_output_0;	outputs=/head/Gather_12_output_0;	attributes=axis:INT=0;
+node	293	/head/Gather_13	::Gather	inputs=/head/Reshape_5_output_0;/head/input_proj.0/Constant_output_0;	outputs=/head/Gather_13_output_0;	attributes=axis:INT=0;
+node	294	/head/Constant_71	::Constant	inputs=	outputs=/head/Constant_71_output_0;	attributes=value:TENSOR=tensor[2] values=[2,3];
+node	295	/head/Constant_72	::Constant	inputs=	outputs=/head/Constant_72_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	296	/head/Constant_73	::Constant	inputs=	outputs=/head/Constant_73_output_0;	attributes=value:TENSOR=tensor[2] values=[-9223372036854775807,-9223372036854775807];
+node	297	/head/Constant_74	::Constant	inputs=	outputs=/head/Constant_74_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	298	/head/Slice_11	::Slice	inputs=/head/Gather_13_output_0;/head/Constant_72_output_0;/head/Constant_73_output_0;/head/Constant_71_output_0;/head/Constant_74_output_0;	outputs=/head/Slice_11_output_0;	attributes=
+node	299	/head/Gather_14	::Gather	inputs=/head/Reshape_5_output_0;/head/Constant_output_0;	outputs=/head/Gather_14_output_0;	attributes=axis:INT=0;
+node	300	/head/Constant_75	::Constant	inputs=	outputs=/head/Constant_75_output_0;	attributes=value:TENSOR=tensor[1] values=[3];
+node	301	/head/Constant_76	::Constant	inputs=	outputs=/head/Constant_76_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	302	/head/Constant_77	::Constant	inputs=	outputs=/head/Constant_77_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	303	/head/Constant_78	::Constant	inputs=	outputs=/head/Constant_78_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	304	/head/Slice_12	::Slice	inputs=/head/Gather_14_output_0;/head/Constant_76_output_0;/head/Constant_77_output_0;/head/Constant_75_output_0;/head/Constant_78_output_0;	outputs=/head/Slice_12_output_0;	attributes=
+node	305	/head/Gather_15	::Gather	inputs=/head/Reshape_5_output_0;/head/Constant_2_output_0;	outputs=/head/Gather_15_output_0;	attributes=axis:INT=0;
+node	306	/head/Constant_79	::Constant	inputs=	outputs=/head/Constant_79_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	307	/head/Constant_80	::Constant	inputs=	outputs=/head/Constant_80_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	308	/head/Constant_81	::Constant	inputs=	outputs=/head/Constant_81_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	309	/head/Constant_82	::Constant	inputs=	outputs=/head/Constant_82_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	310	/head/Slice_13	::Slice	inputs=/head/Gather_15_output_0;/head/Constant_80_output_0;/head/Constant_81_output_0;/head/Constant_79_output_0;/head/Constant_82_output_0;	outputs=/head/Slice_13_output_0;	attributes=
+node	311	/head/Constant_83	::Constant	inputs=	outputs=/head/Constant_83_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	312	/head/Unsqueeze_28	::Unsqueeze	inputs=/head/Gather_12_output_0;/head/Constant_83_output_0;	outputs=/head/Unsqueeze_28_output_0;	attributes=
+node	313	/head/Constant_84	::Constant	inputs=	outputs=/head/Constant_84_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	314	/head/Unsqueeze_29	::Unsqueeze	inputs=/head/Slice_11_output_0;/head/Constant_84_output_0;	outputs=/head/Unsqueeze_29_output_0;	attributes=
+node	315	/head/Constant_85	::Constant	inputs=	outputs=/head/Constant_85_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	316	/head/Unsqueeze_30	::Unsqueeze	inputs=/head/Slice_12_output_0;/head/Constant_85_output_0;	outputs=/head/Unsqueeze_30_output_0;	attributes=
+node	317	/head/Constant_86	::Constant	inputs=	outputs=/head/Constant_86_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	318	/head/Unsqueeze_31	::Unsqueeze	inputs=/head/Slice_13_output_0;/head/Constant_86_output_0;	outputs=/head/Unsqueeze_31_output_0;	attributes=
+node	319	/head/Concat_10	::Concat	inputs=/head/Unsqueeze_28_output_0;/head/Unsqueeze_29_output_0;/head/Unsqueeze_30_output_0;/head/Unsqueeze_31_output_0;	outputs=/head/Concat_10_output_0;	attributes=axis:INT=0;
+node	320	/head/ReduceMean_1	::ReduceMean	inputs=/head/Concat_10_output_0;	outputs=/head/ReduceMean_1_output_0;	attributes=axes:INTS=[0];keepdims:INT=0;
+node	321	/head/upsample.1/upsample.1.0/Conv	::Conv	inputs=/head/ReduceMean_1_output_0;head.upsample.1.0.weight;head.upsample.1.0.bias;	outputs=/head/upsample.1/upsample.1.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	322	/head/upsample.1/upsample.1.1/DepthToSpace	::DepthToSpace	inputs=/head/upsample.1/upsample.1.0/Conv_output_0;	outputs=/head/upsample.1/upsample.1.1/DepthToSpace_output_0;	attributes=blocksize:INT=4;mode:STRING="CRD";
+node	323	/head/Concat_11	::Concat	inputs=/head/input_proj.1/Conv_output_0;/head/upsample.1/upsample.1.1/DepthToSpace_output_0;	outputs=/head/Concat_11_output_0;	attributes=axis:INT=1;
+node	324	/head/cls_head.1/cls_head.1.0/Conv	::Conv	inputs=/head/Concat_11_output_0;head.cls_head.1.0.weight;head.cls_head.1.0.bias;	outputs=/head/cls_head.1/cls_head.1.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	325	/head/cls_head.1/cls_head.1.1/Sigmoid	::Sigmoid	inputs=/head/cls_head.1/cls_head.1.0/Conv_output_0;	outputs=/head/cls_head.1/cls_head.1.1/Sigmoid_output_0;	attributes=
+node	326	/head/cls_head.1/cls_head.1.1/Mul	::Mul	inputs=/head/cls_head.1/cls_head.1.0/Conv_output_0;/head/cls_head.1/cls_head.1.1/Sigmoid_output_0;	outputs=/head/cls_head.1/cls_head.1.1/Mul_output_0;	attributes=
+node	327	/head/cls_head.1/cls_head.1.2/Conv	::Conv	inputs=/head/cls_head.1/cls_head.1.1/Mul_output_0;head.cls_head.1.2.weight;head.cls_head.1.2.bias;	outputs=cls_p4;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	328	/head/reg_head.1/reg_head.1.0/Conv	::Conv	inputs=/head/Concat_11_output_0;head.reg_head.1.0.weight;head.reg_head.1.0.bias;	outputs=/head/reg_head.1/reg_head.1.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	329	/head/reg_head.1/reg_head.1.1/Sigmoid	::Sigmoid	inputs=/head/reg_head.1/reg_head.1.0/Conv_output_0;	outputs=/head/reg_head.1/reg_head.1.1/Sigmoid_output_0;	attributes=
+node	330	/head/reg_head.1/reg_head.1.1/Mul	::Mul	inputs=/head/reg_head.1/reg_head.1.0/Conv_output_0;/head/reg_head.1/reg_head.1.1/Sigmoid_output_0;	outputs=/head/reg_head.1/reg_head.1.1/Mul_output_0;	attributes=
+node	331	/head/reg_head.1/reg_head.1.2/Conv	::Conv	inputs=/head/reg_head.1/reg_head.1.1/Mul_output_0;head.reg_head.1.2.weight;head.reg_head.1.2.bias;	outputs=reg_p4;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	332	/head/input_proj.2/Conv	::Conv	inputs=p5;head.input_proj.2.weight;head.input_proj.2.bias;	outputs=/head/input_proj.2/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	333	/head/downsample.2/Conv	::Conv	inputs=/head/input_proj.2/Conv_output_0;head.downsample.2.weight;head.downsample.2.bias;	outputs=/head/downsample.2/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[4,4];pads:INTS=[0,0,0,0];strides:INTS=[4,4];
+node	334	/head/Shape_10	::Shape	inputs=/head/downsample.2/Conv_output_0;	outputs=/head/Shape_10_output_0;	attributes=
+node	335	/head/Constant_87	::Constant	inputs=	outputs=/head/Constant_87_output_0;	attributes=value:TENSOR=tensor[] values=[2];
+node	336	/head/Gather_16	::Gather	inputs=/head/Shape_10_output_0;/head/Constant_87_output_0;	outputs=/head/Gather_16_output_0;	attributes=axis:INT=0;
+node	337	/head/Shape_11	::Shape	inputs=/head/downsample.2/Conv_output_0;	outputs=/head/Shape_11_output_0;	attributes=
+node	338	/head/Constant_88	::Constant	inputs=	outputs=/head/Constant_88_output_0;	attributes=value:TENSOR=tensor[] values=[3];
+node	339	/head/Gather_17	::Gather	inputs=/head/Shape_11_output_0;/head/Constant_88_output_0;	outputs=/head/Gather_17_output_0;	attributes=axis:INT=0;
+node	340	/head/Shape_12	::Shape	inputs=/head/downsample.2/Conv_output_0;	outputs=/head/Shape_12_output_0;	attributes=
+node	341	/head/Constant_89	::Constant	inputs=	outputs=/head/Constant_89_output_0;	attributes=value:TENSOR=tensor[] values=[0];
+node	342	/head/Gather_18	::Gather	inputs=/head/Shape_12_output_0;/head/Constant_89_output_0;	outputs=/head/Gather_18_output_0;	attributes=axis:INT=0;
+node	343	/head/Shape_13	::Shape	inputs=/head/downsample.2/Conv_output_0;	outputs=/head/Shape_13_output_0;	attributes=
+node	344	/head/Constant_90	::Constant	inputs=	outputs=/head/Constant_90_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	345	/head/Gather_19	::Gather	inputs=/head/Shape_13_output_0;/head/Constant_90_output_0;	outputs=/head/Gather_19_output_0;	attributes=axis:INT=0;
+node	346	/head/Constant_91	::Constant	inputs=	outputs=/head/Constant_91_output_0;	attributes=value:TENSOR=tensor[2] values=[2,3];
+node	347	/head/Constant_92	::Constant	inputs=	outputs=/head/Constant_92_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	348	/head/Constant_93	::Constant	inputs=	outputs=/head/Constant_93_output_0;	attributes=value:TENSOR=tensor[2] values=[-9223372036854775807,-9223372036854775807];
+node	349	/head/Constant_94	::Constant	inputs=	outputs=/head/Constant_94_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	350	/head/Slice_14	::Slice	inputs=/head/downsample.2/Conv_output_0;/head/Constant_92_output_0;/head/Constant_93_output_0;/head/Constant_91_output_0;/head/Constant_94_output_0;	outputs=/head/Slice_14_output_0;	attributes=
+node	351	/head/Constant_95	::Constant	inputs=	outputs=/head/Constant_95_output_0;	attributes=value:TENSOR=tensor[1] values=[3];
+node	352	/head/Constant_96	::Constant	inputs=	outputs=/head/Constant_96_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	353	/head/Constant_97	::Constant	inputs=	outputs=/head/Constant_97_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	354	/head/Constant_98	::Constant	inputs=	outputs=/head/Constant_98_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	355	/head/Slice_15	::Slice	inputs=/head/downsample.2/Conv_output_0;/head/Constant_96_output_0;/head/Constant_97_output_0;/head/Constant_95_output_0;/head/Constant_98_output_0;	outputs=/head/Slice_15_output_0;	attributes=
+node	356	/head/Constant_99	::Constant	inputs=	outputs=/head/Constant_99_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	357	/head/Constant_100	::Constant	inputs=	outputs=/head/Constant_100_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	358	/head/Constant_101	::Constant	inputs=	outputs=/head/Constant_101_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	359	/head/Constant_102	::Constant	inputs=	outputs=/head/Constant_102_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	360	/head/Slice_16	::Slice	inputs=/head/downsample.2/Conv_output_0;/head/Constant_100_output_0;/head/Constant_101_output_0;/head/Constant_99_output_0;/head/Constant_102_output_0;	outputs=/head/Slice_16_output_0;	attributes=
+node	361	/head/Constant_103	::Constant	inputs=	outputs=/head/Constant_103_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	362	/head/Unsqueeze_32	::Unsqueeze	inputs=/head/downsample.2/Conv_output_0;/head/Constant_103_output_0;	outputs=/head/Unsqueeze_32_output_0;	attributes=
+node	363	/head/Constant_104	::Constant	inputs=	outputs=/head/Constant_104_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	364	/head/Unsqueeze_33	::Unsqueeze	inputs=/head/Slice_14_output_0;/head/Constant_104_output_0;	outputs=/head/Unsqueeze_33_output_0;	attributes=
+node	365	/head/Constant_105	::Constant	inputs=	outputs=/head/Constant_105_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	366	/head/Unsqueeze_34	::Unsqueeze	inputs=/head/Slice_15_output_0;/head/Constant_105_output_0;	outputs=/head/Unsqueeze_34_output_0;	attributes=
+node	367	/head/Constant_106	::Constant	inputs=	outputs=/head/Constant_106_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	368	/head/Unsqueeze_35	::Unsqueeze	inputs=/head/Slice_16_output_0;/head/Constant_106_output_0;	outputs=/head/Unsqueeze_35_output_0;	attributes=
+node	369	/head/Concat_12	::Concat	inputs=/head/Unsqueeze_32_output_0;/head/Unsqueeze_33_output_0;/head/Unsqueeze_34_output_0;/head/Unsqueeze_35_output_0;	outputs=/head/Concat_12_output_0;	attributes=axis:INT=0;
+node	370	/head/Constant_107	::Constant	inputs=	outputs=/head/Constant_107_output_0;	attributes=value:TENSOR=tensor[] values=[4];
+node	371	/head/Mul_2	::Mul	inputs=/head/Gather_18_output_0;/head/Constant_107_output_0;	outputs=/head/Mul_2_output_0;	attributes=
+node	372	Constant_601	::Constant	inputs=	outputs=onnx::Unsqueeze_542;	attributes=value:TENSOR=tensor[1] values=[0];
+node	373	/head/Unsqueeze_36	::Unsqueeze	inputs=/head/Mul_2_output_0;onnx::Unsqueeze_542;	outputs=/head/Unsqueeze_36_output_0;	attributes=
+node	374	Constant_603	::Constant	inputs=	outputs=onnx::Unsqueeze_544;	attributes=value:TENSOR=tensor[1] values=[0];
+node	375	/head/Unsqueeze_37	::Unsqueeze	inputs=/head/Gather_19_output_0;onnx::Unsqueeze_544;	outputs=/head/Unsqueeze_37_output_0;	attributes=
+node	376	Constant_605	::Constant	inputs=	outputs=onnx::Unsqueeze_546;	attributes=value:TENSOR=tensor[1] values=[0];
+node	377	/head/Unsqueeze_38	::Unsqueeze	inputs=/head/Gather_16_output_0;onnx::Unsqueeze_546;	outputs=/head/Unsqueeze_38_output_0;	attributes=
+node	378	Constant_607	::Constant	inputs=	outputs=onnx::Unsqueeze_548;	attributes=value:TENSOR=tensor[1] values=[0];
+node	379	/head/Unsqueeze_39	::Unsqueeze	inputs=/head/Gather_17_output_0;onnx::Unsqueeze_548;	outputs=/head/Unsqueeze_39_output_0;	attributes=
+node	380	/head/Concat_13	::Concat	inputs=/head/Unsqueeze_36_output_0;/head/Unsqueeze_37_output_0;/head/Unsqueeze_38_output_0;/head/Unsqueeze_39_output_0;	outputs=/head/Concat_13_output_0;	attributes=axis:INT=0;
+node	381	/head/Reshape_6	::Reshape	inputs=/head/Concat_12_output_0;/head/Concat_13_output_0;	outputs=/head/Reshape_6_output_0;	attributes=allowzero:INT=0;
+node	382	/head/Shape_14	::Shape	inputs=/head/Reshape_6_output_0;	outputs=/head/Shape_14_output_0;	attributes=
+node	383	/head/Constant_108	::Constant	inputs=	outputs=/head/Constant_108_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	384	/head/Constant_109	::Constant	inputs=	outputs=/head/Constant_109_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	385	/head/Constant_110	::Constant	inputs=	outputs=/head/Constant_110_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	386	/head/Slice_17	::Slice	inputs=/head/Shape_14_output_0;/head/Constant_109_output_0;/head/Constant_110_output_0;/head/Constant_108_output_0;	outputs=/head/Slice_17_output_0;	attributes=
+node	387	/head/Constant_111	::Constant	inputs=	outputs=/head/Constant_111_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	388	/head/Concat_14	::Concat	inputs=/head/Slice_17_output_0;/head/Constant_111_output_0;	outputs=/head/Concat_14_output_0;	attributes=axis:INT=0;
+node	389	/head/Reshape_7	::Reshape	inputs=/head/Reshape_6_output_0;/head/Concat_14_output_0;	outputs=/head/Reshape_7_output_0;	attributes=allowzero:INT=0;
+node	390	/head/Transpose_4	::Transpose	inputs=/head/Reshape_7_output_0;	outputs=/head/Transpose_4_output_0;	attributes=perm:INTS=[0,2,1];
+node	391	/head/mamba_blocks.2.0/Shape	::Shape	inputs=/head/Transpose_4_output_0;	outputs=/head/mamba_blocks.2.0/Shape_output_0;	attributes=
+node	392	/head/mamba_blocks.2.0/Constant	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_output_0;	attributes=value:TENSOR=tensor[] values=[1];
+node	393	/head/mamba_blocks.2.0/Gather	::Gather	inputs=/head/mamba_blocks.2.0/Shape_output_0;/head/mamba_blocks.2.0/Constant_output_0;	outputs=/head/mamba_blocks.2.0/Gather_output_0;	attributes=axis:INT=0;
+node	394	/head/mamba_blocks.2.0/in_proj/MatMul	::MatMul	inputs=/head/Transpose_4_output_0;onnx::MatMul_751;	outputs=/head/mamba_blocks.2.0/in_proj/MatMul_output_0;	attributes=
+node	395	/head/mamba_blocks.2.0/Constant_1	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_1_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	396	/head/mamba_blocks.2.0/Constant_2	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_2_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	397	/head/mamba_blocks.2.0/Constant_3	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_3_output_0;	attributes=value:TENSOR=tensor[1] values=[256];
+node	398	/head/mamba_blocks.2.0/Constant_4	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_4_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	399	/head/mamba_blocks.2.0/Slice	::Slice	inputs=/head/mamba_blocks.2.0/in_proj/MatMul_output_0;/head/mamba_blocks.2.0/Constant_2_output_0;/head/mamba_blocks.2.0/Constant_3_output_0;/head/mamba_blocks.2.0/Constant_1_output_0;/head/mamba_blocks.2.0/Constant_4_output_0;	outputs=/head/mamba_blocks.2.0/Slice_output_0;	attributes=
+node	400	/head/mamba_blocks.2.0/Constant_5	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_5_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	401	/head/mamba_blocks.2.0/Constant_6	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_6_output_0;	attributes=value:TENSOR=tensor[1] values=[256];
+node	402	/head/mamba_blocks.2.0/Constant_7	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_7_output_0;	attributes=value:TENSOR=tensor[1] values=[9223372036854775807];
+node	403	/head/mamba_blocks.2.0/Constant_8	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_8_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	404	/head/mamba_blocks.2.0/Slice_1	::Slice	inputs=/head/mamba_blocks.2.0/in_proj/MatMul_output_0;/head/mamba_blocks.2.0/Constant_6_output_0;/head/mamba_blocks.2.0/Constant_7_output_0;/head/mamba_blocks.2.0/Constant_5_output_0;/head/mamba_blocks.2.0/Constant_8_output_0;	outputs=/head/mamba_blocks.2.0/Slice_1_output_0;	attributes=
+node	405	/head/mamba_blocks.2.0/Transpose	::Transpose	inputs=/head/mamba_blocks.2.0/Slice_output_0;	outputs=/head/mamba_blocks.2.0/Transpose_output_0;	attributes=perm:INTS=[0,2,1];
+node	406	/head/mamba_blocks.2.0/conv1d/Conv	::Conv	inputs=/head/mamba_blocks.2.0/Transpose_output_0;head.mamba_blocks.2.0.conv1d.weight;head.mamba_blocks.2.0.conv1d.bias;	outputs=/head/mamba_blocks.2.0/conv1d/Conv_output_0;	attributes=dilations:INTS=[1];group:INT=256;kernel_shape:INTS=[4];pads:INTS=[3,3];strides:INTS=[1];
+node	407	/head/mamba_blocks.2.0/Constant_9	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_9_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	408	/head/mamba_blocks.2.0/Constant_10	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_10_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	409	/head/mamba_blocks.2.0/Constant_11	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_11_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	410	/head/mamba_blocks.2.0/Unsqueeze	::Unsqueeze	inputs=/head/mamba_blocks.2.0/Gather_output_0;/head/mamba_blocks.2.0/Constant_11_output_0;	outputs=/head/mamba_blocks.2.0/Unsqueeze_output_0;	attributes=
+node	411	/head/mamba_blocks.2.0/Constant_12	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_12_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	412	/head/mamba_blocks.2.0/Slice_2	::Slice	inputs=/head/mamba_blocks.2.0/conv1d/Conv_output_0;/head/mamba_blocks.2.0/Constant_10_output_0;/head/mamba_blocks.2.0/Unsqueeze_output_0;/head/mamba_blocks.2.0/Constant_9_output_0;/head/mamba_blocks.2.0/Constant_12_output_0;	outputs=/head/mamba_blocks.2.0/Slice_2_output_0;	attributes=
+node	413	/head/mamba_blocks.2.0/Transpose_1	::Transpose	inputs=/head/mamba_blocks.2.0/Slice_2_output_0;	outputs=/head/mamba_blocks.2.0/Transpose_1_output_0;	attributes=perm:INTS=[0,2,1];
+node	414	/head/mamba_blocks.2.0/Sigmoid	::Sigmoid	inputs=/head/mamba_blocks.2.0/Transpose_1_output_0;	outputs=/head/mamba_blocks.2.0/Sigmoid_output_0;	attributes=
+node	415	/head/mamba_blocks.2.0/Mul	::Mul	inputs=/head/mamba_blocks.2.0/Transpose_1_output_0;/head/mamba_blocks.2.0/Sigmoid_output_0;	outputs=/head/mamba_blocks.2.0/Mul_output_0;	attributes=
+node	416	/head/mamba_blocks.2.0/x_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.2.0/Mul_output_0;onnx::MatMul_763;	outputs=/head/mamba_blocks.2.0/x_proj/MatMul_output_0;	attributes=
+node	417	/head/mamba_blocks.2.0/Constant_13	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_13_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	418	/head/mamba_blocks.2.0/Constant_14	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_14_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	419	/head/mamba_blocks.2.0/Constant_15	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_15_output_0;	attributes=value:TENSOR=tensor[1] values=[16];
+node	420	/head/mamba_blocks.2.0/Constant_16	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_16_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	421	/head/mamba_blocks.2.0/Slice_3	::Slice	inputs=/head/mamba_blocks.2.0/x_proj/MatMul_output_0;/head/mamba_blocks.2.0/Constant_14_output_0;/head/mamba_blocks.2.0/Constant_15_output_0;/head/mamba_blocks.2.0/Constant_13_output_0;/head/mamba_blocks.2.0/Constant_16_output_0;	outputs=/head/mamba_blocks.2.0/Slice_3_output_0;	attributes=
+node	422	/head/mamba_blocks.2.0/dt_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.2.0/Slice_3_output_0;onnx::MatMul_768;	outputs=/head/mamba_blocks.2.0/dt_proj/MatMul_output_0;	attributes=
+node	423	/head/mamba_blocks.2.0/dt_proj/Add	::Add	inputs=head.mamba_blocks.2.0.dt_proj.bias;/head/mamba_blocks.2.0/dt_proj/MatMul_output_0;	outputs=/head/mamba_blocks.2.0/dt_proj/Add_output_0;	attributes=
+node	424	/head/mamba_blocks.2.0/Constant_17	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_17_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	425	/head/mamba_blocks.2.0/Constant_18	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_18_output_0;	attributes=value:TENSOR=tensor[1] values=[16];
+node	426	/head/mamba_blocks.2.0/Constant_19	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_19_output_0;	attributes=value:TENSOR=tensor[1] values=[32];
+node	427	/head/mamba_blocks.2.0/Constant_20	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_20_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	428	/head/mamba_blocks.2.0/Slice_4	::Slice	inputs=/head/mamba_blocks.2.0/x_proj/MatMul_output_0;/head/mamba_blocks.2.0/Constant_18_output_0;/head/mamba_blocks.2.0/Constant_19_output_0;/head/mamba_blocks.2.0/Constant_17_output_0;/head/mamba_blocks.2.0/Constant_20_output_0;	outputs=/head/mamba_blocks.2.0/Slice_4_output_0;	attributes=
+node	429	/head/mamba_blocks.2.0/Constant_21	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_21_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	430	/head/mamba_blocks.2.0/Constant_22	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_22_output_0;	attributes=value:TENSOR=tensor[1] values=[32];
+node	431	/head/mamba_blocks.2.0/Constant_23	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_23_output_0;	attributes=value:TENSOR=tensor[1] values=[9223372036854775807];
+node	432	/head/mamba_blocks.2.0/Constant_24	::Constant	inputs=	outputs=/head/mamba_blocks.2.0/Constant_24_output_0;	attributes=value:TENSOR=tensor[1] values=[1];
+node	433	/head/mamba_blocks.2.0/Slice_5	::Slice	inputs=/head/mamba_blocks.2.0/x_proj/MatMul_output_0;/head/mamba_blocks.2.0/Constant_22_output_0;/head/mamba_blocks.2.0/Constant_23_output_0;/head/mamba_blocks.2.0/Constant_21_output_0;/head/mamba_blocks.2.0/Constant_24_output_0;	outputs=/head/mamba_blocks.2.0/Slice_5_output_0;	attributes=
+node	434	/head/mamba_blocks.2.0/Exp	::Exp	inputs=onnx::Exp_777;	outputs=/head/mamba_blocks.2.0/Exp_output_0;	attributes=
+node	435	/head/mamba_blocks.2.0/Neg	::Neg	inputs=/head/mamba_blocks.2.0/Exp_output_0;	outputs=/head/mamba_blocks.2.0/Neg_output_0;	attributes=
+node	436	/head/mamba_blocks.2.0/SelectiveScan	saccade::SelectiveScan	inputs=/head/mamba_blocks.2.0/Mul_output_0;/head/mamba_blocks.2.0/dt_proj/Add_output_0;/head/mamba_blocks.2.0/Neg_output_0;/head/mamba_blocks.2.0/Slice_4_output_0;/head/mamba_blocks.2.0/Slice_5_output_0;head.mamba_blocks.2.0.D;	outputs=/head/mamba_blocks.2.0/SelectiveScan_output_0;	attributes=domain:STRING="saccade";
+node	437	/head/mamba_blocks.2.0/Sigmoid_1	::Sigmoid	inputs=/head/mamba_blocks.2.0/Slice_1_output_0;	outputs=/head/mamba_blocks.2.0/Sigmoid_1_output_0;	attributes=
+node	438	/head/mamba_blocks.2.0/Mul_1	::Mul	inputs=/head/mamba_blocks.2.0/Slice_1_output_0;/head/mamba_blocks.2.0/Sigmoid_1_output_0;	outputs=/head/mamba_blocks.2.0/Mul_1_output_0;	attributes=
+node	439	/head/mamba_blocks.2.0/Mul_2	::Mul	inputs=/head/mamba_blocks.2.0/SelectiveScan_output_0;/head/mamba_blocks.2.0/Mul_1_output_0;	outputs=/head/mamba_blocks.2.0/Mul_2_output_0;	attributes=
+node	440	/head/mamba_blocks.2.0/out_proj/MatMul	::MatMul	inputs=/head/mamba_blocks.2.0/Mul_2_output_0;onnx::MatMul_778;	outputs=/head/mamba_blocks.2.0/out_proj/MatMul_output_0;	attributes=
+node	441	/head/Add_2	::Add	inputs=/head/mamba_blocks.2.0/out_proj/MatMul_output_0;/head/Transpose_4_output_0;	outputs=/head/Add_2_output_0;	attributes=
+node	442	/head/Transpose_5	::Transpose	inputs=/head/Add_2_output_0;	outputs=/head/Transpose_5_output_0;	attributes=perm:INTS=[0,2,1];
+node	443	/head/Constant_112	::Constant	inputs=	outputs=/head/Constant_112_output_0;	attributes=value:TENSOR=tensor[1] values=[4];
+node	444	Constant_673	::Constant	inputs=	outputs=onnx::Unsqueeze_643;	attributes=value:TENSOR=tensor[1] values=[0];
+node	445	/head/Unsqueeze_40	::Unsqueeze	inputs=/head/Gather_18_output_0;onnx::Unsqueeze_643;	outputs=/head/Unsqueeze_40_output_0;	attributes=
+node	446	Constant_675	::Constant	inputs=	outputs=onnx::Unsqueeze_645;	attributes=value:TENSOR=tensor[1] values=[0];
+node	447	/head/Unsqueeze_41	::Unsqueeze	inputs=/head/Gather_19_output_0;onnx::Unsqueeze_645;	outputs=/head/Unsqueeze_41_output_0;	attributes=
+node	448	Constant_677	::Constant	inputs=	outputs=onnx::Unsqueeze_647;	attributes=value:TENSOR=tensor[1] values=[0];
+node	449	/head/Unsqueeze_42	::Unsqueeze	inputs=/head/Gather_16_output_0;onnx::Unsqueeze_647;	outputs=/head/Unsqueeze_42_output_0;	attributes=
+node	450	Constant_679	::Constant	inputs=	outputs=onnx::Unsqueeze_649;	attributes=value:TENSOR=tensor[1] values=[0];
+node	451	/head/Unsqueeze_43	::Unsqueeze	inputs=/head/Gather_17_output_0;onnx::Unsqueeze_649;	outputs=/head/Unsqueeze_43_output_0;	attributes=
+node	452	/head/Concat_15	::Concat	inputs=/head/Constant_112_output_0;/head/Unsqueeze_40_output_0;/head/Unsqueeze_41_output_0;/head/Unsqueeze_42_output_0;/head/Unsqueeze_43_output_0;	outputs=/head/Concat_15_output_0;	attributes=axis:INT=0;
+node	453	/head/Reshape_8	::Reshape	inputs=/head/Transpose_5_output_0;/head/Concat_15_output_0;	outputs=/head/Reshape_8_output_0;	attributes=allowzero:INT=0;
+node	454	/head/Gather_20	::Gather	inputs=/head/Reshape_8_output_0;/head/Constant_4_output_0;	outputs=/head/Gather_20_output_0;	attributes=axis:INT=0;
+node	455	/head/Gather_21	::Gather	inputs=/head/Reshape_8_output_0;/head/input_proj.0/Constant_output_0;	outputs=/head/Gather_21_output_0;	attributes=axis:INT=0;
+node	456	/head/Constant_113	::Constant	inputs=	outputs=/head/Constant_113_output_0;	attributes=value:TENSOR=tensor[2] values=[2,3];
+node	457	/head/Constant_114	::Constant	inputs=	outputs=/head/Constant_114_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	458	/head/Constant_115	::Constant	inputs=	outputs=/head/Constant_115_output_0;	attributes=value:TENSOR=tensor[2] values=[-9223372036854775807,-9223372036854775807];
+node	459	/head/Constant_116	::Constant	inputs=	outputs=/head/Constant_116_output_0;	attributes=value:TENSOR=tensor[2] values=[-1,-1];
+node	460	/head/Slice_18	::Slice	inputs=/head/Gather_21_output_0;/head/Constant_114_output_0;/head/Constant_115_output_0;/head/Constant_113_output_0;/head/Constant_116_output_0;	outputs=/head/Slice_18_output_0;	attributes=
+node	461	/head/Gather_22	::Gather	inputs=/head/Reshape_8_output_0;/head/Constant_output_0;	outputs=/head/Gather_22_output_0;	attributes=axis:INT=0;
+node	462	/head/Constant_117	::Constant	inputs=	outputs=/head/Constant_117_output_0;	attributes=value:TENSOR=tensor[1] values=[3];
+node	463	/head/Constant_118	::Constant	inputs=	outputs=/head/Constant_118_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	464	/head/Constant_119	::Constant	inputs=	outputs=/head/Constant_119_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	465	/head/Constant_120	::Constant	inputs=	outputs=/head/Constant_120_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	466	/head/Slice_19	::Slice	inputs=/head/Gather_22_output_0;/head/Constant_118_output_0;/head/Constant_119_output_0;/head/Constant_117_output_0;/head/Constant_120_output_0;	outputs=/head/Slice_19_output_0;	attributes=
+node	467	/head/Gather_23	::Gather	inputs=/head/Reshape_8_output_0;/head/Constant_2_output_0;	outputs=/head/Gather_23_output_0;	attributes=axis:INT=0;
+node	468	/head/Constant_121	::Constant	inputs=	outputs=/head/Constant_121_output_0;	attributes=value:TENSOR=tensor[1] values=[2];
+node	469	/head/Constant_122	::Constant	inputs=	outputs=/head/Constant_122_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	470	/head/Constant_123	::Constant	inputs=	outputs=/head/Constant_123_output_0;	attributes=value:TENSOR=tensor[1] values=[-9223372036854775807];
+node	471	/head/Constant_124	::Constant	inputs=	outputs=/head/Constant_124_output_0;	attributes=value:TENSOR=tensor[1] values=[-1];
+node	472	/head/Slice_20	::Slice	inputs=/head/Gather_23_output_0;/head/Constant_122_output_0;/head/Constant_123_output_0;/head/Constant_121_output_0;/head/Constant_124_output_0;	outputs=/head/Slice_20_output_0;	attributes=
+node	473	/head/Constant_125	::Constant	inputs=	outputs=/head/Constant_125_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	474	/head/Unsqueeze_44	::Unsqueeze	inputs=/head/Gather_20_output_0;/head/Constant_125_output_0;	outputs=/head/Unsqueeze_44_output_0;	attributes=
+node	475	/head/Constant_126	::Constant	inputs=	outputs=/head/Constant_126_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	476	/head/Unsqueeze_45	::Unsqueeze	inputs=/head/Slice_18_output_0;/head/Constant_126_output_0;	outputs=/head/Unsqueeze_45_output_0;	attributes=
+node	477	/head/Constant_127	::Constant	inputs=	outputs=/head/Constant_127_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	478	/head/Unsqueeze_46	::Unsqueeze	inputs=/head/Slice_19_output_0;/head/Constant_127_output_0;	outputs=/head/Unsqueeze_46_output_0;	attributes=
+node	479	/head/Constant_128	::Constant	inputs=	outputs=/head/Constant_128_output_0;	attributes=value:TENSOR=tensor[1] values=[0];
+node	480	/head/Unsqueeze_47	::Unsqueeze	inputs=/head/Slice_20_output_0;/head/Constant_128_output_0;	outputs=/head/Unsqueeze_47_output_0;	attributes=
+node	481	/head/Concat_16	::Concat	inputs=/head/Unsqueeze_44_output_0;/head/Unsqueeze_45_output_0;/head/Unsqueeze_46_output_0;/head/Unsqueeze_47_output_0;	outputs=/head/Concat_16_output_0;	attributes=axis:INT=0;
+node	482	/head/ReduceMean_2	::ReduceMean	inputs=/head/Concat_16_output_0;	outputs=/head/ReduceMean_2_output_0;	attributes=axes:INTS=[0];keepdims:INT=0;
+node	483	/head/upsample.2/upsample.2.0/Conv	::Conv	inputs=/head/ReduceMean_2_output_0;head.upsample.2.0.weight;head.upsample.2.0.bias;	outputs=/head/upsample.2/upsample.2.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	484	/head/upsample.2/upsample.2.1/DepthToSpace	::DepthToSpace	inputs=/head/upsample.2/upsample.2.0/Conv_output_0;	outputs=/head/upsample.2/upsample.2.1/DepthToSpace_output_0;	attributes=blocksize:INT=4;mode:STRING="CRD";
+node	485	/head/Concat_17	::Concat	inputs=/head/input_proj.2/Conv_output_0;/head/upsample.2/upsample.2.1/DepthToSpace_output_0;	outputs=/head/Concat_17_output_0;	attributes=axis:INT=1;
+node	486	/head/cls_head.2/cls_head.2.0/Conv	::Conv	inputs=/head/Concat_17_output_0;head.cls_head.2.0.weight;head.cls_head.2.0.bias;	outputs=/head/cls_head.2/cls_head.2.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	487	/head/cls_head.2/cls_head.2.1/Sigmoid	::Sigmoid	inputs=/head/cls_head.2/cls_head.2.0/Conv_output_0;	outputs=/head/cls_head.2/cls_head.2.1/Sigmoid_output_0;	attributes=
+node	488	/head/cls_head.2/cls_head.2.1/Mul	::Mul	inputs=/head/cls_head.2/cls_head.2.0/Conv_output_0;/head/cls_head.2/cls_head.2.1/Sigmoid_output_0;	outputs=/head/cls_head.2/cls_head.2.1/Mul_output_0;	attributes=
+node	489	/head/cls_head.2/cls_head.2.2/Conv	::Conv	inputs=/head/cls_head.2/cls_head.2.1/Mul_output_0;head.cls_head.2.2.weight;head.cls_head.2.2.bias;	outputs=cls_p5;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];
+node	490	/head/reg_head.2/reg_head.2.0/Conv	::Conv	inputs=/head/Concat_17_output_0;head.reg_head.2.0.weight;head.reg_head.2.0.bias;	outputs=/head/reg_head.2/reg_head.2.0/Conv_output_0;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[3,3];pads:INTS=[1,1,1,1];strides:INTS=[1,1];
+node	491	/head/reg_head.2/reg_head.2.1/Sigmoid	::Sigmoid	inputs=/head/reg_head.2/reg_head.2.0/Conv_output_0;	outputs=/head/reg_head.2/reg_head.2.1/Sigmoid_output_0;	attributes=
+node	492	/head/reg_head.2/reg_head.2.1/Mul	::Mul	inputs=/head/reg_head.2/reg_head.2.0/Conv_output_0;/head/reg_head.2/reg_head.2.1/Sigmoid_output_0;	outputs=/head/reg_head.2/reg_head.2.1/Mul_output_0;	attributes=
+node	493	/head/reg_head.2/reg_head.2.2/Conv	::Conv	inputs=/head/reg_head.2/reg_head.2.1/Mul_output_0;head.reg_head.2.2.weight;head.reg_head.2.2.bias;	outputs=reg_p5;	attributes=dilations:INTS=[1,1];group:INT=1;kernel_shape:INTS=[1,1];pads:INTS=[0,0,0,0];strides:INTS=[1,1];

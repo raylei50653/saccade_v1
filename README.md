@@ -1,6 +1,6 @@
 # Saccade v1
 
-Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證，以及使用合成資料的 CUDA serial／pipelined 執行骨架。YOLO／Mamba 推論、完整 GMC、tracker 與 MOT writer 仍待各自任務實作。
+Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證，使用合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）。YOLO／Mamba 推論、完整 GMC、tracker 與 MOT writer 仍待各自任務實作。
 
 以舊架構的 YOLO26＋Mamba-FPN、GPU GMC、geometry-first／ReID-free tracker 與 MOT 輸出作為設計基線；重新抽象資料與責任邊界，全部重新實作。
 
@@ -14,9 +14,9 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 - [模型 artifact／native scan 可行性](docs/MODEL_FEASIBILITY.md)：P01-A 的三項獨立驗收與 S01 接續條件。
 - [模型 manifest schema 與 C++ CLI](docs/MODEL_MANIFEST.md)：嚴格 JSON、穩定序列化／hash、artifact 檔案完整性及 fixtures。
 - [Native TensorRT SDK 最小驗證](docs/NATIVE_TENSORRT.md)：獨立可選 SDK 目標、版本 pin、固定小網路與重跑命令。
-- [新模型來源與缺件](docs/MODEL_ARTIFACT_READINESS.md)：官方一般 YOLO26s 的 native 結構查核；目標 Mamba-FPN head 與 scan 契約仍缺失。
-- [新 head 的 scan 契約查核](docs/SCAN_CONTRACT.md)：2026-10-29 新增架構規格定位、上游身分比對、S01 精確缺欄與待裁定設計；尚未取得目標 scan 語義。
-- [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
+- [模型來源與缺件](docs/MODEL_ARTIFACT_READINESS.md)：s 時期的官方一般 YOLO26s native 查核；§7 為原版 m head 的 checkpoint／ONNX／engine 對應與剩餘缺件。
+- [原版 YOLO26m head 的 scan 契約](docs/SCAN_CONTRACT.md)：v1 模型基線（YOLO26m＋原版 m T3→T1 head、T=1）的 module map、`saccade::SelectiveScan`／Cross-Scan 契約、比較政策與剩餘缺件；S01 scalar reference 依此實作。
+- [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物，新訓練尚未啟動。
 
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
 
@@ -28,7 +28,7 @@ ctest --test-dir build --output-on-failure
 
 `build/protocol_model --self-test` 檢查同步協定；`build/protocol_tests` 驗證首幀初始化、錯誤注入、失敗鎖定、頻譜隔離與封包編碼。`build/packet_compare serial.bin pipelined.bin` 比較整份固定容量封包串流，包含未使用 rows 與 reserved bytes。
 
-`synthetic_config_tests` 另外驗證最小設定 schema、非法輸入、穩定序列化與 hash；`file_io_tests` 驗證讀取及明確 close 的錯誤傳播，`cleanup_tests` 以 CPU fake 驗證資源釋放錯誤與所有權政策。`model_manifest_tests` 與 CLI 測試加入模型輸入契約及失敗條件；預設建置不需 GPU。
+`synthetic_config_tests` 另外驗證最小設定 schema、非法輸入、穩定序列化與 hash；`file_io_tests` 驗證讀取及明確 close 的錯誤傳播，`cleanup_tests` 以 CPU fake 驗證資源釋放錯誤與所有權政策。`model_manifest_tests` 與 CLI 測試加入模型輸入契約及失敗條件；`selective_scan_tests` 以 bc 推導、手算與契約等式驗證 S01 的 binary64 scan reference 及其拒絕條件（[fixtures](fixtures/selective-scan/README.md)）。預設建置不需 GPU。
 
 ```sh
 build/model_manifest validate fixtures/model-manifest/contract.json

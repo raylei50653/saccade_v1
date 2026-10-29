@@ -1,0 +1,1 @@
+bash evidence/s01/2026-10-29/audit/match-initializers.sh build-s01-audit-run/capture/onnx-dump.log build-s01-audit-run/capture/ckpt-t1-student.log build-s01-audit-run/capture/ckpt-gpu_best-student.log build-s01-audit-run/capture/ckpt-gpu_recall-student.log 

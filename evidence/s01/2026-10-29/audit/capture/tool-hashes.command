@@ -1,0 +1,1 @@
+sha256sum evidence/s01/2026-10-29/audit/torch_ckpt_inspect.cpp evidence/s01/2026-10-29/audit/onnx_graph_dump.cpp evidence/s01/2026-10-29/audit/compare-scan-functions.sh evidence/s01/2026-10-29/audit/match-initializers.sh build-s01-audit-run/work/torch_ckpt_inspect build-s01-audit-run/work/onnx_graph_dump 

@@ -1,0 +1,1 @@
+bash -c cd\ \"\$1\"\ \&\&\ sha256sum\ CMakeLists.txt\ include/saccade/selective_scan.hpp\ src/selective_scan.cpp\ tests/selective_scan_tests.cpp\ fixtures/selective-scan/\*\ docs/SCAN_CONTRACT.md\ .github/workflows/protocol.yml _ build-s01-reference/source 

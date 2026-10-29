@@ -1,0 +1,1 @@
+bash -c git\ -C\ \"\$1\"\ rev-parse\ HEAD\;\ git\ -C\ \"\$1\"\ status\ --porcelain=v1\ --untracked-files=no\;\ git\ -C\ \"\$1\"\ remote\ get-url\ origin\;\ git\ -C\ \"\$1\"\ log\ -1\ --format=\"%H\ %cI\ %s\"\ \"\$2\"\;\ git\ -C\ \"\$1\"\ log\ -1\ --format=\"%H\ %cI\ %s\"\ \"\$3\" _ /home/ray/developer/ai/saccade e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2 09eb1747 

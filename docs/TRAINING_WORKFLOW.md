@@ -17,8 +17,8 @@
 | 原版 cache | `runs/mamba_teacher_cache_yolo26m_v14replica` 本機缺失，歷史 inventory 亦記為 unavailable；目前不能逐檔重播原訓練。 |
 | cache 重建 | 現存 nvJPEG cache 是另一份 artifact；目前 cache wrapper 預設也已改為 GPU decode。重建時須先固定解碼／resize 規格，不能只沿用路徑名稱。 |
 | 選模 | 主線 `best.ckpt` 依 training loss 選取，metadata 標為 `diagnostic_train_loss`，不是獨立驗證集最佳模型。 |
-| 實際部署 head | preset 同時指定固定 `mamba_head_26m.engine`；其 checkpoint 來源尚不能唯一歸屬。preset 指定的 `.ckpt` 與 engine 實際載入的 head 不能畫等號。 |
-| v1 接入 | [DATAFLOW B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 仍以 s 為起點；本文件整理 m 訓練流程，不表示 v1 已改用 m 或通過 [P01／S01](MODEL_FEASIBILITY.md)。 |
+| 實際部署 head | preset 同時指定固定 `mamba_head_26m.engine`；preset 指定的 `.ckpt` 與 engine 實際載入的 head 不能畫等號。2026-10-29 追加：其 sibling `mamba_head_26m.onnx` 的 65 個 initializer 全部對上 §8 的 `best_recall.ckpt`（epoch 11），不是 T1 主線；engine bytes 本身仍未歸屬（[evidence](../evidence/s01/2026-10-29/REPORT.md)）。 |
+| v1 接入 | 2026-10-29 使用者決策：[DATAFLOW B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 改以本文件的原版 m 架構為 v1 模型基線，部署 T=1。這只固定架構與 [scan 契約](SCAN_CONTRACT.md)；新 run 的起點、cache backend、split 與選模仍依 §5 另行固定，訓練尚未啟動，主線 checkpoint 也未被採為 v1 權重。S01／P01 狀態見 [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md)。 |
 
 ## 2. 來源與證據層級
 

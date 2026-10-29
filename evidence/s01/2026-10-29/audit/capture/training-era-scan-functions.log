@@ -1,0 +1,25 @@
+== def _selective_scan( lines 39 -> 39
+== def _selective_scan_cuda( lines 35 -> 36
+12a13
+>     _validate_cuda_scan_state_count(N)
+== def _selective_scan_jit( lines 26 -> 26
+== class MambaBlock( lines 91 -> 91
+== def _cross_scan_mamba( lines 33 -> 33
+== _forward_eager spatial branch lines 140 -> 148
+7c7,13
+<             x_small = self.downsample[i](x_proj)
+---
+>             if getattr(self, "_bypass_reduction", False):
+>                 # Run Mamba at full FPN resolution: skip the ÷spatial_reduction
+>                 # downsample (and the matching upsample below). Benchmark/ablation
+>                 # hook for "no down/up" — default off, bit-exact when unset.
+>                 x_small = x_proj
+>             else:
+>                 x_small = self.downsample[i](x_proj)
+23c29,31
+<             if self.use_pixel_shuffle and getattr(self, "upsample_loaded", False):
+---
+>             if getattr(self, "_bypass_reduction", False):
+>                 pass  # x_up already at full (H, W); no upsample needed
+>             elif self.use_pixel_shuffle and getattr(self, "upsample_loaded", False):
+diff_status=1

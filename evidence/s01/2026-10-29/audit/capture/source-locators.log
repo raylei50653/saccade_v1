@@ -1,0 +1,115 @@
+src/saccade/perception/temporal_yolo/mamba_head.py:29:def _validate_cuda_scan_state_count(n: int) -> None:
+src/saccade/perception/temporal_yolo/mamba_head.py:30:    if n <= 0 or n > 32 or (n & (n - 1)) != 0:
+src/saccade/perception/temporal_yolo/mamba_head.py:39:def _selective_scan(
+src/saccade/perception/temporal_yolo/mamba_head.py:80:def _selective_scan_legacy_n1(
+src/saccade/perception/temporal_yolo/mamba_head.py:104:def _selective_scan_legacy_n1_cuda(
+src/saccade/perception/temporal_yolo/mamba_head.py:240:def _selective_scan_cuda(
+src/saccade/perception/temporal_yolo/mamba_head.py:254:    a_per_channel = 1 if (A.dim() == 2 and A.shape[0] == D_dim) else 0
+src/saccade/perception/temporal_yolo/mamba_head.py:258:    if C.shape[-1] < N:
+src/saccade/perception/temporal_yolo/mamba_head.py:279:def _selective_scan_jit(
+src/saccade/perception/temporal_yolo/mamba_head.py:289:    delta = F.softplus(delta)
+src/saccade/perception/temporal_yolo/mamba_head.py:291:    deltaA = torch.exp(delta.unsqueeze(-1) * A)  # (B, L, D, N)
+src/saccade/perception/temporal_yolo/mamba_head.py:293:    deltaB_u = delta.unsqueeze(-1) * B_exp * u.unsqueeze(-1)  # (B, L, D, N)
+src/saccade/perception/temporal_yolo/mamba_head.py:295:    h = torch.zeros(B_dim, D_dim, N, device=u.device, dtype=u.dtype)
+src/saccade/perception/temporal_yolo/mamba_head.py:298:        h = deltaA[:, t] * h + deltaB_u[:, t]
+src/saccade/perception/temporal_yolo/mamba_head.py:299:        y_t = (h * C[:, t].unsqueeze(1)).sum(dim=-1)
+src/saccade/perception/temporal_yolo/mamba_head.py:303:        ys = ys + u * D
+src/saccade/perception/temporal_yolo/mamba_head.py:308:def _selective_scan_legacy_n1_jit(
+src/saccade/perception/temporal_yolo/mamba_head.py:317:    delta = F.softplus(delta)
+src/saccade/perception/temporal_yolo/mamba_head.py:326:    h = torch.zeros(batch, channels, device=u.device, dtype=u.dtype)
+src/saccade/perception/temporal_yolo/mamba_head.py:337:        ys = ys + u * D
+src/saccade/perception/temporal_yolo/mamba_head.py:361:        a_per_channel = 1 if (A.dim() == 2 and A.shape[0] == D_dim) else 0
+src/saccade/perception/temporal_yolo/mamba_head.py:453:class MambaBlock(nn.Module):
+src/saccade/perception/temporal_yolo/mamba_head.py:476:        d_inner = d_model * expand
+src/saccade/perception/temporal_yolo/mamba_head.py:478:        self.in_proj = nn.Linear(d_model, d_inner * 2, bias=False)
+src/saccade/perception/temporal_yolo/mamba_head.py:480:        self.conv1d = nn.Conv1d(
+src/saccade/perception/temporal_yolo/mamba_head.py:484:            padding=d_conv - 1,
+src/saccade/perception/temporal_yolo/mamba_head.py:491:        c_rank = d_state if full_rank_c else 1
+src/saccade/perception/temporal_yolo/mamba_head.py:492:        self.x_proj = nn.Linear(d_inner, d_state * 2 + c_rank, bias=False)
+src/saccade/perception/temporal_yolo/mamba_head.py:493:        self.dt_proj = nn.Linear(d_state, d_inner, bias=True)
+src/saccade/perception/temporal_yolo/mamba_head.py:503:        A = torch.arange(1, d_state + 1, dtype=torch.float32).expand(rows, d_state)
+src/saccade/perception/temporal_yolo/mamba_head.py:504:        self.A_log = nn.Parameter(torch.log(A).contiguous())
+src/saccade/perception/temporal_yolo/mamba_head.py:505:        self.D = nn.Parameter(torch.ones(d_inner))
+src/saccade/perception/temporal_yolo/mamba_head.py:519:        x_t = self.conv1d(x_t)[..., :L]
+src/saccade/perception/temporal_yolo/mamba_head.py:520:        x_t = F.silu(x_t.transpose(1, 2))  # (B, L, d_inner)
+src/saccade/perception/temporal_yolo/mamba_head.py:524:        dt = self.dt_proj(x_db[..., : self.d_state])
+src/saccade/perception/temporal_yolo/mamba_head.py:525:        B_ssm = x_db[..., self.d_state : self.d_state * 2]
+src/saccade/perception/temporal_yolo/mamba_head.py:526:        C_ssm = x_db[..., self.d_state * 2 :]
+src/saccade/perception/temporal_yolo/mamba_head.py:528:        A = -torch.exp(self.A_log.float())  # (1, N) shared or (d_inner, N) per-channel
+src/saccade/perception/temporal_yolo/mamba_head.py:531:        y = scan(x_t, dt, A, B_ssm, C_ssm, D=self.D)
+src/saccade/perception/temporal_yolo/mamba_head.py:540:        y = y * F.silu(z)
+src/saccade/perception/temporal_yolo/mamba_head.py:541:        y = self.out_proj(y)
+src/saccade/perception/temporal_yolo/mamba_head.py:588:def _cross_scan_mamba(
+src/saccade/perception/temporal_yolo/mamba_head.py:599:            torch.flip(x_2d, dims=[2, 3]),
+src/saccade/perception/temporal_yolo/mamba_head.py:600:            torch.flip(x_2d, dims=[3]),
+src/saccade/perception/temporal_yolo/mamba_head.py:601:            torch.flip(x_2d, dims=[2]),
+src/saccade/perception/temporal_yolo/mamba_head.py:606:    scans_batched = scans.reshape(4 * B, C, H, W)
+src/saccade/perception/temporal_yolo/mamba_head.py:607:    seq = scans_batched.flatten(2).transpose(1, 2)  # (4*B, L, C)
+src/saccade/perception/temporal_yolo/mamba_head.py:609:        seq = block(seq) + seq
+src/saccade/perception/temporal_yolo/mamba_head.py:616:            torch.flip(out[1], dims=[2, 3]),
+src/saccade/perception/temporal_yolo/mamba_head.py:617:            torch.flip(out[2], dims=[3]),
+src/saccade/perception/temporal_yolo/mamba_head.py:618:            torch.flip(out[3], dims=[2]),
+src/saccade/perception/temporal_yolo/mamba_head.py:620:    ).mean(dim=0)
+src/saccade/perception/temporal_yolo/mamba_head.py:1531:                        nn.PixelShuffle(spatial_reduction),
+src/saccade/perception/temporal_yolo/mamba_head.py:1925:            elif self.use_cross_scan:
+src/saccade/perception/temporal_yolo/mamba_head.py:1930:                    x_seq = block(x_seq) + x_seq
+src/saccade/perception/temporal_yolo/mamba_head.py:1936:                x_up = self.upsample[i](x_up)
+src/saccade/perception/temporal_yolo/mamba_head.py:2052:            x_cls = torch.cat([x_cls_proj, x_up], dim=1)
+src/saccade/perception/temporal_yolo/mamba_head.py:2053:            x_reg = torch.cat([x_reg_proj, x_up], dim=1)
+src/tracking/mamba_scan.cu:16:__device__ inline float softplus_f32(float x) {
+src/tracking/mamba_scan.cu:17:    if (x > 20.0f) return x;
+src/tracking/mamba_scan.cu:18:    if (x < -20.0f) return expf(x);
+src/tracking/mamba_scan.cu:19:    return logf(1.0f + expf(x));
+src/tracking/mamba_scan.cu:22:inline bool valid_scan_state_count(int N) {
+src/tracking/mamba_scan.cu:54:    float A_n = static_cast<float>(A[a_per_channel ? (d * N + n) : n]);
+src/tracking/mamba_scan.cu:56:    float h = 0.0f;
+src/tracking/mamba_scan.cu:64:    for (int t = 0; t < L; t++) {
+src/tracking/mamba_scan.cu:65:        float u_btd = static_cast<float>(u[((b * L + t) * D_dim) + d]);
+src/tracking/mamba_scan.cu:66:        float delta_btd = softplus_f32(static_cast<float>(delta_in[((b * L + t) * D_dim) + d]));
+src/tracking/mamba_scan.cu:67:        float B_btn = static_cast<float>(B_vals[((b * L + t) * N) + n]);
+src/tracking/mamba_scan.cu:68:        float C_btn = static_cast<float>(C_vals[((b * L + t) * N) + n]);
+src/tracking/mamba_scan.cu:70:        float deltaA = expf(delta_btd * A_n);
+src/tracking/mamba_scan.cu:71:        float deltaB_u = delta_btd * B_btn * u_btd;
+src/tracking/mamba_scan.cu:73:        h = deltaA * h + deltaB_u;
+src/tracking/mamba_scan.cu:74:        float acc = C_btn * h;
+src/tracking/mamba_scan.cu:80:            acc += __shfl_xor_sync(mask, acc, offset);
+src/tracking/mamba_scan.cu:85:            if (has_D) acc += D_d * u_btd;
+src/tracking/mamba_scan.cu:86:            y[((b * L + t) * D_dim) + d] = static_cast<T>(acc);
+src/tracking/mamba_scan.cu:130:    float A_n = A[a_per_channel ? (d * N + n) : n];
+src/tracking/mamba_scan.cu:133:    float h = 0.0f;
+src/tracking/mamba_scan.cu:134:    for (int t = 0; t < L; t++) {
+src/tracking/mamba_scan.cu:135:        float delta_t = softplus_f32(delta_in[(b * L + t) * D_dim + d]);
+src/tracking/mamba_scan.cu:136:        float u_td = u[(b * L + t) * D_dim + d];
+src/tracking/mamba_scan.cu:138:        float bu = delta_t * B_vals[(b * L + t) * N + n] * u_td;
+src/tracking/mamba_scan.cu:140:        h_buf[((b * L + t) * D_dim + d) * N + n] = h;
+src/tracking/mamba_scan.cu:150:        int idx_td = (b * L + t) * D_dim + d;
+src/tracking/mamba_scan.cu:151:        int idx_tn = (b * L + t) * N + n;
+src/tracking/mamba_scan.cu:154:        float delta_t = softplus_f32(delta_in_td);
+src/tracking/mamba_scan.cu:203:    atomicAdd(&dA[a_per_channel ? (d * N + n) : n], dA_acc);
+src/tracking/mamba_scan.cu:226:    if (!valid_scan_state_count(N)) {
+src/tracking/mamba_scan.cu:254:    if (!valid_scan_state_count(N) || K * N > 1024) {
+src/tracking/mamba_scan.cu:284:    if (!valid_scan_state_count(N) || K * N > 1024) {
+src/tracking/mamba_scan_plugin.cpp:47:        if (nbInputs < 5 || nbInputs > 7) return -1;
+src/tracking/mamba_scan_plugin.cpp:56:        params_.N = a_desc.dims.d[1];
+src/tracking/mamba_scan_plugin.cpp:58:        params_.has_D = (nbInputs >= 6);
+src/tracking/mamba_scan_plugin.cpp:69:        outputTypes[0] = inputTypes[0];
+src/tracking/mamba_scan_plugin.cpp:99:        bool const ok_fmt = (fmt == TensorFormat::kLINEAR);
+src/tracking/mamba_scan_plugin.cpp:100:        bool const ok_type = (dtype == DataType::kFLOAT || dtype == DataType::kHALF);
+src/tracking/mamba_scan_plugin.cpp:152:        params_.N = a_dims.d[a_dims.nbDims - 1];
+src/tracking/mamba_scan_plugin.cpp:154:        params_.a_per_channel = (a_dims.nbDims >= 2 && a_dims.d[0] > 1);
+src/tracking/mamba_scan_plugin.cpp:155:        params_.has_D = (nbInputs >= 6);
+src/tracking/mamba_scan_plugin.cpp:180:        bool const need_C_broadcast = (C_last_dim < kernel_params.N && C_last_dim == 1);
+include/tracking/mamba_scan_plugin.hpp:14://   domain = "saccade"
+include/tracking/mamba_scan_plugin.hpp:15://   type   = "SelectiveScan"
+include/tracking/mamba_scan_plugin.hpp:32:constexpr char const* kSelectiveScanPluginName    = "SelectiveScan";
+include/tracking/mamba_scan_plugin.hpp:33:constexpr char const* kSelectiveScanPluginVersion = "1";
+include/tracking/mamba_scan_plugin.hpp:34:constexpr char const* kSelectiveScanNamespace     = "saccade";
+scripts/model/export_mamba_head_onnx.py:5:whose `symbolic()` method emits a `saccade::SelectiveScan` ONNX node.  This
+scripts/model/export_mamba_head_onnx.py:129:            "saccade::SelectiveScan",
+scripts/model/export_mamba_head_onnx.py:136:            domain_s="saccade",
+scripts/model/export_mamba_head_onnx.py:192:    mamba_ckpt: str = "runs/mamba_gt_yolo26m_v14replica_t3_t1_gpu_decode/best_recall.ckpt",
+scripts/model/export_mamba_head_onnx.py:194:    in_channels: tuple[int, int, int] = (256, 512, 512),
+scripts/model/export_mamba_head_onnx.py:195:    output: str = "models/yolo/mamba_head_26m.onnx",
+scripts/model/export_mamba_head_onnx.py:236:            opset_version=17,
+scripts/model/export_mamba_head_onnx.py:238:            input_names=["p3", "p4", "p5"],
+scripts/model/export_mamba_head_onnx.py:239:            output_names=[

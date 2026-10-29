@@ -1,0 +1,50 @@
+element	single_token	0	3.77258872223978123771	3.7725887222397811	9.28e-17
+element	single_token	1	-164	-164	0
+case	single_token	unit	count=2	max_abs=9.28e-17	max_rel=2.46e-17	worst_index=0	PASS
+element	three_token_decay	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	three_token_decay	1	1.73286795139986327357	1.7328679513998633	2.49e-18
+element	three_token_decay	2	2.94587551737976756513	2.9458755173797675	7.09e-17
+case	three_token_decay	unit	count=3	max_abs=7.09e-17	max_rel=3.35e-17	worst_index=2	PASS
+element	softplus_branches	0	9.35762296883973677941e-14	9.3576229688397368e-14	6.16e-31
+element	softplus_branches	1	2.0611536203143807032e-09	2.0611536203143808e-09	1.01e-25
+element	softplus_branches	2	0.313261687518222834044	0.31326168751822286	3.04e-17
+element	softplus_branches	3	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	softplus_branches	4	20.000000002061153621	20.000000002061153	5.95e-16
+element	softplus_branches	5	20.5	20.5	0
+case	softplus_branches	relative	count=6	max_abs=5.95e-16	max_rel=9.69e-17	worst_index=4	PASS
+case	geometric_p3_length	unit	count=1600	max_abs=3.15e-15	max_rel=3.02e-16	worst_index=191	PASS
+case	per_channel_a	unit	count=75	max_abs=4.04e-15	max_rel=2.27e-15	worst_index=74	PASS
+case	state_32_p4_length	unit	count=200	max_abs=8.72e-15	max_rel=6.74e-16	worst_index=30	PASS
+case	varying_direct_sum	unit	count=42	max_abs=9.88e-16	max_rel=1.25e-14	worst_index=27	PASS
+case	m_head_abi_L25	unit	count=25600	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=20234	PASS
+case	m_head_abi_L100	unit	count=102400	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=77834	PASS
+case	m_head_abi_L400	unit	count=409600	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=308234	PASS
+element	extreme_large_delta_memoryless	0	3	3	0
+element	extreme_large_delta_memoryless	1	-5	-5	0
+element	extreme_large_delta_memoryless	2	7	7	0
+case	extreme_large_delta_memoryless	relative	count=3	max_abs=0	max_rel=0	worst_index=0	PASS
+element	extreme_negative_delta	0	1	1	0
+element	extreme_negative_delta	1	-1	-1	0
+case	extreme_negative_delta	relative	count=2	max_abs=0	max_rel=0	worst_index=0	PASS
+element	extreme_fp32_max_input	0	6.32938129123045190052e-06	6.3293812912304522e-06	2.67e-22
+case	extreme_fp32_max_input	relative	count=1	max_abs=2.67e-22	max_rel=4.22e-17	worst_index=0	PASS
+element	extreme_near_fp32_limit_output	0	1.11655151645932933324e+38	1.1165515164593293e+38	0
+case	extreme_near_fp32_limit_output	relative	count=1	max_abs=0	max_rel=0	worst_index=0	PASS
+element	extreme_subnormal_input	0	9.71306079669728058935e-46	9.7130607966972803e-46	3.25e-62
+element	extreme_subnormal_input	1	1.4569591195045920884e-45	1.456959119504592e-45	1.27e-61
+case	extreme_subnormal_input	relative	count=2	max_abs=1.27e-61	max_rel=8.69e-17	worst_index=1	PASS
+element	extreme_most_negative_a	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	extreme_most_negative_a	1	1.38629436111989061886	1.3862943611198906	4.64e-17
+element	extreme_most_negative_a	2	2.07944154167983592829	2.0794415416798357	1.81e-16
+case	extreme_most_negative_a	unit	count=3	max_abs=1.81e-16	max_rel=8.69e-17	worst_index=2	PASS
+equality	all	PASS
+rejection	all	PASS
+element	cross_scan_prefix_merge	0	7.6246189861593984035	7.6246189861593976	8.1e-16
+element	cross_scan_prefix_merge	1	7.97119257643937105832	7.9711925764393712	1.22e-16
+element	cross_scan_prefix_merge	2	8.31776616671934371314	8.317766166719343	7.23e-16
+element	cross_scan_prefix_merge	3	8.66433975699931636753	8.6643397569993148	1.57e-15
+element	cross_scan_prefix_merge	4	9.01091334727928902279	9.0109133472792884	6.35e-16
+element	cross_scan_prefix_merge	5	9.35748693755926167718	9.357486937559262	2.98e-16
+case	cross_scan_prefix_merge	unit	count=6	max_abs=1.57e-15	max_rel=1.81e-16	worst_index=3	PASS
+cross_scan	all	PASS
+checks	253

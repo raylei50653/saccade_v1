@@ -82,6 +82,21 @@ add_test(NAME model_manifest_cli
     -DFIXTURE_DIR=${CMAKE_CURRENT_BINARY_DIR}/manifest-fixtures
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ManifestTest.cmake)
 
+# S01 scalar reference for the m head's saccade::SelectiveScan and Cross-Scan.
+# binary64 throughout; contraction is disabled so the reference does not depend
+# on the target's FMA availability (docs/SCAN_CONTRACT.md §5).
+add_library(saccade_selective_scan src/selective_scan.cpp)
+target_include_directories(saccade_selective_scan PUBLIC include)
+add_executable(selective_scan_tests tests/selective_scan_tests.cpp)
+target_link_libraries(selective_scan_tests PRIVATE saccade_selective_scan saccade_file_io)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_selective_scan selective_scan_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+add_test(NAME selective_scan_reference COMMAND selective_scan_tests
+  ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/selective-scan)
+
 include(cmake/TensorRT.cmake)
 
 option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)

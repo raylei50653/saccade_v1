@@ -14,5 +14,5 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
       - name: Build
         run: cmake --build build --parallel 2
-      - name: Verify protocol, checked I/O, config and model manifest contracts
+      - name: Verify protocol, checked I/O, config, model manifest and selective-scan reference contracts
         run: ctest --test-dir build --output-on-failure

@@ -93,16 +93,34 @@ run onnx-inspect-build bash -c 'c++ -std=c++20 -O2 -Wall -Wextra -Wpedantic -Wer
 run backbone-ordered-io bash -c '"$1" "$2" | grep -E "^(scope|ir_version|producer|opset|metadata|graph.root|input|output)"' _ "$out/onnx/onnx_contract_inspect" "$backbone"
 
 suite=("$out/trt/head_trt_tests" "$engine" "$engine_sha" "$out/stage/t1-head.swb" "$bundle_sha" --skip intermediates)
+# Head engines load TensorRT's generated kernel libraries; under the default
+# --report-api-errors=extended the driver log line "Selective device code
+# recompilation in progress" (the tool re-instrumenting that library) counts
+# as an error although no API call failed. The head runs therefore report
+# explicit API errors only; memory, race, sync and init errors are unaffected.
+# One memcheck run keeps the default and must report nothing but that line.
 for tool in memcheck racecheck synccheck; do
-  run "sanitizer-head-$tool" "$sanitizer" --tool "$tool" --error-exitcode 99 "${suite[@]}"
+  run "sanitizer-head-$tool" "$sanitizer" --tool "$tool" --report-api-errors explicit --error-exitcode 99 "${suite[@]}"
   run "sanitizer-scan-trt-$tool" "$sanitizer" --tool "$tool" --error-exitcode 99 "$out/trt/scan_trt_tests"
 done
-run sanitizer-head-initcheck "$sanitizer" --tool initcheck --error-exitcode 99 "${suite[@]}" --no-held-stream
+run sanitizer-head-initcheck "$sanitizer" --tool initcheck --report-api-errors explicit --error-exitcode 99 "${suite[@]}" --no-held-stream
 run sanitizer-scan-trt-initcheck "$sanitizer" --tool initcheck --error-exitcode 99 "$out/trt/scan_trt_tests" --no-held-stream
+run sanitizer-head-memcheck-default-reporting bash -c '
+  log=$(mktemp); code=0
+  "$@" > "$log" 2>&1 || code=$?
+  cat "$log"
+  reported=$(sed -n "s/^========= ERROR SUMMARY: \([0-9]*\) error.*/\1/p" "$log")
+  notes=$(grep -c "CUDA API Warning: Selective device code recompilation in progress" "$log" || true)
+  passed=$(grep -c "^head_trt_tests: [0-9]* checks passed" "$log" || true)
+  rm -f "$log"
+  echo "tool exit=$code reported=$reported recompilation_notes=$notes suite_passed=$passed"
+  [[ $passed == 1 && ( ( $code == 0 && $reported == 0 ) || ( $code == 99 && $reported == "$notes" ) ) ]]
+' _ "$sanitizer" --tool memcheck --error-exitcode 99 "${suite[@]}"
 printf '%s\n' 'head intermediates: excluded from sanitizers (rebuilds a debug engine); native run in trt-ctest head_trt' \
   'head api_trace: explicit group, separate native CUPTI process (head-api-trace)' \
   'scan_trt api_trace / async_fault: explicit groups, native only (trt-ctest)' \
-  'initcheck: --no-held-stream skips the callback-held stream groups only' > "$cap/sanitizer-skips.txt"
+  'initcheck: --no-held-stream skips the callback-held stream groups only' \
+  'head runs: --report-api-errors explicit; sanitizer-head-memcheck-default-reporting keeps the default and classifies every reported item' > "$cap/sanitizer-skips.txt"
 run control-build "$nvcc" -std=c++20 -arch=sm_120 -lineinfo -o "$out/sanitizer-control" "$src/evidence/s02/2026-10-29/sanitizer-control.cu"
 for tool in memcheck initcheck racecheck synccheck; do
   run "control-$tool" bash -c '"$1" --tool "$2" --error-exitcode 99 "$3" "$2"; code=$?; echo "tool exit=$code"; [[ $code == 99 ]]' \

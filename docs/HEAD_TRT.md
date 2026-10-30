@@ -163,3 +163,18 @@ build-s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--
 [capture.sh](../evidence/s04/2026-10-30/capture.sh) 在每一步前後拒絕 HEAD／工作樹變動，核對報告中的受測 SHA 與 `build_dirty=false`；同一 source 兩次 engine 建置必須逐 byte 相同。mutation 只接受 exit 1 與指定的 test／tactic guard 拒絕診斷，timeout、crash 或無關 I/O 失敗不算 detection。全程 `free -m` 取樣連同三次失敗 attempt 的 source／archive hash、exit codes、memcheck raw log 或 mutation 分類結果保留於 evidence；三次失敗分別存於 `capture/failed-attempt/`、`capture/failed-attempt2/`、`capture/failed-attempt3/`，第四次正式結果來自本機 `build-s04-evidence4/`。
 
 **後續缺件。** [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md) 記錄 S04 判定；本輪 source 與後續 evidence／docs commit 的推送、遠端 SHA 與 CPU CI 於交付回報分開記錄。本輪不關閉 P01：matching backbone／neck、影像前處理、decode／NMS 與模型品質仍需各自驗收。
+
+## 10. T01 候選的延續驗證（2026-10-30）
+
+S04 的工具與 GPU 實作不變，改用 [T01](T01_TRAINING.md) 正式 run 選定的 T1 head（epoch 1，126,818,317 bytes，SHA-256 `070580f9f5755e57acd9ee7ed9b4307672f4d9996332b40e6b61ee7cc6e6962b`），重做完整 head 的獨立數值比較；**S04 的 PASS 不轉移到這個候選**。範圍仍是 P3／P4／P5 features 到六個 raw outputs，FP32、無 TF32、batch 1、T=1。
+
+| 項目 | 內容 |
+| --- | --- |
+| Bundle | `head_weights convert` 同 §2 的全部檢查（69 active＋39 excluded），SCWB 1，40,711,616 bytes，SHA-256 `4fccfda6342b88d43fc2bf676228810b974b9e9956f45fa53352124098f046a3`。CMake 的 `SACCADE_HEAD_CHECKPOINT_SHA256`／`SACCADE_HEAD_BUNDLE_SHA256` 改為可設定的 cache 變數，預設值仍是 S04 候選 |
+| 真實 features | T01 teacher e12 backbone／neck 以 PyTorch `fp32-strict` 算出（T01 輸入契約，[T01_TRAINING §2.1–2.2](T01_TRAINING.md#22-計算精度與儲存-t01-precision1)）：MOT17-02 第 1 幀、MOT17-10 第 1 幀、MOT17-13 第 400 幀，FP32 little-endian NCHW，31,948,800 bytes，SHA-256 `f8224da5118155a1bb7d9ecb19a508719cbca9a3342706568ff11e528aba52e1`（`training/t01/t01_export.py features`）。這三幀在 T01 訓練前就已固定 |
+| 驗收 | `head_trt run … --features FILE SHA`：三組 §4 固定輸入加三幀真實 features，六個輸出的全部元素依 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`，不變）判定；每個輸入同一 engine 重跑逐位元相同；失敗序列 OK／FAILED／SKIPPED；CUDA graph 重播與 enqueueV3 逐位元相同。`--dump DIR` 另存每個輸入提交的六個輸出 |
+| 其他 | `head_trt_tests` 全部 groups（含 intermediates、atomicity、ownership、isolation、graph、streams、api_trace）與 CPU／CUDA＋TRT CTest 以新 bundle 執行；`head_reference_tests` 以新權重檢查 13 個語義變體；兩次建置 plan bytes 相同；model manifest [manifests/t01/yolo26m-head-t1.json](../manifests/t01/yolo26m-head-t1.json)（schema 2，head_only） |
+| 診斷（不是驗收） | `t01_export.py head-compare`：同三幀上，訓練側 PyTorch T1 head（`fp32-strict`）與 native dump 的六個輸出差，以及經 T01 decode 後的偵測結果 |
+| Sanitizer | head memcheck、initcheck 以新 engine／bundle 重跑（同 S04 參數）；**head racecheck／synccheck 仍未執行**；S03 scan suite 的四種工具不重跑，因為 scan kernels、plugins 與 frame session 自 S04 受測 source 起未改動（capture 以 `git diff --exit-code` 核對） |
+
+capture：[evidence/t01/2026-10-30/native-head/capture.sh](../evidence/t01/2026-10-30/native-head/capture.sh)，只接受乾淨的受測 commit，每一步前後核對 HEAD 與工作樹；全程每 10 s 記錄記憶體，可用記憶體低於 4 GiB 時停止整個 capture。

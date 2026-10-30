@@ -3,6 +3,7 @@
     venv-export/bin/python t01_export.py backbone [--smoke]
     venv-export/bin/python t01_export.py verify-backbone [--smoke]
     venv-export/bin/python t01_export.py features [--smoke]
+    venv-export/bin/python t01_export.py head-compare DUMP_DIR BUNDLE [--smoke]
 
 `backbone` writes an FP32 ONNX of YOLO26m layers 0-22 from the selected
 teacher (e12) with ordered outputs p3_feat/p4_feat/p5_feat, BatchNorm kept as
@@ -10,7 +11,11 @@ separate nodes (no folding), so every weight initializer can be matched byte
 for byte to a teacher checkpoint tensor. `verify-backbone` compares ONNX
 Runtime (CPU, FP32) with the PyTorch teacher and with the cached training
 features, plus a negative control with the untrained base weights. `features`
-writes fixed FP32 P3/P4/P5 frames for the S04 head comparison.
+writes fixed FP32 P3/P4/P5 frames for the S04 head comparison. `head-compare`
+runs the selected PyTorch T1 head on those frames and compares its six raw
+outputs, and the decoded detections, with the native TensorRT head's dumps
+(`head_trt run --features ... --dump DUMP_DIR`); a diagnostic beside the
+binary64 acceptance of HEAD_TRT §10.
 
 PyTorch references run under the fp32-strict policy (t01_precision), read back
 in this process; the ONNX Runtime provider is recorded, and a CUDA execution
@@ -255,11 +260,95 @@ def write_features(smoke: bool) -> None:
     print(f"{path} sha256={sha256_file(path)} bytes={path.stat().st_size}")
 
 
+def bundle_source_sha256(bundle: Path) -> str:
+    """source_sha256 from the ASCII header of an SCWB 1 bundle (HEAD_TRT §2)."""
+    with bundle.open("rb") as handle:
+        for raw in handle:
+            line = raw.decode("ascii").strip()
+            if line.startswith("source_sha256 "):
+                return line.split()[1]
+            if line == "end":
+                break
+    raise SystemExit(f"{bundle}: no source_sha256 in the header")
+
+
+def head_compare(smoke: bool, dump_dir: Path, bundle: Path) -> None:
+    import t01_eval  # noqa: PLC0415
+
+    recipe, runs, out = setup(smoke)
+    precision = strict_fp32()
+    sel = read_json(runs / "t1" / "selection.json")
+    ckpt = Path(sel["checkpoint"])
+    if sha256_file(ckpt) != sel["sha256"] or bundle_source_sha256(bundle) != sel["sha256"]:
+        raise SystemExit("the T1 checkpoint, its selection record and the bundle's source differ")
+    feats_rec = read_json(out / "head-features.json")
+    data = np.frombuffer(Path(feats_rec["file"]).read_bytes(), dtype="<f4")
+    shapes = ((256, 80, 80), (512, 40, 40), (512, 20, 20))
+    per_frame = sum(int(np.prod(s)) for s in shapes)
+    out_shapes = ((80, 80, 80), (80, 40, 40), (80, 20, 20), (4, 80, 80), (4, 40, 40), (4, 20, 20))
+    names = ("cls_p3", "cls_p4", "cls_p5", "reg_p3", "reg_p4", "reg_p5")
+    device = torch.device("cuda")
+    head, info = t01_eval.build_student(ckpt, device)
+    report: dict[str, Any] = {"t1_checkpoint": str(ckpt), "t1_sha256": sel["sha256"], "bundle": str(bundle),
+                              "bundle_sha256": sha256_file(bundle), "features_sha256": feats_rec["sha256"],
+                              "pytorch_compute_precision": precision, "frames": []}
+    for i, frame in enumerate(feats_rec["frames"]):
+        chunk, pos, feats = data[i * per_frame:(i + 1) * per_frame], 0, []
+        for s in shapes:
+            n = int(np.prod(s))
+            feats.append(torch.from_numpy(chunk[pos:pos + n].reshape(1, *s).copy()).to(device))
+            pos += n
+        with torch.no_grad():
+            cls, reg = head(feats)
+        pt = [t.cpu().numpy()[0] for t in (*cls, *reg)]
+        dump = Path(dump_dir) / f"features-{i}.f32"
+        raw = np.frombuffer(dump.read_bytes(), dtype="<f4")
+        native, pos = [], 0
+        for s in out_shapes:
+            n = int(np.prod(s))
+            native.append(raw[pos:pos + n].reshape(s))
+            pos += n
+        if pos != raw.size:
+            raise SystemExit(f"{dump}: {raw.size} values, expected {pos}")
+        row: dict[str, Any] = {"frame": frame, "dump": str(dump), "dump_sha256": sha256_file(dump), "outputs": {}}
+        for name, a_pt, a_nat in zip(names, pt, native):
+            diff = np.abs(a_pt.astype(np.float64) - a_nat.astype(np.float64))
+            row["outputs"][name] = {"max_abs": float(diff.max()), "rel_l2": rel_l2(a_nat, a_pt),
+                                    "max_abs_sigmoid": float(np.abs(1 / (1 + np.exp(-a_pt.astype(np.float64)))
+                                                                    - 1 / (1 + np.exp(-a_nat.astype(np.float64)))).max())
+                                    if name.startswith("cls") else None}
+        dets = []
+        for arrays in (pt, native):
+            c, r = t01_eval.flatten_levels([torch.from_numpy(np.ascontiguousarray(a))[None].to(device) for a in arrays[:3]],
+                                           [torch.from_numpy(np.ascontiguousarray(a))[None].to(device) for a in arrays[3:]])
+            dets.append(t01_eval.decode(c, r)[0])
+        a_d, b_d = dets
+        same_count = int(a_d["boxes"].shape[0]) == int(b_d["boxes"].shape[0])
+        row["detections"] = {"pytorch": int(a_d["boxes"].shape[0]), "native": int(b_d["boxes"].shape[0])}
+        if same_count and a_d["boxes"].numel():
+            row["detections"].update({
+                "same_order_max_box_abs_px": float((a_d["boxes"] - b_d["boxes"]).abs().max()),
+                "same_order_max_score_abs": float((a_d["scores"] - b_d["scores"]).abs().max()),
+                "identical_after_decode": bool(torch.equal(a_d["boxes"], b_d["boxes"]) and torch.equal(a_d["scores"], b_d["scores"]))})
+        report["frames"].append(row)
+    write_json(out / "head-compare.json", report)
+    for row in report["frames"]:
+        print(row["frame"], {k: f"{v['max_abs']:.2e}/{v['rel_l2']:.1e}" for k, v in row["outputs"].items()}, row["detections"])
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("cmd", choices=("backbone", "verify-backbone", "features"))
+    parser.add_argument("cmd", choices=("backbone", "verify-backbone", "features", "head-compare"))
+    parser.add_argument("paths", nargs="*", type=Path, help="head-compare: DUMP_DIR BUNDLE")
     parser.add_argument("--smoke", action="store_true")
     a = parser.parse_args()
+    if a.cmd == "head-compare":
+        if len(a.paths) != 2:
+            parser.error("head-compare needs DUMP_DIR BUNDLE")
+        head_compare(a.smoke, *a.paths)
+        return
+    if a.paths:
+        parser.error(f"{a.cmd} takes no paths")
     {"backbone": export_backbone, "verify-backbone": verify_backbone, "features": write_features}[a.cmd](a.smoke)
 
 

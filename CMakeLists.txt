@@ -125,8 +125,12 @@ set_tests_properties(head_reference PROPERTIES TIMEOUT 900)
 # The real candidate (docs/HEAD_TRT.md §2) is not in the repository: when its
 # checkpoint is given, convert it and require the recorded hashes.
 set(SACCADE_HEAD_CHECKPOINT "" CACHE FILEPATH "T1 head checkpoint best.ckpt of the S04 candidate (optional)")
-set(SACCADE_HEAD_CHECKPOINT_SHA256 "a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c")
-set(SACCADE_HEAD_BUNDLE_SHA256 "e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310")
+# Defaults are the S04 candidate; another candidate (T01, docs/HEAD_TRT.md §10)
+# is configured with its own recorded hashes.
+set(SACCADE_HEAD_CHECKPOINT_SHA256 "a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c"
+  CACHE STRING "SHA-256 of SACCADE_HEAD_CHECKPOINT")
+set(SACCADE_HEAD_BUNDLE_SHA256 "e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310"
+  CACHE STRING "SHA-256 of the SCWB bundle converted from SACCADE_HEAD_CHECKPOINT")
 if(SACCADE_HEAD_CHECKPOINT)
   set(SACCADE_HEAD_TEST_BUNDLE "${CMAKE_CURRENT_BINARY_DIR}/head-weights/t1-head.swb")
   add_test(NAME head_weights_candidate

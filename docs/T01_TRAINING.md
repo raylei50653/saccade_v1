@@ -125,6 +125,20 @@ Distill／T3／T1 的輸入是 `fp32-strict` cache；它們自身訓練運算的
 
 另需：批次與單張 nvJPEG 解碼逐位元相同；負向對照中，舊 TF32 smoke cache 對同一 teacher 的 FP32 重算**必須**超過 FP16 儲存容差，且 runner 與兩個 trainer 都必須拒絕舊 cache。
 
+**Smoke 驗收結果（PASS；[證據](../evidence/t01/2026-10-30/precision/README.md)）**：8 張 frame（MOT17-09、MOT17-10 各 4 張）。
+
+| 檢查 | 最差值 | 容差 |
+| --- | ---: | ---: |
+| ONNX Runtime vs PyTorch | 1.81e-5 | 1e-4 |
+| batch 4 vs batch 1 | 1.18e-5 | 1e-4 |
+| batch 8 vs batch 1 | 1.22e-5 | 1e-4 |
+| FP16 儲存 | 2.11e-4 | 4.88e-4 |
+| cache vs ONNX Runtime | 2.12e-4 | 5.88e-4 |
+
+cache 與「FP32 參考轉 fp16」逐元素相同（比例 1.0），所以儲存誤差只來自捨入。舊 TF32 cache 對同一 teacher 的 FP32 重算，最小差 3.4e-3，超過容差。runner、distill（mismatch 只有 `storage_dtype` 與 `compute_precision`）與 T3／T1 都拒絕舊 cache。全部 attempt 的程序內紀錄都相符、沒有偏離。
+
+第一次執行時「trainer 拒用」一項判為失敗。原因是腳本取了 traceback 的原始碼行，而不是例外訊息；trainer 本身的行為正確。修正解析後整份重跑，容差未變；第一次的報告一併保留。
+
 ## 3. 訓練配方
 
 [recipe.json](../training/t01/recipe.json) 是唯一的參數來源；[t01_run.py](../training/t01/t01_run.py) 由它組出每個 stage 的命令，命令全文寫入各 attempt 的 `attempt.json`。seed `20260612`。
@@ -188,15 +202,16 @@ Smoke run（`t01_run.py stage NAME --smoke-epochs N`，寫到 `smoke/`，不屬�
 
 - teacher 完整 resume 後 epoch 2 loss 與不中斷時相同（5.7661）；`--num-workers 4` 時不同（5.7661 vs 5.7838），因此 teacher／GT1 固定 0 workers（解碼本來就在 GPU）。distill resume 的 epoch 2 loss 不同（17.8968 vs 17.8382），與「不恢復 RNG／資料順序」一致。
 - 改用 §2.1 前處理後整條 smoke 鏈重跑（7 min），lineage 檢查會拒絕舊 teacher 訓練出的 distill checkpoint（hash 不符），所以 smoke 鏈自 teacher 起整段重建。
+- 加入 §2.2 計算精度控制後，以 `t01_run.py smoke` 在新的 smoke 目錄重跑全鏈（8.3 min，含 teacher 與 distill resume、每 stage 的 val 評估與選模、final eval）。teacher 完整 resume 的 epoch 2 loss 仍為 5.76607591455633，與精度控制前相同；smoke teacher 的 backbone ONNX 與控制前逐位元相同（teacher 用 `torch-default`，沒有改變）。舊 smoke 移到 `smoke-tf32-20261030/`，作為負向對照。
 - 重複評估：同一 checkpoint 在 val 與 eval 兩次的偵測 SHA-256 相同。
 - eval 單元檢查：完美偵測 AP＝1；anchor decode 與手算相同；teacher one2many 輸出與 Detect `cv2`／`cv3` 對 features 的結果差 0。
 
 | Stage | 量測 | 估計（正式） | 峰值 |
 | --- | --- | --- | --- |
 | teacher | 0.18 s/batch | 508 batches/epoch，約 1.5 min/epoch，30 epochs 約 46 min；val 診斷 30×15 s | GPU 5.1 GiB |
-| cache | 28 fps（含 torch.save），6.4 MB/幀 | train 4,062 幀約 3 min、26 GB；val 4.1 GB；eval 3.8 GB | RSS 5.4 GiB |
+| cache | 28 fps（含 torch.save），6.4 MB/幀；`fp32-strict` 後約 22–24 fps | train 4,062 幀約 3–4 min、26 GB；val 4.1 GB；eval 3.8 GB | RSS 5.4 GiB |
 | distill | 0.075 s/batch | 508 batches，約 40 s/epoch，30 epochs 約 20–30 min | RSS 約 2 GiB＋page cache |
-| gt1 | 0.35 s/batch | 127 batches，約 45 s/epoch，30 epochs 約 23 min | GPU 1.8 GiB（allocator） |
+| gt1 | 0.35 s/batch；`fp32-strict` 後 backbone 前向約慢 1.6 倍 | 127 batches，約 45–55 s/epoch，30 epochs 約 23–28 min | GPU 1.8 GiB（allocator） |
 | t3 | 0.27 s/batch | 170 batches，約 46 s/epoch，15 epochs 約 12 min | GPU 6.5 GiB；features 預載 RAM 約 22 GiB |
 | t1 | 0.10 s/batch | 508 batches，約 51 s/epoch，15 epochs 約 13 min | GPU 3.6 GiB；RAM 同上 |
 | val 評估 | 11 s／student checkpoint | 90 個 checkpoint 約 17 min | — |

@@ -113,7 +113,8 @@ def negative_trainers(recipe: dict[str, Any], old_root: Path, scratch: Path) -> 
         proc = subprocess.run([py, str(here / "t01_exec.py"), str(root / "src"), script, *args], cwd=root / "src",
                               env=env, capture_output=True, text=True)
         text = proc.stdout + proc.stderr
-        line = next((ln for ln in text.splitlines() if expected in ln), None)
+        # The exception message is the last matching line (earlier ones are traceback source lines).
+        line = next((ln for ln in reversed(text.splitlines()) if expected in ln), None)
         refused = proc.returncode != 0 and line is not None
         if refused and "mismatch" in expected:  # only the precision keys may differ
             refused = all(k in line for k in ("compute_precision", "storage_dtype")) and "teacher_checkpoint" not in line

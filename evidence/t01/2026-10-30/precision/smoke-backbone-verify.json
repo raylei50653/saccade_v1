@@ -1,0 +1,186 @@
+{
+  "cache": "/home/ray/.cache/saccade-v1/t01/smoke/cache_val/cache",
+  "frames": [
+    "MOT17-10-SDP/1",
+    "MOT17-10-SDP/327",
+    "MOT17-10-SDP/654"
+  ],
+  "onnx_sha256": "e96e5e586a458018090b9fc325a2c440179d80a13e3b5435caeefa700174fc03",
+  "onnxruntime": {
+    "available": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "onnxruntime": "1.24.4",
+    "provider_options": {
+      "CPUExecutionProvider": {}
+    },
+    "tf32": "not applicable: CPU execution provider (no TF32)",
+    "used": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "per_frame": [
+    {
+      "frame": "MOT17-10-SDP/1",
+      "levels": {
+        "p3": {
+          "onnx_vs_pytorch_max_abs": 0.0005526542663574219,
+          "onnx_vs_pytorch_rel_l2": 8.549923222744837e-06,
+          "onnx_vs_training_cache_rel_l2": 0.00020218477584421635,
+          "shape": [
+            1,
+            256,
+            80,
+            80
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.5801023840904236
+        },
+        "p4": {
+          "onnx_vs_pytorch_max_abs": 0.001953601837158203,
+          "onnx_vs_pytorch_rel_l2": 1.8120654203812592e-05,
+          "onnx_vs_training_cache_rel_l2": 0.00021204397489782423,
+          "shape": [
+            1,
+            512,
+            40,
+            40
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.8908236026763916
+        },
+        "p5": {
+          "onnx_vs_pytorch_max_abs": 0.0002574920654296875,
+          "onnx_vs_pytorch_rel_l2": 1.1659808478725608e-05,
+          "onnx_vs_training_cache_rel_l2": 0.00020878275972791016,
+          "shape": [
+            1,
+            512,
+            20,
+            20
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.8563982248306274
+        }
+      }
+    },
+    {
+      "frame": "MOT17-10-SDP/327",
+      "levels": {
+        "p3": {
+          "onnx_vs_pytorch_max_abs": 0.00014716386795043945,
+          "onnx_vs_pytorch_rel_l2": 4.953962161380332e-06,
+          "onnx_vs_training_cache_rel_l2": 0.00020068070443812758,
+          "shape": [
+            1,
+            256,
+            80,
+            80
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.5763559937477112
+        },
+        "p4": {
+          "onnx_vs_pytorch_max_abs": 0.00030219554901123047,
+          "onnx_vs_pytorch_rel_l2": 9.086917998502031e-06,
+          "onnx_vs_training_cache_rel_l2": 0.00021188156097196043,
+          "shape": [
+            1,
+            512,
+            40,
+            40
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.8512675166130066
+        },
+        "p5": {
+          "onnx_vs_pytorch_max_abs": 0.00019621849060058594,
+          "onnx_vs_pytorch_rel_l2": 6.93810943630524e-06,
+          "onnx_vs_training_cache_rel_l2": 0.00020791232236661017,
+          "shape": [
+            1,
+            512,
+            20,
+            20
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.7958014607429504
+        }
+      }
+    },
+    {
+      "frame": "MOT17-10-SDP/654",
+      "levels": {
+        "p3": {
+          "onnx_vs_pytorch_max_abs": 0.00033724308013916016,
+          "onnx_vs_pytorch_rel_l2": 8.545851414965e-06,
+          "onnx_vs_training_cache_rel_l2": 0.0002009890740737319,
+          "shape": [
+            1,
+            256,
+            80,
+            80
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.6402801275253296
+        },
+        "p4": {
+          "onnx_vs_pytorch_max_abs": 0.0008094310760498047,
+          "onnx_vs_pytorch_rel_l2": 1.6928583136177622e-05,
+          "onnx_vs_training_cache_rel_l2": 0.00021170530817471445,
+          "shape": [
+            1,
+            512,
+            40,
+            40
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.9736644625663757
+        },
+        "p5": {
+          "onnx_vs_pytorch_max_abs": 0.00034880638122558594,
+          "onnx_vs_pytorch_rel_l2": 1.3126646081218496e-05,
+          "onnx_vs_training_cache_rel_l2": 0.00020712729019578546,
+          "shape": [
+            1,
+            512,
+            20,
+            20
+          ],
+          "untrained_base_vs_training_cache_rel_l2": 0.8877637386322021
+        }
+      }
+    }
+  ],
+  "pytorch_compute_precision": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "pytorch_compute_precision_end": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  }
+}

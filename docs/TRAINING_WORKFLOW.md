@@ -15,7 +15,7 @@
 | --- | --- |
 | 主線選擇 | 使用者指定 preset 原版 T3→T1；較晚的 `…_gpu_decode` 追加微調只列於 §8。 |
 | 原版 cache | `runs/mamba_teacher_cache_yolo26m_v14replica` 本機缺失，歷史 inventory 亦記為 unavailable；目前不能逐檔重播原訓練。 |
-| cache 重建 | 現存 nvJPEG cache 是另一份 artifact；目前 cache wrapper 預設也已改為 GPU decode。重建時須先固定解碼／resize 規格，不能只沿用路徑名稱。2026-10-30：T01 固定為 nvJPEG GPU decode＋float antialiased stretch，teacher、GT1 與全部 cache 同一路徑（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）；舊 GPU cache 用的是無 antialias bilinear，與 T01 不同。 |
+| cache 重建 | 現存 nvJPEG cache 是另一份 artifact；目前 cache wrapper 預設也已改為 GPU decode。重建時須先固定解碼／resize 規格，不能只沿用路徑名稱。2026-10-30：T01 固定為 nvJPEG GPU decode＋float antialiased stretch，teacher、GT1 與全部 cache 同一路徑（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）；舊 GPU cache 用的是無 antialias bilinear，與 T01 不同。舊流程的 cache 與 GT1 features 以 PyTorch 預設的 TF32 卷積計算，與嚴格 FP32 的部署 features 差約 1%；T01 改為 `fp32-strict`，manifest 記錄計算精度與儲存 dtype（[T01_TRAINING §2.2](T01_TRAINING.md#22-計算精度與儲存-t01-precision1)）。 |
 | 選模 | 主線 `best.ckpt` 依 training loss 選取，metadata 標為 `diagnostic_train_loss`，不是獨立驗證集最佳模型。 |
 | 實際部署 head | preset 同時指定固定 `mamba_head_26m.engine`；preset 指定的 `.ckpt` 與 engine 實際載入的 head 不能畫等號。2026-10-29 追加：其 sibling `mamba_head_26m.onnx` 的 65 個 initializer 全部對上 §8 的 `best_recall.ckpt`（epoch 11），不是 T1 主線；engine bytes 本身仍未歸屬（[evidence](../evidence/s01/2026-10-29/REPORT.md)）。 |
 | v1 接入 | 2026-10-29 使用者決策：[DATAFLOW B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 改以本文件的原版 m 架構為 v1 模型基線，部署 T=1。這只固定架構與 [scan 契約](SCAN_CONTRACT.md)；新 run 的起點、cache backend、split 與選模已由 [T01](T01_TRAINING.md) 在正式訓練前固定（2026-10-30）；主線 checkpoint 未被採為 v1 權重。S01／P01 狀態見 [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md)。 |

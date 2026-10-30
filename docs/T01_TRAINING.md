@@ -24,11 +24,12 @@ T01 從官方 YOLO26m 權重出發，重跑 `Teacher → Feature Cache → Disti
 | `mamba_head.py` `MambaBlock.forward` | `scan_stop_grad=true` 時在 `torch.no_grad()` 下算 scan | 原本輸出立即 `detach()`，所以數值與梯度拓撲都不變；只省掉不會用到的 autograd 圖 |
 | `mamba_head.py` legacy N=1 | 非 autograd 路徑改為拒絕 | T01 配方不用 `legacy_n1_scan` |
 | `train_mamba_head.py`、`train_mamba_gt.py` | 移除 `import saccade_tracking_ext` 與 `build/` 路徑 | 同上；另以 [t01_exec.py](../training/t01/t01_exec.py) 在每個訓練行程拒絕匯入任何舊編譯擴充，並要求 `saccade` 解析到匯出的 tree |
-| 三個 trainer 的 `save_checkpoint` | 每個 checkpoint 加 `t01_identity`（source／patch／tree／v1 commit／recipe／split hash、stage、attempt） | 只新增 root key；S04 轉換器只讀 `epoch`／`selection`／`mamba_args`／`student` |
+| 三個 trainer 的 `save_checkpoint` | 每個 checkpoint 加 `t01_identity`（source／patch／tree／v1 commit／recipe／split hash、stage、attempt）與 `t01_compute_precision`（存檔時在程序內讀回並檢查的計算精度，§2.2） | 只新增 root key；S04 轉換器只讀 `epoch`／`selection`／`mamba_args`／`student` |
 | `train_gated_detector.py` `_git_state` | 改報 T01 identity | 匯出的 tree 不是 git checkout，原函式會把未知記成 `clean` |
 | `dataset.py` `gpu_decode_clip_batch` | 先除 255 再 stretch，改為 antialiased bilinear，回傳 [0,1] | §2.1 的輸入契約；cache 與 GT1 的 GPU decode 路徑共用此函式 |
 | `train_gated_detector.py` | 新增 `--gpu-decode`（資料載入回傳 JPEG bytes，迴圈內以上述函式解碼） | teacher 訓練與 cache／GT1 用同一前處理；拒絕與 `--adapt-bn`／`--augment` 併用 |
 | `train_mamba_head.py` `write_frame`、`train_mamba_gt.py` | GPU 路徑不再除 255 | 配合函式回傳 [0,1] |
+| `train_mamba_head.py` cache manifest；`train_mamba_gt.py` 讀 cache | 建 cache 時 manifest 加 `storage_dtype`、`compute_precision`，並在開始與完成前檢查程序精度；distill 與 T3／T1 讀 cache 時要求兩欄位為 `float16`／`fp32-strict` | §2.2；舊 TF32 cache 不再相容 |
 | `dataset.py` CPU 載圖函式 | `_preload_images`、`_load_and_resize`、`_load_detail_view` 在 `SACCADE_T01_GPU_DECODE_ONLY=1` 時直接拋錯 | §2.1 的強制點：T01 的每個訓練、評估與匯出行程都設此變數，CPU decode 無法被誤用 |
 
 Loss、optimizer、scheduler、assigner、GT 篩選、clip 取樣、cache 格式與模型模組都未修改。
@@ -91,18 +92,51 @@ YOLO26m 預訓練（Ultralytics）以 RGB 輸入，舊原版 teacher／cache 也
 
 **對 v1 的要求（F01／F02／F03 驗收項，T01 不關閉）**：F02 須實作同一 antialiased kernel。F01 應使用 nvJPEG 硬體 backend、`NVJPEG_OUTPUT_RGB`；其輸出有一個獨立的 CPU 參考：libjpeg-turbo（`JDCT_ISLOW`、`do_fancy_upsampling=FALSE`、`JCS_RGB`，即 `djpeg -nosmooth`），可對 MOT17 frame 做**逐位元**比對。若改用 CUDA hybrid backend、其他 nvJPEG 版本或 GPU 世代，須重新做此比對後才能宣稱一致。
 
+### 2.2 計算精度與儲存 `t01-precision/1`
+
+**發現（2026-10-30，正式訓練前）**：PyTorch 2.11 預設 `cudnn.allow_tf32=True`，舊 trainer 從未關閉，所以舊流程的 cache 與 GT1 features 都以 TF32 卷積計算。以 smoke teacher、3 張 val frame 分解（[證據](../evidence/t01/2026-10-30/precision/README.md)）：對同一輸入 tensor，TF32 重算後轉 fp16 與 cache **逐位元相同**；嚴格 FP32（與 ONNX Runtime 相差 ≤1.8e-5）與 cache 差 0.81%／1.58%／0.95%（P3／P4／P5 相對 L2），其中 fp16 儲存只佔 2.0e-4，其餘全部來自 TF32。同一分解的輸入對照：BGR 交換 29–51%、未除 255 460–1190%、HWC 當 CHW 讀 80–134%、無 antialias 39–66%、CPU fancy decode 5.7–10.4%、先 resize 再除 255 ≤1.5e-5。RGB 次序、NCHW 布局與 ÷255 正規化在訓練、驗證與匯出參考三條路徑相同（同一函式，逐位元相同的輸入 tensor）；native F01／F02 與 backbone engine 尚未實作，不在此驗證範圍。
+
+**使用者決策（2026-10-30）**：head 訓練與選模所用的 features 必須與部署一樣以嚴格 FP32 計算；不把約 1% 的差距列為已知限制。teacher 保留原定的 bf16 訓練政策。
+
+| Policy | 設定 | 用於 |
+| --- | --- | --- |
+| `fp32-strict` | cuDNN 與 cuBLAS 的 TF32 關閉、float32 matmul precision `highest`、`NVIDIA_TF32_OVERRIDE=0`（函式庫層再強制一次） | cache_train／cache_val／cache_eval；GT1（整個程序：live teacher features 與 head 的訓練運算在同一程序）；選模與 final eval；backbone 匯出驗證與 head 輸入 features |
+| `torch-default` | 原配方：把 PyTorch 2.11 預設值明確設定（cuDNN TF32 卷積、FP32 matmul） | teacher（trainer 內的 bf16 autocast 不變）、distill、T3、T1 |
+
+Distill／T3／T1 的輸入是 `fp32-strict` cache；它們自身訓練運算的精度不改變部署時的輸入，維持原配方。
+
+強制與記錄（[t01_precision.py](../training/t01/t01_precision.py)）：
+
+1. [t01_exec.py](../training/t01/t01_exec.py) 在 trainer 程序內、腳本開始前套用 policy，讀回 flags（legacy 與 `fp32_precision` 兩套 API）及環境變數，並以 conv2d／matmul 對 float64 的探針量測實際運算：FP32 約 1.8e-6／1.5e-7，TF32 卷積約 2.9e-4，門檻 3e-5。不符即不啟動。執行中每 10 s 重讀 flags，一旦偏離就記錄並以 SIGTERM 停止程序（測試：腳本中途打開 cuDNN TF32，10 s 內被停止，exit 143）；結束時再讀回並探針一次。紀錄寫入 attempt 的 `precision.json`。
+2. 每個 checkpoint 存檔時在同一程序內讀回並檢查，結果寫入 checkpoint 的 `t01_compute_precision`。
+3. Runner 在 `attempt.json` 分開記錄計算精度（policy、宣告值、程序內紀錄）與儲存（cache 的 `storage_dtype`、各 epoch checkpoint 的 tensor dtype）。以下任一情況 attempt 即失敗：紀錄缺少、開始或結束不符、有偏離、任一 epoch checkpoint 的存檔精度不符。
+4. Cache manifest 新增 `storage_dtype: float16` 與 `compute_precision`（`fp32-strict` 的固定設定）；建 cache 的程序在開始時與標記 complete 前各檢查一次。runner（`checked_cache`）與兩個讀 cache 的 trainer（distill；T3／T1）都要求這兩個欄位，所以沒有這兩個欄位的舊 TF32 cache 一律被拒絕。
+5. 評估（`t01_eval`）與匯出驗證（`t01_export`、`t01_verify_features`）在各自程序內套用並讀回 `fp32-strict`，結果檔記錄開始與結束時的讀回。ONNX Runtime 用 CPU execution provider（安裝的 `onnxruntime` 1.24.4 是 CPU 版，不涉及 TF32）；改用 CUDA EP 時，`ort_session` 以 `use_tf32=0` 建立並讀回確認，否則拒絕。
+
+**驗收容差**（2026-10-30 在第一次驗收執行前固定於 [t01_verify_features.py](../training/t01/t01_verify_features.py)，不因結果放寬）。每張 frame、每個尺度的相對 L2；frame 取每個 cache sequence 的第一、1/3、2/3 與最後一幀：
+
+| 比較 | 容差 | 依據 |
+| --- | --- | --- |
+| FP32 實作差：ONNX Runtime（CPU）vs PyTorch `fp32-strict`，batch 1 | ≤ 1e-4 | 兩種 FP32 實作只差累加次序；先前量到 0.5–1.8e-5 |
+| Batch 不變性：PyTorch batch 4（GT1 的 clip batch）與 batch 8（評估 batch）vs batch 1 | ≤ 1e-4 | 同上 |
+| FP16 儲存：cache（batch 1 前向後存 fp16）vs PyTorch batch-1 FP32 參考 | ≤ 2⁻¹¹ ≈ 4.88e-4 | fp16 就近捨入的單位捨入誤差 |
+| cache vs PyTorch batch 4／8 | ≤ 2⁻¹¹＋1e-4 | 前兩項相加 |
+| 訓練 vs 部署參考：cache vs ONNX Runtime | ≤ 2⁻¹¹＋1e-4 ≈ 5.88e-4 | 同上 |
+
+另需：批次與單張 nvJPEG 解碼逐位元相同；負向對照中，舊 TF32 smoke cache 對同一 teacher 的 FP32 重算**必須**超過 FP16 儲存容差，且 runner 與兩個 trainer 都必須拒絕舊 cache。
+
 ## 3. 訓練配方
 
 [recipe.json](../training/t01/recipe.json) 是唯一的參數來源；[t01_run.py](../training/t01/t01_run.py) 由它組出每個 stage 的命令，命令全文寫入各 attempt 的 `attempt.json`。seed `20260612`。
 
 | Stage | 輸入／監督 | Epochs | T／起點 stride | Batch | LR／warmup | 其他 |
 | --- | --- | ---: | --- | ---: | --- | --- |
-| teacher | YOLO26m；GT detection＋gate（gt_ratio 0.5） | 30 schedule | 2／2 | 4 | gate 1e-3、YOLO 1e-5／0 | bf16 autocast；grad clip 10；YOLO BN train mode；§2.1 前處理（`--gpu-decode`，`--num-workers 0`） |
-| cache_train／cache_val | teacher e12，ungated；P3/P4/P5＋one2many cls/reg | — | 逐幀 | — | — | §2.1 前處理；FP32 forward，存 float16，schema `mamba-teacher-cache-v2` |
-| distill | cache；MSE(student cls/reg, teacher cls/reg) | 30 | 1／1 | 8 | 1e-3／5 | `--no-preload-cache`（逐步讀檔，靠 page cache） |
-| gt1 | distill 選定；live teacher features＋GT，TAL v8DetectionLoss | 30 | 4／8 | 4 | 1e-4／5 | gt_ratio 0.5（前幀 GT gate feedback）；§2.1 前處理（`--gpu-decode`，`--num-workers 0`） |
-| t3 | gt1 選定＋新 temporal blocks；cache＋GT | 15 | 3／6 | 4 | 1e-4／3 | gt_ratio 0 |
-| t1 | t3 選定；cache＋GT | 15 | 1／2 | 4 | 1e-4／3 | 單幀；temporal blocks 繞過 |
+| teacher | YOLO26m；GT detection＋gate（gt_ratio 0.5） | 30 schedule | 2／2 | 4 | gate 1e-3、YOLO 1e-5／0 | bf16 autocast（`torch-default`）；grad clip 10；YOLO BN train mode；§2.1 前處理（`--gpu-decode`，`--num-workers 0`） |
+| cache_train／cache_val | teacher e12，ungated；P3/P4/P5＋one2many cls/reg | — | 逐幀 | — | — | §2.1 前處理；batch 1 前向，`fp32-strict`（無 TF32），存 float16，schema `mamba-teacher-cache-v2` |
+| distill | cache；MSE(student cls/reg, teacher cls/reg) | 30 | 1／1 | 8 | 1e-3／5 | `--no-preload-cache`（逐步讀檔，靠 page cache）；`torch-default` |
+| gt1 | distill 選定；live teacher features＋GT，TAL v8DetectionLoss | 30 | 4／8 | 4 | 1e-4／5 | gt_ratio 0.5（前幀 GT gate feedback）；§2.1 前處理（`--gpu-decode`，`--num-workers 0`）；`fp32-strict`（整個程序） |
+| t3 | gt1 選定＋新 temporal blocks；cache＋GT | 15 | 3／6 | 4 | 1e-4／3 | gt_ratio 0；`torch-default` |
+| t1 | t3 選定；cache＋GT | 15 | 1／2 | 4 | 1e-4／3 | 單幀；temporal blocks 繞過；`torch-default` |
 
 各 student stage：AdamW wd 1e-4、linear warmup＋cosine（最低 0.01）、grad clip 1.0、`scan_stop_grad=true`、`reg_max=1`（無 DFL）、d_model 128、d_state 16、每尺度 1 個 block、spatial reduction 4、Cross-Scan、PixelShuffle、80 類。`--mamba-ckpt` 是只載入模型權重的 warm-start（新 optimizer／scheduler）。T3 的 `clip_stride 6` 是 clip 起點步長，clip 內三幀連續。
 
@@ -116,13 +150,14 @@ YOLO26m 預訓練（Ultralytics）以 RGB 輸入，舊原版 teacher／cache 也
 6. Distill 改 `--no-preload-cache`（記憶體安全；數值不變）。
 7. 訓練 scan 實作不同（§1.1）。
 8. 不跑 plain GT2 對照分支（不在 T1 lineage 上）。
+9. Cache 與 GT1 的 features 改以 `fp32-strict` 計算（§2.2；舊原版與 PyTorch 預設相同，用 TF32 卷積）。
 
 ## 4. 選模政策 `t01-selection/1`
 
 | 項目 | 固定內容 |
 | --- | --- |
 | 資料 | 只用 val（MOT17-10 全部 654 幀）；student 的 features 來自 `cache_val`（同一 teacher e12，ungated） |
-| 前向 | T=1、eval mode、FP32、TF32 關閉、cuDNN deterministic、batch 8；temporal blocks 繞過 |
+| 前向 | T=1、eval mode、FP32（`fp32-strict`，在評估程序內讀回；§2.2）、cuDNN deterministic、batch 8；temporal blocks 繞過 |
 | Decode | anchor (x+0.5, y+0.5)，stride 8／16／32；raw ltrb×stride；score＝80 類 sigmoid 的最大值，class＝argmax，只留 class 0；conf ≥ 0.001、class 篩選前取 top-300；NMS IoU 0.5；座標換回原解析度 |
 | 配對 | 每幀依 score 由高到低，與尚未配對且 IoU 最大的 GT 配對，需 IoU ≥ 0.5；無 ignore region |
 | 主要指標 | **AP50**：所有 val 幀的偵測依 score 合併排序，101 點內插 precision |
@@ -144,6 +179,7 @@ YOLO26m 預訓練（Ultralytics）以 RGB 輸入，舊原版 teacher／cache 也
 | 低記憶體 | runner 每 2 s 取樣；MemAvailable < 4 GiB 即停止訓練程序群組（SIGTERM，20 s 後 SIGKILL），attempt 記為失敗 |
 | 資料缺失 | cache 須 `status=complete` 且逐 sequence frame 數等於影格數；cache manifest 的 base／teacher hash 與 sequences 由 trainer 核對 |
 | 未完成 stage | `best.ckpt` 存在不代表成功；只有 `stage.json` 為 `complete` 且 teacher 有最後一個 epoch 才算完成 |
+| 計算精度偏離 | trainer 程序內偵測到即記錄並 SIGTERM；attempt 失敗（§2.2）。cache 不符 `float16`／`fp32-strict` 時 runner 與 trainer 拒用 |
 | Formal run 前提 | saccade_v1 工作樹乾淨（identity 的 v1 commit 才精確）、source tree 與 lock 相同 |
 
 ## 6. Smoke run 與預算
@@ -177,7 +213,16 @@ PY=~/.cache/saccade-v1/t01/venv/bin/python
 $PY t01_split.py                  # 重建 split manifest（應與已提交者相同）
 $PY t01_run.py prepare-source     # 匯出 e48f3b39＋patch，與 source.lock.json 比對
 $PY t01_run.py env
+$PY t01_run.py smoke              # 完整 smoke 鏈（寫到 smoke/；舊的 smoke/ 須先移走）
 $PY t01_run.py pipeline           # teacher → cache → distill → gt1 → t3 → t1，逐 stage 評估、選定，最後 final eval
+
+# 匯出與 feature 驗證另用一個 venv（多 onnx、onnxruntime：requirements-export.lock.txt）
+uv venv --python 3.12.13 ~/.cache/saccade-v1/t01/venv-export
+uv pip install --python ~/.cache/saccade-v1/t01/venv-export/bin/python -r requirements-export.lock.txt
+PYX=~/.cache/saccade-v1/t01/venv-export/bin/python
+$PYX t01_export.py backbone [--smoke]          # 選定 teacher 的 backbone／neck ONNX 與逐 initializer 對應
+$PYX t01_export.py verify-backbone [--smoke]   # ONNX Runtime vs PyTorch vs cache，未訓練權重為負向對照
+$PYX t01_verify_features.py [--smoke] --out REPORT.json [--negative-root OLD_SMOKE_ROOT]   # §2.2 驗收
 ```
 
 單一步驟：`stage NAME [--resume CKPT]`、`eval NAME`、`select NAME`、`final-eval`。artifact 根目錄 `~/.cache/saccade-v1/t01/`（`SACCADE_T01_ROOT` 可覆寫）：`src/`、`runs/<stage>/attempt-NN/{attempt.json,train.log,memory.log,run/}`、`runs/<stage>/{stage.json,val/,selection.json}`、`runs/final/`。大型 checkpoint、cache 與資料集不進 Git。

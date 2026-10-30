@@ -4,10 +4,14 @@
     venv/bin/python training/t01/t01_run.py env
     venv/bin/python training/t01/t01_run.py stage NAME [--resume CKPT] [--smoke ...]
     venv/bin/python training/t01/t01_run.py select NAME
+    venv/bin/python training/t01/t01_run.py smoke
 
 Formal stage runs require a clean saccade_v1 tree and a verified source tree;
 every attempt writes stage.json (identity, command, exit, memory) before and
-after the trainer process and keeps the full log.
+after the trainer process and keeps the full log. Each stage runs under the
+compute-precision policy of its recipe entry; the trainer process applies it,
+reads it back and records it (t01_exec, t01_precision), and the attempt fails
+if that record is missing or shows a deviation.
 """
 
 from __future__ import annotations
@@ -24,10 +28,12 @@ import sys
 import tarfile
 import threading
 import time
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import t01_precision
 from t01_common import (
     REPO,
     RECIPE_PATH,
@@ -138,7 +144,8 @@ def environment() -> dict[str, Any]:
         "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
         "gpu_capability": list(torch.cuda.get_device_capability(0)) if torch.cuda.is_available() else None,
         "gpu_total_bytes": torch.cuda.get_device_properties(0).total_memory if torch.cuda.is_available() else None,
-        "tf32": {"cuda_matmul": torch.backends.cuda.matmul.allow_tf32, "cudnn": torch.backends.cudnn.allow_tf32},
+        # The runner's own defaults only; each trainer's precision is recorded in its attempt.
+        "runner_process_tf32": {"cuda_matmul": torch.backends.cuda.matmul.allow_tf32, "cudnn": torch.backends.cudnn.allow_tf32},
         "nvidia_smi": run("nvidia-smi", "--query-gpu=name,driver_version,memory.total", "--format=csv,noheader"),
         "packages": run("uv", "pip", "freeze", "--python", sys.executable).splitlines(),
     }
@@ -175,14 +182,28 @@ def cache_dir(recipe: dict[str, Any], name: str, smoke: bool) -> Path:
     return runs_dir(recipe, smoke) / name / "cache"
 
 
+CACHE_STORAGE_DTYPE = "float16"
+CACHE_PRECISION = "fp32-strict"
+
+
 def checked_cache(recipe: dict[str, Any], name: str, smoke: bool) -> Path:
-    """A complete cache built with the T01 input contract (nvJPEG decode)."""
+    """A complete cache built with the T01 input contract (nvJPEG decode) and fp32-strict features."""
     path = cache_dir(recipe, name, smoke)
+    check_cache_manifest(path)
+    return path
+
+
+def check_cache_manifest(path: Path) -> dict[str, Any]:
     manifest = read_json(path / "manifest.json")
     if manifest.get("status") != "complete" or manifest.get("decode_backend") != "torchvision_nvjpeg":
         raise SystemExit(f"{path}: status={manifest.get('status')} decode_backend={manifest.get('decode_backend')}; "
                          "T01 needs a complete torchvision_nvjpeg cache")
-    return path
+    if (manifest.get("storage_dtype") != CACHE_STORAGE_DTYPE
+            or manifest.get("compute_precision") != t01_precision.canonical(CACHE_PRECISION)):
+        raise SystemExit(f"{path}: storage_dtype={manifest.get('storage_dtype')} "
+                         f"compute_precision={manifest.get('compute_precision')}; T01 needs {CACHE_STORAGE_DTYPE} storage of "
+                         f"{CACHE_PRECISION} features (caches built with TF32 convolutions, or before this check, are rejected)")
+    return manifest
 
 
 def build_command(recipe: dict[str, Any], stage: str, run_dir: Path, smoke: dict[str, Any] | None,
@@ -283,6 +304,57 @@ class Watchdog(threading.Thread):
                         os.killpg(self.proc.pid, signal.SIGKILL)
 
 
+def precision_problems(record: dict[str, Any] | None, policy: str, exit_code: int) -> list[str]:
+    """What is wrong with a trainer's in-process precision record (empty = in effect throughout)."""
+    if record is None:
+        return ["no in-process precision record"]
+    problems = [] if record.get("policy") == policy else [f"record policy {record.get('policy')} != {policy}"]
+    problems += [f"start: {e}" for e in record["start"].get("errors", [])]
+    problems += [f"deviation at {d['at']}: {d['errors']}" for d in record.get("deviations", [])]
+    if exit_code == 0:
+        if "exit" not in record:
+            problems.append("no exit readback")
+        else:
+            problems += [f"exit: {e}" for e in record["exit"].get("errors", [])]
+    return problems
+
+
+def _tensor_dtypes(obj: Any, counts: Counter[str]) -> Counter[str]:
+    import torch  # noqa: PLC0415
+
+    if isinstance(obj, torch.Tensor):
+        counts[str(obj.dtype).removeprefix("torch.")] += 1
+    elif isinstance(obj, dict):
+        for value in obj.values():
+            _tensor_dtypes(value, counts)
+    elif isinstance(obj, (list, tuple)):
+        for value in obj:
+            _tensor_dtypes(value, counts)
+    return counts
+
+
+def checkpoint_storage(recipe: dict[str, Any], stage_dir: Path, attempt: str, policy: str) -> dict[str, Any]:
+    """Storage dtypes and the save-time precision readback of every epoch checkpoint of one attempt."""
+    import torch  # noqa: PLC0415
+
+    _eval_imports(recipe)  # checkpoints pickle classes from the old source
+    rows, problems = [], []
+    for ckpt in sorted((stage_dir / attempt / "run").glob("epoch_*.ckpt")):
+        state = torch.load(ckpt, map_location="cpu", weights_only=False)
+        prec = state.get("t01_compute_precision") or {}
+        ident = state.get("t01_identity") or {}
+        if prec.get("policy") != policy or t01_precision.check(policy, prec):
+            problems.append(f"{ckpt.name}: save-time precision {prec.get('policy')} {t01_precision.check(policy, prec) if prec else 'missing'}")
+        if ident.get("attempt") != attempt:
+            problems.append(f"{ckpt.name}: identity attempt {ident.get('attempt')} != {attempt}")
+        rows.append({"checkpoint": ckpt.name, "bytes": ckpt.stat().st_size,
+                     "tensor_dtypes": {k: dict(_tensor_dtypes(v, Counter())) for k, v in state.items()
+                                       if _tensor_dtypes(v, Counter())},
+                     "save_time_precision": {k: prec.get(k) for k in ("policy", *t01_precision.POLICIES[policy],
+                                                                     "conv_rel_err_vs_fp64", "matmul_rel_err_vs_fp64")}})
+    return {"checkpoints": rows, "problems": problems}
+
+
 def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> int:
     recipe = load_recipe()
     lock = verify_source(recipe)
@@ -291,8 +363,8 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
         raise SystemExit(f"formal runs need a clean saccade_v1 tree: {state['status']}")
     stage_dir = runs_dir(recipe, smoke is not None) / stage
     record = stage_dir / "stage.json"
-    if record.is_file() and read_json(record).get("status") == "complete":
-        raise SystemExit(f"{stage} is already complete ({record})")
+    if record.is_file() and read_json(record).get("status") == "complete" and not (smoke and resume):
+        raise SystemExit(f"{stage} is already complete ({record})")  # smoke resume checks may add an attempt
     attempts = sorted(stage_dir.glob("attempt-*"))
     attempt = stage_dir / f"attempt-{len(attempts) + 1:02d}"
     run_dir = attempt / "run"
@@ -314,8 +386,15 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
         "smoke": smoke is not None,
     }
     attempt.mkdir(parents=True)
-    env = {**os.environ, "SACCADE_T01_IDENTITY": json.dumps(identity, sort_keys=True), "PYTHONNOUSERSITE": "1",
-           "PYTHONUNBUFFERED": "1", "PYTHONDONTWRITEBYTECODE": "1", "SACCADE_T01_GPU_DECODE_ONLY": "1"}
+    spec = recipe["stages"][stage]
+    policy = spec["precision"]
+    precision_record = attempt / "precision.json"
+    env = {k: v for k, v in os.environ.items() if k != "NVIDIA_TF32_OVERRIDE"}
+    env.update({"SACCADE_T01_IDENTITY": json.dumps(identity, sort_keys=True), "PYTHONNOUSERSITE": "1",
+                "PYTHONUNBUFFERED": "1", "PYTHONDONTWRITEBYTECODE": "1", "SACCADE_T01_GPU_DECODE_ONLY": "1",
+                "SACCADE_T01_PRECISION": policy, "SACCADE_T01_PRECISION_RECORD": str(precision_record)})
+    if t01_precision.POLICIES[policy]["nvidia_tf32_override"] is not None:
+        env["NVIDIA_TF32_OVERRIDE"] = t01_precision.POLICIES[policy]["nvidia_tf32_override"]
     payload: dict[str, Any] = {
         "stage": stage,
         "attempt": attempt.name,
@@ -323,7 +402,14 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
         "started": now(),
         "command": cmd,
         "command_text": shlex.join(cmd),
-        "env_overrides": {k: env[k] for k in ("SACCADE_T01_GPU_DECODE_ONLY", "PYTHONNOUSERSITE", "PYTHONDONTWRITEBYTECODE")},
+        "env_overrides": {k: env.get(k, "(unset)") for k in ("SACCADE_T01_GPU_DECODE_ONLY", "PYTHONNOUSERSITE",
+                                                            "PYTHONDONTWRITEBYTECODE", "SACCADE_T01_PRECISION",
+                                                            "NVIDIA_TF32_OVERRIDE")},
+        # How values are computed (policy, read back in the trainer process) and how they are stored are
+        # recorded separately.
+        "compute_precision": {"policy": policy, "declared": t01_precision.canonical(policy),
+                              "autocast": spec.get("autocast"), "in_process": None},
+        "storage": {"declared": spec["storage"]},
         "resume": resume,
         "resume_kind": (RESUME_KINDS["teacher" if stage == "teacher" else "student"] if resume else None),
         "smoke": smoke,
@@ -352,8 +438,21 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
         "max_gpu_used_mib": dog.max_gpu_mib,
         "epochs_present": sorted(stage_epochs(stage_dir)),
     })
+    in_process = read_json(precision_record) if precision_record.is_file() else None
+    problems = precision_problems(in_process, policy, code)
+    payload["compute_precision"].update({"in_process": in_process, "problems": problems})
+    if problems:
+        payload["status"] = "failed"
+        payload["failure"] = f"compute precision: {problems}"
     if stage.startswith("cache_") and payload["status"] == "complete":
-        checked_cache(recipe, stage, smoke is not None)
+        manifest = read_json(checked_cache(recipe, stage, smoke is not None) / "manifest.json")
+        payload["storage"]["cache_manifest"] = {k: manifest.get(k) for k in ("storage_dtype", "dtype", "compute_precision",
+                                                                            "total_frames", "decode_backend")}
+    elif payload["status"] == "complete":
+        payload["storage"].update(checkpoint_storage(recipe, stage_dir, attempt.name, policy))
+        if payload["storage"]["problems"]:
+            payload["status"] = "failed"
+            payload["failure"] = f"checkpoints: {payload['storage']['problems']}"
     if stage == "teacher" and code == 0:
         expected = int(recipe["stages"]["teacher"]["epochs"]) if smoke is None else smoke["epochs"]
         if max(stage_epochs(stage_dir), default=0) != expected:
@@ -527,6 +626,66 @@ def pipeline() -> int:
     return 0
 
 
+def run_smoke() -> int:
+    """The full smoke chain in a fresh smoke root: every stage, resume checks, eval, selection, final eval.
+
+    Teacher on MOT17-09 (20 batches x 2 epochs) plus an exact resume from epoch 1; caches of MOT17-09/-10;
+    distill 40 batches x 2 plus a resume; GT1/T3/T1 30 batches x 2; per-epoch val evaluation and selection
+    of every stage; the final eval (MOT17-02). Writes smoke/smoke-summary.json.
+    """
+    recipe = load_recipe()
+    root = runs_dir(recipe, True)
+    if root.exists() and any(root.iterdir()):
+        raise SystemExit(f"{root} is not empty; move it away first")
+    seqs, val = ["MOT17-09-SDP"], recipe["split"]["val"]
+
+    def cfg(epochs: int, batches: int) -> dict[str, Any]:
+        return {"epochs": epochs, "batches": batches, "seqs": seqs,
+                "cache_seqs": {"train": seqs, "val": val, "eval": recipe["split"]["eval"]}}
+
+    summary: dict[str, Any] = {"started": now(), "v1": v1_source_state(), "steps": []}
+
+    def step(name: str, fn: Any, *args: Any) -> None:
+        t0 = time.time()
+        rc = fn(*args)
+        summary["steps"].append({"step": name, "seconds": round(time.time() - t0, 1)})
+        if rc not in (None, 0):
+            write_json(root / "smoke-summary.json", {**summary, "status": "failed", "failed_step": name})
+            raise SystemExit(f"smoke step {name} failed")
+
+    def epoch_loss(stage: str, attempt: str, epoch: int) -> float:
+        import torch  # noqa: PLC0415
+
+        _eval_imports(recipe)
+        ckpt = root / stage / attempt / "run" / f"epoch_{epoch:04d}.ckpt"
+        return float(torch.load(ckpt, map_location="cpu", weights_only=False)["epoch_loss"])
+
+    step("teacher", run_stage, "teacher", None, cfg(2, 20))
+    step("teacher resume", run_stage, "teacher", str(root / "teacher/attempt-01/run/epoch_0001.ckpt"), cfg(2, 20))
+    summary["teacher_exact_resume"] = {"epoch2_loss_uninterrupted": epoch_loss("teacher", "attempt-01", 2),
+                                       "epoch2_loss_resumed": epoch_loss("teacher", "attempt-02", 2)}
+    summary["teacher_exact_resume"]["identical"] = len(set(summary["teacher_exact_resume"].values())) == 1
+    step("teacher eval", eval_stage, "teacher", True)
+    step("teacher select", select_stage, "teacher", True)
+    step("cache_train", run_stage, "cache_train", None, cfg(1, 0))
+    step("cache_val", run_stage, "cache_val", None, cfg(1, 0))
+    step("distill", run_stage, "distill", None, cfg(2, 40))
+    step("distill resume", run_stage, "distill", str(root / "distill/attempt-01/run/epoch_0001.ckpt"), cfg(2, 40))
+    summary["distill_resume"] = {"epoch2_loss_uninterrupted": epoch_loss("distill", "attempt-01", 2),
+                                 "epoch2_loss_resumed": epoch_loss("distill", "attempt-02", 2),
+                                 "note": "optimizer/scheduler resume; RNG and data order are not restored"}
+    for stage in STUDENT_STAGES:
+        if stage != "distill":
+            step(stage, run_stage, stage, None, cfg(2, 30))
+        step(f"{stage} eval", eval_stage, stage, True)
+        step(f"{stage} select", select_stage, stage, True)
+    step("final eval", final_eval, True)
+    summary.update({"status": "complete", "finished": now()})
+    write_json(root / "smoke-summary.json", summary)
+    print(f"smoke complete: {root / 'smoke-summary.json'}")
+    return 0 if summary["teacher_exact_resume"]["identical"] else 1
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -547,6 +706,7 @@ def main() -> None:
     p = sub.add_parser("final-eval")
     p.add_argument("--smoke", action="store_true")
     sub.add_parser("pipeline")
+    sub.add_parser("smoke")
     p = sub.add_parser("select-fixed")
     p.add_argument("name")
     p.add_argument("epoch", type=int)
@@ -575,6 +735,8 @@ def main() -> None:
         final_eval(a.smoke)
     elif a.cmd == "pipeline":
         sys.exit(pipeline())
+    elif a.cmd == "smoke":
+        sys.exit(run_smoke())
 
 
 if __name__ == "__main__":

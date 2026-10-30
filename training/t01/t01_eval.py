@@ -1,7 +1,8 @@
 """T01 detector validation / evaluation (policy t01-selection/1 in recipe.json).
 
-Students run T=1 in strict FP32 (TF32 off, deterministic cuDNN) on cached
-teacher features; teacher diagnostics run the gated teacher on decoded frames.
+Students run T=1 in strict FP32 (policy fp32-strict of t01_precision: TF32 off
+for cuDNN and cuBLAS, read back and probed in this process; deterministic cuDNN)
+on cached teacher features; teacher diagnostics run the gated teacher on decoded frames.
 Both use one decode: anchors (x+0.5, y+0.5)*stride, raw ltrb distances,
 score = max_c sigmoid, class 0 only, top-300, NMS 0.5, greedy IoU-0.5 match.
 """
@@ -19,6 +20,8 @@ import numpy as np
 import torch
 import torchvision
 
+import t01_precision
+
 CONF_FLOOR = 0.001
 THRESHOLDS = (0.001, 0.10, 0.25)
 MAX_DET = 300
@@ -31,11 +34,12 @@ SMALL_BINS = ("min_4to8", "min_8to16")
 EVAL_BATCH = 8
 
 
-def strict_fp32() -> None:
-    torch.backends.cuda.matmul.allow_tf32 = False
-    torch.backends.cudnn.allow_tf32 = False
+def strict_fp32() -> dict[str, Any]:
+    """Apply fp32-strict in this process; returns the checked readback (raises on mismatch)."""
+    t01_precision.apply("fp32-strict")
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
+    return t01_precision.checked_readback("fp32-strict")
 
 
 def use_source(source_root: Path) -> None:
@@ -247,12 +251,13 @@ def build_student(ckpt_path: Path, device: torch.device) -> tuple[torch.nn.Modul
     head.to(device).eval()
     info = {"epoch": state["epoch"], "mamba_args": {k: v for k, v in a.items() if not isinstance(v, (list, dict)) or k == "in_channels"},
             "t01_identity": state.get("t01_identity"), "args_seqs": state.get("args", {}).get("seqs"),
-            "selection": state.get("selection"), "epoch_loss": state.get("epoch_loss")}
+            "selection": state.get("selection"), "epoch_loss": state.get("epoch_loss"),
+            "t01_compute_precision": state.get("t01_compute_precision")}
     return head, info
 
 
 def evaluate_student(ckpt_path: Path, cache_dir: Path, data_root: Path, seqs: list[str], device: torch.device) -> dict[str, Any]:
-    strict_fp32()
+    precision = {"start": strict_fp32()}
     head, info = build_student(ckpt_path, device)
     per_seq = {}
     total = Accumulator()
@@ -275,14 +280,16 @@ def evaluate_student(ckpt_path: Path, cache_dir: Path, data_root: Path, seqs: li
             acc.nonfinite += bad
             total.nonfinite += bad
         per_seq[seq] = acc.result()
-    return {"checkpoint": str(ckpt_path), "checkpoint_info": info, "sequences": per_seq, "total": total.result()}
+    precision["end"] = t01_precision.checked_readback("fp32-strict")
+    return {"checkpoint": str(ckpt_path), "checkpoint_info": info, "sequences": per_seq, "total": total.result(),
+            "compute_precision": precision}
 
 
 def evaluate_teacher(ckpt_path: Path, yolo_weights: Path, data_root: Path, seqs: list[str], device: torch.device) -> dict[str, Any]:
     """Teacher diagnostics: ungated gated-YOLO, one2many raw outputs through the same decode."""
     from saccade.perception.temporal_yolo.yolo_gated_detector import GatedDetConfig, build_gated_yolo_detector  # noqa: PLC0415
 
-    strict_fp32()
+    precision = {"start": strict_fp32()}
     model = build_gated_yolo_detector(str(yolo_weights), GatedDetConfig(freeze_backbone=True), device,
                                       weights_path=str(ckpt_path))
     model.eval()
@@ -307,8 +314,11 @@ def evaluate_teacher(ckpt_path: Path, yolo_weights: Path, data_root: Path, seqs:
         per_seq[seq] = acc.result()
     ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
     info = {"epoch": ckpt["epoch"], "epoch_loss": ckpt.get("epoch_loss"), "t01_identity": ckpt.get("t01_identity"),
-            "training_sequences": ckpt.get("provenance", {}).get("training_sequences")}
-    return {"checkpoint": str(ckpt_path), "checkpoint_info": info, "sequences": per_seq, "total": total.result()}
+            "training_sequences": ckpt.get("provenance", {}).get("training_sequences"),
+            "t01_compute_precision": ckpt.get("t01_compute_precision")}
+    precision["end"] = t01_precision.checked_readback("fp32-strict")
+    return {"checkpoint": str(ckpt_path), "checkpoint_info": info, "sequences": per_seq, "total": total.result(),
+            "compute_precision": precision}
 
 
 def selection_key(result: dict[str, Any]) -> tuple[float, float]:

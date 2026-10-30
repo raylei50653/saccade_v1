@@ -176,4 +176,4 @@ S04 依使用者指定，以 T1 主線 `best.ckpt`（§7.1）作為**工程驗�
 | backbone／neck component I/O | **ordered I/O 結構已查**：舊 `yolo26m_backbone_640.onnx`（75,900,061 bytes，SHA-256 `2154f937dec832dcefc4229a66dfc438c8fb99ee0c1547d80c00cc0143e56a6a`）輸入 `images [batch,3,640,640]`，輸出依序 `p3_feat [batch,256,80,80]`、`p4_feat [batch,512,40,40]`、`p5_feat [batch,512,20,20]`，形狀與 head 輸入相符。其權重歸屬（是否為 T1 訓練時的 teacher e12 features 來源）、native engine 與推論**未驗**。 |
 | H05 decode | 未變：head 只輸出 raw cls／reg；候選容量、padding、invalid mask、class tie 仍屬 F04。 |
 
-**目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：matching backbone／neck 權重歸屬與 native engine、影像前處理、decode／NMS 與容量、以及新訓練或正式選模。
+**目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：matching backbone／neck 權重歸屬與 native engine、影像前處理的 native 實作（訓練側契約已由 T01 固定為 nvJPEG GPU decode＋float antialiased stretch，[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）、decode／NMS 與容量、以及新訓練或正式選模（[T01](T01_TRAINING.md)）。

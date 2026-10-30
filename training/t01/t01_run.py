@@ -175,6 +175,16 @@ def cache_dir(recipe: dict[str, Any], name: str, smoke: bool) -> Path:
     return runs_dir(recipe, smoke) / name / "cache"
 
 
+def checked_cache(recipe: dict[str, Any], name: str, smoke: bool) -> Path:
+    """A complete cache built with the T01 input contract (nvJPEG decode)."""
+    path = cache_dir(recipe, name, smoke)
+    manifest = read_json(path / "manifest.json")
+    if manifest.get("status") != "complete" or manifest.get("decode_backend") != "torchvision_nvjpeg":
+        raise SystemExit(f"{path}: status={manifest.get('status')} decode_backend={manifest.get('decode_backend')}; "
+                         "T01 needs a complete torchvision_nvjpeg cache")
+    return path
+
+
 def build_command(recipe: dict[str, Any], stage: str, run_dir: Path, smoke: dict[str, Any] | None,
                   resume: str | None) -> list[str]:
     spec = recipe["stages"][stage]
@@ -203,7 +213,7 @@ def build_command(recipe: dict[str, Any], stage: str, run_dir: Path, smoke: dict
         return cmd + common + ["--teacher-ckpt", teacher, "--seqs", seqs, "--run-dir", str(run_dir),
                                "--precompute-dir", str(cache_dir(recipe, stage, is_smoke))] + args
     if stage == "distill":
-        cmd += common + ["--teacher-ckpt", teacher, "--cache-dir", str(cache_dir(recipe, "cache_train", is_smoke)),
+        cmd += common + ["--teacher-ckpt", teacher, "--cache-dir", str(checked_cache(recipe, "cache_train", is_smoke)),
                          "--seqs", train, "--run-dir", str(run_dir)] + args
         if smoke:
             cmd += ["--max-batches-per-epoch", str(smoke["batches"])]
@@ -214,7 +224,7 @@ def build_command(recipe: dict[str, Any], stage: str, run_dir: Path, smoke: dict
     cmd += common + ["--teacher-ckpt", teacher, "--mamba-ckpt", parent, "--run-dir", str(run_dir),
                      "--seqs", train, "--holdout-seqs", holdout] + args
     if spec.get("cache"):
-        cmd += ["--cache-dir", str(cache_dir(recipe, "cache_train", is_smoke))]
+        cmd += ["--cache-dir", str(checked_cache(recipe, "cache_train", is_smoke))]
     if smoke:
         cmd += ["--max-batches-per-epoch", str(smoke["batches"])]
     if resume:
@@ -305,7 +315,7 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
     }
     attempt.mkdir(parents=True)
     env = {**os.environ, "SACCADE_T01_IDENTITY": json.dumps(identity, sort_keys=True), "PYTHONNOUSERSITE": "1",
-           "PYTHONUNBUFFERED": "1", "PYTHONDONTWRITEBYTECODE": "1"}
+           "PYTHONUNBUFFERED": "1", "PYTHONDONTWRITEBYTECODE": "1", "SACCADE_T01_GPU_DECODE_ONLY": "1"}
     payload: dict[str, Any] = {
         "stage": stage,
         "attempt": attempt.name,
@@ -313,6 +323,7 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
         "started": now(),
         "command": cmd,
         "command_text": shlex.join(cmd),
+        "env_overrides": {k: env[k] for k in ("SACCADE_T01_GPU_DECODE_ONLY", "PYTHONNOUSERSITE", "PYTHONDONTWRITEBYTECODE")},
         "resume": resume,
         "resume_kind": (RESUME_KINDS["teacher" if stage == "teacher" else "student"] if resume else None),
         "smoke": smoke,
@@ -341,6 +352,8 @@ def run_stage(stage: str, resume: str | None, smoke: dict[str, Any] | None) -> i
         "max_gpu_used_mib": dog.max_gpu_mib,
         "epochs_present": sorted(stage_epochs(stage_dir)),
     })
+    if stage.startswith("cache_") and payload["status"] == "complete":
+        checked_cache(recipe, stage, smoke is not None)
     if stage == "teacher" and code == 0:
         expected = int(recipe["stages"]["teacher"]["epochs"]) if smoke is None else smoke["epochs"]
         if max(stage_epochs(stage_dir), default=0) != expected:
@@ -374,6 +387,7 @@ def select_fixed(stage: str, epoch: int, smoke: bool) -> None:
 def _eval_imports(recipe: dict[str, Any]) -> Any:
     from t01_exec import _BlockOldExtensions  # noqa: PLC0415
 
+    os.environ["SACCADE_T01_GPU_DECODE_ONLY"] = "1"
     if not any(isinstance(f, _BlockOldExtensions) for f in sys.meta_path):
         sys.meta_path.insert(0, _BlockOldExtensions())
     import t01_eval  # noqa: PLC0415
@@ -403,7 +417,7 @@ def eval_stage(stage: str, smoke: bool) -> None:
         if stage == "teacher":
             res = ev.evaluate_teacher(ckpt, Path(recipe["base_weights"]["path"]), data_root, val, device)
         else:
-            res = ev.evaluate_student(ckpt, cache_dir(recipe, "cache_val", smoke), data_root, val, device)
+            res = ev.evaluate_student(ckpt, checked_cache(recipe, "cache_val", smoke), data_root, val, device)
         res.update({"stage": stage, "epoch": epoch, "split": "val", "sequences_evaluated": val,
                     "checkpoint_sha256": digest, "policy": recipe["selection"]["policy"],
                     "evaluated_at": now(), "seconds": round(time.time() - t0, 1)})
@@ -471,7 +485,7 @@ def final_eval(smoke: bool) -> None:
     data_root = Path(recipe["dataset"]["root"])
     device = torch.device("cuda")
     eval_seqs, val_seqs = recipe["split"]["eval"], recipe["split"]["val"]
-    eval_cache, val_cache = cache_dir(recipe, "cache_eval", smoke), cache_dir(recipe, "cache_val", smoke)
+    eval_cache, val_cache = checked_cache(recipe, "cache_eval", smoke), checked_cache(recipe, "cache_val", smoke)
     report: dict[str, Any] = {"policy": recipe["selection"]["policy"], "t1_checkpoint": str(t1),
                               "t1_sha256": sha256_file(t1), "started": now()}
     runs = [ev.evaluate_student(t1, eval_cache, data_root, eval_seqs, device) for _ in range(2)]

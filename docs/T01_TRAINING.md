@@ -29,8 +29,11 @@ T01 從官方 YOLO26m 權重出發，重跑 `Teacher → Feature Cache → Disti
 | `dataset.py` `gpu_decode_clip_batch` | 先除 255 再 stretch，改為 antialiased bilinear，回傳 [0,1] | §2.1 的輸入契約；cache 與 GT1 的 GPU decode 路徑共用此函式 |
 | `train_gated_detector.py` | 新增 `--gpu-decode`（資料載入回傳 JPEG bytes，迴圈內以上述函式解碼） | teacher 訓練與 cache／GT1 用同一前處理；拒絕與 `--adapt-bn`／`--augment` 併用 |
 | `train_mamba_head.py` `write_frame`、`train_mamba_gt.py` | GPU 路徑不再除 255 | 配合函式回傳 [0,1] |
+| `dataset.py` CPU 載圖函式 | `_preload_images`、`_load_and_resize`、`_load_detail_view` 在 `SACCADE_T01_GPU_DECODE_ONLY=1` 時直接拋錯 | §2.1 的強制點：T01 的每個訓練、評估與匯出行程都設此變數，CPU decode 無法被誤用 |
 
 Loss、optimizer、scheduler、assigner、GT 篩選、clip 取樣、cache 格式與模型模組都未修改。
+
+**與舊訓練實際用的 scan kernel 的差距**（2026-10-30，舊庫原環境與其 build 唯讀執行，舊 teacher e12＋舊 T1 候選 `a5a0e709…`，4 張真實 frame）：舊 CUDA kernel 與 pure-PyTorch scan 的 scan 輸出最大差 2.4e-7（相對 L2 2.7e-8）；六個 head 輸出相對 L2 ≤ 4.4e-7、最大絕對差 9.2e-5（logit 量級約 58）。差距在 FP32 捨入層級，不影響訓練語義。
 
 ## 2. 資料切分
 
@@ -68,7 +71,8 @@ backbone 特徵對次 LSB 的輸入差就有數個百分點的反應，所以訓
 1. **解碼**：`torchvision.io.decode_jpeg(..., device="cuda")`（nvJPEG 13.0.1）→ RGB uint8。本機 GPU 有獨立的 JPEG 硬體引擎：`nvjpegCreateEx(NVJPEG_BACKEND_HARDWARE)` 成功，批次解碼 1080p 時 `nvidia-smi dmon` 的 jpg 引擎 86–92%、SM 7%，約 1,320 frames/s。批次與單張解碼逐位元相同，重複解碼逐位元相同。
 2. **正規化**：float32 ÷ 255，先於 resize。
 3. **Resize**：`F.interpolate(mode="bilinear", antialias=True, align_corners=False)` stretch 到 640×640，float32，**不取整、不 clamp**（antialias 權重的捨入可使值略超過 1，實測最大 1.0000001）。
-4. **使用範圍**：teacher 訓練、GT1 live features、cache_train／cache_val／cache_eval、teacher 的 val 診斷，都經同一個 `gpu_decode_clip_batch`。
+4. **使用範圍**：teacher 訓練、GT1 live features、cache_train／cache_val／cache_eval、teacher 的 val 診斷、backbone 匯出驗證與 head 輸入 features，都經同一個 `gpu_decode_clip_batch`；distill／T3／T1 只讀 cache。
+5. **強制**：每個 T01 行程設 `SACCADE_T01_GPU_DECODE_ONLY=1`，舊 CPU 載圖函式一被呼叫即失敗（負向測試：preload 與逐張載入都被拒絕）；runner 只接受 manifest 為 `status=complete`、`decode_backend=torchvision_nvjpeg` 的 cache。smoke 與已停止的正式 attempt 實際 log 中都沒有 CPU preload，三個 cache manifest 都是 `torchvision_nvjpeg`。唯一的 CPU 讀圖是 `t01_split.py` 的洩漏檢查縮圖，不進入模型。
 
 **對 v1 的要求（F01／F02／F03 驗收項，T01 不關閉）**：F02 須實作同一 antialiased kernel；F01 應使用 nvJPEG 硬體 backend。硬體與 CUDA hybrid backend、不同 nvJPEG 版本或 GPU 世代可能有小的像素差，需以固定參考 frame 做像素級比對後才能宣稱一致。
 

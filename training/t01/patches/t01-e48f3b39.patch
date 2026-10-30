@@ -195,8 +195,52 @@ diff --color -ruN -x __pycache__ src-e48f3b39-pristine/scripts/train/temporal_yo
          with torch.no_grad():
 diff --color -ruN -x __pycache__ src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/dataset.py src-work/src/saccade/perception/temporal_yolo/dataset.py
 --- src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/dataset.py	2026-10-27 16:02:47.000000000 +0800
-+++ src-work/src/saccade/perception/temporal_yolo/dataset.py	2026-10-30 17:17:41.246106527 +0800
-@@ -564,7 +564,11 @@
++++ src-work/src/saccade/perception/temporal_yolo/dataset.py	2026-10-30 17:46:11.096570765 +0800
+@@ -17,12 +17,19 @@
+ import bisect
+ import configparser
+ import csv
++import os
+ from pathlib import Path
+ from typing import Iterator  # noqa: F401  (used in type hints of _iter_frames in evaluator)
+ import torch
+ from torch.utils.data import Dataset, DataLoader
+ 
+ 
++def _t01_forbid_cpu_decode(where: str) -> None:
++    # T01 (saccade_v1): model inputs must come from gpu_decode_clip_batch only.
++    if os.environ.get("SACCADE_T01_GPU_DECODE_ONLY") == "1":
++        raise RuntimeError(f"T01 input contract: CPU image decode ({where}) is disabled; use --gpu-decode")
++
++
+ def _interpolate_gt_for_frame(
+     frame_id: int,
+     keyframes: list[int],
+@@ -230,6 +237,7 @@
+             self._img_cache = self._preload_images()
+ 
+     def _preload_images(self) -> dict[str, list[torch.Tensor]]:
++        _t01_forbid_cpu_decode("MOT17TemporalClip._preload_images")
+         import torchvision.io as tv_io
+         import torchvision.transforms.functional as TF
+         from concurrent.futures import ThreadPoolExecutor
+@@ -508,6 +516,7 @@
+     """
+     讀取 JPEG 並進行縮放至正方形或 Letterbox 縮放（preload_to_ram=False 的 fallback path）。
+     """
++    _t01_forbid_cpu_decode("_load_and_resize")
+     import torchvision.io as tv_io
+     import torchvision.transforms.functional as TF
+     import torch.nn.functional as F
+@@ -540,6 +549,7 @@
+     path: Path, detail_size: tuple[int, int]
+ ) -> tuple[torch.Tensor, torch.Tensor]:
+     """Load an aspect-preserving detail image padded at the right and bottom."""
++    _t01_forbid_cpu_decode("_load_detail_view")
+     import torch.nn.functional as F
+     import torchvision.io as tv_io
+     import torchvision.transforms.functional as TF
+@@ -564,7 +574,11 @@
      img_size: int,
      device: torch.device | str,
  ) -> torch.Tensor:
@@ -209,7 +253,7 @@ diff --color -ruN -x __pycache__ src-e48f3b39-pristine/src/saccade/perception/te
  
      Input is list[B] of list[T] of raw JPEG byte strings. Decodes the whole B*T
      flat batch in one nvJPEG call, then stretch-resizes each frame to img_size
-@@ -586,10 +590,11 @@
+@@ -586,10 +600,11 @@
          dec = [decode_jpeg(bt, device=device) for bt in flat]
      out = [
          F.interpolate(

@@ -15,10 +15,10 @@
 | --- | --- |
 | 主線選擇 | 使用者指定 preset 原版 T3→T1；較晚的 `…_gpu_decode` 追加微調只列於 §8。 |
 | 原版 cache | `runs/mamba_teacher_cache_yolo26m_v14replica` 本機缺失，歷史 inventory 亦記為 unavailable；目前不能逐檔重播原訓練。 |
-| cache 重建 | 現存 nvJPEG cache 是另一份 artifact；目前 cache wrapper 預設也已改為 GPU decode。重建時須先固定解碼／resize 規格，不能只沿用路徑名稱。 |
+| cache 重建 | 現存 nvJPEG cache 是另一份 artifact；目前 cache wrapper 預設也已改為 GPU decode。重建時須先固定解碼／resize 規格，不能只沿用路徑名稱。2026-10-30：T01 固定為 nvJPEG GPU decode＋float antialiased stretch，teacher、GT1 與全部 cache 同一路徑（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）；舊 GPU cache 用的是無 antialias bilinear，與 T01 不同。 |
 | 選模 | 主線 `best.ckpt` 依 training loss 選取，metadata 標為 `diagnostic_train_loss`，不是獨立驗證集最佳模型。 |
 | 實際部署 head | preset 同時指定固定 `mamba_head_26m.engine`；preset 指定的 `.ckpt` 與 engine 實際載入的 head 不能畫等號。2026-10-29 追加：其 sibling `mamba_head_26m.onnx` 的 65 個 initializer 全部對上 §8 的 `best_recall.ckpt`（epoch 11），不是 T1 主線；engine bytes 本身仍未歸屬（[evidence](../evidence/s01/2026-10-29/REPORT.md)）。 |
-| v1 接入 | 2026-10-29 使用者決策：[DATAFLOW B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 改以本文件的原版 m 架構為 v1 模型基線，部署 T=1。這只固定架構與 [scan 契約](SCAN_CONTRACT.md)；新 run 的起點、cache backend、split 與選模仍依 §5 另行固定，訓練尚未啟動，主線 checkpoint 也未被採為 v1 權重。S01／P01 狀態見 [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md)。 |
+| v1 接入 | 2026-10-29 使用者決策：[DATAFLOW B03](DATAFLOW.md#11-由舊架構收斂的-v1-設計基線) 改以本文件的原版 m 架構為 v1 模型基線，部署 T=1。這只固定架構與 [scan 契約](SCAN_CONTRACT.md)；新 run 的起點、cache backend、split 與選模已由 [T01](T01_TRAINING.md) 在正式訓練前固定（2026-10-30）；主線 checkpoint 未被採為 v1 權重。S01／P01 狀態見 [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md)。 |
 
 ## 2. 來源與證據層級
 
@@ -48,7 +48,7 @@ revision；teacher inventory 記錄的訓練 revision 為 `06e539ce2955…` 且 
 | 輸出 | 80 類 cls；`reg_max=1`，每位置直接回歸 4 個 box distances，不啟用 DFL。GT 的 pedestrian 映射到 detector class 0。 |
 | 梯度範圍 | distill／GT1／plain GT2／T3／T1 均 `scan_stop_grad=true`；SSM 內部不學習，外圍 projection／gate／readout／upsampling／prediction head 學習。teacher 在 student stages 凍結。 |
 | Temporal | distill／GT1 不含 temporal blocks；T3 加入，T1 保留權重但單幀 forward bypass。部署語義是 T=1，不承接跨幀 ModelState。 |
-| 輸入 | RGB、CHW、float32 `/255`、stretch 到 640×640；不使用 letterbox。CPU 與 GPU decode／resize 的精確處理需隨 cache 身分固定。 |
+| 輸入 | RGB、CHW、float32 `/255`、stretch 到 640×640；不使用 letterbox。舊原版 teacher／GT1 用 CPU decode＋uint8 antialias resize，舊 GPU cache 用 nvJPEG＋無 antialias bilinear。T01 全鏈改用 nvJPEG GPU decode＋float antialiased stretch（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）。 |
 | 資料根目錄 | 舊庫 `datasets/MOT17/train/<sequence>/img1`、`gt/gt.txt`、`seqinfo.ini`。 |
 | GT 篩選 | `conf==1`、MOT class 1 pedestrian、visibility ≥ 0.1；使用真實 GT boxes。 |
 | 資料範圍 | `MOT17-02/04/05/09/10/11/13-SDP`，共 5316 frames；全部七個 sequence 參與訓練，**無 holdout**。 |
@@ -128,8 +128,9 @@ GT cache stages 使用 features，supervision 仍來自 GT，不是 cache 裡的
 | 重做 T3→T1 curriculum | 使用指定 GT1 parent 與固定 cache，重新跑 T3 15ep、T1 15ep；更換 cache 必須記為實驗差異。 |
 | 從 preset T1 再微調 | 使用原版 T1 parent 開新 stage；屬追加微調，不等於重做原 T3→T1，也不自動包含 §8 的 GPU cache 設定。 |
 
-本次確定的是主線身分與歷史流程；**下一次訓練要採哪種起點、新資料或 split、
-cache 重建後端，以及選模政策仍未指定**，本文件不代填成已採納的新實驗。
+本次確定的是主線身分與歷史流程；本文件不代填成已採納的新實驗。重建整條鏈的
+新實驗為 [T01](T01_TRAINING.md)：起點、split、cache 後端（nvJPEG GPU decode）與
+選模政策都在正式訓練前固定於該文件。
 
 ## 6. Checkpoint、warm-start 與選模
 

@@ -4,7 +4,7 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 
 以舊架構的 YOLO26＋Mamba-FPN、GPU GMC、geometry-first／ReID-free tracker 與 MOT 輸出作為設計基線；重新抽象資料與責任邊界，全部重新實作。
 
-已確定的範圍：從零實作、不復用舊程式、不使用 Python、不遷移舊實驗數據，也不要求保證舊實驗成績。
+已確定的範圍：從零實作、不復用舊程式、不使用 Python、不遷移舊實驗數據，也不要求保證舊實驗成績。唯一例外是模型訓練（[T01](docs/T01_TRAINING.md)）：訓練以 PyTorch 執行舊庫固定 revision 的訓練程式加上記錄的 patch，產物交給 C++／CUDA／TensorRT 推論，runtime 不依賴 Python。
 
 - [資料流與架構規劃](docs/DATAFLOW.md)：邏輯資料流、資料契約、跨幀狀態、GPU 所有權、同步依賴、結束流程及待定設計；§4.4 規定設定治理，§8.1 規定行為驗證。
 - [非同步狀態流程控制](docs/ASYNC_CONTROL.md)：跨 stream 與 host↔device 的 event 協定、device 端提交、失敗收尾與競態驗證。
@@ -19,7 +19,8 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 - [S02 CUDA FP32 scan](docs/SCAN_CUDA.md)：`selective_scan_cuda` 與 Cross-Scan 展開／合併的 stream／status 契約、FP32 算法（穩定 softplus、精確指數的 drive、部分和縮放重算）、支援限制，以及首次 GPU 執行前固定的逐元素 running error bound 比較政策。
 - [S03 TensorRT FP32 scan](docs/SCAN_TRT.md)：SelectiveScan v2／Cross-Scan plugins、INT32[2] status output、CUDA context 初始化、最小 engine 與 frame-end gate／publish／commit／ResultPacket 交接；驗收範圍與證據見該文件。
 - [S04 完整 head（TensorRT FP32）](docs/HEAD_TRT.md)：指定 T1 checkpoint 的 native 轉換與 `SCWB 1` bundle、native network API 建圖、六個 raw cls／reg 輸出與 9 個 plugin status＋輸入／輸出有限值檢查共同決定 frame 發布、生命週期與重跑命令；數值政策在首次 GPU 比較前固定於 [HEAD_POLICY](docs/HEAD_POLICY.md)。**S04 PASS**，限指定候選、固定介面與受測 FP32 head 範圍；正式結果見 [S04 證據](evidence/s04/2026-10-30/REPORT.md)。head racecheck／synccheck 未執行；backbone／neck、前處理、decode 與模型品質仍未驗收，P01 仍 OPEN。
-- [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物，新訓練尚未啟動。
+- [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
+- [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
 
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
 

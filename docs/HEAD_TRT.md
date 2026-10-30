@@ -129,7 +129,7 @@ build-s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--
 ## 8. 支援範圍與未完成事項
 
 - S04 head PASS 的意思是：**指定權重、固定介面與受測範圍內**，完整 FP32 head 的數值、執行與失敗傳遞已驗證。它不代表 detector、模型品質或 P01 通過。head suite 的 memcheck／initcheck、native ownership／graph／streams 與 S03 四種 sanitizer 有正式證據；**完整 head 的 racecheck／synccheck 未執行**，不能列為 sanitizer PASS。
-- **P01 仍 OPEN**：matching YOLO26m backbone／neck 只完成舊 `yolo26m_backbone_640.onnx` 的 ordered I/O 結構查核（`images [b,3,640,640]` → `p3_feat`／`p4_feat`／`p5_feat`，形狀符合 head 輸入）；其權重歸屬、native engine、與 T1 head 的配對與推論未驗；影像前處理（RGB、/255、640 stretch、decode 後端）未實作；decode／NMS 與候選容量（F04）未定；候選 checkpoint 以 training loss 選取、無 holdout，品質未驗收。
+- **P01 仍 OPEN**：matching YOLO26m backbone／neck 只完成舊 `yolo26m_backbone_640.onnx` 的 ordered I/O 結構查核（`images [b,3,640,640]` → `p3_feat`／`p4_feat`／`p5_feat`，形狀符合 head 輸入）；其權重歸屬、native engine、與 T1 head 的配對與推論未驗；影像前處理（RGB、/255、640 stretch、decode 後端）的 native 實作未完成，訓練側契約已由 T01 固定為 nvJPEG GPU decode＋float antialiased stretch（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）；decode／NMS 與候選容量（F04）未定；候選 checkpoint 以 training loss 選取、無 holdout，品質未驗收。
 - 不支援：FP16／INT8、batch≠1、動態 shape、T>1 temporal 路徑、Winograd／FFT tactics（建置時拒絕）。S02 的範圍灰區與次正常數限制照常適用。
 - 舊 `mamba_head_26m.engine`／`.onnx` 未作執行基線；本輪 engine 由 v1 source 自建，身分記於 build evidence。
 

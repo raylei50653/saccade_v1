@@ -306,6 +306,6 @@ Lineage 在 eval 上的 AP50（只作診斷，不參與選模）：distill 0.515
 | --- | --- |
 | TRAINING COMPLETE | **是**：全部 stage complete；每個 epoch checkpoint 都存在，且通過存檔精度與身分檢查 |
 | MODEL SELECTED | **是**：T1 epoch 1，依 `t01-selection/1` 選定；eval split 只在選定後打開一次 |
-| NATIVE ARTIFACT READY | **否**：head 部分已完成，SCWB bundle `4fccfda6…`、engine `5b6d30fa…` 與 model manifest 已通過 [HEAD_TRT §10](HEAD_TRT.md#10-t01-候選的延續驗證2026-10-30) 的完整 FP32 驗證（S04 延續，PASS）。backbone ONNX 已匯出，並與 PyTorch 及 cache 驗證過，但 TensorRT backbone engine 未建（pinned SDK 沒有 ONNX parser，OPEN） |
-| F03 VERIFIED | **否**（未執行） |
-| P01 | **OPEN** |
+| NATIVE ARTIFACT READY | **是**（2026-10-30）：head 的 SCWB bundle `4fccfda6…` 與 engine `5b6d30fa…` 通過 [HEAD_TRT §10](HEAD_TRT.md#10-t01-候選的延續驗證2026-10-30)；matching backbone ONNX 以使用者核准追加的同版本 ONNX parser 建成 TensorRT engine，並通過 [BACKBONE_POLICY](BACKBONE_POLICY.md) 的 `t01-backbone-fp32/1`；完整模型 [schema 3 manifest](../manifests/t01/yolo26m-t1.json) 的宣告與六個 artifact 檔案皆 verified（[MODEL_TRT](MODEL_TRT.md)） |
+| F03 VERIFIED | **是**，有範圍（2026-10-30，[F03 證據](../evidence/t01/2026-10-30/f03/REPORT.md)）：`t01-f03-fp32/1`，六個固定輸入（三個 MOT17 幀＋三個合成）上的完整模型推論數值、執行、失敗傳遞與 graph 重播；memcheck／initcheck 0 errors。輸入是訓練側的 FP32 tensor：native 前處理、decode／NMS 不在範圍；racecheck／synccheck 未執行 |
+| P01 | **OPEN**：仍缺 native 前處理（F01／F02）與 decode／NMS（F04）等原有缺件的證據 |

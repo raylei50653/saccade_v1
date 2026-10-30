@@ -1,0 +1,44 @@
+engine_sha256=7c256a1339f92178da187d3007e3240f2ed874a13c01bba6c73f3798946ad52c
+images_file=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/t01root/export/f03-inputs.f32
+images_sha256=14dda6867e23ed8a2d83086224d71a445a7fdcb606c7507a3f39c0e5faf60aa0
+images_frames=6
+policy=t01-backbone-fp32/1
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=4b52b2fbbf54344a1c7dcb7a68812fb2a9e63bd9
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+onnx_parser_library=100
+onnx_parser_header_api=100
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+sm=12.0
+pci_bus=0000:01:00.0
+tensor=images mode=input dtype=FP32 format=linear location=device shape=(1,3,640,640) shape_inference_io=false
+tensor=p3_feat mode=output dtype=FP32 format=linear location=device shape=(1,256,80,80) shape_inference_io=false
+tensor=p4_feat mode=output dtype=FP32 format=linear location=device shape=(1,512,40,40) shape_inference_io=false
+tensor=p5_feat mode=output dtype=FP32 format=linear location=device shape=(1,512,20,20) shape_inference_io=false
+aux_streams=0
+profiles=1
+device_memory_bytes=112642048
+input	0	sha256=a99482f804318d2348a49903b69f85bc0a3aa610d2880e223f591e3118fedfa2	dump=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump/input-0.f32	sha256=cfc01dca6af93489834bccdc6fca765b022ff0ab46fc2f23ef08e6f5e69f100f	nonfinite=0
+determinism	0	rerun_bit_identical	PASS
+input	1	sha256=ca9388d1e5042961d708d103681a5e2fc54c5e4f20940c655a775df936e2cb57	dump=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump/input-1.f32	sha256=a69cea01ad0189b76ea27d3e9cc228a5c90350711db2363fb5c7129633e67dc1	nonfinite=0
+determinism	1	rerun_bit_identical	PASS
+input	2	sha256=4a30d9421e3c414bfab6d08f7db83b020da0046abd8a49158e32b3394fc1f738	dump=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump/input-2.f32	sha256=403c8f145ae86ddbef3f11685184c2d5062785804328368defdcb7db47515706	nonfinite=0
+determinism	2	rerun_bit_identical	PASS
+input	3	sha256=f824c1a8a1128713f17dd8d1190d70e6012b509606d986e7a6c81e40b628df2b	dump=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump/input-3.f32	sha256=0a4c118165fb40eb59952335f0e1171cb8f42d2f5fde32840e60564381860b8a	nonfinite=0
+determinism	3	rerun_bit_identical	PASS
+input	4	sha256=830eadd834b9305b1472dcb60b1c7fffea53b0f0e12012fc36dc9f920fd56f2a	dump=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump/input-4.f32	sha256=6a90a11f77835925757c3367914b4f350b4e2282d909f974f0b9abc9a3e28197	nonfinite=0
+determinism	4	rerun_bit_identical	PASS
+input	5	sha256=a30e585e0ed498184ae96f01748b7498e1c7cdee01d39dbd762d3c4d832b178a	dump=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump/input-5.f32	sha256=8ac4bc8b0e656537ec53ce33ba623c6eda39ba5d089e7b75534d2b177dfd3d02	nonfinite=0
+determinism	5	rerun_bit_identical	PASS
+graph_replay	6_inputs	nodes=186	bit_identical_to_enqueueV3	PASS
+result	PASS (execution checks; numeric judgement by t01_backbone_ref.py compare)

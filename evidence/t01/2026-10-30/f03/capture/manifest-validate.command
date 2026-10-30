@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/cpu/model_manifest validate /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/stage/yolo26m-t1.json /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/capture/yolo26m-t1.canonical.json 

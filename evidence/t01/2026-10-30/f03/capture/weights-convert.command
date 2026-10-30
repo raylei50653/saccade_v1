@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/cpu/head_weights convert /home/ray/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt 070580f9f5755e57acd9ee7ed9b4307672f4d9996332b40e6b61ee7cc6e6962b /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/stage/t1-head.swb /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/capture/t1-head-mapping.tsv 

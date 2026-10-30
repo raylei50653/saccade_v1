@@ -6,6 +6,8 @@
 
 2026-10-30 S04 更新見 [§8](#8-2026-10-30-s04head-權重的-native-交付與完整-head)：候選 T1 checkpoint 的 head 權重已 native 交付、head engine 由 v1 自建、manifest schema 2 完成，指定候選的 S04 有範圍 PASS 見 [正式證據](../evidence/s04/2026-10-30/REPORT.md)；backbone／neck 只完成舊 ONNX 的 ordered I/O 結構查核，P01 仍 OPEN。
 
+2026-10-30 T01 更新見 [§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)：T01 的 matching backbone／neck ONNX 與 head bundle 已 native 交付並建成完整模型 engine，backbone 與 F03 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) PASS（有範圍）；P01 仍 OPEN。
+
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
 ## 1. 來源與完整性
@@ -177,3 +179,17 @@ S04 依使用者指定，以 T1 主線 `best.ckpt`（§7.1）作為**工程驗�
 | H05 decode | 未變：head 只輸出 raw cls／reg；候選容量、padding、invalid mask、class tie 仍屬 F04。 |
 
 **目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：matching backbone／neck 權重歸屬與 native engine、影像前處理的 native 實作（訓練側契約已由 T01 固定為 nvJPEG GPU decode＋float antialiased stretch，[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）、decode／NMS 與容量、以及新訓練或正式選模（[T01](T01_TRAINING.md)）。
+
+## 9. 2026-10-30 T01：matching backbone／neck 與完整模型
+
+T01 重新訓練（[T01_TRAINING](T01_TRAINING.md)）取代 S04 的工程驗證候選：teacher e12、T1 epoch 1。依使用者核准，pinned SDK 追加同版本 ONNX parser（[NATIVE_TENSORRT](NATIVE_TENSORRT.md#onnx-parsert01-backbone)）。
+
+| 缺件 | T01 後狀態 |
+| --- | --- |
+| H04 權重 native 交付 | **已交付（T01 候選）**：head bundle `4fccfda6…`（HEAD_TRT §10）；matching backbone／neck 為 T01 匯出的 ONNX `007c3260…`，440 個 initializer 逐 byte 對應 teacher e12 checkpoint，並與 PyTorch、ONNX Runtime 及訓練 cache 對照過 |
+| H06 engine 身分 | backbone 與 F03 engine 由 v1 source 自建（`nvonnxparser`＋S04 network API），builder 設定、tactics 與 hash 記於 [F03 證據](../evidence/t01/2026-10-30/f03/REPORT.md)；舊 engine 仍不使用 |
+| H07 manifest schema | schema 3（[MODEL_MANIFEST](MODEL_MANIFEST.md#schema-3t01-完整模型)）表達完整模型；[T01 manifest](../manifests/t01/yolo26m-t1.json) verified |
+| backbone／neck component I/O 與推論 | **已驗**：ordered `p3_feat`／`p4_feat`／`p5_feat`；backbone engine 與 F03 engine 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) 逐元素 PASS（[MODEL_TRT](MODEL_TRT.md)） |
+| H05 decode | 未變：仍屬 F04 |
+
+**目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：影像前處理的 native 實作（F01／F02，須符合 `t01-input/1`）、decode／NMS 與候選容量（F04），以及 P01 原列的其他缺件；head 與 F03 的 racecheck／synccheck 未執行。

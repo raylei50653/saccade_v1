@@ -1,0 +1,1 @@
+git diff --exit-code f9077c36e5bbe5aafd8c862fdb62cafa28a17562 4b52b2fbbf54344a1c7dcb7a68812fb2a9e63bd9 -- evidence/s04 evidence/s03 evidence/s02 evidence/s01 evidence/cuda-synthetic evidence/p01-a evidence/scan-contract evidence/t01/2026-10-30/formal evidence/t01/2026-10-30/native-head evidence/t01/2026-10-30/precision manifests/s04 manifests/t01/yolo26m-head-t1.json 

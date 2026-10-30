@@ -1,0 +1,135 @@
+engine_sha256=c6cff1936194e679ce11c3736cab552e4a73a2b1a9ae5508bc3e5d1b3fbab9c5
+bundle_sha256=4fccfda6342b88d43fc2bf676228810b974b9e9956f45fa53352124098f046a3
+images_file=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/t01root/export/f03-inputs.f32
+images_sha256=14dda6867e23ed8a2d83086224d71a445a7fdcb606c7507a3f39c0e5faf60aa0
+backbone_reference_sha256=ccb6f9da04140f81f0b711fc9826a68de20ff12353b6af460b755a06a2419584
+inputs_compared=6
+policy=t01-f03-fp32/1 (s04-head-fp32/1 comparator)
+cuda_module_loading=LAZY
+onnx_parser_library=100
+onnx_parser_header_api=100
+input	0	MOT17-02-SDP/1	sha256=a99482f804318d2348a49903b69f85bc0a3aa610d2880e223f591e3118fedfa2
+input	1	MOT17-10-SDP/1	sha256=ca9388d1e5042961d708d103681a5e2fc54c5e4f20940c655a775df936e2cb57
+input	2	MOT17-13-SDP/400	sha256=4a30d9421e3c414bfab6d08f7db83b020da0046abd8a49158e32b3394fc1f738
+input	3	zeros	sha256=f824c1a8a1128713f17dd8d1190d70e6012b509606d986e7a6c81e40b628df2b
+input	4	ones	sha256=830eadd834b9305b1472dcb60b1c7fffea53b0f0e12012fc36dc9f920fd56f2a
+input	5	random/1	sha256=a30e585e0ed498184ae96f01748b7498e1c7cdee01d39dbd762d3c4d832b178a
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=4b52b2fbbf54344a1c7dcb7a68812fb2a9e63bd9
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+tensor=images mode=input dtype=FP32 format=linear location=device shape=(1,3,640,640) shape_inference_io=false
+tensor=cls_p3 mode=output dtype=FP32 format=linear location=device shape=(1,80,80,80) shape_inference_io=false
+tensor=cls_p4 mode=output dtype=FP32 format=linear location=device shape=(1,80,40,40) shape_inference_io=false
+tensor=cls_p5 mode=output dtype=FP32 format=linear location=device shape=(1,80,20,20) shape_inference_io=false
+tensor=reg_p3 mode=output dtype=FP32 format=linear location=device shape=(1,4,80,80) shape_inference_io=false
+tensor=reg_p4 mode=output dtype=FP32 format=linear location=device shape=(1,4,40,40) shape_inference_io=false
+tensor=reg_p5 mode=output dtype=FP32 format=linear location=device shape=(1,4,20,20) shape_inference_io=false
+tensor=p3.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p3.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p3.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+aux_streams=0
+profiles=1
+device_memory_bytes=112642048
+frame_kernel=initialize registers=14 local_bytes=0
+frame_kernel=begin registers=10 local_bytes=0
+frame_kernel=gate registers=30 local_bytes=0
+frame_kernel=publish registers=28 local_bytes=0
+frame_kernel=commit registers=14 local_bytes=0
+frame_kernel=packet registers=24 local_bytes=0
+frame_kernel=delay registers=4 local_bytes=0
+frame_kernel=check_finite registers=12 local_bytes=0
+frame_kernel=check_done registers=8 local_bytes=0
+slots=2
+packet_slots=3
+graphs=false
+context_memory_bytes=112642048
+payload=cls_p3,cls_p4,cls_p5,reg_p3,reg_p4,reg_p5
+statuses=p3.expand_status,p3.scan_status,p3.merge_status,p4.expand_status,p4.scan_status,p4.merge_status,p5.expand_status,p5.scan_status,p5.merge_status,frame_input_check,frame_output_check
+output=cls_p3 arena_offset=0 elements=512000
+output=cls_p4 arena_offset=512000 elements=128000
+output=cls_p5 arena_offset=640000 elements=32000
+output=reg_p3 arena_offset=672000 elements=25600
+output=reg_p4 arena_offset=697600 elements=6400
+output=reg_p5 arena_offset=704000 elements=1600
+status=p3.expand_status producer=saccade::CrossScanExpand (p3, v1)
+status=p3.scan_status producer=saccade::SelectiveScan (p3, v2, has_d=1)
+status=p3.merge_status producer=saccade::CrossScanMerge (p3, v1, 20x20)
+status=p4.expand_status producer=saccade::CrossScanExpand (p4, v1)
+status=p4.scan_status producer=saccade::SelectiveScan (p4, v2, has_d=1)
+status=p4.merge_status producer=saccade::CrossScanMerge (p4, v1, 10x10)
+status=p5.expand_status producer=saccade::CrossScanExpand (p5, v1)
+status=p5.scan_status producer=saccade::SelectiveScan (p5, v2, has_d=1)
+status=p5.merge_status producer=saccade::CrossScanMerge (p5, v1, 5x5)
+status=frame_input_check producer=harness: finite check of every input element
+status=frame_output_check producer=harness: finite check of every output element
+reference_seconds	MOT17-02-SDP/1	0.775114
+head_compare	MOT17-02-SDP/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000163	max_rel=6.95e-05	rel_excluded=0	max_err_over_tol=0.0108	failures=0	nonfinite=0	worst=(c=45,h=25,w=23)	worst_gpu=-31.273737(0xc1fa309d)	worst_ref=-31.273589227339539	worst_tol=0.0136	max_err_over_2bound=0	PASS
+head_compare	MOT17-02-SDP/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000119	max_rel=0.000158	rel_excluded=3	max_err_over_tol=0.00915	failures=0	nonfinite=0	worst=(c=9,h=30,w=4)	worst_gpu=-22.5199394(0xc1b428d6)	worst_ref=-22.519822760584049	worst_tol=0.0128	max_err_over_2bound=0	PASS
+head_compare	MOT17-02-SDP/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=9.83e-05	max_rel=8.78e-06	rel_excluded=0	max_err_over_tol=0.00174	failures=0	nonfinite=0	worst=(c=68,h=9,w=17)	worst_gpu=-25.4273586(0xc1cb6b3b)	worst_ref=-25.427390386128426	worst_tol=0.0183	max_err_over_2bound=0	PASS
+head_compare	MOT17-02-SDP/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=0.000347	max_rel=0.000717	rel_excluded=6	max_err_over_tol=0.0487	failures=0	nonfinite=0	worst=(c=2,h=53,w=51)	worst_gpu=2.54384136(0x4022ce4c)	worst_ref=2.5436347145050209	worst_tol=0.00424	max_err_over_2bound=0	PASS
+head_compare	MOT17-02-SDP/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=0.000421	max_rel=0.000303	rel_excluded=2	max_err_over_tol=0.0732	failures=0	nonfinite=0	worst=(c=2,h=24,w=18)	worst_gpu=4.28039932(0x4088f908)	worst_ref=4.2800426227135517	worst_tol=0.00487	max_err_over_2bound=0	PASS
+head_compare	MOT17-02-SDP/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=6.72e-05	max_rel=2.56e-05	rel_excluded=1	max_err_over_tol=0.00403	failures=0	nonfinite=0	worst=(c=0,h=0,w=19)	worst_gpu=4.00510931(0x408029db)	worst_ref=4.0051765544630076	worst_tol=0.0167	max_err_over_2bound=0	PASS
+determinism	MOT17-02-SDP/1	rerun_bit_identical	PASS
+dump	MOT17-02-SDP/1	/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump/input-0.f32	sha256=12df20281dd2bd1b4dd2aefbffcb2ce598115e993f530b1d3b82ae2dbdf763e5
+reference_seconds	MOT17-10-SDP/1	0.715639
+head_compare	MOT17-10-SDP/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000299	max_rel=0.000155	rel_excluded=0	max_err_over_tol=0.0176	failures=0	nonfinite=0	worst=(c=64,h=8,w=1)	worst_gpu=-24.1263123(0xc1c102b0)	worst_ref=-24.126444289782984	worst_tol=0.0075	max_err_over_2bound=0	PASS
+head_compare	MOT17-10-SDP/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000263	max_rel=3.91e-05	rel_excluded=2	max_err_over_tol=0.0209	failures=0	nonfinite=0	worst=(c=9,h=13,w=31)	worst_gpu=-23.3155479(0xc1ba863e)	worst_ref=-23.315297396841007	worst_tol=0.012	max_err_over_2bound=0	PASS
+head_compare	MOT17-10-SDP/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.00013	max_rel=0.000146	rel_excluded=0	max_err_over_tol=0.00306	failures=0	nonfinite=0	worst=(c=14,h=6,w=15)	worst_gpu=-23.4552078(0xc1bba444)	worst_ref=-23.455111078445697	worst_tol=0.0316	max_err_over_2bound=0	PASS
+head_compare	MOT17-10-SDP/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=0.000912	max_rel=0.00226	rel_excluded=12	max_err_over_tol=0.046	failures=0	nonfinite=0	worst=(c=3,h=19,w=39)	worst_gpu=3.20605397(0x404d2ffd)	worst_ref=3.2063871787018856	worst_tol=0.00725	max_err_over_2bound=0	PASS
+head_compare	MOT17-10-SDP/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=0.00032	max_rel=0.000432	rel_excluded=2	max_err_over_tol=0.0573	failures=0	nonfinite=0	worst=(c=3,h=6,w=29)	worst_gpu=3.29059076(0x4052990a)	worst_ref=3.290270729293455	worst_tol=0.00558	max_err_over_2bound=0	PASS
+head_compare	MOT17-10-SDP/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=0.000254	max_rel=0.000202	rel_excluded=1	max_err_over_tol=0.00953	failures=0	nonfinite=0	worst=(c=2,h=5,w=15)	worst_gpu=0.865999877(0x3f5db22b)	worst_ref=0.86605942366375088	worst_tol=0.00625	max_err_over_2bound=0	PASS
+determinism	MOT17-10-SDP/1	rerun_bit_identical	PASS
+dump	MOT17-10-SDP/1	/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump/input-1.f32	sha256=02558978a3e7437cc82c24c3532386588d596c2f9f54a6760d811a4543a9cf16
+reference_seconds	MOT17-13-SDP/400	0.708353
+head_compare	MOT17-13-SDP/400	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000358	max_rel=0.000267	rel_excluded=0	max_err_over_tol=0.0204	failures=0	nonfinite=0	worst=(c=63,h=62,w=21)	worst_gpu=-24.0739326(0xc1c0976a)	worst_ref=-24.074253421141961	worst_tol=0.0157	max_err_over_2bound=0	PASS
+head_compare	MOT17-13-SDP/400	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000271	max_rel=0.000221	rel_excluded=0	max_err_over_tol=0.0185	failures=0	nonfinite=0	worst=(c=7,h=29,w=10)	worst_gpu=-29.331337(0xc1eaa694)	worst_ref=-29.331607673818084	worst_tol=0.0146	max_err_over_2bound=0	PASS
+head_compare	MOT17-13-SDP/400	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.00024	max_rel=4.29e-05	rel_excluded=1	max_err_over_tol=0.00195	failures=0	nonfinite=0	worst=(c=57,h=16,w=2)	worst_gpu=-28.6004715(0xc1e4cdc4)	worst_ref=-28.600614433517787	worst_tol=0.0734	max_err_over_2bound=0	PASS
+head_compare	MOT17-13-SDP/400	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=0.00129	max_rel=0.0012	rel_excluded=13	max_err_over_tol=0.0766	failures=0	nonfinite=0	worst=(c=1,h=62,w=21)	worst_gpu=4.56764221(0x40922a20)	worst_ref=4.5686083317466633	worst_tol=0.0126	max_err_over_2bound=0	PASS
+head_compare	MOT17-13-SDP/400	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=0.000187	max_rel=0.000928	rel_excluded=1	max_err_over_tol=0.0335	failures=0	nonfinite=0	worst=(c=0,h=10,w=31)	worst_gpu=2.97182131(0x403e3252)	worst_ref=2.9717297111107035	worst_tol=0.00273	max_err_over_2bound=0	PASS
+head_compare	MOT17-13-SDP/400	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=7.47e-05	max_rel=5.41e-05	rel_excluded=1	max_err_over_tol=0.00449	failures=0	nonfinite=0	worst=(c=3,h=15,w=4)	worst_gpu=3.45576715(0x405d2b4a)	worst_ref=3.4558135461005555	worst_tol=0.0103	max_err_over_2bound=0	PASS
+determinism	MOT17-13-SDP/400	rerun_bit_identical	PASS
+dump	MOT17-13-SDP/400	/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump/input-2.f32	sha256=b69dc2f3a468540d507a35ee5da767d7607c88948c68418b1dfa8296b55ea85f
+reference_seconds	zeros	0.706613
+head_compare	zeros	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.00015	max_rel=6.99e-06	rel_excluded=0	max_err_over_tol=0.0137	failures=0	nonfinite=0	worst=(c=57,h=77,w=34)	worst_gpu=-27.4907761(0xc1dbed1c)	worst_ref=-27.490695567854775	worst_tol=0.00587	max_err_over_2bound=0	PASS
+head_compare	zeros	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.00012	max_rel=6.59e-06	rel_excluded=0	max_err_over_tol=0.00851	failures=0	nonfinite=0	worst=(c=54,h=10,w=17)	worst_gpu=-22.7193165(0xc1b5c129)	worst_ref=-22.71942736496699	worst_tol=0.013	max_err_over_2bound=0	PASS
+head_compare	zeros	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000176	max_rel=9.63e-06	rel_excluded=0	max_err_over_tol=0.00251	failures=0	nonfinite=0	worst=(c=59,h=17,w=12)	worst_gpu=-20.0419312(0xc1a055e0)	worst_ref=-20.041832006359563	worst_tol=0.0395	max_err_over_2bound=0	PASS
+head_compare	zeros	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=0.00014	max_rel=5.09e-05	rel_excluded=0	max_err_over_tol=0.0205	failures=0	nonfinite=0	worst=(c=3,h=75,w=79)	worst_gpu=2.36766481(0x401787d2)	worst_ref=2.3676011740604386	worst_tol=0.00311	max_err_over_2bound=0	PASS
+head_compare	zeros	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=0.000171	max_rel=0.000211	rel_excluded=0	max_err_over_tol=0.0435	failures=0	nonfinite=0	worst=(c=3,h=13,w=1)	worst_gpu=2.60762644(0x4026e35a)	worst_ref=2.6077537671047692	worst_tol=0.00293	max_err_over_2bound=0	PASS
+head_compare	zeros	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=0.000111	max_rel=2.65e-05	rel_excluded=0	max_err_over_tol=0.00498	failures=0	nonfinite=0	worst=(c=3,h=14,w=8)	worst_gpu=4.17992544(0x4085c1f3)	worst_ref=4.1798146034665544	worst_tol=0.0222	max_err_over_2bound=0	PASS
+determinism	zeros	rerun_bit_identical	PASS
+dump	zeros	/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump/input-3.f32	sha256=c273efb9986a957a79ff29ec2c9ffa2fb98469fe284f2d11c4f3fa63b559c815
+reference_seconds	ones	0.707913
+head_compare	ones	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000713	max_rel=2.37e-05	rel_excluded=0	max_err_over_tol=0.0209	failures=0	nonfinite=0	worst=(c=38,h=75,w=27)	worst_gpu=-30.7051544(0xc1f5a428)	worst_ref=-30.704441198280964	worst_tol=0.0342	max_err_over_2bound=0	PASS
+head_compare	ones	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.00116	max_rel=5.66e-05	rel_excluded=0	max_err_over_tol=0.011	failures=0	nonfinite=0	worst=(c=57,h=36,w=26)	worst_gpu=-23.9946289(0xc1bff500)	worst_ref=-23.995309895780313	worst_tol=0.0618	max_err_over_2bound=0	PASS
+head_compare	ones	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000542	max_rel=4.75e-05	rel_excluded=0	max_err_over_tol=0.0045	failures=0	nonfinite=0	worst=(c=22,h=17,w=17)	worst_gpu=-22.2585373(0xc1b2117c)	worst_ref=-22.258224999950464	worst_tol=0.0694	max_err_over_2bound=0	PASS
+head_compare	ones	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=0.00165	max_rel=0.00156	rel_excluded=7	max_err_over_tol=0.0588	failures=0	nonfinite=0	worst=(c=3,h=61,w=56)	worst_gpu=3.25797105(0x40508299)	worst_ref=3.2567862876589659	worst_tol=0.0202	max_err_over_2bound=0	PASS
+head_compare	ones	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=0.00106	max_rel=0.000719	rel_excluded=6	max_err_over_tol=0.0557	failures=0	nonfinite=0	worst=(c=3,h=15,w=38)	worst_gpu=2.49369192(0x401f98a6)	worst_ref=2.4929423815696596	worst_tol=0.0135	max_err_over_2bound=0	PASS
+head_compare	ones	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=0.000604	max_rel=0.000182	rel_excluded=1	max_err_over_tol=0.00906	failures=0	nonfinite=0	worst=(c=0,h=7,w=4)	worst_gpu=2.63911653(0x4028e749)	worst_ref=2.6386396867456856	worst_tol=0.0527	max_err_over_2bound=0	PASS
+determinism	ones	rerun_bit_identical	PASS
+dump	ones	/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump/input-4.f32	sha256=a6c72c191da4fad43ae298ea0f677037c1f8ae36d04618a1e7305890f37def57
+reference_seconds	random/1	0.712361
+head_compare	random/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=8.47e-05	max_rel=3.81e-06	rel_excluded=0	max_err_over_tol=0.00924	failures=0	nonfinite=0	worst=(c=74,h=20,w=48)	worst_gpu=-31.9679966(0xc1ffbe75)	worst_ref=-31.967911884280895	worst_tol=0.00917	max_err_over_2bound=0	PASS
+head_compare	random/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000119	max_rel=6.85e-06	rel_excluded=0	max_err_over_tol=0.00598	failures=0	nonfinite=0	worst=(c=65,h=39,w=22)	worst_gpu=-21.3987045(0xc1ab308c)	worst_ref=-21.398756327315503	worst_tol=0.00867	max_err_over_2bound=0	PASS
+head_compare	random/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=9.54e-05	max_rel=4.79e-06	rel_excluded=0	max_err_over_tol=0.00157	failures=0	nonfinite=0	worst=(c=31,h=2,w=8)	worst_gpu=-29.0366821(0xc1e84b20)	worst_ref=-29.036654291739382	worst_tol=0.0177	max_err_over_2bound=0	PASS
+head_compare	random/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=0.000212	max_rel=0.000459	rel_excluded=4	max_err_over_tol=0.0383	failures=0	nonfinite=0	worst=(c=1,h=20,w=48)	worst_gpu=2.20079517(0x400cd9d4)	worst_ref=2.2005948063301108	worst_tol=0.00523	max_err_over_2bound=0	PASS
+head_compare	random/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=0.000235	max_rel=0.000416	rel_excluded=1	max_err_over_tol=0.0442	failures=0	nonfinite=0	worst=(c=3,h=6,w=15)	worst_gpu=2.1052494(0x4006bc68)	worst_ref=2.1050143946131108	worst_tol=0.00532	max_err_over_2bound=0	PASS
+head_compare	random/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=3.58e-05	max_rel=8.38e-06	rel_excluded=0	max_err_over_tol=0.00255	failures=0	nonfinite=0	worst=(c=1,h=15,w=16)	worst_gpu=4.7517767(0x40980e8e)	worst_ref=4.7517453847591522	worst_tol=0.0123	max_err_over_2bound=0	PASS
+determinism	random/1	rerun_bit_identical	PASS
+dump	random/1	/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump/input-5.f32	sha256=ccd755c5f7a087bce0168e36076e377053fc6678fe8b5dc0ad981fcd52e2e771
+failure_sequence	OK,FAILED(8),SKIPPED	committed=0	PASS
+graph_replay	6_inputs	bit_identical_to_enqueueV3	PASS
+result	PASS

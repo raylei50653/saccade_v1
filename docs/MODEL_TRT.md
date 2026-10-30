@@ -48,4 +48,21 @@ capture 在獨立的 `SACCADE_T01_ROOT` 重新產生六個輸入與 binary64 ref
 
 ## 5. 結果（2026-10-30）
 
-待正式 capture 後填入。
+**Backbone PASS、F03 PASS**：clean-source capture（受測 `4b52b2f`），完整報告見 [F03 證據](../evidence/t01/2026-10-30/f03/REPORT.md)。
+
+| 項目 | 結果 |
+| --- | --- |
+| backbone engine | 76,879,796 bytes，`7c256a13…46ad52c`；同一 capture 重建相同；tactic 檢查無違規 |
+| backbone 逐元素 | 6 輸入 × 2,662,400 元素全部在 16σ 內，最大 誤差／門檻 0.030；無非有限值 |
+| backbone 次要容差 | 對 PyTorch `fp32-strict` 8.9×10⁻⁶ ≤ 10⁻⁴；對訓練 cache 2.1×10⁻⁴ ≤ 2⁻¹¹＋10⁻⁴ |
+| 語義變體 | 12/12 對 reference 與 TensorRT 都偵測到 |
+| F03 engine | 118,173,420 bytes，`c6cff193…3fbab9c5`；重建的 plan bytes 不同但 layer／tactic JSON 相同（只作紀錄） |
+| F03 逐元素 | 6 輸入 × 6 輸出全部在 16σ 內，最大 0.077（`reg_p3`）；36 個判定 PASS |
+| F03 執行 | 重跑與 graph 重播逐位元相同；失敗序列 OK／FAILED(8)／SKIPPED；未註冊 plugin 被拒 |
+| sanitizers | F03 memcheck、initcheck 0 errors；racecheck／synccheck 未執行 |
+| head 不變 | 同一程式建出的 T01 head engine 仍是 `5b6d30fa…` |
+| 診斷 | F03 輸出與兩段式逐位元相同；對 PyTorch 相對 L2 ≤ 2.1×10⁻⁵，decode 後偵測相同 |
+
+開發中的觀察：ONNX Runtime CPU 的 Sigmoid 在 x < −8 相對誤差很大（政策 §5 的預檢）；TensorRT 的 FP32 SiLU 沒有這個問題（backbone 最大比值 0.030）。開發建置與 capture 的 engine hash 不同，輸出卻逐位元相同。
+
+**仍未驗證**：native 前處理（F01／F02）、decode／NMS（F04）、racecheck／synccheck、其他 GPU／版本；P01 仍 OPEN。

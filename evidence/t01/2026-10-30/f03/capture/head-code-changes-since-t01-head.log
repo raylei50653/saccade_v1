@@ -1,0 +1,120 @@
+diff --git a/include/saccade/head_reference.hpp b/include/saccade/head_reference.hpp
+index fc999da..e027798 100644
+--- a/include/saccade/head_reference.hpp
++++ b/include/saccade/head_reference.hpp
+@@ -75,6 +75,12 @@ struct HeadReferenceResult {
+ 
+ HeadReferenceResult head_reference(const HeadWeights& weights, const std::array<std::span<const float>, 3>& features,
+                                    const HeadSemantics& semantics = {}, bool keep_intermediates = false);
++// The same head on binary64 inputs that carry their own bound and scale (F03,
++// docs/BACKBONE_POLICY.md §7: the backbone reference), propagated by the same
++// rules. head_reference above is this function on head_ref::from_float inputs
++// (bound and scale 0). Each input must have head_input_shape(level).
++HeadReferenceResult head_reference_from_refs(const HeadWeights& weights, const std::array<HeadTensorRef, 3>& inputs,
++                                             const HeadSemantics& semantics = {}, bool keep_intermediates = false);
+ 
+ // Primitives of the reference, each with its bound and scale propagation;
+ // exposed for the independently derivable checks of tests/head_reference_tests.cpp.
+diff --git a/include/saccade/head_trt_network.hpp b/include/saccade/head_trt_network.hpp
+index 3bf4f5a..da2c29d 100644
+--- a/include/saccade/head_trt_network.hpp
++++ b/include/saccade/head_trt_network.hpp
+@@ -5,8 +5,10 @@
+ 
+ #include <NvInfer.h>
+ 
++#include <array>
+ #include <cstddef>
+ #include <cstdint>
++#include <functional>
+ #include <string>
+ #include <vector>
+ 
+@@ -30,6 +32,12 @@ struct HeadBuildOptions {
+     // head_reference) as outputs, to locate a first divergence. Diagnostic only:
+     // such an engine is never the accepted one.
+     bool debug_intermediates = false;
++    // F03 (docs/BACKBONE_POLICY.md §7): when set, called once with the head's
++    // network before any head layer is added; the head then reads P3/P4/P5
++    // from the returned FP32 tensors (head_input_shape) instead of creating
++    // network inputs. The caller keeps whatever owns those tensors' weights
++    // (the ONNX parser) alive until build_head_engine returns.
++    std::function<std::array<nvinfer1::ITensor*, 3>(nvinfer1::INetworkDefinition&)> features;
+ };
+ 
+ struct HeadEngine {
+diff --git a/src/head_reference.cpp b/src/head_reference.cpp
+index 6173b6e..b03f725 100644
+--- a/src/head_reference.cpp
++++ b/src/head_reference.cpp
+@@ -433,6 +433,21 @@ T selective_scan(const T& u, const T& delta, const T& a, const T& b, const T& c,
+ HeadReferenceResult head_reference(const HeadWeights& w, const std::array<std::span<const float>, 3>& features, const HeadSemantics& s,
+                                    bool keep_intermediates) {
+     validate_head_weights(w);
++    std::array<T, 3> inputs;
++    for (int level = 0; level < kHeadLevels; ++level)
++        inputs[static_cast<std::size_t>(level)] = head_ref::from_float(features[static_cast<std::size_t>(level)], head_input_shape(level));
++    return head_reference_from_refs(w, inputs, s, keep_intermediates);
++}
++
++HeadReferenceResult head_reference_from_refs(const HeadWeights& w, const std::array<HeadTensorRef, 3>& inputs, const HeadSemantics& s,
++                                             bool keep_intermediates) {
++    validate_head_weights(w);
++    for (int level = 0; level < kHeadLevels; ++level) {
++        const auto& x = inputs[static_cast<std::size_t>(level)];
++        if (x.shape != head_input_shape(level) || x.value.size() != count(x.shape) || x.bound.size() != x.value.size() ||
++            x.sigma.size() != x.value.size())
++            bad("input " + std::to_string(level) + " differs from its shape");
++    }
+     using namespace head_ref;
+     HeadReferenceResult result;
+     for (int level = 0; level < kHeadLevels; ++level) {
+@@ -444,7 +459,7 @@ HeadReferenceResult head_reference(const HeadWeights& w, const std::array<std::s
+             if (keep_intermediates) result.intermediates.emplace_back(name + "." + step, t);
+         };
+         const auto size = kHeadSize[static_cast<std::size_t>(level)], small = size / kHeadReduction;
+-        const auto x = from_float(features[static_cast<std::size_t>(level)], head_input_shape(level));
++        const auto& x = inputs[static_cast<std::size_t>(level)];
+         const auto a = conv2d(x, W("input_proj.weight"), &W("input_proj.bias"), 1, 0);
+         keep("input_proj", a);
+         const auto down = conv2d(a, W("downsample.weight"), &W("downsample.bias"), static_cast<int>(kHeadReduction), 0);
+diff --git a/src/head_trt_network.cpp b/src/head_trt_network.cpp
+index d2d424e..714cbc1 100644
+--- a/src/head_trt_network.cpp
++++ b/src/head_trt_network.cpp
+@@ -57,10 +57,25 @@ public:
+ 
+     HeadEngine build() {
+         std::vector<ITensor*> outputs(6);
++        std::array<ITensor*, 3> external{};
++        if (options_.features) {
++            external = options_.features(*network_);
++            for (int level = 0; level < kHeadLevels; ++level) {
++                const auto* t = external[static_cast<std::size_t>(level)];
++                require(t != nullptr && t->getType() == DataType::kFLOAT, "external feature " + std::to_string(level) + " is not an FP32 tensor");
++                const auto dims = t->getDimensions();
++                const auto want = head_input_shape(level);
++                bool same = dims.nbDims == static_cast<std::int32_t>(want.size());
++                for (int k = 0; same && k < dims.nbDims; ++k) same = dims.d[k] == want[static_cast<std::size_t>(k)];
++                require(same, "external feature " + std::to_string(level) + " differs from the head input shape");
++            }
++        }
+         for (int level = 0; level < kHeadLevels; ++level) {
+             const auto shape_in = head_input_shape(level);
+-            auto* x = network_->addInput(kHeadInputNames[static_cast<std::size_t>(level)], DataType::kFLOAT,
+-                                         shape({shape_in[0], shape_in[1], shape_in[2], shape_in[3]}));
++            auto* x = external[static_cast<std::size_t>(level)];
++            if (x == nullptr)
++                x = network_->addInput(kHeadInputNames[static_cast<std::size_t>(level)], DataType::kFLOAT,
++                                       shape({shape_in[0], shape_in[1], shape_in[2], shape_in[3]}));
+             require(x != nullptr, "addInput");
+             const auto [cls, reg] = head_level(level, x);
+             outputs[static_cast<std::size_t>(level)] = cls;
+@@ -83,6 +98,7 @@ public:
+         o << "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\nworkspace_bytes=" << kHeadBuilderWorkspace
+           << "\noptimization_level=" << kHeadBuilderOptimizationLevel << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
+           << "\ndebug_intermediates=" << (options_.debug_intermediates ? "true" : "false") << '\n';
++        if (options_.features) o << "head_inputs=external\n";
+         engine.build_options = o.str();
+         return engine;
+     }

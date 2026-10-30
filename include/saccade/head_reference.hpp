@@ -75,6 +75,12 @@ struct HeadReferenceResult {
 
 HeadReferenceResult head_reference(const HeadWeights& weights, const std::array<std::span<const float>, 3>& features,
                                    const HeadSemantics& semantics = {}, bool keep_intermediates = false);
+// The same head on binary64 inputs that carry their own bound and scale (F03,
+// docs/BACKBONE_POLICY.md §7: the backbone reference), propagated by the same
+// rules. head_reference above is this function on head_ref::from_float inputs
+// (bound and scale 0). Each input must have head_input_shape(level).
+HeadReferenceResult head_reference_from_refs(const HeadWeights& weights, const std::array<HeadTensorRef, 3>& inputs,
+                                             const HeadSemantics& semantics = {}, bool keep_intermediates = false);
 
 // Primitives of the reference, each with its bound and scale propagation;
 // exposed for the independently derivable checks of tests/head_reference_tests.cpp.

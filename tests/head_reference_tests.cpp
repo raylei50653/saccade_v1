@@ -441,6 +441,46 @@ void discrimination(const saccade::HeadWeights& w, const std::string& label, boo
     }
 }
 
+// head_reference_from_refs: on exact (from_float) inputs it is head_reference
+// bit for bit; input scales only widen every output scale; shapes are checked.
+void from_refs(const saccade::HeadWeights& w) {
+    const auto features = saccade::head_test_features("random", 1);
+    const auto exact = saccade::head_reference(w, spans(features));
+    std::array<HeadTensorRef, 3> inputs;
+    for (int level = 0; level < 3; ++level)
+        inputs[static_cast<std::size_t>(level)] = ref::from_float(features[static_cast<std::size_t>(level)], saccade::head_input_shape(level));
+    const auto same = saccade::head_reference_from_refs(w, inputs);
+    for (std::size_t k = 0; k < 6; ++k)
+        check(same.outputs[k].value == exact.outputs[k].value && same.outputs[k].bound == exact.outputs[k].bound &&
+                  same.outputs[k].sigma == exact.outputs[k].sigma,
+              "from_refs on exact inputs equals head_reference bit for bit");
+    for (auto& x : inputs)
+        for (std::size_t i = 0; i < x.value.size(); ++i) {
+            x.sigma[i] = 0x1p-12 * std::fabs(x.value[i]);
+            x.bound[i] = 0x1p-10 * std::fabs(x.value[i]);
+        }
+    const auto widened = saccade::head_reference_from_refs(w, inputs);
+    for (std::size_t k = 0; k < 6; ++k) {
+        bool values = widened.outputs[k].value == exact.outputs[k].value, wider = true, ordered = true, grew = false;
+        for (std::size_t i = 0; i < exact.outputs[k].value.size(); ++i) {
+            wider = wider && widened.outputs[k].sigma[i] >= exact.outputs[k].sigma[i] && widened.outputs[k].bound[i] >= exact.outputs[k].bound[i];
+            ordered = ordered && widened.outputs[k].sigma[i] <= widened.outputs[k].bound[i];
+            grew = grew || widened.outputs[k].sigma[i] > exact.outputs[k].sigma[i];
+        }
+        check(values && wider && ordered && grew, std::string("input scales widen the scales of ") + saccade::kHeadOutputNames[k]);
+    }
+    auto wrong = inputs;
+    wrong[1].sigma.pop_back();
+    bool rejected = false;
+    try {
+        (void)saccade::head_reference_from_refs(w, wrong);
+    } catch (const std::invalid_argument&) {
+        rejected = true;
+    }
+    check(rejected, "from_refs rejects an input whose scale has the wrong size");
+    report << "from_refs\tPASS\n";
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -452,6 +492,7 @@ int main(int argc, char** argv) {
         const auto synthetic = saccade::synthetic_head_weights(3);
         for (const char* kind : {"asymmetric", "random"}) fp32_head_inside_policy(synthetic, "synthetic", kind);
         discrimination(synthetic, "synthetic", false); // arbitrary weights: informational
+        from_refs(synthetic);
         if (argc == 3) {
             const auto bytes = saccade::read_text_file(argv[1]);
             check(saccade::sha256_hex(bytes) == argv[2], "bundle SHA-256 matches");

@@ -433,6 +433,21 @@ T selective_scan(const T& u, const T& delta, const T& a, const T& b, const T& c,
 HeadReferenceResult head_reference(const HeadWeights& w, const std::array<std::span<const float>, 3>& features, const HeadSemantics& s,
                                    bool keep_intermediates) {
     validate_head_weights(w);
+    std::array<T, 3> inputs;
+    for (int level = 0; level < kHeadLevels; ++level)
+        inputs[static_cast<std::size_t>(level)] = head_ref::from_float(features[static_cast<std::size_t>(level)], head_input_shape(level));
+    return head_reference_from_refs(w, inputs, s, keep_intermediates);
+}
+
+HeadReferenceResult head_reference_from_refs(const HeadWeights& w, const std::array<HeadTensorRef, 3>& inputs, const HeadSemantics& s,
+                                             bool keep_intermediates) {
+    validate_head_weights(w);
+    for (int level = 0; level < kHeadLevels; ++level) {
+        const auto& x = inputs[static_cast<std::size_t>(level)];
+        if (x.shape != head_input_shape(level) || x.value.size() != count(x.shape) || x.bound.size() != x.value.size() ||
+            x.sigma.size() != x.value.size())
+            bad("input " + std::to_string(level) + " differs from its shape");
+    }
     using namespace head_ref;
     HeadReferenceResult result;
     for (int level = 0; level < kHeadLevels; ++level) {
@@ -444,7 +459,7 @@ HeadReferenceResult head_reference(const HeadWeights& w, const std::array<std::s
             if (keep_intermediates) result.intermediates.emplace_back(name + "." + step, t);
         };
         const auto size = kHeadSize[static_cast<std::size_t>(level)], small = size / kHeadReduction;
-        const auto x = from_float(features[static_cast<std::size_t>(level)], head_input_shape(level));
+        const auto& x = inputs[static_cast<std::size_t>(level)];
         const auto a = conv2d(x, W("input_proj.weight"), &W("input_proj.bias"), 1, 0);
         keep("input_proj", a);
         const auto down = conv2d(a, W("downsample.weight"), &W("downsample.bias"), static_cast<int>(kHeadReduction), 0);

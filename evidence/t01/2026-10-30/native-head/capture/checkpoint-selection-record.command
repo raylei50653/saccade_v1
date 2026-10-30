@@ -1,0 +1,1 @@
+python3 -c import\ json\,\ sys\;\ d\ =\ json.load\(open\(sys.argv\[1\]\)\)\;\ print\(json.dumps\(d\,\ indent=1\)\)\;\ sys.exit\(d\[\"sha256\"\]\ \!=\ sys.argv\[2\]\) /home/ray/.cache/saccade-v1/t01/runs/t1/selection.json 070580f9f5755e57acd9ee7ed9b4307672f4d9996332b40e6b61ee7cc6e6962b 

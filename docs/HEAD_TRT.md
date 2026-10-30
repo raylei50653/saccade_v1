@@ -178,3 +178,17 @@ S04 的工具與 GPU 實作不變，改用 [T01](T01_TRAINING.md) 正式 run 選
 | Sanitizer | head memcheck、initcheck 以新 engine／bundle 重跑（同 S04 參數）；**head racecheck／synccheck 仍未執行**；S03 scan suite 的四種工具不重跑，因為 scan kernels、plugins 與 frame session 自 S04 受測 source 起未改動（capture 以 `git diff --exit-code` 核對） |
 
 capture：[evidence/t01/2026-10-30/native-head/capture.sh](../evidence/t01/2026-10-30/native-head/capture.sh)，只接受乾淨的受測 commit，每一步前後核對 HEAD 與工作樹；全程每 10 s 記錄記憶體，可用記憶體低於 4 GiB 時停止整個 capture。
+
+**結果（受測 `401ec69`，[報告](../evidence/t01/2026-10-30/native-head/REPORT.md)）：T01 head PASS。**
+
+| 項目 | 結果 |
+| --- | --- |
+| 輸出比對 | 三組固定輸入與三幀真實 features，六個輸出的每個元素都在 λσ 內。最差 誤差／容差：固定輸入 0.00498，真實 features 0.0130（`reg_p3`） |
+| 執行性質 | 重跑、graph 重播與失敗序列皆通過 |
+| 語義變體 | 13 個在 T01 權重下全部偵測到 |
+| 測試 | CTest：CPU 13/13、CUDA＋TRT 31/31；`head_trt_tests` 824 checks |
+| Sanitizer | head memcheck 640 checks、initcheck 593 checks，0 errors |
+| Engine | `5b6d30fa…`，兩次建置逐 byte 相同 |
+| 診斷：PyTorch T1 head vs native | 相對 L2 ≤ 6.5e-7；decode 後偵測數與次序相同 |
+
+這是 head 範圍內的 PASS；backbone／neck native engine、native 前處理、decode／NMS 仍未完成，P01 仍 OPEN。

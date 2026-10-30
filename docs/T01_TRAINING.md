@@ -306,6 +306,6 @@ Lineage 在 eval 上的 AP50（只作診斷，不參與選模）：distill 0.515
 | --- | --- |
 | TRAINING COMPLETE | **是**：全部 stage complete；每個 epoch checkpoint 都存在，且通過存檔精度與身分檢查 |
 | MODEL SELECTED | **是**：T1 epoch 1，依 `t01-selection/1` 選定；eval split 只在選定後打開一次 |
-| NATIVE ARTIFACT READY | **否**：backbone ONNX 已匯出，並與 PyTorch 及 cache 驗證過；TensorRT backbone engine 未建（pinned SDK 沒有 ONNX parser，OPEN）；head bundle、model manifest 與 S04 延續尚未完成 |
+| NATIVE ARTIFACT READY | **否**：head 部分已完成，SCWB bundle `4fccfda6…`、engine `5b6d30fa…` 與 model manifest 已通過 [HEAD_TRT §10](HEAD_TRT.md#10-t01-候選的延續驗證2026-10-30) 的完整 FP32 驗證（S04 延續，PASS）。backbone ONNX 已匯出，並與 PyTorch 及 cache 驗證過，但 TensorRT backbone engine 未建（pinned SDK 沒有 ONNX parser，OPEN） |
 | F03 VERIFIED | **否**（未執行） |
 | P01 | **OPEN** |

@@ -1,0 +1,4 @@
+head intermediates: excluded from sanitizers (rebuilds a debug engine); native run in trt-ctest head_trt
+initcheck: --no-held-stream skips the callback-held stream groups only
+head racecheck/synccheck: UNEXECUTED, as in S04 (TensorRT instrumentation cost; WSL crash during S04 development, cause undetermined)
+S03 scan suite sanitizers: not rerun; scan kernels, plugins and frame session unchanged since S04 tested source (native-gpu-and-reference-unchanged-since-s04)

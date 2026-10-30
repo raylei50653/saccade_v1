@@ -3,7 +3,9 @@
 
     venv-export/bin/python t01_backbone_ref.py inputs
     venv-export/bin/python t01_backbone_ref.py reference
+    venv-export/bin/python t01_backbone_ref.py precheck
     venv-export/bin/python t01_backbone_ref.py compare DUMP_DIR
+    venv-export/bin/python t01_backbone_ref.py diagnose MODEL_DUMP_DIR CHAIN_DUMP_DIR
 
 `inputs` writes the fixed model inputs (BACKBONE_POLICY §4): three MOT17 frames
 through the T01 input contract (PyTorch fp32-strict, read back) and three
@@ -653,12 +655,80 @@ def compare(smoke: bool, dump_dir: Path) -> None:
         raise SystemExit(1)
 
 
+HEAD_OUT_SHAPES = ((80, 80, 80), (80, 40, 40), (80, 20, 20), (4, 80, 80), (4, 40, 40), (4, 20, 20))
+HEAD_OUT_NAMES = ("cls_p3", "cls_p4", "cls_p5", "reg_p3", "reg_p4", "reg_p5")
+
+
+def split_head_dump(path: Path) -> list[np.ndarray]:
+    raw = np.frombuffer(path.read_bytes(), dtype="<f4")
+    out, pos = [], 0
+    for shape in HEAD_OUT_SHAPES:
+        n = int(np.prod(shape))
+        out.append(raw[pos:pos + n].reshape(shape))
+        pos += n
+    if pos != raw.size:
+        raise SystemExit(f"{path}: {raw.size} values, expected {pos}")
+    return out
+
+
+def diagnose(smoke: bool, model_dump: Path, chain_dump: Path) -> None:
+    """Diagnostics of §7, not acceptance: the F03 engine's six outputs against the training-side PyTorch model
+    (backbone fp32-strict + T1 head) and against the two-stage chain (backbone engine -> head engine)."""
+    import t01_eval  # noqa: PLC0415
+
+    recipe, runs, out = setup(smoke)
+    precision = strict_fp32()
+    exp = read_json(out / "backbone-export.json")
+    rec_in, data = input_frames(out)
+    sel = read_json(runs / "t1" / "selection.json")
+    device = torch.device("cuda")
+    teacher, _ = load_teacher_yolo(recipe, Path(exp["teacher_checkpoint"]))
+    backbone = Backbone(teacher.to(device)).eval()
+    head, _ = t01_eval.build_student(Path(sel["checkpoint"]), device)
+    report: dict[str, Any] = {"policy": POLICY.replace("backbone", "f03"), "t1_sha256": sel["sha256"], "inputs_sha256": rec_in["sha256"],
+                              "pytorch_compute_precision": precision, "inputs": []}
+
+    def decoded(arrays: list[np.ndarray]) -> dict[str, torch.Tensor]:
+        c, r = t01_eval.flatten_levels([torch.from_numpy(np.array(a))[None].to(device) for a in arrays[:3]],
+                                       [torch.from_numpy(np.array(a))[None].to(device) for a in arrays[3:]])
+        return t01_eval.decode(c, r)[0]
+
+    with torch.no_grad():
+        for i, label in enumerate(rec_in["labels"]):
+            cls, reg = head(list(backbone(torch.from_numpy(data[i:i + 1].copy()).to(device))))
+            pt = [t.cpu().numpy()[0] for t in (*cls, *reg)]
+            model = split_head_dump(model_dump / f"input-{i}.f32")
+            chain = split_head_dump(chain_dump / f"features-{i}.f32")
+            row: dict[str, Any] = {"label": label, "model_dump_sha256": sha256_file(model_dump / f"input-{i}.f32"),
+                                   "chain_dump_sha256": sha256_file(chain_dump / f"features-{i}.f32"), "outputs": {}}
+            for name, a_pt, a_m, a_c in zip(HEAD_OUT_NAMES, pt, model, chain):
+                row["outputs"][name] = {"model_vs_pytorch_rel_l2": rel_l2(a_m, a_pt),
+                                        "model_vs_pytorch_max_abs": float(np.abs(a_m.astype(np.float64) - a_pt).max()),
+                                        "model_vs_chain_rel_l2": rel_l2(a_m, a_c),
+                                        "model_vs_chain_bit_identical": bool(np.array_equal(a_m.view(np.uint32), a_c.view(np.uint32)))}
+            d_pt, d_m = decoded(pt), decoded(model)
+            row["detections"] = {"pytorch": int(d_pt["boxes"].shape[0]), "model": int(d_m["boxes"].shape[0])}
+            if d_pt["boxes"].shape == d_m["boxes"].shape and d_pt["boxes"].numel():
+                row["detections"].update({"same_order_max_box_abs_px": float((d_pt["boxes"] - d_m["boxes"]).abs().max()),
+                                          "same_order_max_score_abs": float((d_pt["scores"] - d_m["scores"]).abs().max())})
+            report["inputs"].append(row)
+            print(label, f"model vs pytorch rel L2 <= {max(v['model_vs_pytorch_rel_l2'] for v in row['outputs'].values()):.2e}",
+                  f"model vs chain rel L2 <= {max(v['model_vs_chain_rel_l2'] for v in row['outputs'].values()):.2e}", row["detections"], flush=True)
+    report["pytorch_compute_precision_end"] = t01_precision.checked_readback("fp32-strict")
+    write_json(out / "f03-diagnostics.json", report)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("cmd", choices=("inputs", "reference", "precheck", "compare"))
-    parser.add_argument("paths", nargs="*", type=Path, help="compare: DUMP_DIR")
+    parser.add_argument("cmd", choices=("inputs", "reference", "precheck", "compare", "diagnose"))
+    parser.add_argument("paths", nargs="*", type=Path, help="compare: DUMP_DIR; diagnose: MODEL_DUMP_DIR CHAIN_DUMP_DIR")
     parser.add_argument("--smoke", action="store_true")
     a = parser.parse_args()
+    if a.cmd == "diagnose":
+        if len(a.paths) != 2:
+            parser.error("diagnose needs MODEL_DUMP_DIR CHAIN_DUMP_DIR")
+        diagnose(a.smoke, *a.paths)
+        return
     if a.cmd == "compare":
         if len(a.paths) != 1:
             parser.error("compare needs DUMP_DIR")

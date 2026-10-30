@@ -68,7 +68,9 @@ void tests(const std::filesystem::path& fixture) {
     bad(replace(text, "\"schema\": 1,", ""), "$.schema: missing required field");
     // A schema-1 body relabelled as schema 2 is rejected, never reinterpreted.
     bad(replace(text, "\"schema\": 1", "\"schema\": 2"), "$.input_profile: unknown field");
-    bad(replace(text, "\"schema\": 1", "\"schema\": 3"), "$.schema: expected 1");
+    // Schema 3 is the complete-model family: a schema-1 body labelled 3 is rejected too; 4 is no schema.
+    bad(replace(text, "\"schema\": 1", "\"schema\": 3"), "$.statuses: missing required field");
+    bad(replace(text, "\"schema\": 1", "\"schema\": 4"), "$.schema: expected 1");
     bad(replace(text, "\"schema\": 1", "\"schema\": \"1\""), "$.schema: expected unsigned integer");
     bad(replace(text, "\"schema\": 1", "\"schema\": true"), "$.schema: expected unsigned integer");
     bad(replace(text, "\"schema\": 1", "\"schema\": 1.0"), "expected comma");
@@ -201,12 +203,51 @@ void tests_schema2(const std::filesystem::path& fixture) {
     bad(candidate, "$.boundary.source_checkpoint: artifact required");
     bad(replace(candidate, "\"source_checkpoint\": null", "\"source_checkpoint\": \"fixture\""), "$.boundary.source_checkpoint: artifact must have role checkpoint");
 }
+// Schema 3 (T01 F03 complete model): the schema 2 head on a declared backbone
+// ONNX, with the image input profile, P3/P4/P5 as backbone intermediates and
+// both policy documents.
+void tests_schema3(const std::filesystem::path& fixture) {
+    using namespace saccade;
+    const auto text = read_text_file(fixture / "model-contract.json");
+    const auto manifest = parse_model_manifest(text);
+    check(manifest.schema == 3 && manifest.purpose == "test_fixture" && manifest.artifacts.size() == 1, "schema 3 fixture parsed");
+    check(model_manifest_hash(manifest) == "fed0fc2fe5ba511ca2e659410417fef1b829440631504fc483fed24866e67f91", "known canonical schema 3 SHA-256");
+    check(parse_model_manifest(manifest.canonical_json).canonical_json == manifest.canonical_json, "schema 3 canonical idempotence");
+    verify_manifest_artifacts(manifest, fixture / "model-contract.json");
+    const auto bad = [&](std::string changed, std::string_view field) { reject([&] { parse_model_manifest(changed); }, field); };
+    // Neither family is reinterpreted as the other.
+    bad(replace(text, "\"schema\": 3", "\"schema\": 2"), "$.input_profile: unknown field");
+    bad(replace(text, "YOLO26m-Mamba-FPN-T1", "YOLO26m-Mamba-FPN-head-T1"), "$.model_family");
+    bad(replace(text, "\"scope\": \"complete_model\"", "\"scope\": \"head_only\""), "$.boundary.scope");
+    bad(replace(text, "\"backbone_neck\": \"fixture\"", "\"backbone_neck\": null"), "$.boundary.backbone_neck: artifact required");
+    bad(replace(text, "\"head\": \"fixture\"", "\"head\": null"), "$.boundary.head: artifact required");
+    bad(replace(text, "\"resize\": \"stretch\"", "\"resize\": \"letterbox\""), "$.input_profile.resize");
+    bad(replace(text, "\"color\": \"RGB\"", "\"color\": \"BGR\""), "$.input_profile.color");
+    bad(replace(text, "\"preprocessing\": \"fixture: no preprocessing contract\"", "\"preprocessing\": \"\""), "$.input_profile.preprocessing");
+    bad(replace(text, "\"name\": \"images\", \"order\": 0", "\"name\": \"image\", \"order\": 0"), "$.tensors[0].name: expected images here");
+    bad(replace(text, "\"direction\": \"intermediate\", \"component\": \"backbone\", \"shape\": [1,256,80,80]",
+                "\"direction\": \"output\", \"component\": \"backbone\", \"shape\": [1,256,80,80]"),
+        "$.tensors[1].direction");
+    bad(replace(text, "\"direction\": \"intermediate\", \"component\": \"backbone\", \"shape\": [1,512,20,20]",
+                "\"direction\": \"intermediate\", \"component\": \"head\", \"shape\": [1,512,20,20]"),
+        "$.tensors[3].component");
+    bad(replace(text, "\"shape\": [1,3,640,640]", "\"shape\": [1,3,640,384]"), "$.tensors[0].shape[3]");
+    bad(replace(text, "\"head_policy_artifact\": \"fixture\", ", ""), "$.precision.comparison.head_policy_artifact: missing required field");
+    bad(replace(text, "\"tf32\": false", "\"tf32\": true"), "the F03 model is an FP32 path");
+    const auto candidate = replace(text, "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\"");
+    bad(candidate, "test fixture cannot be a model candidate");
+    // A candidate needs an ONNX backbone and native head weights, never one artifact in both roles.
+    const auto roles = replace(replace(text, "\"role\": \"fixture\"", "\"role\": \"backbone_neck\""), "\"format\": \"fixture_bytes\"", "\"format\": \"onnx\"");
+    bad(replace(roles, "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\""), "$.boundary.backbone_source_checkpoint: artifact required");
+    bad(roles, "$.boundary.head: artifact must have role mamba_fpn_head and format native_weights");
+}
 } // namespace
 int main(int argc, char** argv) {
     try {
         if (argc != 2) throw std::invalid_argument("fixture directory required");
         tests(std::filesystem::absolute(argv[1]));
         tests_schema2(std::filesystem::absolute(argv[1]));
+        tests_schema3(std::filesystem::absolute(argv[1]));
         std::cout << "model_manifest_tests: " << checks << " checks passed\n";
         return 0;
     } catch (const std::exception& error) {

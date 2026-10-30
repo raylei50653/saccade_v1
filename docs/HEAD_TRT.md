@@ -192,3 +192,7 @@ capture：[evidence/t01/2026-10-30/native-head/capture.sh](../evidence/t01/2026-
 | 診斷：PyTorch T1 head vs native | 相對 L2 ≤ 6.5e-7；decode 後偵測數與次序相同 |
 
 這是 head 範圍內的 PASS；backbone／neck native engine、native 前處理、decode／NMS 仍未完成，P01 仍 OPEN。
+
+## 11. F03 的 head 接入（2026-10-30）
+
+T01 的 F03 完整模型 engine（[MODEL_TRT](MODEL_TRT.md)）在同一個 network 內把 head 接到 backbone ONNX 的輸出：`HeadBuildOptions::features` 回傳 P3／P4／P5 tensor 時，head 不建立 network inputs，改讀這三個 tensor；其餘建圖、status 與 tactic 檢查不變。未設定時程式路徑與本文件 §3 相同，同一程式建出的 T01 head engine 仍是 §10 的 `5b6d30fa…`（F03 capture 核對）。reference 端新增 `head_reference_from_refs`：輸入帶 binary64 的 value、E 與 σ（backbone reference），規則同 HEAD_POLICY §3；原本的 FP32 入口改為以 E＝σ＝0 的輸入呼叫它，`head_reference_tests` 另檢查兩者逐位元相同。

@@ -57,10 +57,25 @@ public:
 
     HeadEngine build() {
         std::vector<ITensor*> outputs(6);
+        std::array<ITensor*, 3> external{};
+        if (options_.features) {
+            external = options_.features(*network_);
+            for (int level = 0; level < kHeadLevels; ++level) {
+                const auto* t = external[static_cast<std::size_t>(level)];
+                require(t != nullptr && t->getType() == DataType::kFLOAT, "external feature " + std::to_string(level) + " is not an FP32 tensor");
+                const auto dims = t->getDimensions();
+                const auto want = head_input_shape(level);
+                bool same = dims.nbDims == static_cast<std::int32_t>(want.size());
+                for (int k = 0; same && k < dims.nbDims; ++k) same = dims.d[k] == want[static_cast<std::size_t>(k)];
+                require(same, "external feature " + std::to_string(level) + " differs from the head input shape");
+            }
+        }
         for (int level = 0; level < kHeadLevels; ++level) {
             const auto shape_in = head_input_shape(level);
-            auto* x = network_->addInput(kHeadInputNames[static_cast<std::size_t>(level)], DataType::kFLOAT,
-                                         shape({shape_in[0], shape_in[1], shape_in[2], shape_in[3]}));
+            auto* x = external[static_cast<std::size_t>(level)];
+            if (x == nullptr)
+                x = network_->addInput(kHeadInputNames[static_cast<std::size_t>(level)], DataType::kFLOAT,
+                                       shape({shape_in[0], shape_in[1], shape_in[2], shape_in[3]}));
             require(x != nullptr, "addInput");
             const auto [cls, reg] = head_level(level, x);
             outputs[static_cast<std::size_t>(level)] = cls;
@@ -83,6 +98,7 @@ public:
         o << "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\nworkspace_bytes=" << kHeadBuilderWorkspace
           << "\noptimization_level=" << kHeadBuilderOptimizationLevel << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
           << "\ndebug_intermediates=" << (options_.debug_intermediates ? "true" : "false") << '\n';
+        if (options_.features) o << "head_inputs=external\n";
         engine.build_options = o.str();
         return engine;
     }

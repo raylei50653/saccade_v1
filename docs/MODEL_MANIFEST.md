@@ -1,8 +1,8 @@
-# 模型 manifest：schema 1（P01-A）與 schema 2（S04 head-only）
+# 模型 manifest：schema 1（P01-A）、schema 2（S04 head-only）與 schema 3（T01 完整模型）
 
-本工具驗證模型**輸入宣告**及 artifact 檔案完整性；模型圖結構與 scan 公式的實際核對另存 evidence。P08 的完整設定系統仍依原規劃接續。格式選定為 **ASCII JSON profile**；schema 1 範例見 [parser fixture](../fixtures/model-manifest/contract.json)，schema 2 見 [head fixture](../fixtures/model-manifest/head-contract.json) 與 [S04 候選](../manifests/s04/yolo26m-head-t1.json)。不使用 Python、外部 JSON 套件或舊模型程式。
+本工具驗證模型**輸入宣告**及 artifact 檔案完整性；模型圖結構與 scan 公式的實際核對另存 evidence。P08 的完整設定系統仍依原規劃接續。格式選定為 **ASCII JSON profile**；schema 1 範例見 [parser fixture](../fixtures/model-manifest/contract.json)，schema 2 見 [head fixture](../fixtures/model-manifest/head-contract.json) 與 [S04 候選](../manifests/s04/yolo26m-head-t1.json)，schema 3 見 [model fixture](../fixtures/model-manifest/model-contract.json) 與 [T01 候選](../manifests/t01/yolo26m-t1.json)。不使用 Python、外部 JSON 套件或舊模型程式。
 
-`schema` 欄位決定整份文件依哪個版本解析：`2` 走 §Schema 2，其餘依 schema 1 規則（因此 `3` 等值以 `$.schema: expected 1` 拒絕）。**schema 1 的欄位、規則、canonical bytes 與既有 fixture hash 不變**；一份 schema 1 文件改標成 2 會因欄位不符被拒絕，不會被重新解讀。CLI 輸出第一行為實際的 `schema=1` 或 `schema=2`。
+`schema` 欄位決定整份文件依哪個版本解析：`2` 走 §Schema 2，`3` 走 §Schema 3，其餘依 schema 1 規則（因此 `4` 等值以 `$.schema: expected 1` 拒絕；2026-10-30 加入 schema 3 之前，`3` 也是如此）。**schema 1 與 schema 2 的欄位、規則、錯誤訊息、canonical bytes 與既有 fixture hash 不變**；一份文件改標成另一個 schema 會因欄位不符被拒絕，不會被重新解讀。CLI 輸出第一行為實際的 `schema=1`、`2` 或 `3`。
 
 ## Schema 2（S04 head-only）
 
@@ -21,6 +21,21 @@
 | content_review | 同 schema 1。 |
 
 S04 候選 [`manifests/s04/yolo26m-head-t1.json`](../manifests/s04/yolo26m-head-t1.json) 宣告 checkpoint、native bundle 與 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`）三個 artifact 與 9 個 plugin statuses。artifact 路徑相對於 manifest 所在目錄；大型檔案不入 Git，所以 `verify` 在 cache staging 目錄執行（manifest 與政策文件複製進去，checkpoint 以既有 symlink 指向舊庫檔案）。`validate`／`verify` 仍回報 `model_content=not_checked`、`real_model_ready=false`：宣告、檔案完整性、內容核對（evidence 的轉換報告）與實際推論結果（HEAD_TRT 驗收）分開記錄；engine／plugin binary hash、SDK、tactics 與實際 builder 設定屬 build evidence。
+
+## Schema 3（T01 完整模型）
+
+用於 [MODEL_TRT](MODEL_TRT.md) 的交付：YOLO26m backbone／neck ONNX 接 schema 2 的同一個 head，影像輸入、六個 raw outputs。實作與 schema 2 共用同一個 parser（`parse_head_family`），只在下列欄位不同；其餘（statuses、frames、scan、content_review、artifact 物件與 candidate 不得含 fixture）與 schema 2 相同。
+
+| object | 與 schema 2 的差異 |
+| --- | --- |
+| root | `schema` 3；`model_family` 只接受 `YOLO26m-Mamba-FPN-T1`；多一個必填的 `input_profile`。 |
+| artifact.role／format | role 另加 `backbone_neck`；format 另加 `onnx`。 |
+| boundary | `scope` 只能是 `complete_model`；`backbone_neck` 必須指向 `backbone_neck`＋`onnx`，`backbone_source_checkpoint` 指向其來源 checkpoint（candidate 必填）；`head`、`source_checkpoint` 與 owner 同 schema 2。 |
+| input_profile | 同 schema 1 的 `tensor`（必須是 `images`）、`batch` 1、`color` `RGB`、`layout` `CHW`、`dtype` `float32`、`range_min` 0、`range_max` 1、`width`／`height` 640，另加 `resize` `stretch` 與非空的 `preprocessing`（前處理契約的文字定位）。 |
+| tensors | 恰為十個、固定次序：輸入 `images [1,3,640,640]`（component `model`，order 0）、intermediate `p3_feat`、`p4_feat`、`p5_feat`（component `backbone`，order 0..2，形狀同 schema 2 的 p3..p5）、六個輸出（component `head`，同 schema 2）。 |
+| precision | tf32／fp16／int8 為 true 時的訊息為「the F03 model is an FP32 path」；`comparison` 另需 `head_policy_artifact`（`specification`＋`text`）：`policy_artifact` 是 backbone／F03 政策，`head_policy_artifact` 是 head 的比較政策，`verify` 兩份文件都核對 bytes。 |
+
+T01 候選 [`manifests/t01/yolo26m-t1.json`](../manifests/t01/yolo26m-t1.json) 宣告 teacher e12 checkpoint、backbone ONNX、T1 checkpoint、T1 head bundle、[BACKBONE_POLICY](BACKBONE_POLICY.md) 與 [HEAD_POLICY](HEAD_POLICY.md) 六個 artifact；`verify` 同樣在 cache staging 目錄執行，仍回報 `model_content=not_checked`、`real_model_ready=false`。
 
 ---
 

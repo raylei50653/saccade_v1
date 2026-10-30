@@ -5,8 +5,10 @@
 
 #include <NvInfer.h>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -30,6 +32,12 @@ struct HeadBuildOptions {
     // head_reference) as outputs, to locate a first divergence. Diagnostic only:
     // such an engine is never the accepted one.
     bool debug_intermediates = false;
+    // F03 (docs/BACKBONE_POLICY.md §7): when set, called once with the head's
+    // network before any head layer is added; the head then reads P3/P4/P5
+    // from the returned FP32 tensors (head_input_shape) instead of creating
+    // network inputs. The caller keeps whatever owns those tensors' weights
+    // (the ONNX parser) alive until build_head_engine returns.
+    std::function<std::array<nvinfer1::ITensor*, 3>(nvinfer1::INetworkDefinition&)> features;
 };
 
 struct HeadEngine {

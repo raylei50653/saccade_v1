@@ -227,3 +227,13 @@ endif()
 if(SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT)
   include(cmake/HeadTensorRT.cmake)
 endif()
+
+# T01 backbone/neck and F03 complete model: the backbone ONNX through the pinned
+# SDK's ONNX parser, the S04 head on its outputs (docs/BACKBONE_POLICY.md).
+option(SACCADE_ENABLE_MODEL_TRT "Build the T01 backbone and F03 model engine tools (needs the SDK's ONNX parser)" OFF)
+if(SACCADE_ENABLE_MODEL_TRT)
+  if(NOT (SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT))
+    message(FATAL_ERROR "SACCADE_ENABLE_MODEL_TRT needs SACCADE_ENABLE_CUDA=ON and SACCADE_ENABLE_TENSORRT=ON")
+  endif()
+  include(cmake/ModelTensorRT.cmake)
+endif()

@@ -97,6 +97,47 @@ endif()
 add_test(NAME selective_scan_reference COMMAND selective_scan_tests
   ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/selective-scan)
 
+# S04 native weight delivery of the m head: a code-free torch.save zip/pickle
+# reader, the head parameter schema and the canonical bundle (docs/HEAD_TRT.md §2).
+add_library(saccade_head_weights src/torch_checkpoint.cpp src/head_weights.cpp)
+target_include_directories(saccade_head_weights PUBLIC include)
+target_link_libraries(saccade_head_weights PUBLIC saccade_sha256)
+add_executable(head_weights tools/head_weights.cpp)
+target_link_libraries(head_weights PRIVATE saccade_head_weights saccade_file_io)
+# Binary64 reference of the complete head with its running error bound
+# (docs/HEAD_TRT.md §4); no contraction, as for the S01 reference.
+add_library(saccade_head_reference src/head_reference.cpp)
+target_link_libraries(saccade_head_reference PUBLIC saccade_head_weights)
+find_package(Threads REQUIRED)
+target_link_libraries(saccade_head_reference PRIVATE Threads::Threads)
+add_executable(head_weights_tests tests/head_weights_tests.cpp)
+target_link_libraries(head_weights_tests PRIVATE saccade_head_reference)
+add_executable(head_reference_tests tests/head_reference_tests.cpp)
+target_link_libraries(head_reference_tests PRIVATE saccade_head_reference saccade_selective_scan saccade_file_io)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_head_weights head_weights saccade_head_reference head_weights_tests head_reference_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+add_test(NAME head_weight_delivery COMMAND head_weights_tests)
+add_test(NAME head_reference COMMAND head_reference_tests)
+set_tests_properties(head_reference PROPERTIES TIMEOUT 900)
+# The real candidate (docs/HEAD_TRT.md §2) is not in the repository: when its
+# checkpoint is given, convert it and require the recorded hashes.
+set(SACCADE_HEAD_CHECKPOINT "" CACHE FILEPATH "T1 head checkpoint best.ckpt of the S04 candidate (optional)")
+set(SACCADE_HEAD_CHECKPOINT_SHA256 "a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c")
+set(SACCADE_HEAD_BUNDLE_SHA256 "e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310")
+if(SACCADE_HEAD_CHECKPOINT)
+  set(SACCADE_HEAD_TEST_BUNDLE "${CMAKE_CURRENT_BINARY_DIR}/head-weights/t1-head.swb")
+  add_test(NAME head_weights_candidate
+    COMMAND ${CMAKE_COMMAND} -DPROGRAM=$<TARGET_FILE:head_weights> -DCHECKPOINT=${SACCADE_HEAD_CHECKPOINT}
+      -DCHECKPOINT_SHA256=${SACCADE_HEAD_CHECKPOINT_SHA256} -DBUNDLE_SHA256=${SACCADE_HEAD_BUNDLE_SHA256}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/head-weights -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/HeadWeightsTest.cmake)
+  set_tests_properties(head_weights_candidate PROPERTIES FIXTURES_SETUP head_bundle TIMEOUT 300)
+  add_test(NAME head_reference_candidate COMMAND head_reference_tests "${SACCADE_HEAD_TEST_BUNDLE}" ${SACCADE_HEAD_BUNDLE_SHA256})
+  set_tests_properties(head_reference_candidate PROPERTIES FIXTURES_REQUIRED head_bundle TIMEOUT 900)
+endif()
+
 include(cmake/TensorRT.cmake)
 
 option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)

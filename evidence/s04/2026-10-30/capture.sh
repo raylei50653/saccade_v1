@@ -46,6 +46,22 @@ run() {
   clean_source || return $?
   return "$code"
 }
+run_default_memcheck() {
+  local name=$1 raw_log=$2 success_pattern=$3
+  shift 3
+  run "$name" bash -c '
+    log=$1; success_pattern=$2; shift 2; code=0
+    "$@" > "$log" 2>&1 || code=$?
+    cat "$log"
+    reported=$(sed -n "s/^========= ERROR SUMMARY: \([0-9]*\) error.*/\1/p" "$log")
+    notes=$(grep -c "^========= CUDA API Warning: Selective device code recompilation in progress\.$" "$log" || true)
+    passed=$(grep -Ec "$success_pattern" "$log" || true)
+    unexpected=$(grep -E "^========= [^ ]" "$log" | grep -Ev "^========= (COMPUTE-SANITIZER|CUDA API Warning: Selective device code recompilation in progress\.|ERROR SUMMARY: [0-9]+ errors?)$" || true)
+    echo "tool exit=$code reported=$reported recompilation_notes=$notes suite_passed=$passed"
+    [[ -z $unexpected ]] || { printf "unexpected sanitizer headers:\n%s\n" "$unexpected"; exit 1; }
+    [[ $passed == 1 && ( ( $code == 0 && $reported == 0 && $notes == 0 ) || ( $code == 99 && $notes -gt 0 && $reported == "$notes" ) ) ]]
+  ' _ "$raw_log" "$success_pattern" "$sanitizer" --tool memcheck --error-exitcode 99 "$@"
+}
 run environment bash -c 'date -Is; uname -srmo; git --version; cmake --version | head -1; c++ --version | head -1; "$1" --version | tail -2; "$2" --version | head -3; nvidia-smi --query-gpu=name,driver_version,uuid,pci.bus_id,compute_cap --format=csv; ldd --version | head -1; nproc' _ "$nvcc" "$sanitizer"
 run source git rev-parse HEAD "$rev" "$base" "$policy"
 run working-tree git status --porcelain=v1
@@ -108,12 +124,13 @@ run onnx-inspect-build bash -c 'c++ -std=c++20 -O2 -Wall -Wextra -Wpedantic -Wer
 run backbone-ordered-io bash -o pipefail -c '"$1" "$2" | grep -E "^(scope|ir_version|producer|opset|metadata|graph.root|input|output)"' _ "$out/onnx/onnx_contract_inspect" "$backbone"
 
 suite=("$out/trt/head_trt_tests" "$engine" "$engine_sha" "$out/stage/t1-head.swb" "$bundle_sha" --skip intermediates)
-# Head engines load TensorRT's generated kernel libraries; under the default
+# Head and S03 scan engines load TensorRT's generated kernel libraries; under the default
 # --report-api-errors=extended the driver log line "Selective device code
 # recompilation in progress" (the tool re-instrumenting that library) counts
-# as an error although no API call failed. The head runs therefore report
+# as an error although no API call failed. Both suites therefore report
 # explicit API errors only; memory, race, sync and init errors are unaffected.
-# One memcheck run keeps the default and must report nothing but that line.
+# Each suite also runs memcheck with default reporting and must report nothing
+# but that line; raw logs, exit codes and suite-specific success lines are checked.
 # Head racecheck/synccheck are unexecuted: TensorRT conv/GEMM instrumentation
 # was extremely costly and a WSL crash occurred during a development run
 # (cause undetermined). S04's new finite-check kernels have no shared memory
@@ -122,28 +139,20 @@ suite=("$out/trt/head_trt_tests" "$engine" "$engine_sha" "$out/stage/t1-head.swb
 # sanitizer acceptance; native ownership/streams/graph tests still run.
 run sanitizer-head-memcheck "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 "${suite[@]}"
 for tool in memcheck racecheck synccheck; do
-  run "sanitizer-scan-trt-$tool" "$sanitizer" --tool "$tool" --error-exitcode 99 "$out/trt/scan_trt_tests"
+  run "sanitizer-scan-trt-$tool" "$sanitizer" --tool "$tool" --report-api-errors explicit --error-exitcode 99 "$out/trt/scan_trt_tests"
 done
 run sanitizer-head-initcheck "$sanitizer" --tool initcheck --report-api-errors explicit --error-exitcode 99 "${suite[@]}" --no-held-stream
-run sanitizer-scan-trt-initcheck "$sanitizer" --tool initcheck --error-exitcode 99 "$out/trt/scan_trt_tests" --no-held-stream
-run sanitizer-head-memcheck-default-reporting bash -c '
-  log=$1; shift; code=0
-  "$@" > "$log" 2>&1 || code=$?
-  cat "$log"
-  reported=$(sed -n "s/^========= ERROR SUMMARY: \([0-9]*\) error.*/\1/p" "$log")
-  notes=$(grep -c "CUDA API Warning: Selective device code recompilation in progress" "$log" || true)
-  passed=$(grep -c "^head_trt_tests: [0-9]* checks passed" "$log" || true)
-  unexpected=$(grep -E "^========= [^ ]" "$log" | grep -Ev "^========= (COMPUTE-SANITIZER|CUDA API Warning: Selective device code recompilation in progress\.|ERROR SUMMARY: [0-9]+ errors?)$" || true)
-  echo "tool exit=$code reported=$reported recompilation_notes=$notes suite_passed=$passed"
-  [[ -z $unexpected ]] || { printf "unexpected sanitizer headers:\n%s\n" "$unexpected"; exit 1; }
-  [[ $passed == 1 && ( ( $code == 0 && $reported == 0 ) || ( $code == 99 && $notes -gt 0 && $reported == "$notes" ) ) ]]
-' _ "$cap/sanitizer-head-memcheck-default-raw.log" "$sanitizer" --tool memcheck --error-exitcode 99 "${suite[@]}"
+run sanitizer-scan-trt-initcheck "$sanitizer" --tool initcheck --report-api-errors explicit --error-exitcode 99 "$out/trt/scan_trt_tests" --no-held-stream
+run_default_memcheck sanitizer-head-memcheck-default-reporting "$cap/sanitizer-head-memcheck-default-raw.log" \
+  '^head_trt_tests: [1-9][0-9]* checks passed$' "${suite[@]}"
+run_default_memcheck sanitizer-scan-trt-memcheck-default-reporting "$cap/sanitizer-scan-trt-memcheck-default-raw.log" \
+  '^scan_trt_tests: [1-9][0-9]* checks passed$' "$out/trt/scan_trt_tests"
 printf '%s\n' 'head intermediates: excluded from sanitizers (rebuilds a debug engine); native run in trt-ctest head_trt' \
   'head api_trace: explicit group, separate native CUPTI process (head-api-trace)' \
   'scan_trt api_trace / async_fault: explicit groups, native only (trt-ctest)' \
   'initcheck: --no-held-stream skips the callback-held stream groups only' \
   'head racecheck/synccheck: UNEXECUTED (TensorRT instrumentation cost; WSL crash during development, cause undetermined). New finite-check kernels have no shared memory/barriers; existing packet barrier and scan kernels covered by S03 suite; native head ownership/streams/graph tests retained.' \
-  'head runs: --report-api-errors explicit; sanitizer-head-memcheck-default-reporting keeps the default and classifies every reported item' > "$cap/sanitizer-skips.txt"
+  'head and scan_trt suite runs: --report-api-errors explicit; sanitizer-head-memcheck-default-reporting and sanitizer-scan-trt-memcheck-default-reporting each retain default API reporting, preserve raw logs and classify every reported item' > "$cap/sanitizer-skips.txt"
 run control-build "$nvcc" -std=c++20 -arch=sm_120 -lineinfo -o "$out/sanitizer-control" "$src/evidence/s02/2026-10-29/sanitizer-control.cu"
 for tool in memcheck initcheck racecheck synccheck; do
   run "control-$tool" bash -c '"$1" --tool "$2" --error-exitcode 99 "$3" "$2"; code=$?; echo "tool exit=$code"; [[ $code == 99 ]]' \

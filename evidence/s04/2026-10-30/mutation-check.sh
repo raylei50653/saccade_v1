@@ -72,7 +72,7 @@ rejection_pattern() {
     output_names_swapped)
       printf '%s' '^head_trt_tests: scan frame session: engine output shape differs from the spec: cls_p4$' ;;
     tf32_enabled)
-      printf '%s' '^head_trt: tactics outside the FP32 direct-summation model: .+' ;;
+      printf '%s' '^head_trt: head engine build: tactics outside the FP32 direct-summation model: .*_tf32[[:alnum:]_]*.*$' ;;
     tactic_guard_ignores_winograd)
       printf '%s' '^head_trt_tests: Winograd tactic rejected$' ;;
     output_check_skipped|input_check_skipped)

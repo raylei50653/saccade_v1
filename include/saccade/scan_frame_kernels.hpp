@@ -12,7 +12,11 @@ namespace saccade {
 // Frame-end control of the S03 harness on the M stream: the ASYNC_CONTROL §5
 // begin / gate / guarded publish / commit / packet sequence, with the scan
 // plugins' status outputs as the producer status (docs/SCAN_TRT.md §4).
-inline constexpr unsigned kScanFrameMaxStatuses = 4;
+inline constexpr unsigned kScanFrameMaxStatuses = 16;
+
+// Status flags of the harness's own GPU checks (S04); the gate knows them.
+inline constexpr std::uint32_t kFrameNonFiniteInput = 1u << 20;
+inline constexpr std::uint32_t kFrameNonFiniteOutput = 1u << 21;
 
 // M-only control block; not a wire ABI.
 struct ScanFrameControl {
@@ -58,6 +62,10 @@ void scan_frame_publish(ScanFrameControl* control, const float* payload, std::si
 void scan_frame_commit(ScanFrameControl* control, cudaStream_t m);
 // Always runs: the complete ResultPacket v1 bytes (header; count = 0, rows zero).
 void scan_frame_packet(const ScanFrameControl* control, unsigned char* packet, cudaStream_t m);
+// Finite check of `count` floats: clears the status, ORs `flag` into it when
+// any element is NaN or infinite, then marks it done. Three launches on `s`
+// (memset, scan, finalize); no allocation, synchronization or readback.
+void scan_frame_check_finite(const float* data, std::size_t count, ScanStatus* status, std::uint32_t flag, cudaStream_t s);
 // Clock-cycle busy wait used to stress slot ownership.
 void scan_frame_delay(unsigned cycles, cudaStream_t s);
 

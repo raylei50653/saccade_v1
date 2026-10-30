@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
             }
             saccade::write_text_file(output, manifest.canonical_json);
         }
-        std::cout << "schema=1\npurpose=" << manifest.purpose
+        std::cout << "schema=" << manifest.schema << "\npurpose=" << manifest.purpose
                   << "\nmanifest_declaration=verified\nartifact_files=" << (verify ? "verified" : "not_checked")
                   << "\nmodel_content=not_checked\nreal_model_ready=false\ncanonical_sha256="
                   << saccade::model_manifest_hash(manifest) << '\n';

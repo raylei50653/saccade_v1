@@ -193,6 +193,12 @@ HeadConversion convert_head_checkpoint(std::string checkpoint, std::string_view 
     report << "checkpoint_sha256\t" << file_sha << "\narchive\t" << ckpt.archive() << '\n';
     const auto& root = ckpt.root();
     if (!root.dict()) reject("pickle root is not a dict");
+    for (const auto& [k, v] : *root.dict()) {
+        (void)v;
+        const auto name = k->kind == PickleValue::Kind::text ? k->text : std::string("<non-text key>");
+        const bool read = name == "epoch" || name == "selection" || name == "mamba_args" || name == "student";
+        report << "root_key\t" << name << '\t' << (read ? "read" : "not read: training state or metadata, not part of the T=1 forward") << '\n';
+    }
     const auto epoch = integer(need(root, "epoch", "checkpoint"), "epoch");
     report << "epoch\t" << epoch << '\n';
     if (const auto* selection = root.find("selection"))

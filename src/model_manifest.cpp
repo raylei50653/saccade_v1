@@ -6,6 +6,7 @@
 #include <charconv>
 #include <limits>
 #include <map>
+#include <iterator>
 #include <set>
 #include <stdexcept>
 #include <variant>
@@ -242,8 +243,160 @@ void relative_path(std::string_view value, const std::string path) {
 }
 } // namespace
 
+namespace {
+// Schema 2 (S04): the head-only delivery of the T=1 YOLO26m Mamba-FPN head.
+// Ordered P3/P4/P5 feature inputs and six raw outputs are fixed by the model
+// family; the plugin statuses, plugin identities and the comparison policy
+// document are declared. No image input, no backbone artifact.
+struct FixedTensor { const char* name; const char* direction; std::uint64_t order; std::uint64_t shape[4]; };
+constexpr FixedTensor kHeadTensors[] = {
+    {"p3", "input", 0, {1, 256, 80, 80}},   {"p4", "input", 1, {1, 512, 40, 40}},   {"p5", "input", 2, {1, 512, 20, 20}},
+    {"cls_p3", "output", 0, {1, 80, 80, 80}}, {"cls_p4", "output", 1, {1, 80, 40, 40}}, {"cls_p5", "output", 2, {1, 80, 20, 20}},
+    {"reg_p3", "output", 3, {1, 4, 80, 80}},  {"reg_p4", "output", 4, {1, 4, 40, 40}},  {"reg_p5", "output", 5, {1, 4, 20, 20}}};
+struct FixedPlugin { const char* name; const char* version; std::size_t count; const char* fields[2]; };
+constexpr FixedPlugin kHeadPlugins[] = {{"CrossScanExpand", "1", 0, {}}, {"SelectiveScan", "2", 1, {"has_d"}}, {"CrossScanMerge", "1", 2, {"height", "width"}}};
+
+ModelManifest parse_schema2(const Json& root) {
+    const auto& m = object(root, "$", {"schema", "purpose", "model_family", "artifacts", "boundary", "tensors", "statuses", "frames", "scan", "precision", "content_review"});
+    ModelManifest result;
+    result.schema = 2;
+    result.purpose = choice(m.at("purpose"), "$.purpose", {"test_fixture", "model_candidate"});
+    equals(m.at("model_family"), "$.model_family", "YOLO26m-Mamba-FPN-head-T1");
+    std::map<std::string, std::pair<std::string, std::string>> kinds;
+    const auto& artifacts = array(m.at("artifacts"), "$.artifacts");
+    for (std::size_t i = 0; i < artifacts.size(); ++i) {
+        const auto path = "$.artifacts[" + std::to_string(i) + "]";
+        const auto& a = object(artifacts[i], path, {"id", "role", "path", "format", "source", "revision", "license", "generated_by", "size_bytes", "sha256"});
+        string_fields(a, path, {"id", "source", "revision", "license", "generated_by"});
+        const auto& id = str(a.at("id"), path + ".id");
+        const auto& role = choice(a.at("role"), path + ".role", {"mamba_fpn_head", "checkpoint", "specification", "fixture"});
+        const auto& format = choice(a.at("format"), path + ".format", {"native_weights", "checkpoint", "text", "fixture_bytes"});
+        if (!kinds.emplace(id, std::pair{role, format}).second) invalid(path + ".id", "duplicate artifact id");
+        if (result.purpose == "model_candidate" && (role == "fixture" || format == "fixture_bytes")) invalid(path, "test fixture cannot be a model candidate");
+        const auto& file = str(a.at("path"), path + ".path");
+        relative_path(file, path + ".path");
+        const auto& hash = str(a.at("sha256"), path + ".sha256");
+        if (hash.size() != 64 || hash.find_first_not_of("0123456789abcdef") != std::string::npos) invalid(path + ".sha256", "expected 64 lowercase hexadecimal digits");
+        result.artifacts.push_back({id, file, number(a.at("size_bytes"), path + ".size_bytes"), hash});
+    }
+    const auto artifact = [&](const Json& value, const std::string& path, const char* role, const char* format, bool nullable) -> std::string {
+        if (std::holds_alternative<std::nullptr_t>(value.data)) {
+            if (!nullable) invalid(path, "artifact required");
+            return {};
+        }
+        const auto& id = str(value, path);
+        const auto it = kinds.find(id);
+        if (it == kinds.end()) invalid(path, "unknown artifact id");
+        const bool fixture = result.purpose == "test_fixture" && it->second.first == "fixture" && it->second.second == "fixture_bytes";
+        if (!fixture && (it->second.first != role || it->second.second != format))
+            invalid(path, std::string("artifact must have role ") + role + " and format " + format);
+        return id;
+    };
+    const auto& b = object(m.at("boundary"), "$.boundary", {"scope", "head", "source_checkpoint", "backbone_neck", "classification_owner", "regression_owner", "decode_owner"});
+    equals(b.at("scope"), "$.boundary.scope", "head_only");
+    artifact(b.at("head"), "$.boundary.head", "mamba_fpn_head", "native_weights", false);
+    artifact(b.at("source_checkpoint"), "$.boundary.source_checkpoint", "checkpoint", "checkpoint", result.purpose == "test_fixture");
+    if (!std::holds_alternative<std::nullptr_t>(b.at("backbone_neck").data))
+        invalid("$.boundary.backbone_neck", "schema 2 is head-only: the backbone/neck is not part of this delivery and must be null");
+    equals(b.at("classification_owner"), "$.boundary.classification_owner", "head");
+    equals(b.at("regression_owner"), "$.boundary.regression_owner", "head");
+    equals(b.at("decode_owner"), "$.boundary.decode_owner", "external");
+
+    const auto& tensors = array(m.at("tensors"), "$.tensors");
+    if (tensors.size() != std::size(kHeadTensors)) invalid("$.tensors", "expected inputs p3, p4, p5 and outputs cls_p3..cls_p5, reg_p3..reg_p5");
+    std::set<std::string> names;
+    for (std::size_t i = 0; i < tensors.size(); ++i) {
+        const auto path = "$.tensors[" + std::to_string(i) + "]";
+        const auto& want = kHeadTensors[i];
+        const auto& t = object(tensors[i], path, {"name", "order", "direction", "component", "shape", "dtype", "layout", "semantic"});
+        if (str(t.at("name"), path + ".name") != want.name) invalid(path + ".name", std::string("expected ") + want.name + " here (fixed order)");
+        equals(t.at("direction"), path + ".direction", want.direction);
+        equals(t.at("order"), path + ".order", want.order);
+        equals(t.at("component"), path + ".component", "head");
+        equals(t.at("dtype"), path + ".dtype", "float32");
+        equals(t.at("layout"), path + ".layout", "NCHW");
+        const auto& shape = array(t.at("shape"), path + ".shape");
+        if (shape.size() != 4) invalid(path + ".shape", "rank 4 required");
+        for (std::size_t d = 0; d < 4; ++d) equals(shape[d], path + ".shape[" + std::to_string(d) + "]", want.shape[d]);
+        str(t.at("semantic"), path + ".semantic");
+        names.insert(want.name);
+    }
+    const auto& statuses = array(m.at("statuses"), "$.statuses");
+    for (std::size_t i = 0; i < statuses.size(); ++i) {
+        const auto path = "$.statuses[" + std::to_string(i) + "]";
+        const auto& s = object(statuses[i], path, {"name", "producer", "dtype", "shape"});
+        if (!names.insert(str(s.at("name"), path + ".name")).second) invalid(path + ".name", "duplicate tensor or status name");
+        str(s.at("producer"), path + ".producer");
+        equals(s.at("dtype"), path + ".dtype", "int32");
+        const auto& shape = array(s.at("shape"), path + ".shape");
+        if (shape.size() != 1) invalid(path + ".shape", "status is INT32[2]");
+        equals(shape[0], path + ".shape[0]", std::uint64_t{2});
+    }
+    const auto& frames = object(m.at("frames"), "$.frames", {"batch", "temporal_length", "state_lifetime"});
+    equals(frames.at("batch"), "$.frames.batch", std::uint64_t{1});
+    equals(frames.at("temporal_length"), "$.frames.temporal_length", std::uint64_t{1});
+    equals(frames.at("state_lifetime"), "$.frames.state_lifetime", "per_frame_reset");
+
+    const auto& scan = object(m.at("scan"), "$.scan", {"status", "contract", "formula_source", "formula_revision", "formula_locator", "semantics", "plugins"});
+    equals(scan.at("status"), "$.scan.status", "specified");
+    string_fields(scan, "$.scan", {"contract", "formula_source", "formula_revision", "formula_locator", "semantics"});
+    const auto& plugins = array(scan.at("plugins"), "$.scan.plugins");
+    if (plugins.size() != std::size(kHeadPlugins)) invalid("$.scan.plugins", "expected CrossScanExpand v1, SelectiveScan v2, CrossScanMerge v1");
+    for (std::size_t i = 0; i < plugins.size(); ++i) {
+        const auto path = "$.scan.plugins[" + std::to_string(i) + "]";
+        const auto& want = kHeadPlugins[i];
+        const auto& p = object(plugins[i], path, {"plugin_name", "plugin_namespace", "plugin_version", "fields", "status_output"});
+        if (str(p.at("plugin_name"), path + ".plugin_name") != want.name) invalid(path + ".plugin_name", std::string("expected ") + want.name);
+        equals(p.at("plugin_namespace"), path + ".plugin_namespace", "saccade");
+        const auto& version = str(p.at("plugin_version"), path + ".plugin_version");
+        if (version != want.version)
+            invalid(path + ".plugin_version", std::string(want.name) + " v" + version + " is not the S03 contract v" + want.version +
+                                                  (std::string(want.name) == "SelectiveScan" ? " (v1 has no status output)" : ""));
+        const auto& fields = array(p.at("fields"), path + ".fields", true);
+        if (fields.size() != want.count) invalid(path + ".fields", "field list differs from the plugin's serialized fields");
+        for (std::size_t k = 0; k < want.count; ++k) {
+            const auto fpath = path + ".fields[" + std::to_string(k) + "]";
+            const auto& f = object(fields[k], fpath, {"name", "type"});
+            equals(f.at("name"), fpath + ".name", want.fields[k]);
+            equals(f.at("type"), fpath + ".type", "int32");
+        }
+        equals(p.at("status_output"), path + ".status_output", "int32[2] {flags, done}");
+    }
+    const auto& precision = object(m.at("precision"), "$.precision", {"compute_dtype", "accumulation_dtype", "tf32", "fp16", "int8", "builder_options", "comparison"});
+    equals(precision.at("compute_dtype"), "$.precision.compute_dtype", "float32");
+    equals(precision.at("accumulation_dtype"), "$.precision.accumulation_dtype", "float32");
+    for (const auto key : {"tf32", "fp16", "int8"})
+        if (boolean(precision.at(key), "$.precision." + std::string(key))) invalid("$.precision." + std::string(key), "the S04 head is an FP32 path; must be false");
+    const auto& options = array(precision.at("builder_options"), "$.precision.builder_options", true);
+    std::set<std::string> option_names;
+    for (std::size_t i = 0; i < options.size(); ++i) {
+        const auto path = "$.precision.builder_options[" + std::to_string(i) + "]";
+        const auto& option = object(options[i], path, {"name", "value"});
+        string_fields(option, path, {"name", "value"});
+        if (!option_names.insert(str(option.at("name"), path + ".name")).second) invalid(path + ".name", "duplicate build option");
+    }
+    const auto& comparison = object(precision.at("comparison"), "$.precision.comparison", {"status", "policy", "policy_artifact", "reference_source", "metric"});
+    equals(comparison.at("status"), "$.precision.comparison.status", "specified");
+    string_fields(comparison, "$.precision.comparison", {"policy", "reference_source", "metric"});
+    artifact(comparison.at("policy_artifact"), "$.precision.comparison.policy_artifact", "specification", "text", false);
+    const auto& review = object(m.at("content_review"), "$.content_review", {"status", "method", "evidence_source", "unverified_fields"});
+    const bool reviewed = choice(review.at("status"), "$.content_review.status", {"not_reviewed", "external_review"}) == "external_review";
+    string_fields(review, "$.content_review", {"method", "evidence_source"});
+    strings(review.at("unverified_fields"), "$.content_review.unverified_fields", reviewed);
+    if (result.purpose == "test_fixture" && reviewed) invalid("$.content_review.status", "fixture cannot declare real-model content review");
+    result.canonical_json = canonical(root) + '\n';
+    return result;
+}
+} // namespace
+
 ModelManifest parse_model_manifest(std::string_view input) {
     const auto root = Parser(input).parse();
+    if (const auto* fields = std::get_if<Json::Object>(&root.data)) {
+        const auto schema = fields->find("schema");
+        if (schema != fields->end() && std::holds_alternative<std::uint64_t>(schema->second.data) && std::get<std::uint64_t>(schema->second.data) == 2)
+            return parse_schema2(root);
+    }
+    // Schema 1 is unchanged (P01-A): the s-period family and its image profile.
     const auto& m = object(root, "$", {"schema", "purpose", "model_family", "artifacts", "boundary", "tensors", "input_profile", "scan", "precision", "content_review"});
     equals(m.at("schema"), "$.schema", std::uint64_t{1});
     ModelManifest result;

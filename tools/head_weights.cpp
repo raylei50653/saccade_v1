@@ -3,6 +3,7 @@
 // it and writes the canonical bundle and the key-by-key mapping report;
 // `verify` decodes a bundle strictly and checks its SHA-256.
 #include "saccade/file_io.hpp"
+#include "saccade/head_reference.hpp"
 #include "saccade/head_weights.hpp"
 #include "saccade/sha256.hpp"
 
@@ -43,8 +44,13 @@ int main(int argc, char** argv) {
             std::cout << "bundle_sha256=" << sha << "\nschema=" << weights.schema << "\nsource_sha256=" << weights.source_sha256
                       << "\nsource_archive=" << weights.source_archive << "\nsource_epoch=" << weights.source_epoch
                       << "\ntensors=" << weights.tensors.size() << "\nfinite=true\n";
+        } else if (mode == "synthetic" && argc == 4) {
+            // Deterministic stand-in weights for structure tests without the checkpoint; never a model.
+            const auto bundle = saccade::encode_head_bundle(saccade::synthetic_head_weights(std::stoull(argv[2])));
+            saccade::write_text_file(argv[3], bundle);
+            std::cout << "synthetic_seed=" << argv[2] << "\nbundle_sha256=" << saccade::sha256_hex(bundle) << '\n';
         } else {
-            throw std::invalid_argument("usage: head_weights convert CHECKPOINT EXPECTED_SHA256 OUT.swb MAPPING.tsv | verify BUNDLE.swb EXPECTED_SHA256");
+            throw std::invalid_argument("usage: head_weights convert CHECKPOINT EXPECTED_SHA256 OUT.swb MAPPING.tsv | verify BUNDLE.swb EXPECTED_SHA256 | synthetic SEED OUT.swb");
         }
         std::cout.flush();
         if (!std::cout) throw std::runtime_error("cannot write standard output");

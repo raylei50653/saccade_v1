@@ -1,0 +1,80 @@
+{
+  "schema": 2,
+  "purpose": "model_candidate",
+  "model_family": "YOLO26m-Mamba-FPN-head-T1",
+  "artifacts": [
+    {"id": "t1_checkpoint", "role": "checkpoint", "path": "best.ckpt", "format": "checkpoint",
+     "source": "legacy saccade runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt (local, gitignored; preset original m T3->T1 mainline)",
+     "revision": "epoch 15; training source revision not recorded; selection diagnostic_train_loss",
+     "license": "no license statement in the artifact; legacy tracked source Apache-2.0",
+     "generated_by": "legacy train_mamba_gt.py T1 stage (docs/TRAINING_WORKFLOW.md section 6)",
+     "size_bytes": 126802369, "sha256": "a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c"},
+    {"id": "t1_head_bundle", "role": "mamba_fpn_head", "path": "t1-head.swb", "format": "native_weights",
+     "source": "native conversion of t1_checkpoint by tools/head_weights.cpp (convert); format docs/HEAD_TRT.md section 2",
+     "revision": "head schema yolo26m-mamba-fpn-head-t1/1; bundle SCWB 1",
+     "license": "derived from t1_checkpoint; same terms",
+     "generated_by": "head_weights convert, source commit recorded in evidence/s04",
+     "size_bytes": 40711552, "sha256": "e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310"},
+    {"id": "comparison_policy", "role": "specification", "path": "HEAD_POLICY.md", "format": "text",
+     "source": "docs/HEAD_POLICY.md of saccade_v1", "revision": "policy commit 4d38bcc51caf829afe737959e334d0c85b1eba0b",
+     "license": "repository license", "generated_by": "written for S04 before the first GPU comparison",
+     "size_bytes": 8553, "sha256": "ed32ab986695b54a4fba660e5ba8e38fc80b3a186020fa83bc96bd00a9a40845"}
+  ],
+  "boundary": {
+    "scope": "head_only", "head": "t1_head_bundle", "source_checkpoint": "t1_checkpoint", "backbone_neck": null,
+    "classification_owner": "head", "regression_owner": "head", "decode_owner": "external"
+  },
+  "tensors": [
+    {"name": "p3", "order": 0, "direction": "input", "component": "head", "shape": [1,256,80,80], "dtype": "float32", "layout": "NCHW", "semantic": "YOLO26m neck P3, stride 8 at 640x640; producer not delivered in S04"},
+    {"name": "p4", "order": 1, "direction": "input", "component": "head", "shape": [1,512,40,40], "dtype": "float32", "layout": "NCHW", "semantic": "YOLO26m neck P4, stride 16 at 640x640; producer not delivered in S04"},
+    {"name": "p5", "order": 2, "direction": "input", "component": "head", "shape": [1,512,20,20], "dtype": "float32", "layout": "NCHW", "semantic": "YOLO26m neck P5, stride 32 at 640x640; producer not delivered in S04"},
+    {"name": "cls_p3", "order": 0, "direction": "output", "component": "head", "shape": [1,80,80,80], "dtype": "float32", "layout": "NCHW", "semantic": "raw class logits, no sigmoid"},
+    {"name": "cls_p4", "order": 1, "direction": "output", "component": "head", "shape": [1,80,40,40], "dtype": "float32", "layout": "NCHW", "semantic": "raw class logits, no sigmoid"},
+    {"name": "cls_p5", "order": 2, "direction": "output", "component": "head", "shape": [1,80,20,20], "dtype": "float32", "layout": "NCHW", "semantic": "raw class logits, no sigmoid"},
+    {"name": "reg_p3", "order": 3, "direction": "output", "component": "head", "shape": [1,4,80,80], "dtype": "float32", "layout": "NCHW", "semantic": "raw ltrb distances in cells (reg_max 1, no DFL), no decode"},
+    {"name": "reg_p4", "order": 4, "direction": "output", "component": "head", "shape": [1,4,40,40], "dtype": "float32", "layout": "NCHW", "semantic": "raw ltrb distances in cells (reg_max 1, no DFL), no decode"},
+    {"name": "reg_p5", "order": 5, "direction": "output", "component": "head", "shape": [1,4,20,20], "dtype": "float32", "layout": "NCHW", "semantic": "raw ltrb distances in cells (reg_max 1, no DFL), no decode"}
+  ],
+  "statuses": [
+    {"name": "p3.expand_status", "producer": "saccade::CrossScanExpand (p3, v1)", "dtype": "int32", "shape": [2]},
+    {"name": "p3.scan_status", "producer": "saccade::SelectiveScan (p3, v2, has_d=1)", "dtype": "int32", "shape": [2]},
+    {"name": "p3.merge_status", "producer": "saccade::CrossScanMerge (p3, v1, 20x20)", "dtype": "int32", "shape": [2]},
+    {"name": "p4.expand_status", "producer": "saccade::CrossScanExpand (p4, v1)", "dtype": "int32", "shape": [2]},
+    {"name": "p4.scan_status", "producer": "saccade::SelectiveScan (p4, v2, has_d=1)", "dtype": "int32", "shape": [2]},
+    {"name": "p4.merge_status", "producer": "saccade::CrossScanMerge (p4, v1, 10x10)", "dtype": "int32", "shape": [2]},
+    {"name": "p5.expand_status", "producer": "saccade::CrossScanExpand (p5, v1)", "dtype": "int32", "shape": [2]},
+    {"name": "p5.scan_status", "producer": "saccade::SelectiveScan (p5, v2, has_d=1)", "dtype": "int32", "shape": [2]},
+    {"name": "p5.merge_status", "producer": "saccade::CrossScanMerge (p5, v1, 5x5)", "dtype": "int32", "shape": [2]}
+  ],
+  "frames": {"batch": 1, "temporal_length": 1, "state_lifetime": "per_frame_reset"},
+  "scan": {
+    "status": "specified", "contract": "docs/SCAN_CONTRACT.md sections 2-4; docs/SCAN_TRT.md section 1",
+    "formula_source": "legacy saccade src/saccade/perception/temporal_yolo/mamba_head.py", "formula_revision": "e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2",
+    "formula_locator": "_selective_scan_jit L279-L304; MambaBlock L453-L543; _cross_scan_mamba L588-L620",
+    "semantics": "per (direction, channel) zero initial state; delta = softplus(raw delta incl. dt_proj bias, threshold 20); A = -exp(A_log) shared (1,16); rank-1 C broadcast over 16 states; D skip inside the op; gate SiLU(z), out_proj and residual outside; four directions (identity, flip HW, flip W, flip H) averaged",
+    "plugins": [
+      {"plugin_name": "CrossScanExpand", "plugin_namespace": "saccade", "plugin_version": "1", "fields": [], "status_output": "int32[2] {flags, done}"},
+      {"plugin_name": "SelectiveScan", "plugin_namespace": "saccade", "plugin_version": "2", "fields": [{"name": "has_d", "type": "int32"}], "status_output": "int32[2] {flags, done}"},
+      {"plugin_name": "CrossScanMerge", "plugin_namespace": "saccade", "plugin_version": "1", "fields": [{"name": "height", "type": "int32"}, {"name": "width", "type": "int32"}], "status_output": "int32[2] {flags, done}"}
+    ]
+  },
+  "precision": {
+    "compute_dtype": "float32", "accumulation_dtype": "float32", "tf32": false, "fp16": false, "int8": false,
+    "builder_options": [
+      {"name": "network", "value": "strongly typed FP32, native network API (no ONNX)"},
+      {"name": "builder_optimization_level", "value": "0"},
+      {"name": "workspace_bytes", "value": "268435456"},
+      {"name": "aux_streams", "value": "0"},
+      {"name": "timing_cache", "value": "none"},
+      {"name": "tactic_guard", "value": "reject Winograd, FFT and reduced-precision tactics"}
+    ],
+    "comparison": {"status": "specified", "policy": "s04-head-fp32/1", "policy_artifact": "comparison_policy",
+                   "reference_source": "src/head_reference.cpp binary64 reference of the complete head (independent of TensorRT)",
+                   "metric": "every element of all six outputs: |gpu - ref| <= 16 sigma + 2^-110"}
+  },
+  "content_review": {
+    "status": "external_review", "method": "native checkpoint conversion, binary64 reference and GPU comparison; see evidence/s04",
+    "evidence_source": "evidence/s04/2026-10-30/REPORT.md",
+    "unverified_fields": ["matching YOLO26m backbone/neck producing ordered P3/P4/P5", "image preprocessing", "decode, NMS and candidate capacity", "model quality (best.ckpt selected by diagnostic_train_loss, no holdout)"]
+  }
+}

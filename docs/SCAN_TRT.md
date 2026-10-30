@@ -59,6 +59,8 @@ publish 只在 gate 放行時寫 working result version；commit 只在無錯誤
 
 **ResultPacket v1 ABI 不變**，count=0、rows／reserved bytes 為零。host 只有收到 epoch 與 frame 都符合這次提交的 **OK packet** 才接受該 frame 的結果；enqueue 成功、完成 event、有限 payload 或先前的 OK packet 都不能替代。狀態傳遞不在 host 先讀 plugin status；D2H frame 流量只有 ResultPacket。gate records、publish digest、committed payload 與 slot/status snapshots 屬診斷，只能在兩個 stream terminal drains 後讀。
 
+S04 起，同一 harness 另可接收明確的 `FrameIoSpec`：engine I/O 須恰符合 spec，多個 FP32 輸出放在同一個 slot output arena 並由同一個 guarded publish 共同發布，gate 依 spec 次序讀所有 plugin status（上限 16），並可加上 harness 自己的輸入／輸出有限值檢查 status；見 [HEAD_TRT §5](HEAD_TRT.md#5-六個輸出共同提交與-status-判定)。沒有 spec 時（本文件的 S03 engines）行為不變；graph introspection 另讀 edge data，以支援 TensorRT graph 的 typed edges。
+
 ## 5. 三種失敗通道
 
 | 通道 | 結果 |

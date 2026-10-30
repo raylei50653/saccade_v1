@@ -66,7 +66,9 @@ void tests(const std::filesystem::path& fixture) {
     bad(replace(text, "\"schema\": 1,", "\"schema\": 1, \"sch\\u0065ma\": 1,"), "$.schema: duplicate field");
     bad(replace(text, "\"schema\": 1,", "\"schema\": 1, \"unknown\": 1,"), "$.unknown: unknown field");
     bad(replace(text, "\"schema\": 1,", ""), "$.schema: missing required field");
-    bad(replace(text, "\"schema\": 1", "\"schema\": 2"), "$.schema");
+    // A schema-1 body relabelled as schema 2 is rejected, never reinterpreted.
+    bad(replace(text, "\"schema\": 1", "\"schema\": 2"), "$.input_profile: unknown field");
+    bad(replace(text, "\"schema\": 1", "\"schema\": 3"), "$.schema: expected 1");
     bad(replace(text, "\"schema\": 1", "\"schema\": \"1\""), "$.schema: expected unsigned integer");
     bad(replace(text, "\"schema\": 1", "\"schema\": true"), "$.schema: expected unsigned integer");
     bad(replace(text, "\"schema\": 1", "\"schema\": 1.0"), "expected comma");
@@ -152,11 +154,59 @@ void tests(const std::filesystem::path& fixture) {
     }
 #endif
 }
+
+// Schema 2 (S04 head-only delivery): fixed ordered P3/P4/P5 and six raw
+// outputs, declared statuses and plugin identities, FP32 path and a policy
+// document artifact.
+void tests_schema2(const std::filesystem::path& fixture) {
+    using namespace saccade;
+    const auto text = read_text_file(fixture / "head-contract.json");
+    const auto manifest = parse_model_manifest(text);
+    check(manifest.schema == 2 && manifest.purpose == "test_fixture" && manifest.artifacts.size() == 1, "schema 2 fixture parsed");
+    // Independent sha256sum of the canonical output (docs/MODEL_MANIFEST.md).
+    check(model_manifest_hash(manifest) == "4fd850787f24ff88b1375658a5e613d8095a06a00088cf762794edcfd6d33748", "known canonical schema 2 SHA-256");
+    check(parse_model_manifest(manifest.canonical_json).canonical_json == manifest.canonical_json, "schema 2 canonical idempotence");
+    verify_manifest_artifacts(manifest, fixture / "head-contract.json");
+    const auto bad = [&](std::string changed, std::string_view field) { reject([&] { parse_model_manifest(changed); }, field); };
+    bad(replace(text, "\"schema\": 2", "\"schema\": 1"), "$.frames: unknown field");
+    bad(replace(text, "YOLO26m-Mamba-FPN-head-T1", "YOLO26s-backbone-neck+Mamba-FPN-head"), "$.model_family");
+    bad(replace(text, "\"scope\": \"head_only\"", "\"scope\": \"full_model\""), "$.boundary.scope");
+    bad(replace(text, "\"backbone_neck\": null", "\"backbone_neck\": \"fixture\""), "must be null");
+    bad(replace(text, "\"decode_owner\": \"external\"", "\"decode_owner\": \"head\""), "$.boundary.decode_owner");
+    bad(replace(text, "{\"name\": \"p4\", \"order\": 1", "{\"name\": \"p5\", \"order\": 1"), "$.tensors[1].name: expected p4 here");
+    bad(replace(text, "\"shape\": [1,256,80,80]", "\"shape\": [1,128,80,80]"), "$.tensors[0].shape[1]");
+    bad(replace(text, "\"name\": \"cls_p3\", \"order\": 0", "\"name\": \"cls_p4\", \"order\": 0"), "$.tensors[3].name: expected cls_p3 here");
+    bad(replace(text, "\"shape\": [1,4,20,20], \"dtype\": \"float32\"", "\"shape\": [1,4,20,20], \"dtype\": \"float16\""), "$.tensors[8].dtype");
+    bad(replace(text, "\"direction\": \"input\", \"component\": \"head\", \"shape\": [1,512,20,20]", "\"direction\": \"output\", \"component\": \"head\", \"shape\": [1,512,20,20]"),
+        "$.tensors[2].direction");
+    bad(replace(text, "\"name\": \"fixture_status\"", "\"name\": \"cls_p5\""), "duplicate tensor or status name");
+    bad(replace(text, "\"dtype\": \"int32\", \"shape\": [2]", "\"dtype\": \"int32\", \"shape\": [3]"), "$.statuses[0].shape[0]");
+    bad(replace(text, "{\"name\": \"fixture_status\", \"producer\": \"fixture: no engine\", \"dtype\": \"int32\", \"shape\": [2]}", ""), "$.statuses: array must not be empty");
+    bad(replace(text, "\"temporal_length\": 1", "\"temporal_length\": 3"), "$.frames.temporal_length");
+    bad(replace(text, "\"plugin_name\": \"SelectiveScan\", \"plugin_namespace\": \"saccade\", \"plugin_version\": \"2\"",
+                "\"plugin_name\": \"SelectiveScan\", \"plugin_namespace\": \"saccade\", \"plugin_version\": \"1\""),
+        "v1 has no status output");
+    bad(replace(text, "\"plugin_name\": \"CrossScanExpand\", \"plugin_namespace\": \"saccade\"", "\"plugin_name\": \"CrossScanExpand\", \"plugin_namespace\": \"\""),
+        "$.scan.plugins[0].plugin_namespace");
+    bad(replace(text, "[{\"name\": \"has_d\", \"type\": \"int32\"}]", "[]"), "$.scan.plugins[1].fields");
+    bad(replace(text, "\"plugin_name\": \"CrossScanMerge\"", "\"plugin_name\": \"CrossScanExpand\""), "$.scan.plugins[2].plugin_name");
+    bad(replace(text, "\"tf32\": false", "\"tf32\": true"), "FP32 path");
+    bad(replace(text, "\"fp16\": false", "\"fp16\": true"), "FP32 path");
+    bad(replace(text, "\"compute_dtype\": \"float32\"", "\"compute_dtype\": \"float16\""), "$.precision.compute_dtype");
+    bad(replace(text, "\"policy_artifact\": \"fixture\"", "\"policy_artifact\": \"missing\""), "$.precision.comparison.policy_artifact: unknown artifact id");
+    bad(replace(text, "\"comparison\": {\"status\": \"specified\"", "\"comparison\": {\"status\": \"unverified\""), "$.precision.comparison.status");
+    bad(replace(text, "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\""), "test fixture cannot be a model candidate");
+    const auto candidate = replace(replace(replace(text, "\"role\": \"fixture\"", "\"role\": \"mamba_fpn_head\""), "\"format\": \"fixture_bytes\"", "\"format\": \"native_weights\""),
+                                   "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\"");
+    bad(candidate, "$.boundary.source_checkpoint: artifact required");
+    bad(replace(candidate, "\"source_checkpoint\": null", "\"source_checkpoint\": \"fixture\""), "$.boundary.source_checkpoint: artifact must have role checkpoint");
+}
 } // namespace
 int main(int argc, char** argv) {
     try {
         if (argc != 2) throw std::invalid_argument("fixture directory required");
         tests(std::filesystem::absolute(argv[1]));
+        tests_schema2(std::filesystem::absolute(argv[1]));
         std::cout << "model_manifest_tests: " << checks << " checks passed\n";
         return 0;
     } catch (const std::exception& error) {

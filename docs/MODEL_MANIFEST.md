@@ -1,6 +1,30 @@
-# P01-A model manifest schema 1
+# 模型 manifest：schema 1（P01-A）與 schema 2（S04 head-only）
 
-本工具驗證模型**輸入宣告**及 artifact 檔案完整性；模型圖結構與 scan 公式的實際核對另存 evidence。P08 的完整設定系統仍依原規劃接續。格式選定為 **ASCII JSON profile，schema=1**，範例見 [parser fixture](../fixtures/model-manifest/contract.json)。不使用 Python、外部 JSON 套件或舊模型程式。
+本工具驗證模型**輸入宣告**及 artifact 檔案完整性；模型圖結構與 scan 公式的實際核對另存 evidence。P08 的完整設定系統仍依原規劃接續。格式選定為 **ASCII JSON profile**；schema 1 範例見 [parser fixture](../fixtures/model-manifest/contract.json)，schema 2 見 [head fixture](../fixtures/model-manifest/head-contract.json) 與 [S04 候選](../manifests/s04/yolo26m-head-t1.json)。不使用 Python、外部 JSON 套件或舊模型程式。
+
+`schema` 欄位決定整份文件依哪個版本解析：`2` 走 §Schema 2，其餘依 schema 1 規則（因此 `3` 等值以 `$.schema: expected 1` 拒絕）。**schema 1 的欄位、規則、canonical bytes 與既有 fixture hash 不變**；一份 schema 1 文件改標成 2 會因欄位不符被拒絕，不會被重新解讀。CLI 輸出第一行為實際的 `schema=1` 或 `schema=2`。
+
+## Schema 2（S04 head-only）
+
+用於 [HEAD_TRT](HEAD_TRT.md) 的交付：T=1 YOLO26m Mamba-FPN head，以 P3／P4／P5 features 為輸入、六個 raw outputs 為輸出。沒有影像輸入 profile，也不宣告 backbone artifact。共用 schema 1 的 JSON 子集、canonical 編碼、artifact 物件（`id`…`sha256`）、相對路徑與 `verify` 的檔案完整性規則。
+
+| object | 欄位與限制 |
+| --- | --- |
+| root | `schema` 2；`purpose` `test_fixture`／`model_candidate`；`model_family` 只接受 `YOLO26m-Mamba-FPN-head-T1`；`artifacts`、`boundary`、`tensors`、`statuses`、`frames`、`scan`、`precision`、`content_review`，全部必填、無其他欄位。 |
+| artifact.role／format | role：`mamba_fpn_head`、`checkpoint`、`specification`、`fixture`；format：`native_weights`、`checkpoint`、`text`、`fixture_bytes`。candidate 不得含 fixture。 |
+| boundary | `scope` 只能是 `head_only`；`head` 必須指向 role `mamba_fpn_head`＋format `native_weights` 的 artifact；`source_checkpoint` 指向 `checkpoint`＋`checkpoint`（candidate 必填，fixture 可為 null）；**`backbone_neck` 必須為 null**（不虛填不存在的 backbone）；classification／regression owner＝`head`，decode owner＝`external`。test_fixture 可用 fixture artifact 代替。 |
+| tensors | 恰為九個、固定次序：輸入 `p3 [1,256,80,80]`、`p4 [1,512,40,40]`、`p5 [1,512,20,20]`（order 0..2），輸出 `cls_p3`、`cls_p4`、`cls_p5`、`reg_p3`、`reg_p4`、`reg_p5`（order 0..5，`[1,80,H,W]`／`[1,4,H,W]`）；component `head`、dtype `float32`、layout `NCHW`；`semantic` 非空。 |
+| statuses | 非空；每個 `{name, producer, dtype:int32, shape:[2]}`；名稱不可與 tensors 或彼此重複。數量由實際圖決定，schema 不預設。 |
+| frames | `batch` 1、`temporal_length` 1、`state_lifetime` `per_frame_reset`。 |
+| scan | `status` `specified`；`contract`、`formula_source`／`revision`／`locator`、`semantics` 非空；`plugins` 恰為 `CrossScanExpand` v1（無 fields）、`SelectiveScan` **v2**（`has_d`）、`CrossScanMerge` v1（`height`、`width`），namespace `saccade`，fields 型別 `int32`，`status_output` 為 `int32[2] {flags, done}`。SelectiveScan v1 以「v1 has no status output」拒絕。 |
+| precision | `compute_dtype`、`accumulation_dtype` 皆 `float32`；`tf32`、`fp16`、`int8` 必須為 false；`builder_options` 同 schema 1（不放 engine／tactic 身分）；`comparison` 為 `{status: specified, policy, policy_artifact, reference_source, metric}`，`policy_artifact` 必須指向 role `specification`＋format `text` 的 artifact，`verify` 因此一併核對政策文件 bytes。 |
+| content_review | 同 schema 1。 |
+
+S04 候選 [`manifests/s04/yolo26m-head-t1.json`](../manifests/s04/yolo26m-head-t1.json) 宣告 checkpoint、native bundle 與 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`）三個 artifact 與 9 個 plugin statuses。artifact 路徑相對於 manifest 所在目錄；大型檔案不入 Git，所以 `verify` 在 cache staging 目錄執行（manifest 與政策文件複製進去，checkpoint 以既有 symlink 指向舊庫檔案）。`validate`／`verify` 仍回報 `model_content=not_checked`、`real_model_ready=false`：宣告、檔案完整性、內容核對（evidence 的轉換報告）與實際推論結果（HEAD_TRT 驗收）分開記錄；engine／plugin binary hash、SDK、tactics 與實際 builder 設定屬 build evidence。
+
+---
+
+以下為 schema 1（P01-A）原文。
 
 ## 執行與三種查核狀態
 

@@ -18,7 +18,7 @@ void ck(cudaError_t result, const char* call) {
 void launched(const char* kernel) { ck(cudaGetLastError(), kernel); }
 
 constexpr unsigned kProtocol = static_cast<unsigned>(Error::protocol), kNumeric = static_cast<unsigned>(Error::numeric);
-constexpr unsigned kKnownScanFlags = kScanInputFailures | kScanRangeFailures | kCrossScanNonFiniteInput;
+constexpr unsigned kKnownScanFlags = kScanInputFailures | kScanRangeFailures | kCrossScanNonFiniteInput | kFrameNonFiniteInput | kFrameNonFiniteOutput;
 
 __host__ __device__ std::uint64_t mix(std::uint64_t x) { // splitmix64 finalizer
     x ^= x >> 30; x *= 0xbf58476d1ce4e5b9ULL; x ^= x >> 27; x *= 0x94d049bb133111ebULL;
@@ -119,6 +119,19 @@ __global__ void packet(const ScanFrameControl* ctl, unsigned char* out) {
     put(out + 60, ctl->fail_code, 4);
 }
 
+__global__ void check_finite(const float* data, unsigned long long count, ScanStatus* status, std::uint32_t flag) {
+    const unsigned long long first = static_cast<unsigned long long>(blockIdx.x) * blockDim.x + threadIdx.x;
+    const unsigned long long stride = static_cast<unsigned long long>(gridDim.x) * blockDim.x;
+    bool bad = false;
+    for (unsigned long long i = first; i < count; i += stride) bad = bad || !isfinite(data[i]);
+    if (bad) atomicOr(&status->flags, flag);
+}
+
+__global__ void check_done(ScanStatus* status) {
+    if (threadIdx.x || blockIdx.x) return;
+    status->done = kScanDone;
+}
+
 __global__ void delay(unsigned cycles) {
     const long long start = clock64();
     while (clock64() - start < cycles) {
@@ -134,7 +147,8 @@ std::string scan_frame_load_kernels() {
         {"initialize", reinterpret_cast<const void*>(initialize)}, {"begin", reinterpret_cast<const void*>(begin)},
         {"gate", reinterpret_cast<const void*>(gate)}, {"publish", reinterpret_cast<const void*>(publish)},
         {"commit", reinterpret_cast<const void*>(commit)}, {"packet", reinterpret_cast<const void*>(packet)},
-        {"delay", reinterpret_cast<const void*>(delay)}};
+        {"delay", reinterpret_cast<const void*>(delay)}, {"check_finite", reinterpret_cast<const void*>(check_finite)},
+        {"check_done", reinterpret_cast<const void*>(check_done)}};
     std::ostringstream report;
     for (const auto& [name, kernel] : kernels) {
         cudaFuncAttributes attributes{};
@@ -171,6 +185,14 @@ void scan_frame_commit(ScanFrameControl* control, cudaStream_t m) {
 void scan_frame_packet(const ScanFrameControl* control, unsigned char* out, cudaStream_t m) {
     packet<<<1, kBlock, 0, m>>>(control, out);
     launched("scan_frame packet");
+}
+void scan_frame_check_finite(const float* data, std::size_t count, ScanStatus* status, std::uint32_t flag, cudaStream_t s) {
+    CUDA(cudaMemsetAsync(status, 0, sizeof(ScanStatus), s));
+    const unsigned long long blocks = (count + kBlock - 1) / kBlock;
+    check_finite<<<static_cast<unsigned>(blocks == 0 ? 1 : blocks < 1024 ? blocks : 1024), kBlock, 0, s>>>(data, count, status, flag);
+    launched("scan_frame check_finite");
+    check_done<<<1, 1, 0, s>>>(status);
+    launched("scan_frame check_done");
 }
 void scan_frame_delay(unsigned cycles, cudaStream_t s) {
     delay<<<1, 1, 0, s>>>(cycles);

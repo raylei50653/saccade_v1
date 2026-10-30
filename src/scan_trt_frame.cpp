@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cstring>
 #include <map>
+#include <set>
 #include <limits>
 #include <sstream>
 #include <stdexcept>
@@ -35,10 +36,12 @@ struct Event {
 struct Slot {
     std::unique_ptr<IExecutionContext> context;
     void* context_memory = nullptr;
+    float* input_arena = nullptr; // every input at its aligned offset
     std::vector<float*> inputs;
     std::vector<float*> staging; // pinned host, one per input
-    float* payload = nullptr;
-    std::vector<ScanStatus*> statuses;
+    float* payload = nullptr;    // output arena: every output at its aligned offset
+    std::vector<float*> outputs;
+    std::vector<ScanStatus*> statuses; // engine statuses, then harness check statuses
     Event staged, ready, consumed;
     cudaGraph_t graph{};
     cudaGraphExec_t exec{};
@@ -62,7 +65,8 @@ std::string node_type(cudaGraphNodeType type) {
 }
 
 // One line per node in topological order: index, type, kernel name and the
-// indices of the nodes it depends on.
+// indices of the nodes it depends on; dependencies that are not ordinary
+// completion edges (e.g. programmatic launch edges) are listed separately.
 std::string inspect(cudaGraph_t graph) {
     std::size_t count = 0, edges = 0;
     CUDA(cudaGraphGetNodes(graph, nullptr, &count));
@@ -70,14 +74,22 @@ std::string inspect(cudaGraph_t graph) {
     CUDA(cudaGraphGetNodes(graph, nodes.data(), &count));
     CUDA(cudaGraphGetEdges(graph, nullptr, nullptr, nullptr, &edges));
     std::vector<cudaGraphNode_t> from(edges), to(edges);
-    if (edges) CUDA(cudaGraphGetEdges(graph, from.data(), to.data(), nullptr, &edges));
+    std::vector<cudaGraphEdgeData> data(edges);
+    // Edge data is required: TensorRT graphs can carry typed edges, and
+    // reading them without it is refused as lossy.
+    if (edges) CUDA(cudaGraphGetEdges(graph, from.data(), to.data(), data.data(), &edges));
     std::map<cudaGraphNode_t, std::size_t> index;
     for (std::size_t i = 0; i < count; ++i) index[nodes[i]] = i;
     std::vector<std::vector<std::size_t>> deps(count);
+    std::vector<std::vector<std::pair<std::size_t, std::string>>> typed(count); // upstream node, type and ports
     std::vector<std::size_t> indegree(count);
     for (std::size_t e = 0; e < edges; ++e) {
         deps[index.at(to[e])].push_back(index.at(from[e]));
         ++indegree[index.at(to[e])];
+        const auto& d = data[e];
+        if (d.type != cudaGraphDependencyTypeDefault || d.from_port != 0 || d.to_port != 0)
+            typed[index.at(to[e])].emplace_back(index.at(from[e]), ":type" + std::to_string(d.type) + ":port" + std::to_string(d.from_port) + ">" +
+                                                                      std::to_string(d.to_port));
     }
     std::vector<std::size_t> order, ready, position(count);
     for (std::size_t i = 0; i < count; ++i)
@@ -115,6 +127,10 @@ std::string inspect(cudaGraph_t graph) {
         std::sort(d.begin(), d.end());
         out << " deps=";
         for (std::size_t k = 0; k < d.size(); ++k) out << (k ? "," : "") << d[k];
+        if (!typed[i].empty()) {
+            out << " typed_edges=";
+            for (std::size_t k = 0; k < typed[i].size(); ++k) out << (k ? "," : "") << position[typed[i][k].first] << typed[i][k].second;
+        }
         out << '\n';
     }
     return out.str();
@@ -131,16 +147,31 @@ std::size_t volume(const Dims& d) {
     for (int i = 0; i < d.nbDims; ++i) n = product(n, static_cast<std::size_t>(d.d[i]));
     return n;
 }
+
+bool same_shape(const Dims& d, const std::vector<std::int64_t>& shape) {
+    if (d.nbDims != static_cast<int>(shape.size())) return false;
+    for (int i = 0; i < d.nbDims; ++i)
+        if (d.d[i] != shape[static_cast<std::size_t>(i)]) return false;
+    return true;
+}
+
+// Tensors share an arena at 256-byte (64-float) aligned element offsets.
+constexpr std::size_t kArenaAlign = 64;
+std::size_t align_up(std::size_t n) { return (n + kArenaAlign - 1) / kArenaAlign * kArenaAlign; }
 } // namespace
 
 struct ScanFrameSession::Impl {
     ScanFrameConfig cfg;
     std::unique_ptr<IRuntime> runtime;
     std::unique_ptr<ICudaEngine> engine;
-    std::vector<std::string> input_names, status_names;
-    std::vector<std::size_t> input_count;
-    std::string payload_name;
-    std::size_t payload_count = 0;
+    std::vector<std::string> input_names;
+    std::vector<std::size_t> input_count, input_offset;
+    std::size_t input_arena_count = 0;
+    std::vector<ScanFrameSession::OutputSlot> outputs;
+    std::size_t payload_count = 0; // output arena elements
+    std::vector<FrameStatusSpec> statuses; // gate order: engine statuses, then harness checks
+    std::size_t engine_statuses = 0;
+    bool check_inputs = false, check_outputs = false;
     std::vector<Slot> slots;
     cudaStream_t d{}, m{};
     ScanFrameControl* ctl{};
@@ -232,7 +263,74 @@ struct ScanFrameSession::Impl {
         cleanup.release(m, [](cudaStream_t h) { CUDA(cudaStreamDestroy(h)); });
     }
 
-    void init(std::span<const std::uint8_t> bytes, ILogger& logger, IErrorRecorder* recorder) {
+    // S03 engines: one FP32 output, 1..4 INT32[2] statuses, inferred.
+    void infer_io() {
+        std::string payload_name;
+        for (std::int32_t i = 0; i < engine->getNbIOTensors(); ++i) {
+            const char* name = engine->getIOTensorName(i);
+            const auto dims = engine->getTensorShape(name);
+            const auto type = engine->getTensorDataType(name);
+            if (engine->getTensorIOMode(name) == TensorIOMode::kINPUT) {
+                require(type == DataType::kFLOAT, std::string("input is not FP32: ") + name);
+                input_names.emplace_back(name);
+                input_count.push_back(volume(dims));
+            } else if (type == DataType::kFLOAT) {
+                require(payload_name.empty(), "more than one FP32 output");
+                payload_name = name;
+                outputs.push_back({name, 0, volume(dims)});
+            } else {
+                require(type == DataType::kINT32 && dims.nbDims == 1 && dims.d[0] == kScanStatusWords,
+                        std::string("output is neither the FP32 payload nor an INT32[2] status: ") + name);
+                statuses.push_back({name, "engine"});
+            }
+        }
+        require(!payload_name.empty() && !statuses.empty() && statuses.size() <= 4, "the engine needs one FP32 payload and 1..4 status outputs");
+    }
+
+    // S04: the engine must have exactly the spec's tensors.
+    void spec_io(const FrameIoSpec& spec) {
+        std::map<std::string, std::string> wanted; // name -> role
+        const auto add = [&](const std::string& name, const char* role) {
+            require(!name.empty() && wanted.emplace(name, role).second, "I/O spec names a tensor twice or with an empty name: " + name);
+        };
+        for (const auto& t : spec.inputs) add(t.name, "input");
+        for (const auto& t : spec.outputs) add(t.name, "output");
+        for (const auto& s : spec.statuses) add(s.name, "status");
+        require(!spec.inputs.empty() && !spec.outputs.empty() && !spec.statuses.empty(), "I/O spec needs inputs, outputs and statuses");
+        std::set<std::string> seen;
+        for (std::int32_t i = 0; i < engine->getNbIOTensors(); ++i) {
+            const std::string name = engine->getIOTensorName(i);
+            const auto it = wanted.find(name);
+            require(it != wanted.end(), "engine tensor not in the I/O spec: " + name);
+            require(seen.insert(name).second, "engine names a tensor twice: " + name);
+            const bool input = engine->getTensorIOMode(name.c_str()) == TensorIOMode::kINPUT;
+            const auto type = engine->getTensorDataType(name.c_str());
+            require(input == (it->second == "input"), "engine tensor has the wrong I/O mode: " + name);
+            require(type == (it->second == "status" ? DataType::kINT32 : DataType::kFLOAT), "engine tensor has the wrong data type: " + name);
+        }
+        for (const auto& [name, role] : wanted) require(seen.contains(name), "engine lacks the " + role + " " + name);
+        for (const auto& t : spec.inputs) {
+            require(same_shape(engine->getTensorShape(t.name.c_str()), t.shape), "engine input shape differs from the spec: " + t.name);
+            input_names.push_back(t.name);
+            input_count.push_back(volume(engine->getTensorShape(t.name.c_str())));
+        }
+        std::size_t offset = 0;
+        for (const auto& t : spec.outputs) {
+            require(same_shape(engine->getTensorShape(t.name.c_str()), t.shape), "engine output shape differs from the spec: " + t.name);
+            const auto count = volume(engine->getTensorShape(t.name.c_str()));
+            outputs.push_back({t.name, offset, count});
+            offset = align_up(offset + count);
+        }
+        for (const auto& s : spec.statuses) {
+            const auto dims = engine->getTensorShape(s.name.c_str());
+            require(dims.nbDims == 1 && dims.d[0] == kScanStatusWords, "engine status is not INT32[2]: " + s.name);
+            statuses.push_back(s);
+        }
+        check_inputs = spec.check_inputs;
+        check_outputs = spec.check_outputs;
+    }
+
+    void init(std::span<const std::uint8_t> bytes, ILogger& logger, IErrorRecorder* recorder, const FrameIoSpec* spec) {
         require(cfg.slots >= 1 && cfg.packet_slots >= 1 && cfg.max_frames >= 1, "slot counts and frame capacity must be positive");
         (void)product(static_cast<std::size_t>(cfg.max_frames), sizeof(ScanFrameRecord));
         drained = false; // construction can fail with initialization work queued
@@ -253,23 +351,18 @@ struct ScanFrameSession::Impl {
             require(engine->getTensorLocation(name) == TensorLocation::kDEVICE && engine->getTensorFormat(name) == TensorFormat::kLINEAR &&
                         !engine->isShapeInferenceIO(name),
                     std::string("not a linear device execution tensor: ") + name);
-            const auto type = engine->getTensorDataType(name);
-            if (engine->getTensorIOMode(name) == TensorIOMode::kINPUT) {
-                require(type == DataType::kFLOAT, std::string("input is not FP32: ") + name);
-                input_names.emplace_back(name);
-                input_count.push_back(volume(dims));
-            } else if (type == DataType::kFLOAT) {
-                require(payload_name.empty(), "more than one FP32 output");
-                payload_name = name;
-                payload_count = volume(dims);
-            } else {
-                require(type == DataType::kINT32 && dims.nbDims == 1 && dims.d[0] == kScanStatusWords,
-                        std::string("output is neither the FP32 payload nor an INT32[2] status: ") + name);
-                status_names.emplace_back(name);
-            }
         }
-        require(!payload_name.empty() && !status_names.empty() && status_names.size() <= kScanFrameMaxStatuses,
-                "the engine needs one FP32 payload and 1..4 status outputs");
+        if (spec) spec_io(*spec);
+        else infer_io();
+        engine_statuses = statuses.size();
+        if (check_inputs) statuses.push_back({kFrameInputCheck, "harness: finite check of every input element"});
+        if (check_outputs) statuses.push_back({kFrameOutputCheck, "harness: finite check of every output element"});
+        require(statuses.size() <= kScanFrameMaxStatuses, "more statuses than the gate reads");
+        for (const auto& o : outputs) payload_count = std::max(payload_count, o.offset + o.count);
+        for (const auto count : input_count) {
+            input_offset.push_back(input_arena_count);
+            input_arena_count = align_up(input_arena_count + count);
+        }
         identity = scan_trt_plugin_identity() + describe_scan_engine(*engine) + scan_frame_load_kernels();
 
         const auto memory = engine->getDeviceMemorySizeV2();
@@ -282,16 +375,23 @@ struct ScanFrameSession::Impl {
             require(slot.context != nullptr, "createExecutionContext failed for slot " + std::to_string(s));
             if (memory > 0) CUDA(cudaMalloc(&slot.context_memory, static_cast<std::size_t>(memory)));
             slot.context->setDeviceMemoryV2(slot.context_memory, memory);
+            slot.input_arena = allocate<float>(input_arena_count);
+            CUDA(cudaMemset(slot.input_arena, 0, std::max<std::size_t>(input_arena_count, 1) * sizeof(float))); // padding stays finite
             for (std::size_t i = 0; i < input_names.size(); ++i) {
-                slot.inputs.push_back(allocate<float>(input_count[i]));
+                slot.inputs.push_back(slot.input_arena + input_offset[i]);
                 slot.staging.push_back(pinned<float>(input_count[i]));
                 require(slot.context->setTensorAddress(input_names[i].c_str(), slot.inputs.back()), "setTensorAddress " + input_names[i]);
             }
             slot.payload = allocate<float>(payload_count);
-            require(slot.context->setTensorAddress(payload_name.c_str(), slot.payload), "setTensorAddress " + payload_name);
-            for (const auto& name : status_names) {
+            CUDA(cudaMemset(slot.payload, 0, std::max<std::size_t>(payload_count, 1) * sizeof(float)));
+            for (const auto& o : outputs) {
+                slot.outputs.push_back(slot.payload + o.offset);
+                require(slot.context->setTensorAddress(o.name.c_str(), slot.outputs.back()), "setTensorAddress " + o.name);
+            }
+            for (std::size_t i = 0; i < statuses.size(); ++i) {
                 slot.statuses.push_back(allocate<ScanStatus>(1));
-                require(slot.context->setTensorAddress(name.c_str(), slot.statuses.back()), "setTensorAddress " + name);
+                if (i < engine_statuses)
+                    require(slot.context->setTensorAddress(statuses[i].name.c_str(), slot.statuses.back()), "setTensorAddress " + statuses[i].name);
             }
             slot.staged = event();
             slot.ready = event();
@@ -308,7 +408,7 @@ struct ScanFrameSession::Impl {
         snap_frames = pinned<std::int64_t>(2);
         snap_records = pinned<ScanFrameRecord>(static_cast<std::size_t>(cfg.max_frames));
         snap_payloads = pinned<float>(product(slots.size(), payload_count));
-        snap_statuses = pinned<ScanStatus>(product(slots.size(), status_names.size()));
+        snap_statuses = pinned<ScanStatus>(product(slots.size(), statuses.size()));
         for (int r = 0; r < cfg.packet_slots; ++r) pkt.push_back(event());
         d_end = event();
         m_end = event();
@@ -317,8 +417,7 @@ struct ScanFrameSession::Impl {
         // the first launches happen here, not on the frame path. Then retire
         // the warmup statuses so no slot starts with a valid status.
         for (auto& slot : slots) {
-            for (std::size_t i = 0; i < slot.inputs.size(); ++i)
-                CUDA(cudaMemsetAsync(slot.inputs[i], 0, input_count[i] * sizeof(float), d));
+            CUDA(cudaMemsetAsync(slot.input_arena, 0, input_arena_count * sizeof(float), d));
             require(slot.context->enqueueV3(d), "warmup enqueueV3 failed");
         }
         for (auto& slot : slots)
@@ -343,9 +442,15 @@ struct ScanFrameSession::Impl {
         drained = true;
         std::ostringstream id;
         id << "slots=" << cfg.slots << "\npacket_slots=" << cfg.packet_slots << "\ngraphs=" << (cfg.graphs ? "true" : "false")
-           << "\ncontext_memory_bytes=" << memory << "\npayload=" << payload_name << "\nstatuses=";
-        for (std::size_t i = 0; i < status_names.size(); ++i) id << (i ? "," : "") << status_names[i];
+           << "\ncontext_memory_bytes=" << memory << "\npayload=";
+        for (std::size_t i = 0; i < outputs.size(); ++i) id << (i ? "," : "") << outputs[i].name;
+        id << "\nstatuses=";
+        for (std::size_t i = 0; i < statuses.size(); ++i) id << (i ? "," : "") << statuses[i].name;
         id << '\n';
+        if (spec) {
+            for (const auto& o : outputs) id << "output=" << o.name << " arena_offset=" << o.offset << " elements=" << o.count << '\n';
+            for (const auto& st : statuses) id << "status=" << st.name << " producer=" << st.producer << '\n';
+        }
         identity += id.str();
     }
 
@@ -382,9 +487,9 @@ struct ScanFrameSession::Impl {
         return list;
     }
 
-    ScanFrameSlotView view(const Slot& slot) const { return {slot.inputs, slot.payload, slot.statuses}; }
+    ScanFrameSlotView view(const Slot& slot) const { return {slot.inputs, slot.payload, slot.outputs, slot.statuses}; }
 
-    ScanFrameRun execute(const std::vector<std::vector<std::vector<float>>>& frames, const ScanFrameHook& hook) {
+    ScanFrameRun execute(const std::vector<std::vector<std::vector<float>>>& frames, const ScanFrameHook& hook, const ScanFrameHook& after_checks) {
         require(!closed, "session is closed");
         require(!frames.empty() && static_cast<std::int64_t>(frames.size()) <= cfg.max_frames, "frame count outside 1..max_frames");
         for (const auto& f : frames) {
@@ -431,6 +536,10 @@ struct ScanFrameSession::Impl {
             }
             log("engine", cfg.graphs ? "graph" : "enqueueV3", s, k);
             if (hook) hook(k, view(slot), d);
+            if (check_inputs) scan_frame_check_finite(slot.input_arena, input_arena_count, slot.statuses[engine_statuses], kFrameNonFiniteInput, d);
+            if (check_outputs)
+                scan_frame_check_finite(slot.payload, payload_count, slot.statuses[engine_statuses + (check_inputs ? 1 : 0)], kFrameNonFiniteOutput, d);
+            if (after_checks) after_checks(k, view(slot), d);
             record(slot.ready, d, k, "ready", s);
             ++result.submitted;
             // ---- M: frame end.
@@ -471,8 +580,8 @@ struct ScanFrameSession::Impl {
         if (n) CUDA(cudaMemcpyAsync(snap_records, records, n * sizeof(ScanFrameRecord), cudaMemcpyDeviceToHost, m));
         for (std::size_t s = 0; s < slots.size(); ++s) {
             CUDA(cudaMemcpyAsync(snap_payloads + s * payload_count, slots[s].payload, payload_count * sizeof(float), cudaMemcpyDeviceToHost, m));
-            for (std::size_t i = 0; i < status_names.size(); ++i)
-                CUDA(cudaMemcpyAsync(snap_statuses + s * status_names.size() + i, slots[s].statuses[i], sizeof(ScanStatus),
+            for (std::size_t i = 0; i < statuses.size(); ++i)
+                CUDA(cudaMemcpyAsync(snap_statuses + s * statuses.size() + i, slots[s].statuses[i], sizeof(ScanStatus),
                                      cudaMemcpyDeviceToHost, m));
         }
         CUDA(cudaStreamSynchronize(m));
@@ -483,17 +592,17 @@ struct ScanFrameSession::Impl {
         result.records.assign(snap_records, snap_records + n);
         for (std::size_t s = 0; s < slots.size(); ++s) {
             result.slot_payloads.emplace_back(snap_payloads + s * payload_count, snap_payloads + (s + 1) * payload_count);
-            result.slot_statuses.emplace_back(snap_statuses + s * status_names.size(), snap_statuses + (s + 1) * status_names.size());
+            result.slot_statuses.emplace_back(snap_statuses + s * statuses.size(), snap_statuses + (s + 1) * statuses.size());
         }
         result.ledger.push_back("terminal_snapshot after_both_drains");
     }
 };
 
 ScanFrameSession::ScanFrameSession(std::span<const std::uint8_t> engine, const ScanFrameConfig& config, ILogger& logger,
-                                   IErrorRecorder* recorder)
+                                   IErrorRecorder* recorder, const FrameIoSpec* spec)
     : impl_(std::make_unique<Impl>()) {
     impl_->cfg = config;
-    impl_->init(engine, logger, recorder);
+    impl_->init(engine, logger, recorder, spec);
 }
 
 ScanFrameSession::~ScanFrameSession() = default;
@@ -501,14 +610,17 @@ ScanFrameSession::~ScanFrameSession() = default;
 const std::vector<std::string>& ScanFrameSession::input_names() const { return impl_->input_names; }
 std::size_t ScanFrameSession::input_elements(std::size_t input) const { return impl_->input_count.at(input); }
 std::size_t ScanFrameSession::payload_elements() const { return impl_->payload_count; }
+const std::vector<ScanFrameSession::OutputSlot>& ScanFrameSession::outputs() const { return impl_->outputs; }
+const std::vector<FrameStatusSpec>& ScanFrameSession::statuses() const { return impl_->statuses; }
 std::string ScanFrameSession::identity() const { return impl_->identity; }
 std::string ScanFrameSession::graph_nodes(int slot) const { return impl_->slots.at(static_cast<std::size_t>(slot)).nodes; }
 IExecutionContext& ScanFrameSession::context(int slot) { return *impl_->slots.at(static_cast<std::size_t>(slot)).context; }
 ScanFrameSlotView ScanFrameSession::slot(int slot) const { return impl_->view(impl_->slots.at(static_cast<std::size_t>(slot))); }
 cudaStream_t ScanFrameSession::detect_stream() const { return impl_->d; }
 
-ScanFrameRun ScanFrameSession::run(const std::vector<std::vector<std::vector<float>>>& frames, const ScanFrameHook& hook) {
-    return impl_->execute(frames, hook);
+ScanFrameRun ScanFrameSession::run(const std::vector<std::vector<std::vector<float>>>& frames, const ScanFrameHook& hook,
+                                   const ScanFrameHook& after_checks) {
+    return impl_->execute(frames, hook, after_checks);
 }
 const ScanFrameRun& ScanFrameSession::last_run() const { return impl_->current; }
 

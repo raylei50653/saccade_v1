@@ -160,6 +160,32 @@ struct Fixture {
 
 saccade::HeadConversion convert(const std::string& file) { return saccade::convert_head_checkpoint(file, saccade::sha256_hex(file)); }
 
+// The schema's key mapping, checked against an independent statement of it:
+// bundle level p3/p4/p5 is checkpoint index 0/1/2, plus literal pairs. The
+// synthetic archives below are written from the schema itself, so they cannot
+// catch a mapping error on their own.
+void schema_mapping() {
+    const auto& schema = saccade::head_parameter_schema();
+    check(schema.size() == 69 && saccade::head_excluded_keys().size() == 39, "69 active and 39 excluded keys");
+    for (const auto& p : schema) {
+        const int level = p.name[1] - '3';
+        const auto digit = p.source_key.find_first_of("0123456789");
+        check(level >= 0 && level < 3 && digit != std::string::npos && p.source_key[digit] - '0' == level &&
+                  p.source_key.compare(digit + 1, 1, ".") == 0,
+              "bundle level of " + p.name + " is the checkpoint index of " + p.source_key);
+    }
+    const std::pair<const char*, const char*> literal[] = {
+        {"p3.input_proj.weight", "input_proj.0.weight"}, {"p4.downsample.bias", "downsample.1.bias"},
+        {"p4.mamba.x_proj.weight", "mamba_blocks.1.0.x_proj.weight"}, {"p5.mamba.A_log", "mamba_blocks.2.0.A_log"},
+        {"p5.upsample.weight", "upsample.2.0.weight"}, {"p3.cls.conv1.bias", "cls_head.0.2.bias"}, {"p4.reg.conv0.weight", "reg_head.1.0.weight"}};
+    for (const auto& [name, key] : literal) {
+        bool found = false;
+        for (const auto& p : schema) found = found || (p.name == name && p.source_key == key);
+        check(found, std::string("schema maps ") + key + " to " + name);
+    }
+    std::cout << "schema_mapping\tPASS\n";
+}
+
 void conversion() {
     const Fixture valid;
     const auto file = valid.build();
@@ -270,6 +296,7 @@ void bundle() {
 
 int main() {
     try {
+        schema_mapping();
         conversion();
         bundle();
         std::cout << "head_weights_tests: " << checks << " checks passed\n";

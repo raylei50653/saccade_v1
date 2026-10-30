@@ -15,9 +15,10 @@ struct ManifestArtifact {
     std::string sha256;
 };
 
-// A validated schema-1 declaration. Actual model contents are not inspected by
+// A validated schema-1 (s-period image model) or schema-2 (S04 head-only) declaration. Actual model contents are not inspected by
 // this module. A successful integrity check cannot confer model readiness.
 struct ModelManifest {
+    std::uint64_t schema = 1;
     std::string canonical_json;
     std::string purpose;
     std::vector<ManifestArtifact> artifacts;

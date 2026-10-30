@@ -103,10 +103,10 @@ add_library(saccade_head_weights src/torch_checkpoint.cpp src/head_weights.cpp)
 target_include_directories(saccade_head_weights PUBLIC include)
 target_link_libraries(saccade_head_weights PUBLIC saccade_sha256)
 add_executable(head_weights tools/head_weights.cpp)
-target_link_libraries(head_weights PRIVATE saccade_head_weights saccade_file_io)
+target_link_libraries(head_weights PRIVATE saccade_head_reference saccade_file_io)
 # Binary64 reference of the complete head with its running error bound
 # (docs/HEAD_TRT.md §4); no contraction, as for the S01 reference.
-add_library(saccade_head_reference src/head_reference.cpp)
+add_library(saccade_head_reference src/head_reference.cpp src/head_compare.cpp)
 target_link_libraries(saccade_head_reference PUBLIC saccade_head_weights)
 find_package(Threads REQUIRED)
 target_link_libraries(saccade_head_reference PRIVATE Threads::Threads)
@@ -216,4 +216,10 @@ if(SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT)
   include(cmake/ScanTensorRT.cmake)
 elseif(SACCADE_ENABLE_TENSORRT)
   message(STATUS "S03 scan TensorRT plugins need SACCADE_ENABLE_CUDA=ON; not built")
+endif()
+
+# S04 complete head: native TensorRT network from the weight bundle, the
+# frame-session lifecycle tool and the GPU acceptance (docs/HEAD_TRT.md).
+if(SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT)
+  include(cmake/HeadTensorRT.cmake)
 endif()

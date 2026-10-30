@@ -94,7 +94,7 @@ main 的必要順序是 F06 GMC(k) → F08a GMC control＋predict(k) → Predict
 
 | 階段 | 輸入 | 輸出 | 唯一責任與邊界 |
 | --- | --- | --- | --- |
-| F01 輸入與 GPU 影像準備 | JPEG sequence、序列 metadata | GpuFrame、FrameMeta | C++ 讀取壓縮資料，nvJPEG 產生 GPU RGB 影像並建立 frame 身份；尺寸／數量檢查及解碼錯誤與 EOF 分開。應使用 nvJPEG 硬體 backend（與 T01 訓練相同的 JPEG 引擎）；與訓練參考 frame 的像素一致性待驗。 |
+| F01 輸入與 GPU 影像準備 | JPEG sequence、序列 metadata | GpuFrame、FrameMeta | C++ 讀取壓縮資料，nvJPEG 產生 GPU RGB 影像並建立 frame 身份；尺寸／數量檢查及解碼錯誤與 EOF 分開。應使用 nvJPEG 硬體 backend、planar RGB 輸出（與 T01 訓練相同；4:2:0 chroma 以複製升採樣，與 libjpeg-turbo `-nosmooth` 在全部 MOT17 frame 逐位元相同）；native 實作對此參考的逐位元比對待驗。 |
 | F02 模型輸入轉換 | GpuFrame、模型輸入規格 | 640×640 RGB CHW 模型輸入、ImageMapping | float32 正規化後以 antialiased bilinear stretch（B04）；完整記錄原圖到模型座標的映射。 |
 | F03 模型推論 | 模型輸入 | RawPredictions | YOLO26 backbone／neck 產生 P3／P4／P5，Mamba-FPN head 產生 cls／reg；基線為幀內推論。 |
 | F04 觀測整理 | RawPredictions、ImageMapping、觀測政策 | DetectionCandidates | decode、class／score 選擇、篩選、穩定排列、NMS、座標還原；區分 kept 與 suppressed candidates，供 F04b 使用。 |

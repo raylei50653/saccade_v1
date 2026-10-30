@@ -60,7 +60,7 @@ Loss、optimizer、scheduler、assigner、GT 篩選、clip 取樣、cache 格式
 
 | 與原本的 CPU 路徑（libjpeg-turbo＋uint8 antialias resize＋取整）比較 | 像素差 | P3／P4／P5 特徵差 |
 | --- | --- | --- |
-| 只換 decoder（全解析度 nvJPEG vs libjpeg-turbo） | 最大 16–21 LSB、平均 0.12–0.31 LSB | — |
+| 只換 decoder（全解析度 nvJPEG vs libjpeg-turbo 預設設定）；差異全部來自 4:2:0 chroma 升採樣方式，見下方色彩轉換第 3 步 | 最大 16–31 LSB、平均 0.13–0.31 LSB | — |
 | nvJPEG＋float antialias stretch（**採用**） | 最大 19.6、平均 0.28 LSB | 10.5%／17.2%／14.0% |
 | libjpeg＋float antialias（只去掉 uint8 取整） | 最大 0.5、平均 0.22 LSB | 4.9%／9.8%／7.2% |
 | nvJPEG＋float bilinear 無 antialias | 最大 61、平均 1.05 LSB | 14.8%／21.4%／20.1% |
@@ -68,13 +68,28 @@ Loss、optimizer、scheduler、assigner、GT 篩選、clip 取樣、cache 格式
 
 backbone 特徵對次 LSB 的輸入差就有數個百分點的反應，所以訓練與部署必須使用同一前處理。固定內容：
 
-1. **解碼**：`torchvision.io.decode_jpeg(..., device="cuda")`（nvJPEG 13.0.1）→ RGB uint8。本機 GPU 有獨立的 JPEG 硬體引擎：`nvjpegCreateEx(NVJPEG_BACKEND_HARDWARE)` 成功，批次解碼 1080p 時 `nvidia-smi dmon` 的 jpg 引擎 86–92%、SM 7%，約 1,320 frames/s。批次與單張解碼逐位元相同，重複解碼逐位元相同。
+1. **解碼與色彩轉換**：`torchvision.io.decode_jpeg(..., device="cuda")`（nvJPEG 13.0.1）→ RGB uint8。本機 GPU 有獨立的 JPEG 硬體引擎：`nvjpegCreateEx(NVJPEG_BACKEND_HARDWARE)` 成功，批次解碼 1080p 時 `nvidia-smi dmon` 的 jpg 引擎 86–92%、SM 7%，約 1,320 frames/s。批次與單張解碼逐位元相同，重複解碼逐位元相同。色彩轉換逐步如下（見下表）。
 2. **正規化**：float32 ÷ 255，先於 resize。
 3. **Resize**：`F.interpolate(mode="bilinear", antialias=True, align_corners=False)` stretch 到 640×640，float32，**不取整、不 clamp**（antialias 權重的捨入可使值略超過 1，實測最大 1.0000001）。
 4. **使用範圍**：teacher 訓練、GT1 live features、cache_train／cache_val／cache_eval、teacher 的 val 診斷、backbone 匯出驗證與 head 輸入 features，都經同一個 `gpu_decode_clip_batch`；distill／T3／T1 只讀 cache。
 5. **強制**：每個 T01 行程設 `SACCADE_T01_GPU_DECODE_ONLY=1`，舊 CPU 載圖函式一被呼叫即失敗（負向測試：preload 與逐張載入都被拒絕）；runner 只接受 manifest 為 `status=complete`、`decode_backend=torchvision_nvjpeg` 的 cache。smoke 與已停止的正式 attempt 實際 log 中都沒有 CPU preload，三個 cache manifest 都是 `torchvision_nvjpeg`。唯一的 CPU 讀圖是 `t01_split.py` 的洩漏檢查縮圖，不進入模型。
 
-**對 v1 的要求（F01／F02／F03 驗收項，T01 不關閉）**：F02 須實作同一 antialiased kernel；F01 應使用 nvJPEG 硬體 backend。硬體與 CUDA hybrid backend、不同 nvJPEG 版本或 GPU 世代可能有小的像素差，需以固定參考 frame 做像素級比對後才能宣稱一致。
+**色彩轉換流程**（2026-10-30 以實際檔案與程式核實）：
+
+| 步驟 | 內容 | 依據 |
+| --- | --- | --- |
+| 0. 來源格式 | 5,316 張 MOT17 frame 全部是 baseline（非 progressive）、8-bit、3 component YCbCr、**4:2:0**；無 ICC profile、無 Adobe marker、無 EXIF。02／05／09／10 有 JFIF APP0，04／11／13 沒有（3-component 依慣例解為 YCbCr）。 | Pillow 逐張讀 header |
+| 1. 熵解碼、反量化、IDCT | 8×8 整數 IDCT | 與 libjpeg-turbo `islow` 結果相同（第 3 步的逐位元比對） |
+| 2. 解碼路徑 | torchvision 0.26.0 以 `NVJPEG_BACKEND_HARDWARE` 建 handle；每張先 `nvjpegDecodeBatchedSupported`，支援者走硬體 `nvjpegDecodeBatched`，否則走 default backend；輸出格式 `NVJPEG_OUTPUT_RGB`（planar，即 CHW） | [decode_jpegs_cuda.cpp @ v0.26.0](https://github.com/pytorch/vision/blob/v0.26.0/torchvision/csrc/io/image/cuda/decode_jpegs_cuda.cpp) L103–114、L149–182、L440–509 |
+| 3. Chroma 升採樣 4:2:0→4:4:4 | **複製（2×2 重複），不是 libjpeg 預設的 fancy／三角濾波**。nvJPEG 輸出與 libjpeg-turbo 3.2.0 `djpeg -nosmooth`（merged upsampler）在 **5,316／5,316 張**逐位元相同；與 `djpeg` 預設（fancy）或 torchvision CPU `read_image` 在 81–93% 像素相同，差異集中在 Cb／Cr | 本機全量比對 |
+| 4. YCbCr→RGB | JFIF 全範圍 BT.601（R＝Y＋1.402 Cr′，G＝Y−0.34414 Cb′−0.71414 Cr′，B＝Y＋1.772 Cb′，Cb′／Cr′＝值−128），定點捨入並 clamp 到 0–255 | 同第 3 步的逐位元相同 |
+| 5. 通道 | planar **R, G, B**（不做 BGR 交換）；與 CPU decode 的逐通道相關 ≥ 0.9997，確認次序相同 | 本機比對 |
+| 6. 數值域 | uint8 → float32 ÷ 255；不做 mean／std 正規化、gamma、線性化或其他色彩空間轉換 | `gpu_decode_clip_batch` |
+| 7. Resize | 每通道獨立 antialiased bilinear（第 3 項） | 同上 |
+
+YOLO26m 預訓練（Ultralytics）以 RGB 輸入，舊原版 teacher／cache 也是 RGB；T01 只改變 chroma 升採樣與 resize，不改通道次序或數值域。
+
+**對 v1 的要求（F01／F02／F03 驗收項，T01 不關閉）**：F02 須實作同一 antialiased kernel。F01 應使用 nvJPEG 硬體 backend、`NVJPEG_OUTPUT_RGB`；其輸出有一個獨立的 CPU 參考：libjpeg-turbo（`JDCT_ISLOW`、`do_fancy_upsampling=FALSE`、`JCS_RGB`，即 `djpeg -nosmooth`），可對 MOT17 frame 做**逐位元**比對。若改用 CUDA hybrid backend、其他 nvJPEG 版本或 GPU 世代，須重新做此比對後才能宣稱一致。
 
 ## 3. 訓練配方
 

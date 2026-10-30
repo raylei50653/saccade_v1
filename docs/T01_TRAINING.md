@@ -241,3 +241,71 @@ $PYX t01_verify_features.py [--smoke] --out REPORT.json [--negative-root OLD_SMO
 ```
 
 單一步驟：`stage NAME [--resume CKPT]`、`eval NAME`、`select NAME`、`final-eval`。artifact 根目錄 `~/.cache/saccade-v1/t01/`（`SACCADE_T01_ROOT` 可覆寫）：`src/`、`runs/<stage>/attempt-NN/{attempt.json,train.log,memory.log,run/}`、`runs/<stage>/{stage.json,val/,selection.json}`、`runs/final/`。大型 checkpoint、cache 與資料集不進 Git。
+
+## 8. 執行紀錄：正式 run（2026-10-30）
+
+**結論**：全鏈一次跑完，沒有中斷或重試。依預先固定的政策，最終候選為 **T1 epoch 1**（SHA-256 `070580f9…6e6962b`）：val AP50 0.6758，eval（MOT17-02，只開一次）AP50 0.5440。證據見 [evidence/t01/2026-10-30/formal](../evidence/t01/2026-10-30/formal/)。
+
+**身分**
+- v1 為 `7794c75`（工作樹乾淨、已推送）；舊來源 `e48f3b39`＋patch，patched tree `12de1236…`。recipe 與 split 的 hash 記在每個 attempt。
+- 全程 2 h 32 min（UTC 11:26–13:58），每個 stage 一個 attempt。
+- 精度控制加入前、只跑到 teacher epoch 1 就停止的 attempt（`runs-stopped-20261030T0941/`）未被使用。
+
+| Stage | 時間 | 計算精度（程序內讀回） | 選定 epoch | 選定的 val AP50 | training-loss 最佳 epoch | 選定 checkpoint |
+| --- | ---: | --- | ---: | ---: | ---: | --- |
+| teacher | 46.0 min | `torch-default`＋bf16 autocast | 12（固定規則） | 0.6881（診斷） | — | `14e86231…` |
+| cache_train | 2.2 min | `fp32-strict`，存 float16 | — | — | — | 4,062 幀、27.4 GB |
+| cache_val | 0.5 min | `fp32-strict`，存 float16 | — | — | — | 654 幀、4.4 GB |
+| distill | 24.9 min | `torch-default` | 26 | 0.6508 | 30 | `1b310878…` |
+| gt1 | 26.7 min | `fp32-strict` | 6 | 0.6781 | 30 | `72093767…` |
+| t3 | 12.1 min | `torch-default` | 2 | 0.6844 | 15 | `bdf887aa…` |
+| t1 | 14.0 min | `torch-default` | 1 | 0.6758 | 15 | `070580f9…` |
+| cache_eval | 0.6 min | `fp32-strict`，存 float16 | — | — | — | 600 幀（T1 選定後才建） |
+
+**資源**：沒有低記憶體停止。最低可用記憶體 17.5 GiB（T3／T1 把 features 預載到 RAM，trainer RSS 約 23.4 GiB）；GPU 峰值 7.5 GiB；`runs/` 共 53 GB。
+
+**計算精度**
+- 8 個 attempt 的程序內紀錄都與 policy 相符，沒有偏離；monitor 取樣次數從 teacher 的 275 次到 cache 的 2 次不等。
+- 122 個 val 評估紀錄的開始與結束都是 `fp32-strict`。
+- 每個 epoch checkpoint 都通過存檔精度與身分檢查。
+
+**正式 cache 的 feature 驗收**（§2.2 的容差，事先固定）：**PASS**。取 6 個 sequence 各 4 幀，共 24 幀：
+
+| 檢查 | 最差值 | 容差 |
+| --- | ---: | ---: |
+| ONNX Runtime vs PyTorch | 1.37e-5 | 1e-4 |
+| batch 4 vs batch 1 | 8.9e-6 | 1e-4 |
+| batch 8 vs batch 1 | 9.8e-6 | 1e-4 |
+| FP16 儲存 | 2.13e-4 | 4.88e-4 |
+| cache vs ONNX Runtime | 2.13e-4 | 5.88e-4 |
+
+負向對照全部通過。teacher e12 的 backbone／neck ONNX 為 76,186,163 bytes，SHA-256 `007c3260…`，440 個 initializer 全部逐位元對應到 checkpoint。
+
+**Eval split（MOT17-02，600 幀、10,993 個 GT；T1 選定紀錄寫出後打開一次）**
+
+| 項目 | T1 epoch 1 |
+| --- | --- |
+| AP50 | 0.5440（val MOT17-10：0.6758） |
+| score ≥ 0.25 | recall 0.478：TP 5,250、FN 5,743、FP 1,580 |
+| score ≥ 0.25，最短邊 4–8 px／8–16 px 的 recall | 0.014／0.363 |
+| score ≥ 0.001，最短邊 4–8 px／8–16 px 的 recall | 0.223／0.626 |
+| 檢查 | raw 輸出非有限值 0；top-300 中不合法框 0、全部為 class 0；score 範圍 0.001–0.998；沒有空偵測幀 |
+| 重複評估 | eval 與 val 各評兩次，偵測結果 SHA-256 相同 |
+
+Lineage 在 eval 上的 AP50（只作診斷，不參與選模）：distill 0.5155、gt1 0.5420、t3 0.5520；teacher one2many 輸出 0.5598。這些都不是 tracking 指標。
+
+**觀察（記錄，不是結論）**
+1. teacher 的 val AP50 隨訓練下降：e1 0.7545、e2 0.7582（最高）、e12 0.6881、e30 0.6585。依規則仍固定用 e12。
+2. 學生 stage 的 val AP50 都在早期達到高點（gt1 e6、t3 e2、t1 e1），之後緩慢下降，而 training loss 持續降低。這符合「對 5 個訓練 sequence 過擬合」的解釋，但沒有另外驗證。依 val 選模取到的是早期高點。
+3. T1 的最佳點是第 1 個 epoch，val 略低於 T3 選定點（0.6758 vs 0.6844）。
+4. 在 MOT17-02，最短邊 4–8 px 的行人在 score ≥ 0.25 時幾乎都沒有被偵測到。
+
+**完成狀態**
+
+| 狀態 | 結果 |
+| --- | --- |
+| TRAINING COMPLETE | **是**：全部 stage complete；每個 epoch checkpoint 都存在，且通過存檔精度與身分檢查 |
+| MODEL SELECTED | **是**：T1 epoch 1，依 `t01-selection/1` 選定；eval split 只在選定後打開一次 |
+| NATIVE ARTIFACT READY | **否**：backbone ONNX 已匯出，並與 PyTorch 及 cache 驗證過；TensorRT backbone engine 未建（pinned SDK 沒有 ONNX parser，OPEN）；head bundle、model manifest 與 S04 延續尚未完成 |
+| F03 VERIFIED | **否**（未執行） |
+| P01 | **OPEN** |

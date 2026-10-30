@@ -1,0 +1,71 @@
+{
+ "stages": {
+  "teacher": {
+   "selected_epoch": 12,
+   "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/teacher/attempt-01/run/epoch_0012.ckpt",
+   "bytes": 251887299,
+   "sha256": "14e86231f9c0e3aacea8ffcc9dd8c7dfb0f3e7a01b848ae6ea2c57a3d2899e1b",
+   "sha256_rechecked": true
+  },
+  "distill": {
+   "selected_epoch": 26,
+   "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/distill/attempt-01/run/epoch_0026.ckpt",
+   "bytes": 121834790,
+   "sha256": "1b310878104a43077eba3743a412f043a5c36cbde4a1d96047cf1a2c52776909",
+   "sha256_rechecked": true
+  },
+  "gt1": {
+   "selected_epoch": 6,
+   "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/gt1/attempt-01/run/epoch_0006.ckpt",
+   "bytes": 121836198,
+   "sha256": "720937671e485150db0a24f399867bc57cde4a57603e882717a683ed2133401a",
+   "sha256_rechecked": true
+  },
+  "t3": {
+   "selected_epoch": 2,
+   "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/t3/attempt-01/run/epoch_0002.ckpt",
+   "bytes": 129182687,
+   "sha256": "bdf887aa5bcbfa2d4117cc2de4bab57c91498a6bbcd3a47ab63d8c659d74c452",
+   "sha256_rechecked": true
+  },
+  "t1": {
+   "selected_epoch": 1,
+   "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt",
+   "bytes": 126818317,
+   "sha256": "070580f9f5755e57acd9ee7ed9b4307672f4d9996332b40e6b61ee7cc6e6962b",
+   "sha256_rechecked": true
+  }
+ },
+ "caches": {
+  "cache_train": {
+   "manifest_sha256": "07bfef0e626539c1e066d4e696366ada7113de8cdbe8836553e3ae8ae1cb14c4",
+   "total_frames": 4062,
+   "storage_dtype": "float16",
+   "compute_precision": "fp32-strict",
+   "teacher_checkpoint_sha256": "14e86231f9c0e3aacea8ffcc9dd8c7dfb0f3e7a01b848ae6ea2c57a3d2899e1b",
+   "bytes": 27374086092
+  },
+  "cache_val": {
+   "manifest_sha256": "98abdd710aec565abbe8bb8f070954c15fbf7efa421e4c2d1bb5d9289f2d0700",
+   "total_frames": 654,
+   "storage_dtype": "float16",
+   "compute_precision": "fp32-strict",
+   "teacher_checkpoint_sha256": "14e86231f9c0e3aacea8ffcc9dd8c7dfb0f3e7a01b848ae6ea2c57a3d2899e1b",
+   "bytes": 4407349164
+  },
+  "cache_eval": {
+   "manifest_sha256": "75ae9818020644841600202a460cff58eeb00f2491b7954daeb04a26a79d84cd",
+   "total_frames": 600,
+   "storage_dtype": "float16",
+   "compute_precision": "fp32-strict",
+   "teacher_checkpoint_sha256": "14e86231f9c0e3aacea8ffcc9dd8c7dfb0f3e7a01b848ae6ea2c57a3d2899e1b",
+   "bytes": 4043439600
+  }
+ },
+ "backbone_onnx": {
+  "path": "/home/ray/.cache/saccade-v1/t01/export/yolo26m-backbone-t01.onnx",
+  "bytes": 76186163,
+  "sha256": "007c32600832b1be94b077c513210346f01ff280d95cd92b4200d8ba7a0c236f",
+  "sha256_rechecked": true
+ }
+}

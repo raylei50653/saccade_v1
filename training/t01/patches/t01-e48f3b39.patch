@@ -1,0 +1,338 @@
+diff --color -ruN -x __pycache__ src-e48f3b39-pristine/scripts/train/temporal_yolo/train_gated_detector.py src-work/scripts/train/temporal_yolo/train_gated_detector.py
+--- src-e48f3b39-pristine/scripts/train/temporal_yolo/train_gated_detector.py	2026-10-27 16:02:47.000000000 +0800
++++ src-work/scripts/train/temporal_yolo/train_gated_detector.py	2026-10-30 17:17:41.249359139 +0800
+@@ -21,6 +21,8 @@
+ from __future__ import annotations
+ 
+ import argparse
++import json
++import os
+ import random
+ import shlex
+ import subprocess
+@@ -36,7 +38,10 @@
+ sys.path.insert(0, str(project_root))
+ sys.path.insert(0, str(project_root / "src"))
+ 
+-from saccade.perception.temporal_yolo.dataset import build_mot17_dataloader  # noqa: E402
++from saccade.perception.temporal_yolo.dataset import (  # noqa: E402
++    build_mot17_dataloader,
++    gpu_decode_clip_batch,
++)
+ from saccade.perception.temporal_yolo.training_utils import (  # noqa: E402
+     build_warmup_cosine_scheduler,
+     capture_rng_state,
+@@ -134,6 +139,7 @@
+     gt_ratio: float,
+     clip_grad: float = 10.0,
+     accum_steps: int = 1,
++    gpu_decode: bool = False,
+ ) -> float:
+     model.train()
+     total_loss = 0.0
+@@ -143,9 +149,12 @@
+     optimizer.zero_grad(set_to_none=True)
+ 
+     for batch_idx, batch in enumerate(loader):
+-        frames: torch.Tensor = (
+-            batch["frames"].to(device, dtype=torch.float32) / 255.0
+-        )  # (B, T, 3, H, W)
++        if gpu_decode:  # T01: nvJPEG + float antialiased stretch, [0, 1]
++            frames = gpu_decode_clip_batch(batch["jpeg_bytes"], img_size, device)
++        else:
++            frames = (
++                batch["frames"].to(device, dtype=torch.float32) / 255.0
++            )  # (B, T, 3, H, W)
+         gt_boxes_batch: list[list[torch.Tensor]] = batch["gt_boxes"]
+         B, T = frames.shape[:2]
+ 
+@@ -277,9 +286,12 @@
+         )
+         return result.stdout.strip()
+ 
++    # T01: the source is an exported e48f3b39 tree plus a recorded patch, not a
++    # git checkout, so git cannot answer; report the T01 identity instead.
++    identity = json.loads(os.environ.get("SACCADE_T01_IDENTITY", "{}"))
+     return {
+-        "commit": run("rev-parse", "HEAD"),
+-        "diff_status": "dirty" if run("status", "--porcelain") else "clean",
++        "commit": identity.get("source_id", "unknown"),
++        "diff_status": "t01-patched" if identity else "unknown",
+     }
+ 
+ 
+@@ -346,6 +358,12 @@
+     )
+     parser.add_argument("--num-workers", type=int, default=0)
+     parser.add_argument(
++        "--gpu-decode",
++        action="store_true",
++        help="T01: DataLoader returns raw JPEG bytes; frames are decoded with "
++        "nvJPEG and stretched in float on the GPU (same as cache/GT stages).",
++    )
++    parser.add_argument(
+         "--augment",
+         action="store_true",
+         help="Strategy B: clip-consistent augmentation (hflip + scale/translate "
+@@ -395,6 +413,8 @@
+         parser.error("--gt-ratio must be between 0 and 1")
+     if args.resume_reset_optimizer and not args.resume:
+         parser.error("--resume-reset-optimizer requires --resume")
++    if args.gpu_decode and (args.adapt_bn or args.augment):
++        parser.error("--gpu-decode does not support --adapt-bn or --augment")
+ 
+     seed_everything(args.seed)
+     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+@@ -559,10 +579,12 @@
+         num_workers=args.num_workers,
+         stride=clip_stride,
+         seqs=seqs,
+-        preload_to_ram=not args.dry_run,
++        preload_to_ram=not args.dry_run and not args.gpu_decode,
++        load_images=not args.gpu_decode,
+         seed=args.seed,
+         augment=args.augment,
+         balance_by_seq=args.balance_by_seq,
++        return_jpeg_bytes=args.gpu_decode,
+     )
+     data_generator = loader.generator
+     if resume_ckpt is not None and not args.resume_reset_optimizer:
+@@ -619,6 +641,7 @@
+             args.gt_ratio,
+             clip_grad=args.clip_grad,
+             accum_steps=args.accum_steps,
++            gpu_decode=args.gpu_decode,
+         )
+         scheduler.step()
+         elapsed = time.perf_counter() - t0
+diff --color -ruN -x __pycache__ src-e48f3b39-pristine/scripts/train/temporal_yolo/train_mamba_gt.py src-work/scripts/train/temporal_yolo/train_mamba_gt.py
+--- src-e48f3b39-pristine/scripts/train/temporal_yolo/train_mamba_gt.py	2026-10-27 16:02:47.000000000 +0800
++++ src-work/scripts/train/temporal_yolo/train_mamba_gt.py	2026-10-30 17:17:41.246888105 +0800
+@@ -25,6 +25,7 @@
+ 
+ import argparse
+ import json
++import os
+ import random
+ import sys
+ import time
+@@ -39,9 +40,6 @@
+ project_root = Path(__file__).resolve().parent.parent.parent.parent
+ sys.path.insert(0, str(project_root))
+ sys.path.insert(0, str(project_root / "src"))
+-sys.path.insert(0, str(project_root / "build"))
+-
+-import saccade_tracking_ext  # noqa: F401, E402
+ 
+ from saccade.perception.temporal_yolo.dataset import (  # noqa: E402
+     build_mot17_dataloader,
+@@ -75,6 +73,9 @@
+ def save_checkpoint(
+     state: dict[str, Any], run_dir: Path, epoch: int, is_best: bool = False
+ ) -> None:
++    t01_identity = os.environ.get("SACCADE_T01_IDENTITY")
++    if t01_identity:
++        state = {**state, "t01_identity": json.loads(t01_identity)}
+     run_dir.mkdir(parents=True, exist_ok=True)
+     torch.save(state, run_dir / "latest.ckpt")
+     torch.save(state, run_dir / f"epoch_{epoch:04d}.ckpt")
+@@ -1115,10 +1116,9 @@
+             ):
+                 break
+             if args.gpu_decode:
+-                frames = (
+-                    gpu_decode_clip_batch(batch["jpeg_bytes"], args.img_size, device)
+-                    / 255.0
+-                )
++                frames = gpu_decode_clip_batch(
++                    batch["jpeg_bytes"], args.img_size, device
++                )  # T01: already [0, 1]
+             else:
+                 frames = batch["frames"].to(device, dtype=torch.float32) / 255.0
+             gt_boxes_batch = batch["gt_boxes"]
+diff --color -ruN -x __pycache__ src-e48f3b39-pristine/scripts/train/temporal_yolo/train_mamba_head.py src-work/scripts/train/temporal_yolo/train_mamba_head.py
+--- src-e48f3b39-pristine/scripts/train/temporal_yolo/train_mamba_head.py	2026-10-27 16:02:47.000000000 +0800
++++ src-work/scripts/train/temporal_yolo/train_mamba_head.py	2026-10-30 17:17:41.246553893 +0800
+@@ -21,6 +21,7 @@
+ 
+ import argparse
+ import json
++import os
+ import shlex
+ import sys
+ import time
+@@ -39,10 +40,7 @@
+ project_root = Path(__file__).resolve().parent.parent.parent.parent
+ sys.path.insert(0, str(project_root))
+ sys.path.insert(0, str(project_root / "src"))
+-sys.path.insert(0, str(project_root / "build"))
+ 
+-# Import tracker first to avoid libtiff symbol conflict with torchvision
+-import saccade_tracking_ext  # noqa: F401, E402
+ 
+ from saccade.perception.temporal_yolo.dataset import (  # noqa: E402
+     build_mot17_dataloader,
+@@ -73,6 +71,9 @@
+ def save_checkpoint(
+     state: dict[str, Any], run_dir: Path, epoch: int, is_best: bool = False
+ ) -> None:
++    t01_identity = os.environ.get("SACCADE_T01_IDENTITY")
++    if t01_identity:
++        state = {**state, "t01_identity": json.loads(t01_identity)}
+     run_dir.mkdir(parents=True, exist_ok=True)
+     torch.save(state, run_dir / "latest.ckpt")
+     torch.save(state, run_dir / f"epoch_{epoch:04d}.ckpt")
+@@ -224,7 +225,9 @@
+             if _cache_required_keys().issubset(existing):
+                 return False
+ 
+-        img = img.to(device, dtype=torch.float32) / 255.0
++        img = img.to(device, dtype=torch.float32)
++        if not gpu_decode:  # T01: the GPU path already returns [0, 1]
++            img = img / 255.0
+         img = img.unsqueeze(0)
+ 
+         with torch.no_grad():
+diff --color -ruN -x __pycache__ src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/dataset.py src-work/src/saccade/perception/temporal_yolo/dataset.py
+--- src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/dataset.py	2026-10-27 16:02:47.000000000 +0800
++++ src-work/src/saccade/perception/temporal_yolo/dataset.py	2026-10-30 17:17:41.246106527 +0800
+@@ -564,7 +564,11 @@
+     img_size: int,
+     device: torch.device | str,
+ ) -> torch.Tensor:
+-    """Batch-decode raw JPEG bytes on the GPU (nvJPEG) → (B, T, 3, S, S) float [0,255].
++    """Batch-decode raw JPEG bytes on the GPU (nvJPEG) → (B, T, 3, S, S) float [0,1].
++
++    T01 (saccade_v1) input contract, matching v1 F01/F02 (DATAFLOW B04): nvJPEG
++    RGB decode, float32 normalization to [0, 1] first, then an antialiased
++    bilinear stretch (align_corners=False) in float, with no uint8 rounding.
+ 
+     Input is list[B] of list[T] of raw JPEG byte strings. Decodes the whole B*T
+     flat batch in one nvJPEG call, then stretch-resizes each frame to img_size
+@@ -586,10 +590,11 @@
+         dec = [decode_jpeg(bt, device=device) for bt in flat]
+     out = [
+         F.interpolate(
+-            d.float().unsqueeze(0),
++            (d.float() / 255.0).unsqueeze(0),
+             (img_size, img_size),
+             mode="bilinear",
+             align_corners=False,
++            antialias=True,
+         ).squeeze(0)
+         for d in dec
+     ]
+diff --color -ruN -x __pycache__ src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/mamba_head.py src-work/src/saccade/perception/temporal_yolo/mamba_head.py
+--- src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/mamba_head.py	2026-10-27 16:02:47.000000000 +0800
++++ src-work/src/saccade/perception/temporal_yolo/mamba_head.py	2026-10-30 16:49:05.221333137 +0800
+@@ -52,6 +52,11 @@
+     # The CUDA op (saccade::selective_scan_fwd) registers no autograd formula, so
+     # it is inference-only. When grad is required (training), fall back to the
+     # pure-PyTorch differentiable scan. Eval/inference is unaffected.
++    # T01 (saccade_v1): training never loads the old compiled extension
++    # (saccade_tracking_ext / mamba_scan.cu). Differentiable calls use the
++    # pure-PyTorch JIT scan below; calls without autograd use the
++    # step-by-step form of the same recurrence, which does not materialise the
++    # (B, L, D, N) decay/drive tensors (the T3 temporal scan has B = batch*H*W).
+     grad_needed = torch.is_grad_enabled() and (
+         u.requires_grad
+         or delta.requires_grad
+@@ -60,21 +65,37 @@
+         or C.requires_grad
+     )
+     if grad_needed:
+-        # Training: use the analytic CUDA fwd/bwd kernels (the JIT scan is a
+-        # launch-bound Python loop). Falls back to JIT on CPU or if the C++
+-        # extension is unavailable.
+-        if u.is_cuda and not _DISABLE_CUDA_SCAN_BWD:
+-            try:
+-                return _SelectiveScanCudaFn.apply(u, delta, A, B, C, D)
+-            except (ImportError, RuntimeError):
+-                return _selective_scan_jit(u, delta, A, B, C, D)
+-        return _selective_scan_jit(u, delta, A, B, C, D)
+-    if not u.is_cuda:
+-        return _selective_scan_jit(u, delta, A, B, C, D)
+-    try:
+-        return _selective_scan_cuda(u, delta, A, B, C, D)
+-    except ImportError:
+         return _selective_scan_jit(u, delta, A, B, C, D)
++    return _selective_scan_t01_stepwise(u, delta, A, B, C, D)
++
++
++def _selective_scan_t01_stepwise(
++    u: Tensor,
++    delta: Tensor,
++    A: Tensor,
++    B: Tensor,
++    C: Tensor,
++    D: Tensor | None = None,
++) -> Tensor:
++    """Same recurrence and operation order as ``_selective_scan_jit``.
++
++    For each t: h = exp(softplus(delta_t) * A) * h + (softplus(delta_t) * B_t) * u_t,
++    y_t = sum_n(h * C_t); finally y += u * D. h starts at zero on every call.
++    """
++    B_dim, L_dim, D_dim = u.shape
++    N = A.shape[1]
++    delta = F.softplus(delta)
++    h = torch.zeros(B_dim, D_dim, N, device=u.device, dtype=u.dtype)
++    ys = torch.empty(B_dim, L_dim, D_dim, device=u.device, dtype=u.dtype)
++    for t in range(L_dim):
++        delta_t = delta[:, t].unsqueeze(-1)  # (B, D, 1)
++        decay = torch.exp(delta_t * A)  # (B, D, N)
++        drive = delta_t * B[:, t].unsqueeze(1) * u[:, t].unsqueeze(-1)
++        h = decay * h + drive
++        ys[:, t] = (h * C[:, t].unsqueeze(1)).sum(dim=-1)
++    if D is not None:
++        ys = ys + u * D
++    return ys
+ 
+ 
+ def _selective_scan_legacy_n1(
+@@ -96,7 +117,7 @@
+     if not u.is_cuda:
+         return _selective_scan_legacy_n1_jit(u, delta, A, B, C, D)
+     try:
+-        return _selective_scan_legacy_n1_cuda(u, delta, A, B, C, D)
++        raise RuntimeError("T01: legacy_n1_scan is not part of the T01 recipe")
+     except ImportError:
+         return _selective_scan_legacy_n1_jit(u, delta, A, B, C, D)
+ 
+@@ -528,7 +549,13 @@
+         A = -torch.exp(self.A_log.float())  # (1, N) shared or (d_inner, N) per-channel
+ 
+         scan = _selective_scan_legacy_n1 if self.legacy_n1_scan else _selective_scan
+-        y = scan(x_t, dt, A, B_ssm, C_ssm, D=self.D)
++        if self.scan_stop_grad:
++            # T01: the output is detached below, so evaluating the scan without
++            # autograd yields the same values and the same gradient topology.
++            with torch.no_grad():
++                y = scan(x_t, dt, A, B_ssm, C_ssm, D=self.D)
++        else:
++            y = scan(x_t, dt, A, B_ssm, C_ssm, D=self.D)
+ 
+         # v14 historical regime: the raw CUDA scan had no grad_fn, so conv1d /
+         # x_proj / dt_proj / A_log / D (and the x half of in_proj) stayed at
+diff --color -ruN -x __pycache__ src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/training_utils.py src-work/src/saccade/perception/temporal_yolo/training_utils.py
+--- src-e48f3b39-pristine/src/saccade/perception/temporal_yolo/training_utils.py	2026-10-27 16:02:47.000000000 +0800
++++ src-work/src/saccade/perception/temporal_yolo/training_utils.py	2026-10-30 16:49:05.223971267 +0800
+@@ -12,7 +12,9 @@
+ from __future__ import annotations
+ 
+ import hashlib
++import json
+ import math
++import os
+ import random
+ from pathlib import Path
+ from typing import Any
+@@ -147,6 +149,9 @@
+     is_best: bool = False,
+ ) -> None:
+     """Save state dict as latest.ckpt + epoch_N.ckpt, plus best.ckpt if is_best."""
++    t01_identity = os.environ.get("SACCADE_T01_IDENTITY")
++    if t01_identity:
++        state = {**state, "t01_identity": json.loads(t01_identity)}
+     run_dir.mkdir(parents=True, exist_ok=True)
+     torch.save(state, run_dir / "latest.ckpt")
+     torch.save(state, run_dir / f"epoch_{epoch:04d}.ckpt")

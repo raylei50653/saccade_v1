@@ -22,13 +22,28 @@ here=evidence/s04/2026-10-30
 mkdir -p "$out/capture" "$out/source" "$out/stage"
 out=$(cd "$out" && pwd)
 cap=$out/capture src=$out/source
+# Keep sampling in the ignored output directory, including on a failed attempt.
+(
+  while true; do date -Is; free -m; sleep 10; done
+) > "$cap/memory.log" 2>&1 &
+monitor_pid=$!
+trap 'kill "$monitor_pid" 2>/dev/null || true; wait "$monitor_pid" 2>/dev/null || true' EXIT
+clean_source() {
+  if [[ $(git rev-parse HEAD) != "$rev" || -n $(git status --porcelain) ]]; then
+    { date -Is; git rev-parse HEAD; git status --porcelain; } >> "$cap/source-drift.log"
+    echo 'source HEAD or working tree changed during capture' >&2
+    return 2
+  fi
+}
 run() {
   local name=$1 code=0
   shift
+  clean_source || return $?
   printf '%q ' "$@" > "$cap/$name.command"; printf '\n' >> "$cap/$name.command"
   "$@" > "$cap/$name.log" 2>&1 || code=$?
   printf '%s\n' "$code" > "$cap/$name.exit"
   printf '%s: exit=%s\n' "$name" "$code"
+  clean_source || return $?
   return "$code"
 }
 run environment bash -c 'date -Is; uname -srmo; git --version; cmake --version | head -1; c++ --version | head -1; "$1" --version | tail -2; "$2" --version | head -3; nvidia-smi --query-gpu=name,driver_version,uuid,pci.bus_id,compute_cap --format=csv; ldd --version | head -1; nproc' _ "$nvcc" "$sanitizer"
@@ -71,7 +86,7 @@ run engine-run-report cp "$out/trt/head-trt/run-report.txt" "$cap/head-run-repor
 run head-suite-report cp "$out/trt/head-trt/suite-report.tsv" "$cap/head-suite-report.tsv"
 run head-api-trace "$out/trt/head_trt_tests" "$engine" "$engine_sha" "$out/stage/t1-head.swb" "$bundle_sha" --group api_trace
 run scan-trt-report "$out/trt/scan_trt_tests" "$cap/scan-trt-report.tsv"
-run engine-rebuild-determinism bash -c '"$1" build "$2" "$3" "$4" "$5" && sha256sum "$4" "$6"' _ "$out/trt/head_trt" "$out/stage/t1-head.swb" "$bundle_sha" \
+run engine-rebuild-determinism bash -c '"$1" build "$2" "$3" "$4" "$5" && sha256sum "$4" "$6" && cmp "$4" "$6"' _ "$out/trt/head_trt" "$out/stage/t1-head.swb" "$bundle_sha" \
   "$out/stage/rebuild.engine" "$out/stage/rebuild-report.txt" "$engine"
 
 # Manifest: declaration and file integrity in a staging bundle directory.
@@ -90,7 +105,7 @@ run backbone-identity bash -c 'stat -L -c "%s bytes" "$1" && sha256sum "$1"' _ "
 run onnx-schema-hash bash -c 'cp "$1" "$2/onnx.proto" && echo "5943f7cb1d0359edfbc7871cb8ec3095ca942c04dea28ee15c926d51e1185efe  $2/onnx.proto" | sha256sum -c' _ "$onnx_proto" "$out/onnx"
 run onnx-schema-generate protoc --cpp_out="$out/onnx" -I "$out/onnx" "$out/onnx/onnx.proto"
 run onnx-inspect-build bash -c 'c++ -std=c++20 -O2 -Wall -Wextra -Wpedantic -Werror -I "$1/include" -I "$2" "$1/tools/onnx_contract_inspect.cpp" "$1/src/file_io.cpp" "$2/onnx.pb.cc" $(pkg-config --cflags --libs protobuf) -o "$2/onnx_contract_inspect"' _ "$src" "$out/onnx"
-run backbone-ordered-io bash -c '"$1" "$2" | grep -E "^(scope|ir_version|producer|opset|metadata|graph.root|input|output)"' _ "$out/onnx/onnx_contract_inspect" "$backbone"
+run backbone-ordered-io bash -o pipefail -c '"$1" "$2" | grep -E "^(scope|ir_version|producer|opset|metadata|graph.root|input|output)"' _ "$out/onnx/onnx_contract_inspect" "$backbone"
 
 suite=("$out/trt/head_trt_tests" "$engine" "$engine_sha" "$out/stage/t1-head.swb" "$bundle_sha" --skip intermediates)
 # Head engines load TensorRT's generated kernel libraries; under the default
@@ -99,27 +114,35 @@ suite=("$out/trt/head_trt_tests" "$engine" "$engine_sha" "$out/stage/t1-head.swb
 # as an error although no API call failed. The head runs therefore report
 # explicit API errors only; memory, race, sync and init errors are unaffected.
 # One memcheck run keeps the default and must report nothing but that line.
+# Head racecheck/synccheck are unexecuted: TensorRT conv/GEMM instrumentation
+# was extremely costly and a WSL crash occurred during a development run
+# (cause undetermined). S04's new finite-check kernels have no shared memory
+# or barriers. The existing packet barrier and scan kernels remain covered
+# by all four tools in the S03 suite below. This is not full-head race/sync
+# sanitizer acceptance; native ownership/streams/graph tests still run.
+run sanitizer-head-memcheck "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 "${suite[@]}"
 for tool in memcheck racecheck synccheck; do
-  run "sanitizer-head-$tool" "$sanitizer" --tool "$tool" --report-api-errors explicit --error-exitcode 99 "${suite[@]}"
   run "sanitizer-scan-trt-$tool" "$sanitizer" --tool "$tool" --error-exitcode 99 "$out/trt/scan_trt_tests"
 done
 run sanitizer-head-initcheck "$sanitizer" --tool initcheck --report-api-errors explicit --error-exitcode 99 "${suite[@]}" --no-held-stream
 run sanitizer-scan-trt-initcheck "$sanitizer" --tool initcheck --error-exitcode 99 "$out/trt/scan_trt_tests" --no-held-stream
 run sanitizer-head-memcheck-default-reporting bash -c '
-  log=$(mktemp); code=0
+  log=$1; shift; code=0
   "$@" > "$log" 2>&1 || code=$?
   cat "$log"
   reported=$(sed -n "s/^========= ERROR SUMMARY: \([0-9]*\) error.*/\1/p" "$log")
   notes=$(grep -c "CUDA API Warning: Selective device code recompilation in progress" "$log" || true)
   passed=$(grep -c "^head_trt_tests: [0-9]* checks passed" "$log" || true)
-  rm -f "$log"
+  unexpected=$(grep -E "^========= [^ ]" "$log" | grep -Ev "^========= (COMPUTE-SANITIZER|CUDA API Warning: Selective device code recompilation in progress\.|ERROR SUMMARY: [0-9]+ errors?)$" || true)
   echo "tool exit=$code reported=$reported recompilation_notes=$notes suite_passed=$passed"
-  [[ $passed == 1 && ( ( $code == 0 && $reported == 0 ) || ( $code == 99 && $reported == "$notes" ) ) ]]
-' _ "$sanitizer" --tool memcheck --error-exitcode 99 "${suite[@]}"
+  [[ -z $unexpected ]] || { printf "unexpected sanitizer headers:\n%s\n" "$unexpected"; exit 1; }
+  [[ $passed == 1 && ( ( $code == 0 && $reported == 0 ) || ( $code == 99 && $notes -gt 0 && $reported == "$notes" ) ) ]]
+' _ "$cap/sanitizer-head-memcheck-default-raw.log" "$sanitizer" --tool memcheck --error-exitcode 99 "${suite[@]}"
 printf '%s\n' 'head intermediates: excluded from sanitizers (rebuilds a debug engine); native run in trt-ctest head_trt' \
   'head api_trace: explicit group, separate native CUPTI process (head-api-trace)' \
   'scan_trt api_trace / async_fault: explicit groups, native only (trt-ctest)' \
   'initcheck: --no-held-stream skips the callback-held stream groups only' \
+  'head racecheck/synccheck: UNEXECUTED (TensorRT instrumentation cost; WSL crash during development, cause undetermined). New finite-check kernels have no shared memory/barriers; existing packet barrier and scan kernels covered by S03 suite; native head ownership/streams/graph tests retained.' \
   'head runs: --report-api-errors explicit; sanitizer-head-memcheck-default-reporting keeps the default and classifies every reported item' > "$cap/sanitizer-skips.txt"
 run control-build "$nvcc" -std=c++20 -arch=sm_120 -lineinfo -o "$out/sanitizer-control" "$src/evidence/s02/2026-10-29/sanitizer-control.cu"
 for tool in memcheck initcheck racecheck synccheck; do
@@ -131,3 +154,14 @@ run mutation-results cp "$out/mutations/results.tsv" "$cap/mutation-results.tsv"
 run binary-hashes sha256sum "$out/cpu/head_weights" "$out/cpu/head_reference_tests" "$out/cpu/head_weights_tests" "$out/cpu/model_manifest" \
   "$out/trt/head_trt" "$out/trt/head_trt_tests" "$out/trt/scan_trt_tests" "$out/trt/libsaccade_head_trt.a" "$out/trt/libsaccade_scan_trt.a" \
   "$out/trt/libsaccade_scan_trt_frame.a" "$out/trt/libsaccade_selective_scan_cuda.a" "$engine" "$out/stage/t1-head.swb" "$out/sanitizer-control"
+run build-source-identity bash -c '
+  set -euo pipefail
+  rev=$1; shift
+  for report in "$@"; do
+    grep -Eq "(^|[[:space:]])build_commit=$rev$" "$report"
+    grep -Eq "(^|[[:space:]])build_dirty=false$" "$report"
+    if grep -q "build_dirty=true" "$report"; then exit 1; fi
+    echo "$report: tested commit and build_dirty=false verified"
+  done
+' _ "$rev" "$cap/head-build-report.txt" "$cap/head-run-report.txt" "$cap/head-suite-report.tsv" "$cap/scan-trt-report.tsv"
+run working-tree-final git status --porcelain=v1

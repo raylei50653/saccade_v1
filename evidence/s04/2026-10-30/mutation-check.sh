@@ -59,6 +59,47 @@ mutations=(
   'converter_level_swap|src/head_weights.cpp|s/n = std::to_string(i);/n = std::to_string(i == 0 ? 0 : 3 - i);/|cpu:head_weights_tests'
   'bundle_skips_tensor_sha|src/head_weights.cpp|s/if (sha256_hex(data.substr(offset, size)) != sha) fail(/if (false) fail(/|cpu:head_weights_tests'
 )
+# The executables use exit 1 for a rejected check, but also for setup and I/O
+# exceptions. Accept only the assertion or tactic guard that this mutation is
+# meant to exercise. A timeout, signal, or unrelated exception is invalid.
+# Every head group runs numeric first to establish its baseline output arena,
+# so its prerequisite assertions can detect frame-check mutants before the
+# selected atomicity/ownership group starts.
+rejection_pattern() {
+  case $1 in
+    pixel_shuffle_dcr|conv1d_anticausal|concat_reversed|xz_halves_swapped|dt_b_swapped|delta_bias_negated|residual_subtracted|a_not_negated|gate_without_silu|level_weights_swapped|publish_first_output_only)
+      printf '%s' '^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$' ;;
+    output_names_swapped)
+      printf '%s' '^head_trt_tests: scan frame session: engine output shape differs from the spec: cls_p4$' ;;
+    tf32_enabled)
+      printf '%s' '^head_trt: tactics outside the FP32 direct-summation model: .+' ;;
+    tactic_guard_ignores_winograd)
+      printf '%s' '^head_trt_tests: Winograd tactic rejected$' ;;
+    output_check_skipped|input_check_skipped)
+      printf '%s' '^head_trt_tests: (asymmetric/1: accepted|input check and the level.s expand status both report the non-finite feature|nan_in_[a-z0-9_]+: frame [0-9]+ status [0-9]+ error 0x[0-9a-f]+ fail 0x[0-9a-f]+)$' ;;
+    gate_skips_last_status)
+      printf '%s' '^head_trt_tests: asymmetric/1: the gate read every status valid$' ;;
+    missing_consumed_wait)
+      printf '%s' '^head_trt_tests: (ownership stress accepts six frames|delayed gate publishes the six outputs of its own frame|last committed result is frame 5.s|ownership: every consumed status is retired to zero)$' ;;
+    spec_output_shape_unchecked)
+      printf '%s' '^head_trt_tests: I/O spec mismatch rejected: output_order_swapped$' ;;
+    ref_pixel_shuffle_dcr)
+      printf '%s' '^head_reference_tests: pixel_shuffle_crd: element [0-9]+ = .+, expected .+$' ;;
+    ref_conv1d_offset)
+      printf '%s' '^head_reference_tests: causal_conv1d: element [0-9]+ = .+, expected .+$' ;;
+    ref_scan_without_d)
+      printf '%s' '^head_reference_tests: head scan equals the S01 reference bit for bit [(]L=[0-9]+, max diff .+[)]$' ;;
+    ref_sigma_zero_for_dot_products)
+      printf '%s' '^head_reference_tests: FP32 CPU head inside the policy: (cls|reg)_p[345]$' ;;
+    converter_ignores_strides)
+      printf '%s' '^head_weights_tests: expected rejection: not contiguous$' ;;
+    converter_level_swap)
+      printf '%s' '^head_weights_tests: bundle level of p[345][.].+ is the checkpoint index of .+$' ;;
+    bundle_skips_tensor_sha)
+      printf '%s' '^head_weights_tests: unexpected diagnostic: head bundle: bytes are not the canonical encoding [(]offsets, padding or trailing data[)]; wanted SHA-256 mismatch$' ;;
+    *) return 1 ;;
+  esac
+}
 status=0
 printf 'mutation\tcheck\texit\tresult\n' > "$out/results.tsv"
 for entry in "${mutations[@]}"; do
@@ -86,6 +127,8 @@ for entry in "${mutations[@]}"; do
     cpu) cmd=(timeout 900 "$build/$group") ;;
   esac
   printf '%q ' "${cmd[@]}" > "$out/$name.command"; printf '\n' >> "$out/$name.command"
+  pattern=$(rejection_pattern "$name")
+  printf '# expected rejection (exit 1): %s\n' "$pattern" >> "$out/$name.command"
   code=0
   "${cmd[@]}" > "$out/$name.log" 2>&1 || code=$?
   cp "$src/$file" "$private/$file"
@@ -94,9 +137,13 @@ for entry in "${mutations[@]}"; do
     echo "$name [$check]: INSENSITIVE"
     printf '%s\t%s\t%s\tINSENSITIVE\n' "$name" "$check" "$code" >> "$out/results.tsv"
     status=1
-  else
+  elif [[ $code == 1 ]] && grep -Eq -- "$pattern" "$out/$name.log"; then
     echo "$name [$check]: detected (exit $code)"
     printf '%s\t%s\t%s\tDETECTED\n' "$name" "$check" "$code" >> "$out/results.tsv"
+  else
+    echo "$name [$check]: invalid runtime result (exit $code; expected exit 1 and the specified rejection)" >&2
+    printf '%s\t%s\t%s\tINVALID_RUNTIME\n' "$name" "$check" "$code" >> "$out/results.tsv"
+    status=1
   fi
 done
 exit "$status"

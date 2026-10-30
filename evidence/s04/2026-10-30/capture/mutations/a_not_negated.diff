@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:52:49.787540060 +0800
+@@ -178,7 +178,7 @@
+         // 4e: A = -exp(A_log), computed in the graph.
+         auto* a_log = constant(W("mamba.A_log"), shape({1, kHeadDState}), "mamba.A_log");
+         auto* a_exp = named(network_->addUnary(*a_log, UnaryOperation::kEXP), "mamba.A_exp")->getOutput(0);
+-        auto* am = named(network_->addUnary(*a_exp, UnaryOperation::kNEG), "mamba.A")->getOutput(0);
++        auto* am = named(network_->addUnary(*a_exp, UnaryOperation::kABS), "mamba.A")->getOutput(0);
+         auto* d = constant(W("mamba.D"), shape({kHeadDInner}), "mamba.D");
+         // 4f: SelectiveScan v2 (u, delta, A, B, C, D).
+         auto* y = keep(plugin(create_selective_scan_plugin(true), {u, delta, am, bm, cm, d}, "scan"), "scan");

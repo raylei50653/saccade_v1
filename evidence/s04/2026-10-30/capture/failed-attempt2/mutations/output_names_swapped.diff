@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_trt_network.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_trt_network.cpp	2026-10-30 12:13:52.331529052 +0800
+@@ -67,7 +67,7 @@
+             outputs[static_cast<std::size_t>(3 + level)] = reg;
+         }
+         for (std::size_t k = 0; k < 6; ++k) {
+-            outputs[k]->setName(kHeadOutputNames[k]);
++            outputs[k]->setName(kHeadOutputNames[k == 1 ? 2 : k == 2 ? 1 : k]);
+             network_->markOutput(*outputs[k]);
+         }
+         for (auto* s : statuses_) network_->markOutput(*s);

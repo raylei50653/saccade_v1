@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:50:14.699047300 +0800
+@@ -198,7 +198,7 @@
+         join->setReshapeDimensions(shape({1, kHeadDModel, size, size}));
+         auto* shuffled = keep(join->getOutput(0), "pixel_shuffle");
+         // 7: concat [input_proj, upsampled], then the cls and reg branches.
+-        ITensor* parts[] = {a, shuffled};
++        ITensor* parts[] = {shuffled, a};
+         auto* cat_layer = named(network_->addConcatenation(parts, 2), "concat");
+         cat_layer->setAxis(1);
+         auto* cat = cat_layer->getOutput(0);

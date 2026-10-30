@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_weights.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_weights.cpp	2026-10-30 12:16:38.813534389 +0800
+@@ -334,7 +334,7 @@
+         if (size != elements(p.shape) * sizeof(float) || offset > data.size() || size > data.size() - offset) fail(name + ": data range outside the bundle");
+         HeadTensor t{p.shape, std::vector<float>(elements(p.shape))};
+         std::memcpy(t.values.data(), data.data() + offset, size);
+-        if (sha256_hex(data.substr(offset, size)) != sha) fail(name + ": SHA-256 mismatch");
++        if (false) fail(name + ": SHA-256 mismatch");
+         w.tensors.emplace(name, std::move(t));
+     }
+     if (!std::getline(lines, line) || line != "end" || std::getline(lines, line)) fail("missing end line");

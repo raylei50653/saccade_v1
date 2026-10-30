@@ -1,0 +1,1 @@
+bash -c $'\nset -euo pipefail\nfor file in evidence/s04/2026-10-30/*.sh evidence/s04/2026-10-30/verification/*.sh; do\n  bash -n "$file"\n  echo "$file: ok"\ndone\nfor file in evidence/s04/2026-10-30/verification/*.mjs; do\n  node --check "$file"\n  echo "$file: ok"\ndone\n' 

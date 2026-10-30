@@ -2,7 +2,7 @@
 
 S04 把 [S01](SCAN_CONTRACT.md)／[S02](SCAN_CUDA.md)／[S03](SCAN_TRT.md) 接成完整的原版 m head：**固定權重身分 → native 權重 bundle → native TensorRT 建圖 → 獨立 binary64 reference 對照全部 raw cls／reg → 既有 frame 完成與失敗流程**。邊界是 **P3／P4／P5 features 輸入到六個 raw outputs**；FP32，batch 1，T=1，不保留跨 frame 狀態。不含新訓練、FP16、效能最佳化、decode／NMS、tracker、GMC、MOT writer，也不含 backbone／neck 推論。
 
-本文件描述契約與重跑方式；數值政策固定在 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`，於 `4d38bcc` 先於任何 GPU 比較提交）。S04 是否通過以 [S04 證據](../evidence/s04/2026-10-30/REPORT.md) 為準。
+本文件描述契約與重跑方式；數值政策固定在 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`，於 `4d38bcc` 先於任何 GPU 比較提交）。**S04 PASS**，正式結果來自 clean-source archive 的 [S04 證據](../evidence/s04/2026-10-30/REPORT.md)，範圍限指定候選權重、固定介面與受測 FP32 head 的數值、執行與失敗傳遞。head racecheck／synccheck 未執行；P01 仍 OPEN。開發紀錄、失敗 attempt 與未完成事項見 [§9](#9-執行紀錄與待完成事項)。
 
 ## 1. 固定範圍
 
@@ -128,7 +128,38 @@ build-s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--
 
 ## 8. 支援範圍與未完成事項
 
-- S04 head PASS 的意思是：**指定權重、固定介面與受測範圍內**，完整 FP32 head 的數值、執行與失敗傳遞已驗證。它不代表 detector、模型品質或 P01 通過。
+- S04 head PASS 的意思是：**指定權重、固定介面與受測範圍內**，完整 FP32 head 的數值、執行與失敗傳遞已驗證。它不代表 detector、模型品質或 P01 通過。head suite 的 memcheck／initcheck、native ownership／graph／streams 與 S03 四種 sanitizer 有正式證據；**完整 head 的 racecheck／synccheck 未執行**，不能列為 sanitizer PASS。
 - **P01 仍 OPEN**：matching YOLO26m backbone／neck 只完成舊 `yolo26m_backbone_640.onnx` 的 ordered I/O 結構查核（`images [b,3,640,640]` → `p3_feat`／`p4_feat`／`p5_feat`，形狀符合 head 輸入）；其權重歸屬、native engine、與 T1 head 的配對與推論未驗；影像前處理（RGB、/255、640 stretch、decode 後端）未實作；decode／NMS 與候選容量（F04）未定；候選 checkpoint 以 training loss 選取、無 holdout，品質未驗收。
 - 不支援：FP16／INT8、batch≠1、動態 shape、T>1 temporal 路徑、Winograd／FFT tactics（建置時拒絕）。S02 的範圍灰區與次正常數限制照常適用。
 - 舊 `mamba_head_26m.engine`／`.onnx` 未作執行基線；本輪 engine 由 v1 source 自建，身分記於 build evidence。
+
+## 9. 執行紀錄與待完成事項
+
+狀態（2026-10-30）：**S04 PASS，受測 source `3857e243e8fc32663aa688f073343002ad12cb30`。** 正式判定採 [capture.sh](../evidence/s04/2026-10-30/capture.sh) 從 clean HEAD 的 archive 重建後的結果，完整驗證表、執行身分、原始 logs 與限制見 [S04 報告](../evidence/s04/2026-10-30/REPORT.md)。下列開發數字只記錄進度與定位，與正式證據分開。
+
+| commit | 內容 |
+| --- | --- |
+| `4d38bcc` | 權重交付、binary64 reference、[HEAD_POLICY](HEAD_POLICY.md)；提交時沒有任何完整 head 的 GPU 結果 |
+| `222af61` | 完整 head、harness 擴充、`head_trt`／`head_trt_tests`、manifest schema 2、capture 與 mutation 腳本（第一次正式 capture 的受測 source） |
+| `dc016ed` | capture：head sanitizer 改報 explicit API 錯誤，另以一次預設模式 memcheck 分類所有回報項目 |
+| `0f5829d` | capture 強化，第二次正式 capture 的受測 source（該 attempt 不通過）：明列 head racecheck／synccheck 未執行；保留 memcheck／initcheck、S03 四工具與正控制；新增全程記憶體取樣、逐步 clean-source 守門、engine bytes 比對與 mutation 拒絕診斷檢查 |
+| `198ad63` | 僅修正 TF32 mutation 的拒絕診斷 matcher，補上實際的 `head engine build:` 前綴並要求 TF32 tactic token；第三次正式 capture 的受測 source（該 attempt 不通過） |
+| `3857e24` | 正式受測 source：S03 四種 sanitizer 也報 explicit API 錯誤，head 與 S03 各以獨立預設模式 memcheck 分類 driver 記錄；完整重跑第四次 capture |
+
+**開發結果。** 三組輸入 × 六輸出全部元素在 λσ 內（最差 誤差／門檻 0.0063，`asymmetric/1` 的 `cls_p4`）；51 個中間 tensor 最差 0.013；同一 engine 重跑與 graph 重播逐位元相同；兩次建置 plan bytes 相同（SHA-256 `ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1`，41,471,380 bytes）；`head_trt_tests` 824 checks、api_trace 通過；CUDA＋TRT CTest 31/31、CPU 13/13、ASan／UBSan 13/13；g++-13 與 clang 的 CPU 建置與測試通過；head suite 的 memcheck（explicit API 報告）與 initcheck（預設報告）0 錯誤。mutation 開發 pass 23/25 被測出，未測出的兩項已處理（見下）。
+
+**第一次正式 capture（受測 `222af61`）：不通過。** 完整建置目錄 `build-s04-evidence-attempt1/` 不入 Git；其已產生的 logs 存於 `capture/failed-attempt/`。 CPU、ASan／UBSan、CUDA＋TRT CTest、權重轉換、`head_trt run`（數字與開發結果相同）、manifest verify、backbone ordered I/O 都 exit 0；在 head suite 的 memcheck 停止：suite 640 checks 全部通過、沒有記憶體錯誤，但預設 `--report-api-errors extended` 把 driver 記錄「Selective device code recompilation in progress」（工具重新插樁 TensorRT 的 kernel library）計為 1 個錯誤，exit 99。另外此次 attempt 的建置身分為 `build_dirty=true`，因為 capture 進行中修改了工作樹文件；下次 capture 期間必須保持工作樹不變。
+
+**第二次正式 capture（受測 `0f5829d`，本機 `build-s04-evidence2/`）：不通過。** 26 個 mutation 中 25 個記為 `DETECTED`；TF32 mutation 的 tactic guard 已正確拒絕 TF32 engine，但新增的診斷 matcher 漏掉實際訊息的 `head engine build:` 前綴，將該次拒絕記為 `INVALID_RUNTIME`，capture 因而失敗。這是驗證腳本的診斷分類錯誤，並非 GPU 數值比較失敗；仍保留為失敗 attempt，不納入 PASS 證據。`198ad63` 只修正這一行 matcher；第三次完整重跑另遇下述 S03 sanitizer 記錄分類問題，各 attempt 的來源與結果分開記錄。
+
+**第三次正式 capture（受測 `198ad63`，本機 `build-s04-evidence3/`）：不通過。** head memcheck 完成 640 checks、0 errors；S03 memcheck 的 842 checks 全部通過，受測 build 為 `build_dirty=false`，但預設 `--report-api-errors extended` 把同一句 driver 記錄「Selective device code recompilation in progress」（`cuModuleLoadFatBinary`，TensorRT builder kernel library）計為 1 error，工具 exit 99，capture 因而停止。先前分類處理只適用 head、漏掉 S03 suite，這次是 sanitizer 記錄分類適用範圍不完整；並非 GPU 數值失敗，也沒有回報記憶體存取錯誤。仍保留為失敗 attempt，不納入 PASS 證據。第四次受測 source `3857e24` 將 S03 四工具也改為 explicit API 報告，另跑獨立的預設模式 S03 memcheck 分類；歷史 S03 證據不改寫。
+
+**WSL VM 當機與程序記憶體觀察。** 在開發機試跑 head suite 的 racecheck（先全範圍，後改 `--group ownership`）期間，WSL VM 於約 11:41 當機重開（`last -x` 記為 crash）。**使用者補充的確定觀察：被 Compute Sanitizer 檢查的 `head_trt_tests` 程序吃滿記憶體；目前仍無法區分工具的追蹤資料開銷與測試程式本身洩漏。** 這項程序用量觀察與 VM 當機根因分開記錄，**當機原因仍未判定**。NVIDIA 的 [Compute Sanitizer memory footprint 文件](https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html#memory-footprint) 說明追蹤資料可能很大，並可能造成 host allocation 失敗或 crash；這提供待驗證的解釋，不能證實本例根因。主機沒有 low-memory 事件；主機在 10:28、10:53、11:06 有 NVIDIA TDR（`LiveKernelEvent 0x141`, `nvlddmkm.sys`），時間對應含 S03 `scan_trt_async_fault`（故意觸發 GPU fault）的 CTest，當機時間沒有主機事件。全範圍 racecheck 曾以約 19 個核心執行 16 分鐘以上（host 端分析 TensorRT kernels 的 shared-memory 存取）。
+
+**開發中的數值觀察（詳見正式報告）。** (1) 合成隨機權重下 scan 分支耦合弱，三個 scan 內部語義變體不超出 λσ，所以合成權重的變體檢查只作資訊；候選權重下 13 個全部超出。(2) σ 由 SiLU／exp 的 2⁻¹⁷ 假設主導：只拿掉內積的局部捨入項不改變任何判定，政策偏保守。(3) TF32 主要由建置 guard 擋下；暫時關掉 guard 時，數值政策只在 6 個輸出中的 5 個判超界（最大 2.22 倍、`reg_p4` 0.82 倍），不是 HEAD_POLICY §7 所寫的「遠超」。
+
+**正式 capture 與 sanitizer 範圍。** 新受測 source 將 head racecheck／synccheck 明列為未執行：TensorRT conv／GEMM 插樁成本極高，且開發試跑期間曾發生上述原因未判定的 WSL 當機。S04 新增的 `check_finite`／`check_done` 不使用 shared memory 或 barrier；沿用的 packet kernel 有 barrier，仍由 S03 suite 的 synccheck 覆蓋。正式 capture 保留 head memcheck（完整預設 suite 但不重建 debug engine）、initcheck（略過 callback-held stream）、S03 四種 sanitizer 與四個正控制。head 與 S03 suite 都採 explicit API 錯誤報告，並**各自另跑一次預設模式 memcheck**，只允許已列明的 driver recompilation 記錄、逐項分類並保留 raw log；native head ownership／graph／streams 照常執行。完整 skip 清單與各 raw log 見 [正式報告](../evidence/s04/2026-10-30/REPORT.md)。
+
+[capture.sh](../evidence/s04/2026-10-30/capture.sh) 在每一步前後拒絕 HEAD／工作樹變動，核對報告中的受測 SHA 與 `build_dirty=false`；同一 source 兩次 engine 建置必須逐 byte 相同。mutation 只接受 exit 1 與指定的 test／tactic guard 拒絕診斷，timeout、crash 或無關 I/O 失敗不算 detection。全程 `free -m` 取樣連同三次失敗 attempt 的 source／archive hash、exit codes、memcheck raw log 或 mutation 分類結果保留於 evidence；三次失敗分別存於 `capture/failed-attempt/`、`capture/failed-attempt2/`、`capture/failed-attempt3/`，第四次正式結果來自本機 `build-s04-evidence4/`。
+
+**後續缺件。** [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md) 記錄 S04 判定；本輪 source 與後續 evidence／docs commit 的推送、遠端 SHA 與 CPU CI 於交付回報分開記錄。本輪不關閉 P01：matching backbone／neck、影像前處理、decode／NMS 與模型品質仍需各自驗收。

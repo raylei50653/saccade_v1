@@ -1,0 +1,2 @@
+timeout 900 /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/build/head_trt_tests /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/baseline.engine ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1 /home/ray/developer/ai/saccade_v1/build-s04-evidence4/stage/t1-head.swb e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310 --group atomicity 
+# expected rejection (exit 1): ^head_trt_tests: asymmetric/1: the gate read every status valid$

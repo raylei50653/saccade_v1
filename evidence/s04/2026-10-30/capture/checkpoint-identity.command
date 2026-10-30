@@ -1,0 +1,1 @@
+bash -c stat\ -L\ -c\ \"%s\ bytes\"\ \"\$1\"\ \&\&\ sha256sum\ \"\$1\"\ \&\&\ \[\[\ \$\(sha256sum\ \<\ \"\$1\"\ \|\ cut\ -d\"\ \"\ -f1\)\ ==\ \"\$2\"\ \]\] _ /home/ray/developer/ai/saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c 

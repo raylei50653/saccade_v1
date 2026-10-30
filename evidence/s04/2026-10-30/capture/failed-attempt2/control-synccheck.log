@@ -1,0 +1,18 @@
+========= COMPUTE-SANITIZER
+========= Barrier error detected. Invalid arguments.
+=========     at __syncwarp(unsigned int)+0xa0 in sm_30_intrinsics.hpp:111
+=========     by thread (0,0,0) in block (0,0,0)
+=========         Device Frame: bad_warp_barrier(float *)+0x90 in sanitizer-control.cu:22
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: main [0x8fb2] in sanitizer-control
+========= 
+========= Barrier error detected. Invalid arguments.
+=========     at __syncwarp(unsigned int)+0xa0 in sm_30_intrinsics.hpp:111
+=========     by thread (1,0,0) in block (0,0,0)
+=========         Device Frame: bad_warp_barrier(float *)+0x90 in sanitizer-control.cu:22
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: main [0x8fb2] in sanitizer-control
+========= 
+control synccheck: cudaDeviceSynchronize -> unknown error
+========= ERROR SUMMARY: 2 errors
+tool exit=99

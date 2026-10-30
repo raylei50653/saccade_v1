@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_reference.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_reference.cpp	2026-10-30 12:56:17.123530010 +0800
+@@ -77,7 +77,7 @@
+     double terms, g;
+     explicit Dot(double t) : terms(t), g(gamma(t)) {}
+     double bound(double err, double mag) const { return (1 + g) * err + g * mag + 2 * terms * kUnderflow; }
+-    double sigma(double var, double mag) const { return std::sqrt(var + 2 * terms * kUnit * kUnit * mag * mag); }
++    double sigma(double var, double mag) const { return 0 * std::sqrt(var + 2 * terms * kUnit * kUnit * mag * mag); }
+ };
+ 
+ } // namespace

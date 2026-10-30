@@ -1,0 +1,135 @@
+========= COMPUTE-SANITIZER
+group numeric
+group io_contract
+group atomicity
+group ownership
+group isolation
+group graph
+group streams
+identity	engine_sha256=ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1
+identity	bundle_sha256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310
+identity	policy=s04-head-fp32/1
+session_identity_begin
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=198ad634886ddc02cb538cb2ec227fc6ecedb717
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+tensor=p3 mode=input dtype=FP32 format=linear location=device shape=(1,256,80,80) shape_inference_io=false
+tensor=p4 mode=input dtype=FP32 format=linear location=device shape=(1,512,40,40) shape_inference_io=false
+tensor=p5 mode=input dtype=FP32 format=linear location=device shape=(1,512,20,20) shape_inference_io=false
+tensor=cls_p3 mode=output dtype=FP32 format=linear location=device shape=(1,80,80,80) shape_inference_io=false
+tensor=cls_p4 mode=output dtype=FP32 format=linear location=device shape=(1,80,40,40) shape_inference_io=false
+tensor=cls_p5 mode=output dtype=FP32 format=linear location=device shape=(1,80,20,20) shape_inference_io=false
+tensor=reg_p3 mode=output dtype=FP32 format=linear location=device shape=(1,4,80,80) shape_inference_io=false
+tensor=reg_p4 mode=output dtype=FP32 format=linear location=device shape=(1,4,40,40) shape_inference_io=false
+tensor=reg_p5 mode=output dtype=FP32 format=linear location=device shape=(1,4,20,20) shape_inference_io=false
+tensor=p3.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p3.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p3.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+aux_streams=0
+profiles=1
+device_memory_bytes=16386048
+frame_kernel=initialize registers=14 local_bytes=0
+frame_kernel=begin registers=10 local_bytes=0
+frame_kernel=gate registers=30 local_bytes=0
+frame_kernel=publish registers=28 local_bytes=0
+frame_kernel=commit registers=14 local_bytes=0
+frame_kernel=packet registers=24 local_bytes=0
+frame_kernel=delay registers=4 local_bytes=0
+frame_kernel=check_finite registers=12 local_bytes=0
+frame_kernel=check_done registers=8 local_bytes=0
+slots=2
+packet_slots=3
+graphs=false
+context_memory_bytes=16386048
+payload=cls_p3,cls_p4,cls_p5,reg_p3,reg_p4,reg_p5
+statuses=p3.expand_status,p3.scan_status,p3.merge_status,p4.expand_status,p4.scan_status,p4.merge_status,p5.expand_status,p5.scan_status,p5.merge_status,frame_input_check,frame_output_check
+output=cls_p3 arena_offset=0 elements=512000
+output=cls_p4 arena_offset=512000 elements=128000
+output=cls_p5 arena_offset=640000 elements=32000
+output=reg_p3 arena_offset=672000 elements=25600
+output=reg_p4 arena_offset=697600 elements=6400
+output=reg_p5 arena_offset=704000 elements=1600
+status=p3.expand_status producer=saccade::CrossScanExpand (p3, v1)
+status=p3.scan_status producer=saccade::SelectiveScan (p3, v2, has_d=1)
+status=p3.merge_status producer=saccade::CrossScanMerge (p3, v1, 20x20)
+status=p4.expand_status producer=saccade::CrossScanExpand (p4, v1)
+status=p4.scan_status producer=saccade::SelectiveScan (p4, v2, has_d=1)
+status=p4.merge_status producer=saccade::CrossScanMerge (p4, v1, 10x10)
+status=p5.expand_status producer=saccade::CrossScanExpand (p5, v1)
+status=p5.scan_status producer=saccade::SelectiveScan (p5, v2, has_d=1)
+status=p5.merge_status producer=saccade::CrossScanMerge (p5, v1, 5x5)
+status=frame_input_check producer=harness: finite check of every input element
+status=frame_output_check producer=harness: finite check of every output element
+session_identity_end
+head_compare	asymmetric/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000126	max_rel=0.00201	rel_excluded=539	max_err_over_tol=0.00499	failures=0	nonfinite=0	worst=(c=60,h=62,w=8)	worst_gpu=40.3761177(0x42218125)	worst_ref=40.376239265741596	worst_tol=0.0244	max_err_over_2bound=5.04e-10	PASS
+head_compare	asymmetric/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000228	max_rel=0.0014	rel_excluded=78	max_err_over_tol=0.00626	failures=0	nonfinite=0	worst=(c=78,h=5,w=0)	worst_gpu=72.1010513(0x429033bd)	worst_ref=72.100886535339328	worst_tol=0.0263	max_err_over_2bound=3.08e-10	PASS
+head_compare	asymmetric/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=8.72e-05	max_rel=0.000991	rel_excluded=42	max_err_over_tol=0.00312	failures=0	nonfinite=0	worst=(c=11,h=13,w=2)	worst_gpu=-18.9508457(0xc1979b55)	worst_ref=-18.950828283873516	worst_tol=0.00559	max_err_over_2bound=6.69e-11	PASS
+head_compare	asymmetric/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=2.87e-05	max_rel=0.000827	rel_excluded=63	max_err_over_tol=0.00305	failures=0	nonfinite=0	worst=(c=0,h=72,w=1)	worst_gpu=2.05816579(0x4003b8fd)	worst_ref=2.058156118396671	worst_tol=0.00317	max_err_over_2bound=2.7e-10	PASS
+head_compare	asymmetric/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=1.76e-05	max_rel=0.000717	rel_excluded=19	max_err_over_tol=0.00179	failures=0	nonfinite=0	worst=(c=3,h=0,w=0)	worst_gpu=-3.05436897(0xc0437ac8)	worst_ref=-3.0543625453410703	worst_tol=0.00358	max_err_over_2bound=6.68e-11	PASS
+head_compare	asymmetric/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=1.82e-05	max_rel=0.00113	rel_excluded=1	max_err_over_tol=0.00283	failures=0	nonfinite=0	worst=(c=2,h=19,w=19)	worst_gpu=2.28871489(0x40127a4e)	worst_ref=2.2887120450916978	worst_tol=0.00101	max_err_over_2bound=6.41e-11	PASS
+head_compare	random/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000354	max_rel=0.00295	rel_excluded=848	max_err_over_tol=0.00459	failures=0	nonfinite=0	worst=(c=79,h=2,w=30)	worst_gpu=22.3279972(0x41b29fbd)	worst_ref=22.328284195524766	worst_tol=0.0625	max_err_over_2bound=1.79e-10	PASS
+head_compare	random/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000389	max_rel=0.000791	rel_excluded=190	max_err_over_tol=0.00275	failures=0	nonfinite=0	worst=(c=62,h=26,w=0)	worst_gpu=96.1970901(0x42c064e9)	worst_ref=96.197390927201653	worst_tol=0.109	max_err_over_2bound=4.24e-11	PASS
+head_compare	random/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000214	max_rel=0.000281	rel_excluded=110	max_err_over_tol=0.00102	failures=0	nonfinite=0	worst=(c=20,h=19,w=1)	worst_gpu=13.7419586(0x415bdf10)	worst_ref=13.742047269764701	worst_tol=0.087	max_err_over_2bound=6.45e-12	PASS
+head_compare	random/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.39e-05	max_rel=0.000744	rel_excluded=107	max_err_over_tol=0.00279	failures=0	nonfinite=0	worst=(c=1,h=24,w=70)	worst_gpu=4.3636198(0x408ba2c6)	worst_ref=4.3635727164555531	worst_tol=0.0169	max_err_over_2bound=1.27e-10	PASS
+head_compare	random/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.45e-05	max_rel=0.000489	rel_excluded=42	max_err_over_tol=0.00112	failures=0	nonfinite=0	worst=(c=1,h=14,w=34)	worst_gpu=-11.1521645(0xc1326f44)	worst_ref=-11.152134034652644	worst_tol=0.0272	max_err_over_2bound=1.16e-11	PASS
+head_compare	random/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=6.09e-05	max_rel=0.000218	rel_excluded=5	max_err_over_tol=0.00069	failures=0	nonfinite=0	worst=(c=2,h=19,w=2)	worst_gpu=-11.3744946(0xc135fdee)	worst_ref=-11.374525124934081	worst_tol=0.0443	max_err_over_2bound=9.33e-12	PASS
+head_compare	random/2	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.00051	max_rel=0.00186	rel_excluded=899	max_err_over_tol=0.00512	failures=0	nonfinite=0	worst=(c=60,h=26,w=33)	worst_gpu=184.393341(0x433864b2)	worst_ref=184.39385097770256	worst_tol=0.0996	max_err_over_2bound=1.45e-10	PASS
+head_compare	random/2	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000441	max_rel=0.00127	rel_excluded=195	max_err_over_tol=0.00252	failures=0	nonfinite=0	worst=(c=36,h=18,w=26)	worst_gpu=100.722336(0x42c971d6)	worst_ref=100.72194108516095	worst_tol=0.157	max_err_over_2bound=2.9e-11	PASS
+head_compare	random/2	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000247	max_rel=0.000525	rel_excluded=199	max_err_over_tol=0.000757	failures=0	nonfinite=0	worst=(c=13,h=15,w=2)	worst_gpu=1.18175375(0x3f9743b5)	worst_ref=1.1816592640242507	worst_tol=0.125	max_err_over_2bound=6.54e-12	PASS
+head_compare	random/2	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.37e-05	max_rel=0.000564	rel_excluded=97	max_err_over_tol=0.00243	failures=0	nonfinite=0	worst=(c=0,h=64,w=26)	worst_gpu=1.82829487(0x3fea0591)	worst_ref=1.8283178327103076	worst_tol=0.00945	max_err_over_2bound=1.04e-10	PASS
+head_compare	random/2	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.51e-05	max_rel=0.000421	rel_excluded=28	max_err_over_tol=0.00127	failures=0	nonfinite=0	worst=(c=1,h=8,w=21)	worst_gpu=-7.92566109(0xc0fd9f04)	worst_ref=-7.9256259490989471	worst_tol=0.0276	max_err_over_2bound=1.18e-11	PASS
+head_compare	random/2	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=9.82e-05	max_rel=0.000251	rel_excluded=10	max_err_over_tol=0.000832	failures=0	nonfinite=0	worst=(c=1,h=6,w=19)	worst_gpu=-35.6907272(0xc20ec34e)	worst_ref=-35.690628997568616	worst_tol=0.118	max_err_over_2bound=8.94e-12	PASS
+numeric	scan_bound_is_s02	L=25,100,400	PASS
+skipped	intermediates	--skip
+io_contract	status_missing_from_spec	scan frame session: engine tensor not in the I/O spec: p4.scan_status
+io_contract	status_absent_from_engine	scan frame session: engine lacks the status p6.scan_status
+io_contract	duplicate_output	scan frame session: I/O spec names a tensor twice or with an empty name: cls_p3
+io_contract	output_order_swapped	scan frame session: engine output shape differs from the spec: cls_p5
+io_contract	feature_order_swapped	scan frame session: engine input shape differs from the spec: p5
+io_contract	status_and_output_roles_swapped	scan frame session: engine tensor has the wrong data type: reg_p3
+io_contract	all	PASS
+atomicity	status=p3.expand_status	producer=saccade::CrossScanExpand (p3, v1)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p3.scan_status	producer=saccade::SelectiveScan (p3, v2, has_d=1)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p3.merge_status	producer=saccade::CrossScanMerge (p3, v1, 20x20)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p4.expand_status	producer=saccade::CrossScanExpand (p4, v1)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p4.scan_status	producer=saccade::SelectiveScan (p4, v2, has_d=1)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p4.merge_status	producer=saccade::CrossScanMerge (p4, v1, 10x10)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p5.expand_status	producer=saccade::CrossScanExpand (p5, v1)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p5.scan_status	producer=saccade::SelectiveScan (p5, v2, has_d=1)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=p5.merge_status	producer=saccade::CrossScanMerge (p5, v1, 5x5)	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=frame_input_check	producer=harness: finite check of every input element	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	status=frame_output_check	producer=harness: finite check of every output element	finite_payload_flag,missing_done,unknown_bit	PASS
+atomicity	output_check	cls_p3	PASS
+atomicity	output_check	cls_p4	PASS
+atomicity	output_check	cls_p5	PASS
+atomicity	output_check	reg_p3	PASS
+atomicity	output_check	reg_p4	PASS
+atomicity	output_check	reg_p5	PASS
+atomicity	input	p3	input_check+expand_status	PASS
+atomicity	input	p4	input_check+expand_status	PASS
+atomicity	input	p5	input_check+expand_status	PASS
+ownership	slots=1	frames=6	delay_cycles=4000000	PASS
+ownership	slots=2	frames=6	delay_cycles=4000000	PASS
+isolation	two_sessions_interleaved+reset	PASS
+graph	nodes	kernel=113	memset=9	nodes_with_typed_edges=52
+graph	replay+failure	PASS
+streams	enqueueV3	returned_while_held	PASS
+streams	graph_launch	returned_while_held	PASS
+skipped	api_trace	explicit_group_only
+checks	640
+head_trt_tests: 640 checks passed
+========= ERROR SUMMARY: 0 errors

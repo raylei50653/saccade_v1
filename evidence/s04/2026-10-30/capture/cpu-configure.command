@@ -1,0 +1,1 @@
+cmake -S /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source -B /home/ray/developer/ai/saccade_v1/build-s04-evidence4/cpu -DCMAKE_BUILD_TYPE=Release -DSACCADE_HEAD_CHECKPOINT=/home/ray/developer/ai/saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt 

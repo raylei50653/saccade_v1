@@ -1,0 +1,1 @@
+protoc --cpp_out=/home/ray/developer/ai/saccade_v1/build-s04-evidence2/onnx -I /home/ray/developer/ai/saccade_v1/build-s04-evidence2/onnx /home/ray/developer/ai/saccade_v1/build-s04-evidence2/onnx/onnx.proto 

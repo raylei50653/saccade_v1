@@ -1,0 +1,1 @@
+/opt/cuda/bin/nvcc -std=c++20 -arch=sm_120 -lineinfo -o /home/ray/developer/ai/saccade_v1/build-s04-evidence4/sanitizer-control /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/evidence/s02/2026-10-29/sanitizer-control.cu 

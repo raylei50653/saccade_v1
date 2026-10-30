@@ -2,7 +2,9 @@
 
 查核日期：2026-10-28。來源、檔案與內容分別記錄。此次下載新上游檔案，沒有使用舊專案的程式、權重或數值結論，也沒有執行 Python。
 
-2026-10-29 追加來源查核見 [§6](#6-2026-10-29-追加來源查核與解除阻塞)；前五節保留 P01-A 原始觀察，未重新下載既有 YOLO26s 或把工具 fixtures 升格為模型證據。同日使用者決策將 v1 目標改為 YOLO26m＋原版 m head：§1–§6 是 s 時期紀錄，m 的 artifact 對應見 [§7](#7-2026-10-29-原版-m-head-的-artifact-對應)。
+2026-10-29 追加來源查核見 [§6](#6-2026-10-29-追加來源查核與解除阻塞)；前五節保留 P01-A 原始觀察，未重新下載既有 YOLO26s 或把工具 fixtures 升格為模型證據。同日使用者決策將 v1 目標改為 YOLO26m＋原版 m head：§1–§6 是 s 時期紀錄，m 的 artifact 對應見 [§7](#7-2026-10-29-原版-m-head-的-artifact-對應)。§7 保留 2026-10-29 的查核狀態；H04／H06／H07 與 backbone I/O 的最新狀態以 §8 為準。
+
+2026-10-30 S04 更新見 [§8](#8-2026-10-30-s04head-權重的-native-交付與完整-head)：候選 T1 checkpoint 的 head 權重已 native 交付、head engine 由 v1 自建、manifest schema 2 完成，指定候選的 S04 有範圍 PASS 見 [正式證據](../evidence/s04/2026-10-30/REPORT.md)；backbone／neck 只完成舊 ONNX 的 ordered I/O 結構查核，P01 仍 OPEN。
 
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
@@ -161,3 +163,17 @@ sha256sum build-artifact-replay/yolo26s.canonical.json
 | H05 cls／reg／decode | **部分**：輸出順序、box／score 編碼已核實（SCAN_CONTRACT §6）；候選容量、padding、invalid mask、class tie 未定。 | P02／S04 → F04 規格。 |
 | H06 engine 身分（新增） | **OPEN**：舊 engine 的 build revision、flags、TensorRT 與 plugin 身分未記錄。 | P01／S03 → 以 v1 自建 plugin 重建，不沿用舊 engine。 |
 | H07 manifest schema（新增） | **OPEN**：schema 1 僅接受 s family。 | P01 → schema 2 加入 m family 與 scan 欄位後再宣告 m 候選。 |
+
+## 8. 2026-10-30 S04：head 權重的 native 交付與完整 head
+
+S04 依使用者指定，以 T1 主線 `best.ckpt`（§7.1）作為**工程驗證候選**，交付 native 權重與完整 FP32 head；**S04 PASS**，限指定候選、固定介面與受測 FP32 head 範圍，正式 clean-source 結果見 [S04 證據](../evidence/s04/2026-10-30/REPORT.md)，契約與開發紀錄見 [HEAD_TRT](HEAD_TRT.md)。head racecheck／synccheck 未執行；該限制與已執行的 memcheck／initcheck、S03 四種 sanitizer 分別記錄。這不是模型品質驗收：該 checkpoint 以 training loss 選取、無 holdout，未重訓。
+
+| 缺件 | S04 後狀態 |
+| --- | --- |
+| H04 權重 native 交付 | **head 部分已交付（候選）**：native C++ 只讀 zip／pickle 資料轉出 `SCWB 1` bundle（40,711,552 bytes，SHA-256 `e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310`），69 個 active 參數逐 key 映射、39 個 temporal／flow-gate 參數排除並列理由；108 個 tensor 的 hash 與 §7.1 的 S01 稽核相同。matching backbone／neck 權重仍未交付。 |
+| H06 engine 身分 | **head engine 由 v1 source 自建**：native network API、S03 plugins、FP32、builder optimization level 0、Winograd／FFT／低精度 tactic 在建置時拒絕；plan、SDK、tactics 與 hash 記於 build evidence。舊 `mamba_head_26m.engine` 仍不使用、仍未歸屬。 |
+| H07 manifest schema | **已解決**：schema 2（[MODEL_MANIFEST](MODEL_MANIFEST.md#schema-2s04-head-only)）表達 head-only 邊界、ordered P3／P4／P5、六個 raw outputs、plugin statuses 與比較政策文件；S04 候選 [manifest](../manifests/s04/yolo26m-head-t1.json) 的宣告與檔案完整性已查核。 |
+| backbone／neck component I/O | **ordered I/O 結構已查**：舊 `yolo26m_backbone_640.onnx`（75,900,061 bytes，SHA-256 `2154f937dec832dcefc4229a66dfc438c8fb99ee0c1547d80c00cc0143e56a6a`）輸入 `images [batch,3,640,640]`，輸出依序 `p3_feat [batch,256,80,80]`、`p4_feat [batch,512,40,40]`、`p5_feat [batch,512,20,20]`，形狀與 head 輸入相符。其權重歸屬（是否為 T1 訓練時的 teacher e12 features 來源）、native engine 與推論**未驗**。 |
+| H05 decode | 未變：head 只輸出 raw cls／reg；候選容量、padding、invalid mask、class tie 仍屬 F04。 |
+
+**目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：matching backbone／neck 權重歸屬與 native engine、影像前處理、decode／NMS 與容量、以及新訓練或正式選模。

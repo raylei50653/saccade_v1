@@ -1,0 +1,93 @@
+primitive	conv1x1	PASS
+primitive	conv4x4_stride4	PASS
+primitive	conv3x3_pad1_correlation	PASS
+primitive	conv3x3_flipped_variant	PASS
+primitive	linear	PASS
+primitive	causal_conv1d	PASS
+primitive	anticausal_conv1d_variant	PASS
+primitive	silu	PASS
+primitive	pixel_shuffle_crd	PASS
+primitive	pixel_shuffle_dcr_variant	PASS
+primitive	pixel_shuffle_spatial	PASS
+primitive	concat_order	PASS
+primitive	slice_last	PASS
+primitive	multiply	PASS
+primitive	add	PASS
+primitive	cross_expand_order	PASS
+primitive	cross_merge_restores	PASS
+primitive	cross_merge_mean	PASS
+primitive	neg_exp	PASS
+scan_vs_s01	L=25	max_abs_diff=0	PASS
+scan_input_sensitivity	L=25	max_change_over_bound=0.948835	PASS
+scan_vs_s01	L=100	max_abs_diff=0	PASS
+scan_input_sensitivity	L=100	max_change_over_bound=0.960913	PASS
+fp32_inside_bound	conv3x3	max_err_over_bound=0.00283266	PASS
+fp32_inside_bound	silu	max_err_over_bound=0.10368	PASS
+fp32_inside_bound	linear	max_err_over_bound=0.00184937	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p3	max_abs=1.13e-07	max_err_over_lambda_sigma=0.00187	worst_index=230284	max_err_over_2bound=5.07e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p4	max_abs=1.03e-07	max_err_over_lambda_sigma=0.00179	worst_index=70204	max_err_over_2bound=2.4e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p5	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00201	worst_index=18843	max_err_over_2bound=2.8e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	reg_p3	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00187	worst_index=8471	max_err_over_2bound=3.38e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	reg_p4	max_abs=8.56e-08	max_err_over_lambda_sigma=0.00172	worst_index=5622	max_err_over_2bound=1.72e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	reg_p5	max_abs=8.36e-08	max_err_over_lambda_sigma=0.00159	worst_index=1418	max_err_over_2bound=2.05e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	cls_p3	max_abs=3.1e-07	max_err_over_lambda_sigma=0.00195	worst_index=476285	max_err_over_2bound=3.42e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	cls_p4	max_abs=3.03e-07	max_err_over_lambda_sigma=0.00203	worst_index=16063	max_err_over_2bound=2.7e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	cls_p5	max_abs=3.14e-07	max_err_over_lambda_sigma=0.00215	worst_index=6292	max_err_over_2bound=2.31e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	reg_p3	max_abs=2.83e-07	max_err_over_lambda_sigma=0.00197	worst_index=1872	max_err_over_2bound=2.39e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	reg_p4	max_abs=2.41e-07	max_err_over_lambda_sigma=0.00168	worst_index=1323	max_err_over_2bound=1.62e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	reg_p5	max_abs=2.15e-07	max_err_over_lambda_sigma=0.00154	worst_index=583	max_err_over_2bound=1.84e-09	outside=0	PASS
+reference_seconds	synthetic	0.827
+semantic_variant	synthetic	pixel_shuffle_dcr	outside_lambda_sigma=702904/705600	max_err_over_tol=1.05e+03	DETECTED
+semantic_variant	synthetic	anticausal_conv	outside_lambda_sigma=101519/705600	max_err_over_tol=3.87	DETECTED
+semantic_variant	synthetic	direction_identity	outside_lambda_sigma=0/705600	max_err_over_tol=0.873	MISSED
+semantic_variant	synthetic	merge_mismatch	outside_lambda_sigma=700011/705600	max_err_over_tol=510	DETECTED
+semantic_variant	synthetic	concat_reversed	outside_lambda_sigma=704806/705600	max_err_over_tol=3.41e+03	DETECTED
+semantic_variant	synthetic	flipped_kernels	outside_lambda_sigma=704774/705600	max_err_over_tol=3.67e+03	DETECTED
+semantic_variant	synthetic	swap_xz	outside_lambda_sigma=602581/705600	max_err_over_tol=28.1	DETECTED
+semantic_variant	synthetic	swap_dt_b	outside_lambda_sigma=2083/705600	max_err_over_tol=1.58	DETECTED
+semantic_variant	synthetic	c_first_state_only	outside_lambda_sigma=0/705600	max_err_over_tol=0.278	MISSED
+semantic_variant	synthetic	delta_bias_after_softplus	outside_lambda_sigma=0/705600	max_err_over_tol=0.0381	MISSED
+semantic_variant	synthetic	no_d_skip	outside_lambda_sigma=554378/705600	max_err_over_tol=17.6	DETECTED
+semantic_variant	synthetic	no_residual	outside_lambda_sigma=701719/705600	max_err_over_tol=684	DETECTED
+semantic_variant	synthetic	swap_level_weights	outside_lambda_sigma=167919/705600	max_err_over_tol=8.8e+03	DETECTED
+semantic_variants	synthetic	informational	missed=direction_identity, c_first_state_only, delta_bias_after_softplus
+tolerance_scale	synthetic	cls_p3	max_abs_ref=0.168	max_lambda_sigma=7.04e-05	max_2bound=51.9
+tolerance_scale	synthetic	cls_p4	max_abs_ref=0.18	max_lambda_sigma=6.76e-05	max_2bound=89.3
+tolerance_scale	synthetic	cls_p5	max_abs_ref=0.175	max_lambda_sigma=6.55e-05	max_2bound=86.3
+tolerance_scale	synthetic	reg_p3	max_abs_ref=0.149	max_lambda_sigma=6.44e-05	max_2bound=47.7
+tolerance_scale	synthetic	reg_p4	max_abs_ref=0.123	max_lambda_sigma=6.03e-05	max_2bound=81.3
+tolerance_scale	synthetic	reg_p5	max_abs_ref=0.134	max_lambda_sigma=6.35e-05	max_2bound=82.1
+fp32_head_model_check	t1_bundle	asymmetric	cls_p3	max_abs=0.000126	max_err_over_lambda_sigma=0.00477	worst_index=217497	max_err_over_2bound=5.13e-10	outside=0	PASS
+fp32_head_model_check	t1_bundle	asymmetric	cls_p4	max_abs=0.000226	max_err_over_lambda_sigma=0.00567	worst_index=28699	max_err_over_2bound=2.21e-10	outside=0	PASS
+fp32_head_model_check	t1_bundle	asymmetric	cls_p5	max_abs=0.000111	max_err_over_lambda_sigma=0.00393	worst_index=19494	max_err_over_2bound=7.87e-11	outside=0	PASS
+fp32_head_model_check	t1_bundle	asymmetric	reg_p3	max_abs=2.54e-05	max_err_over_lambda_sigma=0.00196	worst_index=8899	max_err_over_2bound=2.33e-10	outside=0	PASS
+fp32_head_model_check	t1_bundle	asymmetric	reg_p4	max_abs=2.21e-05	max_err_over_lambda_sigma=0.00233	worst_index=3180	max_err_over_2bound=7.03e-11	outside=0	PASS
+fp32_head_model_check	t1_bundle	asymmetric	reg_p5	max_abs=2.55e-05	max_err_over_lambda_sigma=0.00398	worst_index=418	max_err_over_2bound=1.19e-10	outside=0	PASS
+fp32_head_model_check	t1_bundle	random	cls_p3	max_abs=0.000612	max_err_over_lambda_sigma=0.00604	worst_index=106782	max_err_over_2bound=1.36e-10	outside=0	PASS
+fp32_head_model_check	t1_bundle	random	cls_p4	max_abs=0.000396	max_err_over_lambda_sigma=0.00338	worst_index=108764	max_err_over_2bound=4.72e-11	outside=0	PASS
+fp32_head_model_check	t1_bundle	random	cls_p5	max_abs=0.000469	max_err_over_lambda_sigma=0.00111	worst_index=3773	max_err_over_2bound=6.64e-12	outside=0	PASS
+fp32_head_model_check	t1_bundle	random	reg_p3	max_abs=6.94e-05	max_err_over_lambda_sigma=0.00174	worst_index=192	max_err_over_2bound=1.01e-10	outside=0	PASS
+fp32_head_model_check	t1_bundle	random	reg_p4	max_abs=3.77e-05	max_err_over_lambda_sigma=0.00125	worst_index=1554	max_err_over_2bound=1.64e-11	outside=0	PASS
+fp32_head_model_check	t1_bundle	random	reg_p5	max_abs=0.000209	max_err_over_lambda_sigma=0.00141	worst_index=214	max_err_over_2bound=1.06e-11	outside=0	PASS
+reference_seconds	t1_bundle	1.01
+semantic_variant	t1_bundle	pixel_shuffle_dcr	outside_lambda_sigma=704834/705600	max_err_over_tol=5.47e+03	DETECTED
+semantic_variant	t1_bundle	anticausal_conv	outside_lambda_sigma=703919/705600	max_err_over_tol=5.35e+03	DETECTED
+semantic_variant	t1_bundle	direction_identity	outside_lambda_sigma=699029/705600	max_err_over_tol=663	DETECTED
+semantic_variant	t1_bundle	merge_mismatch	outside_lambda_sigma=704077/705600	max_err_over_tol=2.9e+03	DETECTED
+semantic_variant	t1_bundle	concat_reversed	outside_lambda_sigma=705487/705600	max_err_over_tol=3.06e+04	DETECTED
+semantic_variant	t1_bundle	flipped_kernels	outside_lambda_sigma=704816/705600	max_err_over_tol=6.61e+03	DETECTED
+semantic_variant	t1_bundle	swap_xz	outside_lambda_sigma=704623/705600	max_err_over_tol=4.47e+03	DETECTED
+semantic_variant	t1_bundle	swap_dt_b	outside_lambda_sigma=669582/705600	max_err_over_tol=369	DETECTED
+semantic_variant	t1_bundle	c_first_state_only	outside_lambda_sigma=672842/705600	max_err_over_tol=266	DETECTED
+semantic_variant	t1_bundle	delta_bias_after_softplus	outside_lambda_sigma=393480/705600	max_err_over_tol=24	DETECTED
+semantic_variant	t1_bundle	no_d_skip	outside_lambda_sigma=704195/705600	max_err_over_tol=5.15e+03	DETECTED
+semantic_variant	t1_bundle	no_residual	outside_lambda_sigma=704751/705600	max_err_over_tol=3.58e+03	DETECTED
+semantic_variant	t1_bundle	swap_level_weights	outside_lambda_sigma=167909/705600	max_err_over_tol=2.72e+04	DETECTED
+semantic_variants	t1_bundle	required	missed=none
+tolerance_scale	t1_bundle	cls_p3	max_abs_ref=90.3	max_lambda_sigma=0.033	max_2bound=4.29e+05
+tolerance_scale	t1_bundle	cls_p4	max_abs_ref=220	max_lambda_sigma=0.0529	max_2bound=1.87e+06
+tolerance_scale	t1_bundle	cls_p5	max_abs_ref=67.5	max_lambda_sigma=0.0364	max_2bound=2.88e+06
+tolerance_scale	t1_bundle	reg_p3	max_abs_ref=16	max_lambda_sigma=0.0182	max_2bound=1.96e+05
+tolerance_scale	t1_bundle	reg_p4	max_abs_ref=12.2	max_lambda_sigma=0.0135	max_2bound=5.3e+05
+tolerance_scale	t1_bundle	reg_p5	max_abs_ref=6.31	max_lambda_sigma=0.0104	max_2bound=7.22e+05
+head_reference_tests: 228 checks passed

@@ -1,0 +1,1 @@
+cmake -S /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source -B /home/ray/developer/ai/saccade_v1/build-s04-evidence2/cpu-asan -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSACCADE_HEAD_CHECKPOINT=/home/ray/developer/ai/saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt -DCMAKE_CXX_FLAGS=-fsanitize=address\,undefined\ -fno-sanitize-recover=all\ -fno-omit-frame-pointer 

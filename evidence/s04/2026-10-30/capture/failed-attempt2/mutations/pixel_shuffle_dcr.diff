@@ -1,0 +1,13 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_trt_network.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_trt_network.cpp	2026-10-30 12:09:13.291533484 +0800
+@@ -192,8 +192,8 @@
+         // 6: upsample conv 3x3, PixelShuffle 4 (CRD: channel c*16 + i*4 + j -> (c, h*4+i, w*4+j)).
+         auto* up = keep(conv(merged, "upsample", 3, 1, 1), "upsample");
+         auto* split = named(network_->addShuffle(*up), "pixel_shuffle.split");
+-        split->setReshapeDimensions(shape({1, kHeadDModel, kHeadReduction, kHeadReduction, small, small}));
+-        split->setSecondTranspose(permutation({0, 1, 4, 2, 5, 3}));
++        split->setReshapeDimensions(shape({1, kHeadReduction, kHeadReduction, kHeadDModel, small, small}));
++        split->setSecondTranspose(permutation({0, 3, 4, 1, 5, 2}));
+         auto* join = named(network_->addShuffle(*split->getOutput(0)), "pixel_shuffle.join");
+         join->setReshapeDimensions(shape({1, kHeadDModel, size, size}));
+         auto* shuffled = keep(join->getOutput(0), "pixel_shuffle");

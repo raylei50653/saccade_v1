@@ -1,0 +1,6 @@
+head intermediates: excluded from sanitizers (rebuilds a debug engine); native run in trt-ctest head_trt
+head api_trace: explicit group, separate native CUPTI process (head-api-trace)
+scan_trt api_trace / async_fault: explicit groups, native only (trt-ctest)
+initcheck: --no-held-stream skips the callback-held stream groups only
+head racecheck/synccheck: UNEXECUTED (TensorRT instrumentation cost; WSL crash during development, cause undetermined). New finite-check kernels have no shared memory/barriers; existing packet barrier and scan kernels covered by S03 suite; native head ownership/streams/graph tests retained.
+head runs: --report-api-errors explicit; sanitizer-head-memcheck-default-reporting keeps the default and classifies every reported item

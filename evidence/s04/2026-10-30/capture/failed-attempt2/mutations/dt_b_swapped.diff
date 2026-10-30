@@ -1,0 +1,13 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_trt_network.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_trt_network.cpp	2026-10-30 12:11:18.275021127 +0800
+@@ -168,8 +168,8 @@
+         auto* u = keep(silu(conv_out, "mamba.u"), "u");
+         // 4c-4d: x_proj -> dt [:16], B [16:32], C [32:33]; delta = dt_proj(dt) + bias.
+         auto* dbc = keep(linear(u, "mamba.x_proj.weight"), "x_proj");
+-        auto* dt = slice(dbc, shape({0, 0, 0}), shape({4, L, kHeadDState}), "mamba.dt");
+-        auto* bm = slice(dbc, shape({0, 0, kHeadDState}), shape({4, L, kHeadDState}), "mamba.B");
++        auto* dt = slice(dbc, shape({0, 0, kHeadDState}), shape({4, L, kHeadDState}), "mamba.dt");
++        auto* bm = slice(dbc, shape({0, 0, 0}), shape({4, L, kHeadDState}), "mamba.B");
+         auto* cm = slice(dbc, shape({0, 0, 2 * kHeadDState}), shape({4, L, kHeadCRank}), "mamba.C");
+         auto* dt_bias = constant(W("mamba.dt_proj.bias"), shape({1, 1, kHeadDInner}), "mamba.dt_proj.bias");
+         auto* delta = keep(named(network_->addElementWise(*linear(dt, "mamba.dt_proj.weight"), *dt_bias, ElementWiseOperation::kSUM), "mamba.delta")

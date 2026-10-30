@@ -1,0 +1,79 @@
+engine_sha256=6b1e5da92bf2fb9471f9e9e0c30240c61256c213d49f12de75e998d90f6a5c9d
+engine_bytes=41471388
+group numeric
+identity	engine_sha256=6b1e5da92bf2fb9471f9e9e0c30240c61256c213d49f12de75e998d90f6a5c9d
+identity	bundle_sha256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310
+identity	policy=s04-head-fp32/1
+session_identity_begin
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=3857e243e8fc32663aa688f073343002ad12cb30
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+tensor=p3 mode=input dtype=FP32 format=linear location=device shape=(1,256,80,80) shape_inference_io=false
+tensor=p4 mode=input dtype=FP32 format=linear location=device shape=(1,512,40,40) shape_inference_io=false
+tensor=p5 mode=input dtype=FP32 format=linear location=device shape=(1,512,20,20) shape_inference_io=false
+tensor=cls_p3 mode=output dtype=FP32 format=linear location=device shape=(1,80,80,80) shape_inference_io=false
+tensor=cls_p4 mode=output dtype=FP32 format=linear location=device shape=(1,80,40,40) shape_inference_io=false
+tensor=cls_p5 mode=output dtype=FP32 format=linear location=device shape=(1,80,20,20) shape_inference_io=false
+tensor=reg_p3 mode=output dtype=FP32 format=linear location=device shape=(1,4,80,80) shape_inference_io=false
+tensor=reg_p4 mode=output dtype=FP32 format=linear location=device shape=(1,4,40,40) shape_inference_io=false
+tensor=reg_p5 mode=output dtype=FP32 format=linear location=device shape=(1,4,20,20) shape_inference_io=false
+tensor=p3.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p3.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p3.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p4.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+aux_streams=0
+profiles=1
+device_memory_bytes=16386048
+frame_kernel=initialize registers=14 local_bytes=0
+frame_kernel=begin registers=10 local_bytes=0
+frame_kernel=gate registers=30 local_bytes=0
+frame_kernel=publish registers=28 local_bytes=0
+frame_kernel=commit registers=14 local_bytes=0
+frame_kernel=packet registers=24 local_bytes=0
+frame_kernel=delay registers=4 local_bytes=0
+frame_kernel=check_finite registers=12 local_bytes=0
+frame_kernel=check_done registers=8 local_bytes=0
+slots=2
+packet_slots=3
+graphs=false
+context_memory_bytes=16386048
+payload=cls_p3,cls_p4,cls_p5,reg_p3,reg_p4,reg_p5
+statuses=p3.expand_status,p3.scan_status,p3.merge_status,p4.expand_status,p4.scan_status,p4.merge_status,p5.expand_status,p5.scan_status,p5.merge_status,frame_input_check,frame_output_check
+output=cls_p3 arena_offset=0 elements=512000
+output=cls_p4 arena_offset=512000 elements=128000
+output=cls_p5 arena_offset=640000 elements=32000
+output=reg_p3 arena_offset=672000 elements=25600
+output=reg_p4 arena_offset=697600 elements=6400
+output=reg_p5 arena_offset=704000 elements=1600
+status=p3.expand_status producer=saccade::CrossScanExpand (p3, v1)
+status=p3.scan_status producer=saccade::SelectiveScan (p3, v2, has_d=1)
+status=p3.merge_status producer=saccade::CrossScanMerge (p3, v1, 20x20)
+status=p4.expand_status producer=saccade::CrossScanExpand (p4, v1)
+status=p4.scan_status producer=saccade::SelectiveScan (p4, v2, has_d=1)
+status=p4.merge_status producer=saccade::CrossScanMerge (p4, v1, 10x10)
+status=p5.expand_status producer=saccade::CrossScanExpand (p5, v1)
+status=p5.scan_status producer=saccade::SelectiveScan (p5, v2, has_d=1)
+status=p5.merge_status producer=saccade::CrossScanMerge (p5, v1, 5x5)
+status=frame_input_check producer=harness: finite check of every input element
+status=frame_output_check producer=harness: finite check of every output element
+session_identity_end
+head_compare	asymmetric/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=282	max_rel=1.23e+04	rel_excluded=539	max_err_over_tol=2.12e+04	failures=511930	nonfinite=0	worst=(c=37,h=44,w=2)	worst_gpu=185.504532(0x43398129)	worst_ref=-13.736062411089629	worst_tol=0.00938	max_err_over_2bound=0.00152	FAIL
+head_compare	asymmetric/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=383	max_rel=6.2e+03	rel_excluded=78	max_err_over_tol=2.25e+04	failures=127966	nonfinite=0	worst=(c=23,h=34,w=2)	worst_gpu=228.401489(0x436466c8)	worst_ref=-16.14988991424314	worst_tol=0.0109	max_err_over_2bound=0.000325	FAIL
+head_compare	asymmetric/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=186	max_rel=5.11e+03	rel_excluded=42	max_err_over_tol=2.6e+04	failures=31998	nonfinite=0	worst=(c=64,h=5,w=2)	worst_gpu=101.662315(0x42cb531b)	worst_ref=-16.484378425937102	worst_tol=0.00454	max_err_over_2bound=0.000198	FAIL
+head_compare	asymmetric/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=122	max_rel=1.03e+04	rel_excluded=63	max_err_over_tol=3.01e+04	failures=25595	nonfinite=0	worst=(c=1,h=47,w=3)	worst_gpu=-109.940384(0xc2dbe17a)	worst_ref=1.9567658699771979	worst_tol=0.00372	max_err_over_2bound=0.00171	FAIL
+head_compare	asymmetric/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=74.2	max_rel=4.7e+03	rel_excluded=19	max_err_over_tol=1.88e+04	failures=6398	nonfinite=0	worst=(c=2,h=37,w=12)	worst_gpu=-31.6610813(0xc1fd49e5)	worst_ref=1.1844415680545815	worst_tol=0.00175	max_err_over_2bound=0.000228	FAIL
+head_compare	asymmetric/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=62.9	max_rel=2.99e+03	rel_excluded=1	max_err_over_tol=3.06e+04	failures=1600	nonfinite=0	worst=(c=1,h=5,w=6)	worst_gpu=-49.6708717(0xc246aef9)	worst_ref=3.0453630248645669	worst_tol=0.00172	max_err_over_2bound=0.00022	FAIL
+head_trt_tests: asymmetric/1: all six outputs within the policy

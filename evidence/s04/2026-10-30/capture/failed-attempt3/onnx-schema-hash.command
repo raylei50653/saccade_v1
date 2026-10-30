@@ -1,0 +1,1 @@
+bash -c cp\ \"\$1\"\ \"\$2/onnx.proto\"\ \&\&\ echo\ \"5943f7cb1d0359edfbc7871cb8ec3095ca942c04dea28ee15c926d51e1185efe\ \ \$2/onnx.proto\"\ \|\ sha256sum\ -c _ build-artifact-inspector/onnx.proto /home/ray/developer/ai/saccade_v1/build-s04-evidence3/onnx 

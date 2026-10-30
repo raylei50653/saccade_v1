@@ -77,7 +77,7 @@
 | Frozen policy、既有 kernels／plugins | **PASS，指定 diff 為空、exit 0**（[policy](capture/policy-unchanged-since-policy-commit.log)、[source](capture/s01-s02-s03-kernels-reference-plugins-unchanged.log)）。 | HEAD_POLICY／reference 自政策 commit 不變；S01–S03 指定 kernels／reference／plugin 相對 S03 baseline 不變。 |
 | 歷史 evidence | **PASS，diff 為空、S03 all entries OK，exit 0**（[unchanged](capture/historical-evidence-unchanged.log)、[S03 hashes](capture/historical-evidence-hashes.log)）。 | 不改寫既有 evidence；本次實際 hash check 範圍明列 S03，其他以 diff 檢查。 |
 | capture 完成與最終 build identity | **PASS**：capture 正常 exit 0，59 個 `.exit` 全為 0；head build／run／suite 與 scan report 的 SHA／`build_dirty=false` 均通過，最終工作樹 log 為空（[build identity](capture/build-source-identity.log)、[final working tree](capture/working-tree-final.log)、[binary hashes](capture/binary-hashes.log)）。 | 所有 required capture 步驟已完成；raw controls／mutation 的預期非零退出如各列所示。 |
-| 文件／腳本／本輪 hashes | **PASS**：10 份文件、225 個本機目標、27 個 anchors；317 個 mutation 分類 fixtures、68 個預設 memcheck 分類 fixtures、authored whitespace 與腳本語法全部通過（[verification](verification/)）。本輪全部交付檔案的 SHA-256 見 [SHA256SUMS](SHA256SUMS)。 | 本機 links／anchors、authored whitespace、shell syntax、證據 bytes；不代表 GPU／模型驗收。 |
+| 文件／腳本／本輪 hashes | **PASS**：10 份文件、225 個本機目標、27 個 anchors；317 個 mutation 分類 fixtures、68 個預設 memcheck 分類 fixtures、authored whitespace 與腳本語法全部通過（[verification](verification/)）。本輪 evidence 目錄的 909 份檔案（清單自身除外）之 SHA-256 見 [SHA256SUMS](SHA256SUMS)。 | 本機 links／anchors、authored whitespace、shell syntax、證據 bytes；不代表 GPU／模型驗收。 |
 | 遠端 CPU CI | 交付 commit 的 CPU CI 於最終回報提供 exact commit／run URL。 | workflow 僅 CPU，無 checkpoint、不執行候選測試，不代替本機 GPU 結果。 |
 
 ## Sanitizer 範圍與未驗證邊界

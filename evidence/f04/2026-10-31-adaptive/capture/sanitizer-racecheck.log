@@ -1,0 +1,100 @@
+========= COMPUTE-SANITIZER
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+policy=f04-postprocess-fp32/1
+source_commit=a7e104131aff88c5ba21a28cc623897be4d294b6
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=295712
+cub_version=300500
+cccl_version=3005000
+sort_strategy=decode-compaction/adaptive-top300-v1
+sort_rank_threshold=100
+sort_radix_threshold=512
+sort_dense_tile_items=1024
+sort_dense_tiles=9
+sort_key_bits=46
+sort_candidate_id_bits=14
+sort_stage_kernels=2
+kernels_per_enqueue=5
+ordering=score-descending-model-id-ascending
+case=empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=single-asymmetric-map-no-clip count=1 kept=1 suppressed=0 flags=0 PASS
+case=level-first-last-layout count=6 kept=6 suppressed=0 flags=0 PASS
+case=class-tie-lowest count=1 kept=1 suppressed=0 flags=0 PASS
+case=class-rounded-sigmoid-saturation count=1 kept=1 suppressed=0 flags=0 PASS
+case=top300-before-person count=0 kept=0 suppressed=0 flags=0 PASS
+case=top300-tie-id count=300 kept=300 suppressed=0 flags=0 PASS
+case=degenerate-occupies-top300 count=0 kept=0 suppressed=0 flags=0 PASS
+case=threshold-adjacent-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=nms-equal-score-id-suppressed-pool count=3 kept=1 suppressed=2 flags=0 PASS
+case=nms-iou-exact-half count=2 kept=2 suppressed=0 flags=0 PASS
+case=nms-iou-above-half count=2 kept=1 suppressed=1 flags=0 PASS
+case=nms-iou-below-half count=2 kept=2 suppressed=0 flags=0 PASS
+case=nms-greedy-chain count=3 kept=2 suppressed=1 flags=0 PASS
+case=negative-ltrb-valid-and-degenerate count=1 kept=1 suppressed=0 flags=0 PASS
+case=finite-extreme-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=minimum-anchor-adjacent-valid-box count=1 kept=1 suppressed=0 flags=0 PASS
+case=capacity-zero-empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=capacity-zero-overflow count=0 kept=0 suppressed=0 flags=8 PASS
+case=capacity-exact count=2 kept=2 suppressed=0 flags=0 PASS
+case=capacity-one-short count=0 kept=0 suppressed=0 flags=8 PASS
+case=nan-low-score-logit count=0 kept=0 suppressed=0 flags=1 PASS
+case=inf-low-score-reg count=0 kept=0 suppressed=0 flags=1 PASS
+case=decode-overflow-low-score count=0 kept=0 suppressed=0 flags=1 PASS
+case=nms-area-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=nms-union-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=mapping-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=producer-not-done count=0 kept=0 suppressed=0 flags=4 PASS
+case=producer-upstream-failure count=0 kept=0 suppressed=0 flags=2 PASS
+case=producer-both-failures count=0 kept=0 suppressed=0 flags=6 PASS
+case=deterministic-dense-random count=4 kept=4 suppressed=0 flags=0 PASS
+case=adaptive-count-0 count=0 kept=0 suppressed=0 flags=0 PASS
+case=adaptive-count-1 count=1 kept=1 suppressed=0 flags=0 PASS
+case=adaptive-count-99 count=99 kept=99 suppressed=0 flags=0 PASS
+case=adaptive-count-100 count=100 kept=100 suppressed=0 flags=0 PASS
+case=adaptive-count-101 count=101 kept=101 suppressed=0 flags=0 PASS
+case=adaptive-count-299 count=299 kept=299 suppressed=0 flags=0 PASS
+case=adaptive-count-300 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-301 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-511 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-512 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-513 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-8400 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-cross-tile-level-ties count=16 kept=16 suppressed=0 flags=0 PASS
+case=adaptive-dense-high-id-winners count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-dense-nonperson-before-topk count=0 kept=0 suppressed=0 flags=0 PASS
+case=adaptive-dense-degenerate-no-refill count=0 kept=0 suppressed=0 flags=0 PASS
+case=adaptive-dense-capacity-overflow count=0 kept=0 suppressed=0 flags=8 PASS
+case=adaptive-dense-unselected-nan count=0 kept=0 suppressed=0 flags=1 PASS
+reuse_phase=0 case=adaptive-dense-high-id-winners PASS
+reuse_phase=1 case=adaptive-count-100 PASS
+reuse_phase=2 case=adaptive-dense-unselected-nan PASS
+reuse_phase=3 case=adaptive-count-0 PASS
+reuse_phase=4 case=adaptive-count-512 PASS
+reuse_phase=5 case=adaptive-count-513 PASS
+reuse_phase=6 case=adaptive-dense-capacity-overflow PASS
+reuse_phase=7 case=adaptive-count-99 PASS
+reuse_phase=8 case=adaptive-count-0 PASS
+reuse_phase=9 case=adaptive-dense-high-id-winners PASS
+arguments=PASS
+streams=PASS held=UNEXECUTED
+f03=0 raw_sha256=12df20281dd2bd1b4dd2aefbffcb2ce598115e993f530b1d3b82ae2dbdf763e5 output_sha256=aa826cfc6e1481383665c62d7b63faf6a1aeced645cf2e7fc2bbdfa8544f602f count=237 kept=32 suppressed=205 PASS
+f03=1 raw_sha256=02558978a3e7437cc82c24c3532386588d596c2f9f54a6760d811a4543a9cf16 output_sha256=a54b4e4e98a1e87a84f9f7c9865c726537521414657af2d14586d77ab395c702 count=246 kept=28 suppressed=218 PASS
+f03=2 raw_sha256=b69dc2f3a468540d507a35ee5da767d7607c88948c68418b1dfa8296b55ea85f output_sha256=447018bcadd36ebab62c7eb4c58d0a707ee458206980b400fa59b498ce86714e count=285 kept=39 suppressed=246 PASS
+f03=3 raw_sha256=c273efb9986a957a79ff29ec2c9ffa2fb98469fe284f2d11c4f3fa63b559c815 output_sha256=20360fc43e9724bc48e2b149393687296105baecb5a3a08641e13b01efb51098 count=7 kept=2 suppressed=5 PASS
+f03=4 raw_sha256=a6c72c191da4fad43ae298ea0f677037c1f8ae36d04618a1e7305890f37def57 output_sha256=cb2ce4f5365ce8aeee744c619cc873e1e5286b16d32aa37d3b5c8c010ab58b7f count=5 kept=3 suppressed=2 PASS
+f03=5 raw_sha256=ccd755c5f7a087bce0168e36076e377053fc6678fe8b5dc0ad981fcd52e2e771 output_sha256=9ac59d49088c9282c413772633bbd10a9c4b2424ad5ff3d437c412c4ad7c1ac3 count=3 kept=1 suppressed=2 PASS
+checks=34610 max_score_abs_error=1.19209e-07 PASS
+========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)

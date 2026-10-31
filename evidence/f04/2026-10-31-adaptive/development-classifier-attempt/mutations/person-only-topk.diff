@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ person-only-topk/cuda/postprocess.cu
+@@ -133,7 +133,7 @@
+     candidate.score = best_score; candidate.class_id = best_class;
+     work->positions[id] = candidate;
+     if (bad) atomicOr(&work->numeric, 1u);
+-    const bool qualified = best_score >= kPostprocessScoreFloor;
++    const bool qualified = best_score >= kPostprocessScoreFloor && best_class == 0;
+     // Probabilities are finite and nonnegative after sigmoid. Their FP32 bit
+     // order is numeric order, so this ascending, unique 46-bit key preserves
+     // score descending / original model ID ascending without quantization.

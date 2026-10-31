@@ -1,0 +1,14 @@
+variant	result	exit	expected_diagnostic
+iou-greater-or-equal	DETECTED	1	nms-iou-exact-half: header differs
+suppressed-can-suppress	DETECTED	1	nms-greedy-chain: header differs
+class-logit-argmax	DETECTED	1	class-rounded-sigmoid-saturation: header differs
+reverse-candidate-id-ties	DETECTED	1	level-first-last-layout: row 0 bits differ
+wrong-p3-stride	DETECTED	1	single-asymmetric-map-no-clip: row 0 bits differ
+swap-left-top	DETECTED	1	single-asymmetric-map-no-clip: row 0 bits differ
+swap-xy-mapping	DETECTED	1	single-asymmetric-map-no-clip: row 0 bits differ
+kept-only-pool	DETECTED	1	nms-equal-score-id-suppressed-pool: header differs
+ignore-producer-flags	DETECTED	1	producer-upstream-failure: header differs
+no-row-reset	DETECTED	1	empty: row 0 bits differ
+person-only-topk	DETECTED	1	top300-before-person: header differs
+dense-drop-last-tile	DETECTED	1	adaptive-dense-high-id-winners: global highest IDs win
+dense-first512-only	NOT_DETECTED_AS_EXPECTED	1	adaptive-dense-high-id-winners: global highest IDs win

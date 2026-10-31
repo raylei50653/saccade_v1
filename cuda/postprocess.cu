@@ -2,6 +2,8 @@
 
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <cub/block/block_radix_sort.cuh>
+#include <cub/version.cuh>
 #include <cfloat>
 #include <cstdint>
 #include <limits>
@@ -23,6 +25,16 @@
 namespace saccade {
 namespace {
 constexpr unsigned kThreads = 128;
+constexpr unsigned kSortThreads = 256;
+constexpr unsigned kRankThreshold = 100;
+constexpr unsigned kRadixThreshold = 512;
+constexpr unsigned kDenseTileItems = 1024;
+constexpr unsigned kDenseTiles = (kPostprocessPositions + kDenseTileItems - 1) / kDenseTileItems;
+constexpr unsigned kCandidateIdBits = 14;
+constexpr unsigned kSortKeyBits = 32 + kCandidateIdBits;
+constexpr std::uint64_t kInvalidKey = ~std::uint64_t{0};
+constexpr std::uint64_t kCandidateIdMask = (std::uint64_t{1} << kCandidateIdBits) - 1;
+static_assert(kPostprocessPositions <= (1u << kCandidateIdBits));
 
 // Positions are indexed by the original model ID; top_ids is the stable,
 // class-independent score order. No atomically assigned output row exists.
@@ -34,6 +46,9 @@ struct Workspace {
     std::uint32_t run_stage, numeric, qualified;
     Decoded positions[kPostprocessPositions];
     std::uint32_t top_ids[kPostprocessCapacity];
+    std::uint64_t full_keys[kPostprocessPositions];
+    std::uint64_t compact_keys[kRadixThreshold];
+    std::uint64_t partial_keys[kDenseTiles * kPostprocessCapacity];
 };
 struct KernelInputs { const float* cls[3]; const float* reg[3]; };
 
@@ -118,25 +133,108 @@ __global__ void decode(KernelInputs input, Workspace* work) {
     candidate.score = best_score; candidate.class_id = best_class;
     work->positions[id] = candidate;
     if (bad) atomicOr(&work->numeric, 1u);
-    if (best_score >= kPostprocessScoreFloor) atomicAdd(&work->qualified, 1u);
+    const bool qualified = best_score >= kPostprocessScoreFloor;
+    // Probabilities are finite and nonnegative after sigmoid. Their FP32 bit
+    // order is numeric order, so this ascending, unique 46-bit key preserves
+    // score descending / original model ID ascending without quantization.
+    const std::uint64_t key = qualified
+        ? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | id
+        : kInvalidKey;
+    work->full_keys[id] = key;
+    if (qualified) {
+        // Arrival order only places keys in scratch; the complete unique key
+        // determines the published order. Dense input uses full_keys instead
+        // of an incomplete compact prefix, so no candidate is lost.
+        const unsigned compact_index = atomicAdd(&work->qualified, 1u);
+        if (compact_index < kRadixThreshold) work->compact_keys[compact_index] = key;
+    }
 }
 
-// Independent exact ranks are unique under (score descending, model ID
-// ascending). There are only 8400 positions, so the bounded quadratic scan is
-// simple, deterministic and uses four launches rather than a sorting network's
-// many global phase boundaries. No performance claim is attached to F04 v1.
-__global__ void rank_top(Workspace* work) {
-    const unsigned id = blockIdx.x * blockDim.x + threadIdx.x;
-    if (id >= kPostprocessPositions || work->run_stage == 0 || work->numeric != 0) return;
-    const float score = work->positions[id].score;
-    if (score < kPostprocessScoreFloor) return;
-    unsigned rank = 0;
-    for (unsigned other = 0; other < kPostprocessPositions; ++other) {
-        const float rival = work->positions[other].score;
-        if (rival > score || (rival == score && other < id)) ++rank;
+using MediumSort = cub::BlockRadixSort<std::uint64_t, kSortThreads, kRadixThreshold / kSortThreads>;
+using DenseSort = cub::BlockRadixSort<std::uint64_t, kSortThreads, kDenseTileItems / kSortThreads>;
+union AdaptiveSortShared {
+    typename MediumSort::TempStorage medium;
+    typename DenseSort::TempStorage dense;
+    std::uint64_t small[kRankThreshold];
+};
+
+// Every gate/branch containing a collective is uniform within a CTA. M and
+// numeric are complete before this kernel starts; only decode writes them.
+// The launch shape stays fixed, including graph replay, without host counts.
+__global__ void adaptive_prefix(Workspace* work) {
+    const unsigned count = work->qualified;
+    if (work->run_stage == 0 || work->numeric != 0 || count == 0) return;
+    __shared__ AdaptiveSortShared shared;
+    if (count <= kRankThreshold) {
+        if (blockIdx.x != 0) return;
+        if (threadIdx.x < count) shared.small[threadIdx.x] = work->compact_keys[threadIdx.x];
+        __syncthreads();
+        if (threadIdx.x < count) {
+            const std::uint64_t key = shared.small[threadIdx.x];
+            unsigned rank = 0;
+            for (unsigned j = 0; j < count; ++j) rank += shared.small[j] < key;
+            work->top_ids[rank] = static_cast<std::uint32_t>(key & kCandidateIdMask);
+        }
+        return;
+    }
+    if (count <= kRadixThreshold) {
+        if (blockIdx.x != 0) return;
+        std::uint64_t keys[kRadixThreshold / kSortThreads];
+#pragma unroll
+        for (unsigned i = 0; i < kRadixThreshold / kSortThreads; ++i) {
+            const unsigned index = threadIdx.x + i * kSortThreads;
+            keys[i] = index < count ? work->compact_keys[index] : kInvalidKey;
+        }
+        MediumSort(shared.medium).SortBlockedToStriped(keys, 0, kSortKeyBits);
+#pragma unroll
+        for (unsigned i = 0; i < kRadixThreshold / kSortThreads; ++i) {
+            const unsigned rank = threadIdx.x + i * kSortThreads;
+            if (rank < count && rank < kPostprocessCapacity)
+                work->top_ids[rank] = static_cast<std::uint32_t>(keys[i] & kCandidateIdMask);
+        }
+        return;
+    }
+    std::uint64_t keys[kDenseTileItems / kSortThreads];
+#pragma unroll
+    for (unsigned i = 0; i < kDenseTileItems / kSortThreads; ++i) {
+        const unsigned index = blockIdx.x * kDenseTileItems + threadIdx.x + i * kSortThreads;
+        keys[i] = index < kPostprocessPositions ? work->full_keys[index] : kInvalidKey;
+    }
+    DenseSort(shared.dense).SortBlockedToStriped(keys, 0, kSortKeyBits);
+#pragma unroll
+    for (unsigned i = 0; i < kDenseTileItems / kSortThreads; ++i) {
+        const unsigned rank = threadIdx.x + i * kSortThreads;
+        if (rank < kPostprocessCapacity)
+            work->partial_keys[blockIdx.x * kPostprocessCapacity + rank] = keys[i];
+    }
+}
+
+// A member of the global top-300 must occur in its tile's local top-300.
+// For such a member, every other tile contributes its exact count of smaller
+// keys; a truncated count >=300 can only reject a nonmember. Unique valid keys
+// make output ranks distinct even when scores tie. Invalid sentinels are never
+// assigned a rank, avoiding duplicate writes in sparse/partly filled tiles.
+__global__ void dense_merge(Workspace* work) {
+    if (work->run_stage == 0 || work->numeric != 0 || work->qualified <= kRadixThreshold) return;
+    const unsigned index = blockIdx.x * blockDim.x + threadIdx.x;
+    if (index >= kDenseTiles * kPostprocessCapacity) return;
+    const std::uint64_t key = work->partial_keys[index];
+    if (key == kInvalidKey) return;
+    const unsigned own_tile = index / kPostprocessCapacity;
+    unsigned rank = index % kPostprocessCapacity;
+    for (unsigned tile = 0; tile < kDenseTiles; ++tile) {
+        if (tile == own_tile) continue;
+        unsigned begin = 0, end = kPostprocessCapacity;
+        const auto* list = work->partial_keys + tile * kPostprocessCapacity;
+        while (begin != end) {
+            const unsigned middle = (begin + end) / 2;
+            if (list[middle] < key) begin = middle + 1;
+            else end = middle;
+        }
+        rank += begin;
         if (rank >= kPostprocessCapacity) return;
     }
-    work->top_ids[rank] = id;
+    work->top_ids[rank] = static_cast<std::uint32_t>(key & kCandidateIdMask);
 }
 
 __device__ bool box_area(const DetectionCandidate& box, float& area) {
@@ -310,8 +408,11 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
     constexpr unsigned blocks = (kPostprocessPositions + kThreads - 1) / kThreads;
     decode<<<blocks, kThreads, 0, stream>>>(inputs, work);
     ck(cudaGetLastError(), "postprocess decode launch");
-    rank_top<<<blocks, kThreads, 0, stream>>>(work);
-    ck(cudaGetLastError(), "postprocess rank launch");
+    adaptive_prefix<<<kDenseTiles, kSortThreads, 0, stream>>>(work);
+    ck(cudaGetLastError(), "postprocess adaptive prefix launch");
+    constexpr unsigned merge_blocks = (kDenseTiles * kPostprocessCapacity + kThreads - 1) / kThreads;
+    dense_merge<<<merge_blocks, kThreads, 0, stream>>>(work);
+    ck(cudaGetLastError(), "postprocess dense merge launch");
     finalize<<<1, 1, 0, stream>>>(output, work, request);
     ck(cudaGetLastError(), "postprocess finalize launch");
 }
@@ -319,7 +420,8 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
 std::string postprocess_cuda_load_kernels() {
     std::ostringstream text;
     const void* kernels[]{reinterpret_cast<const void*>(initialize), reinterpret_cast<const void*>(decode),
-                          reinterpret_cast<const void*>(rank_top), reinterpret_cast<const void*>(finalize)};
+                          reinterpret_cast<const void*>(adaptive_prefix), reinterpret_cast<const void*>(dense_merge),
+                          reinterpret_cast<const void*>(finalize)};
     for (const auto kernel : kernels) {
         cudaFuncAttributes attributes{};
         ck(cudaFuncGetAttributes(&attributes, kernel), "cudaFuncGetAttributes(postprocess)");
@@ -350,6 +452,16 @@ std::string postprocess_cuda_identity() {
          << "\ncompute_capability=" << properties.major << '.' << properties.minor
          << "\ndevice_ordinal=" << device
          << "\nworkspace_bytes=" << sizeof(Workspace)
+         << "\ncub_version=" << CUB_VERSION
+         << "\ncccl_version=" << CCCL_VERSION
+         << "\nsort_strategy=decode-compaction/adaptive-top300-v1"
+         << "\nsort_rank_threshold=" << kRankThreshold
+         << "\nsort_radix_threshold=" << kRadixThreshold
+         << "\nsort_dense_tile_items=" << kDenseTileItems
+         << "\nsort_dense_tiles=" << kDenseTiles
+         << "\nsort_key_bits=" << kSortKeyBits
+         << "\nsort_candidate_id_bits=" << kCandidateIdBits
+         << "\nsort_stage_kernels=2\nkernels_per_enqueue=5"
          << "\nordering=score-descending-model-id-ascending\n";
     return text.str();
 }

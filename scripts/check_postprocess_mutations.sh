@@ -124,7 +124,15 @@ mutate() {
         'if (logit > best_logit) { best_logit = logit; best_score = score; best_class = c; }'
       diagnostic='class-rounded-sigmoid-saturation: header differs' ;;
     reverse-candidate-id-ties)
-      replace_exact '(rival == score && other < id)' '(rival == score && other > id)'
+      # Reverse only the key's secondary order, and invert the decode too so
+      # every recovered model ID remains valid. An OOB/crash is not a semantic
+      # negative control for candidate ordering.
+      replace_exact '? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | id' \
+        '? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | (kCandidateIdMask - id)'
+      replace_exact 'static_cast<std::uint32_t>(key & kCandidateIdMask)' \
+        'static_cast<std::uint32_t>(kCandidateIdMask - (key & kCandidateIdMask))' 2
+      replace_exact 'static_cast<std::uint32_t>(keys[i] & kCandidateIdMask)' \
+        'static_cast<std::uint32_t>(kCandidateIdMask - (keys[i] & kCandidateIdMask))'
       diagnostic='level-first-last-layout: row 0 bits differ' ;;
     wrong-p3-stride)
       replace_exact 'local = id, side = 80, stride = 8;' 'local = id, side = 80, stride = 16;'
@@ -150,6 +158,20 @@ mutate() {
       replace_exact 'for (unsigned i = 0; i < sizeof(DetectionCandidates); ++i) bytes[i] = 0;' \
         'for (unsigned i = 0; i < sizeof(DetectionCandidatesHeader); ++i) bytes[i] = 0;'
       diagnostic='empty: row 0 bits differ' ;;
+    person-only-topk)
+      replace_exact 'const bool qualified = best_score >= kPostprocessScoreFloor;' \
+        'const bool qualified = best_score >= kPostprocessScoreFloor && best_class == 0;'
+      diagnostic='top300-before-person: header differs' ;;
+    dense-drop-last-tile)
+      replace_exact 'if (index >= kDenseTiles * kPostprocessCapacity) return;' \
+        'if (index >= (kDenseTiles - 1) * kPostprocessCapacity) return;'
+      replace_exact 'for (unsigned tile = 0; tile < kDenseTiles; ++tile)' \
+        'for (unsigned tile = 0; tile < kDenseTiles - 1; ++tile)'
+      diagnostic='adaptive-dense-high-id-winners: global highest IDs win' ;;
+    dense-first512-only)
+      replace_exact 'index < kPostprocessPositions ? work->full_keys[index] : kInvalidKey;' \
+        'index < kRadixThreshold ? work->full_keys[index] : kInvalidKey;'
+      diagnostic='deterministic-dense-random: score exceeds fixed bound' ;;
     *) echo "unknown mutation: $variant" >&2; return 2 ;;
   esac
 }
@@ -173,7 +195,8 @@ if [[ $check_only == false ]]; then
 fi
 
 variants=(iou-greater-or-equal suppressed-can-suppress class-logit-argmax reverse-candidate-id-ties
-          wrong-p3-stride swap-left-top swap-xy-mapping kept-only-pool ignore-producer-flags no-row-reset)
+          wrong-p3-stride swap-left-top swap-xy-mapping kept-only-pool ignore-producer-flags no-row-reset
+          person-only-topk dense-drop-last-tile dense-first512-only)
 printf 'variant\tresult\texit\texpected_diagnostic\n' > "$cap/results.tsv"
 for variant in "${variants[@]}"; do
   guard_source

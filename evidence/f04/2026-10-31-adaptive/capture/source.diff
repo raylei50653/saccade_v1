@@ -1,0 +1,587 @@
+diff --git a/README.md b/README.md
+index d79b38f..3e275f6 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ 目前里程碑為 **Saccade v1 — T01 Experimental Closeout**。原始實驗固定於 [`t01-experiment-final-2026-10-31`](https://github.com/raylei50653/saccade_v1/tree/t01-experiment-final-2026-10-31)（`a47fb16`），由 PR #1 以 merge commit 整合到 main；封存與恢復入口見 [結案報告](docs/history/2026-10-31-t01-closeout.md)。實驗完成不代表產品部署完成；F04、完整 async session 與 P01 分開保留於 [後續工作](docs/BACKLOG.md)。
+ 
+-Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。[F04 decode／篩選／NMS](docs/POSTPROCESS.md) 已實作，**本機開發驗證通過，clean-source 正式驗收未執行**；完整 async session、GMC、tracker 與 MOT writer 仍待接續實作與整合。
++Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。[F04 decode／篩選／NMS](docs/POSTPROCESS.md) 已改為 decode 融合壓實、依 device 合格數分級排序；**adaptive 改版的本機開發驗證通過，clean-source 正式驗收未執行**，原始 rank 版本的開發結果保留於既有報告。完整 async session、GMC、tracker 與 MOT writer 仍待接續實作與整合。
+ 
+ 以舊架構的 YOLO26＋Mamba-FPN、GPU GMC、geometry-first／ReID-free tracker 與 MOT 輸出作為設計基線；重新抽象資料與責任邊界，全部重新實作。
+ 
+@@ -24,7 +24,7 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構
+ - [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
+ - [T01 backbone engine 與 F03](docs/MODEL_TRT.md)：T01 backbone ONNX 經 pinned SDK 的 ONNX parser 建成 FP32 engine，與 S04 head 組成完整模型 engine；政策在首次 GPU 比較前固定於 [BACKBONE_POLICY](docs/BACKBONE_POLICY.md)。**backbone PASS、F03 PASS**，限六個固定輸入與受測環境；該 engine 驗收不涵蓋 native 前處理或 decode／NMS；P01 仍 OPEN。
+ - [Native 影像前處理 F01／F02](docs/PREPROCESS.md)：獨立於 TensorRT 的 nvJPEG hardware batch-1 planar RGB decode、FP32 正規化與 antialiased stretch、ImageMapping、同 stream 重用與 checked drain；使用 `SACCADE_ENABLE_PREPROCESS` 可選建置。數值仍依 [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md)，既有 17 組對照逐位元相同、19/19 CTest；依 [PREPROCESS_USAGE_POLICY](docs/PREPROCESS_USAGE_POLICY.md) 的正常使用驗收亦 **PASS（受測範圍）**：7 張固定真實 JPEG、4 個 sessions 共 208 幀，全部 RGB／FP32 輸出逐位元對齊，涵蓋尺寸切換、延後 consumer、ring 重用與雙 instance（[使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)）。既知 nvJPEG initcheck FAIL 保留為診斷項，原始 [證據](evidence/preprocess/2026-10-31/REPORT.md)不改寫；單 staging 尚未整合雙 STAGE 的完整 async session。
+-- [F04 native 偵測後處理](docs/POSTPROCESS.md)：CPU FP32 reference 與 CUDA decode／全類別 top-300／person 篩選／greedy NMS／原圖映射已實作，保留穩定 candidate ID 與完整 kept／suppressed pool；政策為 [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md)。使用 `SACCADE_ENABLE_POSTPROCESS` 可選建置；31 個合成 cases、六份依正式 file schema 解析且獨立核對歷史 kept counts 的 F03 raw dumps、repeat／graph、pending producer／consumer 與四種 sanitizer 的 [本機開發驗證](evidence/f04/2026-10-31/REPORT.md) 通過。驗證執行時 source 尚未提交、`source_dirty=true`，**clean-source 正式驗收未執行**；sanitizer 下的 callback gates 亦明列未執行。F03 producer 聚合器與完整 async session 尚未整合，P01 仍 OPEN。
++- [F04 native 偵測後處理](docs/POSTPROCESS.md)：政策仍為 [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md)，保留全類別 Top-300、穩定原始 candidate ID、完整 kept／suppressed pool 與原輸出 ABI。CUDA 改為 decode 融合壓實，device M≤100 用 shared-memory rank、101–512 用單 block radix、M>512 用分塊排序與合併，所有中途 counts 留 device；[adaptive 改版開發驗證](evidence/f04/2026-10-31-adaptive/REPORT.md) 的 49 cases、10-phase reuse、六份 replay、F04 CTest 4/4 與四種 sanitizer 通過。source 為 dirty development，clean-source 正式驗收未執行；sanitizer callback gates 為 UNEXECUTED。完整 F04 API 的三份真實輸入同工具測時為 1.77–1.97× 加速，並非完整模型或 tracking 的端到端速度。既有 [原始 rank 版本證據](evidence/f04/2026-10-31/REPORT.md) 不改寫或移作新版 PASS。F03 producer 聚合器與完整 async session 尚未整合，P01 仍 OPEN。
+ - [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
+ 
+ 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
+diff --git a/cmake/Postprocess.cmake b/cmake/Postprocess.cmake
+index 9a68e7d..3472ae9 100644
+--- a/cmake/Postprocess.cmake
++++ b/cmake/Postprocess.cmake
+@@ -10,8 +10,12 @@ target_compile_definitions(saccade_postprocess_cuda PRIVATE
+ add_executable(postprocess_cuda_tests tests/postprocess_cuda_tests.cpp)
+ target_link_libraries(postprocess_cuda_tests PRIVATE
+   saccade_postprocess_cuda saccade_file_io saccade_sha256 Threads::Threads)
++add_executable(postprocess_benchmark tools/postprocess_benchmark.cpp)
++target_link_libraries(postprocess_benchmark PRIVATE
++  saccade_postprocess_cuda saccade_file_io saccade_sha256)
+ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+   target_compile_options(postprocess_cuda_tests PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
++  target_compile_options(postprocess_benchmark PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+ endif()
+ add_test(NAME postprocess_cuda COMMAND postprocess_cuda_tests)
+ set_tests_properties(postprocess_cuda PROPERTIES LABELS "gpu;postprocess" TIMEOUT 300)
+diff --git a/cuda/postprocess.cu b/cuda/postprocess.cu
+index 99bed4c..9edf257 100644
+--- a/cuda/postprocess.cu
++++ b/cuda/postprocess.cu
+@@ -2,6 +2,8 @@
+ 
+ #include <cuda.h>
+ #include <cuda_runtime.h>
++#include <cub/block/block_radix_sort.cuh>
++#include <cub/version.cuh>
+ #include <cfloat>
+ #include <cstdint>
+ #include <limits>
+@@ -23,6 +25,16 @@
+ namespace saccade {
+ namespace {
+ constexpr unsigned kThreads = 128;
++constexpr unsigned kSortThreads = 256;
++constexpr unsigned kRankThreshold = 100;
++constexpr unsigned kRadixThreshold = 512;
++constexpr unsigned kDenseTileItems = 1024;
++constexpr unsigned kDenseTiles = (kPostprocessPositions + kDenseTileItems - 1) / kDenseTileItems;
++constexpr unsigned kCandidateIdBits = 14;
++constexpr unsigned kSortKeyBits = 32 + kCandidateIdBits;
++constexpr std::uint64_t kInvalidKey = ~std::uint64_t{0};
++constexpr std::uint64_t kCandidateIdMask = (std::uint64_t{1} << kCandidateIdBits) - 1;
++static_assert(kPostprocessPositions <= (1u << kCandidateIdBits));
+ 
+ // Positions are indexed by the original model ID; top_ids is the stable,
+ // class-independent score order. No atomically assigned output row exists.
+@@ -34,6 +46,9 @@ struct Workspace {
+     std::uint32_t run_stage, numeric, qualified;
+     Decoded positions[kPostprocessPositions];
+     std::uint32_t top_ids[kPostprocessCapacity];
++    std::uint64_t full_keys[kPostprocessPositions];
++    std::uint64_t compact_keys[kRadixThreshold];
++    std::uint64_t partial_keys[kDenseTiles * kPostprocessCapacity];
+ };
+ struct KernelInputs { const float* cls[3]; const float* reg[3]; };
+ 
+@@ -118,25 +133,108 @@ __global__ void decode(KernelInputs input, Workspace* work) {
+     candidate.score = best_score; candidate.class_id = best_class;
+     work->positions[id] = candidate;
+     if (bad) atomicOr(&work->numeric, 1u);
+-    if (best_score >= kPostprocessScoreFloor) atomicAdd(&work->qualified, 1u);
++    const bool qualified = best_score >= kPostprocessScoreFloor;
++    // Probabilities are finite and nonnegative after sigmoid. Their FP32 bit
++    // order is numeric order, so this ascending, unique 46-bit key preserves
++    // score descending / original model ID ascending without quantization.
++    const std::uint64_t key = qualified
++        ? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | id
++        : kInvalidKey;
++    work->full_keys[id] = key;
++    if (qualified) {
++        // Arrival order only places keys in scratch; the complete unique key
++        // determines the published order. Dense input uses full_keys instead
++        // of an incomplete compact prefix, so no candidate is lost.
++        const unsigned compact_index = atomicAdd(&work->qualified, 1u);
++        if (compact_index < kRadixThreshold) work->compact_keys[compact_index] = key;
++    }
+ }
+ 
+-// Independent exact ranks are unique under (score descending, model ID
+-// ascending). There are only 8400 positions, so the bounded quadratic scan is
+-// simple, deterministic and uses four launches rather than a sorting network's
+-// many global phase boundaries. No performance claim is attached to F04 v1.
+-__global__ void rank_top(Workspace* work) {
+-    const unsigned id = blockIdx.x * blockDim.x + threadIdx.x;
+-    if (id >= kPostprocessPositions || work->run_stage == 0 || work->numeric != 0) return;
+-    const float score = work->positions[id].score;
+-    if (score < kPostprocessScoreFloor) return;
+-    unsigned rank = 0;
+-    for (unsigned other = 0; other < kPostprocessPositions; ++other) {
+-        const float rival = work->positions[other].score;
+-        if (rival > score || (rival == score && other < id)) ++rank;
++using MediumSort = cub::BlockRadixSort<std::uint64_t, kSortThreads, kRadixThreshold / kSortThreads>;
++using DenseSort = cub::BlockRadixSort<std::uint64_t, kSortThreads, kDenseTileItems / kSortThreads>;
++union AdaptiveSortShared {
++    typename MediumSort::TempStorage medium;
++    typename DenseSort::TempStorage dense;
++    std::uint64_t small[kRankThreshold];
++};
++
++// Every gate/branch containing a collective is uniform within a CTA. M and
++// numeric are complete before this kernel starts; only decode writes them.
++// The launch shape stays fixed, including graph replay, without host counts.
++__global__ void adaptive_prefix(Workspace* work) {
++    const unsigned count = work->qualified;
++    if (work->run_stage == 0 || work->numeric != 0 || count == 0) return;
++    __shared__ AdaptiveSortShared shared;
++    if (count <= kRankThreshold) {
++        if (blockIdx.x != 0) return;
++        if (threadIdx.x < count) shared.small[threadIdx.x] = work->compact_keys[threadIdx.x];
++        __syncthreads();
++        if (threadIdx.x < count) {
++            const std::uint64_t key = shared.small[threadIdx.x];
++            unsigned rank = 0;
++            for (unsigned j = 0; j < count; ++j) rank += shared.small[j] < key;
++            work->top_ids[rank] = static_cast<std::uint32_t>(key & kCandidateIdMask);
++        }
++        return;
++    }
++    if (count <= kRadixThreshold) {
++        if (blockIdx.x != 0) return;
++        std::uint64_t keys[kRadixThreshold / kSortThreads];
++#pragma unroll
++        for (unsigned i = 0; i < kRadixThreshold / kSortThreads; ++i) {
++            const unsigned index = threadIdx.x + i * kSortThreads;
++            keys[i] = index < count ? work->compact_keys[index] : kInvalidKey;
++        }
++        MediumSort(shared.medium).SortBlockedToStriped(keys, 0, kSortKeyBits);
++#pragma unroll
++        for (unsigned i = 0; i < kRadixThreshold / kSortThreads; ++i) {
++            const unsigned rank = threadIdx.x + i * kSortThreads;
++            if (rank < count && rank < kPostprocessCapacity)
++                work->top_ids[rank] = static_cast<std::uint32_t>(keys[i] & kCandidateIdMask);
++        }
++        return;
++    }
++    std::uint64_t keys[kDenseTileItems / kSortThreads];
++#pragma unroll
++    for (unsigned i = 0; i < kDenseTileItems / kSortThreads; ++i) {
++        const unsigned index = blockIdx.x * kDenseTileItems + threadIdx.x + i * kSortThreads;
++        keys[i] = index < kPostprocessPositions ? work->full_keys[index] : kInvalidKey;
++    }
++    DenseSort(shared.dense).SortBlockedToStriped(keys, 0, kSortKeyBits);
++#pragma unroll
++    for (unsigned i = 0; i < kDenseTileItems / kSortThreads; ++i) {
++        const unsigned rank = threadIdx.x + i * kSortThreads;
++        if (rank < kPostprocessCapacity)
++            work->partial_keys[blockIdx.x * kPostprocessCapacity + rank] = keys[i];
++    }
++}
++
++// A member of the global top-300 must occur in its tile's local top-300.
++// For such a member, every other tile contributes its exact count of smaller
++// keys; a truncated count >=300 can only reject a nonmember. Unique valid keys
++// make output ranks distinct even when scores tie. Invalid sentinels are never
++// assigned a rank, avoiding duplicate writes in sparse/partly filled tiles.
++__global__ void dense_merge(Workspace* work) {
++    if (work->run_stage == 0 || work->numeric != 0 || work->qualified <= kRadixThreshold) return;
++    const unsigned index = blockIdx.x * blockDim.x + threadIdx.x;
++    if (index >= kDenseTiles * kPostprocessCapacity) return;
++    const std::uint64_t key = work->partial_keys[index];
++    if (key == kInvalidKey) return;
++    const unsigned own_tile = index / kPostprocessCapacity;
++    unsigned rank = index % kPostprocessCapacity;
++    for (unsigned tile = 0; tile < kDenseTiles; ++tile) {
++        if (tile == own_tile) continue;
++        unsigned begin = 0, end = kPostprocessCapacity;
++        const auto* list = work->partial_keys + tile * kPostprocessCapacity;
++        while (begin != end) {
++            const unsigned middle = (begin + end) / 2;
++            if (list[middle] < key) begin = middle + 1;
++            else end = middle;
++        }
++        rank += begin;
+         if (rank >= kPostprocessCapacity) return;
+     }
+-    work->top_ids[rank] = id;
++    work->top_ids[rank] = static_cast<std::uint32_t>(key & kCandidateIdMask);
+ }
+ 
+ __device__ bool box_area(const DetectionCandidate& box, float& area) {
+@@ -310,8 +408,11 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
+     constexpr unsigned blocks = (kPostprocessPositions + kThreads - 1) / kThreads;
+     decode<<<blocks, kThreads, 0, stream>>>(inputs, work);
+     ck(cudaGetLastError(), "postprocess decode launch");
+-    rank_top<<<blocks, kThreads, 0, stream>>>(work);
+-    ck(cudaGetLastError(), "postprocess rank launch");
++    adaptive_prefix<<<kDenseTiles, kSortThreads, 0, stream>>>(work);
++    ck(cudaGetLastError(), "postprocess adaptive prefix launch");
++    constexpr unsigned merge_blocks = (kDenseTiles * kPostprocessCapacity + kThreads - 1) / kThreads;
++    dense_merge<<<merge_blocks, kThreads, 0, stream>>>(work);
++    ck(cudaGetLastError(), "postprocess dense merge launch");
+     finalize<<<1, 1, 0, stream>>>(output, work, request);
+     ck(cudaGetLastError(), "postprocess finalize launch");
+ }
+@@ -319,7 +420,8 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
+ std::string postprocess_cuda_load_kernels() {
+     std::ostringstream text;
+     const void* kernels[]{reinterpret_cast<const void*>(initialize), reinterpret_cast<const void*>(decode),
+-                          reinterpret_cast<const void*>(rank_top), reinterpret_cast<const void*>(finalize)};
++                          reinterpret_cast<const void*>(adaptive_prefix), reinterpret_cast<const void*>(dense_merge),
++                          reinterpret_cast<const void*>(finalize)};
+     for (const auto kernel : kernels) {
+         cudaFuncAttributes attributes{};
+         ck(cudaFuncGetAttributes(&attributes, kernel), "cudaFuncGetAttributes(postprocess)");
+@@ -350,6 +452,16 @@ std::string postprocess_cuda_identity() {
+          << "\ncompute_capability=" << properties.major << '.' << properties.minor
+          << "\ndevice_ordinal=" << device
+          << "\nworkspace_bytes=" << sizeof(Workspace)
++         << "\ncub_version=" << CUB_VERSION
++         << "\ncccl_version=" << CCCL_VERSION
++         << "\nsort_strategy=decode-compaction/adaptive-top300-v1"
++         << "\nsort_rank_threshold=" << kRankThreshold
++         << "\nsort_radix_threshold=" << kRadixThreshold
++         << "\nsort_dense_tile_items=" << kDenseTileItems
++         << "\nsort_dense_tiles=" << kDenseTiles
++         << "\nsort_key_bits=" << kSortKeyBits
++         << "\nsort_candidate_id_bits=" << kCandidateIdBits
++         << "\nsort_stage_kernels=2\nkernels_per_enqueue=5"
+          << "\nordering=score-descending-model-id-ascending\n";
+     return text.str();
+ }
+diff --git a/docs/BACKLOG.md b/docs/BACKLOG.md
+index 1cc940e..5480bc4 100644
+--- a/docs/BACKLOG.md
++++ b/docs/BACKLOG.md
+@@ -10,7 +10,11 @@
+ 
+ 政策已固定 class／top-k／NMS ties、FP32 計算與閾值邊界、不 clipping、退化／非有限框、capacity／padding／overflow，以及被 NMS suppressed 與低分／非 person／top-k 淘汰的區別。T01 evaluator 的 invalid-topk 只有歷史統計；新增 native 處置不回寫其實驗結果。候選 ID 由篩選前模型序號建立並在 compact 後保留。
+ 
+-完成條件：依 GPU 前固定的 reference／cases／政策，驗證完整輸出與穩定順序、重跑與資源重用、同分與閾值邊界、空候選及明確失敗；保留 F04b 可用的 suppressed pool。正常 runtime 的中途 count／status 留 device，不增加 per-frame postprocess D2H。**實作已完成，本機開發驗證通過；clean-source 正式驗收未執行**。31 個固定 cases、六份依正式 file schema 解析且獨立核對歷史 kept counts 的 F03 raw dumps、完整輸出／重跑／graph／正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的實際結果見 [F04 證據](../evidence/f04/2026-10-31/REPORT.md)。早期誤讀交錯 file layout 的結果另存錯誤 attempt，不作真實 replay 證據。驗證執行時 source 尚未提交、`source_dirty=true`，sanitizer 下的 callback gates 為 UNEXECUTED，不稱 clean-source formal F04 PASS。F03 plugin／finite statuses 的 producer 聚合器及 native 前處理／模型接續尚未整合，留於完整 session 任務，不因 raw replay 而視為完成。
++完成條件：依 GPU 前固定的 reference／cases／政策，驗證完整輸出與穩定順序、重跑與資源重用、同分與閾值邊界、空候選及明確失敗；保留 F04b 可用的 suppressed pool。正常 runtime 的中途 count／status 留 device，不增加 per-frame postprocess D2H。
++
++目前已將原始全 8,400-position rank 掃描改為 **decode 融合壓實＋device 分級 Top-300**：M 是 class／退化篩選前的全部合格位置數，M≤100 用 compact shared-memory rank，101–512 用單 block radix，M>512 用 9 個 1,024-position tiles 的局部 Top-300 與全域合併；唯一 key 保留原始 ID 決勝，不使用 atomic 到達順序排序。**本次 adaptive 實作的 [本機開發驗證通過](../evidence/f04/2026-10-31-adaptive/REPORT.md)**：49 個固定 cases、10-phase dense／sparse／empty／failure 重用、完整數值／順序／bytes、repeat／graph、六份 F03 replay 與 F04 CTest 4/4 通過，正常 suite 共 34,915 checks。四種 sanitizer 各 34,610 checks、0 errors／hazards，四個正控制均偵測；其中 callback gates 為 UNEXECUTED，正常 gates 已通過。完整 F04 API 的三份真實輸入同工具測時為 1.77–1.97× 加速，排除 H2D／D2H 與 CPU reference，不能當完整模型或 tracking 端到端數字。source 為 dirty development，**clean-source 正式驗收未執行**；新 adaptive mutations 另依新報告判定。
++
++[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 producer 聚合器及 native 前處理／模型接續仍留於完整 session 任務。
+ 
+ ## 2. 完整 async session：串起已完成階段
+ 
+diff --git a/docs/POSTPROCESS.md b/docs/POSTPROCESS.md
+index 1debd2e..b1eb7af 100644
+--- a/docs/POSTPROCESS.md
++++ b/docs/POSTPROCESS.md
+@@ -1,6 +1,6 @@
+ # F04：native 偵測後處理
+ 
+-F04 已實作 C++ FP32 scalar reference 與 CUDA decode／篩選／NMS，將 F03 的六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`。**本機開發驗證通過；clean-source 正式驗收未執行**。驗證執行時 source 尚未提交、`source_dirty=true`，實際身分與結果見 [F04 證據](../evidence/f04/2026-10-31/REPORT.md)，不稱 clean-source formal F04 PASS。政策 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md) 及 reference／固定測例在首次 GPU 比較前固定。
++F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`。目前改用 **decode 融合壓實＋依合格數 M 分級排序**，本次 adaptive 改版的 **本機開發驗證通過**；[新證據](../evidence/f04/2026-10-31-adaptive/REPORT.md) 明列 `source_dirty=true`，不是 clean-source 正式驗收。既有 [原始 rank 版本的開發驗證](../evidence/f04/2026-10-31/REPORT.md) 保留其當時的 source／binary／範圍，不將歷史 PASS 套用到新實作。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變；clean-source 正式驗收、完整 async session 與 P01 仍未由本次改版關閉。
+ 
+ ## 1. 支援範圍與資料
+ 
+@@ -34,11 +34,27 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
+                       cudaStream_t stream);
+ ```
+ 
+-每個 host submitter thread 須在 frame 工作開始前呼叫 `cudaSetDevice(device)`，在該 thread 建立／啟用正確的 CUDA primary context；不能只依另一個 thread 已初始化 device。呼叫者建立 explicit non-default stream、配置 raw tensors、producer status、output slot 與 workspace，並對每個 context 在 frame 工作開始前呼叫一次 `postprocess_cuda_load_kernels()` 完成 eager loading。F04 enqueue 不代 caller 初始化 thread context。`postprocess_workspace_bytes()` 在此版本為 **202,812 bytes**，至少 float alignment；`cudaMalloc` 滿足需求。`postprocess_cuda_identity()` 回報編譯 source／dirty、nvcc／flags／架構、CUDA runtime／driver、GPU 與 workspace 身分。
++每個 host submitter thread 須在 frame 工作開始前呼叫 `cudaSetDevice(device)`，在該 thread 建立／啟用正確的 CUDA primary context；不能只依另一個 thread 已初始化 device。呼叫者建立 explicit non-default stream、配置 raw tensors、producer status、output slot 與 workspace，並對每個 context 在 frame 工作開始前呼叫一次 `postprocess_cuda_load_kernels()` 完成 eager loading。F04 enqueue 不代 caller 初始化 thread context。`postprocess_workspace_bytes()` 在本版回報 **295,712 bytes** 的固定 scratch；workspace 需至少 **8-byte alignment**，`cudaMalloc` 滿足需求。輸出 ABI 維持 9,664 bytes。`postprocess_cuda_identity()` 回報編譯 source／dirty、nvcc／flags／架構、CUDA runtime／driver、GPU、CUB 版本、排序分界與 workspace 身分。
+ 
+ 所有存取範圍必須位於 current device、互不重疊且有足夠實際 allocation 範圍。可使用 `cudaMalloc` allocation 或同一 arena 的互不重疊 subranges；以 `cuMemGetAddressRange` 查不到 extent 的 allocation 類型在 enqueue 前拒絕，不假定支援 memory pool／virtual allocation。output 與 workspace 的傳入 bytes 亦須足夠，所有 host argument 拒絕都發生在第一個 kernel 前。
+ 
+-初始化後 enqueue 只在指定 stream 排入 initialize、decode、stable rank、finalize 四個 kernels；不配置、不傳輸、不同步、不建立 event，也沒有中途 count／status D2H。rank 採 bounded exact-rank scan，沒有吞吐或低延遲承諾。固定 pointers／request 可被 CUDA graph capture／replay。
++初始化後 enqueue 固定在指定 stream 排入 **initialize → decode → adaptive prefix → dense merge → finalize** 五個 kernels；不配置、不傳輸、不同步、不建立 event，也沒有中途 count／status D2H。所有路徑的 M 與分支判斷留在 device，host 不讀回 M 來選 launch。固定 pointers／request 可被 CUDA graph capture／replay。
++
++### 2.1 Decode 融合壓實與分級 Top-300
++
++M 是全部 8,400 個位置中 `score >= float(0.001)` 的數量，**在 class 0 與退化框篩選之前**計數。decode 沿用既有的 `atomicAdd(qualified,1)`，將回傳位置用於寫入前 512 個 compact keys；每個原始位置也有對應的 full key，供較密集輸入使用。M>512 時，compact 的前 512 個任意到達項目不被當作全域 Top-300。
++
++排序使用唯一的 46-bit 整數 key：`(uint64_t(~score_bits) << 14) | original_candidate_id`。合法 score 為正的有限 FP32 probability，key 升序因此精確對應 score 降序、原始 ID 升序；低分位置使用最大 sentinel。壓實位置可能隨 GPU 到達順序變化，但原始 ID 保留在 key 中，不能以壓實位置取代 ID 決勝。
++
++| Device 上的 M | 排序方式 |
++| --- | --- |
++| M≤100 | 僅 CTA0 把 compact keys 放入 shared memory，逐項計算前面有多少較小 key，寫入唯一順位；比較範圍是 M，不再掃全部 8,400 個位置。 |
++| 100<M≤512 | 僅 CTA0 使用 CUB `BlockRadixSort` 排 512 個 keys；不足的位置補 sentinel，按序交付前 min(M,300) 個原始 IDs。 |
++| M>512 | 9 個 1,024-position tiles 各自排序、保留最多前 300；第二個排序 kernel 對其他已排序的 tile prefixes 做 lower-bound 計數，計算全域順位，僅交付 rank<300 的原始 IDs。 |
++
++小 M 時 dense merge kernel 直接返回；密集路徑的每個 tile 若在全域前 300，必定也在該 tile 前 300，因此局部截取不漏掉全域 Top-300。所有有效 keys 唯一，無效 sentinel 不參與重複順位寫入。producer／numeric failure 在排序前共同 gate，不讀取未產生的排序 scratch；原有 finalize 繼續處理 person／退化篩選、容量、NMS、映射與完整失敗輸出。
++
++100／512 是本版的執行分界，並非新增觀測閾值。先前 isolated microbenchmark 只作選型依據；融合後完整 F04 API 的正確性與時間另以本次 capture 判定，不把排序微基準的數字稱為整段加速。
+ 
+ producer 是 caller-owned **唯讀**狀態。caller 必須在同 stream 排入本幀 raw／status producer，或以 producer-ready event 建立跨 stream 依賴；不能沿用前幀成功 marker。F04 不退休 producer、不鎖定整個 session 的首次失敗，也不代管下游 slot lease。raw、producer、output 與 workspace 必須活到其工作完成；交付 main stream 後，直到 F04b 最後讀取並發出 consumed，detect 才可覆寫該候選 slot。
+ 
+@@ -83,11 +99,36 @@ build-f04/postprocess_cuda_tests --f03-dumps /absolute/path/to/model-dump
+ 
+ 這是 [F03 固定六輸入](../evidence/t01/2026-10-30/f03/REPORT.md) 對應的錄製 raw outputs，不是重新執行 TensorRT 或 native 前處理。除了 CPU／CUDA 完整結果比較，工具亦獨立核對 [原 training-side diagnostic](../evidence/t01/2026-10-30/f03/capture/f03-diagnostics.json) 的六個 kept counts：`32, 28, 39, 2, 3, 1`，避免共同的 parser 錯誤讓兩份實作一起讀錯仍互相通過。若要把此項加入 CTest，configure 另給 `-DSACCADE_POSTPROCESS_F03_DUMPS=/absolute/path/to/model-dump`。沒有給路徑時不註冊 replay test，不把缺少 replay 說成已驗真實模型輸出。
+ 
+-## 4. 驗證重點與目前邊界
++完整 F04 API 的測時工具另有以下入口，需先提供相同六份 pinned raw dumps：
++
++```sh
++cmake --build build-f04 --target postprocess_benchmark --parallel 2
++build-f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
++```
++
++參數依序為 dump 目錄、每輪 iterations（預設 32）與 rounds（預設 7）。計時從已在 device 的 raw tensors 到 `DetectionCandidates`，包含 `postprocess_cuda` 產生的完整 initialize、bbox decode、排序、finalize 與 NMS 工作，排除 H2D／D2H 及 CPU reference。工具在 timing 外核對 raw hashes、歷史 kept counts、完整 CPU 對照與重跑 output hash，並另列 ordinary submissions 與 batch graph 的節點數／時間。batch graph 在測時前完成 host 驗參、capture 與 instantiate；其數字不含每幀重新執行這些 host 操作。分位數是 **round 平均延遲**的分位，不是單幀 p95；也不包含 F01／F02、TensorRT F03 或 tracker 的時間。
++
++## 4. Adaptive 改版驗證與目前邊界
+ 
+ `postprocess_tests` 檢查 CPU 手算／排序／class tie、sigmoid 飽和、全類別 top-300、無回填、NMS 邊界／greedy chain、容量與數值／參數失敗。`postprocess_cuda_tests` 對固定 cases 比較完整 header／rows、score 界與座標 bits、重跑／graph、未用 bytes、allocation bounds／alias 拒絕；stream cases 包含 producer-ready／consumer-consumed、held enqueue、獨立 instances。
+ 
+-2026-10-31 的 [本機開發驗證](../evidence/f04/2026-10-31/REPORT.md) 結果如下；source、binary、library 與固定 inputs 以報告保存的 hashes 為準：
++本次 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 包含 M=0／1、99／100／101、299／300／301、511／512／513 與密集 8,400 等路徑及分界，跨 tile／跨 level 同分、非 person 與退化框占名額、高 ID 全域勝出，以及 dense／sparse／empty／failure 的交替重用。每條路徑仍比較完整 header／300 rows、score 固定界、座標 bits 與全部未用 bytes；reference／觀測政策不因執行分界調整。
++
++| 本次 adaptive 項目 | 實際結果與範圍 |
++| --- | --- |
++| 固定 cases／重用 | 49 個固定 cases 與同一 slot 的 10-phase 重用，涵蓋 dense／sparse／empty／failure、epoch／frame 變更；repeat／graph 與完整 bytes 比較通過。 |
++| CPU fixtures／reference | GPU 初始化前的 fixture 不變量 2,805 checks；固定 CPU reference 442 checks，均通過。 |
++| CUDA／replay | F04 CTest 4/4；完整正常 suite 與六份 F03 replay **34,915 checks PASS**，正常執行的 pending producer／consumer gates 與 held enqueue 均通過。 |
++| Sanitizers／正控制 | memcheck／initcheck／racecheck／synccheck 各 **34,610 checks**，0 errors／hazards；四個 planted controls 均以對應診斷及 exit 99 偵測。sanitizer 使用 `--no-held-stream`，其中 callback gates 明列 **UNEXECUTED**。 |
++| 輸出相容性 | 同一個 benchmark request 下，新版與原 `a7e1041` 版本的六份 F03 完整 output hashes 相同；不只比較 kept boxes 或 score 容差。 |
++| 語義變體 | 新 adaptive 變體的結果依本次 report 分別記錄；不沿用歷史 10/10 結果作新版判定。 |
++| 正式驗收 | **UNEXECUTED**：本次 capture 使用 `source_dirty=true` 的開發 source，不稱 clean-source formal F04 PASS。 |
++
++完整 API 的同工具比較以已在 device 的相同 raw tensors、32 次呼叫／輪與 7 輪 batch graph 測時：三份真實影像輸出的 F04 API 由約 **1.81–2.14 ms** 降至 **0.922–1.209 ms**，受測加速為 **1.77–1.97×**。三份合成 inputs 的 23–25× 結果單獨列於報告，不推廣為真實影像或完整模型加速。這些是 round 平均延遲，未宣稱單幀 p95、F01→F03→F04 或完整 tracking 的端到端速度。
++
++### 4.1 保留的原始 rank 版本結果
++
++以下為 2026-10-31 [原始 rank 版本的本機開發驗證](../evidence/f04/2026-10-31/REPORT.md)，不是本次 adaptive 實作的驗收；source、binary、library 與固定 inputs 以該歷史報告保存的 hashes 為準：
+ 
+ | 項目 | 實際結果與範圍 |
+ | --- | --- |
+diff --git a/include/saccade/postprocess_cuda.hpp b/include/saccade/postprocess_cuda.hpp
+index 4674b6e..8aba393 100644
+--- a/include/saccade/postprocess_cuda.hpp
++++ b/include/saccade/postprocess_cuda.hpp
+@@ -9,7 +9,8 @@
+ namespace saccade {
+ 
+ // Opaque fixed workspace. It must be device memory aligned to at least
+-// alignof(float); cudaMalloc satisfies this. No per-frame allocation is needed.
++// alignof(std::uint64_t); cudaMalloc satisfies this. No per-frame allocation is
++// needed. Query its size rather than retaining a previous build's size.
+ std::size_t postprocess_workspace_bytes();
+ 
+ // F04, f04-postprocess-fp32/1. All raw tensors, producer, output and workspace
+diff --git a/scripts/check_postprocess_mutations.sh b/scripts/check_postprocess_mutations.sh
+index 7ff9d46..99c2976 100755
+--- a/scripts/check_postprocess_mutations.sh
++++ b/scripts/check_postprocess_mutations.sh
+@@ -124,7 +124,15 @@ mutate() {
+         'if (logit > best_logit) { best_logit = logit; best_score = score; best_class = c; }'
+       diagnostic='class-rounded-sigmoid-saturation: header differs' ;;
+     reverse-candidate-id-ties)
+-      replace_exact '(rival == score && other < id)' '(rival == score && other > id)'
++      # Reverse only the key's secondary order, and invert the decode too so
++      # every recovered model ID remains valid. An OOB/crash is not a semantic
++      # negative control for candidate ordering.
++      replace_exact '? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | id' \
++        '? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | (kCandidateIdMask - id)'
++      replace_exact 'static_cast<std::uint32_t>(key & kCandidateIdMask)' \
++        'static_cast<std::uint32_t>(kCandidateIdMask - (key & kCandidateIdMask))' 2
++      replace_exact 'static_cast<std::uint32_t>(keys[i] & kCandidateIdMask)' \
++        'static_cast<std::uint32_t>(kCandidateIdMask - (keys[i] & kCandidateIdMask))'
+       diagnostic='level-first-last-layout: row 0 bits differ' ;;
+     wrong-p3-stride)
+       replace_exact 'local = id, side = 80, stride = 8;' 'local = id, side = 80, stride = 16;'
+@@ -150,6 +158,20 @@ mutate() {
+       replace_exact 'for (unsigned i = 0; i < sizeof(DetectionCandidates); ++i) bytes[i] = 0;' \
+         'for (unsigned i = 0; i < sizeof(DetectionCandidatesHeader); ++i) bytes[i] = 0;'
+       diagnostic='empty: row 0 bits differ' ;;
++    person-only-topk)
++      replace_exact 'const bool qualified = best_score >= kPostprocessScoreFloor;' \
++        'const bool qualified = best_score >= kPostprocessScoreFloor && best_class == 0;'
++      diagnostic='top300-before-person: header differs' ;;
++    dense-drop-last-tile)
++      replace_exact 'if (index >= kDenseTiles * kPostprocessCapacity) return;' \
++        'if (index >= (kDenseTiles - 1) * kPostprocessCapacity) return;'
++      replace_exact 'for (unsigned tile = 0; tile < kDenseTiles; ++tile)' \
++        'for (unsigned tile = 0; tile < kDenseTiles - 1; ++tile)'
++      diagnostic='adaptive-dense-high-id-winners: global highest IDs win' ;;
++    dense-first512-only)
++      replace_exact 'index < kPostprocessPositions ? work->full_keys[index] : kInvalidKey;' \
++        'index < kRadixThreshold ? work->full_keys[index] : kInvalidKey;'
++      diagnostic='deterministic-dense-random: score exceeds fixed bound' ;;
+     *) echo "unknown mutation: $variant" >&2; return 2 ;;
+   esac
+ }
+@@ -173,7 +195,8 @@ if [[ $check_only == false ]]; then
+ fi
+ 
+ variants=(iou-greater-or-equal suppressed-can-suppress class-logit-argmax reverse-candidate-id-ties
+-          wrong-p3-stride swap-left-top swap-xy-mapping kept-only-pool ignore-producer-flags no-row-reset)
++          wrong-p3-stride swap-left-top swap-xy-mapping kept-only-pool ignore-producer-flags no-row-reset
++          person-only-topk dense-drop-last-tile dense-first512-only)
+ printf 'variant\tresult\texit\texpected_diagnostic\n' > "$cap/results.tsv"
+ for variant in "${variants[@]}"; do
+   guard_source
+diff --git a/tests/postprocess_cuda_tests.cpp b/tests/postprocess_cuda_tests.cpp
+index e7a8214..04bae92 100644
+--- a/tests/postprocess_cuda_tests.cpp
++++ b/tests/postprocess_cuda_tests.cpp
+@@ -102,6 +102,11 @@ PostprocessRequest request(unsigned width = 640, unsigned height = 640) {
+ const PostprocessProducerStatus success{0, kPostprocessProducerDone};
+ using Setup = std::function<void(Raw&, PostprocessRequest&, PostprocessProducerStatus&)>;
+ struct Case { const char* name; Setup setup; };
++Case qualified_case(const char* name, unsigned count) {
++    return {name, [count](Raw& x, auto&, auto&) {
++        for (unsigned id = 0; id < count; ++id) x.logit(id, 0, 0);
++    }};
++}
+ std::vector<Case> cases() {
+     return {
+         {"empty", [](Raw&, auto&, auto&) {}},
+@@ -191,6 +196,47 @@ std::vector<Case> cases() {
+             }
+             r = request(117, 993);
+         }},
++        // Exact all-class qualified counts exercise every dispatch boundary.
++        // Default small boxes do not suppress one another in these prefixes.
++        qualified_case("adaptive-count-0", 0),
++        qualified_case("adaptive-count-1", 1),
++        qualified_case("adaptive-count-99", 99),
++        qualified_case("adaptive-count-100", 100),
++        qualified_case("adaptive-count-101", 101),
++        qualified_case("adaptive-count-299", 299),
++        qualified_case("adaptive-count-300", 300),
++        qualified_case("adaptive-count-301", 301),
++        qualified_case("adaptive-count-511", 511),
++        qualified_case("adaptive-count-512", 512),
++        qualified_case("adaptive-count-513", 513),
++        qualified_case("adaptive-count-8400", 8400),
++        {"adaptive-cross-tile-level-ties", [](Raw& x, auto&, auto&) {
++            for (unsigned id : {0u, 1023u, 1024u, 2047u, 2048u, 4095u, 4096u,
++                                6399u, 6400u, 7167u, 7168u, 7999u, 8000u, 8191u, 8192u, 8399u})
++                x.logit(id, 0, 0);
++        }},
++        {"adaptive-dense-high-id-winners", [](Raw& x, auto&, auto&) {
++            for (unsigned id = 0; id < kPostprocessPositions; ++id)
++                x.logit(id, 0, id < 8100 ? 0.0f : 1.0f);
++        }},
++        {"adaptive-dense-nonperson-before-topk", [](Raw& x, auto&, auto&) {
++            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
++            for (unsigned id = 8100; id < kPostprocessPositions; ++id) x.logit(id, 1, 1);
++        }},
++        {"adaptive-dense-degenerate-no-refill", [](Raw& x, auto&, auto&) {
++            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
++            for (unsigned id = 8100; id < kPostprocessPositions; ++id) {
++                x.logit(id, 0, 1); x.distances(id, {0, 0, 0, 0});
++            }
++        }},
++        {"adaptive-dense-capacity-overflow", [](Raw& x, auto& r, auto&) {
++            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
++            r.capacity = 299;
++        }},
++        {"adaptive-dense-unselected-nan", [](Raw& x, auto&, auto&) {
++            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
++            x.logit(8399, 79, NAN);
++        }},
+     };
+ }
+ void invariant(const DetectionCandidates& output, const std::string& name) {
+@@ -199,6 +245,8 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
+     if (name == "nan-low-score-logit" || name == "inf-low-score-reg" || name == "decode-overflow-low-score" ||
+         name == "nms-area-overflow" || name == "nms-union-overflow" || name == "mapping-overflow") flags = kPostprocessNumeric;
+     if (name == "capacity-zero-overflow" || name == "capacity-one-short") flags = kPostprocessOverflow;
++    if (name == "adaptive-dense-capacity-overflow") flags = kPostprocessOverflow;
++    if (name == "adaptive-dense-unselected-nan") flags = kPostprocessNumeric;
+     if (name == "producer-not-done") flags = kPostprocessProtocol;
+     if (name == "producer-upstream-failure") flags = kPostprocessUpstream;
+     if (name == "producer-both-failures") flags = kPostprocessProtocol | kPostprocessUpstream;
+@@ -215,6 +263,35 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
+     if (name == "nms-iou-above-half") require(h.count == 2 && h.kept == 1 && h.suppressed == 1, name + ": IoU strict above");
+     if (name == "nms-equal-score-id-suppressed-pool") require(h.count == 3 && h.kept == 1 && h.suppressed == 2 && output.rows[0].candidate_id == 2, name + ": complete stable pool");
+     if (name == "nms-greedy-chain") require(h.count == 3 && h.kept == 2 && output.rows[1].flags == kDetectionSuppressed && output.rows[2].flags == kDetectionKept, name + ": kept-only suppression");
++    if (name.starts_with("adaptive-count-")) {
++        const auto m = static_cast<unsigned>(std::stoul(name.substr(std::string("adaptive-count-").size())));
++        const auto count = std::min(m, kPostprocessCapacity);
++        require(h.low_score == kPostprocessPositions - m && h.topk_dropped == m - count &&
++                h.count == count && h.kept == count && h.suppressed == 0 && h.class_dropped == 0 && h.degenerate == 0,
++                name + ": exact qualified count and complete prefix");
++        for (unsigned i = 0; i < count; ++i)
++            require(output.rows[i].candidate_id == i && output.rows[i].flags == kDetectionKept,
++                    name + ": original IDs survive compaction and ties");
++    }
++    if (name == "adaptive-cross-tile-level-ties") {
++        constexpr std::array<unsigned, 16> ids{0, 1023, 1024, 2047, 2048, 4095, 4096,
++                                             6399, 6400, 7167, 7168, 7999, 8000, 8191, 8192, 8399};
++        require(h.count == ids.size() && h.low_score == kPostprocessPositions - ids.size(), name + ": qualified count");
++        for (unsigned i = 0; i < ids.size(); ++i)
++            require(output.rows[i].candidate_id == ids[i], name + ": ties retain original cross-level IDs");
++    }
++    if (name == "adaptive-dense-high-id-winners") {
++        require(h.count == 300 && h.kept == 300 && h.low_score == 0 && h.topk_dropped == 8100,
++                name + ": full dense qualified count");
++        for (unsigned i = 0; i < 300; ++i)
++            require(output.rows[i].candidate_id == 8100 + i, name + ": global highest IDs win");
++    }
++    if (name == "adaptive-dense-nonperson-before-topk")
++        require(h.count == 0 && h.class_dropped == 300 && h.low_score == 0 && h.topk_dropped == 8100,
++                name + ": all-class dense top-k before person");
++    if (name == "adaptive-dense-degenerate-no-refill")
++        require(h.count == 0 && h.degenerate == 300 && h.low_score == 0 && h.topk_dropped == 8100,
++                name + ": dense degenerate pool is not refilled");
+ }
+ void compare(const DetectionCandidates& actual, const DetectionCandidates& reference, const std::string& name) {
+     if (std::memcmp(&actual.header, &reference.header, sizeof(actual.header)) != 0) {
+@@ -277,8 +354,14 @@ void directed_tests(bool graph) {
+         const auto expected = postprocess_reference(raw.view(), r, p);
+         invariant(expected, item.name);
+         h.upload(raw, p); cu(cudaMemsetAsync(h.output.p, 0xa5, sizeof(DetectionCandidates), h.stream.value));
+-        h.launch(r); const auto result = h.read(); compare(result, expected, item.name);
+-        invariant(result, item.name);
++        h.launch(r); const auto result = h.read();
++        // The new dispatch cases have independent count/ID expectations. Test
++        // those first, so their negative controls cannot hide behind an oracle
++        // that happened to receive the same malformed candidate list.
++        const bool adaptive_case = std::string(item.name).starts_with("adaptive-");
++        if (adaptive_case) invariant(result, item.name);
++        compare(result, expected, item.name);
++        if (!adaptive_case) invariant(result, item.name);
+         h.launch(r); const auto repeat = h.read();
+         require(std::memcmp(&result, &repeat, sizeof(result)) == 0, std::string(item.name) + ": repeat differs");
+         if (graph) {
+@@ -301,6 +384,32 @@ void directed_tests(bool graph) {
+     h.upload(raw, success); h.launch(request()); const auto chain = h.read();
+     require(chain.header.count == 3 && chain.rows[0].flags == kDetectionKept &&
+         chain.rows[1].flags == kDetectionSuppressed && chain.rows[2].flags == kDetectionKept, "manual greedy chain");
++    // Reuse the same output/scratch without poisoning output between calls.
++    // Each transition changes M or failure state, including dense -> sparse,
++    // failed -> empty, and radix -> dense -> failed -> shared-rank.
++    const auto definitions = cases();
++    constexpr std::array<const char*, 10> sequence{
++        "adaptive-dense-high-id-winners", "adaptive-count-100",
++        "adaptive-dense-unselected-nan", "adaptive-count-0",
++        "adaptive-count-512", "adaptive-count-513",
++        "adaptive-dense-capacity-overflow", "adaptive-count-99",
++        "adaptive-count-0", "adaptive-dense-high-id-winners"};
++    unsigned phase = 0;
++    for (const auto* name : sequence) {
++        const auto entry = std::find_if(definitions.begin(), definitions.end(), [name](const Case& c) {
++            return std::string(c.name) == name;
++        });
++        require(entry != definitions.end(), "missing reuse fixture");
++        Raw input; auto frame_request = request(); auto producer_status = success;
++        entry->setup(input, frame_request, producer_status);
++        frame_request.frame = 0x300000000ULL + phase;
++        frame_request.epoch += phase / 4;
++        const auto expected = postprocess_reference(input.view(), frame_request, producer_status);
++        invariant(expected, name);
++        h.upload(input, producer_status); h.launch(frame_request); const auto reused = h.read();
++        invariant(reused, name); compare(reused, expected, std::string("reuse/") + name);
++        std::cout << "reuse_phase=" << phase++ << " case=" << name << " PASS\n";
++    }
+     h.close();
+ }
+ void argument_tests() {
+@@ -324,6 +433,10 @@ void argument_tests() {
+     call(good, r, reinterpret_cast<PostprocessProducerStatus*>(w), o, ob, w, wb, st);
+     call(good, r, p, reinterpret_cast<DetectionCandidates*>(static_cast<char*>(h.output.p) + 1), ob, w, wb, st);
+     call(good, r, p, o, ob, static_cast<char*>(w) + 1, wb, st);
++    // This range fits the allocation and is float-aligned, but violates the
++    // uint64_t alignment required by the adaptive sort workspace.
++    Device padded_workspace(wb + 8);
++    call(good, r, p, o, ob, static_cast<char*>(padded_workspace.p) + 4, wb, st);
+     auto v = good; v.cls[0] = raw.cls[0].data(); call(v, r, p, o, ob, w, wb, st);
+     v = good; v.cls[0] = nullptr; call(v, r, p, o, ob, w, wb, st);
+     v = good; --v.cls_elements[0]; call(v, r, p, o, ob, w, wb, st);
+@@ -338,7 +451,7 @@ void argument_tests() {
+     const auto untouched = h.read();
+     std::array<unsigned char, sizeof(DetectionCandidates)> sentinel; sentinel.fill(0xab);
+     require(std::memcmp(&untouched, sentinel.data(), sentinel.size()) == 0, "argument rejection enqueued output writes");
+-    CleanupReport cleanup; small.close(cleanup); cleanup.throw_if_failed(); h.close();
++    CleanupReport cleanup; padded_workspace.close(cleanup); small.close(cleanup); cleanup.throw_if_failed(); h.close();
+     std::cout << "arguments=PASS\n";
+ }
+ struct Hold { std::atomic<bool> started{false}, released{false}; };

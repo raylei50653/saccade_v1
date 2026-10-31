@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ wrong-p3-stride/cuda/postprocess.cu
+@@ -98,7 +98,7 @@
+ __global__ void decode(KernelInputs input, Workspace* work) {
+     const unsigned id = blockIdx.x * blockDim.x + threadIdx.x;
+     if (id >= kPostprocessPositions || work->run_stage == 0) return;
+-    unsigned level = 0, local = id, side = 80, stride = 8;
++    unsigned level = 0, local = id, side = 80, stride = 16;
+     if (id >= 8000) { level = 2; local -= 8000; side = 20; stride = 32; }
+     else if (id >= 6400) { level = 1; local -= 6400; side = 40; stride = 16; }
+     const unsigned plane = side * side;

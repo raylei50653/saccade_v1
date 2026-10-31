@@ -10,8 +10,12 @@ target_compile_definitions(saccade_postprocess_cuda PRIVATE
 add_executable(postprocess_cuda_tests tests/postprocess_cuda_tests.cpp)
 target_link_libraries(postprocess_cuda_tests PRIVATE
   saccade_postprocess_cuda saccade_file_io saccade_sha256 Threads::Threads)
+add_executable(postprocess_benchmark tools/postprocess_benchmark.cpp)
+target_link_libraries(postprocess_benchmark PRIVATE
+  saccade_postprocess_cuda saccade_file_io saccade_sha256)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(postprocess_cuda_tests PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  target_compile_options(postprocess_benchmark PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
 endif()
 add_test(NAME postprocess_cuda COMMAND postprocess_cuda_tests)
 set_tests_properties(postprocess_cuda PROPERTIES LABELS "gpu;postprocess" TIMEOUT 300)

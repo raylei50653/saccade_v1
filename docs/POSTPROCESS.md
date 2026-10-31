@@ -1,6 +1,6 @@
 # F04：native 偵測後處理
 
-F04 已實作 C++ FP32 scalar reference 與 CUDA decode／篩選／NMS，將 F03 的六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`。**本機開發驗證通過；clean-source 正式驗收未執行**。驗證執行時 source 尚未提交、`source_dirty=true`，實際身分與結果見 [F04 證據](../evidence/f04/2026-10-31/REPORT.md)，不稱 clean-source formal F04 PASS。政策 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md) 及 reference／固定測例在首次 GPU 比較前固定。
+F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`。目前改用 **decode 融合壓實＋依合格數 M 分級排序**，本次 adaptive 改版的 **本機開發驗證通過**；[新證據](../evidence/f04/2026-10-31-adaptive/REPORT.md) 明列 `source_dirty=true`，不是 clean-source 正式驗收。既有 [原始 rank 版本的開發驗證](../evidence/f04/2026-10-31/REPORT.md) 保留其當時的 source／binary／範圍，不將歷史 PASS 套用到新實作。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變；clean-source 正式驗收、完整 async session 與 P01 仍未由本次改版關閉。
 
 ## 1. 支援範圍與資料
 
@@ -34,11 +34,27 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
                       cudaStream_t stream);
 ```
 
-每個 host submitter thread 須在 frame 工作開始前呼叫 `cudaSetDevice(device)`，在該 thread 建立／啟用正確的 CUDA primary context；不能只依另一個 thread 已初始化 device。呼叫者建立 explicit non-default stream、配置 raw tensors、producer status、output slot 與 workspace，並對每個 context 在 frame 工作開始前呼叫一次 `postprocess_cuda_load_kernels()` 完成 eager loading。F04 enqueue 不代 caller 初始化 thread context。`postprocess_workspace_bytes()` 在此版本為 **202,812 bytes**，至少 float alignment；`cudaMalloc` 滿足需求。`postprocess_cuda_identity()` 回報編譯 source／dirty、nvcc／flags／架構、CUDA runtime／driver、GPU 與 workspace 身分。
+每個 host submitter thread 須在 frame 工作開始前呼叫 `cudaSetDevice(device)`，在該 thread 建立／啟用正確的 CUDA primary context；不能只依另一個 thread 已初始化 device。呼叫者建立 explicit non-default stream、配置 raw tensors、producer status、output slot 與 workspace，並對每個 context 在 frame 工作開始前呼叫一次 `postprocess_cuda_load_kernels()` 完成 eager loading。F04 enqueue 不代 caller 初始化 thread context。`postprocess_workspace_bytes()` 在本版回報 **295,712 bytes** 的固定 scratch；workspace 需至少 **8-byte alignment**，`cudaMalloc` 滿足需求。輸出 ABI 維持 9,664 bytes。`postprocess_cuda_identity()` 回報編譯 source／dirty、nvcc／flags／架構、CUDA runtime／driver、GPU、CUB 版本、排序分界與 workspace 身分。
 
 所有存取範圍必須位於 current device、互不重疊且有足夠實際 allocation 範圍。可使用 `cudaMalloc` allocation 或同一 arena 的互不重疊 subranges；以 `cuMemGetAddressRange` 查不到 extent 的 allocation 類型在 enqueue 前拒絕，不假定支援 memory pool／virtual allocation。output 與 workspace 的傳入 bytes 亦須足夠，所有 host argument 拒絕都發生在第一個 kernel 前。
 
-初始化後 enqueue 只在指定 stream 排入 initialize、decode、stable rank、finalize 四個 kernels；不配置、不傳輸、不同步、不建立 event，也沒有中途 count／status D2H。rank 採 bounded exact-rank scan，沒有吞吐或低延遲承諾。固定 pointers／request 可被 CUDA graph capture／replay。
+初始化後 enqueue 固定在指定 stream 排入 **initialize → decode → adaptive prefix → dense merge → finalize** 五個 kernels；不配置、不傳輸、不同步、不建立 event，也沒有中途 count／status D2H。所有路徑的 M 與分支判斷留在 device，host 不讀回 M 來選 launch。固定 pointers／request 可被 CUDA graph capture／replay。
+
+### 2.1 Decode 融合壓實與分級 Top-300
+
+M 是全部 8,400 個位置中 `score >= float(0.001)` 的數量，**在 class 0 與退化框篩選之前**計數。decode 沿用既有的 `atomicAdd(qualified,1)`，將回傳位置用於寫入前 512 個 compact keys；每個原始位置也有對應的 full key，供較密集輸入使用。M>512 時，compact 的前 512 個任意到達項目不被當作全域 Top-300。
+
+排序使用唯一的 46-bit 整數 key：`(uint64_t(~score_bits) << 14) | original_candidate_id`。合法 score 為正的有限 FP32 probability，key 升序因此精確對應 score 降序、原始 ID 升序；低分位置使用最大 sentinel。壓實位置可能隨 GPU 到達順序變化，但原始 ID 保留在 key 中，不能以壓實位置取代 ID 決勝。
+
+| Device 上的 M | 排序方式 |
+| --- | --- |
+| M≤100 | 僅 CTA0 把 compact keys 放入 shared memory，逐項計算前面有多少較小 key，寫入唯一順位；比較範圍是 M，不再掃全部 8,400 個位置。 |
+| 100<M≤512 | 僅 CTA0 使用 CUB `BlockRadixSort` 排 512 個 keys；不足的位置補 sentinel，按序交付前 min(M,300) 個原始 IDs。 |
+| M>512 | 9 個 1,024-position tiles 各自排序、保留最多前 300；第二個排序 kernel 對其他已排序的 tile prefixes 做 lower-bound 計數，計算全域順位，僅交付 rank<300 的原始 IDs。 |
+
+小 M 時 dense merge kernel 直接返回；密集路徑的每個 tile 若在全域前 300，必定也在該 tile 前 300，因此局部截取不漏掉全域 Top-300。所有有效 keys 唯一，無效 sentinel 不參與重複順位寫入。producer／numeric failure 在排序前共同 gate，不讀取未產生的排序 scratch；原有 finalize 繼續處理 person／退化篩選、容量、NMS、映射與完整失敗輸出。
+
+100／512 是本版的執行分界，並非新增觀測閾值。先前 isolated microbenchmark 只作選型依據；融合後完整 F04 API 的正確性與時間另以本次 capture 判定，不把排序微基準的數字稱為整段加速。
 
 producer 是 caller-owned **唯讀**狀態。caller 必須在同 stream 排入本幀 raw／status producer，或以 producer-ready event 建立跨 stream 依賴；不能沿用前幀成功 marker。F04 不退休 producer、不鎖定整個 session 的首次失敗，也不代管下游 slot lease。raw、producer、output 與 workspace 必須活到其工作完成；交付 main stream 後，直到 F04b 最後讀取並發出 consumed，detect 才可覆寫該候選 slot。
 
@@ -83,11 +99,36 @@ build-f04/postprocess_cuda_tests --f03-dumps /absolute/path/to/model-dump
 
 這是 [F03 固定六輸入](../evidence/t01/2026-10-30/f03/REPORT.md) 對應的錄製 raw outputs，不是重新執行 TensorRT 或 native 前處理。除了 CPU／CUDA 完整結果比較，工具亦獨立核對 [原 training-side diagnostic](../evidence/t01/2026-10-30/f03/capture/f03-diagnostics.json) 的六個 kept counts：`32, 28, 39, 2, 3, 1`，避免共同的 parser 錯誤讓兩份實作一起讀錯仍互相通過。若要把此項加入 CTest，configure 另給 `-DSACCADE_POSTPROCESS_F03_DUMPS=/absolute/path/to/model-dump`。沒有給路徑時不註冊 replay test，不把缺少 replay 說成已驗真實模型輸出。
 
-## 4. 驗證重點與目前邊界
+完整 F04 API 的測時工具另有以下入口，需先提供相同六份 pinned raw dumps：
+
+```sh
+cmake --build build-f04 --target postprocess_benchmark --parallel 2
+build-f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
+```
+
+參數依序為 dump 目錄、每輪 iterations（預設 32）與 rounds（預設 7）。計時從已在 device 的 raw tensors 到 `DetectionCandidates`，包含 `postprocess_cuda` 產生的完整 initialize、bbox decode、排序、finalize 與 NMS 工作，排除 H2D／D2H 及 CPU reference。工具在 timing 外核對 raw hashes、歷史 kept counts、完整 CPU 對照與重跑 output hash，並另列 ordinary submissions 與 batch graph 的節點數／時間。batch graph 在測時前完成 host 驗參、capture 與 instantiate；其數字不含每幀重新執行這些 host 操作。分位數是 **round 平均延遲**的分位，不是單幀 p95；也不包含 F01／F02、TensorRT F03 或 tracker 的時間。
+
+## 4. Adaptive 改版驗證與目前邊界
 
 `postprocess_tests` 檢查 CPU 手算／排序／class tie、sigmoid 飽和、全類別 top-300、無回填、NMS 邊界／greedy chain、容量與數值／參數失敗。`postprocess_cuda_tests` 對固定 cases 比較完整 header／rows、score 界與座標 bits、重跑／graph、未用 bytes、allocation bounds／alias 拒絕；stream cases 包含 producer-ready／consumer-consumed、held enqueue、獨立 instances。
 
-2026-10-31 的 [本機開發驗證](../evidence/f04/2026-10-31/REPORT.md) 結果如下；source、binary、library 與固定 inputs 以報告保存的 hashes 為準：
+本次 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 包含 M=0／1、99／100／101、299／300／301、511／512／513 與密集 8,400 等路徑及分界，跨 tile／跨 level 同分、非 person 與退化框占名額、高 ID 全域勝出，以及 dense／sparse／empty／failure 的交替重用。每條路徑仍比較完整 header／300 rows、score 固定界、座標 bits 與全部未用 bytes；reference／觀測政策不因執行分界調整。
+
+| 本次 adaptive 項目 | 實際結果與範圍 |
+| --- | --- |
+| 固定 cases／重用 | 49 個固定 cases 與同一 slot 的 10-phase 重用，涵蓋 dense／sparse／empty／failure、epoch／frame 變更；repeat／graph 與完整 bytes 比較通過。 |
+| CPU fixtures／reference | GPU 初始化前的 fixture 不變量 2,805 checks；固定 CPU reference 442 checks，均通過。 |
+| CUDA／replay | F04 CTest 4/4；完整正常 suite 與六份 F03 replay **34,915 checks PASS**，正常執行的 pending producer／consumer gates 與 held enqueue 均通過。 |
+| Sanitizers／正控制 | memcheck／initcheck／racecheck／synccheck 各 **34,610 checks**，0 errors／hazards；四個 planted controls 均以對應診斷及 exit 99 偵測。sanitizer 使用 `--no-held-stream`，其中 callback gates 明列 **UNEXECUTED**。 |
+| 輸出相容性 | 同一個 benchmark request 下，新版與原 `a7e1041` 版本的六份 F03 完整 output hashes 相同；不只比較 kept boxes 或 score 容差。 |
+| 語義變體 | **13/13 DETECTED**，各以預期完整診斷及 exit 1 偵測；還原 production source 後 baseline 34,610 checks PASS。首次 classifier attempt 的未完成紀錄另存，未當作新版 PASS。 |
+| 正式驗收 | **UNEXECUTED**：本次 capture 使用 `source_dirty=true` 的開發 source，不稱 clean-source formal F04 PASS。 |
+
+完整 API 的同工具比較以已在 device 的相同 raw tensors、32 次呼叫／輪與 7 輪 batch graph 測時：三份真實影像輸出的 F04 API 由約 **1.81–2.14 ms** 降至 **0.924–1.211 ms**，受測加速為 **1.77–1.97×**。三份合成 inputs 的約 23–25× 結果單獨列於報告，不推廣為真實影像或完整模型加速。這些是 round 平均延遲，未宣稱單幀 p95、F01→F03→F04 或完整 tracking 的端到端速度。
+
+### 4.1 保留的原始 rank 版本結果
+
+以下為 2026-10-31 [原始 rank 版本的本機開發驗證](../evidence/f04/2026-10-31/REPORT.md)，不是本次 adaptive 實作的驗收；source、binary、library 與固定 inputs 以該歷史報告保存的 hashes 為準：
 
 | 項目 | 實際結果與範圍 |
 | --- | --- |

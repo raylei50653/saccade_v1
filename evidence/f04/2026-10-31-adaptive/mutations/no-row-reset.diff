@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ no-row-reset/cuda/postprocess.cu
+@@ -69,7 +69,7 @@
+ __device__ void reset(DetectionCandidates* output, const PostprocessRequest& request,
+                        std::uint32_t flags) {
+     auto* bytes = reinterpret_cast<unsigned char*>(output);
+-    for (unsigned i = 0; i < sizeof(DetectionCandidates); ++i) bytes[i] = 0;
++    for (unsigned i = 0; i < sizeof(DetectionCandidatesHeader); ++i) bytes[i] = 0;
+     output->header.epoch = request.epoch;
+     output->header.frame = request.frame;
+     output->header.schema = kPostprocessSchema;

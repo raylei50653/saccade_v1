@@ -9,7 +9,8 @@
 namespace saccade {
 
 // Opaque fixed workspace. It must be device memory aligned to at least
-// alignof(float); cudaMalloc satisfies this. No per-frame allocation is needed.
+// alignof(std::uint64_t); cudaMalloc satisfies this. No per-frame allocation is
+// needed. Query its size rather than retaining a previous build's size.
 std::size_t postprocess_workspace_bytes();
 
 // F04, f04-postprocess-fp32/1. All raw tensors, producer, output and workspace

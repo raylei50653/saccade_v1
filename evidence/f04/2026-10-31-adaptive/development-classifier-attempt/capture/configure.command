@@ -1,0 +1,1 @@
+cmake -S . -B /home/ray/developer/ai/saccade_v1/build-f04-adaptive-evidence/cuda -DCMAKE_BUILD_TYPE=Release -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_POSTPROCESS=ON -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc -DCMAKE_CUDA_ARCHITECTURES=120 -DSACCADE_POSTPROCESS_F03_DUMPS=/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/model-dump -DCMAKE_EXPORT_COMPILE_COMMANDS=ON 

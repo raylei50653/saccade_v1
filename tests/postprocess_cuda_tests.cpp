@@ -102,6 +102,11 @@ PostprocessRequest request(unsigned width = 640, unsigned height = 640) {
 const PostprocessProducerStatus success{0, kPostprocessProducerDone};
 using Setup = std::function<void(Raw&, PostprocessRequest&, PostprocessProducerStatus&)>;
 struct Case { const char* name; Setup setup; };
+Case qualified_case(const char* name, unsigned count) {
+    return {name, [count](Raw& x, auto&, auto&) {
+        for (unsigned id = 0; id < count; ++id) x.logit(id, 0, 0);
+    }};
+}
 std::vector<Case> cases() {
     return {
         {"empty", [](Raw&, auto&, auto&) {}},
@@ -191,6 +196,47 @@ std::vector<Case> cases() {
             }
             r = request(117, 993);
         }},
+        // Exact all-class qualified counts exercise every dispatch boundary.
+        // Default small boxes do not suppress one another in these prefixes.
+        qualified_case("adaptive-count-0", 0),
+        qualified_case("adaptive-count-1", 1),
+        qualified_case("adaptive-count-99", 99),
+        qualified_case("adaptive-count-100", 100),
+        qualified_case("adaptive-count-101", 101),
+        qualified_case("adaptive-count-299", 299),
+        qualified_case("adaptive-count-300", 300),
+        qualified_case("adaptive-count-301", 301),
+        qualified_case("adaptive-count-511", 511),
+        qualified_case("adaptive-count-512", 512),
+        qualified_case("adaptive-count-513", 513),
+        qualified_case("adaptive-count-8400", 8400),
+        {"adaptive-cross-tile-level-ties", [](Raw& x, auto&, auto&) {
+            for (unsigned id : {0u, 1023u, 1024u, 2047u, 2048u, 4095u, 4096u,
+                                6399u, 6400u, 7167u, 7168u, 7999u, 8000u, 8191u, 8192u, 8399u})
+                x.logit(id, 0, 0);
+        }},
+        {"adaptive-dense-high-id-winners", [](Raw& x, auto&, auto&) {
+            for (unsigned id = 0; id < kPostprocessPositions; ++id)
+                x.logit(id, 0, id < 8100 ? 0.0f : 1.0f);
+        }},
+        {"adaptive-dense-nonperson-before-topk", [](Raw& x, auto&, auto&) {
+            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
+            for (unsigned id = 8100; id < kPostprocessPositions; ++id) x.logit(id, 1, 1);
+        }},
+        {"adaptive-dense-degenerate-no-refill", [](Raw& x, auto&, auto&) {
+            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
+            for (unsigned id = 8100; id < kPostprocessPositions; ++id) {
+                x.logit(id, 0, 1); x.distances(id, {0, 0, 0, 0});
+            }
+        }},
+        {"adaptive-dense-capacity-overflow", [](Raw& x, auto& r, auto&) {
+            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
+            r.capacity = 299;
+        }},
+        {"adaptive-dense-unselected-nan", [](Raw& x, auto&, auto&) {
+            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
+            x.logit(8399, 79, NAN);
+        }},
     };
 }
 void invariant(const DetectionCandidates& output, const std::string& name) {
@@ -199,6 +245,8 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
     if (name == "nan-low-score-logit" || name == "inf-low-score-reg" || name == "decode-overflow-low-score" ||
         name == "nms-area-overflow" || name == "nms-union-overflow" || name == "mapping-overflow") flags = kPostprocessNumeric;
     if (name == "capacity-zero-overflow" || name == "capacity-one-short") flags = kPostprocessOverflow;
+    if (name == "adaptive-dense-capacity-overflow") flags = kPostprocessOverflow;
+    if (name == "adaptive-dense-unselected-nan") flags = kPostprocessNumeric;
     if (name == "producer-not-done") flags = kPostprocessProtocol;
     if (name == "producer-upstream-failure") flags = kPostprocessUpstream;
     if (name == "producer-both-failures") flags = kPostprocessProtocol | kPostprocessUpstream;
@@ -215,6 +263,35 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
     if (name == "nms-iou-above-half") require(h.count == 2 && h.kept == 1 && h.suppressed == 1, name + ": IoU strict above");
     if (name == "nms-equal-score-id-suppressed-pool") require(h.count == 3 && h.kept == 1 && h.suppressed == 2 && output.rows[0].candidate_id == 2, name + ": complete stable pool");
     if (name == "nms-greedy-chain") require(h.count == 3 && h.kept == 2 && output.rows[1].flags == kDetectionSuppressed && output.rows[2].flags == kDetectionKept, name + ": kept-only suppression");
+    if (name.starts_with("adaptive-count-")) {
+        const auto m = static_cast<unsigned>(std::stoul(name.substr(std::string("adaptive-count-").size())));
+        const auto count = std::min(m, kPostprocessCapacity);
+        require(h.low_score == kPostprocessPositions - m && h.topk_dropped == m - count &&
+                h.count == count && h.kept == count && h.suppressed == 0 && h.class_dropped == 0 && h.degenerate == 0,
+                name + ": exact qualified count and complete prefix");
+        for (unsigned i = 0; i < count; ++i)
+            require(output.rows[i].candidate_id == i && output.rows[i].flags == kDetectionKept,
+                    name + ": original IDs survive compaction and ties");
+    }
+    if (name == "adaptive-cross-tile-level-ties") {
+        constexpr std::array<unsigned, 16> ids{0, 1023, 1024, 2047, 2048, 4095, 4096,
+                                             6399, 6400, 7167, 7168, 7999, 8000, 8191, 8192, 8399};
+        require(h.count == ids.size() && h.low_score == kPostprocessPositions - ids.size(), name + ": qualified count");
+        for (unsigned i = 0; i < ids.size(); ++i)
+            require(output.rows[i].candidate_id == ids[i], name + ": ties retain original cross-level IDs");
+    }
+    if (name == "adaptive-dense-high-id-winners") {
+        require(h.count == 300 && h.kept == 300 && h.low_score == 0 && h.topk_dropped == 8100,
+                name + ": full dense qualified count");
+        for (unsigned i = 0; i < 300; ++i)
+            require(output.rows[i].candidate_id == 8100 + i, name + ": global highest IDs win");
+    }
+    if (name == "adaptive-dense-nonperson-before-topk")
+        require(h.count == 0 && h.class_dropped == 300 && h.low_score == 0 && h.topk_dropped == 8100,
+                name + ": all-class dense top-k before person");
+    if (name == "adaptive-dense-degenerate-no-refill")
+        require(h.count == 0 && h.degenerate == 300 && h.low_score == 0 && h.topk_dropped == 8100,
+                name + ": dense degenerate pool is not refilled");
 }
 void compare(const DetectionCandidates& actual, const DetectionCandidates& reference, const std::string& name) {
     if (std::memcmp(&actual.header, &reference.header, sizeof(actual.header)) != 0) {
@@ -277,8 +354,14 @@ void directed_tests(bool graph) {
         const auto expected = postprocess_reference(raw.view(), r, p);
         invariant(expected, item.name);
         h.upload(raw, p); cu(cudaMemsetAsync(h.output.p, 0xa5, sizeof(DetectionCandidates), h.stream.value));
-        h.launch(r); const auto result = h.read(); compare(result, expected, item.name);
-        invariant(result, item.name);
+        h.launch(r); const auto result = h.read();
+        // The new dispatch cases have independent count/ID expectations. Test
+        // those first, so their negative controls cannot hide behind an oracle
+        // that happened to receive the same malformed candidate list.
+        const bool adaptive_case = std::string(item.name).starts_with("adaptive-");
+        if (adaptive_case) invariant(result, item.name);
+        compare(result, expected, item.name);
+        if (!adaptive_case) invariant(result, item.name);
         h.launch(r); const auto repeat = h.read();
         require(std::memcmp(&result, &repeat, sizeof(result)) == 0, std::string(item.name) + ": repeat differs");
         if (graph) {
@@ -301,6 +384,32 @@ void directed_tests(bool graph) {
     h.upload(raw, success); h.launch(request()); const auto chain = h.read();
     require(chain.header.count == 3 && chain.rows[0].flags == kDetectionKept &&
         chain.rows[1].flags == kDetectionSuppressed && chain.rows[2].flags == kDetectionKept, "manual greedy chain");
+    // Reuse the same output/scratch without poisoning output between calls.
+    // Each transition changes M or failure state, including dense -> sparse,
+    // failed -> empty, and radix -> dense -> failed -> shared-rank.
+    const auto definitions = cases();
+    constexpr std::array<const char*, 10> sequence{
+        "adaptive-dense-high-id-winners", "adaptive-count-100",
+        "adaptive-dense-unselected-nan", "adaptive-count-0",
+        "adaptive-count-512", "adaptive-count-513",
+        "adaptive-dense-capacity-overflow", "adaptive-count-99",
+        "adaptive-count-0", "adaptive-dense-high-id-winners"};
+    unsigned phase = 0;
+    for (const auto* name : sequence) {
+        const auto entry = std::find_if(definitions.begin(), definitions.end(), [name](const Case& c) {
+            return std::string(c.name) == name;
+        });
+        require(entry != definitions.end(), "missing reuse fixture");
+        Raw input; auto frame_request = request(); auto producer_status = success;
+        entry->setup(input, frame_request, producer_status);
+        frame_request.frame = 0x300000000ULL + phase;
+        frame_request.epoch += phase / 4;
+        const auto expected = postprocess_reference(input.view(), frame_request, producer_status);
+        invariant(expected, name);
+        h.upload(input, producer_status); h.launch(frame_request); const auto reused = h.read();
+        invariant(reused, name); compare(reused, expected, std::string("reuse/") + name);
+        std::cout << "reuse_phase=" << phase++ << " case=" << name << " PASS\n";
+    }
     h.close();
 }
 void argument_tests() {
@@ -324,6 +433,10 @@ void argument_tests() {
     call(good, r, reinterpret_cast<PostprocessProducerStatus*>(w), o, ob, w, wb, st);
     call(good, r, p, reinterpret_cast<DetectionCandidates*>(static_cast<char*>(h.output.p) + 1), ob, w, wb, st);
     call(good, r, p, o, ob, static_cast<char*>(w) + 1, wb, st);
+    // This range fits the allocation and is float-aligned, but violates the
+    // uint64_t alignment required by the adaptive sort workspace.
+    Device padded_workspace(wb + 8);
+    call(good, r, p, o, ob, static_cast<char*>(padded_workspace.p) + 4, wb, st);
     auto v = good; v.cls[0] = raw.cls[0].data(); call(v, r, p, o, ob, w, wb, st);
     v = good; v.cls[0] = nullptr; call(v, r, p, o, ob, w, wb, st);
     v = good; --v.cls_elements[0]; call(v, r, p, o, ob, w, wb, st);
@@ -338,7 +451,7 @@ void argument_tests() {
     const auto untouched = h.read();
     std::array<unsigned char, sizeof(DetectionCandidates)> sentinel; sentinel.fill(0xab);
     require(std::memcmp(&untouched, sentinel.data(), sentinel.size()) == 0, "argument rejection enqueued output writes");
-    CleanupReport cleanup; small.close(cleanup); cleanup.throw_if_failed(); h.close();
+    CleanupReport cleanup; padded_workspace.close(cleanup); small.close(cleanup); cleanup.throw_if_failed(); h.close();
     std::cout << "arguments=PASS\n";
 }
 struct Hold { std::atomic<bool> started{false}, released{false}; };

@@ -1,0 +1,1 @@
+/opt/cuda/bin/nvcc -std=c++20 -O2 -lineinfo --allow-unsupported-compiler -arch=sm_120 -I/opt/cuda/include build-f01-investigation/repro.cu -L/opt/cuda/lib64 -Xlinker -rpath -Xlinker /opt/cuda/lib64 -lnvjpeg -o build-f01-investigation/repro

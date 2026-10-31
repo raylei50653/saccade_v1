@@ -1,0 +1,186 @@
+========= COMPUTE-SANITIZER
+plane=0 pitch=35 rows=27 bytes=945
+nvjpeg=13.2.3 backend=hw format=y flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=945 caller_output=000000130E400000 observed=000000130E400400
+========= Host API memory access error at host access to 0x130e200000 of size 35 bytes
+=========     Uninitialized access to 0x130e200000 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200000 of size 35 bytes
+=========     Uninitialized access to 0x130e200020 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200080 of size 35 bytes
+=========     Uninitialized access to 0x130e200080 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200080 of size 35 bytes
+=========     Uninitialized access to 0x130e2000a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200100 of size 35 bytes
+=========     Uninitialized access to 0x130e200100 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200100 of size 35 bytes
+=========     Uninitialized access to 0x130e200120 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200180 of size 35 bytes
+=========     Uninitialized access to 0x130e200180 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200180 of size 35 bytes
+=========     Uninitialized access to 0x130e2001a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200200 of size 35 bytes
+=========     Uninitialized access to 0x130e200200 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Host API memory access error at host access to 0x130e200200 of size 35 bytes
+=========     Uninitialized access to 0x130e200220 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x7ff914acce35] in nvcuda64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929eeb706] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x10635] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0x105a0] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f0d21c] in nvcudart_hybrid64.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8193b27] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81342fb] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a81322c7] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegStateAttachPinnedBuffer [0x7ff8a8131631] in nvjpeg64_13.dll
+=========         Host Frame: nvjpegDecodeBatched [0x7ff8a80fbbcb] in nvjpeg64_13.dll
+=========         Host Frame:  [0xb94e] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes
+========= ERROR SUMMARY: 108 errors
+========= ERROR SUMMARY: 98 errors were not printed. Use --print-limit option to adjust the number of printed errors

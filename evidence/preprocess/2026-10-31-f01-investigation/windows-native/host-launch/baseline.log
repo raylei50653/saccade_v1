@@ -1,0 +1,15 @@
+windows-rgb-normal exit=0 elapsed=0.9169548
+nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0000001308400000 observed=0000001308400C00
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+0
+windows-rgb-memcheck exit=0 elapsed=3.1320564
+nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=000000130FE00000 observed=000000130FE00C00
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+========= ERROR SUMMARY: 0 errors
+0
+windows-rgb-initcheck exit=99 elapsed=3.7078084
+nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=000000130E400000 observed=000000130E400C00
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+========= ERROR SUMMARY: 1890 errors
+========= ERROR SUMMARY: 1880 errors were not printed. Use --print-limit option to adjust the number of printed errors
+99

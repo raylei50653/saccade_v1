@@ -76,3 +76,11 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 `resize_cuda_tests` 檢查低階 resize 的 CPU reference／手算案例、stream、repeat／graph 與 host 參數拒絕；`preprocess_tests` 使用 repo fixtures 檢查 odd-size decode、尺寸切換／重用、caller JPEG bytes 複製、independent sessions、ImageMapping、格式／容量／metadata／frame order／default-stream 拒絕、failure latch、capture 拒絕與 checked close。具體執行結果與 sanitizer 覆蓋須由實際紀錄佐證，不能以測試存在推論已通過。
 
 乾淨 source `2b39dda` 的 19/19 CTest 通過，17 組共 13,522,182 個 FP32 輸出元素與訓練參考逐位元相同。F02 memcheck／initcheck／racecheck／synccheck 均為 0 errors／hazards；session memcheck／racecheck／synccheck 亦通過。session initcheck 在 nvJPEG 私有 `rgba2rgb` 報 8,151 errors，capture 因此 exit 99；不使用本專案程式的獨立 HW decode control 同樣報 1,890 errors。原因尚未由 NVIDIA 確認，不能當作已確認誤報，也不列全路徑 sanitizer PASS。完整結果與補跑範圍見上述報告。此實作不關閉 F04 decode／NMS、完整 async session 整合、P01 或模型品質；七張真實影像也不代表本次已重驗全部 5,316 張 MOT17 frame。
+
+[F01 後續追查](../evidence/preprocess/2026-10-31-f01-investigation/REPORT.md)另以同一 standalone binary 對照 nvJPEG 13.0.1／13.2.3、停用內部 buffering、不預配置、清零 caller output 與 RGBI，均未消除 initcheck。單次 decode 的完整 log 確認 945 個有效像素各一次在 SDK 私有 RGBA surface 報未初始化 3-byte read；Y／YUV 輸出則在 SDK 內部 cudaMemcpy source 報錯。這些結果支持 hardware surface 初始化追蹤問題的假說，尚未確認誤報或修復，F01 狀態維持 FAIL／原因 OPEN。
+
+另已封存 [surface poison／trace 補充證據](../evidence/preprocess/2026-10-31-f01-investigation/surface-poison/README.md)：私有配置身分穩定後，tracked poison 使後續 decode 不再新增 initcheck 報告，RGB 仍 exact；945 個有效像素均在 dump 中符合 reference。這為未追蹤硬體寫入的機制提供直接干預證據，部分 scratch run 的命令／退出碼身分仍不完整。官方分類、一般同步正確性與跨環境適用性尚未確認；未改驗收狀態，poison 不進 runtime。
+
+[原生 Windows 對照](../evidence/preprocess/2026-10-31-f01-investigation/windows-native/REPORT.md)亦重現同樣的 HARDWARE RGB initcheck 1,890 errors／exit 99，RGB bytes 與 WSL／CPU reference 相同，memcheck 0；工具正反控制正常。WSL 不是重現此問題的必要條件；兩邊仍共用 Windows host driver，原生 Linux driver 尚未驗證，F01 驗收狀態維持 FAIL。
+
+此問題已以 standalone repro 向 NVIDIA 回報為 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件另寄 NVSDKIssues；送出內容見 [NVIDIA 回報紀錄](../evidence/preprocess/2026-10-31-f01-investigation/nvidia-report/README.md)。目前尚無 NVIDIA 分類，F01 驗收狀態維持 FAIL／原因 OPEN。

@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default no-preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-preallocate-normal.bin

@@ -1,0 +1,744 @@
+{
+  "schema": "f01-surface-poison-import-analysis/1",
+  "scope": "Offline verification of imported artifacts; missing original exits/commands are not inferred.",
+  "logs": [
+    {
+      "file": "raw/capture/attr-a5-initcheck.log",
+      "recorded_exit": null,
+      "summary_errors": [
+        945
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 945
+        },
+        "1": {},
+        "2": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [
+        "surface_attr when=after_initialize repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=after_preallocate repeat=-1 buffer_id=1065(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=0 buffer_id=1065(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=0 buffer_id=1079(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=1 buffer_id=1079(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=1 buffer_id=1079(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=2 buffer_id=1079(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=2 buffer_id=1079(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)"
+      ],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=0 base=0xf0e200000 size=16384 value=165",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=1 base=0xf0e200000 size=16384 value=165",
+        "surface_query repeat=2 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=2 base=0xf0e200000 size=16384 value=165"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=3 raw_bytes=2835 caller_output=0xf0e400000 observed=0xf0e400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=2 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/log-initcheck.log",
+      "recorded_exit": 99,
+      "summary_errors": [
+        1890
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 3
+        },
+        "1": {}
+      },
+      "unprinted_errors": [
+        1887
+      ],
+      "attributes": [],
+      "surface_actions": [],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0e400000 observed=0xf0e400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/log-normal.log",
+      "recorded_exit": 0,
+      "summary_errors": [],
+      "printed_errors_by_repeat": {
+        "0": {},
+        "1": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [],
+      "surface_actions": [],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf09400000 observed=0xf09400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/nsys-profile.log",
+      "recorded_exit": null,
+      "summary_errors": [],
+      "printed_errors_by_repeat": {
+        "0": {},
+        "1": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [],
+      "surface_actions": [],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0a000000 observed=0xf0a000c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-5a-initcheck.log",
+      "recorded_exit": 99,
+      "summary_errors": [
+        1457
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 5
+        },
+        "1": {}
+      },
+      "unprinted_errors": [
+        1452
+      ],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=0 base=0xf0e200000 size=16384 value=90",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=1 base=0xf0e200000 size=16384 value=90"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0e400000 observed=0xf0e400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-a5-initcheck-full.log",
+      "recorded_exit": null,
+      "summary_errors": [
+        1457
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 945,
+          "host_api_memory_access": 512
+        },
+        "1": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=0 base=0xf0e200000 size=16384 value=165",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=1 base=0xf0e200000 size=16384 value=165"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0e400000 observed=0xf0e400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-a5-initcheck.log",
+      "recorded_exit": 99,
+      "summary_errors": [
+        1457
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 5
+        },
+        "1": {}
+      },
+      "unprinted_errors": [
+        1452
+      ],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=0 base=0xf0e200000 size=16384 value=165",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=1 base=0xf0e200000 size=16384 value=165"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0e400000 observed=0xf0e400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-a5-memcheck.log",
+      "recorded_exit": 99,
+      "summary_errors": [
+        2
+      ],
+      "printed_errors_by_repeat": {
+        "0": {},
+        "1": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=500 base=0 size=0",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=500 base=0 size=0"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0fe00000 observed=0xf0fe00c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-a5-normal.log",
+      "recorded_exit": 0,
+      "summary_errors": [],
+      "printed_errors_by_repeat": {
+        "0": {},
+        "1": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=500 base=0 size=0",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=500 base=0 size=0"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf09400000 observed=0xf09400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-rgb-no-preallocate-initcheck.log",
+      "recorded_exit": null,
+      "summary_errors": [
+        2835
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 945
+        },
+        "1": {
+          "uninitialized_global_read": 945
+        },
+        "2": {
+          "uninitialized_global_read": 945
+        }
+      },
+      "unprinted_errors": [],
+      "attributes": [
+        "surface_attr when=after_initialize repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=after_preallocate repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=before_decode repeat=0 buffer_id=1067(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=2835(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=0 buffer_id=1067(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=2835(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=1 buffer_id=1067(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=2835(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=1 buffer_id=1067(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=2835(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=2 buffer_id=1067(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=2835(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=2 buffer_id=1067(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=2835(0) mempool=0(0)"
+      ],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=2835",
+        "surface_poisoned repeat=0 base=0xf0e200000 size=2835 value=165",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=2835",
+        "surface_poisoned repeat=1 base=0xf0e200000 size=2835 value=165",
+        "surface_query repeat=2 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=2835",
+        "surface_poisoned repeat=2 base=0xf0e200000 size=2835 value=165"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=no-preallocate fill=uninit dimensions=35x27 repeats=3 raw_bytes=2835 caller_output=0xf0e200000 observed=0xf0e200c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=2 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-rgb-no-preallocate-surface-initcheck.log",
+      "recorded_exit": null,
+      "summary_errors": [
+        945
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 945
+        },
+        "1": {},
+        "2": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [
+        "surface_attr when=after_initialize repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=after_preallocate repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=before_decode repeat=0 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=after_decode repeat=0 buffer_id=1073(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e404000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=1 buffer_id=1073(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e404000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=1 buffer_id=1073(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e404000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=2 buffer_id=1073(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e404000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=2 buffer_id=1073(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e404000(0) size=16384(0) mempool=0(0)"
+      ],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e404000 cu_status=500 base=0 size=0",
+        "surface_query repeat=1 probe=0xf0e404000 cu_status=0 base=0xf0e404000 size=16384",
+        "surface_poisoned repeat=1 base=0xf0e404000 size=16384 value=165",
+        "surface_query repeat=2 probe=0xf0e404000 cu_status=0 base=0xf0e404000 size=16384",
+        "surface_poisoned repeat=2 base=0xf0e404000 size=16384 value=165"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=no-preallocate fill=uninit dimensions=35x27 repeats=3 raw_bytes=2835 caller_output=0xf0e200000 observed=0xf0e200c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=2 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/poison-y-preallocate-initcheck.log",
+      "recorded_exit": null,
+      "summary_errors": [
+        54
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "host_api_memory_access": 54
+        },
+        "1": {},
+        "2": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [
+        "surface_attr when=after_initialize repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)",
+        "surface_attr when=after_preallocate repeat=-1 buffer_id=1065(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=0 buffer_id=1065(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=0 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=1 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=1 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=before_decode repeat=2 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)",
+        "surface_attr when=after_decode repeat=2 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)"
+      ],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=0 base=0xf0e200000 size=16384 value=165",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=1 base=0xf0e200000 size=16384 value=165",
+        "surface_query repeat=2 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_poisoned repeat=2 base=0xf0e200000 size=16384 value=165"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=y flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=3 raw_bytes=945 caller_output=0xf0e400000 observed=0xf0e400400"
+      ],
+      "results": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ]
+    },
+    {
+      "file": "raw/capture/probe-initcheck.log",
+      "recorded_exit": 99,
+      "summary_errors": [
+        1890
+      ],
+      "printed_errors_by_repeat": {
+        "0": {
+          "uninitialized_global_read": 2
+        },
+        "1": {}
+      },
+      "unprinted_errors": [
+        1888
+      ],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf0e400000 observed=0xf0e400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    },
+    {
+      "file": "raw/capture/probe-normal.log",
+      "recorded_exit": 0,
+      "summary_errors": [],
+      "printed_errors_by_repeat": {
+        "0": {},
+        "1": {}
+      },
+      "unprinted_errors": [],
+      "attributes": [],
+      "surface_actions": [
+        "surface_query repeat=0 probe=0xf0e200000 cu_status=500 base=0 size=0",
+        "surface_query repeat=1 probe=0xf0e200000 cu_status=500 base=0 size=0"
+      ],
+      "identity": [
+        "nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf09400000 observed=0xf09400c00"
+      ],
+      "results": [
+        "repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0",
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ]
+    }
+  ],
+  "surface_dumps": [
+    {
+      "file": "raw/dump/full-a5/surface-repeat0.bin",
+      "bytes": 16384,
+      "poison": 165,
+      "rgb_pixels_matching_reference": 945,
+      "alpha_zero_pixels": 945,
+      "outside_valid_rgba_bytes": 12604,
+      "outside_bytes_equal_poison": 8198,
+      "outside_bytes_different_from_poison": 4406,
+      "trailing_256_bytes_per_row_equal_poison": 8192
+    },
+    {
+      "file": "raw/dump/full-a5/surface-repeat1.bin",
+      "bytes": 16384,
+      "poison": 165,
+      "rgb_pixels_matching_reference": 945,
+      "alpha_zero_pixels": 945,
+      "outside_valid_rgba_bytes": 12604,
+      "outside_bytes_equal_poison": 8198,
+      "outside_bytes_different_from_poison": 4406,
+      "trailing_256_bytes_per_row_equal_poison": 8192
+    },
+    {
+      "file": "raw/dump/initcheck-5a/surface-repeat0.bin",
+      "bytes": 16384,
+      "poison": 90,
+      "rgb_pixels_matching_reference": 945,
+      "alpha_zero_pixels": 945,
+      "outside_valid_rgba_bytes": 12604,
+      "outside_bytes_equal_poison": 8199,
+      "outside_bytes_different_from_poison": 4405,
+      "trailing_256_bytes_per_row_equal_poison": 8192
+    },
+    {
+      "file": "raw/dump/initcheck-5a/surface-repeat1.bin",
+      "bytes": 16384,
+      "poison": 90,
+      "rgb_pixels_matching_reference": 945,
+      "alpha_zero_pixels": 945,
+      "outside_valid_rgba_bytes": 12604,
+      "outside_bytes_equal_poison": 8199,
+      "outside_bytes_different_from_poison": 4405,
+      "trailing_256_bytes_per_row_equal_poison": 8192
+    },
+    {
+      "file": "raw/dump/initcheck-a5/surface-repeat0.bin",
+      "bytes": 16384,
+      "poison": 165,
+      "rgb_pixels_matching_reference": 945,
+      "alpha_zero_pixels": 945,
+      "outside_valid_rgba_bytes": 12604,
+      "outside_bytes_equal_poison": 8198,
+      "outside_bytes_different_from_poison": 4406,
+      "trailing_256_bytes_per_row_equal_poison": 8192
+    },
+    {
+      "file": "raw/dump/initcheck-a5/surface-repeat1.bin",
+      "bytes": 16384,
+      "poison": 165,
+      "rgb_pixels_matching_reference": 945,
+      "alpha_zero_pixels": 945,
+      "outside_valid_rgba_bytes": 12604,
+      "outside_bytes_equal_poison": 8198,
+      "outside_bytes_different_from_poison": 4406,
+      "trailing_256_bytes_per_row_equal_poison": 8192
+    }
+  ],
+  "outputs": [
+    {
+      "file": "raw/attr.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/full-a5.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/log-initcheck.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/log-normal.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/nsys.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/poison-5a-initcheck.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/poison-a5-initcheck.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/poison-a5-memcheck.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/poison-a5-normal.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/probe-initcheck.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/probe-normal.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/rgb-no-preallocate-2.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/rgb-no-preallocate.bin",
+      "bytes": 2835,
+      "matches_planar_rgb_reference": true,
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+    },
+    {
+      "file": "raw/y-preallocate.bin",
+      "bytes": 945,
+      "matches_planar_rgb_reference": false,
+      "sha256": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec"
+    }
+  ],
+  "nsys": {
+    "file": "raw/nsys-rgb.sqlite",
+    "memcopies": [
+      {
+        "start": 803958545,
+        "end": 803961553,
+        "streamId": 16,
+        "correlationId": 763,
+        "bytes": 1124,
+        "copy_kind": "Host-to-Device"
+      },
+      {
+        "start": 810340874,
+        "end": 810341866,
+        "streamId": 13,
+        "correlationId": 781,
+        "bytes": 2835,
+        "copy_kind": "Device-to-Host"
+      },
+      {
+        "start": 810431755,
+        "end": 810432555,
+        "streamId": 16,
+        "correlationId": 783,
+        "bytes": 1124,
+        "copy_kind": "Host-to-Device"
+      },
+      {
+        "start": 811013235,
+        "end": 811014099,
+        "streamId": 13,
+        "correlationId": 794,
+        "bytes": 2835,
+        "copy_kind": "Device-to-Host"
+      }
+    ],
+    "kernels": [
+      {
+        "start": 809950276,
+        "end": 809951844,
+        "streamId": 16,
+        "correlationId": 770,
+        "name": "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+      },
+      {
+        "start": 810254024,
+        "end": 810255240,
+        "streamId": 13,
+        "correlationId": 778,
+        "name": "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)"
+      },
+      {
+        "start": 810906066,
+        "end": 810906642,
+        "streamId": 16,
+        "correlationId": 785,
+        "name": "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+      },
+      {
+        "start": 810965138,
+        "end": 810965682,
+        "streamId": 13,
+        "correlationId": 791,
+        "name": "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)"
+      }
+    ],
+    "memset_activity_table_present": false,
+    "capture_metadata": {
+      "DEVICE_ID": "Local (CLI)",
+      "CAPTURE_EVENT_TYPE": "Cuda",
+      "RATE_HZ": "0",
+      "START_TRIGGER": "Immediate",
+      "STOP_TRIGGER": "Delayed",
+      "THREAD_STATE_SCAN_FREQ": "50",
+      "POWER_RATE_SCAN_FREQ": "50",
+      "DEVICE_TYPE": "Unix",
+      "DEVICE_DISPLAY_NAME": "DESKTOP-0FLA6SQ",
+      "CUDA_GRAPH_TRACE_OPTIONS:MODE": "Graph",
+      "CUDA_GRAPH_TRACE_OPTIONS:TRACE_DEVICE_GRAPH_LAUNCH": "true",
+      "CUDA_FLUSH_PERIODICALLY": "true",
+      "CUDA_FLUSH_PERIOD": "0",
+      "CUDA_SKIP_SOME_API_CALLS": "true",
+      "COLLECT_GPU_MEMORY_USAGE": "false",
+      "COLLECT_UVM_CPU_PAGE_FAULTS": "false",
+      "COLLECT_UVM_GPU_PAGE_FAULTS": "false",
+      "CUDA_FLUSH_ON_CUDA_PROFILER_STOP": "false",
+      "CUDA_TRACE_SCOPE": "ProcessTree",
+      "PROCESS_0:HOW_TO_ATTACH": "LaunchAnother",
+      "PROCESS_0:LAUNCH_AS_ROOT": "false",
+      "PROCESS_0:COMMAND": "/tmp/claude-1000/-home-ray-developer-ai-saccade-v1/1c3d56aa-2e17-433d-b405-33b28355d3f3/scratchpad/f01-alloc/repro_alloc",
+      "PROCESS_0:ARGUMENT_0": "hw",
+      "PROCESS_0:ARGUMENT_1": "rgb",
+      "PROCESS_0:ARGUMENT_2": "default",
+      "PROCESS_0:ARGUMENT_3": "preallocate",
+      "PROCESS_0:ARGUMENT_4": "uninit",
+      "PROCESS_0:ARGUMENT_5": "2",
+      "PROCESS_0:ARGUMENT_6": "fixtures/preprocess/baseline.jpg",
+      "PROCESS_0:ARGUMENT_7": "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb",
+      "PROCESS_0:ARGUMENT_8": "/tmp/claude-1000/-home-ray-developer-ai-saccade-v1/1c3d56aa-2e17-433d-b405-33b28355d3f3/scratchpad/f01-alloc/nsys.bin",
+      "PROCESS_0:WORKING_DIR": "/home/ray/developer/ai/saccade_v1",
+      "PROCESS_0:PID": "0",
+      "PROCESS_0:USER_NAME": "",
+      "PROCESS_0:COLLECT_NVTX_TRACE": "false",
+      "PROCESS_0:COLLECT_CUDA_TRACE": "false",
+      "PROCESS_0:COLLECT_CPU_TRACE": "false",
+      "PROCESS_0:COLLECT_NVMEDIA_TRACE": "false",
+      "PROCESS_0:COLLECT_VIDEO_API_TRACE": "false",
+      "PROCESS_0:ENVIRONMENT_VARIABLE": "HG=\"/usr/bin/hg\"",
+      "PROCESS_0:CUDA_FLUSH_PERIODICALLY": "false",
+      "PROCESS_0:CUDA_FLUSH_PERIOD": "0",
+      "PROCESS_0:CUDA_SKIP_SOME_API_CALLS": "false",
+      "PROCESS_0:COLLECT_GPU_MEMORY_USAGE": "false",
+      "PROCESS_0:COLLECT_UVM_CPU_PAGE_FAULTS": "false",
+      "PROCESS_0:COLLECT_UVM_GPU_PAGE_FAULTS": "false",
+      "PROCESS_0:COLLECT_GL_WORKLOAD": "false",
+      "PROCESS_0:COLLECT_DX12_TRACE": "false",
+      "PROCESS_0:COLLECT_DX11_TRACE": "false",
+      "PROCESS_0:COLLECT_VULKAN_TRACE": "false",
+      "PROCESS_0:CUDA_FLUSH_ON_CUDA_PROFILER_STOP": "false",
+      "PROFILING_SESSION_ID": "",
+      "PROFILING_SESSION_UUID": "6ece2180-fa78-49de-9d4c-51a34df08ddb",
+      "APPLICATION_PID": "0",
+      "PACKAGE_NAME": "",
+      "RESUME": "false",
+      "SHOW_BACKTRACE": "false",
+      "START_DELAY_MS": "0",
+      "RUN_DURATION_MS": "966",
+      "HAS_ANNOTATIONS": "false",
+      "USE_UNWIND_TABLES": "false",
+      "USE_FRAME_POINTERS": "false",
+      "USE_DWARF": "false",
+      "BANDWIDTH_VERSION": "0",
+      "BANDWIDTH_RATE_HZ": "0",
+      "COLLECT_GPU_CTX_SW_TRACE": "false",
+      "TRACE_ALL_TASKS": "false",
+      "IN_APP_FREQ_MODE": "false",
+      "COLLECT_VSYNC": "false",
+      "COLLECT_THREAD_STATE_TRACE": "false",
+      "ALLOW_SEND_ONLY_MODE": "false",
+      "FORCE_ARCH_TIMER": "false",
+      "USE_LBRS": "false",
+      "INCLUDE_CHILDREN": "true",
+      "USE_LINUX_PERF": "false",
+      "DISABLE_TIME_SYNC": "false",
+      "LAUNCH_AS_ROOT": "false",
+      "TRACE_AFTER_FORK_BEFORE_EXEC": "false",
+      "COLLECT_SLI_EVENTS": "false",
+      "HOTKEY_ENABLED": "false",
+      "HOTKEY_VALUE": "0",
+      "COLLECT_WDDM_EVENTS": "false",
+      "COLLECT_OPENSHMEM_TRACE": "false",
+      "START_FRAME_VALUE": "0",
+      "RUN_DURATION_FRAMES": "0",
+      "SYMBOL_RESOLUTION_OPTIONS:RESOLVE_SYMBOLS": "true",
+      "SAMPLE_ALL_TASKS": "false"
+    },
+    "fixture_jpeg_bytes": 1124
+  }
+}

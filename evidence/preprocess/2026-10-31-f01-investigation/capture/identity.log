@@ -1,0 +1,56 @@
+2026-10-31T10:16:54+08:00
+40c904061c17f0b1ea6afa60aa084a84cea34407
+Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 GNU/Linux
+Sat Oct 31 10:16:56 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.78.08              KMD Version: 617.42        CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 5070 ...    On  |   00000000:01:00.0 Off |                  N/A |
+| N/A   50C    P2             13W /  120W |       0MiB /  12227MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Tue_Sep_01_08:45:21_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.92
+Build cuda_13.4.r13.4/compiler.38855100_0
+NVIDIA (R) Compute Sanitizer
+Copyright (c) 2020-2026 NVIDIA Corporation
+Version 2026.3.0.0 (build 38855100) (public-release)
+	linux-vdso.so.1 (0x000070345fced000)
+	libnvjpeg.so.13 => /opt/cuda/lib64/libnvjpeg.so.13 (0x000070345f200000)
+	libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x000070345ee00000)
+	libm.so.6 => /usr/lib/libm.so.6 (0x000070345fab8000)
+	libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x000070345fa8b000)
+	libc.so.6 => /usr/lib/libc.so.6 (0x000070345ea00000)
+	/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x000070345fcef000)
+	librt.so.1 => /usr/lib/librt.so.1 (0x000070345fa84000)
+	libpthread.so.0 => /usr/lib/libpthread.so.0 (0x000070345fa7f000)
+	libdl.so.2 => /usr/lib/libdl.so.2 (0x000070345fa7a000)
+	linux-vdso.so.1 (0x00007ee4b3aa0000)
+	libnvjpeg.so.13 => /home/ray/developer/ai/saccade_v1/build-f01-investigation/old-nvjpeg/libnvjpeg.so.13 (0x00007ee4b3200000)
+	libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x00007ee4b2e00000)
+	libm.so.6 => /usr/lib/libm.so.6 (0x00007ee4b2cc9000)
+	libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x00007ee4b31d3000)
+	libc.so.6 => /usr/lib/libc.so.6 (0x00007ee4b2a00000)
+	/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007ee4b3aa2000)
+	librt.so.1 => /usr/lib/librt.so.1 (0x00007ee4b31ce000)
+	libpthread.so.0 => /usr/lib/libpthread.so.0 (0x00007ee4b31c9000)
+	libdl.so.2 => /usr/lib/libdl.so.2 (0x00007ee4b31c4000)
+58e2c0ea589fd64ef9e334793c2af8230f4e580d6a303888de769313b5da27c3  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro
+c3b0bbf242218a22d86568b527df363978588f9ee1d56f7c65891e4e0cdbc977  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro.cu
+1a359ba735541f0b21d9dd41166b5af05c0609476771ddc688f3cc80e38f1d74  /home/ray/developer/ai/saccade_v1/build-f01-investigation/old-nvjpeg/libnvjpeg.so.13
+c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338  /opt/cuda/lib64/libnvjpeg.so.13
+7fb00519a24512bf677b59e87921e5c05aac8246ceb6a57435c0d9dfeef364f6  /opt/cuda/lib64/libcudart.so.13

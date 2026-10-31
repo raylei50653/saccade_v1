@@ -1,0 +1,45 @@
+windows-skip-uninit-memcheck exit=0 elapsed=5.2819119
+nvjpeg=13.2.3 backend=skip format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=1 raw_bytes=2835 caller_output=000000130FE00000 observed=000000130FE00C00
+result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb
+========= ERROR SUMMARY: 0 errors
+0
+windows-skip-uninit-initcheck exit=99 elapsed=3.7595388
+nvjpeg=13.2.3 backend=skip format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=1 raw_bytes=2835 caller_output=000000130E400000 observed=000000130E400C00
+result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb
+========= ERROR SUMMARY: 2835 errors
+========= ERROR SUMMARY: 2825 errors were not printed. Use --print-limit option to adjust the number of printed errors
+99
+windows-skip-zero-initcheck exit=0 elapsed=3.1307275
+nvjpeg=13.2.3 backend=skip format=rgb flags=default flags_value=0 preallocation=preallocate fill=zero dimensions=35x27 repeats=1 raw_bytes=2835 caller_output=000000130E400000 observed=000000130E400C00
+result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb
+========= ERROR SUMMARY: 0 errors
+0
+windows-rgb-no-preallocate-initcheck exit=99 elapsed=3.654309
+nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=no-preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=000000130E200000 observed=000000130E200C00
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+========= ERROR SUMMARY: 1890 errors
+========= ERROR SUMMARY: 1880 errors were not printed. Use --print-limit option to adjust the number of printed errors
+99
+windows-rgb-no-pipeline-initcheck exit=99 elapsed=3.6694045
+nvjpeg=13.2.3 backend=hw format=rgb flags=no-pipeline flags_value=1 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=000000130E400000 observed=000000130E400C00
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+========= ERROR SUMMARY: 1890 errors
+========= ERROR SUMMARY: 1880 errors were not printed. Use --print-limit option to adjust the number of printed errors
+99
+windows-rgbi-initcheck exit=99 elapsed=3.6659697
+nvjpeg=13.2.3 backend=hw format=rgbi flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=000000130E400000 observed=000000130E400C00
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+========= ERROR SUMMARY: 1890 errors
+========= ERROR SUMMARY: 1880 errors were not printed. Use --print-limit option to adjust the number of printed errors
+99
+windows-y-initcheck exit=99 elapsed=3.1698759
+nvjpeg=13.2.3 backend=hw format=y flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=945 caller_output=000000130E400000 observed=000000130E400400
+result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes
+========= ERROR SUMMARY: 108 errors
+========= ERROR SUMMARY: 98 errors were not printed. Use --print-limit option to adjust the number of printed errors
+99
+windows-hybrid-initcheck exit=0 elapsed=3.1441049
+nvjpeg=13.2.3 backend=hybrid format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=000000130E200C00 observed=000000130E201800
+result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=186 rgb_max_difference=2 output_layout=planar-rgb
+========= ERROR SUMMARY: 0 errors
+0

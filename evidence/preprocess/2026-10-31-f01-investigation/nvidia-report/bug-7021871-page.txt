@@ -1,0 +1,62 @@
+Title: Bug 7021871: compute-sanitizer initcheck reports uninitialized reads in nvjpeg::rgba2rgb with NVJPEG_BACKEND_HARDWARE, while decoded output is bit-exact | NVIDIA Developer
+URL: https://developer.nvidia.com/bugs/7021871
+Source element: <main>
+---
+compute-sanitizer initcheck reports uninitialized reads in nvjpeg::rgba2rgb with NVJPEG_BACKEND_HARDWARE, while decoded output is bit-exact
+OPEN
+Last Updated: October 30, 2026
+Summary
+ID
+7021871
+Area
+CUDA
+Description
+
+Summary
+compute-sanitizer initcheck reports one uninitialized 3-byte global read per pixel in nvjpeg::rgba2rgb<3> +0x170 when decoding with NVJPEG_BACKEND_HARDWARE, although the decoded RGB output is bit-exact and memcheck reports 0 errors. We would like NVIDIA to classify this (tool tracking limitation vs. SDK/driver defect).
+
+Minimal repro (standalone, CUDA + nvJPEG only; source and input will be emailed to NVSDKIssues with the bug ID)
+1. nvjpegCreateEx(NVJPEG_BACKEND_HARDWARE) -> nvjpegJpegStateCreate
+2. nvjpegDecodeBatchedInitialize(batch=1, max_cpu_threads=1, NVJPEG_OUTPUT_RGB) -> nvjpegDecodeBatchedPreAllocate (optional)
+3. nvjpegDecodeBatched on an explicit non-default stream, then full synchronization
+4. Input: 35x27 baseline 8-bit 4:2:0 JPEG, 1,124 bytes
+Run: compute-sanitizer --tool initcheck --print-limit 0
+
+Observed
+- One decode produces 945 errors = one per pixel (35x27). Every error is a 3-byte uninitialized global read at nvjpeg::rgba2rgb<3> +0x170.
+- Faulting addresses follow base + 512*y + 4*x inside an SDK-internal 16 KiB allocation, not the caller's output buffer.
+- RGB output is bit-exact vs libjpeg (djpeg -dct int -nosmooth -rgb) and identical across repeated runs. memcheck: 0 errors.
+- NVJPEG_OUTPUT_Y / NVJPEG_OUTPUT_YUV: errors are reported instead on an SDK-internal cuMemcpy2DAsync source.
+- NVJPEG_BACKEND_HYBRID: 0 initcheck errors.
+- Reproduces with both nvJPEG 13.2.3 and 13.0.1 (same binary, library switched via LD_LIBRARY_PATH).
+
+Controls that do not change the result
+NVJPEG_FLAGS_HW_DECODE_NO_PIPELINE, no PreAllocate, zero-filling the caller output before each decode, NVJPEG_OUTPUT_RGBI.
+
+Diagnostics
+- nsys trace: the only CUDA-visible work per decode is a 1,124-byte H2D copy and rgba2rgb.
+- The first decode replaces the internal surface with a new allocation at the same address. Once the allocation is stable, a diagnostic cudaMemset on that surface makes subsequent decodes report 0 errors, and the output stays bit-exact.
+- This suggests initcheck does not track NVJPG hardware-engine writes, but we would like this confirmed.
+
+Questions
+1. Is it expected that initcheck does not track NVJPG hardware-engine writes to nvJPEG internal surfaces? Is this a known limitation?
+2. On the given stream, does nvJPEG guarantee that the hardware writes complete before rgba2rgb reads the surface, i.e. is this purely a tool-tracking issue and not a synchronization defect?
+3. Is there a supported way to get a clean initcheck run (e.g. an official suppression, or a fix in nvJPEG or Compute Sanitizer)?
+
+Native Windows result (same GPU, not WSL-specific)
+The same repro.cu source (identical bytes) was built and run as a native Windows executable (Windows 11 Pro 10.0.26300, WDDM, driver 617.42, Windows nvcc 13.4.92, Compute Sanitizer 2026.3.0.0, nvJPEG 13.2.3.58 redist DLL, MSVC 14.44). Results match WSL2 exactly:
+- HARDWARE RGB, two decodes: initcheck 1,890 errors (exit 99), same kernel nvjpeg::rgba2rgb<3> +0x170, 3-byte reads.
+- memcheck: 0 errors. RGB and RGBI output bit-exact vs the libjpeg reference.
+- NO_PIPELINE, no PreAllocate, RGBI: still 1,890 errors. Y output: 108 errors (same as WSL2). HYBRID: 0 errors.
+- Tool positive/negative controls (our own kernel reading an uninitialized vs zeroed buffer): 2,835 / 0 errors, so initcheck is active.
+So WSL is not required. Since both runs share the same GPU and Windows KMD, we cannot tell whether nvJPEG, Compute Sanitizer, or the shared Windows driver path is responsible. Not tested on a native Linux driver.
+
+NVIDIA GPU or Systems
+GeForce RTX 5070 Ti Laptop GPU (SM 12.0)
+NVIDIA Software Version
+Driver 617.42 (KMD; nvidia-smi 615.78.08), CUDA 13.4.92, Compute Sanitizer 2026.3.0.0, nvJPEG 13.2.3 and 13.0.1
+Operating System
+Linux, Windows 11
+Operating System Details
+Reproduces on both: (1) native Windows 11 Pro 10.0.26300 x64, WDDM, driver 617.42, Windows-native nvcc 13.4.92 / Compute Sanitizer 2026.3.0.0 / nvJPEG 13.2.3.58 redist (MSVC 14.44); (2) WSL2 guest kernel Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 on the same host. Same GPU and same Windows KMD in both cases. Not tested on a native Linux driver.
+Comments (0)

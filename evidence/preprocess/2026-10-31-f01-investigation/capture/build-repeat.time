@@ -1,0 +1,23 @@
+	Command being timed: "timeout --signal=TERM --kill-after=10s 60s /opt/cuda/bin/nvcc -std=c++20 -O2 -lineinfo --allow-unsupported-compiler -arch=sm_120 -I/opt/cuda/include build-f01-investigation/repro.cu -L/opt/cuda/lib64 -Xlinker -rpath -Xlinker /opt/cuda/lib64 -lnvjpeg -o build-f01-investigation/repro"
+	User time (seconds): 1.76
+	System time (seconds): 0.56
+	Percent of CPU this job got: 46%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.01
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 208448
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 196
+	Minor (reclaiming a frame) page faults: 161343
+	Voluntary context switches: 1030
+	Involuntary context switches: 7
+	Swaps: 0
+	File system inputs: 579338
+	File system outputs: 2392
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

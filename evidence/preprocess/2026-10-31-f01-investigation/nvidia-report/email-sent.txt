@@ -1,0 +1,29 @@
+To: NVSDKIssues@nvidia.com
+Subject: Attachments for Bug 7021871: initcheck uninitialized reads in nvjpeg::rgba2rgb with NVJPEG_BACKEND_HARDWARE
+Attachment: nvidia-nvjpeg-initcheck.zip
+
+Hello,
+
+These are the attachments for Bug 7021871, which I submitted through the NVIDIA Developer bug form ("compute-sanitizer initcheck reports uninitialized reads in nvjpeg::rgba2rgb with NVJPEG_BACKEND_HARDWARE, while decoded output is bit-exact").
+
+nvidia-nvjpeg-initcheck.zip contains:
+- repro.cu: standalone repro using only the CUDA runtime and nvJPEG
+- baseline.jpg: the 35x27 baseline 4:2:0 input (1,124 bytes)
+- baseline.rgb: the expected planar RGB output, produced by libjpeg (djpeg -dct int -nosmooth -rgb)
+- initcheck-full-945.log: full compute-sanitizer initcheck output for one HARDWARE RGB decode (945 errors, one per pixel)
+- identity.log: driver, toolkit, sanitizer and library versions and hashes
+- windows-initcheck-1890.log: the same repro built and run as a native Windows executable on the same GPU (1,890 errors for two decodes, same kernel and offset)
+- README.txt: build and run commands, and the variants mentioned in the bug
+
+To reproduce:
+  nvcc -std=c++20 -O2 -lineinfo -arch=sm_120 repro.cu -lnvjpeg -o repro
+  compute-sanitizer --tool initcheck --print-limit 0 ./repro hw rgb default preallocate uninit 1 baseline.jpg baseline.rgb out.bin
+
+Expected result on our system: 945 initcheck errors at nvjpeg::rgba2rgb<3> +0x170, while the program reports that the output matches baseline.rgb byte for byte.
+
+The issue reproduces both under WSL2 and as a native Windows 11 executable (WDDM, driver 617.42) on the same GPU, so WSL is not required. We have not tested a native Linux driver.
+
+Please let me know if you need anything else, such as additional logs, other output formats, or a run on a different configuration.
+
+Best regards,
+raylei50653

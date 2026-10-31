@@ -1,0 +1,7530 @@
+{
+  "schema": "f01-investigation-offline-summary/1",
+  "scope": "Standalone diagnostic evidence; completion or exact RGB does not turn initcheck failure into PASS.",
+  "source_sha256": "c3b0bbf242218a22d86568b527df363978588f9ee1d56f7c65891e4e0cdbc977",
+  "binary_sha256": "58e2c0ea589fd64ef9e334793c2af8230f4e580d6a303888de769313b5da27c3",
+  "baseline_rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+  "pending_commands": [],
+  "commands": [
+    {
+      "name": "build-repeat",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/nvcc -std=c++20 -O2 -lineinfo --allow-unsupported-compiler -arch=sm_120 -I/opt/cuda/include build-f01-investigation/repro.cu -L/opt/cuda/lib64 -Xlinker -rpath -Xlinker /opt/cuda/lib64 -lnvjpeg -o build-f01-investigation/repro",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [],
+      "results": [],
+      "identity": [],
+      "api_failures": [],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "djpeg",
+      "status": "complete",
+      "exit": 0,
+      "command": "bash -c 'djpeg -dct int -nosmooth -rgb fixtures/preprocess/baseline.jpg > \"$1/baseline.ppm\"' _ /home/ray/developer/ai/saccade_v1/build-f01-investigation",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [],
+      "results": [],
+      "identity": [],
+      "api_failures": [],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "hybrid-rgb-initcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hybrid rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/hybrid-rgb-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=186 rgb_max_difference=2 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "different",
+          "rgb_differences_across_repeats": "186",
+          "rgb_max_difference": "2",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hybrid",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e200c00",
+          "observed": "0xf0e201800"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "8c90ecfec616251655526b38a55fad9a5bc49ca3ee39c348ff9e58392d1faf5a"
+    },
+    {
+      "name": "hybrid-rgb-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hybrid rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/hybrid-rgb-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=186 rgb_max_difference=2 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "different",
+          "rgb_differences_across_repeats": "186",
+          "rgb_max_difference": "2",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hybrid",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fc00c00",
+          "observed": "0xf0fc01800"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "903eebb600248ba8ceb7bae24b29542b31fe3760fc9f9104f5b22e58d1c56e87"
+    },
+    {
+      "name": "hybrid-rgb-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hybrid rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/hybrid-rgb-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=186 rgb_max_difference=2 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "different",
+          "rgb_differences_across_repeats": "186",
+          "rgb_max_difference": "2",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hybrid",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09200c00",
+          "observed": "0xf09201800"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "c0b692b8c71de7740e925b8578bde38b7a662b60865470e5259e939f2675e8ee"
+    },
+    {
+      "name": "identity",
+      "status": "complete",
+      "exit": 0,
+      "command": "bash -c 'date -Is; git rev-parse HEAD; git status --porcelain; uname -srmo; nvidia-smi; /opt/cuda/bin/nvcc --version; /opt/cuda/bin/compute-sanitizer --version; ldd \"$1/repro\"; env LD_LIBRARY_PATH=\"$1/old-nvjpeg\" ldd \"$1/repro\"; sha256sum \"$1/repro\" \"$1/repro.cu\" \"$1/old-nvjpeg/libnvjpeg.so.13\" /opt/cuda/lib64/libnvjpeg.so.13 /opt/cuda/lib64/libcudart.so.13' _ /home/ray/developer/ai/saccade_v1/build-f01-investigation",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [],
+      "results": [],
+      "identity": [],
+      "api_failures": [],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "f1a28e52171a91b92af8859d6a1b3c552d9ef58bfeb788c22e97f79ae62526cd"
+    },
+    {
+      "name": "new-nv12-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw nv12 default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-nv12-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        68
+      ],
+      "unprinted_errors": [
+        63
+      ],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=failed error=nvjpegDecodeBatched: status 6"
+      ],
+      "results": [
+        {
+          "result": "failed",
+          "error": "nvjpegDecodeBatched:"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "nv12",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "1449",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400600"
+        }
+      ],
+      "api_failures": [
+        "api=nvjpegDecodeBatched nvjpeg_status=6"
+      ],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "c6cd20a8001fb66b074c9ceb8ab978534a6ad990e1ba7afc6bb6d53a89a3c871"
+    },
+    {
+      "name": "new-nv12-memcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw nv12 default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-nv12-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        1
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=failed error=nvjpegDecodeBatched: status 6"
+      ],
+      "results": [
+        {
+          "result": "failed",
+          "error": "nvjpegDecodeBatched:"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "nv12",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "1449",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00600"
+        }
+      ],
+      "api_failures": [
+        "api=nvjpegDecodeBatched nvjpeg_status=6"
+      ],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "e04a9a517fc8aa76bedd8b6bd285315104f913cbcc7256633a7a592690be0671"
+    },
+    {
+      "name": "new-nv12-normal",
+      "status": "complete",
+      "exit": 1,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw nv12 default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-nv12-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=failed error=nvjpegDecodeBatched: status 6"
+      ],
+      "results": [
+        {
+          "result": "failed",
+          "error": "nvjpegDecodeBatched:"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "nv12",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "1449",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400600"
+        }
+      ],
+      "api_failures": [
+        "api=nvjpegDecodeBatched nvjpeg_status=6"
+      ],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "396a68936d056944dcca318613fb44d968e31b55250e841ce052a949dd0e8939"
+    },
+    {
+      "name": "new-rgb-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        1890
+      ],
+      "unprinted_errors": [
+        1885
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "b00820bee33e4ef69be2f59a14704c5ce78adcdde5d20979dc79e3d4eecc29bf"
+    },
+    {
+      "name": "new-rgb-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "9b203b903a2fce4a72e246b405d651c82306047de7a850d7b7f00d0bf3e0c88f"
+    },
+    {
+      "name": "new-rgb-no-pipeline-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb no-pipeline preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-pipeline-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        1890
+      ],
+      "unprinted_errors": [
+        1885
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "no-pipeline",
+          "flags_value": "1",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "9c3b3a32645b8589feca2fb28c1297d5877f119a32c1046ab83a54cf06acc421"
+    },
+    {
+      "name": "new-rgb-no-pipeline-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb no-pipeline preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-pipeline-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "no-pipeline",
+          "flags_value": "1",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "4904dcc95c638418797115a85b948b92b046db0499b4a892d41cbd0a5a337556"
+    },
+    {
+      "name": "new-rgb-no-pipeline-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb no-pipeline preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-pipeline-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "no-pipeline",
+          "flags_value": "1",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "eddfdfb0fe3c44e75d6954390809a4ffae3ec27be8b7e25a2f49c775e4f4483f"
+    },
+    {
+      "name": "new-rgb-no-preallocate-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default no-preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-preallocate-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        1890
+      ],
+      "unprinted_errors": [
+        1885
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "no-preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e200000",
+          "observed": "0xf0e200c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "c1d27588cf0908bf99bad2474cc1d1ee03f78551b2585ffbec0843898a8a17ca"
+    },
+    {
+      "name": "new-rgb-no-preallocate-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default no-preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-preallocate-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "no-preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fc00000",
+          "observed": "0xf0fc00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "26107c1c14d4d6f9737c6172c75fd40502b550e31e3b2d68901e5b1e34fdd9ab"
+    },
+    {
+      "name": "new-rgb-no-preallocate-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default no-preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-no-preallocate-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "no-preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09200000",
+          "observed": "0xf09200c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "487471e4e8a130c6690b603f8ffb2354490274e3920e0f3ee65b2c92d6465b6d"
+    },
+    {
+      "name": "new-rgb-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "20915b6259d978bfb962c801597f709dbfdc7bc68415113f399a9d19383ea6cc"
+    },
+    {
+      "name": "new-rgb-once-full-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 0 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 1 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-once-full-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        945
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 945,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 945
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 945
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "1",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "d786967c3eca7278118ecc75d3decc2ee931b3f42cc160af202d9d5cd8ea0be0"
+    },
+    {
+      "name": "new-rgb-output-zero-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate zero 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-output-zero-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        1890
+      ],
+      "unprinted_errors": [
+        1885
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "zero",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "eee4da332c90365a038dbfa88a01fff31055a3c3b3a0fc414b445c00c6216687"
+    },
+    {
+      "name": "new-rgb-output-zero-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate zero 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-output-zero-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "zero",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "5f039ab3b564fafc3506661f633925609da70ece2fb04da8a159926cc2cf22dc"
+    },
+    {
+      "name": "new-rgb-output-zero-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate zero 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-output-zero-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "zero",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "06ef5669310a5b939bab9d699c88057cba4bb5ade9e2540ca3af54831af64331"
+    },
+    {
+      "name": "new-rgbi-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgbi default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgbi-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        1890
+      ],
+      "unprinted_errors": [
+        1885
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)5, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x140": 5
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)5, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x140": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgbi",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "92ce75be708a155ea39c3c8685d3d169d732c375a99c31a25887c882fdc19189"
+    },
+    {
+      "name": "new-rgbi-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgbi default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgbi-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgbi",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "29233e07ca0ef4acf50e4d45288e856b82f950ff587d3b1395bc9595eddbe5a4"
+    },
+    {
+      "name": "new-rgbi-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgbi default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgbi-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "rgbi",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "3974745a9c60cf0218d2b286a18bfe2c2bd4a390816c6a5768f05b5f7e30d280"
+    },
+    {
+      "name": "new-y-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw y default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-y-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        108
+      ],
+      "unprinted_errors": [
+        103
+      ],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "not-compared",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "raw-planes"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "y",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "945",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400400"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 945,
+      "output_sha256": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "f1526bdb6079754932882e0816812e5de254e957cf8587cc6ddb377d8a48dc2c"
+    },
+    {
+      "name": "new-y-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw y default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-y-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "not-compared",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "raw-planes"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "y",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "945",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00400"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 945,
+      "output_sha256": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "93531866b6e092de81aff730de5a46faddbe2de37e4a391371df731b9802160e"
+    },
+    {
+      "name": "new-y-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw y default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-y-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "not-compared",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "raw-planes"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "y",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "945",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400400"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 945,
+      "output_sha256": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "6755943a4215dd768edd6ad94a27bbd017c930df9ec1f936f9b18a66cce42d43"
+    },
+    {
+      "name": "new-yuv-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw yuv default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-yuv-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        164
+      ],
+      "unprinted_errors": [
+        159
+      ],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "not-compared",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "raw-planes"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "yuv",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "1449",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400600"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 1449,
+      "output_sha256": "02d5d9b47e94f8ac54ed839badc01fc09eab7599e3ca9843c661f7c412ead9e5",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "20007cee6015540b062f0bb9c76b1da477f5ad20c5494006c9ff505090598e4f"
+    },
+    {
+      "name": "new-yuv-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw yuv default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-yuv-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "not-compared",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "raw-planes"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "yuv",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "1449",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00600"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 1449,
+      "output_sha256": "02d5d9b47e94f8ac54ed839badc01fc09eab7599e3ca9843c661f7c412ead9e5",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "0bde1a3ee7ac73ee8ebf564e478257bdf0f07305bd6016e63619e009305b9643"
+    },
+    {
+      "name": "new-yuv-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw yuv default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-yuv-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "not-compared",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "raw-planes"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "hw",
+          "format": "yuv",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "1449",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400600"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 1449,
+      "output_sha256": "02d5d9b47e94f8ac54ed839badc01fc09eab7599e3ca9843c661f7c412ead9e5",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "6e068326a464f169ef71aada2bdd8d4a3bb0926bf5bac393e3e5afcf8a10ad5a"
+    },
+    {
+      "name": "old-rgb-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "env LD_LIBRARY_PATH=/home/ray/developer/ai/saccade_v1/build-f01-investigation/old-nvjpeg /opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/old-rgb-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        1890
+      ],
+      "unprinted_errors": [
+        1885
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x180": 5
+      },
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x180": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.0.1",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "fb294410ff7e1e9282fb3b6539a3ad565d26dde4710ba7bf9ac21397e3cda908"
+    },
+    {
+      "name": "old-rgb-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "env LD_LIBRARY_PATH=/home/ray/developer/ai/saccade_v1/build-f01-investigation/old-nvjpeg /opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/old-rgb-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.0.1",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "a440a9ca4b02626e458242bc1172ed1172e3a2d670130cc1527d0543306f0ef4"
+    },
+    {
+      "name": "old-rgb-normal",
+      "status": "complete",
+      "exit": 0,
+      "command": "env LD_LIBRARY_PATH=/home/ray/developer/ai/saccade_v1/build-f01-investigation/old-nvjpeg /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/old-rgb-normal.bin",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "exact",
+          "rgb_differences_across_repeats": "0",
+          "rgb_max_difference": "0",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.0.1",
+          "backend": "hw",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "2",
+          "raw_bytes": "2835",
+          "caller_output": "0xf09400000",
+          "observed": "0xf09400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "output_matches_planar_rgb_reference": true,
+      "log_sha256": "de9e805d6ed56b8e40ff88f1e0d88e4dab015af0d53cfca95d1df1adc920238f"
+    },
+    {
+      "name": "post-identity",
+      "status": "complete",
+      "exit": 0,
+      "command": "bash -c 'set -e; date -Is; git rev-parse HEAD; git status --porcelain; sha256sum \"$1/repro.cu\" \"$1/repro\" \"$1/repro.rebuilt\" \"$1/run.py\" \"$1/analyze.py\" /opt/cuda/lib64/libcudart_static.a; c++ --version; free -m' _ /home/ray/developer/ai/saccade_v1/build-f01-investigation",
+      "tool": null,
+      "summary_errors": [],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [],
+      "results": [],
+      "identity": [],
+      "api_failures": [],
+      "output_bytes": null,
+      "output_sha256": null,
+      "output_matches_planar_rgb_reference": null,
+      "log_sha256": "402a72f6f14ba595ba6c83908e66e2e739ee17fa1747ed08fcca5beb5088d14e"
+    },
+    {
+      "name": "skip-uninit-initcheck",
+      "status": "complete",
+      "exit": 99,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro skip rgb default preallocate uninit 1 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/skip-uninit-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        2835
+      ],
+      "unprinted_errors": [
+        2830
+      ],
+      "printed_uninitialized_records": 5,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 5,
+      "all_reported_kernels": {
+        "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)+0xc0 in repro.cu:41": 5
+      },
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "different",
+          "rgb_differences_across_repeats": "2832",
+          "rgb_max_difference": "227",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "skip",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "1",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "b0d2e8178290ee63aa74775abed1456bdbb586d9f93722817a00fd71b1185adb"
+    },
+    {
+      "name": "skip-uninit-memcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro skip rgb default preallocate uninit 1 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/skip-uninit-memcheck.bin",
+      "tool": "memcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "different",
+          "rgb_differences_across_repeats": "2832",
+          "rgb_max_difference": "227",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "skip",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "uninit",
+          "dimensions": "35x27",
+          "repeats": "1",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0fe00000",
+          "observed": "0xf0fe00c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "52c04b0b2f8c4d6b7474de792b5f3e038566018c85413d3cb16b4652e1940376"
+    },
+    {
+      "name": "skip-zero-initcheck",
+      "status": "complete",
+      "exit": 0,
+      "command": "/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro skip rgb default preallocate zero 1 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/skip-zero-initcheck.bin",
+      "tool": "initcheck",
+      "summary_errors": [
+        0
+      ],
+      "unprinted_errors": [],
+      "printed_uninitialized_records": 0,
+      "sdk_kernel_reports": {},
+      "caller_inspect_kernel_reports": 0,
+      "all_reported_kernels": {},
+      "result_lines": [
+        "result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb"
+      ],
+      "results": [
+        {
+          "result": "complete",
+          "repeat_exact": "1",
+          "rgb_equivalence": "different",
+          "rgb_differences_across_repeats": "2832",
+          "rgb_max_difference": "227",
+          "output_layout": "planar-rgb"
+        }
+      ],
+      "identity": [
+        {
+          "nvjpeg": "13.2.3",
+          "backend": "skip",
+          "format": "rgb",
+          "flags": "default",
+          "flags_value": "0",
+          "preallocation": "preallocate",
+          "fill": "zero",
+          "dimensions": "35x27",
+          "repeats": "1",
+          "raw_bytes": "2835",
+          "caller_output": "0xf0e400000",
+          "observed": "0xf0e400c00"
+        }
+      ],
+      "api_failures": [],
+      "output_bytes": 2835,
+      "output_sha256": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+      "output_matches_planar_rgb_reference": false,
+      "log_sha256": "9429b6d1ebab51b053384ae60c78950586ee232f9382e0b6bec78e227c5b27c3"
+    }
+  ],
+  "full_pixel_analysis": {
+    "status": "verified",
+    "path": "capture/new-rgb-once-full-initcheck.log",
+    "checks": {
+      "summary_945_errors": true,
+      "945_rgba_records": true,
+      "945_unique_pixels": true,
+      "every_valid_pixel_once": true,
+      "all_reads_three_bytes": true,
+      "all_records_rgba": true,
+      "no_inspect_kernel_reports": true,
+      "horizontal_stride_four": true,
+      "uniform_row_pitch": true,
+      "uniform_base_address": true,
+      "exit_99": true
+    },
+    "record_count": 945,
+    "rgba_record_count": 945,
+    "pixel_occurrence_histogram": {
+      "1": 945
+    },
+    "missing_pixels": [],
+    "invalid_pixels": [],
+    "horizontal_stride_bytes_histogram": {
+      "4": 918
+    },
+    "row_pitch_bytes_histogram": {
+      "512": 910
+    },
+    "inferred_rgba_row_pitch_bytes": 512,
+    "inferred_rgba_base_address": "0xf0e200000",
+    "read_size_histogram": {
+      "3": 945
+    },
+    "kernel_histogram": {
+      "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170": 945
+    },
+    "summary_errors": [
+      945
+    ],
+    "coordinates": [
+      {
+        "x": 0,
+        "y": 3,
+        "address": "0xf0e200600",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 3,
+        "address": "0xf0e200604",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 3,
+        "address": "0xf0e200608",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 3,
+        "address": "0xf0e20060c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 3,
+        "address": "0xf0e200610",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 3,
+        "address": "0xf0e200614",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 3,
+        "address": "0xf0e200618",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 3,
+        "address": "0xf0e20061c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 3,
+        "address": "0xf0e200620",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 3,
+        "address": "0xf0e200624",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 3,
+        "address": "0xf0e200628",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 3,
+        "address": "0xf0e20062c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 3,
+        "address": "0xf0e200630",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 3,
+        "address": "0xf0e200634",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 3,
+        "address": "0xf0e200638",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 3,
+        "address": "0xf0e20063c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 3,
+        "address": "0xf0e200640",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 3,
+        "address": "0xf0e200644",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 3,
+        "address": "0xf0e200648",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 3,
+        "address": "0xf0e20064c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 3,
+        "address": "0xf0e200650",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 3,
+        "address": "0xf0e200654",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 3,
+        "address": "0xf0e200658",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 3,
+        "address": "0xf0e20065c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 3,
+        "address": "0xf0e200660",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 3,
+        "address": "0xf0e200664",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 3,
+        "address": "0xf0e200668",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 3,
+        "address": "0xf0e20066c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 3,
+        "address": "0xf0e200670",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 3,
+        "address": "0xf0e200674",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 3,
+        "address": "0xf0e200678",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 3,
+        "address": "0xf0e20067c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "address": "0xf0e200000",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "address": "0xf0e200004",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "address": "0xf0e200008",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "address": "0xf0e20000c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "address": "0xf0e200010",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 0,
+        "address": "0xf0e200014",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 0,
+        "address": "0xf0e200018",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 0,
+        "address": "0xf0e20001c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 0,
+        "address": "0xf0e200020",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 0,
+        "address": "0xf0e200024",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 0,
+        "address": "0xf0e200028",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 0,
+        "address": "0xf0e20002c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 0,
+        "address": "0xf0e200030",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 0,
+        "address": "0xf0e200034",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 0,
+        "address": "0xf0e200038",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 0,
+        "address": "0xf0e20003c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 0,
+        "address": "0xf0e200040",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 0,
+        "address": "0xf0e200044",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 0,
+        "address": "0xf0e200048",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 0,
+        "address": "0xf0e20004c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 0,
+        "address": "0xf0e200050",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 0,
+        "address": "0xf0e200054",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 0,
+        "address": "0xf0e200058",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 0,
+        "address": "0xf0e20005c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 0,
+        "address": "0xf0e200060",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 0,
+        "address": "0xf0e200064",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 0,
+        "address": "0xf0e200068",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 0,
+        "address": "0xf0e20006c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 0,
+        "address": "0xf0e200070",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 0,
+        "address": "0xf0e200074",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 0,
+        "address": "0xf0e200078",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 0,
+        "address": "0xf0e20007c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "address": "0xf0e200200",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "address": "0xf0e200204",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 1,
+        "address": "0xf0e200208",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 1,
+        "address": "0xf0e20020c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 1,
+        "address": "0xf0e200210",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 1,
+        "address": "0xf0e200214",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 1,
+        "address": "0xf0e200218",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 1,
+        "address": "0xf0e20021c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 1,
+        "address": "0xf0e200220",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 1,
+        "address": "0xf0e200224",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 1,
+        "address": "0xf0e200228",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 1,
+        "address": "0xf0e20022c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 1,
+        "address": "0xf0e200230",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 1,
+        "address": "0xf0e200234",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 1,
+        "address": "0xf0e200238",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 1,
+        "address": "0xf0e20023c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 1,
+        "address": "0xf0e200240",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 1,
+        "address": "0xf0e200244",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 1,
+        "address": "0xf0e200248",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 1,
+        "address": "0xf0e20024c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 1,
+        "address": "0xf0e200250",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 1,
+        "address": "0xf0e200254",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 1,
+        "address": "0xf0e200258",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 1,
+        "address": "0xf0e20025c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 1,
+        "address": "0xf0e200260",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 1,
+        "address": "0xf0e200264",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 1,
+        "address": "0xf0e200268",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 1,
+        "address": "0xf0e20026c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 1,
+        "address": "0xf0e200270",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 1,
+        "address": "0xf0e200274",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 1,
+        "address": "0xf0e200278",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 1,
+        "address": "0xf0e20027c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 2,
+        "address": "0xf0e200400",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 2,
+        "address": "0xf0e200404",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "address": "0xf0e200408",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 2,
+        "address": "0xf0e20040c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 2,
+        "address": "0xf0e200410",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 2,
+        "address": "0xf0e200414",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 2,
+        "address": "0xf0e200418",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 2,
+        "address": "0xf0e20041c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 2,
+        "address": "0xf0e200420",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 2,
+        "address": "0xf0e200424",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 2,
+        "address": "0xf0e200428",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 2,
+        "address": "0xf0e20042c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 2,
+        "address": "0xf0e200430",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 2,
+        "address": "0xf0e200434",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 2,
+        "address": "0xf0e200438",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 2,
+        "address": "0xf0e20043c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 2,
+        "address": "0xf0e200440",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 2,
+        "address": "0xf0e200444",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 2,
+        "address": "0xf0e200448",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 2,
+        "address": "0xf0e20044c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 2,
+        "address": "0xf0e200450",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 2,
+        "address": "0xf0e200454",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 2,
+        "address": "0xf0e200458",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 2,
+        "address": "0xf0e20045c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 2,
+        "address": "0xf0e200460",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 2,
+        "address": "0xf0e200464",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 2,
+        "address": "0xf0e200468",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 2,
+        "address": "0xf0e20046c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 2,
+        "address": "0xf0e200470",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "address": "0xf0e200474",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 2,
+        "address": "0xf0e200478",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 2,
+        "address": "0xf0e20047c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 7,
+        "address": "0xf0e200e00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 7,
+        "address": "0xf0e200e04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 7,
+        "address": "0xf0e200e08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 7,
+        "address": "0xf0e200e0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 7,
+        "address": "0xf0e200e10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 7,
+        "address": "0xf0e200e14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "address": "0xf0e200e18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 7,
+        "address": "0xf0e200e1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 7,
+        "address": "0xf0e200e20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 7,
+        "address": "0xf0e200e24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 7,
+        "address": "0xf0e200e28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 7,
+        "address": "0xf0e200e2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 7,
+        "address": "0xf0e200e30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 7,
+        "address": "0xf0e200e34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 7,
+        "address": "0xf0e200e38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 7,
+        "address": "0xf0e200e3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 7,
+        "address": "0xf0e200e40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 7,
+        "address": "0xf0e200e44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 7,
+        "address": "0xf0e200e48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 7,
+        "address": "0xf0e200e4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 7,
+        "address": "0xf0e200e50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 7,
+        "address": "0xf0e200e54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 7,
+        "address": "0xf0e200e58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 7,
+        "address": "0xf0e200e5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 7,
+        "address": "0xf0e200e60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 7,
+        "address": "0xf0e200e64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 7,
+        "address": "0xf0e200e68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 7,
+        "address": "0xf0e200e6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 7,
+        "address": "0xf0e200e70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 7,
+        "address": "0xf0e200e74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 7,
+        "address": "0xf0e200e78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 7,
+        "address": "0xf0e200e7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 4,
+        "address": "0xf0e200800",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "address": "0xf0e200804",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 4,
+        "address": "0xf0e200808",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 4,
+        "address": "0xf0e20080c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "address": "0xf0e200810",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "address": "0xf0e200814",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 4,
+        "address": "0xf0e200818",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 4,
+        "address": "0xf0e20081c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "address": "0xf0e200820",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "address": "0xf0e200824",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 4,
+        "address": "0xf0e200828",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 4,
+        "address": "0xf0e20082c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 4,
+        "address": "0xf0e200830",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 4,
+        "address": "0xf0e200834",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 4,
+        "address": "0xf0e200838",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "address": "0xf0e20083c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 4,
+        "address": "0xf0e200840",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 4,
+        "address": "0xf0e200844",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 4,
+        "address": "0xf0e200848",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 4,
+        "address": "0xf0e20084c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 4,
+        "address": "0xf0e200850",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 4,
+        "address": "0xf0e200854",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 4,
+        "address": "0xf0e200858",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "address": "0xf0e20085c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 4,
+        "address": "0xf0e200860",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "address": "0xf0e200864",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 4,
+        "address": "0xf0e200868",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 4,
+        "address": "0xf0e20086c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 4,
+        "address": "0xf0e200870",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 4,
+        "address": "0xf0e200874",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 4,
+        "address": "0xf0e200878",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 4,
+        "address": "0xf0e20087c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 5,
+        "address": "0xf0e200a00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 5,
+        "address": "0xf0e200a04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 5,
+        "address": "0xf0e200a08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 5,
+        "address": "0xf0e200a0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 5,
+        "address": "0xf0e200a10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 5,
+        "address": "0xf0e200a14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 5,
+        "address": "0xf0e200a18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "address": "0xf0e200a1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 5,
+        "address": "0xf0e200a20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "address": "0xf0e200a24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 5,
+        "address": "0xf0e200a28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 5,
+        "address": "0xf0e200a2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 5,
+        "address": "0xf0e200a30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 5,
+        "address": "0xf0e200a34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 5,
+        "address": "0xf0e200a38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 5,
+        "address": "0xf0e200a3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 5,
+        "address": "0xf0e200a40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 5,
+        "address": "0xf0e200a44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 5,
+        "address": "0xf0e200a48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 5,
+        "address": "0xf0e200a4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 5,
+        "address": "0xf0e200a50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 5,
+        "address": "0xf0e200a54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 5,
+        "address": "0xf0e200a58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "address": "0xf0e200a5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 5,
+        "address": "0xf0e200a60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 5,
+        "address": "0xf0e200a64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 5,
+        "address": "0xf0e200a68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 5,
+        "address": "0xf0e200a6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 5,
+        "address": "0xf0e200a70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 5,
+        "address": "0xf0e200a74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 5,
+        "address": "0xf0e200a78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 5,
+        "address": "0xf0e200a7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 6,
+        "address": "0xf0e200c00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 6,
+        "address": "0xf0e200c04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 6,
+        "address": "0xf0e200c08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 6,
+        "address": "0xf0e200c0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 6,
+        "address": "0xf0e200c10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 6,
+        "address": "0xf0e200c14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 6,
+        "address": "0xf0e200c18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 6,
+        "address": "0xf0e200c1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 6,
+        "address": "0xf0e200c20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 6,
+        "address": "0xf0e200c24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 6,
+        "address": "0xf0e200c28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 6,
+        "address": "0xf0e200c2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 6,
+        "address": "0xf0e200c30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 6,
+        "address": "0xf0e200c34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 6,
+        "address": "0xf0e200c38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 6,
+        "address": "0xf0e200c3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 6,
+        "address": "0xf0e200c40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 6,
+        "address": "0xf0e200c44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 6,
+        "address": "0xf0e200c48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 6,
+        "address": "0xf0e200c4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 6,
+        "address": "0xf0e200c50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 6,
+        "address": "0xf0e200c54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 6,
+        "address": "0xf0e200c58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 6,
+        "address": "0xf0e200c5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 6,
+        "address": "0xf0e200c60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 6,
+        "address": "0xf0e200c64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 6,
+        "address": "0xf0e200c68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 6,
+        "address": "0xf0e200c6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 6,
+        "address": "0xf0e200c70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 6,
+        "address": "0xf0e200c74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 6,
+        "address": "0xf0e200c78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 6,
+        "address": "0xf0e200c7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 0,
+        "address": "0xf0e200080",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 0,
+        "address": "0xf0e200084",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 0,
+        "address": "0xf0e200088",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 1,
+        "address": "0xf0e200280",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 1,
+        "address": "0xf0e200284",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 1,
+        "address": "0xf0e200288",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 2,
+        "address": "0xf0e200480",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 2,
+        "address": "0xf0e200484",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 2,
+        "address": "0xf0e200488",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 3,
+        "address": "0xf0e200680",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 3,
+        "address": "0xf0e200684",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 3,
+        "address": "0xf0e200688",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 4,
+        "address": "0xf0e200880",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 4,
+        "address": "0xf0e200884",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 4,
+        "address": "0xf0e200888",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 5,
+        "address": "0xf0e200a80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 5,
+        "address": "0xf0e200a84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 5,
+        "address": "0xf0e200a88",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 6,
+        "address": "0xf0e200c80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 6,
+        "address": "0xf0e200c84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 6,
+        "address": "0xf0e200c88",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 7,
+        "address": "0xf0e200e80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 7,
+        "address": "0xf0e200e84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 7,
+        "address": "0xf0e200e88",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 8,
+        "address": "0xf0e201000",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 8,
+        "address": "0xf0e201004",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 8,
+        "address": "0xf0e201008",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 8,
+        "address": "0xf0e20100c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 8,
+        "address": "0xf0e201010",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "address": "0xf0e201014",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "address": "0xf0e201018",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 8,
+        "address": "0xf0e20101c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "address": "0xf0e201020",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 8,
+        "address": "0xf0e201024",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 8,
+        "address": "0xf0e201028",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 8,
+        "address": "0xf0e20102c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "address": "0xf0e201030",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 8,
+        "address": "0xf0e201034",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 8,
+        "address": "0xf0e201038",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 8,
+        "address": "0xf0e20103c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 8,
+        "address": "0xf0e201040",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 8,
+        "address": "0xf0e201044",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 8,
+        "address": "0xf0e201048",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 8,
+        "address": "0xf0e20104c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 8,
+        "address": "0xf0e201050",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 8,
+        "address": "0xf0e201054",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 8,
+        "address": "0xf0e201058",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 8,
+        "address": "0xf0e20105c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 8,
+        "address": "0xf0e201060",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 8,
+        "address": "0xf0e201064",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 8,
+        "address": "0xf0e201068",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 8,
+        "address": "0xf0e20106c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 8,
+        "address": "0xf0e201070",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 8,
+        "address": "0xf0e201074",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 8,
+        "address": "0xf0e201078",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 8,
+        "address": "0xf0e20107c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 9,
+        "address": "0xf0e201200",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 9,
+        "address": "0xf0e201204",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 9,
+        "address": "0xf0e201208",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "address": "0xf0e20120c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "address": "0xf0e201210",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 9,
+        "address": "0xf0e201214",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 9,
+        "address": "0xf0e201218",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 9,
+        "address": "0xf0e20121c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 9,
+        "address": "0xf0e201220",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 9,
+        "address": "0xf0e201224",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 9,
+        "address": "0xf0e201228",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 9,
+        "address": "0xf0e20122c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 9,
+        "address": "0xf0e201230",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 9,
+        "address": "0xf0e201234",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 9,
+        "address": "0xf0e201238",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "address": "0xf0e20123c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 9,
+        "address": "0xf0e201240",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 9,
+        "address": "0xf0e201244",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 9,
+        "address": "0xf0e201248",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 9,
+        "address": "0xf0e20124c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 9,
+        "address": "0xf0e201250",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 9,
+        "address": "0xf0e201254",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 9,
+        "address": "0xf0e201258",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 9,
+        "address": "0xf0e20125c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 9,
+        "address": "0xf0e201260",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 9,
+        "address": "0xf0e201264",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 9,
+        "address": "0xf0e201268",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "address": "0xf0e20126c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 9,
+        "address": "0xf0e201270",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 9,
+        "address": "0xf0e201274",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 9,
+        "address": "0xf0e201278",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 9,
+        "address": "0xf0e20127c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 10,
+        "address": "0xf0e201400",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 10,
+        "address": "0xf0e201404",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 10,
+        "address": "0xf0e201408",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 10,
+        "address": "0xf0e20140c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "address": "0xf0e201410",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 10,
+        "address": "0xf0e201414",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 10,
+        "address": "0xf0e201418",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 10,
+        "address": "0xf0e20141c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 10,
+        "address": "0xf0e201420",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 10,
+        "address": "0xf0e201424",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 10,
+        "address": "0xf0e201428",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 10,
+        "address": "0xf0e20142c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 10,
+        "address": "0xf0e201430",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 10,
+        "address": "0xf0e201434",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 10,
+        "address": "0xf0e201438",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 10,
+        "address": "0xf0e20143c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 10,
+        "address": "0xf0e201440",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 10,
+        "address": "0xf0e201444",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 10,
+        "address": "0xf0e201448",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 10,
+        "address": "0xf0e20144c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 10,
+        "address": "0xf0e201450",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 10,
+        "address": "0xf0e201454",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 10,
+        "address": "0xf0e201458",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 10,
+        "address": "0xf0e20145c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 10,
+        "address": "0xf0e201460",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 10,
+        "address": "0xf0e201464",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 10,
+        "address": "0xf0e201468",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 10,
+        "address": "0xf0e20146c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "address": "0xf0e201470",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 10,
+        "address": "0xf0e201474",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 10,
+        "address": "0xf0e201478",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 10,
+        "address": "0xf0e20147c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 11,
+        "address": "0xf0e201600",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 11,
+        "address": "0xf0e201604",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 11,
+        "address": "0xf0e201608",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 11,
+        "address": "0xf0e20160c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 11,
+        "address": "0xf0e201610",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 11,
+        "address": "0xf0e201614",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 11,
+        "address": "0xf0e201618",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 11,
+        "address": "0xf0e20161c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 11,
+        "address": "0xf0e201620",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 11,
+        "address": "0xf0e201624",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 11,
+        "address": "0xf0e201628",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 11,
+        "address": "0xf0e20162c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 11,
+        "address": "0xf0e201630",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 11,
+        "address": "0xf0e201634",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 11,
+        "address": "0xf0e201638",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 11,
+        "address": "0xf0e20163c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 11,
+        "address": "0xf0e201640",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 11,
+        "address": "0xf0e201644",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 11,
+        "address": "0xf0e201648",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 11,
+        "address": "0xf0e20164c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 11,
+        "address": "0xf0e201650",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 11,
+        "address": "0xf0e201654",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 11,
+        "address": "0xf0e201658",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 11,
+        "address": "0xf0e20165c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 11,
+        "address": "0xf0e201660",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 11,
+        "address": "0xf0e201664",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 11,
+        "address": "0xf0e201668",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 11,
+        "address": "0xf0e20166c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 11,
+        "address": "0xf0e201670",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 11,
+        "address": "0xf0e201674",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 11,
+        "address": "0xf0e201678",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 11,
+        "address": "0xf0e20167c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 12,
+        "address": "0xf0e201800",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 12,
+        "address": "0xf0e201804",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 12,
+        "address": "0xf0e201808",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 12,
+        "address": "0xf0e20180c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 12,
+        "address": "0xf0e201810",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 12,
+        "address": "0xf0e201814",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 12,
+        "address": "0xf0e201818",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 12,
+        "address": "0xf0e20181c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 12,
+        "address": "0xf0e201820",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 12,
+        "address": "0xf0e201824",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 12,
+        "address": "0xf0e201828",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 12,
+        "address": "0xf0e20182c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 12,
+        "address": "0xf0e201830",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 12,
+        "address": "0xf0e201834",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 12,
+        "address": "0xf0e201838",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 12,
+        "address": "0xf0e20183c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 12,
+        "address": "0xf0e201840",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 12,
+        "address": "0xf0e201844",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 12,
+        "address": "0xf0e201848",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 12,
+        "address": "0xf0e20184c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 12,
+        "address": "0xf0e201850",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 12,
+        "address": "0xf0e201854",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 12,
+        "address": "0xf0e201858",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 12,
+        "address": "0xf0e20185c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 12,
+        "address": "0xf0e201860",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 12,
+        "address": "0xf0e201864",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 12,
+        "address": "0xf0e201868",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 12,
+        "address": "0xf0e20186c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 12,
+        "address": "0xf0e201870",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 12,
+        "address": "0xf0e201874",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 12,
+        "address": "0xf0e201878",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 12,
+        "address": "0xf0e20187c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 13,
+        "address": "0xf0e201a00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 13,
+        "address": "0xf0e201a04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 13,
+        "address": "0xf0e201a08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 13,
+        "address": "0xf0e201a0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 13,
+        "address": "0xf0e201a10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 13,
+        "address": "0xf0e201a14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 13,
+        "address": "0xf0e201a18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 13,
+        "address": "0xf0e201a1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "address": "0xf0e201a20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 13,
+        "address": "0xf0e201a24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 13,
+        "address": "0xf0e201a28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 13,
+        "address": "0xf0e201a2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 13,
+        "address": "0xf0e201a30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 13,
+        "address": "0xf0e201a34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 13,
+        "address": "0xf0e201a38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 13,
+        "address": "0xf0e201a3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 13,
+        "address": "0xf0e201a40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 13,
+        "address": "0xf0e201a44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 13,
+        "address": "0xf0e201a48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 13,
+        "address": "0xf0e201a4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 13,
+        "address": "0xf0e201a50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 13,
+        "address": "0xf0e201a54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 13,
+        "address": "0xf0e201a58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 13,
+        "address": "0xf0e201a5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 13,
+        "address": "0xf0e201a60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 13,
+        "address": "0xf0e201a64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 13,
+        "address": "0xf0e201a68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 13,
+        "address": "0xf0e201a6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 13,
+        "address": "0xf0e201a70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 13,
+        "address": "0xf0e201a74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 13,
+        "address": "0xf0e201a78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 13,
+        "address": "0xf0e201a7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 14,
+        "address": "0xf0e201c00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 14,
+        "address": "0xf0e201c04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 14,
+        "address": "0xf0e201c08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 14,
+        "address": "0xf0e201c0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 14,
+        "address": "0xf0e201c10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 14,
+        "address": "0xf0e201c14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 14,
+        "address": "0xf0e201c18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 14,
+        "address": "0xf0e201c1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 14,
+        "address": "0xf0e201c20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 14,
+        "address": "0xf0e201c24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 14,
+        "address": "0xf0e201c28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 14,
+        "address": "0xf0e201c2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 14,
+        "address": "0xf0e201c30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 14,
+        "address": "0xf0e201c34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 14,
+        "address": "0xf0e201c38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 14,
+        "address": "0xf0e201c3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 14,
+        "address": "0xf0e201c40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 14,
+        "address": "0xf0e201c44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 14,
+        "address": "0xf0e201c48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 14,
+        "address": "0xf0e201c4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 14,
+        "address": "0xf0e201c50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 14,
+        "address": "0xf0e201c54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 14,
+        "address": "0xf0e201c58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "address": "0xf0e201c5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 14,
+        "address": "0xf0e201c60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 14,
+        "address": "0xf0e201c64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 14,
+        "address": "0xf0e201c68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 14,
+        "address": "0xf0e201c6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 14,
+        "address": "0xf0e201c70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 14,
+        "address": "0xf0e201c74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 14,
+        "address": "0xf0e201c78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 14,
+        "address": "0xf0e201c7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 15,
+        "address": "0xf0e201e00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 15,
+        "address": "0xf0e201e04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 15,
+        "address": "0xf0e201e08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 15,
+        "address": "0xf0e201e0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 15,
+        "address": "0xf0e201e10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 15,
+        "address": "0xf0e201e14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 15,
+        "address": "0xf0e201e18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 15,
+        "address": "0xf0e201e1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 15,
+        "address": "0xf0e201e20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 15,
+        "address": "0xf0e201e24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 15,
+        "address": "0xf0e201e28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 15,
+        "address": "0xf0e201e2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 15,
+        "address": "0xf0e201e30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 15,
+        "address": "0xf0e201e34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 15,
+        "address": "0xf0e201e38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 15,
+        "address": "0xf0e201e3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 15,
+        "address": "0xf0e201e40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 15,
+        "address": "0xf0e201e44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 15,
+        "address": "0xf0e201e48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 15,
+        "address": "0xf0e201e4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 15,
+        "address": "0xf0e201e50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 15,
+        "address": "0xf0e201e54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 15,
+        "address": "0xf0e201e58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 15,
+        "address": "0xf0e201e5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 15,
+        "address": "0xf0e201e60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 15,
+        "address": "0xf0e201e64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "address": "0xf0e201e68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 15,
+        "address": "0xf0e201e6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 15,
+        "address": "0xf0e201e70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 15,
+        "address": "0xf0e201e74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 15,
+        "address": "0xf0e201e78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 15,
+        "address": "0xf0e201e7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 8,
+        "address": "0xf0e201080",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 8,
+        "address": "0xf0e201084",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 8,
+        "address": "0xf0e201088",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 9,
+        "address": "0xf0e201280",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 9,
+        "address": "0xf0e201284",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 9,
+        "address": "0xf0e201288",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 10,
+        "address": "0xf0e201480",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 10,
+        "address": "0xf0e201484",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 10,
+        "address": "0xf0e201488",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 11,
+        "address": "0xf0e201680",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 11,
+        "address": "0xf0e201684",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 11,
+        "address": "0xf0e201688",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 12,
+        "address": "0xf0e201880",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 12,
+        "address": "0xf0e201884",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 12,
+        "address": "0xf0e201888",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 13,
+        "address": "0xf0e201a80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 13,
+        "address": "0xf0e201a84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 13,
+        "address": "0xf0e201a88",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 14,
+        "address": "0xf0e201c80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 14,
+        "address": "0xf0e201c84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 14,
+        "address": "0xf0e201c88",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 15,
+        "address": "0xf0e201e80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 15,
+        "address": "0xf0e201e84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 15,
+        "address": "0xf0e201e88",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 16,
+        "address": "0xf0e202000",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 16,
+        "address": "0xf0e202004",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 16,
+        "address": "0xf0e202008",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 16,
+        "address": "0xf0e20200c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 16,
+        "address": "0xf0e202010",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 16,
+        "address": "0xf0e202014",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 16,
+        "address": "0xf0e202018",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 16,
+        "address": "0xf0e20201c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 16,
+        "address": "0xf0e202020",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 16,
+        "address": "0xf0e202024",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 16,
+        "address": "0xf0e202028",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 16,
+        "address": "0xf0e20202c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 16,
+        "address": "0xf0e202030",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 16,
+        "address": "0xf0e202034",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 16,
+        "address": "0xf0e202038",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 16,
+        "address": "0xf0e20203c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 16,
+        "address": "0xf0e202040",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 16,
+        "address": "0xf0e202044",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 16,
+        "address": "0xf0e202048",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 16,
+        "address": "0xf0e20204c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "address": "0xf0e202050",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 16,
+        "address": "0xf0e202054",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 16,
+        "address": "0xf0e202058",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 16,
+        "address": "0xf0e20205c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 16,
+        "address": "0xf0e202060",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 16,
+        "address": "0xf0e202064",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 16,
+        "address": "0xf0e202068",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 16,
+        "address": "0xf0e20206c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 16,
+        "address": "0xf0e202070",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 16,
+        "address": "0xf0e202074",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 16,
+        "address": "0xf0e202078",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 16,
+        "address": "0xf0e20207c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 17,
+        "address": "0xf0e202200",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 17,
+        "address": "0xf0e202204",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 17,
+        "address": "0xf0e202208",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 17,
+        "address": "0xf0e20220c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 17,
+        "address": "0xf0e202210",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 17,
+        "address": "0xf0e202214",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 17,
+        "address": "0xf0e202218",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 17,
+        "address": "0xf0e20221c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 17,
+        "address": "0xf0e202220",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 17,
+        "address": "0xf0e202224",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 17,
+        "address": "0xf0e202228",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 17,
+        "address": "0xf0e20222c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 17,
+        "address": "0xf0e202230",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 17,
+        "address": "0xf0e202234",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 17,
+        "address": "0xf0e202238",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 17,
+        "address": "0xf0e20223c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 17,
+        "address": "0xf0e202240",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 17,
+        "address": "0xf0e202244",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 17,
+        "address": "0xf0e202248",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 17,
+        "address": "0xf0e20224c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 17,
+        "address": "0xf0e202250",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 17,
+        "address": "0xf0e202254",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 17,
+        "address": "0xf0e202258",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 17,
+        "address": "0xf0e20225c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 17,
+        "address": "0xf0e202260",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 17,
+        "address": "0xf0e202264",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 17,
+        "address": "0xf0e202268",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 17,
+        "address": "0xf0e20226c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 17,
+        "address": "0xf0e202270",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 17,
+        "address": "0xf0e202274",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 17,
+        "address": "0xf0e202278",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 17,
+        "address": "0xf0e20227c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 18,
+        "address": "0xf0e202400",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 18,
+        "address": "0xf0e202404",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 18,
+        "address": "0xf0e202408",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 18,
+        "address": "0xf0e20240c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 18,
+        "address": "0xf0e202410",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 18,
+        "address": "0xf0e202414",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "address": "0xf0e202418",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 18,
+        "address": "0xf0e20241c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 18,
+        "address": "0xf0e202420",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 18,
+        "address": "0xf0e202424",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 18,
+        "address": "0xf0e202428",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 18,
+        "address": "0xf0e20242c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 18,
+        "address": "0xf0e202430",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 18,
+        "address": "0xf0e202434",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 18,
+        "address": "0xf0e202438",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 18,
+        "address": "0xf0e20243c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 18,
+        "address": "0xf0e202440",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 18,
+        "address": "0xf0e202444",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 18,
+        "address": "0xf0e202448",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 18,
+        "address": "0xf0e20244c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 18,
+        "address": "0xf0e202450",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 18,
+        "address": "0xf0e202454",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 18,
+        "address": "0xf0e202458",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 18,
+        "address": "0xf0e20245c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 18,
+        "address": "0xf0e202460",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 18,
+        "address": "0xf0e202464",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 18,
+        "address": "0xf0e202468",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 18,
+        "address": "0xf0e20246c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 18,
+        "address": "0xf0e202470",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 18,
+        "address": "0xf0e202474",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 18,
+        "address": "0xf0e202478",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 18,
+        "address": "0xf0e20247c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 19,
+        "address": "0xf0e202600",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 19,
+        "address": "0xf0e202604",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 19,
+        "address": "0xf0e202608",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 19,
+        "address": "0xf0e20260c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 19,
+        "address": "0xf0e202610",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 19,
+        "address": "0xf0e202614",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 19,
+        "address": "0xf0e202618",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 19,
+        "address": "0xf0e20261c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 19,
+        "address": "0xf0e202620",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 19,
+        "address": "0xf0e202624",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 19,
+        "address": "0xf0e202628",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 19,
+        "address": "0xf0e20262c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 19,
+        "address": "0xf0e202630",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 19,
+        "address": "0xf0e202634",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 19,
+        "address": "0xf0e202638",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 19,
+        "address": "0xf0e20263c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 19,
+        "address": "0xf0e202640",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 19,
+        "address": "0xf0e202644",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 19,
+        "address": "0xf0e202648",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 19,
+        "address": "0xf0e20264c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 19,
+        "address": "0xf0e202650",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 19,
+        "address": "0xf0e202654",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 19,
+        "address": "0xf0e202658",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 19,
+        "address": "0xf0e20265c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 19,
+        "address": "0xf0e202660",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 19,
+        "address": "0xf0e202664",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 19,
+        "address": "0xf0e202668",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 19,
+        "address": "0xf0e20266c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "address": "0xf0e202670",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 19,
+        "address": "0xf0e202674",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 19,
+        "address": "0xf0e202678",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 19,
+        "address": "0xf0e20267c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 20,
+        "address": "0xf0e202800",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 20,
+        "address": "0xf0e202804",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 20,
+        "address": "0xf0e202808",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 20,
+        "address": "0xf0e20280c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 20,
+        "address": "0xf0e202810",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 20,
+        "address": "0xf0e202814",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 20,
+        "address": "0xf0e202818",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 20,
+        "address": "0xf0e20281c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 20,
+        "address": "0xf0e202820",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 20,
+        "address": "0xf0e202824",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "address": "0xf0e202828",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 20,
+        "address": "0xf0e20282c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 20,
+        "address": "0xf0e202830",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 20,
+        "address": "0xf0e202834",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 20,
+        "address": "0xf0e202838",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 20,
+        "address": "0xf0e20283c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 20,
+        "address": "0xf0e202840",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 20,
+        "address": "0xf0e202844",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 20,
+        "address": "0xf0e202848",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 20,
+        "address": "0xf0e20284c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 20,
+        "address": "0xf0e202850",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 20,
+        "address": "0xf0e202854",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 20,
+        "address": "0xf0e202858",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 20,
+        "address": "0xf0e20285c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 20,
+        "address": "0xf0e202860",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 20,
+        "address": "0xf0e202864",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 20,
+        "address": "0xf0e202868",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 20,
+        "address": "0xf0e20286c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 20,
+        "address": "0xf0e202870",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 20,
+        "address": "0xf0e202874",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 20,
+        "address": "0xf0e202878",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 20,
+        "address": "0xf0e20287c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 21,
+        "address": "0xf0e202a00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 21,
+        "address": "0xf0e202a04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 21,
+        "address": "0xf0e202a08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 21,
+        "address": "0xf0e202a0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 21,
+        "address": "0xf0e202a10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 21,
+        "address": "0xf0e202a14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 21,
+        "address": "0xf0e202a18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 21,
+        "address": "0xf0e202a1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 21,
+        "address": "0xf0e202a20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 21,
+        "address": "0xf0e202a24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 21,
+        "address": "0xf0e202a28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 21,
+        "address": "0xf0e202a2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 21,
+        "address": "0xf0e202a30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 21,
+        "address": "0xf0e202a34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 21,
+        "address": "0xf0e202a38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 21,
+        "address": "0xf0e202a3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 21,
+        "address": "0xf0e202a40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 21,
+        "address": "0xf0e202a44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 21,
+        "address": "0xf0e202a48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 21,
+        "address": "0xf0e202a4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 21,
+        "address": "0xf0e202a50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 21,
+        "address": "0xf0e202a54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 21,
+        "address": "0xf0e202a58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 21,
+        "address": "0xf0e202a5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 21,
+        "address": "0xf0e202a60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 21,
+        "address": "0xf0e202a64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 21,
+        "address": "0xf0e202a68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 21,
+        "address": "0xf0e202a6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 21,
+        "address": "0xf0e202a70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 21,
+        "address": "0xf0e202a74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 21,
+        "address": "0xf0e202a78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 21,
+        "address": "0xf0e202a7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 22,
+        "address": "0xf0e202c00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 22,
+        "address": "0xf0e202c04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 22,
+        "address": "0xf0e202c08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 22,
+        "address": "0xf0e202c0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 22,
+        "address": "0xf0e202c10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 22,
+        "address": "0xf0e202c14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "address": "0xf0e202c18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 22,
+        "address": "0xf0e202c1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 22,
+        "address": "0xf0e202c20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 22,
+        "address": "0xf0e202c24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 22,
+        "address": "0xf0e202c28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 22,
+        "address": "0xf0e202c2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "address": "0xf0e202c30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 22,
+        "address": "0xf0e202c34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 22,
+        "address": "0xf0e202c38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 22,
+        "address": "0xf0e202c3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 22,
+        "address": "0xf0e202c40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 22,
+        "address": "0xf0e202c44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 22,
+        "address": "0xf0e202c48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 22,
+        "address": "0xf0e202c4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 22,
+        "address": "0xf0e202c50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 22,
+        "address": "0xf0e202c54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 22,
+        "address": "0xf0e202c58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 22,
+        "address": "0xf0e202c5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 22,
+        "address": "0xf0e202c60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 22,
+        "address": "0xf0e202c64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 22,
+        "address": "0xf0e202c68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 22,
+        "address": "0xf0e202c6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 22,
+        "address": "0xf0e202c70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 22,
+        "address": "0xf0e202c74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 22,
+        "address": "0xf0e202c78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 22,
+        "address": "0xf0e202c7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 23,
+        "address": "0xf0e202e00",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 23,
+        "address": "0xf0e202e04",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 23,
+        "address": "0xf0e202e08",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 23,
+        "address": "0xf0e202e0c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 23,
+        "address": "0xf0e202e10",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 23,
+        "address": "0xf0e202e14",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 23,
+        "address": "0xf0e202e18",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 23,
+        "address": "0xf0e202e1c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 23,
+        "address": "0xf0e202e20",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 23,
+        "address": "0xf0e202e24",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 23,
+        "address": "0xf0e202e28",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 23,
+        "address": "0xf0e202e2c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 23,
+        "address": "0xf0e202e30",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 23,
+        "address": "0xf0e202e34",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 23,
+        "address": "0xf0e202e38",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 23,
+        "address": "0xf0e202e3c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 23,
+        "address": "0xf0e202e40",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 23,
+        "address": "0xf0e202e44",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 23,
+        "address": "0xf0e202e48",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 23,
+        "address": "0xf0e202e4c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 23,
+        "address": "0xf0e202e50",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 23,
+        "address": "0xf0e202e54",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 23,
+        "address": "0xf0e202e58",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 23,
+        "address": "0xf0e202e5c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 23,
+        "address": "0xf0e202e60",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 23,
+        "address": "0xf0e202e64",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 23,
+        "address": "0xf0e202e68",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 23,
+        "address": "0xf0e202e6c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 23,
+        "address": "0xf0e202e70",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 23,
+        "address": "0xf0e202e74",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 23,
+        "address": "0xf0e202e78",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 23,
+        "address": "0xf0e202e7c",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 16,
+        "address": "0xf0e202080",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 16,
+        "address": "0xf0e202084",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 16,
+        "address": "0xf0e202088",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 17,
+        "address": "0xf0e202280",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 17,
+        "address": "0xf0e202284",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 17,
+        "address": "0xf0e202288",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 18,
+        "address": "0xf0e202480",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 18,
+        "address": "0xf0e202484",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 18,
+        "address": "0xf0e202488",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 19,
+        "address": "0xf0e202680",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 19,
+        "address": "0xf0e202684",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 19,
+        "address": "0xf0e202688",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 20,
+        "address": "0xf0e202880",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 20,
+        "address": "0xf0e202884",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 20,
+        "address": "0xf0e202888",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 21,
+        "address": "0xf0e202a80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 21,
+        "address": "0xf0e202a84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 21,
+        "address": "0xf0e202a88",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 22,
+        "address": "0xf0e202c80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 22,
+        "address": "0xf0e202c84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 22,
+        "address": "0xf0e202c88",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 23,
+        "address": "0xf0e202e80",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 23,
+        "address": "0xf0e202e84",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 23,
+        "address": "0xf0e202e88",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 24,
+        "address": "0xf0e203000",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 24,
+        "address": "0xf0e203004",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 24,
+        "address": "0xf0e203008",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 24,
+        "address": "0xf0e20300c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 24,
+        "address": "0xf0e203010",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 24,
+        "address": "0xf0e203014",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 24,
+        "address": "0xf0e203018",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 24,
+        "address": "0xf0e20301c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 24,
+        "address": "0xf0e203020",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 24,
+        "address": "0xf0e203024",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 24,
+        "address": "0xf0e203028",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 24,
+        "address": "0xf0e20302c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 24,
+        "address": "0xf0e203030",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 24,
+        "address": "0xf0e203034",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 24,
+        "address": "0xf0e203038",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 24,
+        "address": "0xf0e20303c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 24,
+        "address": "0xf0e203040",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 24,
+        "address": "0xf0e203044",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 24,
+        "address": "0xf0e203048",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 24,
+        "address": "0xf0e20304c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 24,
+        "address": "0xf0e203050",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 24,
+        "address": "0xf0e203054",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "address": "0xf0e203058",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 24,
+        "address": "0xf0e20305c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 24,
+        "address": "0xf0e203060",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 24,
+        "address": "0xf0e203064",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 24,
+        "address": "0xf0e203068",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 24,
+        "address": "0xf0e20306c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 24,
+        "address": "0xf0e203070",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 24,
+        "address": "0xf0e203074",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "address": "0xf0e203078",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 24,
+        "address": "0xf0e20307c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 25,
+        "address": "0xf0e203200",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 25,
+        "address": "0xf0e203204",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 25,
+        "address": "0xf0e203208",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 25,
+        "address": "0xf0e20320c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 25,
+        "address": "0xf0e203210",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 25,
+        "address": "0xf0e203214",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 25,
+        "address": "0xf0e203218",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 25,
+        "address": "0xf0e20321c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 25,
+        "address": "0xf0e203220",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 25,
+        "address": "0xf0e203224",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 25,
+        "address": "0xf0e203228",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 25,
+        "address": "0xf0e20322c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 25,
+        "address": "0xf0e203230",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 25,
+        "address": "0xf0e203234",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 25,
+        "address": "0xf0e203238",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 25,
+        "address": "0xf0e20323c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 25,
+        "address": "0xf0e203240",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 25,
+        "address": "0xf0e203244",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 25,
+        "address": "0xf0e203248",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 25,
+        "address": "0xf0e20324c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 25,
+        "address": "0xf0e203250",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 25,
+        "address": "0xf0e203254",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 25,
+        "address": "0xf0e203258",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "address": "0xf0e20325c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 25,
+        "address": "0xf0e203260",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 25,
+        "address": "0xf0e203264",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 25,
+        "address": "0xf0e203268",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 25,
+        "address": "0xf0e20326c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 25,
+        "address": "0xf0e203270",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 25,
+        "address": "0xf0e203274",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "address": "0xf0e203278",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 25,
+        "address": "0xf0e20327c",
+        "read_bytes": 3
+      },
+      {
+        "x": 0,
+        "y": 26,
+        "address": "0xf0e203400",
+        "read_bytes": 3
+      },
+      {
+        "x": 1,
+        "y": 26,
+        "address": "0xf0e203404",
+        "read_bytes": 3
+      },
+      {
+        "x": 2,
+        "y": 26,
+        "address": "0xf0e203408",
+        "read_bytes": 3
+      },
+      {
+        "x": 3,
+        "y": 26,
+        "address": "0xf0e20340c",
+        "read_bytes": 3
+      },
+      {
+        "x": 4,
+        "y": 26,
+        "address": "0xf0e203410",
+        "read_bytes": 3
+      },
+      {
+        "x": 5,
+        "y": 26,
+        "address": "0xf0e203414",
+        "read_bytes": 3
+      },
+      {
+        "x": 6,
+        "y": 26,
+        "address": "0xf0e203418",
+        "read_bytes": 3
+      },
+      {
+        "x": 7,
+        "y": 26,
+        "address": "0xf0e20341c",
+        "read_bytes": 3
+      },
+      {
+        "x": 8,
+        "y": 26,
+        "address": "0xf0e203420",
+        "read_bytes": 3
+      },
+      {
+        "x": 9,
+        "y": 26,
+        "address": "0xf0e203424",
+        "read_bytes": 3
+      },
+      {
+        "x": 10,
+        "y": 26,
+        "address": "0xf0e203428",
+        "read_bytes": 3
+      },
+      {
+        "x": 11,
+        "y": 26,
+        "address": "0xf0e20342c",
+        "read_bytes": 3
+      },
+      {
+        "x": 12,
+        "y": 26,
+        "address": "0xf0e203430",
+        "read_bytes": 3
+      },
+      {
+        "x": 13,
+        "y": 26,
+        "address": "0xf0e203434",
+        "read_bytes": 3
+      },
+      {
+        "x": 14,
+        "y": 26,
+        "address": "0xf0e203438",
+        "read_bytes": 3
+      },
+      {
+        "x": 15,
+        "y": 26,
+        "address": "0xf0e20343c",
+        "read_bytes": 3
+      },
+      {
+        "x": 16,
+        "y": 26,
+        "address": "0xf0e203440",
+        "read_bytes": 3
+      },
+      {
+        "x": 17,
+        "y": 26,
+        "address": "0xf0e203444",
+        "read_bytes": 3
+      },
+      {
+        "x": 18,
+        "y": 26,
+        "address": "0xf0e203448",
+        "read_bytes": 3
+      },
+      {
+        "x": 19,
+        "y": 26,
+        "address": "0xf0e20344c",
+        "read_bytes": 3
+      },
+      {
+        "x": 20,
+        "y": 26,
+        "address": "0xf0e203450",
+        "read_bytes": 3
+      },
+      {
+        "x": 21,
+        "y": 26,
+        "address": "0xf0e203454",
+        "read_bytes": 3
+      },
+      {
+        "x": 22,
+        "y": 26,
+        "address": "0xf0e203458",
+        "read_bytes": 3
+      },
+      {
+        "x": 23,
+        "y": 26,
+        "address": "0xf0e20345c",
+        "read_bytes": 3
+      },
+      {
+        "x": 24,
+        "y": 26,
+        "address": "0xf0e203460",
+        "read_bytes": 3
+      },
+      {
+        "x": 25,
+        "y": 26,
+        "address": "0xf0e203464",
+        "read_bytes": 3
+      },
+      {
+        "x": 26,
+        "y": 26,
+        "address": "0xf0e203468",
+        "read_bytes": 3
+      },
+      {
+        "x": 27,
+        "y": 26,
+        "address": "0xf0e20346c",
+        "read_bytes": 3
+      },
+      {
+        "x": 28,
+        "y": 26,
+        "address": "0xf0e203470",
+        "read_bytes": 3
+      },
+      {
+        "x": 29,
+        "y": 26,
+        "address": "0xf0e203474",
+        "read_bytes": 3
+      },
+      {
+        "x": 30,
+        "y": 26,
+        "address": "0xf0e203478",
+        "read_bytes": 3
+      },
+      {
+        "x": 31,
+        "y": 26,
+        "address": "0xf0e20347c",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 24,
+        "address": "0xf0e203080",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 24,
+        "address": "0xf0e203084",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 24,
+        "address": "0xf0e203088",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 25,
+        "address": "0xf0e203280",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 25,
+        "address": "0xf0e203284",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 25,
+        "address": "0xf0e203288",
+        "read_bytes": 3
+      },
+      {
+        "x": 32,
+        "y": 26,
+        "address": "0xf0e203480",
+        "read_bytes": 3
+      },
+      {
+        "x": 33,
+        "y": 26,
+        "address": "0xf0e203484",
+        "read_bytes": 3
+      },
+      {
+        "x": 34,
+        "y": 26,
+        "address": "0xf0e203488",
+        "read_bytes": 3
+      }
+    ]
+  },
+  "output_hashes": {
+    "hybrid-rgb-initcheck.bin": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+    "hybrid-rgb-memcheck.bin": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+    "hybrid-rgb-normal.bin": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+    "new-rgb-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-memcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-no-pipeline-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-no-pipeline-memcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-no-pipeline-normal.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-no-preallocate-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-no-preallocate-memcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-no-preallocate-normal.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-normal.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-once-full-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-output-zero-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-output-zero-memcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgb-output-zero-normal.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgbi-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgbi-memcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-rgbi-normal.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "new-y-initcheck.bin": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+    "new-y-memcheck.bin": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+    "new-y-normal.bin": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+    "new-yuv-initcheck.bin": "02d5d9b47e94f8ac54ed839badc01fc09eab7599e3ca9843c661f7c412ead9e5",
+    "new-yuv-memcheck.bin": "02d5d9b47e94f8ac54ed839badc01fc09eab7599e3ca9843c661f7c412ead9e5",
+    "new-yuv-normal.bin": "02d5d9b47e94f8ac54ed839badc01fc09eab7599e3ca9843c661f7c412ead9e5",
+    "old-rgb-initcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "old-rgb-memcheck.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "old-rgb-normal.bin": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "skip-uninit-initcheck.bin": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+    "skip-uninit-memcheck.bin": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+    "skip-zero-initcheck.bin": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c"
+  }
+}

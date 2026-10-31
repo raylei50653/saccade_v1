@@ -1,0 +1,169 @@
+========= COMPUTE-SANITIZER
+plane=0 pitch=35 rows=27 bytes=945
+plane=1 pitch=35 rows=27 bytes=945
+plane=2 pitch=35 rows=27 bytes=945
+nvjpeg=13.2.3 backend=skip format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=1 raw_bytes=2835 caller_output=000000130E400000 observed=000000130E400C00
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (0,0,0) in block (0,0,0)
+=========     Address 0x130e400000
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (1,0,0) in block (0,0,0)
+=========     Address 0x130e400001
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (2,0,0) in block (0,0,0)
+=========     Address 0x130e400002
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (3,0,0) in block (0,0,0)
+=========     Address 0x130e400003
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (4,0,0) in block (0,0,0)
+=========     Address 0x130e400004
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (5,0,0) in block (0,0,0)
+=========     Address 0x130e400005
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (6,0,0) in block (0,0,0)
+=========     Address 0x130e400006
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (7,0,0) in block (0,0,0)
+=========     Address 0x130e400007
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (8,0,0) in block (0,0,0)
+=========     Address 0x130e400008
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+========= Uninitialized __global__ memory read of size 1 bytes
+=========     at inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41
+=========     by thread (9,0,0) in block (0,0,0)
+=========     Address 0x130e400009
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x7ff914adc048] in nvcuda64.dll
+=========         Host Frame:  [0xdc5e] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929f058eb] in nvcudart_hybrid64.dll
+=========         Host Frame: _cudaGetProcAddress [0x7ff929ec8261] in nvcudart_hybrid64.dll
+=========         Host Frame:  [0xed5a] in repro.exe
+=========         Host Frame:  [0x8d88] in repro.exe
+=========         Host Frame:  [0xba65] in repro.exe
+=========         Host Frame:  [0x105fc] in repro.exe
+=========         Host Frame: BaseThreadInitThunk [0x7ff9a1aedda7] in KERNEL32.DLL
+=========         Host Frame: RtlUserThreadStart [0x7ff9a30bee4c] in ntdll.dll
+========= 
+repeat=0 rgb_exact=0 rgb_differences=2832 max_difference=227
+result=complete repeat_exact=1 rgb_equivalence=different rgb_differences_across_repeats=2832 rgb_max_difference=227 output_layout=planar-rgb
+========= ERROR SUMMARY: 2835 errors
+========= ERROR SUMMARY: 2825 errors were not printed. Use --print-limit option to adjust the number of printed errors

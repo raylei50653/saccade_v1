@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_reference.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_reference.cpp	2026-10-30 12:16:14.101647443 +0800
+@@ -197,7 +197,7 @@
+             for (std::int64_t c = 0; c < C; ++c) {
+                 double acc = 0, mag = 0, err = 0, var = 0;
+                 for (std::int64_t k = 0; k < K; ++k) {
+-                    const auto s = anticausal ? t + k : t + k - (K - 1);
++                    const auto s = anticausal ? t + k : t + k - (K - 2);
+                     if (s < 0 || s >= L) continue;
+                     const auto at = static_cast<std::size_t>((b * L + s) * C + c);
+                     const double wv = w.values[static_cast<std::size_t>(c * K + k)];

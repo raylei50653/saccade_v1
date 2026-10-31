@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "nvidia-smi",
+    "--query-gpu=name,driver_version,memory.total",
+    "--format=csv,noheader"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1",
+  "start_utc": "2026-10-31T04:09:22.179515+00:00",
+  "timeout_seconds": 60,
+  "environment": {
+    "LD_LIBRARY_PATH": "/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:"
+  },
+  "exit": 0,
+  "timeout": false,
+  "end_utc": "2026-10-31T04:09:23.010910+00:00"
+}

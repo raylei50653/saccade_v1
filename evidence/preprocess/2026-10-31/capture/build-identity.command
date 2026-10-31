@@ -1,0 +1,1 @@
+bash -c $'set -e\n  ldd "$1/preprocess"\n  library=$(ldd "$1/preprocess" | awk \'$1 ~ /^libnvjpeg/ && $2 == "=>" {print $3}\')\n  [[ -n $library && -f $library ]]\n  readlink -f "$library"\n  sha256sum "$library" "$1/preprocess" "$1/preprocess_tests" "$1/resize_cuda_tests"\n  cat "$1/CMakeCache.txt"' _ /home/ray/developer/ai/saccade_v1/build-preprocess-evidence/build 

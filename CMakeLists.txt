@@ -20,6 +20,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   endforeach()
 endif()
 
+
 enable_testing()
 add_test(NAME protocol_happens_before COMMAND protocol_model --self-test)
 add_test(NAME protocol_state_and_packet COMMAND protocol_tests)
@@ -97,6 +98,51 @@ endif()
 add_test(NAME selective_scan_reference COMMAND selective_scan_tests
   ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/selective-scan)
 
+# S04 native weight delivery of the m head: a code-free torch.save zip/pickle
+# reader, the head parameter schema and the canonical bundle (docs/HEAD_TRT.md §2).
+add_library(saccade_head_weights src/torch_checkpoint.cpp src/head_weights.cpp)
+target_include_directories(saccade_head_weights PUBLIC include)
+target_link_libraries(saccade_head_weights PUBLIC saccade_sha256)
+add_executable(head_weights tools/head_weights.cpp)
+target_link_libraries(head_weights PRIVATE saccade_head_reference saccade_file_io)
+# Binary64 reference of the complete head with its running error bound
+# (docs/HEAD_TRT.md §4); no contraction, as for the S01 reference.
+add_library(saccade_head_reference src/head_reference.cpp src/head_compare.cpp)
+target_link_libraries(saccade_head_reference PUBLIC saccade_head_weights)
+find_package(Threads REQUIRED)
+target_link_libraries(saccade_head_reference PRIVATE Threads::Threads)
+add_executable(head_weights_tests tests/head_weights_tests.cpp)
+target_link_libraries(head_weights_tests PRIVATE saccade_head_reference)
+add_executable(head_reference_tests tests/head_reference_tests.cpp)
+target_link_libraries(head_reference_tests PRIVATE saccade_head_reference saccade_selective_scan saccade_file_io)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_head_weights head_weights saccade_head_reference head_weights_tests head_reference_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+add_test(NAME head_weight_delivery COMMAND head_weights_tests)
+add_test(NAME head_reference COMMAND head_reference_tests)
+set_tests_properties(head_reference PROPERTIES TIMEOUT 900)
+# The real candidate (docs/HEAD_TRT.md §2) is not in the repository: when its
+# checkpoint is given, convert it and require the recorded hashes.
+set(SACCADE_HEAD_CHECKPOINT "" CACHE FILEPATH "T1 head checkpoint best.ckpt of the S04 candidate (optional)")
+# Defaults are the S04 candidate; another candidate (T01, docs/HEAD_TRT.md §10)
+# is configured with its own recorded hashes.
+set(SACCADE_HEAD_CHECKPOINT_SHA256 "a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c"
+  CACHE STRING "SHA-256 of SACCADE_HEAD_CHECKPOINT")
+set(SACCADE_HEAD_BUNDLE_SHA256 "e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310"
+  CACHE STRING "SHA-256 of the SCWB bundle converted from SACCADE_HEAD_CHECKPOINT")
+if(SACCADE_HEAD_CHECKPOINT)
+  set(SACCADE_HEAD_TEST_BUNDLE "${CMAKE_CURRENT_BINARY_DIR}/head-weights/t1-head.swb")
+  add_test(NAME head_weights_candidate
+    COMMAND ${CMAKE_COMMAND} -DPROGRAM=$<TARGET_FILE:head_weights> -DCHECKPOINT=${SACCADE_HEAD_CHECKPOINT}
+      -DCHECKPOINT_SHA256=${SACCADE_HEAD_CHECKPOINT_SHA256} -DBUNDLE_SHA256=${SACCADE_HEAD_BUNDLE_SHA256}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/head-weights -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/HeadWeightsTest.cmake)
+  set_tests_properties(head_weights_candidate PROPERTIES FIXTURES_SETUP head_bundle TIMEOUT 300)
+  add_test(NAME head_reference_candidate COMMAND head_reference_tests "${SACCADE_HEAD_TEST_BUNDLE}" ${SACCADE_HEAD_BUNDLE_SHA256})
+  set_tests_properties(head_reference_candidate PROPERTIES FIXTURES_REQUIRED head_bundle TIMEOUT 900)
+endif()
+
 include(cmake/TensorRT.cmake)
 
 option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)
@@ -167,4 +213,37 @@ if(SACCADE_ENABLE_CUDA)
     add_test(NAME cuda_checked_cleanup COMMAND cuda_cleanup_tests)
     set_tests_properties(cuda_checked_cleanup PROPERTIES LABELS "gpu" TIMEOUT 180)
   endif()
+endif()
+
+# S03 TensorRT scan plugins, minimal engines and frame harness: they need the
+# S02 CUDA library and the pinned native TensorRT SDK (docs/SCAN_TRT.md).
+if(SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT)
+  include(cmake/ScanTensorRT.cmake)
+elseif(SACCADE_ENABLE_TENSORRT)
+  message(STATUS "S03 scan TensorRT plugins need SACCADE_ENABLE_CUDA=ON; not built")
+endif()
+
+# S04 complete head: native TensorRT network from the weight bundle, the
+# frame-session lifecycle tool and the GPU acceptance (docs/HEAD_TRT.md).
+if(SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT)
+  include(cmake/HeadTensorRT.cmake)
+endif()
+
+# T01 backbone/neck and F03 complete model: the backbone ONNX through the pinned
+# SDK's ONNX parser, the S04 head on its outputs (docs/BACKBONE_POLICY.md).
+option(SACCADE_ENABLE_MODEL_TRT "Build the T01 backbone and F03 model engine tools (needs the SDK's ONNX parser)" OFF)
+if(SACCADE_ENABLE_MODEL_TRT)
+  if(NOT (SACCADE_ENABLE_CUDA AND SACCADE_ENABLE_TENSORRT))
+    message(FATAL_ERROR "SACCADE_ENABLE_MODEL_TRT needs SACCADE_ENABLE_CUDA=ON and SACCADE_ENABLE_TENSORRT=ON")
+  endif()
+  include(cmake/ModelTensorRT.cmake)
+endif()
+
+# Native F01/F02 is independent of TensorRT. The default CPU build stays SDK-free.
+option(SACCADE_ENABLE_PREPROCESS "Build hardware nvJPEG and CUDA antialiased resize" OFF)
+if(SACCADE_ENABLE_PREPROCESS)
+  if(NOT SACCADE_ENABLE_CUDA)
+    message(FATAL_ERROR "SACCADE_ENABLE_PREPROCESS needs SACCADE_ENABLE_CUDA=ON")
+  endif()
+  include(cmake/Preprocess.cmake)
 endif()

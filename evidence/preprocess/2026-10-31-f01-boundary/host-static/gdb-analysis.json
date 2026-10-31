@@ -1,0 +1,84 @@
+{
+  "scope": "bounded normal decoder under CPU debugger; no sanitizer acceptance or hardware fence proof",
+  "checks": {
+    "debugger_and_inferior_completed": true,
+    "two_dispatch_observations": true,
+    "dispatch_matches_v2_static_vtable": true,
+    "private_getter_table_matches_static": true,
+    "private_slot_70_matches_provider": true,
+    "nvjpeg_actual_mapping_hash_matches_static": true,
+    "nvcuvid_actual_mapping_hash_matches_static": true,
+    "rgb_full_bytes_exact": true,
+    "raw_log_complete": true,
+    "no_debugger_python_exception": true
+  },
+  "dispatches": [
+    {
+      "pc_offset": "0x73905",
+      "target_offset": "0xd0900",
+      "vptr_offset": "0x809c78",
+      "rtti_name": "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE"
+    },
+    {
+      "pc_offset": "0x73905",
+      "target_offset": "0xd0900",
+      "vptr_offset": "0x809c78",
+      "rtti_name": "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE"
+    }
+  ],
+  "private_table": {
+    "0x0": "0x4cb60",
+    "0x10": "0x4cfa0",
+    "0x18": "0x4cc50",
+    "0x20": "0x4cd10",
+    "0x28": "0x4cd30",
+    "0x30": "0x4cd50",
+    "0x38": "0x4cd70",
+    "0x40": "0x4cd90",
+    "0x48": "0x4cdb0",
+    "0x50": "0x4cba0",
+    "0x58": "0x4cbd0",
+    "0x60": "0x4cdd0",
+    "0x68": "0x4cdf0",
+    "0x70": "0x4ce10",
+    "0x78": "0x4ce30",
+    "0x8": "0x4d000",
+    "0x80": "0x4cb80",
+    "0x88": "0x4ce50",
+    "0x90": "0x4d0f0",
+    "0x98": "0x4cc10"
+  },
+  "nvjpeg_load_base": "0x753f6c800000",
+  "nvcuvid_load_base": "0x753d552a0000",
+  "private_slot_70_offset": "0x4ce10",
+  "rgb_bytes": 2835,
+  "rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+  "actual_modules": {
+    "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": {
+      "realpath": "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58",
+      "sha256": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338"
+    },
+    "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1": {
+      "realpath": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+      "sha256": "70d8cd3774f4b0cf9359af3ca894f8e2586687cdc4c1fbb63af786fb69d90354"
+    },
+    "/usr/lib/wsl/lib/libcuda.so.1": {
+      "realpath": "/usr/lib/wsl/lib/libcuda.so.1",
+      "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+    },
+    "/usr/lib/wsl/lib/libdxcore.so": {
+      "realpath": "/usr/lib/wsl/lib/libdxcore.so",
+      "sha256": "83d1671a839bcf71709349e77cd68341515df2e63080765618876996a0f4190c"
+    },
+    "/usr/lib/wsl/lib/libnvcuvid.so.1": {
+      "realpath": "/usr/lib/wsl/lib/libnvcuvid.so.1",
+      "sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf"
+    }
+  },
+  "limitations": [
+    "CPU breakpoints alter timing and execute only one fixed JPEG twice",
+    "private slot semantics and hardware-producer completion not established by names/offsets",
+    "module hashes are mapped file hashes captured at stop, not dumps of all live executable pages",
+    "private getter has no debug return type; filled table observed but no typed getter return code claimed"
+  ]
+}

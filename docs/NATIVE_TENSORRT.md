@@ -56,3 +56,26 @@ compute-sanitizer --tool memcheck --error-exitcode 99 \
 builder、network 在重載前已銷毀，保存的 plan 經 size／hash 讀回核對後反序列化；execution context 採 `kUSER_MANAGED`，明確提供 `getDeviceMemorySizeV2()` 要求的 workspace（零時不額外配置）。正常流程在同步後先銷毀 context／engine／runtime，再以共用 `CleanupReport` 檢查所有 CUDA free／destroy；失敗流程仍排空 stream 並嘗試所有獨立釋放，回傳非零。
 
 engine、report 使用既有 checked I/O，stdout 亦 flush 並檢查；檔案或輸出失敗回傳非零。`native_tensorrt_cli_io` 驗證 usage、缺少 output parent、`/dev/full` engine／report／stdout 失敗。原子寫入、`fsync` 耐久性、惡意 engine 載入、scan、custom plugin、效能及完整模型數值比較都不在此最小工具的成功結論內。
+
+## ONNX parser（T01 backbone）
+
+2026-10-30 依使用者核准，為 T01 backbone／neck 的 ONNX 匯入（[BACKBONE_POLICY](BACKBONE_POLICY.md)）在同一 SDK root 追加**同版本**的 ONNX parser。來源同上（NVIDIA Ubuntu 24.04 x86-64 repository），大小與 SHA-256 交叉核對同日下載的 Packages.gz（SHA-256 `a2cd4fee1271f9be2e40b1db66540cccd19d6246e166ced3d613f0977066c8b5`）；兩個 package 都依賴 `libnvinfer10 (= 10.16.1.11-1+cuda13.2)`，copyright 為 Apache-2.0。
+
+| 檔案 | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `libnvonnxparsers10_10.16.1.11-1+cuda13.2_amd64.deb` | 1534774 | `cd379a1d03d92f104d5659e0cb62302a781a17806ba103c01a699da5c8648dd6` |
+| `libnvonnxparsers-dev_10.16.1.11-1+cuda13.2_amd64.deb` | 2230514 | `9904cbbc32d4b0f8eb665ffd2758ee10b74a3a3afb19c8e164b2c4a83a98bcd1` |
+
+只解出 shared library（`libnvonnxparser.so.10.16.1`，SHA-256 `2b517c9d21d90d8eef5c9c5b1b9acbe46c39ccd4bb36b927ef29776d5fde48e3`，與其 symlinks）、`NvOnnxParser.h`、`NvOnnxConfig.h` 與 doc；靜態庫不解。解壓使用 `tar --keep-old-files`；前後的 SDK 檔案清單與每個檔案的 SHA-256 已比對：原有 24 個項目逐 byte 不變，只新增 9 個（清單見 T01 F03 evidence）。parser 本身不連結 `libnvinfer`（`ldd` 只列 libc／libstdc++ 等），透過呼叫端傳入的 network 建圖。
+
+```sh
+cd /home/ray/.cache/saccade-native-trt/10.16.1.11/downloads
+for p in libnvonnxparsers10_10.16.1.11-1+cuda13.2_amd64.deb libnvonnxparsers-dev_10.16.1.11-1+cuda13.2_amd64.deb; do
+  curl -fLO "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/$p"; done
+printf '%s  %s\n' cd379a1d03d92f104d5659e0cb62302a781a17806ba103c01a699da5c8648dd6 libnvonnxparsers10_10.16.1.11-1+cuda13.2_amd64.deb \
+  9904cbbc32d4b0f8eb665ffd2758ee10b74a3a3afb19c8e164b2c4a83a98bcd1 libnvonnxparsers-dev_10.16.1.11-1+cuda13.2_amd64.deb | sha256sum -c -
+for p in libnvonnxparsers*.deb; do ar p "$p" data.tar.xz | tar -xJ -C ../sdk --keep-old-files \
+  --exclude=./usr/lib/x86_64-linux-gnu/libnvonnxparser_static.a --exclude=./usr/lib/x86_64-linux-gnu/libonnx_proto.a; done
+```
+
+CMake 只在 `SACCADE_ENABLE_MODEL_TRT=ON` 時於 SDK root 內搜尋 parser（`NO_DEFAULT_PATH`），並核對 header 與 library 的版本；未開啟時 S01–S04 的建置不受影響。

@@ -1,0 +1,773 @@
+========= COMPUTE-SANITIZER
+allocator=default poison=-1 dump=-
+api=stream_create cuda_status=0
+api=nvjpegCreateEx nvjpeg_status=0
+api=nvjpegJpegStateCreate nvjpeg_status=0
+api=version_major nvjpeg_status=0
+api=version_minor nvjpeg_status=0
+api=version_patch nvjpeg_status=0
+api=nvjpegGetImageInfo nvjpeg_status=0
+api=nvjpegDecodeBatchedInitialize nvjpeg_status=0
+surface_attr when=after_initialize repeat=-1 buffer_id=0(1) type=0(1) mapped=0(1) managed=0(1) handle_types=0(1) start=0(1) size=0(1) mempool=0(1)
+api=nvjpegDecodeBatchedPreAllocate nvjpeg_status=0
+surface_attr when=after_preallocate repeat=-1 buffer_id=1065(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+api=input_allocate cuda_status=0
+api=download_allocate cuda_status=0
+api=output_allocate cuda_status=0
+api=observed_allocate cuda_status=0
+plane=0 pitch=35 rows=27 bytes=945
+nvjpeg=13.2.3 backend=hw format=y flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=3 raw_bytes=945 caller_output=0xf0e400000 observed=0xf0e400400
+phase=decode repeat=0
+surface_query repeat=0 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384
+api=surface_poison cuda_status=0
+api=surface_poison_sync cuda_status=0
+surface_poisoned repeat=0 base=0xf0e200000 size=16384 value=165
+surface_attr when=before_decode repeat=0 buffer_id=1065(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+========= Host API memory access error at host access to 0xf0e200000 of size 35 bytes
+=========     Uninitialized access to 0xf0e200000 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200000 of size 35 bytes
+=========     Uninitialized access to 0xf0e200020 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200080 of size 35 bytes
+=========     Uninitialized access to 0xf0e200080 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200080 of size 35 bytes
+=========     Uninitialized access to 0xf0e2000a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200100 of size 35 bytes
+=========     Uninitialized access to 0xf0e200100 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200100 of size 35 bytes
+=========     Uninitialized access to 0xf0e200120 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200180 of size 35 bytes
+=========     Uninitialized access to 0xf0e200180 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200180 of size 35 bytes
+=========     Uninitialized access to 0xf0e2001a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200200 of size 35 bytes
+=========     Uninitialized access to 0xf0e200200 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200200 of size 35 bytes
+=========     Uninitialized access to 0xf0e200220 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200280 of size 35 bytes
+=========     Uninitialized access to 0xf0e200280 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200280 of size 35 bytes
+=========     Uninitialized access to 0xf0e2002a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200300 of size 35 bytes
+=========     Uninitialized access to 0xf0e200300 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200300 of size 35 bytes
+=========     Uninitialized access to 0xf0e200320 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200380 of size 35 bytes
+=========     Uninitialized access to 0xf0e200380 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200380 of size 35 bytes
+=========     Uninitialized access to 0xf0e2003a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200400 of size 35 bytes
+=========     Uninitialized access to 0xf0e200400 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200400 of size 35 bytes
+=========     Uninitialized access to 0xf0e200420 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200480 of size 35 bytes
+=========     Uninitialized access to 0xf0e200480 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200480 of size 35 bytes
+=========     Uninitialized access to 0xf0e2004a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200500 of size 35 bytes
+=========     Uninitialized access to 0xf0e200500 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200500 of size 35 bytes
+=========     Uninitialized access to 0xf0e200520 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200580 of size 35 bytes
+=========     Uninitialized access to 0xf0e200580 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200580 of size 35 bytes
+=========     Uninitialized access to 0xf0e2005a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200600 of size 35 bytes
+=========     Uninitialized access to 0xf0e200600 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200600 of size 35 bytes
+=========     Uninitialized access to 0xf0e200620 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200680 of size 35 bytes
+=========     Uninitialized access to 0xf0e200680 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200680 of size 35 bytes
+=========     Uninitialized access to 0xf0e2006a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200700 of size 35 bytes
+=========     Uninitialized access to 0xf0e200700 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200700 of size 35 bytes
+=========     Uninitialized access to 0xf0e200720 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200780 of size 35 bytes
+=========     Uninitialized access to 0xf0e200780 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200780 of size 35 bytes
+=========     Uninitialized access to 0xf0e2007a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200800 of size 35 bytes
+=========     Uninitialized access to 0xf0e200800 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200800 of size 35 bytes
+=========     Uninitialized access to 0xf0e200820 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200880 of size 35 bytes
+=========     Uninitialized access to 0xf0e200880 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200880 of size 35 bytes
+=========     Uninitialized access to 0xf0e2008a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200900 of size 35 bytes
+=========     Uninitialized access to 0xf0e200900 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200900 of size 35 bytes
+=========     Uninitialized access to 0xf0e200920 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200980 of size 35 bytes
+=========     Uninitialized access to 0xf0e200980 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200980 of size 35 bytes
+=========     Uninitialized access to 0xf0e2009a0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200a00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200a00 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200a00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200a20 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200a80 of size 35 bytes
+=========     Uninitialized access to 0xf0e200a80 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200a80 of size 35 bytes
+=========     Uninitialized access to 0xf0e200aa0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200b00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200b00 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200b00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200b20 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200b80 of size 35 bytes
+=========     Uninitialized access to 0xf0e200b80 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200b80 of size 35 bytes
+=========     Uninitialized access to 0xf0e200ba0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200c00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200c00 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200c00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200c20 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200c80 of size 35 bytes
+=========     Uninitialized access to 0xf0e200c80 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200c80 of size 35 bytes
+=========     Uninitialized access to 0xf0e200ca0 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200d00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200d00 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+========= Host API memory access error at host access to 0xf0e200d00 of size 35 bytes
+=========     Uninitialized access to 0xf0e200d20 on access by cudaMemcpy source
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemcpy2DAsync_v2 [0x3d6c89] in libcuda.so.1.1
+=========         Host Frame:  [0x1b1b4a] in libnvjpeg.so.13
+=========         Host Frame:  [0x17e7bb] in libnvjpeg.so.13
+=========         Host Frame:  [0x1e6e0b] in libnvjpeg.so.13
+=========         Host Frame:  [0xd321d] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0xd4d4] in repro_alloc
+========= 
+api=nvjpegDecodeBatched nvjpeg_status=0
+api=decode_sync cuda_status=0
+surface_attr when=after_decode repeat=0 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+phase=inspect_caller_output repeat=0
+api=inspect_launch cuda_status=0
+api=inspect_sync cuda_status=0
+api=download cuda_status=0
+api=download_sync cuda_status=0
+phase=decode repeat=1
+surface_query repeat=1 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384
+api=surface_poison cuda_status=0
+api=surface_poison_sync cuda_status=0
+surface_poisoned repeat=1 base=0xf0e200000 size=16384 value=165
+surface_attr when=before_decode repeat=1 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+api=nvjpegDecodeBatched nvjpeg_status=0
+api=decode_sync cuda_status=0
+surface_attr when=after_decode repeat=1 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+phase=inspect_caller_output repeat=1
+api=inspect_launch cuda_status=0
+api=inspect_sync cuda_status=0
+api=download cuda_status=0
+api=download_sync cuda_status=0
+phase=decode repeat=2
+surface_query repeat=2 probe=0xf0e200000 cu_status=0 base=0xf0e200000 size=16384
+api=surface_poison cuda_status=0
+api=surface_poison_sync cuda_status=0
+surface_poisoned repeat=2 base=0xf0e200000 size=16384 value=165
+surface_attr when=before_decode repeat=2 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+api=nvjpegDecodeBatched nvjpeg_status=0
+api=decode_sync cuda_status=0
+surface_attr when=after_decode repeat=2 buffer_id=1087(0) type=2(0) mapped=1(0) managed=0(0) handle_types=0(0) start=0xf0e200000(0) size=16384(0) mempool=0(0)
+phase=inspect_caller_output repeat=2
+api=inspect_launch cuda_status=0
+api=inspect_sync cuda_status=0
+api=download cuda_status=0
+api=download_sync cuda_status=0
+cleanup=stream_drain cuda_status=0
+cleanup=state_destroy nvjpeg_status=0
+cleanup=handle_destroy nvjpeg_status=0
+cleanup=observed_free cuda_status=0
+cleanup=output_free cuda_status=0
+cleanup=download_free cuda_status=0
+cleanup=input_free cuda_status=0
+cleanup=stream_destroy cuda_status=0
+result=complete repeat_exact=1 rgb_equivalence=not-compared rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=raw-planes
+========= ERROR SUMMARY: 54 errors

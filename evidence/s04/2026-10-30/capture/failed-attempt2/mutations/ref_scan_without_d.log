@@ -1,0 +1,20 @@
+primitive	conv1x1	PASS
+primitive	conv4x4_stride4	PASS
+primitive	conv3x3_pad1_correlation	PASS
+primitive	conv3x3_flipped_variant	PASS
+primitive	linear	PASS
+primitive	causal_conv1d	PASS
+primitive	anticausal_conv1d_variant	PASS
+primitive	silu	PASS
+primitive	pixel_shuffle_crd	PASS
+primitive	pixel_shuffle_dcr_variant	PASS
+primitive	pixel_shuffle_spatial	PASS
+primitive	concat_order	PASS
+primitive	slice_last	PASS
+primitive	multiply	PASS
+primitive	add	PASS
+primitive	cross_expand_order	PASS
+primitive	cross_merge_restores	PASS
+primitive	cross_merge_mean	PASS
+primitive	neg_exp	PASS
+head_reference_tests: head scan equals the S01 reference bit for bit (L=25, max diff 1.979312)

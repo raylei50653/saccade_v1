@@ -1,0 +1,28 @@
+primitive	conv1x1	PASS
+primitive	conv4x4_stride4	PASS
+primitive	conv3x3_pad1_correlation	PASS
+primitive	conv3x3_flipped_variant	PASS
+primitive	linear	PASS
+primitive	causal_conv1d	PASS
+primitive	anticausal_conv1d_variant	PASS
+primitive	silu	PASS
+primitive	pixel_shuffle_crd	PASS
+primitive	pixel_shuffle_dcr_variant	PASS
+primitive	pixel_shuffle_spatial	PASS
+primitive	concat_order	PASS
+primitive	slice_last	PASS
+primitive	multiply	PASS
+primitive	add	PASS
+primitive	cross_expand_order	PASS
+primitive	cross_merge_restores	PASS
+primitive	cross_merge_mean	PASS
+primitive	neg_exp	PASS
+scan_vs_s01	L=25	max_abs_diff=0	PASS
+scan_input_sensitivity	L=25	max_change_over_bound=0.948835	PASS
+scan_vs_s01	L=100	max_abs_diff=0	PASS
+scan_input_sensitivity	L=100	max_change_over_bound=0.960913	PASS
+fp32_inside_bound	conv3x3	max_err_over_bound=0.00283266	PASS
+fp32_inside_bound	silu	max_err_over_bound=0.10368	PASS
+fp32_inside_bound	linear	max_err_over_bound=0.00184937	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p3	max_abs=1.13e-07	max_err_over_lambda_sigma=1.46e+26	worst_index=230284	max_err_over_2bound=5.07e-09	outside=512000	FAIL
+head_reference_tests: FP32 CPU head inside the policy: cls_p3

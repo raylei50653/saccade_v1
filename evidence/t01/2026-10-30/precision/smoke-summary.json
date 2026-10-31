@@ -1,0 +1,112 @@
+{
+  "distill_resume": {
+    "epoch2_loss_resumed": 17.643667221069336,
+    "epoch2_loss_uninterrupted": 17.580236434936523,
+    "note": "optimizer/scheduler resume; RNG and data order are not restored"
+  },
+  "finished": "2026-10-30T11:22:52+00:00",
+  "started": "2026-10-30T11:14:36+00:00",
+  "status": "complete",
+  "steps": [
+    {
+      "seconds": 51.9,
+      "step": "teacher"
+    },
+    {
+      "seconds": 34.5,
+      "step": "teacher resume"
+    },
+    {
+      "seconds": 39.7,
+      "step": "teacher eval"
+    },
+    {
+      "seconds": 0.1,
+      "step": "teacher select"
+    },
+    {
+      "seconds": 30.5,
+      "step": "cache_train"
+    },
+    {
+      "seconds": 32.9,
+      "step": "cache_val"
+    },
+    {
+      "seconds": 21.3,
+      "step": "distill"
+    },
+    {
+      "seconds": 10.5,
+      "step": "distill resume"
+    },
+    {
+      "seconds": 19.6,
+      "step": "distill eval"
+    },
+    {
+      "seconds": 0.1,
+      "step": "distill select"
+    },
+    {
+      "seconds": 32.8,
+      "step": "gt1"
+    },
+    {
+      "seconds": 21.1,
+      "step": "gt1 eval"
+    },
+    {
+      "seconds": 0.1,
+      "step": "gt1 select"
+    },
+    {
+      "seconds": 26.4,
+      "step": "t3"
+    },
+    {
+      "seconds": 21.0,
+      "step": "t3 eval"
+    },
+    {
+      "seconds": 0.1,
+      "step": "t3 select"
+    },
+    {
+      "seconds": 16.2,
+      "step": "t1"
+    },
+    {
+      "seconds": 20.6,
+      "step": "t1 eval"
+    },
+    {
+      "seconds": 0.1,
+      "step": "t1 select"
+    },
+    {
+      "seconds": 116.9,
+      "step": "final eval"
+    }
+  ],
+  "teacher_exact_resume": {
+    "epoch2_loss_resumed": 5.76607591455633,
+    "epoch2_loss_uninterrupted": 5.76607591455633,
+    "identical": true
+  },
+  "v1": {
+    "commit": "c4917975533cf87612686fa4caa45158871c443a",
+    "dirty": true,
+    "status": [
+      "M training/t01/patches/t01-e48f3b39.patch",
+      " M training/t01/recipe.json",
+      " M training/t01/source.lock.json",
+      " M training/t01/t01_eval.py",
+      " M training/t01/t01_exec.py",
+      " M training/t01/t01_run.py",
+      "?? training/t01/t01_export.py",
+      "?? training/t01/t01_precision.py",
+      "?? training/t01/t01_verify_features.py"
+    ]
+  }
+}

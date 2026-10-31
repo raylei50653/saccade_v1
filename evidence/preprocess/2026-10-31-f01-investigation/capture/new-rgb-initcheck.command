@@ -1,0 +1,1 @@
+/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 5 /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro hw rgb default preallocate uninit 2 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-f01-investigation/baseline.rgb /home/ray/developer/ai/saccade_v1/build-f01-investigation/new-rgb-initcheck.bin

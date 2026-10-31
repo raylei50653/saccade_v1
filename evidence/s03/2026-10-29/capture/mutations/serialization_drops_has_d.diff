@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/src/scan_trt_plugin.cpp	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/src/scan_trt_plugin.cpp	2026-10-29 23:00:00.010160796 +0800
+@@ -253,7 +253,7 @@
+ 
+     void describe_fields() {
+         fields_.clear();
+-        if (op_ == Op::scan) fields_.emplace_back("has_d", &has_d_, PluginFieldType::kINT32, 1);
++        if (false) fields_.emplace_back("has_d", &has_d_, PluginFieldType::kINT32, 1);
+         if (op_ == Op::merge) {
+             fields_.emplace_back("height", &height_, PluginFieldType::kINT32, 1);
+             fields_.emplace_back("width", &width_, PluginFieldType::kINT32, 1);

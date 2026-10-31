@@ -1,0 +1,1 @@
+git diff --exit-code e9dfa51 e468044f0ab003fe5f76d6d2ef7260b618121516 -- cuda/selective_scan.cu src/selective_scan.cpp include/saccade/selective_scan.hpp include/saccade/selective_scan_cuda.hpp fixtures/selective-scan tests/selective_scan_tests.cpp 

@@ -107,3 +107,5 @@ Mutation 以私有副本修改一處 CUDA 實作，未修改的測試必須失�
 ## 7. 執行紀錄
 
 **S02 PASS（2026-10-29，受測 source `7f7bfa73d53d5ee5d41b416e8abf0b20b1d8e434`）**，範圍與數值見 [S02 證據](../evidence/s02/2026-10-29/REPORT.md)。§3–§5 自政策 commit `7ab618f` 起未修改；之後的文件變更只有 §2 新增初始化列（lazy loading 的隱式同步）與 §6 的 sanitizer 說明（initcheck 略過一項、synccheck 不檢查 shuffle mask），理由見證據報告「開發過程的發現與處理」。
+
+S03 將同一 S02 library 接成 TensorRT plugins，status 以 INT32[2] execution output 交給 frame-end gate。其 identity／序列化／context 初始化／封包交接與獨立驗收見 [SCAN_TRT](SCAN_TRT.md)；S02 的 PASS 不自動代表 S03 通過。

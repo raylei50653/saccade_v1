@@ -1,0 +1,111 @@
+{
+  "kind": "CPU-only static inspection and offline historical trace analysis; no new GPU acceptance",
+  "identities": {
+    "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": {
+      "sha256": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338",
+      "bytes": 6366832
+    },
+    "/usr/lib/wsl/lib/libnvcuvid.so.1": {
+      "sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+      "bytes": 27446016
+    },
+    "evidence/preprocess/2026-10-31-f01-investigation/surface-poison/raw/nsys-rgb.sqlite": {
+      "sha256": "bcccf174c15198e8cd85454e22fb1f2ee45c6d4be62e83d5a98b48c77154804d",
+      "bytes": 376832
+    },
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/capture.py": {
+      "sha256": "3d3882f4995ce62ddf7a8584277be152601cbb38f48916076ce958c994616e31",
+      "bytes": 11035
+    }
+  },
+  "dt_needed": [
+    "librt.so.1",
+    "libpthread.so.0",
+    "libdl.so.2",
+    "libm.so.6",
+    "libgcc_s.so.1",
+    "libc.so.6",
+    "ld-linux-x86-64.so.2"
+  ],
+  "nvjpeg_exports_only_nvjpeg_api": true,
+  "decode_entry": "0x73870",
+  "backend_dispatch_call": "0x73905: call QWORD PTR [r10+0x38]",
+  "batched_rtti_vtables": {
+    "N6nvjpeg18decoder_hw_batched19NVJPGBatchedDecoderE": {
+      "name_offset": "0x2a4680",
+      "candidates": [
+        {
+          "typeinfo_offset": "0x809b38",
+          "vtable_address_point": "0x809c10",
+          "methods": {
+            "0x0": "0xd08e0",
+            "0x8": "0xd0920",
+            "0x10": "0xe2a30",
+            "0x18": "0xdbdd0",
+            "0x20": "0xd17f0",
+            "0x28": "0xd1aa0",
+            "0x30": "0xd0d00",
+            "0x38": "0xd7d70",
+            "0x40": "0xdb260",
+            "0x48": "0xd4520",
+            "0x50": "0xd4b30"
+          }
+        }
+      ]
+    },
+    "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE": {
+      "name_offset": "0x2a4700",
+      "candidates": [
+        {
+          "typeinfo_offset": "0x809b88",
+          "vtable_address_point": "0x809c78",
+          "methods": {
+            "0x0": "0xd08f0",
+            "0x8": "0xd0950",
+            "0x10": "0xe1750",
+            "0x18": "0xdbec0",
+            "0x20": "0xd0e10",
+            "0x28": "0xd10c0",
+            "0x30": "0xd0bf0",
+            "0x38": "0xd0900",
+            "0x40": "0xd4bf0",
+            "0x48": "0xd4580",
+            "0x50": "0xd4b90"
+          }
+        }
+      ]
+    }
+  },
+  "nvcuvid_private_function_table": {
+    "0x0": "0x4cb60",
+    "0x8": "0x4d000",
+    "0x10": "0x4cfa0",
+    "0x18": "0x4cc50",
+    "0x20": "0x4cd10",
+    "0x28": "0x4cd30",
+    "0x30": "0x4cd50",
+    "0x38": "0x4cd70",
+    "0x40": "0x4cd90",
+    "0x48": "0x4cdb0",
+    "0x50": "0x4cba0",
+    "0x58": "0x4cbd0",
+    "0x60": "0x4cdd0",
+    "0x68": "0x4cdf0",
+    "0x70": "0x4ce10",
+    "0x78": "0x4ce30",
+    "0x80": "0x4cb80",
+    "0x88": "0x4ce50",
+    "0x90": "0x4d0f0",
+    "0x98": "0x4cc10",
+    "0xf8": "0x4cc30"
+  },
+  "matched_converter_caller_handoffs": 2,
+  "trace_skip_some_api_calls": "true",
+  "checks": {
+    "dispatch_indirect_call_found": true,
+    "private_dlopen_found": true,
+    "two_batched_types_found": true,
+    "private_table_21_slots": true,
+    "two_converter_caller_handoffs": true
+  }
+}

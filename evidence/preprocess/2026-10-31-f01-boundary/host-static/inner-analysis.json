@@ -1,0 +1,54 @@
+{
+  "scope": "normal decode with one-shot CPU breakpoints; actual callee resolved, next private call not executed under an additional breakpoint",
+  "checks": {
+    "debugger_and_target_completed": true,
+    "one_inner_observation": true,
+    "correct_callsite": true,
+    "callee_address_matches_module_offset": true,
+    "callee_mapped_file_identity": true,
+    "outer_inner_return_zero": true,
+    "captured_branch_cl_zero": true,
+    "static_branch_and_private_call_present": true,
+    "full_rgb_exact": true,
+    "raw_log_complete": true
+  },
+  "inner_call": {
+    "args": {
+      "r8": "0x5",
+      "r9": "0x64ea1d6a3ed0",
+      "rcx": "0x0",
+      "rdi": "0x64ea1d5ec740",
+      "rdx": "0x64ea1d5f86b8",
+      "rsi": "0x64ea1d6a41a0"
+    },
+    "kind": "private_inner_call",
+    "pc": "0x72bb802ee028",
+    "rtti_error": "Cannot access memory at address 0x8",
+    "target": "0x72bb802b7ee0",
+    "target_module": {
+      "file_offset": "00014000",
+      "map_start": "0x72bb802b4000",
+      "mapped_file_sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+      "offset": "0x17ee0",
+      "path": "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    },
+    "vptr": "0x72bb81cc5740"
+  },
+  "inner_return": {
+    "eax": 0,
+    "kind": "private_inner_return",
+    "pc": "0x72bb802ee02e"
+  },
+  "callee_module_offset": "libnvcuvid.so.1+0x17ee0",
+  "selected_branch": "CL=0 -> +0x17f30 -> indirect call at+0x17f53 through [innerObject+0x20] table slot+0x40",
+  "unresolved": "actual target and semantic/synchronization guarantee of the table+0x40 function",
+  "rgb_bytes": 2835,
+  "rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+  "not_claimed": [
+    "R8=5 meaning",
+    "private slot is named public CUDA wait API",
+    "all memory paths share this callee",
+    "hardware-to-converter completion theorem",
+    "RTTI name: provider object's typeinfo was unavailable"
+  ]
+}

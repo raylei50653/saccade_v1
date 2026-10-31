@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/home/ray/developer/ai/saccade_v1/build-f01-investigation/repro",
+    "hw",
+    "rgb",
+    "no-pipeline",
+    "preallocate",
+    "uninit",
+    "2",
+    "/home/ray/developer/ai/saccade_v1/fixtures/preprocess/baseline.jpg",
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-cupti-2/no-pipeline.rgb"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1",
+  "environment_overrides": {
+    "LD_PRELOAD": "/home/ray/developer/ai/saccade_v1/build-f01-boundary-cupti-2/trace.so",
+    "F01_TRACE_LOG": "/home/ray/developer/ai/saccade_v1/build-f01-boundary-cupti-2/no-pipeline.jsonl",
+    "F01_MAPS_OUT": "/home/ray/developer/ai/saccade_v1/build-f01-boundary-cupti-2/no-pipeline.maps"
+  },
+  "time": "2026-10-31T11:41:44.528243+08:00",
+  "mem_available_kib": 46452716,
+  "timeout_seconds": 60
+}

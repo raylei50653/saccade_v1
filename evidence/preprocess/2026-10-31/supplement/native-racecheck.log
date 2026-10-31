@@ -1,0 +1,7 @@
+========= COMPUTE-SANITIZER
+case=positive frames=4 odd-size=35x27 alternate=48x32 bitwise-repeat=PASS
+case=independent-streams mapping=nonuniform bitwise=PASS
+case=host-rejections malformed/unsupported/capacity/metadata/order/config/default-stream/latch/closed=PASS
+case=capture-rejected=PASS
+preprocess_tests checks=2977 PASS
+========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)

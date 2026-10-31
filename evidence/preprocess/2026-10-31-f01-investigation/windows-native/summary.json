@@ -1,0 +1,771 @@
+{
+  "schema": "f01-native-windows-comparison/1",
+  "scope": "Standalone native Windows diagnostics; unsuppressed initcheck failure preserved; WSL is not necessary to reproduce, no native Linux verdict.",
+  "source_sha256": "c3b0bbf242218a22d86568b527df363978588f9ee1d56f7c65891e4e0cdbc977",
+  "exe_sha256": "857c79671c6556dd5fa5da0eafa0f8d88dc93e67ff89f47f57a52f50fc1e86eb",
+  "source_matches_prior_linux_harness": true,
+  "before_after_artifacts_unchanged": true,
+  "cases": [
+    {
+      "name": "windows-hybrid-initcheck",
+      "exit": 0,
+      "errors": [
+        0
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hybrid",
+          "rgb",
+          "default",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-hybrid-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:16:08.1510332+08:00",
+        "available_kib": 42389452,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 0,
+        "timed_out": false,
+        "process_id": 20488,
+        "elapsed_seconds": 3.1441049,
+        "finished": "2026-10-31T11:16:11.2970881+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hybrid",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E200C00",
+        "observed": "000000130E201800"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "different",
+        "rgb_differences_across_repeats": "186",
+        "rgb_max_difference": "2",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [],
+      "output_bytes": 2835,
+      "output_sha256": "20354e97c1040ba8a9bf66136cf8f244405e502810f66710d8b3c5a744e6f8e5",
+      "stdout_sha256": "12c233054d6af8ab23e87c83106d516dfd2f3355a37389516d9569790705f900",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    },
+    {
+      "name": "windows-rgb-initcheck",
+      "exit": 99,
+      "errors": [
+        1890
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hw",
+          "rgb",
+          "default",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-rgb-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:18.9212541+08:00",
+        "available_kib": 42321100,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 99,
+        "timed_out": false,
+        "process_id": 32584,
+        "elapsed_seconds": 3.7078084,
+        "finished": "2026-10-31T11:15:22.6309506+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E400000",
+        "observed": "000000130E400C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "exact",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170"
+      ],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "stdout_sha256": "44436d2b92f07e318d6cefa75b9e18e38a1741a1217fe321a4c5369e8710900a",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    },
+    {
+      "name": "windows-rgb-memcheck",
+      "exit": 0,
+      "errors": [
+        0
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "memcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hw",
+          "rgb",
+          "default",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-rgb-memcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:15.6765717+08:00",
+        "available_kib": 42372380,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 0,
+        "timed_out": false,
+        "process_id": 32576,
+        "elapsed_seconds": 3.1320563999999997,
+        "finished": "2026-10-31T11:15:18.8109809+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "000000130FE00000",
+        "observed": "000000130FE00C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "exact",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "stdout_sha256": "ea69a5519c8c64f37cd2d4d02fdca845c241c04824d1cc86a91ced0f6a7a8bb2",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    },
+    {
+      "name": "windows-rgb-no-pipeline-initcheck",
+      "exit": 99,
+      "errors": [
+        1890
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hw",
+          "rgb",
+          "no-pipeline",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-rgb-no-pipeline-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:57.3247205+08:00",
+        "available_kib": 42354208,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 99,
+        "timed_out": false,
+        "process_id": 26000,
+        "elapsed_seconds": 3.6694044999999997,
+        "finished": "2026-10-31T11:16:00.9960470+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "rgb",
+        "flags": "no-pipeline",
+        "flags_value": "1",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E400000",
+        "observed": "000000130E400C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "exact",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170"
+      ],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "stdout_sha256": "6067f404e12966665662a405e15e99fc88286776b9bdc2ed489fd0501a1dc07a",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    },
+    {
+      "name": "windows-rgb-no-preallocate-initcheck",
+      "exit": 99,
+      "errors": [
+        1890
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hw",
+          "rgb",
+          "default",
+          "no-preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-rgb-no-preallocate-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:53.5646675+08:00",
+        "available_kib": 42333320,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 99,
+        "timed_out": false,
+        "process_id": 9004,
+        "elapsed_seconds": 3.654309,
+        "finished": "2026-10-31T11:15:57.2207537+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "no-preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E200000",
+        "observed": "000000130E200C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "exact",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170"
+      ],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "stdout_sha256": "22fe4273094686f4bab056dd368c6a0618d0586cbcc535cf8ce89956755e248b",
+      "stderr_sha256": "3fc29fa2b9f7d2e72896a6ef127e4b84bf82ccbef40280dcbe6d4ffb9ece2745"
+    },
+    {
+      "name": "windows-rgb-normal",
+      "exit": 0,
+      "errors": [],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+        "arguments": [
+          "hw",
+          "rgb",
+          "default",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-rgb-normal.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:14.6224379+08:00",
+        "available_kib": 42382080,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 0,
+        "timed_out": false,
+        "process_id": 5756,
+        "elapsed_seconds": 0.9169548,
+        "finished": "2026-10-31T11:15:15.5669057+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "0000001308400000",
+        "observed": "0000001308400C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "exact",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "stdout_sha256": "00510871744bd083d9e58bfe664d2cf4353b19a77c822a43a71ba5966ad08438",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    },
+    {
+      "name": "windows-rgbi-initcheck",
+      "exit": 99,
+      "errors": [
+        1890
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hw",
+          "rgbi",
+          "default",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-rgbi-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:16:01.1052885+08:00",
+        "available_kib": 42350336,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 99,
+        "timed_out": false,
+        "process_id": 12388,
+        "elapsed_seconds": 3.6659696999999998,
+        "finished": "2026-10-31T11:16:04.7727672+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "rgbi",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E400000",
+        "observed": "000000130E400C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "exact",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [
+        "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)5, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x140"
+      ],
+      "output_bytes": 2835,
+      "output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "stdout_sha256": "d8e2f3cae1f9653e39a89ec4595ed2177841b5425426d3ba283ef493f5bd9e53",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    },
+    {
+      "name": "windows-skip-uninit-initcheck",
+      "exit": 99,
+      "errors": [
+        2835
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "skip",
+          "rgb",
+          "default",
+          "preallocate",
+          "uninit",
+          "1",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-skip-uninit-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:46.4638261+08:00",
+        "available_kib": 42328352,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 99,
+        "timed_out": false,
+        "process_id": 16712,
+        "elapsed_seconds": 3.7595387999999996,
+        "finished": "2026-10-31T11:15:50.2247552+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "skip",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "1",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E400000",
+        "observed": "000000130E400C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "different",
+        "rgb_differences_across_repeats": "2832",
+        "rgb_max_difference": "227",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [
+        "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long long)+0xc0 in repro.cu:41"
+      ],
+      "output_bytes": 2835,
+      "output_sha256": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+      "stdout_sha256": "854a9822847472866bb11a65e8e5f560c69e0b0112a2c8cb8099c8d70e44de96",
+      "stderr_sha256": "aabcc97aa4623c4269fed374edbd7450cbdaa1e34a8553033de83146fc8f7a39"
+    },
+    {
+      "name": "windows-skip-uninit-memcheck",
+      "exit": 0,
+      "errors": [
+        0
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "memcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "skip",
+          "rgb",
+          "default",
+          "preallocate",
+          "uninit",
+          "1",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-skip-uninit-memcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:41.0619651+08:00",
+        "available_kib": 42343512,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 0,
+        "timed_out": false,
+        "process_id": 9064,
+        "elapsed_seconds": 5.2819119,
+        "finished": "2026-10-31T11:15:46.3723352+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "skip",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "1",
+        "raw_bytes": "2835",
+        "caller_output": "000000130FE00000",
+        "observed": "000000130FE00C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "different",
+        "rgb_differences_across_repeats": "2832",
+        "rgb_max_difference": "227",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [],
+      "output_bytes": 2835,
+      "output_sha256": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+      "stdout_sha256": "0979695d5e1d583f87bf98dcc540ffdf6e9a7a0067b7027ca92e1ede1b0c9d2f",
+      "stderr_sha256": "aabcc97aa4623c4269fed374edbd7450cbdaa1e34a8553033de83146fc8f7a39"
+    },
+    {
+      "name": "windows-skip-zero-initcheck",
+      "exit": 0,
+      "errors": [
+        0
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "skip",
+          "rgb",
+          "default",
+          "preallocate",
+          "zero",
+          "1",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-skip-zero-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:15:50.3265379+08:00",
+        "available_kib": 42323336,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 0,
+        "timed_out": false,
+        "process_id": 32024,
+        "elapsed_seconds": 3.1307275,
+        "finished": "2026-10-31T11:15:53.4603370+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "skip",
+        "format": "rgb",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "zero",
+        "dimensions": "35x27",
+        "repeats": "1",
+        "raw_bytes": "2835",
+        "caller_output": "000000130E400000",
+        "observed": "000000130E400C00"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "different",
+        "rgb_differences_across_repeats": "2832",
+        "rgb_max_difference": "227",
+        "output_layout": "planar-rgb"
+      },
+      "api_failures": [],
+      "printed_kernels": [],
+      "output_bytes": 2835,
+      "output_sha256": "16deada8d105e9003d0991d92438c5a571b33325c0743e7b67b9715376203d6c",
+      "stdout_sha256": "b6a270f645329d972ae471eb3565032bc96f95129181b3f86c555e88ac4eb190",
+      "stderr_sha256": "824716f2a4a30971107690d784fba7d56f920d0e66b79057ec7d1aef0ac4fcf3"
+    },
+    {
+      "name": "windows-y-initcheck",
+      "exit": 99,
+      "errors": [
+        108
+      ],
+      "command": {
+        "file": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer\\compute-sanitizer.exe",
+        "arguments": [
+          "--tool",
+          "initcheck",
+          "--error-exitcode",
+          "99",
+          "--print-limit",
+          "10",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\repro.exe",
+          "hw",
+          "y",
+          "default",
+          "preallocate",
+          "uninit",
+          "2",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.jpg",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\baseline.rgb",
+          "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\windows-y-initcheck.bin"
+        ],
+        "working_directory": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232",
+        "path_prefix": "C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\bin\\x64;C:\\Users\\Ray Lei\\AppData\\Local\\Temp\\saccade-f01-native-20261031T111232\\cuda\\compute-sanitizer",
+        "started": "2026-10-31T11:16:04.8686021+08:00",
+        "available_kib": 42339452,
+        "timeout_seconds": 90
+      },
+      "status": {
+        "exit": 99,
+        "timed_out": false,
+        "process_id": 11080,
+        "elapsed_seconds": 3.1698758999999996,
+        "finished": "2026-10-31T11:16:08.0399657+08:00"
+      },
+      "identity": {
+        "nvjpeg": "13.2.3",
+        "backend": "hw",
+        "format": "y",
+        "flags": "default",
+        "flags_value": "0",
+        "preallocation": "preallocate",
+        "fill": "uninit",
+        "dimensions": "35x27",
+        "repeats": "2",
+        "raw_bytes": "945",
+        "caller_output": "000000130E400000",
+        "observed": "000000130E400400"
+      },
+      "result": {
+        "result": "complete",
+        "repeat_exact": "1",
+        "rgb_equivalence": "not-compared",
+        "rgb_differences_across_repeats": "0",
+        "rgb_max_difference": "0",
+        "output_layout": "raw-planes"
+      },
+      "api_failures": [],
+      "printed_kernels": [],
+      "output_bytes": 945,
+      "output_sha256": "a515e1db435c758924b1047de6adcfb69134d4fab45d9062cad2a4df08c159ec",
+      "stdout_sha256": "d51dcffe710d99a088005bc8c3d5f961d835f5772a9665c0d67fe9f5f20e0ca7",
+      "stderr_sha256": "bbc14c677b071d0f4019d592fa282731aaf238008be871d95473f02a4d7005b5"
+    }
+  ],
+  "wsl_baseline_comparison": {
+    "windows_exit": 99,
+    "wsl_exit": 99,
+    "windows_errors": [
+      1890
+    ],
+    "wsl_errors": [
+      1890
+    ],
+    "rgb_output_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "same_error_kernel_offset_observed": true
+  }
+}

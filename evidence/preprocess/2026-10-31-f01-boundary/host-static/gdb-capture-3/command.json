@@ -1,0 +1,62 @@
+{
+  "argv": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-x",
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/observe.gdb",
+    "--args",
+    "build-f01-investigation/repro",
+    "hw",
+    "rgb",
+    "default",
+    "preallocate",
+    "uninit",
+    "2",
+    "fixtures/preprocess/baseline.jpg",
+    "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb",
+    "evidence/preprocess/2026-10-31-f01-boundary/host-static/gdb-capture-3/output.rgb"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1",
+  "timeout_seconds": 60,
+  "start_utc": "2026-10-31T03:40:17.106971+00:00",
+  "env": {
+    "LD_LIBRARY_PATH": "/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:"
+  },
+  "identity": {
+    "build-f01-investigation/repro": {
+      "sha256": "58e2c0ea589fd64ef9e334793c2af8230f4e580d6a303888de769313b5da27c3",
+      "bytes": 1152280
+    },
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/observe.gdb": {
+      "sha256": "697352c32a8a3730a0b52a4c86c95637978556fd3160b05319c3438d2543838a",
+      "bytes": 3542
+    },
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/run_gdb.py": {
+      "sha256": "f03c171b617ed4d84b4bf199e853a79a8a120136434341ef45a3f8e3b27ddfad",
+      "bytes": 4168
+    },
+    "fixtures/preprocess/baseline.jpg": {
+      "sha256": "3dedf93555bdc2aff5aab2a608a99f69cd8d6cc5c0fd64d8d3404ebb2f78da56",
+      "bytes": 1124
+    },
+    "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb": {
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "bytes": 2835
+    },
+    "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": {
+      "sha256": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338",
+      "bytes": 6366832
+    },
+    "/usr/lib/wsl/lib/libnvcuvid.so.1": {
+      "sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+      "bytes": 27446016
+    },
+    "/usr/lib/wsl/lib/libcuda.so.1": {
+      "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d",
+      "bytes": 188024
+    }
+  },
+  "scope": "diagnostic CPU debugger changes host timing; no sanitizer or CUDA debugger"
+}

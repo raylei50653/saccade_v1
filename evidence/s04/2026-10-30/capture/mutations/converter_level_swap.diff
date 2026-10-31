@@ -1,0 +1,20 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_weights.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_weights.cpp	2026-10-30 12:56:32.721906517 +0800
+@@ -35,7 +35,7 @@
+ std::vector<HeadParam> make_schema() {
+     std::vector<HeadParam> s;
+     for (int i = 0; i < kHeadLevels; ++i) {
+-        const std::string p = kHeadLevelNames[static_cast<std::size_t>(i)], n = std::to_string(i);
++        const std::string p = kHeadLevelNames[static_cast<std::size_t>(i)], n = std::to_string(i == 0 ? 0 : 3 - i);
+         const auto cin = kHeadInChannels[static_cast<std::size_t>(i)];
+         const auto add = [&](std::string name, std::string layout, std::string key, std::vector<std::int64_t> shape) {
+             s.push_back({p + "." + name, std::move(layout), std::move(key), std::move(shape)});
+@@ -73,7 +73,7 @@
+     const char* temporal = "temporal Mamba block: the head runs it only when T_frames > 1; the T=1 forward bypasses it";
+     const char* gate = "flow gate of the temporal path: needs T_frames > 1 and optical flow; not on the T=1 forward";
+     for (int i = 0; i < kHeadLevels; ++i) {
+-        const auto n = std::to_string(i);
++        const auto n = std::to_string(i == 0 ? 0 : 3 - i);
+         for (const char* k : {"A_log", "D", "in_proj.weight", "conv1d.weight", "conv1d.bias", "x_proj.weight", "dt_proj.weight", "dt_proj.bias",
+                               "out_proj.weight"})
+             x.emplace_back("temporal_blocks." + n + ".0." + k, temporal);

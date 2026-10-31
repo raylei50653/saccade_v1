@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:52:18.457451538 +0800
+@@ -185,7 +185,7 @@
+         // 4g: gate, out_proj, residual with the tokens.
+         auto* gated = keep(named(network_->addElementWise(*y, *silu(z, "mamba.z"), ElementWiseOperation::kPROD), "mamba.gate")->getOutput(0), "gate");
+         auto* o = keep(linear(gated, "mamba.out_proj.weight"), "out_proj");
+-        auto* r = keep(named(network_->addElementWise(*o, *tokens, ElementWiseOperation::kSUM), "mamba.residual")->getOutput(0), "residual");
++        auto* r = keep(named(network_->addElementWise(*o, *tokens, ElementWiseOperation::kSUB), "mamba.residual")->getOutput(0), "residual");
+         // 5: Cross-Scan merge -> (1, 128, Hs, Ws).
+         auto* merged = keep(plugin(create_cross_scan_merge_plugin(static_cast<std::int32_t>(small), static_cast<std::int32_t>(small)), {r}, "merge"),
+                             "merge");

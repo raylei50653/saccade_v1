@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/cuda/scan_frame.cu	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/cuda/scan_frame.cu	2026-10-29 22:58:59.015416654 +0800
+@@ -53,7 +53,7 @@
+         const std::uint32_t flags = s->flags, done = s->done;
+         if (done != kScanDone) ctl->frame_status |= kProtocol;
+         if (flags) ctl->frame_status |= kNumeric;
+-        if (flags & ~kKnownScanFlags) ctl->frame_status |= kProtocol;
++        if (false) ctl->frame_status |= kProtocol;
+         ctl->scan_flags |= flags;
+         s->flags = 0;
+         s->done = 0; // retired: only the next plugin call can make it valid again

@@ -28,7 +28,7 @@ C++ host 負責設定、來源控制、工作提交、錯誤處理與 I/O；前�
 | B01 主線邊界 | geometry-first、ReID-free MOT；不把 embedding、crop bank、Redis、RAG 或 cognition 納入追蹤必要依賴。 | [ADR 019 Decision](../../saccade/docs/decisions/019-demote-reid-geometry-first-production-tracker.md)、[architecture §3](../../saccade/docs/architecture/README.md) |
 | B02 第一個具體 profile | JPEG sequence＋序列 metadata → 每序列一份 MOT 結果；C++ native 入口。一般影片、RTSP 與多來源並行是擴充範圍。 | [native shipping boundary §3](../../saccade/docs/reference/native_runtime_shipping_boundary.md) |
 | B03 偵測器 | YOLO26m backbone／neck＋原版 m T3→T1 對應的 Mamba-FPN head（P3／P4／P5 channels 256／512／512、`d_model` 128、`d_state` 16、每尺度 1 block、spatial reduction 4、四方向 Cross-Scan、PixelShuffle、cls 80／reg 4、無 DFL），640×640、單幀 T=1，不跨幀保留 ModelState。C++ GPU 推論以 TensorRT＋native CUDA scan 為規劃方向，不使用 Python 前向。2026-10-29 使用者決策由 s 改為 m。 | [TRAINING_WORKFLOW](TRAINING_WORKFLOW.md)、[SCAN_CONTRACT](SCAN_CONTRACT.md)；s 時期的 [math model §4.1](../../saccade/docs/reference/math_model.md) 只作歷史設計意圖 |
-| B04 影像轉換 | RGB、CHW、float32 正規化至 0–1，再 stretch 到 640×640；保留回原圖的座標映射。主線不加入 tiling、letterbox、gamma 或 contrast 調整。 | [native resolved config §11.1](../../saccade/docs/reference/native_runtime_resolved_config.md)、[math model §1、§4.1](../../saccade/docs/reference/math_model.md) |
+| B04 影像轉換 | RGB、CHW、float32 正規化至 0–1，再 stretch 到 640×640；保留回原圖的座標映射。主線不加入 tiling、letterbox、gamma 或 contrast 調整。2026-10-30 使用者決策（T01 輸入契約 `t01-input/1`）：stretch 固定為 float32 的 antialiased bilinear（`align_corners=False`），不取整、不 clamp；模型的訓練、cache 與部署都用 nvJPEG GPU decode，不再使用 CPU decode（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）。 | [native resolved config §11.1](../../saccade/docs/reference/native_runtime_resolved_config.md)、[math model §1、§4.1](../../saccade/docs/reference/math_model.md) |
 | B05 觀測形成 | anchor-free decode、sigmoid／class 選擇、篩選與穩定 compact、NMS、原圖 xyxy boxes；保留 class ID。suppression 的責任只執行一次。 | [math model §4.1–4.2](../../saccade/docs/reference/math_model.md) |
 | B06 續追候選 | 從 NMS suppressed candidates 補回與本幀 predicted prior 重疊的觀測，只可續追、不可 birth；prior 在本幀 GMC control＋Kalman predict 後產生。 | [math model §9.1](../../saccade/docs/reference/math_model.md) 提供續追機制；prior 時點改變明列為 D06 |
 | B07 鏡頭運動 | detect stream 上完成 grayscale／downsample／Hanning，交付獨立小型 MotionImage；main stream 的 phase correlation 使用前次獨立頻譜，產生 translation-only warp。MotionState 永不借用原圖。 | [math model §0、§5](../../saccade/docs/reference/math_model.md)；原圖與運動狀態分離明列為 D07 |
@@ -94,8 +94,8 @@ main 的必要順序是 F06 GMC(k) → F08a GMC control＋predict(k) → Predict
 
 | 階段 | 輸入 | 輸出 | 唯一責任與邊界 |
 | --- | --- | --- | --- |
-| F01 輸入與 GPU 影像準備 | JPEG sequence、序列 metadata | GpuFrame、FrameMeta | C++ 讀取壓縮資料，nvJPEG 產生 GPU RGB 影像並建立 frame 身份；尺寸／數量檢查及解碼錯誤與 EOF 分開。 |
-| F02 模型輸入轉換 | GpuFrame、模型輸入規格 | 640×640 RGB CHW 模型輸入、ImageMapping | float32 正規化與 stretch；完整記錄原圖到模型座標的映射。 |
+| F01 輸入與 GPU 影像準備 | JPEG sequence、序列 metadata | GpuFrame、FrameMeta | C++ 讀取壓縮資料，nvJPEG 產生 GPU RGB 影像並建立 frame 身份；尺寸／數量檢查及解碼錯誤與 EOF 分開。[native F01](PREPROCESS.md) 已實作 HARDWARE backend、batch-1 planar RGB，嚴格接受 baseline 8-bit YCbCr 4:2:0，無 fallback；依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**：7 張固定真實 JPEG、4 個 sessions 共 208 幀的 RGB／FP32 輸出逐位元對齊（[使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)）。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。 |
+| F02 模型輸入轉換 | GpuFrame、模型輸入規格 | 640×640 RGB CHW 模型輸入、ImageMapping | [native F02](PREPROCESS.md) 已實作 float32 正規化後的 antialiased bilinear stretch（B04）；ImageMapping 分別保留原圖到模型的 x／y scales。比較門檻由 [PREPROCESS_POLICY](PREPROCESS_POLICY.md) 固定；17 組輸出逐位元相同、四種 sanitizer 通過，F02 在受測範圍 PASS（[證據](../evidence/preprocess/2026-10-31/REPORT.md)）。 |
 | F03 模型推論 | 模型輸入 | RawPredictions | YOLO26 backbone／neck 產生 P3／P4／P5，Mamba-FPN head 產生 cls／reg；基線為幀內推論。 |
 | F04 觀測整理 | RawPredictions、ImageMapping、觀測政策 | DetectionCandidates | decode、class／score 選擇、篩選、穩定排列、NMS、座標還原；區分 kept 與 suppressed candidates，供 F04b 使用。 |
 | F05 運動影像準備 | GpuFrame | 獨立 MotionImage、frame／座標資訊、ready | detect stream 在 decode 後先做 grayscale／downsample／Hanning；輸出與原圖不 alias。 |
@@ -169,7 +169,7 @@ candidate ID 在 F04 篩選前由固定模型輸出序號建立，kept／suppres
 
 ### 4.2 座標與運動方向
 
-DetectionCandidates、DetectionBatch 與 TrackSnapshot 採原圖像素 xyxy 座標，輸出 MOT rows 時才轉為 left／top／width／height。640 stretch 的 x／y scale 分開記錄；像素取樣、clipping 與退化框處理的精確規格待 §9 補齊。
+DetectionCandidates、DetectionBatch 與 TrackSnapshot 採原圖像素 xyxy 座標，輸出 MOT rows 時才轉為 left／top／width／height。640 stretch 的 x／y scale 分開記錄；模型輸入的 resize 取樣已固定為 B04 的 antialiased bilinear，clipping 與退化框處理的精確規格待 §9 補齊。
 
 MotionContext 描述「參考幀座標 → 當前幀座標」，基線為 translation-only 的 2×3 warp。估計在縮小影像上執行時，位移交付前轉回原圖尺度；affine／homography 是改變 B07 的差異方案。
 
@@ -405,7 +405,7 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 | 編號 | OPEN 規格 | 已有基線 |
 | --- | --- | --- |
 | P01 模型 artifact | 新模型檔案的來源／版本、engine 精度／shape binding、可供 native 載入的 m 權重與 component I/O。 | YOLO26m＋原版 m Mamba-FPN head、640、單幀 GPU 推論；scan 契約與 S01 reference 見 [SCAN_CONTRACT](SCAN_CONTRACT.md)，分階段驗證見 [MODEL_FEASIBILITY.md](MODEL_FEASIBILITY.md)，P01 仍 OPEN。 |
-| P02 邊界數值規格 | resize 取樣與像素邊界、clipping／退化框、class 範圍、NMS 決勝與排序。 | RGB CHW 正規化、stretch、原圖 xyxy、穩定候選順序、class 保留。 |
+| P02 邊界數值規格 | clipping／退化框、class 範圍、NMS 決勝與排序。 | RGB CHW 正規化、stretch、原圖 xyxy、穩定候選順序、class 保留；模型輸入 resize 已固定（B04、T01 `t01-input/1`），F01 bitwise／F02 FP32 比較門檻已由 [PREPROCESS_POLICY](PREPROCESS_POLICY.md) 固定，17 組有限案例通過數值驗證。正常輸出與重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)；既知 initcheck 診斷不作為 P02 數值門檻。 |
 | P03 決策參數與簡化 | GMC downscale／可信度及 invalid 處置、分數／關聯／生命週期／bridge 閾值、預測後 prior 資格與 DDA 等歷史開關去留。 | F08a → predicted prior → F04b → F08b 已定；所有 top-k 與 auction 平手依 §3.2 的 `(cost, track UID, candidate ID)` 字典序，auction 保留 bid 主排序。 |
 | P04 容量與記憶體 | detections、suppressed candidates、GPU TrackState、top-k、獨立小影像／頻譜與序列輸出儲存的上限、dtype／layout；GPU 封包 writer 與容量驗證。 | [ResultPacket v1](RESULT_PACKET.md) 的最小 wire profile 已定為 256 rows、80-byte header＋48-byte rows，共 12368 bytes；有 C++ codec。此 profile 不代替其他 GPU 容量決策；每幀一次封包 D2H，容量不足顯式失敗。 |
 | P05 graph 與比較鍵封裝 | capture／event／資源封裝、warm-up／cache 政策、fixed output 交付，以及 packed winner key 的位寬／序碼或分階段比較方式。 | serial／double-buffer 均滿足 E01–E11 與 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的 A01–A10；F05 在 detect、原圖不跨 stream；物理比較必須完全等價於 §3.2 已定的全序與 phase boundary。 |

@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/scan_trt_frame.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/scan_trt_frame.cpp	2026-10-30 12:55:51.043528071 +0800
+@@ -522,7 +522,7 @@
+             for (std::size_t i = 0; i < slot.staging.size(); ++i)
+                 std::memcpy(slot.staging[i], frames[static_cast<std::size_t>(k)][i].data(), input_count[i] * sizeof(float));
+             // ---- D: the slot's previous frame must be consumed by M before it is overwritten.
+-            if (k >= S) wait(slot.consumed, d, k - S, "consumed", s);
++            // no consumed wait
+             for (std::size_t i = 0; i < slot.inputs.size(); ++i)
+                 CUDA(cudaMemcpyAsync(slot.inputs[i], slot.staging[i], input_count[i] * sizeof(float), cudaMemcpyHostToDevice, d));
+             record(slot.staged, d, k, "staged", s);

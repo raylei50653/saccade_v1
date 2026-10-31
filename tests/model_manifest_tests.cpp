@@ -66,7 +66,11 @@ void tests(const std::filesystem::path& fixture) {
     bad(replace(text, "\"schema\": 1,", "\"schema\": 1, \"sch\\u0065ma\": 1,"), "$.schema: duplicate field");
     bad(replace(text, "\"schema\": 1,", "\"schema\": 1, \"unknown\": 1,"), "$.unknown: unknown field");
     bad(replace(text, "\"schema\": 1,", ""), "$.schema: missing required field");
-    bad(replace(text, "\"schema\": 1", "\"schema\": 2"), "$.schema");
+    // A schema-1 body relabelled as schema 2 is rejected, never reinterpreted.
+    bad(replace(text, "\"schema\": 1", "\"schema\": 2"), "$.input_profile: unknown field");
+    // Schema 3 is the complete-model family: a schema-1 body labelled 3 is rejected too; 4 is no schema.
+    bad(replace(text, "\"schema\": 1", "\"schema\": 3"), "$.statuses: missing required field");
+    bad(replace(text, "\"schema\": 1", "\"schema\": 4"), "$.schema: expected 1");
     bad(replace(text, "\"schema\": 1", "\"schema\": \"1\""), "$.schema: expected unsigned integer");
     bad(replace(text, "\"schema\": 1", "\"schema\": true"), "$.schema: expected unsigned integer");
     bad(replace(text, "\"schema\": 1", "\"schema\": 1.0"), "expected comma");
@@ -152,11 +156,98 @@ void tests(const std::filesystem::path& fixture) {
     }
 #endif
 }
+
+// Schema 2 (S04 head-only delivery): fixed ordered P3/P4/P5 and six raw
+// outputs, declared statuses and plugin identities, FP32 path and a policy
+// document artifact.
+void tests_schema2(const std::filesystem::path& fixture) {
+    using namespace saccade;
+    const auto text = read_text_file(fixture / "head-contract.json");
+    const auto manifest = parse_model_manifest(text);
+    check(manifest.schema == 2 && manifest.purpose == "test_fixture" && manifest.artifacts.size() == 1, "schema 2 fixture parsed");
+    // Independent sha256sum of the canonical output (docs/MODEL_MANIFEST.md).
+    check(model_manifest_hash(manifest) == "4fd850787f24ff88b1375658a5e613d8095a06a00088cf762794edcfd6d33748", "known canonical schema 2 SHA-256");
+    check(parse_model_manifest(manifest.canonical_json).canonical_json == manifest.canonical_json, "schema 2 canonical idempotence");
+    verify_manifest_artifacts(manifest, fixture / "head-contract.json");
+    const auto bad = [&](std::string changed, std::string_view field) { reject([&] { parse_model_manifest(changed); }, field); };
+    bad(replace(text, "\"schema\": 2", "\"schema\": 1"), "$.frames: unknown field");
+    bad(replace(text, "YOLO26m-Mamba-FPN-head-T1", "YOLO26s-backbone-neck+Mamba-FPN-head"), "$.model_family");
+    bad(replace(text, "\"scope\": \"head_only\"", "\"scope\": \"full_model\""), "$.boundary.scope");
+    bad(replace(text, "\"backbone_neck\": null", "\"backbone_neck\": \"fixture\""), "must be null");
+    bad(replace(text, "\"decode_owner\": \"external\"", "\"decode_owner\": \"head\""), "$.boundary.decode_owner");
+    bad(replace(text, "{\"name\": \"p4\", \"order\": 1", "{\"name\": \"p5\", \"order\": 1"), "$.tensors[1].name: expected p4 here");
+    bad(replace(text, "\"shape\": [1,256,80,80]", "\"shape\": [1,128,80,80]"), "$.tensors[0].shape[1]");
+    bad(replace(text, "\"name\": \"cls_p3\", \"order\": 0", "\"name\": \"cls_p4\", \"order\": 0"), "$.tensors[3].name: expected cls_p3 here");
+    bad(replace(text, "\"shape\": [1,4,20,20], \"dtype\": \"float32\"", "\"shape\": [1,4,20,20], \"dtype\": \"float16\""), "$.tensors[8].dtype");
+    bad(replace(text, "\"direction\": \"input\", \"component\": \"head\", \"shape\": [1,512,20,20]", "\"direction\": \"output\", \"component\": \"head\", \"shape\": [1,512,20,20]"),
+        "$.tensors[2].direction");
+    bad(replace(text, "\"name\": \"fixture_status\"", "\"name\": \"cls_p5\""), "duplicate tensor or status name");
+    bad(replace(text, "\"dtype\": \"int32\", \"shape\": [2]", "\"dtype\": \"int32\", \"shape\": [3]"), "$.statuses[0].shape[0]");
+    bad(replace(text, "{\"name\": \"fixture_status\", \"producer\": \"fixture: no engine\", \"dtype\": \"int32\", \"shape\": [2]}", ""), "$.statuses: array must not be empty");
+    bad(replace(text, "\"temporal_length\": 1", "\"temporal_length\": 3"), "$.frames.temporal_length");
+    bad(replace(text, "\"plugin_name\": \"SelectiveScan\", \"plugin_namespace\": \"saccade\", \"plugin_version\": \"2\"",
+                "\"plugin_name\": \"SelectiveScan\", \"plugin_namespace\": \"saccade\", \"plugin_version\": \"1\""),
+        "v1 has no status output");
+    bad(replace(text, "\"plugin_name\": \"CrossScanExpand\", \"plugin_namespace\": \"saccade\"", "\"plugin_name\": \"CrossScanExpand\", \"plugin_namespace\": \"\""),
+        "$.scan.plugins[0].plugin_namespace");
+    bad(replace(text, "[{\"name\": \"has_d\", \"type\": \"int32\"}]", "[]"), "$.scan.plugins[1].fields");
+    bad(replace(text, "\"plugin_name\": \"CrossScanMerge\"", "\"plugin_name\": \"CrossScanExpand\""), "$.scan.plugins[2].plugin_name");
+    bad(replace(text, "\"tf32\": false", "\"tf32\": true"), "FP32 path");
+    bad(replace(text, "\"fp16\": false", "\"fp16\": true"), "FP32 path");
+    bad(replace(text, "\"compute_dtype\": \"float32\"", "\"compute_dtype\": \"float16\""), "$.precision.compute_dtype");
+    bad(replace(text, "\"policy_artifact\": \"fixture\"", "\"policy_artifact\": \"missing\""), "$.precision.comparison.policy_artifact: unknown artifact id");
+    bad(replace(text, "\"comparison\": {\"status\": \"specified\"", "\"comparison\": {\"status\": \"unverified\""), "$.precision.comparison.status");
+    bad(replace(text, "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\""), "test fixture cannot be a model candidate");
+    const auto candidate = replace(replace(replace(text, "\"role\": \"fixture\"", "\"role\": \"mamba_fpn_head\""), "\"format\": \"fixture_bytes\"", "\"format\": \"native_weights\""),
+                                   "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\"");
+    bad(candidate, "$.boundary.source_checkpoint: artifact required");
+    bad(replace(candidate, "\"source_checkpoint\": null", "\"source_checkpoint\": \"fixture\""), "$.boundary.source_checkpoint: artifact must have role checkpoint");
+}
+// Schema 3 (T01 F03 complete model): the schema 2 head on a declared backbone
+// ONNX, with the image input profile, P3/P4/P5 as backbone intermediates and
+// both policy documents.
+void tests_schema3(const std::filesystem::path& fixture) {
+    using namespace saccade;
+    const auto text = read_text_file(fixture / "model-contract.json");
+    const auto manifest = parse_model_manifest(text);
+    check(manifest.schema == 3 && manifest.purpose == "test_fixture" && manifest.artifacts.size() == 1, "schema 3 fixture parsed");
+    check(model_manifest_hash(manifest) == "fed0fc2fe5ba511ca2e659410417fef1b829440631504fc483fed24866e67f91", "known canonical schema 3 SHA-256");
+    check(parse_model_manifest(manifest.canonical_json).canonical_json == manifest.canonical_json, "schema 3 canonical idempotence");
+    verify_manifest_artifacts(manifest, fixture / "model-contract.json");
+    const auto bad = [&](std::string changed, std::string_view field) { reject([&] { parse_model_manifest(changed); }, field); };
+    // Neither family is reinterpreted as the other.
+    bad(replace(text, "\"schema\": 3", "\"schema\": 2"), "$.input_profile: unknown field");
+    bad(replace(text, "YOLO26m-Mamba-FPN-T1", "YOLO26m-Mamba-FPN-head-T1"), "$.model_family");
+    bad(replace(text, "\"scope\": \"complete_model\"", "\"scope\": \"head_only\""), "$.boundary.scope");
+    bad(replace(text, "\"backbone_neck\": \"fixture\"", "\"backbone_neck\": null"), "$.boundary.backbone_neck: artifact required");
+    bad(replace(text, "\"head\": \"fixture\"", "\"head\": null"), "$.boundary.head: artifact required");
+    bad(replace(text, "\"resize\": \"stretch\"", "\"resize\": \"letterbox\""), "$.input_profile.resize");
+    bad(replace(text, "\"color\": \"RGB\"", "\"color\": \"BGR\""), "$.input_profile.color");
+    bad(replace(text, "\"preprocessing\": \"fixture: no preprocessing contract\"", "\"preprocessing\": \"\""), "$.input_profile.preprocessing");
+    bad(replace(text, "\"name\": \"images\", \"order\": 0", "\"name\": \"image\", \"order\": 0"), "$.tensors[0].name: expected images here");
+    bad(replace(text, "\"direction\": \"intermediate\", \"component\": \"backbone\", \"shape\": [1,256,80,80]",
+                "\"direction\": \"output\", \"component\": \"backbone\", \"shape\": [1,256,80,80]"),
+        "$.tensors[1].direction");
+    bad(replace(text, "\"direction\": \"intermediate\", \"component\": \"backbone\", \"shape\": [1,512,20,20]",
+                "\"direction\": \"intermediate\", \"component\": \"head\", \"shape\": [1,512,20,20]"),
+        "$.tensors[3].component");
+    bad(replace(text, "\"shape\": [1,3,640,640]", "\"shape\": [1,3,640,384]"), "$.tensors[0].shape[3]");
+    bad(replace(text, "\"head_policy_artifact\": \"fixture\", ", ""), "$.precision.comparison.head_policy_artifact: missing required field");
+    bad(replace(text, "\"tf32\": false", "\"tf32\": true"), "the F03 model is an FP32 path");
+    const auto candidate = replace(text, "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\"");
+    bad(candidate, "test fixture cannot be a model candidate");
+    // A candidate needs an ONNX backbone and native head weights, never one artifact in both roles.
+    const auto roles = replace(replace(text, "\"role\": \"fixture\"", "\"role\": \"backbone_neck\""), "\"format\": \"fixture_bytes\"", "\"format\": \"onnx\"");
+    bad(replace(roles, "\"purpose\": \"test_fixture\"", "\"purpose\": \"model_candidate\""), "$.boundary.backbone_source_checkpoint: artifact required");
+    bad(roles, "$.boundary.head: artifact must have role mamba_fpn_head and format native_weights");
+}
 } // namespace
 int main(int argc, char** argv) {
     try {
         if (argc != 2) throw std::invalid_argument("fixture directory required");
         tests(std::filesystem::absolute(argv[1]));
+        tests_schema2(std::filesystem::absolute(argv[1]));
+        tests_schema3(std::filesystem::absolute(argv[1]));
         std::cout << "model_manifest_tests: " << checks << " checks passed\n";
         return 0;
     } catch (const std::exception& error) {

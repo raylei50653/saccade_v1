@@ -1,0 +1,1943 @@
+{
+  "finished": "2026-10-30T13:58:51+00:00",
+  "lineage_on_eval_diagnostic": {
+    "distill": {
+      "ap50": 0.515497393412607,
+      "checks": {
+        "kept_score_range": [
+          0.0010003766510635614,
+          0.9997040629386902
+        ],
+        "nonfinite_raw_outputs": 0,
+        "topk_detections": 124360,
+        "topk_invalid_boxes": 3,
+        "topk_person_fraction": 0.9908089417819235,
+        "topk_top_classes": [
+          [
+            0,
+            123217
+          ],
+          [
+            24,
+            777
+          ],
+          [
+            1,
+            224
+          ],
+          [
+            26,
+            80
+          ],
+          [
+            2,
+            48
+          ]
+        ]
+      },
+      "detections_sha256": "a939bc5b5d5fb5d7d066c1b696a35b972a81d36fecb6f02cef72f77dc1a6074d",
+      "frames": 600,
+      "frames_without_gt": 0,
+      "gt": 10993,
+      "small_recall_at_0.25": 0.24898359736436282,
+      "thresholds": {
+        "0.001": {
+          "bins": {
+            "all": {
+              "fn": 4160,
+              "gt": 10993,
+              "matched": 6833,
+              "recall": 0.6215773674156281
+            },
+            "h_32to64": {
+              "fn": 1646,
+              "gt": 1958,
+              "matched": 312,
+              "recall": 0.15934627170582227
+            },
+            "h_64to128": {
+              "fn": 2275,
+              "gt": 5365,
+              "matched": 3090,
+              "recall": 0.575955265610438
+            },
+            "h_ge128": {
+              "fn": 195,
+              "gt": 3626,
+              "matched": 3431,
+              "recall": 0.9462217319360177
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 1918,
+              "gt": 2259,
+              "matched": 341,
+              "recall": 0.1509517485613103
+            },
+            "min_8to16": {
+              "fn": 2042,
+              "gt": 4874,
+              "matched": 2832,
+              "recall": 0.5810422650800164
+            },
+            "min_ge16": {
+              "fn": 200,
+              "gt": 3860,
+              "matched": 3660,
+              "recall": 0.9481865284974094
+            }
+          },
+          "empty_frames": 0,
+          "fn": 4160,
+          "fp": 10682,
+          "predictions": 17515,
+          "tp": 6833
+        },
+        "0.1": {
+          "bins": {
+            "all": {
+              "fn": 5477,
+              "gt": 10993,
+              "matched": 5516,
+              "recall": 0.5017738560902393
+            },
+            "h_32to64": {
+              "fn": 1932,
+              "gt": 1958,
+              "matched": 26,
+              "recall": 0.013278855975485188
+            },
+            "h_64to128": {
+              "fn": 3165,
+              "gt": 5365,
+              "matched": 2200,
+              "recall": 0.41006523765144454
+            },
+            "h_ge128": {
+              "fn": 336,
+              "gt": 3626,
+              "matched": 3290,
+              "recall": 0.9073359073359073
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2219,
+              "gt": 2259,
+              "matched": 40,
+              "recall": 0.017706949977866312
+            },
+            "min_8to16": {
+              "fn": 2910,
+              "gt": 4874,
+              "matched": 1964,
+              "recall": 0.4029544521953221
+            },
+            "min_ge16": {
+              "fn": 348,
+              "gt": 3860,
+              "matched": 3512,
+              "recall": 0.9098445595854923
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5477,
+          "fp": 2523,
+          "predictions": 8039,
+          "tp": 5516
+        },
+        "0.25": {
+          "bins": {
+            "all": {
+              "fn": 5784,
+              "gt": 10993,
+              "matched": 5209,
+              "recall": 0.4738469935413445
+            },
+            "h_32to64": {
+              "fn": 1951,
+              "gt": 1958,
+              "matched": 7,
+              "recall": 0.003575076608784474
+            },
+            "h_64to128": {
+              "fn": 3406,
+              "gt": 5365,
+              "matched": 1959,
+              "recall": 0.3651444547996272
+            },
+            "h_ge128": {
+              "fn": 383,
+              "gt": 3626,
+              "matched": 3243,
+              "recall": 0.8943739658025373
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2240,
+              "gt": 2259,
+              "matched": 19,
+              "recall": 0.008410801239486499
+            },
+            "min_8to16": {
+              "fn": 3117,
+              "gt": 4874,
+              "matched": 1757,
+              "recall": 0.3604842018875667
+            },
+            "min_ge16": {
+              "fn": 427,
+              "gt": 3860,
+              "matched": 3433,
+              "recall": 0.8893782383419689
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5784,
+          "fp": 1699,
+          "predictions": 6908,
+          "tp": 5209
+        }
+      }
+    },
+    "gt1": {
+      "ap50": 0.5420196190090874,
+      "checks": {
+        "kept_score_range": [
+          0.0010001265909522772,
+          0.9987653493881226
+        ],
+        "nonfinite_raw_outputs": 0,
+        "topk_detections": 141512,
+        "topk_invalid_boxes": 0,
+        "topk_person_fraction": 0.9998092034597773,
+        "topk_top_classes": [
+          [
+            0,
+            141485
+          ],
+          [
+            24,
+            22
+          ],
+          [
+            53,
+            4
+          ],
+          [
+            26,
+            1
+          ],
+          [
+            50,
+            0
+          ]
+        ]
+      },
+      "detections_sha256": "5cb89a28dcd18f81fc2f4affb4798f8b522b98a6a262980f690a7e8fae2b37ba",
+      "frames": 600,
+      "frames_without_gt": 0,
+      "gt": 10993,
+      "small_recall_at_0.25": 0.2412729566802187,
+      "thresholds": {
+        "0.001": {
+          "bins": {
+            "all": {
+              "fn": 3786,
+              "gt": 10993,
+              "matched": 7207,
+              "recall": 0.655599017556627
+            },
+            "h_32to64": {
+              "fn": 1494,
+              "gt": 1958,
+              "matched": 464,
+              "recall": 0.236976506639428
+            },
+            "h_64to128": {
+              "fn": 2066,
+              "gt": 5365,
+              "matched": 3299,
+              "recall": 0.6149114631873253
+            },
+            "h_ge128": {
+              "fn": 182,
+              "gt": 3626,
+              "matched": 3444,
+              "recall": 0.9498069498069498
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 1757,
+              "gt": 2259,
+              "matched": 502,
+              "recall": 0.2222222222222222
+            },
+            "min_8to16": {
+              "fn": 1845,
+              "gt": 4874,
+              "matched": 3029,
+              "recall": 0.6214608124743537
+            },
+            "min_ge16": {
+              "fn": 184,
+              "gt": 3860,
+              "matched": 3676,
+              "recall": 0.9523316062176166
+            }
+          },
+          "empty_frames": 0,
+          "fn": 3786,
+          "fp": 12545,
+          "predictions": 19752,
+          "tp": 7207
+        },
+        "0.1": {
+          "bins": {
+            "all": {
+              "fn": 5471,
+              "gt": 10993,
+              "matched": 5522,
+              "recall": 0.502319657964159
+            },
+            "h_32to64": {
+              "fn": 1917,
+              "gt": 1958,
+              "matched": 41,
+              "recall": 0.02093973442288049
+            },
+            "h_64to128": {
+              "fn": 3174,
+              "gt": 5365,
+              "matched": 2191,
+              "recall": 0.40838769804287045
+            },
+            "h_ge128": {
+              "fn": 336,
+              "gt": 3626,
+              "matched": 3290,
+              "recall": 0.9073359073359073
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2210,
+              "gt": 2259,
+              "matched": 49,
+              "recall": 0.021691013722886232
+            },
+            "min_8to16": {
+              "fn": 2899,
+              "gt": 4874,
+              "matched": 1975,
+              "recall": 0.4052113254000821
+            },
+            "min_ge16": {
+              "fn": 362,
+              "gt": 3860,
+              "matched": 3498,
+              "recall": 0.9062176165803109
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5471,
+          "fp": 2438,
+          "predictions": 7960,
+          "tp": 5522
+        },
+        "0.25": {
+          "bins": {
+            "all": {
+              "fn": 5839,
+              "gt": 10993,
+              "matched": 5154,
+              "recall": 0.46884380969707995
+            },
+            "h_32to64": {
+              "fn": 1942,
+              "gt": 1958,
+              "matched": 16,
+              "recall": 0.008171603677221655
+            },
+            "h_64to128": {
+              "fn": 3463,
+              "gt": 5365,
+              "matched": 1902,
+              "recall": 0.354520037278658
+            },
+            "h_ge128": {
+              "fn": 390,
+              "gt": 3626,
+              "matched": 3236,
+              "recall": 0.8924434638720353
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2234,
+              "gt": 2259,
+              "matched": 25,
+              "recall": 0.011066843736166445
+            },
+            "min_8to16": {
+              "fn": 3178,
+              "gt": 4874,
+              "matched": 1696,
+              "recall": 0.34796881411571606
+            },
+            "min_ge16": {
+              "fn": 427,
+              "gt": 3860,
+              "matched": 3433,
+              "recall": 0.8893782383419689
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5839,
+          "fp": 1370,
+          "predictions": 6524,
+          "tp": 5154
+        }
+      }
+    },
+    "t3": {
+      "ap50": 0.551958697512593,
+      "checks": {
+        "kept_score_range": [
+          0.0010001318296417594,
+          0.9983788728713989
+        ],
+        "nonfinite_raw_outputs": 0,
+        "topk_detections": 178829,
+        "topk_invalid_boxes": 0,
+        "topk_person_fraction": 0.9999888161316117,
+        "topk_top_classes": [
+          [
+            0,
+            178827
+          ],
+          [
+            53,
+            2
+          ],
+          [
+            59,
+            0
+          ],
+          [
+            60,
+            0
+          ],
+          [
+            58,
+            0
+          ]
+        ]
+      },
+      "detections_sha256": "b11d9449dc9a847c2b3aff5a7bef72c0546f973d48ebc8ff95e19ccc3aea74ea",
+      "frames": 600,
+      "frames_without_gt": 0,
+      "gt": 10993,
+      "small_recall_at_0.25": 0.2906210570587411,
+      "thresholds": {
+        "0.001": {
+          "bins": {
+            "all": {
+              "fn": 3391,
+              "gt": 10993,
+              "matched": 7602,
+              "recall": 0.6915309742563449
+            },
+            "h_32to64": {
+              "fn": 1403,
+              "gt": 1958,
+              "matched": 555,
+              "recall": 0.28345250255362614
+            },
+            "h_64to128": {
+              "fn": 1776,
+              "gt": 5365,
+              "matched": 3589,
+              "recall": 0.6689655172413793
+            },
+            "h_ge128": {
+              "fn": 168,
+              "gt": 3626,
+              "matched": 3458,
+              "recall": 0.9536679536679536
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 1636,
+              "gt": 2259,
+              "matched": 623,
+              "recall": 0.27578574590526783
+            },
+            "min_8to16": {
+              "fn": 1593,
+              "gt": 4874,
+              "matched": 3281,
+              "recall": 0.6731637258924907
+            },
+            "min_ge16": {
+              "fn": 162,
+              "gt": 3860,
+              "matched": 3698,
+              "recall": 0.9580310880829016
+            }
+          },
+          "empty_frames": 0,
+          "fn": 3391,
+          "fp": 18241,
+          "predictions": 25843,
+          "tp": 7602
+        },
+        "0.1": {
+          "bins": {
+            "all": {
+              "fn": 4983,
+              "gt": 10993,
+              "matched": 6010,
+              "recall": 0.5467115437096334
+            },
+            "h_32to64": {
+              "fn": 1823,
+              "gt": 1958,
+              "matched": 135,
+              "recall": 0.06894790602655772
+            },
+            "h_64to128": {
+              "fn": 2816,
+              "gt": 5365,
+              "matched": 2549,
+              "recall": 0.47511649580615095
+            },
+            "h_ge128": {
+              "fn": 300,
+              "gt": 3626,
+              "matched": 3326,
+              "recall": 0.9172642029784887
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2126,
+              "gt": 2259,
+              "matched": 133,
+              "recall": 0.05887560867640549
+            },
+            "min_8to16": {
+              "fn": 2545,
+              "gt": 4874,
+              "matched": 2329,
+              "recall": 0.4778416085350841
+            },
+            "min_ge16": {
+              "fn": 312,
+              "gt": 3860,
+              "matched": 3548,
+              "recall": 0.9191709844559586
+            }
+          },
+          "empty_frames": 0,
+          "fn": 4983,
+          "fp": 3907,
+          "predictions": 9917,
+          "tp": 6010
+        },
+        "0.25": {
+          "bins": {
+            "all": {
+              "fn": 5438,
+              "gt": 10993,
+              "matched": 5555,
+              "recall": 0.5053215682707177
+            },
+            "h_32to64": {
+              "fn": 1904,
+              "gt": 1958,
+              "matched": 54,
+              "recall": 0.027579162410623085
+            },
+            "h_64to128": {
+              "fn": 3132,
+              "gt": 5365,
+              "matched": 2233,
+              "recall": 0.41621621621621624
+            },
+            "h_ge128": {
+              "fn": 358,
+              "gt": 3626,
+              "matched": 3268,
+              "recall": 0.9012686155543298
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2201,
+              "gt": 2259,
+              "matched": 58,
+              "recall": 0.025675077467906152
+            },
+            "min_8to16": {
+              "fn": 2859,
+              "gt": 4874,
+              "matched": 2015,
+              "recall": 0.41341813705375463
+            },
+            "min_ge16": {
+              "fn": 378,
+              "gt": 3860,
+              "matched": 3482,
+              "recall": 0.9020725388601036
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5438,
+          "fp": 2289,
+          "predictions": 7844,
+          "tp": 5555
+        }
+      }
+    }
+  },
+  "policy": "t01-selection/1",
+  "started": "2026-10-30T13:57:29+00:00",
+  "t1_checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt",
+  "t1_eval": {
+    "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt",
+    "checkpoint_info": {
+      "args_seqs": "MOT17-04-SDP,MOT17-05-SDP,MOT17-09-SDP,MOT17-11-SDP,MOT17-13-SDP",
+      "epoch": 1,
+      "epoch_loss": 3.8520673414853612,
+      "mamba_args": {
+        "base_yolo_path": "/home/ray/developer/ai/saccade/models/yolo/yolo26m.pt",
+        "base_yolo_sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+        "d_model": 128,
+        "d_state": 16,
+        "detail_channels": 32,
+        "detail_feature_channels": 0,
+        "detail_height": 768,
+        "detail_patch_size": 3,
+        "detail_source": "none",
+        "detail_width": 1280,
+        "head_depth": 1,
+        "in_channels": [
+          256,
+          512,
+          512
+        ],
+        "legacy_n1_scan": false,
+        "legacy_n1_source": "",
+        "num_blocks": 1,
+        "num_classes": 80,
+        "per_channel_a": false,
+        "reduction_variant": "conv",
+        "reg_max": 1,
+        "scan_stop_grad": true,
+        "spatial_reduction": 4,
+        "strip_detail_type": "mamba",
+        "strip_length": 32,
+        "strip_route_budget": 640,
+        "strip_route_chunk_size": 16,
+        "strip_small_threshold": 8.0,
+        "strip_stem_channels": 32,
+        "strip_width": 3,
+        "teacher_checkpoint_sha256": "14e86231f9c0e3aacea8ffcc9dd8c7dfb0f3e7a01b848ae6ea2c57a3d2899e1b",
+        "use_cross_scan": true,
+        "use_detail_fusion": false,
+        "use_hybrid_head": false,
+        "use_pixel_shuffle": true,
+        "use_strip_detail": false,
+        "use_temporal_attention": false,
+        "use_temporal_mamba": true
+      },
+      "selection": {
+        "best_by": "train-loss",
+        "holdout_seqs": [
+          "MOT17-10-SDP",
+          "MOT17-02-SDP"
+        ],
+        "status": "diagnostic_train_loss"
+      },
+      "t01_compute_precision": {
+        "conv_math": "tf32",
+        "conv_rel_err_vs_fp64": 0.0002941761812139187,
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "float32_matmul_precision": "highest",
+        "fp32_precision_api": {
+          "cuda_matmul": "ieee",
+          "cudnn": "none",
+          "cudnn_conv": "tf32",
+          "generic": "none"
+        },
+        "matmul_math": "fp32",
+        "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+        "nvidia_tf32_override": null,
+        "policy": "torch-default"
+      },
+      "t01_identity": {
+        "attempt": "attempt-01",
+        "old_revision": "e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2",
+        "patch_sha256": "72d05963623d2da712f780bd1361d846ba3ff771b976cd89eb2146ae8245f270",
+        "recipe_sha256": "bdb3cfd9d00578bdd7ecae6d1e4d525dbffa766979b6aef2558e78a1114c02d8",
+        "smoke": false,
+        "source_id": "saccade@e48f3b39d5bf+t01-patch:72d05963623d",
+        "source_tree_sha256": "12de1236643417e62bd109776114edc600e5f6fe46b1a49312c304c24f5b4d8c",
+        "split_sha256": "519ff80a57c1af820e32db68465f012bde4c276b65a28697a882c83afe0a5cc8",
+        "stage": "t1",
+        "v1_commit": "7794c75bafa66829c6b154f8946f9b8db9b9ba46",
+        "v1_dirty": false
+      }
+    },
+    "compute_precision": {
+      "end": {
+        "conv_math": "fp32",
+        "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "float32_matmul_precision": "highest",
+        "fp32_precision_api": {
+          "cuda_matmul": "ieee",
+          "cudnn": "none",
+          "cudnn_conv": "none",
+          "generic": "none"
+        },
+        "matmul_math": "fp32",
+        "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+        "nvidia_tf32_override": "0",
+        "policy": "fp32-strict"
+      },
+      "start": {
+        "conv_math": "fp32",
+        "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "float32_matmul_precision": "highest",
+        "fp32_precision_api": {
+          "cuda_matmul": "ieee",
+          "cudnn": "none",
+          "cudnn_conv": "none",
+          "generic": "none"
+        },
+        "matmul_math": "fp32",
+        "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+        "nvidia_tf32_override": "0",
+        "policy": "fp32-strict"
+      }
+    },
+    "sequences": {
+      "MOT17-02-SDP": {
+        "ap50": 0.5439657337115995,
+        "checks": {
+          "kept_score_range": [
+            0.0010000622132793069,
+            0.9984604120254517
+          ],
+          "nonfinite_raw_outputs": 0,
+          "topk_detections": 145990,
+          "topk_invalid_boxes": 0,
+          "topk_person_fraction": 1.0,
+          "topk_top_classes": [
+            [
+              0,
+              145990
+            ],
+            [
+              59,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              58,
+              0
+            ],
+            [
+              57,
+              0
+            ]
+          ]
+        },
+        "detections_sha256": "cf572b7dd40107460f22fbb0cab9822b940e37cd07dd48b6edfd12fe2e2002c2",
+        "frames": 600,
+        "frames_without_gt": 0,
+        "gt": 10993,
+        "small_recall_at_0.25": 0.2522080471050049,
+        "thresholds": {
+          "0.001": {
+            "bins": {
+              "all": {
+                "fn": 3753,
+                "gt": 10993,
+                "matched": 7240,
+                "recall": 0.6586009278631857
+              },
+              "h_32to64": {
+                "fn": 1499,
+                "gt": 1958,
+                "matched": 459,
+                "recall": 0.23442288049029622
+              },
+              "h_64to128": {
+                "fn": 2025,
+                "gt": 5365,
+                "matched": 3340,
+                "recall": 0.6225535880708295
+              },
+              "h_ge128": {
+                "fn": 185,
+                "gt": 3626,
+                "matched": 3441,
+                "recall": 0.9489795918367347
+              },
+              "h_lt32": {
+                "fn": 44,
+                "gt": 44,
+                "matched": 0,
+                "recall": 0.0
+              },
+              "min_4to8": {
+                "fn": 1755,
+                "gt": 2259,
+                "matched": 504,
+                "recall": 0.22310756972111553
+              },
+              "min_8to16": {
+                "fn": 1825,
+                "gt": 4874,
+                "matched": 3049,
+                "recall": 0.62556421830119
+              },
+              "min_ge16": {
+                "fn": 173,
+                "gt": 3860,
+                "matched": 3687,
+                "recall": 0.955181347150259
+              }
+            },
+            "empty_frames": 0,
+            "fn": 3753,
+            "fp": 12616,
+            "predictions": 19856,
+            "tp": 7240
+          },
+          "0.1": {
+            "bins": {
+              "all": {
+                "fn": 5386,
+                "gt": 10993,
+                "matched": 5607,
+                "recall": 0.5100518511780224
+              },
+              "h_32to64": {
+                "fn": 1912,
+                "gt": 1958,
+                "matched": 46,
+                "recall": 0.02349336057201226
+              },
+              "h_64to128": {
+                "fn": 3107,
+                "gt": 5365,
+                "matched": 2258,
+                "recall": 0.42087604846225535
+              },
+              "h_ge128": {
+                "fn": 323,
+                "gt": 3626,
+                "matched": 3303,
+                "recall": 0.9109211252068395
+              },
+              "h_lt32": {
+                "fn": 44,
+                "gt": 44,
+                "matched": 0,
+                "recall": 0.0
+              },
+              "min_4to8": {
+                "fn": 2202,
+                "gt": 2259,
+                "matched": 57,
+                "recall": 0.025232403718459494
+              },
+              "min_8to16": {
+                "fn": 2841,
+                "gt": 4874,
+                "matched": 2033,
+                "recall": 0.41711120229790727
+              },
+              "min_ge16": {
+                "fn": 343,
+                "gt": 3860,
+                "matched": 3517,
+                "recall": 0.911139896373057
+              }
+            },
+            "empty_frames": 0,
+            "fn": 5386,
+            "fp": 2609,
+            "predictions": 8216,
+            "tp": 5607
+          },
+          "0.25": {
+            "bins": {
+              "all": {
+                "fn": 5743,
+                "gt": 10993,
+                "matched": 5250,
+                "recall": 0.47757663967979624
+              },
+              "h_32to64": {
+                "fn": 1945,
+                "gt": 1958,
+                "matched": 13,
+                "recall": 0.006639427987742594
+              },
+              "h_64to128": {
+                "fn": 3380,
+                "gt": 5365,
+                "matched": 1985,
+                "recall": 0.3699906803355079
+              },
+              "h_ge128": {
+                "fn": 374,
+                "gt": 3626,
+                "matched": 3252,
+                "recall": 0.8968560397131826
+              },
+              "h_lt32": {
+                "fn": 44,
+                "gt": 44,
+                "matched": 0,
+                "recall": 0.0
+              },
+              "min_4to8": {
+                "fn": 2228,
+                "gt": 2259,
+                "matched": 31,
+                "recall": 0.013722886232846392
+              },
+              "min_8to16": {
+                "fn": 3106,
+                "gt": 4874,
+                "matched": 1768,
+                "recall": 0.3627410750923266
+              },
+              "min_ge16": {
+                "fn": 409,
+                "gt": 3860,
+                "matched": 3451,
+                "recall": 0.8940414507772021
+              }
+            },
+            "empty_frames": 0,
+            "fn": 5743,
+            "fp": 1580,
+            "predictions": 6830,
+            "tp": 5250
+          }
+        }
+      }
+    },
+    "total": {
+      "ap50": 0.5439657337115995,
+      "checks": {
+        "kept_score_range": [
+          0.0010000622132793069,
+          0.9984604120254517
+        ],
+        "nonfinite_raw_outputs": 0,
+        "topk_detections": 145990,
+        "topk_invalid_boxes": 0,
+        "topk_person_fraction": 1.0,
+        "topk_top_classes": [
+          [
+            0,
+            145990
+          ],
+          [
+            59,
+            0
+          ],
+          [
+            60,
+            0
+          ],
+          [
+            58,
+            0
+          ],
+          [
+            57,
+            0
+          ]
+        ]
+      },
+      "detections_sha256": "cf572b7dd40107460f22fbb0cab9822b940e37cd07dd48b6edfd12fe2e2002c2",
+      "frames": 600,
+      "frames_without_gt": 0,
+      "gt": 10993,
+      "small_recall_at_0.25": 0.2522080471050049,
+      "thresholds": {
+        "0.001": {
+          "bins": {
+            "all": {
+              "fn": 3753,
+              "gt": 10993,
+              "matched": 7240,
+              "recall": 0.6586009278631857
+            },
+            "h_32to64": {
+              "fn": 1499,
+              "gt": 1958,
+              "matched": 459,
+              "recall": 0.23442288049029622
+            },
+            "h_64to128": {
+              "fn": 2025,
+              "gt": 5365,
+              "matched": 3340,
+              "recall": 0.6225535880708295
+            },
+            "h_ge128": {
+              "fn": 185,
+              "gt": 3626,
+              "matched": 3441,
+              "recall": 0.9489795918367347
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 1755,
+              "gt": 2259,
+              "matched": 504,
+              "recall": 0.22310756972111553
+            },
+            "min_8to16": {
+              "fn": 1825,
+              "gt": 4874,
+              "matched": 3049,
+              "recall": 0.62556421830119
+            },
+            "min_ge16": {
+              "fn": 173,
+              "gt": 3860,
+              "matched": 3687,
+              "recall": 0.955181347150259
+            }
+          },
+          "empty_frames": 0,
+          "fn": 3753,
+          "fp": 12616,
+          "predictions": 19856,
+          "tp": 7240
+        },
+        "0.1": {
+          "bins": {
+            "all": {
+              "fn": 5386,
+              "gt": 10993,
+              "matched": 5607,
+              "recall": 0.5100518511780224
+            },
+            "h_32to64": {
+              "fn": 1912,
+              "gt": 1958,
+              "matched": 46,
+              "recall": 0.02349336057201226
+            },
+            "h_64to128": {
+              "fn": 3107,
+              "gt": 5365,
+              "matched": 2258,
+              "recall": 0.42087604846225535
+            },
+            "h_ge128": {
+              "fn": 323,
+              "gt": 3626,
+              "matched": 3303,
+              "recall": 0.9109211252068395
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2202,
+              "gt": 2259,
+              "matched": 57,
+              "recall": 0.025232403718459494
+            },
+            "min_8to16": {
+              "fn": 2841,
+              "gt": 4874,
+              "matched": 2033,
+              "recall": 0.41711120229790727
+            },
+            "min_ge16": {
+              "fn": 343,
+              "gt": 3860,
+              "matched": 3517,
+              "recall": 0.911139896373057
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5386,
+          "fp": 2609,
+          "predictions": 8216,
+          "tp": 5607
+        },
+        "0.25": {
+          "bins": {
+            "all": {
+              "fn": 5743,
+              "gt": 10993,
+              "matched": 5250,
+              "recall": 0.47757663967979624
+            },
+            "h_32to64": {
+              "fn": 1945,
+              "gt": 1958,
+              "matched": 13,
+              "recall": 0.006639427987742594
+            },
+            "h_64to128": {
+              "fn": 3380,
+              "gt": 5365,
+              "matched": 1985,
+              "recall": 0.3699906803355079
+            },
+            "h_ge128": {
+              "fn": 374,
+              "gt": 3626,
+              "matched": 3252,
+              "recall": 0.8968560397131826
+            },
+            "h_lt32": {
+              "fn": 44,
+              "gt": 44,
+              "matched": 0,
+              "recall": 0.0
+            },
+            "min_4to8": {
+              "fn": 2228,
+              "gt": 2259,
+              "matched": 31,
+              "recall": 0.013722886232846392
+            },
+            "min_8to16": {
+              "fn": 3106,
+              "gt": 4874,
+              "matched": 1768,
+              "recall": 0.3627410750923266
+            },
+            "min_ge16": {
+              "fn": 409,
+              "gt": 3860,
+              "matched": 3451,
+              "recall": 0.8940414507772021
+            }
+          },
+          "empty_frames": 0,
+          "fn": 5743,
+          "fp": 1580,
+          "predictions": 6830,
+          "tp": 5250
+        }
+      }
+    }
+  },
+  "t1_eval_repeat_identical": true,
+  "t1_sha256": "070580f9f5755e57acd9ee7ed9b4307672f4d9996332b40e6b61ee7cc6e6962b",
+  "t1_val": {
+    "checkpoint": "/home/ray/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt",
+    "checkpoint_info": {
+      "args_seqs": "MOT17-04-SDP,MOT17-05-SDP,MOT17-09-SDP,MOT17-11-SDP,MOT17-13-SDP",
+      "epoch": 1,
+      "epoch_loss": 3.8520673414853612,
+      "mamba_args": {
+        "base_yolo_path": "/home/ray/developer/ai/saccade/models/yolo/yolo26m.pt",
+        "base_yolo_sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+        "d_model": 128,
+        "d_state": 16,
+        "detail_channels": 32,
+        "detail_feature_channels": 0,
+        "detail_height": 768,
+        "detail_patch_size": 3,
+        "detail_source": "none",
+        "detail_width": 1280,
+        "head_depth": 1,
+        "in_channels": [
+          256,
+          512,
+          512
+        ],
+        "legacy_n1_scan": false,
+        "legacy_n1_source": "",
+        "num_blocks": 1,
+        "num_classes": 80,
+        "per_channel_a": false,
+        "reduction_variant": "conv",
+        "reg_max": 1,
+        "scan_stop_grad": true,
+        "spatial_reduction": 4,
+        "strip_detail_type": "mamba",
+        "strip_length": 32,
+        "strip_route_budget": 640,
+        "strip_route_chunk_size": 16,
+        "strip_small_threshold": 8.0,
+        "strip_stem_channels": 32,
+        "strip_width": 3,
+        "teacher_checkpoint_sha256": "14e86231f9c0e3aacea8ffcc9dd8c7dfb0f3e7a01b848ae6ea2c57a3d2899e1b",
+        "use_cross_scan": true,
+        "use_detail_fusion": false,
+        "use_hybrid_head": false,
+        "use_pixel_shuffle": true,
+        "use_strip_detail": false,
+        "use_temporal_attention": false,
+        "use_temporal_mamba": true
+      },
+      "selection": {
+        "best_by": "train-loss",
+        "holdout_seqs": [
+          "MOT17-10-SDP",
+          "MOT17-02-SDP"
+        ],
+        "status": "diagnostic_train_loss"
+      },
+      "t01_compute_precision": {
+        "conv_math": "tf32",
+        "conv_rel_err_vs_fp64": 0.0002941761812139187,
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "float32_matmul_precision": "highest",
+        "fp32_precision_api": {
+          "cuda_matmul": "ieee",
+          "cudnn": "none",
+          "cudnn_conv": "tf32",
+          "generic": "none"
+        },
+        "matmul_math": "fp32",
+        "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+        "nvidia_tf32_override": null,
+        "policy": "torch-default"
+      },
+      "t01_identity": {
+        "attempt": "attempt-01",
+        "old_revision": "e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2",
+        "patch_sha256": "72d05963623d2da712f780bd1361d846ba3ff771b976cd89eb2146ae8245f270",
+        "recipe_sha256": "bdb3cfd9d00578bdd7ecae6d1e4d525dbffa766979b6aef2558e78a1114c02d8",
+        "smoke": false,
+        "source_id": "saccade@e48f3b39d5bf+t01-patch:72d05963623d",
+        "source_tree_sha256": "12de1236643417e62bd109776114edc600e5f6fe46b1a49312c304c24f5b4d8c",
+        "split_sha256": "519ff80a57c1af820e32db68465f012bde4c276b65a28697a882c83afe0a5cc8",
+        "stage": "t1",
+        "v1_commit": "7794c75bafa66829c6b154f8946f9b8db9b9ba46",
+        "v1_dirty": false
+      }
+    },
+    "compute_precision": {
+      "end": {
+        "conv_math": "fp32",
+        "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "float32_matmul_precision": "highest",
+        "fp32_precision_api": {
+          "cuda_matmul": "ieee",
+          "cudnn": "none",
+          "cudnn_conv": "none",
+          "generic": "none"
+        },
+        "matmul_math": "fp32",
+        "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+        "nvidia_tf32_override": "0",
+        "policy": "fp32-strict"
+      },
+      "start": {
+        "conv_math": "fp32",
+        "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "float32_matmul_precision": "highest",
+        "fp32_precision_api": {
+          "cuda_matmul": "ieee",
+          "cudnn": "none",
+          "cudnn_conv": "none",
+          "generic": "none"
+        },
+        "matmul_math": "fp32",
+        "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+        "nvidia_tf32_override": "0",
+        "policy": "fp32-strict"
+      }
+    },
+    "sequences": {
+      "MOT17-10-SDP": {
+        "ap50": 0.6758440686451651,
+        "checks": {
+          "kept_score_range": [
+            0.0010001808404922485,
+            0.9993628859519958
+          ],
+          "nonfinite_raw_outputs": 0,
+          "topk_detections": 138693,
+          "topk_invalid_boxes": 0,
+          "topk_person_fraction": 1.0,
+          "topk_top_classes": [
+            [
+              0,
+              138693
+            ],
+            [
+              59,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              58,
+              0
+            ],
+            [
+              57,
+              0
+            ]
+          ]
+        },
+        "detections_sha256": "d45abc7ae69436a7b654fe900ed85736c33a23c90b5fa8ee8f6d62addf4d8051",
+        "frames": 654,
+        "frames_without_gt": 0,
+        "gt": 11117,
+        "small_recall_at_0.25": 0.4362813913586024,
+        "thresholds": {
+          "0.001": {
+            "bins": {
+              "all": {
+                "fn": 2475,
+                "gt": 11117,
+                "matched": 8642,
+                "recall": 0.7773679949626698
+              },
+              "h_32to64": {
+                "fn": 1078,
+                "gt": 2150,
+                "matched": 1072,
+                "recall": 0.4986046511627907
+              },
+              "h_64to128": {
+                "fn": 976,
+                "gt": 3986,
+                "matched": 3010,
+                "recall": 0.7551430005017562
+              },
+              "h_ge128": {
+                "fn": 421,
+                "gt": 4981,
+                "matched": 4560,
+                "recall": 0.9154788195141538
+              },
+              "min_4to8": {
+                "fn": 1062,
+                "gt": 1884,
+                "matched": 822,
+                "recall": 0.43630573248407645
+              },
+              "min_8to16": {
+                "fn": 1084,
+                "gt": 4527,
+                "matched": 3443,
+                "recall": 0.7605478241661144
+              },
+              "min_ge16": {
+                "fn": 329,
+                "gt": 4706,
+                "matched": 4377,
+                "recall": 0.9300892477688057
+              }
+            },
+            "empty_frames": 0,
+            "fn": 2475,
+            "fp": 10497,
+            "predictions": 19139,
+            "tp": 8642
+          },
+          "0.1": {
+            "bins": {
+              "all": {
+                "fn": 3790,
+                "gt": 11117,
+                "matched": 7327,
+                "recall": 0.6590806872357651
+              },
+              "h_32to64": {
+                "fn": 1672,
+                "gt": 2150,
+                "matched": 478,
+                "recall": 0.22232558139534883
+              },
+              "h_64to128": {
+                "fn": 1491,
+                "gt": 3986,
+                "matched": 2495,
+                "recall": 0.6259407927747115
+              },
+              "h_ge128": {
+                "fn": 627,
+                "gt": 4981,
+                "matched": 4354,
+                "recall": 0.8741216623168039
+              },
+              "min_4to8": {
+                "fn": 1551,
+                "gt": 1884,
+                "matched": 333,
+                "recall": 0.1767515923566879
+              },
+              "min_8to16": {
+                "fn": 1747,
+                "gt": 4527,
+                "matched": 2780,
+                "recall": 0.614093218466976
+              },
+              "min_ge16": {
+                "fn": 492,
+                "gt": 4706,
+                "matched": 4214,
+                "recall": 0.8954526136846579
+              }
+            },
+            "empty_frames": 0,
+            "fn": 3790,
+            "fp": 2216,
+            "predictions": 9543,
+            "tp": 7327
+          },
+          "0.25": {
+            "bins": {
+              "all": {
+                "fn": 4184,
+                "gt": 11117,
+                "matched": 6933,
+                "recall": 0.6236394710803275
+              },
+              "h_32to64": {
+                "fn": 1795,
+                "gt": 2150,
+                "matched": 355,
+                "recall": 0.16511627906976745
+              },
+              "h_64to128": {
+                "fn": 1665,
+                "gt": 3986,
+                "matched": 2321,
+                "recall": 0.5822880080280983
+              },
+              "h_ge128": {
+                "fn": 724,
+                "gt": 4981,
+                "matched": 4257,
+                "recall": 0.8546476611122265
+              },
+              "min_4to8": {
+                "fn": 1640,
+                "gt": 1884,
+                "matched": 244,
+                "recall": 0.12951167728237792
+              },
+              "min_8to16": {
+                "fn": 1974,
+                "gt": 4527,
+                "matched": 2553,
+                "recall": 0.563949635520212
+              },
+              "min_ge16": {
+                "fn": 570,
+                "gt": 4706,
+                "matched": 4136,
+                "recall": 0.8788780280492988
+              }
+            },
+            "empty_frames": 0,
+            "fn": 4184,
+            "fp": 1459,
+            "predictions": 8392,
+            "tp": 6933
+          }
+        }
+      }
+    },
+    "total": {
+      "ap50": 0.6758440686451651,
+      "checks": {
+        "kept_score_range": [
+          0.0010001808404922485,
+          0.9993628859519958
+        ],
+        "nonfinite_raw_outputs": 0,
+        "topk_detections": 138693,
+        "topk_invalid_boxes": 0,
+        "topk_person_fraction": 1.0,
+        "topk_top_classes": [
+          [
+            0,
+            138693
+          ],
+          [
+            59,
+            0
+          ],
+          [
+            60,
+            0
+          ],
+          [
+            58,
+            0
+          ],
+          [
+            57,
+            0
+          ]
+        ]
+      },
+      "detections_sha256": "d45abc7ae69436a7b654fe900ed85736c33a23c90b5fa8ee8f6d62addf4d8051",
+      "frames": 654,
+      "frames_without_gt": 0,
+      "gt": 11117,
+      "small_recall_at_0.25": 0.4362813913586024,
+      "thresholds": {
+        "0.001": {
+          "bins": {
+            "all": {
+              "fn": 2475,
+              "gt": 11117,
+              "matched": 8642,
+              "recall": 0.7773679949626698
+            },
+            "h_32to64": {
+              "fn": 1078,
+              "gt": 2150,
+              "matched": 1072,
+              "recall": 0.4986046511627907
+            },
+            "h_64to128": {
+              "fn": 976,
+              "gt": 3986,
+              "matched": 3010,
+              "recall": 0.7551430005017562
+            },
+            "h_ge128": {
+              "fn": 421,
+              "gt": 4981,
+              "matched": 4560,
+              "recall": 0.9154788195141538
+            },
+            "min_4to8": {
+              "fn": 1062,
+              "gt": 1884,
+              "matched": 822,
+              "recall": 0.43630573248407645
+            },
+            "min_8to16": {
+              "fn": 1084,
+              "gt": 4527,
+              "matched": 3443,
+              "recall": 0.7605478241661144
+            },
+            "min_ge16": {
+              "fn": 329,
+              "gt": 4706,
+              "matched": 4377,
+              "recall": 0.9300892477688057
+            }
+          },
+          "empty_frames": 0,
+          "fn": 2475,
+          "fp": 10497,
+          "predictions": 19139,
+          "tp": 8642
+        },
+        "0.1": {
+          "bins": {
+            "all": {
+              "fn": 3790,
+              "gt": 11117,
+              "matched": 7327,
+              "recall": 0.6590806872357651
+            },
+            "h_32to64": {
+              "fn": 1672,
+              "gt": 2150,
+              "matched": 478,
+              "recall": 0.22232558139534883
+            },
+            "h_64to128": {
+              "fn": 1491,
+              "gt": 3986,
+              "matched": 2495,
+              "recall": 0.6259407927747115
+            },
+            "h_ge128": {
+              "fn": 627,
+              "gt": 4981,
+              "matched": 4354,
+              "recall": 0.8741216623168039
+            },
+            "min_4to8": {
+              "fn": 1551,
+              "gt": 1884,
+              "matched": 333,
+              "recall": 0.1767515923566879
+            },
+            "min_8to16": {
+              "fn": 1747,
+              "gt": 4527,
+              "matched": 2780,
+              "recall": 0.614093218466976
+            },
+            "min_ge16": {
+              "fn": 492,
+              "gt": 4706,
+              "matched": 4214,
+              "recall": 0.8954526136846579
+            }
+          },
+          "empty_frames": 0,
+          "fn": 3790,
+          "fp": 2216,
+          "predictions": 9543,
+          "tp": 7327
+        },
+        "0.25": {
+          "bins": {
+            "all": {
+              "fn": 4184,
+              "gt": 11117,
+              "matched": 6933,
+              "recall": 0.6236394710803275
+            },
+            "h_32to64": {
+              "fn": 1795,
+              "gt": 2150,
+              "matched": 355,
+              "recall": 0.16511627906976745
+            },
+            "h_64to128": {
+              "fn": 1665,
+              "gt": 3986,
+              "matched": 2321,
+              "recall": 0.5822880080280983
+            },
+            "h_ge128": {
+              "fn": 724,
+              "gt": 4981,
+              "matched": 4257,
+              "recall": 0.8546476611122265
+            },
+            "min_4to8": {
+              "fn": 1640,
+              "gt": 1884,
+              "matched": 244,
+              "recall": 0.12951167728237792
+            },
+            "min_8to16": {
+              "fn": 1974,
+              "gt": 4527,
+              "matched": 2553,
+              "recall": 0.563949635520212
+            },
+            "min_ge16": {
+              "fn": 570,
+              "gt": 4706,
+              "matched": 4136,
+              "recall": 0.8788780280492988
+            }
+          },
+          "empty_frames": 0,
+          "fn": 4184,
+          "fp": 1459,
+          "predictions": 8392,
+          "tp": 6933
+        }
+      }
+    }
+  },
+  "t1_val_repeat_identical": true,
+  "teacher_on_eval_diagnostic": {
+    "ap50": 0.5598354531224471,
+    "checks": {
+      "kept_score_range": [
+        0.0010000497568398714,
+        0.933872401714325
+      ],
+      "nonfinite_raw_outputs": 0,
+      "topk_detections": 141233,
+      "topk_invalid_boxes": 0,
+      "topk_person_fraction": 0.986872756367138,
+      "topk_top_classes": [
+        [
+          0,
+          139379
+        ],
+        [
+          1,
+          863
+        ],
+        [
+          24,
+          852
+        ],
+        [
+          26,
+          107
+        ],
+        [
+          56,
+          8
+        ]
+      ]
+    },
+    "detections_sha256": "6ab256d2b8f646390e67ef31ede8971c4829964fe1b7f4dd5dd61dd066180999",
+    "frames": 600,
+    "frames_without_gt": 0,
+    "gt": 10993,
+    "small_recall_at_0.25": 0.26580681340249546,
+    "thresholds": {
+      "0.001": {
+        "bins": {
+          "all": {
+            "fn": 3872,
+            "gt": 10993,
+            "matched": 7121,
+            "recall": 0.647775857363777
+          },
+          "h_32to64": {
+            "fn": 1477,
+            "gt": 1958,
+            "matched": 481,
+            "recall": 0.245658835546476
+          },
+          "h_64to128": {
+            "fn": 2151,
+            "gt": 5365,
+            "matched": 3214,
+            "recall": 0.5990680335507922
+          },
+          "h_ge128": {
+            "fn": 200,
+            "gt": 3626,
+            "matched": 3426,
+            "recall": 0.9448428019856592
+          },
+          "h_lt32": {
+            "fn": 44,
+            "gt": 44,
+            "matched": 0,
+            "recall": 0.0
+          },
+          "min_4to8": {
+            "fn": 1750,
+            "gt": 2259,
+            "matched": 509,
+            "recall": 0.22532093846834883
+          },
+          "min_8to16": {
+            "fn": 1913,
+            "gt": 4874,
+            "matched": 2961,
+            "recall": 0.6075092326631104
+          },
+          "min_ge16": {
+            "fn": 209,
+            "gt": 3860,
+            "matched": 3651,
+            "recall": 0.9458549222797927
+          }
+        },
+        "empty_frames": 0,
+        "fn": 3872,
+        "fp": 11195,
+        "predictions": 18316,
+        "tp": 7121
+      },
+      "0.1": {
+        "bins": {
+          "all": {
+            "fn": 5343,
+            "gt": 10993,
+            "matched": 5650,
+            "recall": 0.5139634312744473
+          },
+          "h_32to64": {
+            "fn": 1893,
+            "gt": 1958,
+            "matched": 65,
+            "recall": 0.03319713993871297
+          },
+          "h_64to128": {
+            "fn": 3066,
+            "gt": 5365,
+            "matched": 2299,
+            "recall": 0.42851817334575953
+          },
+          "h_ge128": {
+            "fn": 340,
+            "gt": 3626,
+            "matched": 3286,
+            "recall": 0.9062327633756205
+          },
+          "h_lt32": {
+            "fn": 44,
+            "gt": 44,
+            "matched": 0,
+            "recall": 0.0
+          },
+          "min_4to8": {
+            "fn": 2184,
+            "gt": 2259,
+            "matched": 75,
+            "recall": 0.033200531208499334
+          },
+          "min_8to16": {
+            "fn": 2800,
+            "gt": 4874,
+            "matched": 2074,
+            "recall": 0.4255231842429216
+          },
+          "min_ge16": {
+            "fn": 359,
+            "gt": 3860,
+            "matched": 3501,
+            "recall": 0.9069948186528497
+          }
+        },
+        "empty_frames": 0,
+        "fn": 5343,
+        "fp": 2307,
+        "predictions": 7957,
+        "tp": 5650
+      },
+      "0.25": {
+        "bins": {
+          "all": {
+            "fn": 5666,
+            "gt": 10993,
+            "matched": 5327,
+            "recall": 0.48458109706176655
+          },
+          "h_32to64": {
+            "fn": 1928,
+            "gt": 1958,
+            "matched": 30,
+            "recall": 0.015321756894790603
+          },
+          "h_64to128": {
+            "fn": 3301,
+            "gt": 5365,
+            "matched": 2064,
+            "recall": 0.3847157502329916
+          },
+          "h_ge128": {
+            "fn": 393,
+            "gt": 3626,
+            "matched": 3233,
+            "recall": 0.8916161059018202
+          },
+          "h_lt32": {
+            "fn": 44,
+            "gt": 44,
+            "matched": 0,
+            "recall": 0.0
+          },
+          "min_4to8": {
+            "fn": 2210,
+            "gt": 2259,
+            "matched": 49,
+            "recall": 0.021691013722886232
+          },
+          "min_8to16": {
+            "fn": 3027,
+            "gt": 4874,
+            "matched": 1847,
+            "recall": 0.37894952810832994
+          },
+          "min_ge16": {
+            "fn": 429,
+            "gt": 3860,
+            "matched": 3431,
+            "recall": 0.888860103626943
+          }
+        },
+        "empty_frames": 0,
+        "fn": 5666,
+        "fp": 1446,
+        "predictions": 6773,
+        "tp": 5327
+      }
+    }
+  }
+}

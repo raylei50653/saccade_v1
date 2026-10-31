@@ -1,0 +1,735 @@
+{
+  "batch_sizes": [
+    4,
+    8
+  ],
+  "caches": {
+    "cache_train": {
+      "compute_precision": {
+        "conv_math": "fp32",
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "matmul_math": "fp32",
+        "nvidia_tf32_override": "0",
+        "policy": "fp32-strict"
+      },
+      "dtype": "float16",
+      "manifest_sha256": "2339fab70974efacd7a5df2e5c8342b99c3eba9296258fa798b1ac87c2eebbf2",
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_train/cache",
+      "sequences": [
+        "MOT17-09-SDP"
+      ],
+      "storage_dtype": "float16",
+      "total_frames": 525
+    },
+    "cache_val": {
+      "compute_precision": {
+        "conv_math": "fp32",
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "matmul_math": "fp32",
+        "nvidia_tf32_override": "0",
+        "policy": "fp32-strict"
+      },
+      "dtype": "float16",
+      "manifest_sha256": "fffe2056a44699906f98ddadbdfe2ebddc657136b9175468a2d07ab8561834e2",
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_val/cache",
+      "sequences": [
+        "MOT17-10-SDP"
+      ],
+      "storage_dtype": "float16",
+      "total_frames": 654
+    }
+  },
+  "checks": {
+    "batch4_invariance": {
+      "pass": true,
+      "tol": 0.0001,
+      "worst": 1.1818562597909477e-05
+    },
+    "batch8_invariance": {
+      "pass": true,
+      "tol": 0.0001,
+      "worst": 1.2153181160101667e-05
+    },
+    "cache_vs_batch4": {
+      "pass": true,
+      "tol": 0.00058828125,
+      "worst": 0.00021152864792384207
+    },
+    "cache_vs_batch8": {
+      "pass": true,
+      "tol": 0.00058828125,
+      "worst": 0.0002115312818204984
+    },
+    "decode_batch_vs_single_bitwise": {
+      "pass": true
+    },
+    "fp16_storage": {
+      "min_bitwise_equal_fraction": 1.0,
+      "pass": true,
+      "rounding_only_worst": 0.00021144267520867288,
+      "tol": 0.00048828125,
+      "worst": 0.00021144267520867288
+    },
+    "fp32_implementation": {
+      "pass": true,
+      "tol": 0.0001,
+      "worst": 1.8120654203812592e-05
+    },
+    "negative:old_tf32_cache_vs_fp32": {
+      "pass": true
+    },
+    "negative:runner_rejects_old_cache": {
+      "pass": true
+    },
+    "negative:trainers_reject_old_cache": {
+      "pass": false
+    },
+    "onnxruntime_provider": {
+      "pass": true,
+      "tf32": "not applicable: CPU execution provider (no TF32)",
+      "used": [
+        "CPUExecutionProvider"
+      ]
+    },
+    "precision_readback_fp32_strict": {
+      "pass": true
+    },
+    "train_vs_deploy": {
+      "pass": true,
+      "tol": 0.00058828125,
+      "worst": 0.00021204435324762017
+    }
+  },
+  "compute_precision_end": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "compute_precision_start": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "decode_batch_vs_single_bitwise": true,
+  "frames": [
+    {
+      "cache": "cache_train",
+      "fid": 1,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_train/cache/MOT17-09-SDP/000001.pt",
+      "seq": "MOT17-09-SDP"
+    },
+    {
+      "cache": "cache_train",
+      "fid": 176,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_train/cache/MOT17-09-SDP/000176.pt",
+      "seq": "MOT17-09-SDP"
+    },
+    {
+      "cache": "cache_train",
+      "fid": 351,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_train/cache/MOT17-09-SDP/000351.pt",
+      "seq": "MOT17-09-SDP"
+    },
+    {
+      "cache": "cache_train",
+      "fid": 525,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_train/cache/MOT17-09-SDP/000525.pt",
+      "seq": "MOT17-09-SDP"
+    },
+    {
+      "cache": "cache_val",
+      "fid": 1,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_val/cache/MOT17-10-SDP/000001.pt",
+      "seq": "MOT17-10-SDP"
+    },
+    {
+      "cache": "cache_val",
+      "fid": 219,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_val/cache/MOT17-10-SDP/000219.pt",
+      "seq": "MOT17-10-SDP"
+    },
+    {
+      "cache": "cache_val",
+      "fid": 437,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_val/cache/MOT17-10-SDP/000437.pt",
+      "seq": "MOT17-10-SDP"
+    },
+    {
+      "cache": "cache_val",
+      "fid": 654,
+      "path": "/home/ray/.cache/saccade-v1/t01/smoke/cache_val/cache/MOT17-10-SDP/000654.pt",
+      "seq": "MOT17-10-SDP"
+    }
+  ],
+  "negative_controls": {
+    "old_tf32_cache_vs_fp32": {
+      "min": 0.003434690646827221,
+      "pass": true,
+      "rows": [
+        {
+          "cache_vs_pytorch": {
+            "p3": 0.008067458868026733,
+            "p4": 0.015786271542310715,
+            "p5": 0.009200814180076122
+          },
+          "frame": "MOT17-10-SDP/1"
+        },
+        {
+          "cache_vs_pytorch": {
+            "p3": 0.005034598987549543,
+            "p4": 0.011360879987478256,
+            "p5": 0.008954515680670738
+          },
+          "frame": "MOT17-10-SDP/219"
+        },
+        {
+          "cache_vs_pytorch": {
+            "p3": 0.003434690646827221,
+            "p4": 0.006594454403966665,
+            "p5": 0.004869977477937937
+          },
+          "frame": "MOT17-10-SDP/437"
+        },
+        {
+          "cache_vs_pytorch": {
+            "p3": 0.005696841049939394,
+            "p4": 0.011576509103178978,
+            "p5": 0.009531685151159763
+          },
+          "frame": "MOT17-10-SDP/654"
+        }
+      ],
+      "tol": 0.00048828125
+    },
+    "root": "/home/ray/.cache/saccade-v1/t01/smoke-tf32-20261030",
+    "runner_rejects_old_cache": {
+      "message": "/home/ray/.cache/saccade-v1/t01/smoke-tf32-20261030/cache_val/cache: storage_dtype=None compute_precision=None; T01 needs float16 storage of fp32-strict features (caches built with TF32 convolutions, or before this check, are rejected)",
+      "pass": true
+    },
+    "trainers_reject_old_cache": {
+      "cases": {
+        "distill (train_mamba_head.py)": {
+          "exit_code": 1,
+          "message": "    raise ValueError(f\"Cache manifest mismatch: {mismatches}\")",
+          "refused_for_precision": false,
+          "tail": [
+            "  File \"/home/ray/.cache/saccade-v1/t01/src/scripts/train/temporal_yolo/train_mamba_head.py\", line 153, in _validate_cache_manifest",
+            "    raise ValueError(f\"Cache manifest mismatch: {mismatches}\")",
+            "ValueError: Cache manifest mismatch: {'storage_dtype': (None, 'float16'), 'compute_precision': (None, {'policy': 'fp32-strict', 'cudnn_allow_tf32': False, 'cuda_matmul_allow_tf32': False, 'float32_matmul_precision': 'highest', 'nvidia_tf32_override': '0', 'conv_math': 'fp32', 'matmul_math': 'fp32'})}"
+          ]
+        },
+        "t3/t1 (train_mamba_gt.py)": {
+          "exit_code": 1,
+          "message": "ValueError: Teacher cache compute precision/storage does not match T01: cache=None/None, required={'policy': 'fp32-strict', 'cudnn_allow_tf32': False, 'cuda_matmul_allow_tf32': False, 'float32_matmul_precision': 'highest', 'nvidia_tf32_override': '0', 'conv_math': 'fp32', 'matmul_math': 'fp32'}/'float16'",
+          "refused_for_precision": true,
+          "tail": null
+        }
+      },
+      "pass": false
+    }
+  },
+  "onnx": "/home/ray/.cache/saccade-v1/t01/smoke-export/yolo26m-backbone-t01.onnx",
+  "onnx_sha256": "e96e5e586a458018090b9fc325a2c440179d80a13e3b5435caeefa700174fc03",
+  "onnxruntime": {
+    "available": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "onnxruntime": "1.24.4",
+    "provider_options": {
+      "CPUExecutionProvider": {}
+    },
+    "tf32": "not applicable: CPU execution provider (no TF32)",
+    "used": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "per_frame": [
+    {
+      "batch4_vs_batch1": {
+        "p3": 4.787280886375811e-06,
+        "p4": 1.00922597994213e-05,
+        "p5": 9.234451681550127e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 4.7085663936741184e-06,
+        "p4": 9.817732461669948e-06,
+        "p5": 8.954320946941152e-06
+      },
+      "cache": "cache_train",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.0019426345825195312,
+        "p4": 0.0035333633422851562,
+        "p5": 0.00738525390625
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020230250083841383,
+        "p4": 0.00021016458049416542,
+        "p5": 0.00021034752717241645
+      },
+      "cache_vs_batch8": {
+        "p3": 0.0002022994012804702,
+        "p4": 0.00021017045946791768,
+        "p5": 0.00021031837968621403
+      },
+      "cache_vs_onnx": {
+        "p3": 0.00020234836847521365,
+        "p4": 0.00021040815045125782,
+        "p5": 0.0002105039602611214
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.000202243187231943,
+        "p4": 0.00020994596707168967,
+        "p5": 0.00021005337475799024
+      },
+      "frame": "MOT17-09-SDP/1",
+      "onnx_vs_pytorch": {
+        "p3": 6.257283530430868e-06,
+        "p4": 1.3962325283500832e-05,
+        "p5": 1.3926711289968807e-05
+      },
+      "rounding_only": {
+        "p3": 0.000202243187231943,
+        "p4": 0.00020994596707168967,
+        "p5": 0.00021005337475799024
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 2.914113338192692e-06,
+        "p4": 5.271623649605317e-06,
+        "p5": 4.317661932873307e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 3.096131877100561e-06,
+        "p4": 5.596499704552116e-06,
+        "p5": 4.527528290054761e-06
+      },
+      "cache": "cache_train",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.0019521713256835938,
+        "p4": 0.0019483566284179688,
+        "p5": 0.0038099288940429688
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020275598217267543,
+        "p4": 0.00021152864792384207,
+        "p5": 0.00020914287597406656
+      },
+      "cache_vs_batch8": {
+        "p3": 0.00020275794668123126,
+        "p4": 0.0002115312818204984,
+        "p5": 0.00020913686603307724
+      },
+      "cache_vs_onnx": {
+        "p3": 0.00020277708244975656,
+        "p4": 0.0002116503892466426,
+        "p5": 0.00020912208128720522
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.00020273952395655215,
+        "p4": 0.00021144267520867288,
+        "p5": 0.0002091205824399367
+      },
+      "frame": "MOT17-09-SDP/176",
+      "onnx_vs_pytorch": {
+        "p3": 4.170869942754507e-06,
+        "p4": 8.435551535512786e-06,
+        "p5": 5.913724180572899e-06
+      },
+      "rounding_only": {
+        "p3": 0.00020273952395655215,
+        "p4": 0.00021144267520867288,
+        "p5": 0.0002091205824399367
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 3.6338662994239712e-06,
+        "p4": 7.76779415900819e-06,
+        "p5": 7.446538347721798e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 3.7052429888717597e-06,
+        "p4": 7.785095476720016e-06,
+        "p5": 6.461184511863394e-06
+      },
+      "cache": "cache_train",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.0019512176513671875,
+        "p4": 0.003726959228515625,
+        "p5": 0.0036764144897460938
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020208186469972134,
+        "p4": 0.0002101404097629711,
+        "p5": 0.0002088976907543838
+      },
+      "cache_vs_batch8": {
+        "p3": 0.0002020825195359066,
+        "p4": 0.00021015822130721062,
+        "p5": 0.00020884550758637488
+      },
+      "cache_vs_onnx": {
+        "p3": 0.0002021000109380111,
+        "p4": 0.00021022974397055805,
+        "p5": 0.00020898799994029105
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.00020204896281939,
+        "p4": 0.00020997154933866113,
+        "p5": 0.00020871628657914698
+      },
+      "frame": "MOT17-09-SDP/351",
+      "onnx_vs_pytorch": {
+        "p3": 4.7731600716360845e-06,
+        "p4": 1.0143896361114457e-05,
+        "p5": 1.0017145541496575e-05
+      },
+      "rounding_only": {
+        "p3": 0.00020204896281939,
+        "p4": 0.00020997154933866113,
+        "p5": 0.00020871628657914698
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 4.925445409753593e-06,
+        "p4": 1.1818562597909477e-05,
+        "p5": 1.1149566489621066e-05
+      },
+      "batch8_vs_batch1": {
+        "p3": 5.40199152965215e-06,
+        "p4": 1.2153181160101667e-05,
+        "p5": 1.1430392078182194e-05
+      },
+      "cache": "cache_train",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.00194549560546875,
+        "p4": 0.0019469261169433594,
+        "p5": 0.0038213729858398438
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020212949311826378,
+        "p4": 0.00021100945014040917,
+        "p5": 0.00021112730610184371
+      },
+      "cache_vs_batch8": {
+        "p3": 0.0002021377586061135,
+        "p4": 0.00021104227926116437,
+        "p5": 0.00021109692170284688
+      },
+      "cache_vs_onnx": {
+        "p3": 0.00020217214478179812,
+        "p4": 0.00021122614271007478,
+        "p5": 0.00021089345682412386
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.0002020819956669584,
+        "p4": 0.0002106749889208004,
+        "p5": 0.00021074945107102394
+      },
+      "frame": "MOT17-09-SDP/525",
+      "onnx_vs_pytorch": {
+        "p3": 6.396584467438515e-06,
+        "p4": 1.3863183085049968e-05,
+        "p5": 1.3096986549498979e-05
+      },
+      "rounding_only": {
+        "p3": 0.0002020819956669584,
+        "p4": 0.0002106749889208004,
+        "p5": 0.00021074945107102394
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 4.6335185288626235e-06,
+        "p4": 9.117977242567576e-06,
+        "p5": 6.264866897254251e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 4.6654286052216776e-06,
+        "p4": 8.874865670804866e-06,
+        "p5": 6.460349595727166e-06
+      },
+      "cache": "cache_val",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.0019516944885253906,
+        "p4": 0.0036325454711914062,
+        "p5": 0.0029344558715820312
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020205587497912347,
+        "p4": 0.00021143347839824855,
+        "p5": 0.00020863133249804378
+      },
+      "cache_vs_batch8": {
+        "p3": 0.0002020566607825458,
+        "p4": 0.00021141335309948772,
+        "p5": 0.00020859517098870128
+      },
+      "cache_vs_onnx": {
+        "p3": 0.00020218544523231685,
+        "p4": 0.00021204435324762017,
+        "p5": 0.00020878318173345178
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.0002020106476265937,
+        "p4": 0.00021117914002388716,
+        "p5": 0.00020856103219557554
+      },
+      "frame": "MOT17-10-SDP/1",
+      "onnx_vs_pytorch": {
+        "p3": 8.549923222744837e-06,
+        "p4": 1.8120654203812592e-05,
+        "p5": 1.1659808478725608e-05
+      },
+      "rounding_only": {
+        "p3": 0.0002020106476265937,
+        "p4": 0.00021117914002388716,
+        "p5": 0.00020856103219557554
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 3.8043683616706403e-06,
+        "p4": 7.477706276404206e-06,
+        "p5": 6.168742856971221e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 3.924839802493807e-06,
+        "p4": 7.5964931056660134e-06,
+        "p5": 6.721518275298877e-06
+      },
+      "cache": "cache_val",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.001934051513671875,
+        "p4": 0.0019474029541015625,
+        "p5": 0.0029687881469726562
+      },
+      "cache_vs_batch4": {
+        "p3": 0.0002004768030019477,
+        "p4": 0.00021139402815606445,
+        "p5": 0.00020874205802101642
+      },
+      "cache_vs_batch8": {
+        "p3": 0.0002004829002544284,
+        "p4": 0.0002113839000230655,
+        "p5": 0.00020878815848845989
+      },
+      "cache_vs_onnx": {
+        "p3": 0.00020053409389220178,
+        "p4": 0.0002117530384566635,
+        "p5": 0.00020898728689644486
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.0002004437701543793,
+        "p4": 0.00021124325576238334,
+        "p5": 0.0002087098837364465
+      },
+      "frame": "MOT17-10-SDP/219",
+      "onnx_vs_pytorch": {
+        "p3": 6.006728199281497e-06,
+        "p4": 1.3552875316236168e-05,
+        "p5": 1.0614069651637692e-05
+      },
+      "rounding_only": {
+        "p3": 0.0002004437701543793,
+        "p4": 0.00021124325576238334,
+        "p5": 0.0002087098837364465
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 2.8916547307744622e-06,
+        "p4": 5.303269063006155e-06,
+        "p5": 4.519713911577128e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 2.9980653835082194e-06,
+        "p4": 5.659149337589042e-06,
+        "p5": 4.336279289418599e-06
+      },
+      "cache": "cache_val",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.0019330978393554688,
+        "p4": 0.0019526481628417969,
+        "p5": 0.0033111572265625
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020088687597308308,
+        "p4": 0.00021123976330272853,
+        "p5": 0.0002087167522404343
+      },
+      "cache_vs_batch8": {
+        "p3": 0.00020088594465050846,
+        "p4": 0.00021126259525772184,
+        "p5": 0.00020868124556727707
+      },
+      "cache_vs_onnx": {
+        "p3": 0.0002009201270993799,
+        "p4": 0.00021135853603482246,
+        "p5": 0.00020876553026027977
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.00020086110453121364,
+        "p4": 0.00021116061543580145,
+        "p5": 0.00020863024110440165
+      },
+      "frame": "MOT17-10-SDP/437",
+      "onnx_vs_pytorch": {
+        "p3": 4.414354862092296e-06,
+        "p4": 8.358562809007708e-06,
+        "p5": 6.719615157635417e-06
+      },
+      "rounding_only": {
+        "p3": 0.00020086110453121364,
+        "p4": 0.00021116061543580145,
+        "p5": 0.00020863024110440165
+      }
+    },
+    {
+      "batch4_vs_batch1": {
+        "p3": 4.933515810989775e-06,
+        "p4": 9.125906217377633e-06,
+        "p5": 7.065119916660478e-06
+      },
+      "batch8_vs_batch1": {
+        "p3": 4.882710527454037e-06,
+        "p4": 8.989400157588534e-06,
+        "p5": 6.906574981258018e-06
+      },
+      "cache": "cache_val",
+      "cache_bitwise_equal_fraction": {
+        "p3": 1.0,
+        "p4": 1.0,
+        "p5": 1.0
+      },
+      "cache_max_abs": {
+        "p3": 0.0019478797912597656,
+        "p4": 0.0019507408142089844,
+        "p5": 0.0038709640502929688
+      },
+      "cache_vs_batch4": {
+        "p3": 0.00020088418386876583,
+        "p4": 0.0002111199137289077,
+        "p5": 0.00020686816424131393
+      },
+      "cache_vs_batch8": {
+        "p3": 0.00020088040037080646,
+        "p4": 0.0002111128269461915,
+        "p5": 0.00020688315271399915
+      },
+      "cache_vs_onnx": {
+        "p3": 0.00020099000539630651,
+        "p4": 0.00021170597756281495,
+        "p5": 0.00020712678087875247
+      },
+      "cache_vs_pytorch": {
+        "p3": 0.0002008257870329544,
+        "p4": 0.00021096854470670223,
+        "p5": 0.0002066863380605355
+      },
+      "frame": "MOT17-10-SDP/654",
+      "onnx_vs_pytorch": {
+        "p3": 8.545851414965e-06,
+        "p4": 1.6928583136177622e-05,
+        "p5": 1.3126646081218496e-05
+      },
+      "rounding_only": {
+        "p3": 0.0002008257870329544,
+        "p4": 0.00021096854470670223,
+        "p5": 0.0002066863380605355
+      }
+    }
+  ],
+  "schema": "saccade-v1-t01-feature-precision/1",
+  "seconds": 15.1,
+  "smoke": true,
+  "status": "fail",
+  "teacher_checkpoint": "/home/ray/.cache/saccade-v1/t01/smoke/teacher/attempt-02/run/epoch_0002.ckpt",
+  "teacher_sha256": "76908adbb3e41b93601512d1a7d656008a79ccc7014f0c803a01046f8728fd60",
+  "tolerances": {
+    "batch_invariance_rel_l2": 0.0001,
+    "fp16_storage_rel_l2": 0.00048828125,
+    "fp32_implementation_rel_l2": 0.0001,
+    "train_vs_deploy_rel_l2": 0.00058828125
+  },
+  "torch": "2.11.0+cu130",
+  "v1": {
+    "commit": "3134f0aa32061a55bee97c41687f76cc3c11be0f",
+    "dirty": true,
+    "status": [
+      "?? evidence/t01/2026-10-30/precision/collect_attempts.py",
+      "?? evidence/t01/2026-10-30/precision/smoke-attempts.json",
+      "?? training/t01/t01_progress.py"
+    ]
+  }
+}

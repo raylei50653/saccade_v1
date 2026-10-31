@@ -1,0 +1,468 @@
+{
+  "verified": true,
+  "classification": "normal standalone diagnostic; no sanitizer; host callback order and submitted event dependency, not hardware fence proof",
+  "captures": [
+    {
+      "name": "default",
+      "records": 1764,
+      "rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "decodes": [
+        {
+          "decode": 1,
+          "tid": 275064,
+          "source": {
+            "channels": [
+              "0xf09e00000",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "pitches": [
+              512,
+              0,
+              0,
+              0
+            ]
+          },
+          "destination": {
+            "channels": [
+              "0xf0a000000",
+              "0xf0a0003b1",
+              "0xf0a000762",
+              "0x0"
+            ],
+            "pitches": [
+              35,
+              35,
+              35,
+              0
+            ]
+          },
+          "surface_base": "0xf09e00000",
+          "allocation_bytes": 16384,
+          "buffer_id": 987,
+          "caller_stream": "0x5b63a72d1bd0",
+          "converter_stream": "0x5b63a7480e20",
+          "launch_seq": 1590,
+          "event_record_seq": 1596,
+          "event": "0x5b63a7480b70",
+          "caller_wait_seq": 1600,
+          "decode_exit_seq": 1603,
+          "snapshot_seq": 1608,
+          "nvjpeg_stack_offsets": [
+            "0x17a434",
+            "0x1ea608",
+            "0x10d23f",
+            "0x1039b9",
+            "0xd374f",
+            "0xd4ffb",
+            "0xd0913",
+            "0x73909"
+          ]
+        },
+        {
+          "decode": 2,
+          "tid": 275064,
+          "source": {
+            "channels": [
+              "0xf09e00000",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "pitches": [
+              512,
+              0,
+              0,
+              0
+            ]
+          },
+          "destination": {
+            "channels": [
+              "0xf0a000000",
+              "0xf0a0003b1",
+              "0xf0a000762",
+              "0x0"
+            ],
+            "pitches": [
+              35,
+              35,
+              35,
+              0
+            ]
+          },
+          "surface_base": "0xf09e00000",
+          "allocation_bytes": 16384,
+          "buffer_id": 987,
+          "caller_stream": "0x5b63a72d1bd0",
+          "converter_stream": "0x5b63a7480e20",
+          "launch_seq": 1645,
+          "event_record_seq": 1651,
+          "event": "0x5b63a7480b70",
+          "caller_wait_seq": 1655,
+          "decode_exit_seq": 1658,
+          "snapshot_seq": 1663,
+          "nvjpeg_stack_offsets": [
+            "0x17a434",
+            "0x1ea608",
+            "0x10d23f",
+            "0x1039b9",
+            "0xd374f",
+            "0xd4ffb",
+            "0xd0913",
+            "0x73909"
+          ]
+        }
+      ],
+      "driver_api_entries": {
+        "cuCtxGetApiVersion": 4,
+        "cuCtxGetCurrent": 5,
+        "cuCtxGetDevice": 4,
+        "cuCtxGetDevice_v2": 3,
+        "cuCtxPopCurrent_v2": 9,
+        "cuCtxPushCurrent_v2": 9,
+        "cuCtxSetCurrent": 1,
+        "cuDeviceGet": 2,
+        "cuDeviceGetAttribute": 230,
+        "cuDeviceGetCount": 2,
+        "cuDeviceGetName": 2,
+        "cuDeviceGetUuid": 2,
+        "cuDevicePrimaryCtxRetain": 2,
+        "cuDeviceTotalMem_v2": 2,
+        "cuDriverGetVersion": 4,
+        "cuEventCreate": 3,
+        "cuEventDestroy_v2": 3,
+        "cuEventRecord": 2,
+        "cuGetProcAddress_v2": 480,
+        "cuInit": 4,
+        "cuKernelGetName": 4,
+        "cuLaunchKernel": 4,
+        "cuLibraryGetKernel": 2,
+        "cuLibraryLoadData": 2,
+        "cuMemAlloc_v2": 2,
+        "cuMemFreeHost": 2,
+        "cuMemFree_v2": 8,
+        "cuMemGetAddressRange_v2": 2,
+        "cuMemHostAlloc": 2,
+        "cuMemcpyAsync": 2,
+        "cuMemcpyDtoHAsync_v2": 2,
+        "cuModuleGetLoadingMode": 2,
+        "cuPointerGetAttribute": 2,
+        "cuStreamCreate": 5,
+        "cuStreamDestroy_v2": 5,
+        "cuStreamSynchronize": 7,
+        "cuStreamWaitEvent": 2
+      }
+    },
+    {
+      "name": "no-pipeline",
+      "records": 1736,
+      "rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "decodes": [
+        {
+          "decode": 1,
+          "tid": 275076,
+          "source": {
+            "channels": [
+              "0xf09e00000",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "pitches": [
+              512,
+              0,
+              0,
+              0
+            ]
+          },
+          "destination": {
+            "channels": [
+              "0xf0a000000",
+              "0xf0a0003b1",
+              "0xf0a000762",
+              "0x0"
+            ],
+            "pitches": [
+              35,
+              35,
+              35,
+              0
+            ]
+          },
+          "surface_base": "0xf09e00000",
+          "allocation_bytes": 16384,
+          "buffer_id": 985,
+          "caller_stream": "0x5c701246ba60",
+          "converter_stream": "0x5c7012619730",
+          "launch_seq": 1582,
+          "event_record_seq": 1588,
+          "event": "0x5c7012619480",
+          "caller_wait_seq": 1592,
+          "decode_exit_seq": 1595,
+          "snapshot_seq": 1600,
+          "nvjpeg_stack_offsets": [
+            "0x17a434",
+            "0x1ea608",
+            "0x10d23f",
+            "0x1039b9",
+            "0xd374f",
+            "0xd4ffb",
+            "0xd0913",
+            "0x73909"
+          ]
+        },
+        {
+          "decode": 2,
+          "tid": 275076,
+          "source": {
+            "channels": [
+              "0xf09e00000",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "pitches": [
+              512,
+              0,
+              0,
+              0
+            ]
+          },
+          "destination": {
+            "channels": [
+              "0xf0a000000",
+              "0xf0a0003b1",
+              "0xf0a000762",
+              "0x0"
+            ],
+            "pitches": [
+              35,
+              35,
+              35,
+              0
+            ]
+          },
+          "surface_base": "0xf09e00000",
+          "allocation_bytes": 16384,
+          "buffer_id": 985,
+          "caller_stream": "0x5c701246ba60",
+          "converter_stream": "0x5c7012619730",
+          "launch_seq": 1637,
+          "event_record_seq": 1643,
+          "event": "0x5c7012619480",
+          "caller_wait_seq": 1647,
+          "decode_exit_seq": 1650,
+          "snapshot_seq": 1655,
+          "nvjpeg_stack_offsets": [
+            "0x17a434",
+            "0x1ea608",
+            "0x10d23f",
+            "0x1039b9",
+            "0xd374f",
+            "0xd4ffb",
+            "0xd0913",
+            "0x73909"
+          ]
+        }
+      ],
+      "driver_api_entries": {
+        "cuCtxGetApiVersion": 4,
+        "cuCtxGetCurrent": 5,
+        "cuCtxGetDevice": 4,
+        "cuCtxGetDevice_v2": 3,
+        "cuCtxPopCurrent_v2": 7,
+        "cuCtxPushCurrent_v2": 7,
+        "cuCtxSetCurrent": 1,
+        "cuDeviceGet": 2,
+        "cuDeviceGetAttribute": 230,
+        "cuDeviceGetCount": 2,
+        "cuDeviceGetName": 2,
+        "cuDeviceGetUuid": 2,
+        "cuDevicePrimaryCtxRetain": 2,
+        "cuDeviceTotalMem_v2": 2,
+        "cuDriverGetVersion": 4,
+        "cuEventCreate": 2,
+        "cuEventDestroy_v2": 2,
+        "cuEventRecord": 2,
+        "cuGetProcAddress_v2": 480,
+        "cuInit": 4,
+        "cuKernelGetName": 4,
+        "cuLaunchKernel": 4,
+        "cuLibraryGetKernel": 2,
+        "cuLibraryLoadData": 2,
+        "cuMemAlloc_v2": 2,
+        "cuMemFreeHost": 2,
+        "cuMemFree_v2": 6,
+        "cuMemGetAddressRange_v2": 2,
+        "cuMemHostAlloc": 2,
+        "cuMemcpyAsync": 2,
+        "cuMemcpyDtoHAsync_v2": 2,
+        "cuModuleGetLoadingMode": 2,
+        "cuPointerGetAttribute": 2,
+        "cuStreamCreate": 4,
+        "cuStreamDestroy_v2": 4,
+        "cuStreamSynchronize": 7,
+        "cuStreamWaitEvent": 2
+      }
+    },
+    {
+      "name": "no-preallocate",
+      "records": 1746,
+      "rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "decodes": [
+        {
+          "decode": 1,
+          "tid": 275095,
+          "source": {
+            "channels": [
+              "0xf0a004000",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "pitches": [
+              512,
+              0,
+              0,
+              0
+            ]
+          },
+          "destination": {
+            "channels": [
+              "0xf09e00000",
+              "0xf09e003b1",
+              "0xf09e00762",
+              "0x0"
+            ],
+            "pitches": [
+              35,
+              35,
+              35,
+              0
+            ]
+          },
+          "surface_base": "0xf0a004000",
+          "allocation_bytes": 16384,
+          "buffer_id": 984,
+          "caller_stream": "0x64c996f21bd0",
+          "converter_stream": "0x64c9970d0e20",
+          "launch_seq": 1584,
+          "event_record_seq": 1590,
+          "event": "0x64c9970d0b70",
+          "caller_wait_seq": 1594,
+          "decode_exit_seq": 1597,
+          "snapshot_seq": 1602,
+          "nvjpeg_stack_offsets": [
+            "0x17a434",
+            "0x1ea608",
+            "0x10d23f",
+            "0x1039b9",
+            "0xd374f",
+            "0xd4ffb",
+            "0xd0913",
+            "0x73909"
+          ]
+        },
+        {
+          "decode": 2,
+          "tid": 275095,
+          "source": {
+            "channels": [
+              "0xf0a004000",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "pitches": [
+              512,
+              0,
+              0,
+              0
+            ]
+          },
+          "destination": {
+            "channels": [
+              "0xf09e00000",
+              "0xf09e003b1",
+              "0xf09e00762",
+              "0x0"
+            ],
+            "pitches": [
+              35,
+              35,
+              35,
+              0
+            ]
+          },
+          "surface_base": "0xf0a004000",
+          "allocation_bytes": 16384,
+          "buffer_id": 984,
+          "caller_stream": "0x64c996f21bd0",
+          "converter_stream": "0x64c9970d0e20",
+          "launch_seq": 1639,
+          "event_record_seq": 1645,
+          "event": "0x64c9970d0b70",
+          "caller_wait_seq": 1649,
+          "decode_exit_seq": 1652,
+          "snapshot_seq": 1657,
+          "nvjpeg_stack_offsets": [
+            "0x17a434",
+            "0x1ea608",
+            "0x10d23f",
+            "0x1039b9",
+            "0xd374f",
+            "0xd4ffb",
+            "0xd0913",
+            "0x73909"
+          ]
+        }
+      ],
+      "driver_api_entries": {
+        "cuCtxGetApiVersion": 4,
+        "cuCtxGetCurrent": 5,
+        "cuCtxGetDevice": 4,
+        "cuCtxGetDevice_v2": 3,
+        "cuCtxPopCurrent_v2": 6,
+        "cuCtxPushCurrent_v2": 6,
+        "cuCtxSetCurrent": 1,
+        "cuDeviceGet": 2,
+        "cuDeviceGetAttribute": 230,
+        "cuDeviceGetCount": 2,
+        "cuDeviceGetName": 2,
+        "cuDeviceGetUuid": 2,
+        "cuDevicePrimaryCtxRetain": 2,
+        "cuDeviceTotalMem_v2": 2,
+        "cuDriverGetVersion": 4,
+        "cuEventCreate": 3,
+        "cuEventDestroy_v2": 3,
+        "cuEventRecord": 2,
+        "cuGetProcAddress_v2": 480,
+        "cuInit": 4,
+        "cuKernelGetName": 4,
+        "cuLaunchKernel": 4,
+        "cuLibraryGetKernel": 2,
+        "cuLibraryLoadData": 2,
+        "cuMemAlloc_v2": 2,
+        "cuMemFreeHost": 2,
+        "cuMemFree_v2": 5,
+        "cuMemGetAddressRange_v2": 2,
+        "cuMemHostAlloc": 2,
+        "cuMemcpyAsync": 2,
+        "cuMemcpyDtoHAsync_v2": 2,
+        "cuModuleGetLoadingMode": 2,
+        "cuPointerGetAttribute": 2,
+        "cuStreamCreate": 5,
+        "cuStreamDestroy_v2": 5,
+        "cuStreamSynchronize": 7,
+        "cuStreamWaitEvent": 2
+      }
+    }
+  ],
+  "unproven": [
+    "hardware producer identity and completion fence",
+    "initcheck shadow implementation and metadata consumption",
+    "uninstrumented timing and all schedules",
+    "original application sanitizer acceptance"
+  ]
+}

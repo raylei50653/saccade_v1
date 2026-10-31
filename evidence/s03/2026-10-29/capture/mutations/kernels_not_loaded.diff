@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/src/scan_trt_plugin.cpp	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/src/scan_trt_plugin.cpp	2026-10-29 22:59:21.086351884 +0800
+@@ -266,7 +266,7 @@
+     // current context and remember that context's process-unique ID.
+     std::int32_t bind() noexcept {
+         try {
+-            (void)selective_scan_cuda_load_kernels();
++            (void)0;
+             CUcontext context{};
+             unsigned long long id = 0;
+             if (cuCtxGetCurrent(&context) != CUDA_SUCCESS || context == nullptr || cuCtxGetId(context, &id) != CUDA_SUCCESS)

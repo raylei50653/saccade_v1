@@ -1,0 +1,1118 @@
+{
+  "captureScript": "evidence/s04/2026-10-30/capture.sh",
+  "inputRoot": "evidence/s04/2026-10-30",
+  "captureScriptSha256": "5fa31ee028a779f2194af3c19b9f0986e8120d3f437060247f008393869ab180",
+  "helperSha256": "ea33caffe9d10139576a5e1c6f9552459fa036a80b58548af640cd091d84bb24",
+  "inputLogs": [
+    {
+      "file": "evidence/s04/2026-10-30/capture/failed-attempt/sanitizer-head-memcheck.log",
+      "sha256": "3faac77604df8cccca73fe4d5b037d3eed1e2a80368992ac6d3b74fd9d2ce86f"
+    },
+    {
+      "file": "evidence/s04/2026-10-30/capture/failed-attempt3/sanitizer-scan-trt-memcheck.log",
+      "sha256": "182255e3546c47e3fb8de796f36fb10dd32c094fe3838edbeedff6343335daed"
+    },
+    {
+      "file": "evidence/s04/2026-10-30/capture/failed-attempt2/sanitizer-head-memcheck.log",
+      "sha256": "41927bddc900b75e4f4bb7041011d2eb7dde0fa3ed6318a4fec5bd694cb710ff"
+    },
+    {
+      "file": "evidence/s04/2026-10-30/capture/failed-attempt2/sanitizer-scan-trt-memcheck.log",
+      "sha256": "60fedf7ee4c07300bc96c871873da284cc5a59cba2b91bcb6264f21feed0fd9f"
+    }
+  ],
+  "note": "CPU-only classification fixtures; raw capture outcomes remain unchanged and no GPU acceptance is asserted.",
+  "fixtureCount": 68,
+  "allPassed": true,
+  "failures": [],
+  "results": [
+    {
+      "name": "head-old-known-note",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 0,
+      "classifierExit": 0,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "evidence/s04/2026-10-30/capture/failed-attempt/sanitizer-head-memcheck.log",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-extra-api-error",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Program hit cudaErrorInvalidValue (error 1) due to invalid argument on CUDA API call to cudaMemcpy."
+      ]
+    },
+    {
+      "name": "head-old-known-note-extra-memory-error",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Invalid __global__ write of size 4 bytes"
+      ]
+    },
+    {
+      "name": "head-old-known-note-extra-api-warning",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= CUDA API Warning: unrelated driver warning."
+      ]
+    },
+    {
+      "name": "head-old-known-note-missing-success",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing success line.",
+      "classificationTail": [
+        "checks\t640",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=0"
+      ]
+    },
+    {
+      "name": "head-old-known-note-duplicate-success",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate success line.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 1 error",
+        "head_trt_tests: 640 checks passed",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=2"
+      ]
+    },
+    {
+      "name": "head-old-known-note-zero-checks",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic zero-check suite success.",
+      "classificationTail": [
+        "head_trt_tests: 0 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=0"
+      ]
+    },
+    {
+      "name": "head-old-known-note-wrong-suite-success",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Use another suite success regex against the unchanged raw log.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=0"
+      ]
+    },
+    {
+      "name": "head-old-known-note-missing-summary",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing summary.",
+      "classificationTail": [
+        "checks\t640",
+        "head_trt_tests: 640 checks passed",
+        "tool exit=99 reported= recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-duplicate-summary",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate summary.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1",
+        "1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-summary-mismatch",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic summary count differs from known-note count.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 2 errors",
+        "tool exit=99 reported=2 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-wrong-exit-2",
+      "suite": "head",
+      "rawToolExit": 2,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=2 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-wrong-exit-124",
+      "suite": "head",
+      "rawToolExit": 124,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=124 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-wrong-exit-137",
+      "suite": "head",
+      "rawToolExit": 137,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=137 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-wrong-exit-139",
+      "suite": "head",
+      "rawToolExit": 139,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=139 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 0,
+      "classifierExit": 0,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "evidence/s04/2026-10-30/capture/failed-attempt3/sanitizer-scan-trt-memcheck.log",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-extra-api-error",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Program hit cudaErrorInvalidValue (error 1) due to invalid argument on CUDA API call to cudaMemcpy."
+      ]
+    },
+    {
+      "name": "scan3-known-note-extra-memory-error",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Invalid __global__ write of size 4 bytes"
+      ]
+    },
+    {
+      "name": "scan3-known-note-extra-api-warning",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= CUDA API Warning: unrelated driver warning."
+      ]
+    },
+    {
+      "name": "scan3-known-note-missing-success",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing success line.",
+      "classificationTail": [
+        "checks\t842",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=0"
+      ]
+    },
+    {
+      "name": "scan3-known-note-duplicate-success",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate success line.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 1 error",
+        "scan_trt_tests: 842 checks passed",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=2"
+      ]
+    },
+    {
+      "name": "scan3-known-note-zero-checks",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic zero-check suite success.",
+      "classificationTail": [
+        "scan_trt_tests: 0 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=0"
+      ]
+    },
+    {
+      "name": "scan3-known-note-wrong-suite-success",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Use another suite success regex against the unchanged raw log.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1 recompilation_notes=1 suite_passed=0"
+      ]
+    },
+    {
+      "name": "scan3-known-note-missing-summary",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing summary.",
+      "classificationTail": [
+        "checks\t842",
+        "scan_trt_tests: 842 checks passed",
+        "tool exit=99 reported= recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-duplicate-summary",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate summary.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=99 reported=1",
+        "1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-summary-mismatch",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic summary count differs from known-note count.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 2 errors",
+        "tool exit=99 reported=2 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-wrong-exit-2",
+      "suite": "scan",
+      "rawToolExit": 2,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=2 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-wrong-exit-124",
+      "suite": "scan",
+      "rawToolExit": 124,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=124 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-wrong-exit-137",
+      "suite": "scan",
+      "rawToolExit": 137,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=137 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-wrong-exit-139",
+      "suite": "scan",
+      "rawToolExit": 139,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 1 error",
+        "tool exit=139 reported=1 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 0,
+      "classifierExit": 0,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "evidence/s04/2026-10-30/capture/failed-attempt2/sanitizer-head-memcheck.log",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-extra-api-error",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Program hit cudaErrorInvalidValue (error 1) due to invalid argument on CUDA API call to cudaMemcpy."
+      ]
+    },
+    {
+      "name": "head-clean-output-extra-memory-error",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Invalid __global__ write of size 4 bytes"
+      ]
+    },
+    {
+      "name": "head-clean-output-extra-api-warning",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= CUDA API Warning: unrelated driver warning."
+      ]
+    },
+    {
+      "name": "head-clean-output-missing-success",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing success line.",
+      "classificationTail": [
+        "checks\t640",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=0"
+      ]
+    },
+    {
+      "name": "head-clean-output-duplicate-success",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate success line.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 0 errors",
+        "head_trt_tests: 640 checks passed",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=2"
+      ]
+    },
+    {
+      "name": "head-clean-output-zero-checks",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic zero-check suite success.",
+      "classificationTail": [
+        "head_trt_tests: 0 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=0"
+      ]
+    },
+    {
+      "name": "head-clean-output-wrong-suite-success",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Use another suite success regex against the unchanged raw log.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=0"
+      ]
+    },
+    {
+      "name": "head-clean-output-missing-summary",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing summary.",
+      "classificationTail": [
+        "checks\t640",
+        "head_trt_tests: 640 checks passed",
+        "tool exit=0 reported= recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-duplicate-summary",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate summary.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0",
+        "0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-summary-mismatch",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic summary count differs from known-note count.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 2 errors",
+        "tool exit=0 reported=2 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-wrong-exit-2",
+      "suite": "head",
+      "rawToolExit": 2,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=2 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-wrong-exit-99",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=99 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-wrong-exit-124",
+      "suite": "head",
+      "rawToolExit": 124,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=124 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-wrong-exit-137",
+      "suite": "head",
+      "rawToolExit": 137,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=137 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-clean-output-wrong-exit-139",
+      "suite": "head",
+      "rawToolExit": 139,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=139 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 0,
+      "classifierExit": 0,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "evidence/s04/2026-10-30/capture/failed-attempt2/sanitizer-scan-trt-memcheck.log",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-extra-api-error",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Program hit cudaErrorInvalidValue (error 1) due to invalid argument on CUDA API call to cudaMemcpy."
+      ]
+    },
+    {
+      "name": "scan-clean-output-extra-memory-error",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= Invalid __global__ write of size 4 bytes"
+      ]
+    },
+    {
+      "name": "scan-clean-output-extra-api-warning",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic additional sanitizer header; same original summary isolates header validation.",
+      "classificationTail": [
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=1",
+        "unexpected sanitizer headers:",
+        "========= CUDA API Warning: unrelated driver warning."
+      ]
+    },
+    {
+      "name": "scan-clean-output-missing-success",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing success line.",
+      "classificationTail": [
+        "checks\t842",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=0"
+      ]
+    },
+    {
+      "name": "scan-clean-output-duplicate-success",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate success line.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 0 errors",
+        "scan_trt_tests: 842 checks passed",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=2"
+      ]
+    },
+    {
+      "name": "scan-clean-output-zero-checks",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic zero-check suite success.",
+      "classificationTail": [
+        "scan_trt_tests: 0 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=0"
+      ]
+    },
+    {
+      "name": "scan-clean-output-wrong-suite-success",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Use another suite success regex against the unchanged raw log.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=0 suite_passed=0"
+      ]
+    },
+    {
+      "name": "scan-clean-output-missing-summary",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic missing summary.",
+      "classificationTail": [
+        "checks\t842",
+        "scan_trt_tests: 842 checks passed",
+        "tool exit=0 reported= recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-duplicate-summary",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic duplicate summary.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0",
+        "0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-summary-mismatch",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic summary count differs from known-note count.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 2 errors",
+        "tool exit=0 reported=2 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-wrong-exit-2",
+      "suite": "scan",
+      "rawToolExit": 2,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=2 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-wrong-exit-99",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=99 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-wrong-exit-124",
+      "suite": "scan",
+      "rawToolExit": 124,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=124 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-wrong-exit-137",
+      "suite": "scan",
+      "rawToolExit": 137,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=137 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan-clean-output-wrong-exit-139",
+      "suite": "scan",
+      "rawToolExit": 139,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic exit perturbation, including timeout and signal/crash exits.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=139 reported=0 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-warning-with-zero-summary-and-exit",
+      "suite": "head",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Known warning present while summary and exit falsely claim no errors.",
+      "classificationTail": [
+        "head_trt_tests: 640 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-plain-application-text-is-not-tool-note",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Unanchored application text must not be counted as a known sanitizer header.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 1 error",
+        "application: CUDA API Warning: Selective device code recompilation in progress",
+        "tool exit=99 reported=1 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "head-old-known-note-two-known-notes",
+      "suite": "head",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 0,
+      "classifierExit": 0,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic two known headers, both accounted for by the summary.",
+      "classificationTail": [
+        "========= CUDA API Warning: Selective device code recompilation in progress.",
+        "========= ERROR SUMMARY: 2 errors",
+        "tool exit=99 reported=2 recompilation_notes=2 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-warning-with-zero-summary-and-exit",
+      "suite": "scan",
+      "rawToolExit": 0,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Known warning present while summary and exit falsely claim no errors.",
+      "classificationTail": [
+        "scan_trt_tests: 842 checks passed",
+        "========= ERROR SUMMARY: 0 errors",
+        "tool exit=0 reported=0 recompilation_notes=1 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-plain-application-text-is-not-tool-note",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 1,
+      "classifierExit": 1,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Unanchored application text must not be counted as a known sanitizer header.",
+      "classificationTail": [
+        "========= ERROR SUMMARY: 1 error",
+        "application: CUDA API Warning: Selective device code recompilation in progress",
+        "tool exit=99 reported=1 recompilation_notes=0 suite_passed=1"
+      ]
+    },
+    {
+      "name": "scan3-known-note-two-known-notes",
+      "suite": "scan",
+      "rawToolExit": 99,
+      "expectedClassifierExit": 0,
+      "classifierExit": 0,
+      "signal": null,
+      "rawPreserved": true,
+      "ok": true,
+      "provenance": "Synthetic two known headers, both accounted for by the summary.",
+      "classificationTail": [
+        "========= CUDA API Warning: Selective device code recompilation in progress.",
+        "========= ERROR SUMMARY: 2 errors",
+        "tool exit=99 reported=2 recompilation_notes=2 suite_passed=1"
+      ]
+    }
+  ]
+}

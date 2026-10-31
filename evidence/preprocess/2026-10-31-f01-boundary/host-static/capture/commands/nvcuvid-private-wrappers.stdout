@@ -1,0 +1,449 @@
+
+/usr/lib/wsl/lib/libnvcuvid.so.1:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000004cb60 <cuvidGetSourceAudioFormat@@Base+0x4230>:
+   4cb60:	test   esi,esi
+   4cb62:	jne    4cb78 <cuvidGetSourceAudioFormat@@Base+0x4248>
+   4cb64:	test   rdi,rdi
+   4cb67:	je     4cb78 <cuvidGetSourceAudioFormat@@Base+0x4248>
+   4cb69:	mov    DWORD PTR [rdi],0x102
+   4cb6f:	xor    eax,eax
+   4cb71:	ret
+   4cb72:	nop    WORD PTR [rax+rax*1+0x0]
+   4cb78:	mov    eax,0x1
+   4cb7d:	ret
+   4cb7e:	xchg   ax,ax
+   4cb80:	test   rdi,rdi
+   4cb83:	je     4cb90 <cuvidGetSourceAudioFormat@@Base+0x4260>
+   4cb85:	mov    rax,QWORD PTR [rdi]
+   4cb88:	jmp    QWORD PTR [rax+0x30]
+   4cb8b:	nop    DWORD PTR [rax+rax*1+0x0]
+   4cb90:	mov    eax,0x190
+   4cb95:	ret
+   4cb96:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cba0:	mov    r8,rcx
+   4cba3:	test   rdi,rdi
+   4cba6:	je     4cbc0 <cuvidGetSourceAudioFormat@@Base+0x4290>
+   4cba8:	mov    rax,QWORD PTR [rdi]
+   4cbab:	mov    rcx,rdx
+   4cbae:	xor    edx,edx
+   4cbb0:	mov    rax,QWORD PTR [rax+0x20]
+   4cbb4:	jmp    rax
+   4cbb6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cbc0:	mov    eax,0x190
+   4cbc5:	ret
+   4cbc6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cbd0:	mov    rax,rcx
+   4cbd3:	mov    r10d,edx
+   4cbd6:	mov    ecx,edx
+   4cbd8:	mov    r9,r8
+   4cbdb:	and    r10d,0xffffff
+   4cbe2:	shr    ecx,0x18
+   4cbe5:	test   rdi,rdi
+   4cbe8:	je     4cc00 <cuvidGetSourceAudioFormat@@Base+0x42d0>
+   4cbea:	test   rsi,rsi
+   4cbed:	je     4cc00 <cuvidGetSourceAudioFormat@@Base+0x42d0>
+   4cbef:	mov    rdx,QWORD PTR [rdi]
+   4cbf2:	mov    r8,rax
+   4cbf5:	mov    r11,QWORD PTR [rdx+0x28]
+   4cbf9:	mov    edx,r10d
+   4cbfc:	jmp    r11
+   4cbff:	nop
+   4cc00:	mov    eax,0x190
+   4cc05:	ret
+   4cc06:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cc10:	test   rdi,rdi
+   4cc13:	je     4cc20 <cuvidGetSourceAudioFormat@@Base+0x42f0>
+   4cc15:	mov    rax,QWORD PTR [rdi]
+   4cc18:	jmp    QWORD PTR [rax+0x20]
+   4cc1b:	nop    DWORD PTR [rax+rax*1+0x0]
+   4cc20:	mov    eax,0x190
+   4cc25:	ret
+   4cc26:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cc30:	test   rdi,rdi
+   4cc33:	je     4cc40 <cuvidGetSourceAudioFormat@@Base+0x4310>
+   4cc35:	mov    rax,QWORD PTR [rdi]
+   4cc38:	jmp    QWORD PTR [rax+0x38]
+   4cc3b:	nop    DWORD PTR [rax+rax*1+0x0]
+   4cc40:	mov    eax,0x190
+   4cc45:	ret
+   4cc46:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cc50:	test   rdi,rdi
+   4cc53:	je     4cd00 <cuvidGetSourceAudioFormat@@Base+0x43d0>
+   4cc59:	mov    r8,QWORD PTR [rdi+0x20]
+   4cc5d:	mov    eax,0x190
+   4cc62:	test   r8,r8
+   4cc65:	je     4ccf8 <cuvidGetSourceAudioFormat@@Base+0x43c8>
+   4cc6b:	push   rbx
+   4cc6c:	mov    rbx,rdx
+   4cc6f:	xor    eax,eax
+   4cc71:	mov    ecx,0xb
+   4cc76:	sub    rsp,0x60
+   4cc7a:	lea    rdx,[rsp+0x8]
+   4cc7f:	mov    DWORD PTR [rsp],esi
+   4cc82:	mov    r9,rsp
+   4cc85:	mov    rdi,rdx
+   4cc88:	mov    DWORD PTR [rsp+0x4],0x1
+   4cc90:	mov    rsi,r9
+   4cc93:	rep stos QWORD PTR [rdi],rax
+   4cc96:	mov    rdi,r8
+   4cc99:	mov    rax,QWORD PTR [r8]
+   4cc9c:	call   QWORD PTR [rax+0x170]
+   4cca2:	mov    rax,QWORD PTR [rsp+0x24]
+   4cca7:	cmp    DWORD PTR [rsp],0x1
+   4ccab:	mov    BYTE PTR [rbx+0x18],0x0
+   4ccaf:	mov    DWORD PTR [rbx+0x14],0x2
+   4ccb6:	mov    QWORD PTR [rbx],rax
+   4ccb9:	mov    rax,QWORD PTR [rsp+0x2c]
+   4ccbe:	mov    QWORD PTR [rbx+0x8],rax
+   4ccc2:	mov    eax,DWORD PTR [rsp+0x34]
+   4ccc6:	mov    DWORD PTR [rbx+0x10],eax
+   4ccc9:	je     4cce8 <cuvidGetSourceAudioFormat@@Base+0x43b8>
+   4cccb:	movzx  eax,BYTE PTR [rsp+0x21]
+   4ccd0:	mov    BYTE PTR [rbx+0x19],al
+   4ccd3:	movzx  eax,WORD PTR [rsp+0x22]
+   4ccd8:	mov    WORD PTR [rbx+0x1a],ax
+   4ccdc:	add    rsp,0x60
+   4cce0:	xor    eax,eax
+   4cce2:	pop    rbx
+   4cce3:	ret
+   4cce4:	nop    DWORD PTR [rax+0x0]
+   4cce8:	mov    DWORD PTR [rbx+0x14],0x1f
+   4ccef:	jmp    4cccb <cuvidGetSourceAudioFormat@@Base+0x439b>
+   4ccf1:	nop    DWORD PTR [rax+0x0]
+   4ccf8:	ret
+   4ccf9:	nop    DWORD PTR [rax+0x0]
+   4cd00:	mov    eax,0x190
+   4cd05:	ret
+   4cd06:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cd10:	test   rdi,rdi
+   4cd13:	je     4cd20 <cuvidGetSourceAudioFormat@@Base+0x43f0>
+   4cd15:	jmp    4ddd0 <__std_2U4S4U_X08@@Base+0xbb0>
+   4cd1a:	nop    WORD PTR [rax+rax*1+0x0]
+   4cd20:	mov    eax,0x190
+   4cd25:	ret
+   4cd26:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cd30:	test   rdi,rdi
+   4cd33:	je     4cd40 <cuvidGetSourceAudioFormat@@Base+0x4410>
+   4cd35:	jmp    4de70 <__std_2U4S4U_X08@@Base+0xc50>
+   4cd3a:	nop    WORD PTR [rax+rax*1+0x0]
+   4cd40:	mov    eax,0x190
+   4cd45:	ret
+   4cd46:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cd50:	test   rdi,rdi
+   4cd53:	je     4cd60 <cuvidGetSourceAudioFormat@@Base+0x4430>
+   4cd55:	jmp    4deb0 <__std_2U4S4U_X08@@Base+0xc90>
+   4cd5a:	nop    WORD PTR [rax+rax*1+0x0]
+   4cd60:	mov    eax,0x190
+   4cd65:	ret
+   4cd66:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cd70:	test   rdi,rdi
+   4cd73:	je     4cd80 <cuvidGetSourceAudioFormat@@Base+0x4450>
+   4cd75:	jmp    4da90 <__std_2U4S4U_X08@@Base+0x870>
+   4cd7a:	nop    WORD PTR [rax+rax*1+0x0]
+   4cd80:	mov    eax,0x190
+   4cd85:	ret
+   4cd86:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cd90:	test   rdi,rdi
+   4cd93:	je     4cda0 <cuvidGetSourceAudioFormat@@Base+0x4470>
+   4cd95:	jmp    4da40 <__std_2U4S4U_X08@@Base+0x820>
+   4cd9a:	nop    WORD PTR [rax+rax*1+0x0]
+   4cda0:	mov    eax,0x190
+   4cda5:	ret
+   4cda6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cdb0:	test   rdi,rdi
+   4cdb3:	je     4cdc0 <cuvidGetSourceAudioFormat@@Base+0x4490>
+   4cdb5:	jmp    4dd00 <__std_2U4S4U_X08@@Base+0xae0>
+   4cdba:	nop    WORD PTR [rax+rax*1+0x0]
+   4cdc0:	mov    eax,0x190
+   4cdc5:	ret
+   4cdc6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cdd0:	test   rdi,rdi
+   4cdd3:	je     4cde0 <cuvidGetSourceAudioFormat@@Base+0x44b0>
+   4cdd5:	jmp    4df40 <__std_2U4S4U_X08@@Base+0xd20>
+   4cdda:	nop    WORD PTR [rax+rax*1+0x0]
+   4cde0:	mov    eax,0x190
+   4cde5:	ret
+   4cde6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cdf0:	test   rdi,rdi
+   4cdf3:	je     4ce00 <cuvidGetSourceAudioFormat@@Base+0x44d0>
+   4cdf5:	jmp    4dfc0 <__std_2U4S4U_X08@@Base+0xda0>
+   4cdfa:	nop    WORD PTR [rax+rax*1+0x0]
+   4ce00:	mov    eax,0x190
+   4ce05:	ret
+   4ce06:	cs nop WORD PTR [rax+rax*1+0x0]
+   4ce10:	test   rdi,rdi
+   4ce13:	je     4ce20 <cuvidGetSourceAudioFormat@@Base+0x44f0>
+   4ce15:	jmp    4e000 <__std_2U4S4U_X08@@Base+0xde0>
+   4ce1a:	nop    WORD PTR [rax+rax*1+0x0]
+   4ce20:	mov    eax,0x190
+   4ce25:	ret
+   4ce26:	cs nop WORD PTR [rax+rax*1+0x0]
+   4ce30:	test   rdi,rdi
+   4ce33:	je     4ce40 <cuvidGetSourceAudioFormat@@Base+0x4510>
+   4ce35:	jmp    4e040 <__std_2U4S4U_X08@@Base+0xe20>
+   4ce3a:	nop    WORD PTR [rax+rax*1+0x0]
+   4ce40:	mov    eax,0x190
+   4ce45:	ret
+   4ce46:	cs nop WORD PTR [rax+rax*1+0x0]
+   4ce50:	push   r12
+   4ce52:	push   rbp
+   4ce53:	mov    rbp,rsi
+   4ce56:	push   rbx
+   4ce57:	mov    ebx,edi
+   4ce59:	sub    rsp,0x20
+   4ce5d:	jmp    4ce6f <cuvidGetSourceAudioFormat@@Base+0x453f>
+   4ce5f:	nop
+   4ce60:	lock sub DWORD PTR [rip+0x19e0514],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4ce68:	xor    edi,edi
+   4ce6a:	call   144a0 <usleep@plt>
+   4ce6f:	mov    eax,0x1
+   4ce74:	lock xadd DWORD PTR [rip+0x19e0500],eax        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4ce7c:	test   eax,eax
+   4ce7e:	jne    4ce60 <cuvidGetSourceAudioFormat@@Base+0x4530>
+   4ce80:	lea    rdi,[rsp+0x18]
+   4ce85:	mov    r12d,0x64
+   4ce8b:	mov    QWORD PTR [rsp+0x8],0x0
+   4ce94:	mov    QWORD PTR [rsp+0x10],0x0
+   4ce9d:	mov    QWORD PTR [rsp+0x18],0x0
+   4cea6:	call   816d0 <__std_2U4S4U_X08@@Base+0x344b0>
+   4ceab:	test   al,al
+   4cead:	je     4cf1b <cuvidGetSourceAudioFormat@@Base+0x45eb>
+   4ceaf:	mov    rdi,QWORD PTR [rsp+0x18]
+   4ceb4:	test   rdi,rdi
+   4ceb7:	je     4cf1b <cuvidGetSourceAudioFormat@@Base+0x45eb>
+   4ceb9:	mov    rax,QWORD PTR [rdi]
+   4cebc:	lea    rsi,[rsp+0x10]
+   4cec1:	xor    edx,edx
+   4cec3:	call   QWORD PTR [rax+0x90]
+   4cec9:	mov    r12d,eax
+   4cecc:	test   eax,eax
+   4cece:	je     4cf30 <cuvidGetSourceAudioFormat@@Base+0x4600>
+   4ced0:	mov    rdi,QWORD PTR [rsp+0x8]
+   4ced5:	test   rdi,rdi
+   4ced8:	je     4cee9 <cuvidGetSourceAudioFormat@@Base+0x45b9>
+   4ceda:	mov    rax,QWORD PTR [rdi]
+   4cedd:	call   QWORD PTR [rax+0x8]
+   4cee0:	mov    QWORD PTR [rsp+0x8],0x0
+   4cee9:	mov    rdi,QWORD PTR [rsp+0x10]
+   4ceee:	test   rdi,rdi
+   4cef1:	je     4cf02 <cuvidGetSourceAudioFormat@@Base+0x45d2>
+   4cef3:	mov    rax,QWORD PTR [rdi]
+   4cef6:	call   QWORD PTR [rax+0x8]
+   4cef9:	mov    QWORD PTR [rsp+0x10],0x0
+   4cf02:	mov    rdi,QWORD PTR [rsp+0x18]
+   4cf07:	test   rdi,rdi
+   4cf0a:	je     4cf1b <cuvidGetSourceAudioFormat@@Base+0x45eb>
+   4cf0c:	mov    rax,QWORD PTR [rdi]
+   4cf0f:	call   QWORD PTR [rax+0x8]
+   4cf12:	mov    QWORD PTR [rsp+0x18],0x0
+   4cf1b:	lock sub DWORD PTR [rip+0x19e0459],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4cf23:	add    rsp,0x20
+   4cf27:	mov    eax,r12d
+   4cf2a:	pop    rbx
+   4cf2b:	pop    rbp
+   4cf2c:	pop    r12
+   4cf2e:	ret
+   4cf2f:	nop
+   4cf30:	mov    rsi,QWORD PTR [rsp+0x10]
+   4cf35:	lea    rdi,[rsp+0x8]
+   4cf3a:	xor    ecx,ecx
+   4cf3c:	mov    edx,0x1
+   4cf41:	call   1f8e0 <cuvidParseVideoData@@Base+0x4a10>
+   4cf46:	mov    r12d,eax
+   4cf49:	test   eax,eax
+   4cf4b:	jne    4ced0 <cuvidGetSourceAudioFormat@@Base+0x45a0>
+   4cf4d:	test   bl,0x2
+   4cf50:	jne    4cf70 <cuvidGetSourceAudioFormat@@Base+0x4640>
+   4cf52:	and    ebx,0x1
+   4cf55:	je     4cf91 <cuvidGetSourceAudioFormat@@Base+0x4661>
+   4cf57:	mov    rdi,QWORD PTR [rsp+0x8]
+   4cf5c:	mov    rax,QWORD PTR [rdi]
+   4cf5f:	call   QWORD PTR [rax+0x50]
+   4cf62:	mov    DWORD PTR [rbp+0x0],eax
+   4cf65:	jmp    4ced0 <cuvidGetSourceAudioFormat@@Base+0x45a0>
+   4cf6a:	nop    WORD PTR [rax+rax*1+0x0]
+   4cf70:	mov    rdi,QWORD PTR [rsp+0x8]
+   4cf75:	mov    rax,QWORD PTR [rdi]
+   4cf78:	call   QWORD PTR [rax+0x48]
+   4cf7b:	mov    rdi,QWORD PTR [rsp+0x8]
+   4cf80:	mov    DWORD PTR [rbp+0x0],eax
+   4cf83:	test   rdi,rdi
+   4cf86:	jne    4ceda <cuvidGetSourceAudioFormat@@Base+0x45aa>
+   4cf8c:	jmp    4cee9 <cuvidGetSourceAudioFormat@@Base+0x45b9>
+   4cf91:	mov    r12d,0x321
+   4cf97:	jmp    4cf1b <cuvidGetSourceAudioFormat@@Base+0x45eb>
+   4cf99:	nop    DWORD PTR [rax+0x0]
+   4cfa0:	push   rbp
+   4cfa1:	mov    rbp,rdi
+   4cfa4:	jmp    4cfbf <cuvidGetSourceAudioFormat@@Base+0x468f>
+   4cfa6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4cfb0:	lock sub DWORD PTR [rip+0x19e03c4],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4cfb8:	xor    edi,edi
+   4cfba:	call   144a0 <usleep@plt>
+   4cfbf:	mov    eax,0x1
+   4cfc4:	lock xadd DWORD PTR [rip+0x19e03b0],eax        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4cfcc:	test   eax,eax
+   4cfce:	jne    4cfb0 <cuvidGetSourceAudioFormat@@Base+0x4680>
+   4cfd0:	mov    eax,0x190
+   4cfd5:	test   rbp,rbp
+   4cfd8:	je     4cfee <cuvidGetSourceAudioFormat@@Base+0x46be>
+   4cfda:	mov    rdi,rbp
+   4cfdd:	call   4d450 <__std_2U4S4U_X08@@Base+0x230>
+   4cfe2:	mov    rax,QWORD PTR [rbp+0x0]
+   4cfe6:	mov    rdi,rbp
+   4cfe9:	call   QWORD PTR [rax+0x8]
+   4cfec:	xor    eax,eax
+   4cfee:	lock sub DWORD PTR [rip+0x19e0386],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4cff6:	pop    rbp
+   4cff7:	ret
+   4cff8:	nop    DWORD PTR [rax+rax*1+0x0]
+   4d000:	push   r15
+   4d002:	push   r14
+   4d004:	mov    r14d,ecx
+   4d007:	push   r13
+   4d009:	mov    r13,rdx
+   4d00c:	push   r12
+   4d00e:	mov    r12,r8
+   4d011:	push   rbp
+   4d012:	mov    ebp,esi
+   4d014:	push   rbx
+   4d015:	mov    rbx,rdi
+   4d018:	sub    rsp,0x18
+   4d01c:	jmp    4d02f <cuvidGetSourceAudioFormat@@Base+0x46ff>
+   4d01e:	xchg   ax,ax
+   4d020:	lock sub DWORD PTR [rip+0x19e0354],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4d028:	xor    edi,edi
+   4d02a:	call   144a0 <usleep@plt>
+   4d02f:	mov    eax,0x1
+   4d034:	lock xadd DWORD PTR [rip+0x19e0340],eax        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4d03c:	add    eax,0x1
+   4d03f:	cmp    eax,0x1
+   4d042:	jne    4d020 <cuvidGetSourceAudioFormat@@Base+0x46f0>
+   4d044:	test   rbx,rbx
+   4d047:	je     4d058 <cuvidGetSourceAudioFormat@@Base+0x4728>
+   4d049:	cmp    ebp,0x2
+   4d04c:	je     4d0b0 <cuvidGetSourceAudioFormat@@Base+0x4780>
+   4d04e:	mov    eax,0x321
+   4d053:	cmp    ebp,0x1
+   4d056:	je     4d070 <cuvidGetSourceAudioFormat@@Base+0x4740>
+   4d058:	lock sub DWORD PTR [rip+0x19e031c],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4d060:	add    rsp,0x18
+   4d064:	pop    rbx
+   4d065:	pop    rbp
+   4d066:	pop    r12
+   4d068:	pop    r13
+   4d06a:	pop    r14
+   4d06c:	pop    r15
+   4d06e:	ret
+   4d06f:	nop
+   4d070:	mov    edi,0x3390
+   4d075:	call   7c190 <__std_2U4S4U_X08@@Base+0x2ef70>
+   4d07a:	mov    r15,rax
+   4d07d:	test   rax,rax
+   4d080:	je     4d0e6 <cuvidGetSourceAudioFormat@@Base+0x47b6>
+   4d082:	mov    rdi,rax
+   4d085:	call   50210 <__std_2U4S4U_X08@@Base+0x2ff0>
+   4d08a:	mov    r8d,r14d
+   4d08d:	mov    rcx,r13
+   4d090:	mov    rdx,r12
+   4d093:	mov    esi,ebp
+   4d095:	mov    rdi,r15
+   4d098:	call   4d4f0 <__std_2U4S4U_X08@@Base+0x2d0>
+   4d09d:	test   eax,eax
+   4d09f:	jne    4d0d0 <cuvidGetSourceAudioFormat@@Base+0x47a0>
+   4d0a1:	mov    QWORD PTR [rbx],r15
+   4d0a4:	jmp    4d058 <cuvidGetSourceAudioFormat@@Base+0x4728>
+   4d0a6:	cs nop WORD PTR [rax+rax*1+0x0]
+   4d0b0:	mov    edi,0x2a08
+   4d0b5:	call   7c190 <__std_2U4S4U_X08@@Base+0x2ef70>
+   4d0ba:	mov    r15,rax
+   4d0bd:	test   rax,rax
+   4d0c0:	je     4d0e6 <cuvidGetSourceAudioFormat@@Base+0x47b6>
+   4d0c2:	mov    rdi,rax
+   4d0c5:	call   4f320 <__std_2U4S4U_X08@@Base+0x2100>
+   4d0ca:	jmp    4d08a <cuvidGetSourceAudioFormat@@Base+0x475a>
+   4d0cc:	nop    DWORD PTR [rax+0x0]
+   4d0d0:	mov    rdx,QWORD PTR [r15]
+   4d0d3:	mov    DWORD PTR [rsp+0xc],eax
+   4d0d7:	mov    rdi,r15
+   4d0da:	call   QWORD PTR [rdx+0x8]
+   4d0dd:	mov    eax,DWORD PTR [rsp+0xc]
+   4d0e1:	jmp    4d058 <cuvidGetSourceAudioFormat@@Base+0x4728>
+   4d0e6:	mov    eax,0x2
+   4d0eb:	jmp    4d058 <cuvidGetSourceAudioFormat@@Base+0x4728>
+   4d0f0:	push   r12
+   4d0f2:	push   rbp
+   4d0f3:	mov    rbp,rdi
+   4d0f6:	sub    rsp,0x28
+   4d0fa:	jmp    4d10f <cuvidGetSourceAudioFormat@@Base+0x47df>
+   4d0fc:	nop    DWORD PTR [rax+0x0]
+   4d100:	lock sub DWORD PTR [rip+0x19e0274],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4d108:	xor    edi,edi
+   4d10a:	call   144a0 <usleep@plt>
+   4d10f:	mov    r12d,0x1
+   4d115:	lock xadd DWORD PTR [rip+0x19e025e],r12d        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4d11e:	add    r12d,0x1
+   4d122:	cmp    r12d,0x1
+   4d126:	jne    4d100 <cuvidGetSourceAudioFormat@@Base+0x47d0>
+   4d128:	mov    QWORD PTR [rsp+0x8],0x0
+   4d131:	mov    QWORD PTR [rsp+0x10],0x0
+   4d13a:	test   rbp,rbp
+   4d13d:	je     4d202 <cuvidGetSourceAudioFormat@@Base+0x48d2>
+   4d143:	lea    rdi,[rsp+0x18]
+   4d148:	mov    r12d,0x64
+   4d14e:	mov    QWORD PTR [rsp+0x18],0x0
+   4d157:	call   816d0 <__std_2U4S4U_X08@@Base+0x344b0>
+   4d15c:	test   al,al
+   4d15e:	je     4d202 <cuvidGetSourceAudioFormat@@Base+0x48d2>
+   4d164:	mov    rdi,QWORD PTR [rsp+0x18]
+   4d169:	test   rdi,rdi
+   4d16c:	je     4d202 <cuvidGetSourceAudioFormat@@Base+0x48d2>
+   4d172:	mov    rax,QWORD PTR [rdi]
+   4d175:	lea    rsi,[rsp+0x10]
+   4d17a:	xor    edx,edx
+   4d17c:	call   QWORD PTR [rax+0x90]
+   4d182:	mov    r12d,eax
+   4d185:	test   eax,eax
+   4d187:	jne    4d1b7 <cuvidGetSourceAudioFormat@@Base+0x4887>
+   4d189:	mov    rsi,QWORD PTR [rsp+0x10]
+   4d18e:	lea    rdi,[rsp+0x8]
+   4d193:	xor    ecx,ecx
+   4d195:	mov    edx,0x1
+   4d19a:	call   1f8e0 <cuvidParseVideoData@@Base+0x4a10>
+   4d19f:	mov    r12d,eax
+   4d1a2:	test   eax,eax
+   4d1a4:	jne    4d1b7 <cuvidGetSourceAudioFormat@@Base+0x4887>
+   4d1a6:	mov    rdi,QWORD PTR [rsp+0x8]
+   4d1ab:	mov    rsi,rbp
+   4d1ae:	mov    rax,QWORD PTR [rdi]
+   4d1b1:	call   QWORD PTR [rax+0x170]
+   4d1b7:	mov    rdi,QWORD PTR [rsp+0x8]
+   4d1bc:	test   rdi,rdi
+   4d1bf:	je     4d1d0 <cuvidGetSourceAudioFormat@@Base+0x48a0>
+   4d1c1:	mov    rax,QWORD PTR [rdi]
+   4d1c4:	call   QWORD PTR [rax+0x8]
+   4d1c7:	mov    QWORD PTR [rsp+0x8],0x0
+   4d1d0:	mov    rdi,QWORD PTR [rsp+0x10]
+   4d1d5:	test   rdi,rdi
+   4d1d8:	je     4d1e9 <cuvidGetSourceAudioFormat@@Base+0x48b9>
+   4d1da:	mov    rax,QWORD PTR [rdi]
+   4d1dd:	call   QWORD PTR [rax+0x8]
+   4d1e0:	mov    QWORD PTR [rsp+0x10],0x0
+   4d1e9:	mov    rdi,QWORD PTR [rsp+0x18]
+   4d1ee:	test   rdi,rdi
+   4d1f1:	je     4d202 <cuvidGetSourceAudioFormat@@Base+0x48d2>
+   4d1f3:	mov    rax,QWORD PTR [rdi]
+   4d1f6:	call   QWORD PTR [rax+0x8]
+   4d1f9:	mov    QWORD PTR [rsp+0x18],0x0
+   4d202:	lock sub DWORD PTR [rip+0x19e0172],0x1        # 1a2d37c <__std_4U4S4U_X04@@Base+0x18e09fc>
+   4d20a:	add    rsp,0x28
+   4d20e:	mov    eax,r12d
+   4d211:	pop    rbp
+   4d212:	pop    r12
+   4d214:	ret
+   4d215:	cs nop WORD PTR [rax+rax*1+0x0]
+   4d21f:	nop

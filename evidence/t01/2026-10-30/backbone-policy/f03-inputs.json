@@ -1,0 +1,67 @@
+{
+  "bytes": 29491200,
+  "compute_precision": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "compute_precision_end": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "file": "/home/ray/.cache/saccade-v1/t01/export/f03-inputs.f32",
+  "labels": [
+    "MOT17-02-SDP/1",
+    "MOT17-10-SDP/1",
+    "MOT17-13-SDP/400",
+    "zeros",
+    "ones",
+    "random/1"
+  ],
+  "layout": "per input: images [1,3,640,640] FP32 little-endian NCHW, RGB in [0,1]",
+  "per_input_sha256": {
+    "MOT17-02-SDP/1": "a99482f804318d2348a49903b69f85bc0a3aa610d2880e223f591e3118fedfa2",
+    "MOT17-10-SDP/1": "ca9388d1e5042961d708d103681a5e2fc54c5e4f20940c655a775df936e2cb57",
+    "MOT17-13-SDP/400": "4a30d9421e3c414bfab6d08f7db83b020da0046abd8a49158e32b3394fc1f738",
+    "ones": "830eadd834b9305b1472dcb60b1c7fffea53b0f0e12012fc36dc9f920fd56f2a",
+    "random/1": "a30e585e0ed498184ae96f01748b7498e1c7cdee01d39dbd762d3c4d832b178a",
+    "zeros": "f824c1a8a1128713f17dd8d1190d70e6012b509606d986e7a6c81e40b628df2b"
+  },
+  "policy": "t01-backbone-fp32/1",
+  "real_frames": "T01 input contract t01-input/1 (nvJPEG hardware decode, /255, antialiased bilinear stretch), PyTorch fp32-strict",
+  "sha256": "14dda6867e23ed8a2d83086224d71a445a7fdcb606c7507a3f39c0e5faf60aa0",
+  "synthetic": {
+    "ones": "1",
+    "random/1": "numpy PCG64(1) Generator.random(float32), uniform [0,1)",
+    "zeros": "0"
+  }
+}

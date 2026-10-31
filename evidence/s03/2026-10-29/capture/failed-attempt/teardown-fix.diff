@@ -1,0 +1,62 @@
+diff --git a/tests/scan_trt_tests.cpp b/tests/scan_trt_tests.cpp
+index bf31970..ba69bff 100644
+--- a/tests/scan_trt_tests.cpp
++++ b/tests/scan_trt_tests.cpp
+@@ -194,6 +194,18 @@ struct Engines {
+ };
+ Engines engines;
+ 
++// Creators are function statics initialized during the first engine build.
++// Retire every TensorRT object while those registered creators still exist,
++// including when a test throws and unwinds out of main's try block.
++struct CacheScope {
++    void close() noexcept {
++        engines.engines.clear();
++        engines.plans.clear();
++        runtime_owner.reset();
++    }
++    ~CacheScope() { close(); }
++};
++
+ // An execution context with its own, pre-allocated device memory (largest
+ // profile), so contexts never share TensorRT scratch.
+ class Context {
+@@ -1007,6 +1019,7 @@ std::string identity() {
+ 
+ int main(int argc, char** argv) {
+     try {
++        CacheScope cache_scope;
+         std::string only, output;
+         for (int i = 1; i < argc; ++i) {
+             const std::string arg(argv[i]);
+@@ -1017,7 +1030,9 @@ int main(int argc, char** argv) {
+         }
+         const auto id = identity(); std::istringstream lines(id);
+         for (std::string line; std::getline(lines, line);) report << "identity\t" << line << '\n';
+-        const Stream stream; TrtBackend trt; backend = &trt;
++        const Stream stream;
++        auto trt = std::make_unique<TrtBackend>();
++        backend = trt.get();
+         const std::pair<const char*, void (*)(cudaStream_t)> groups[] = {
+             {"s01_values", s01_values}, {"coverage", coverage}, {"softplus", softplus}, {"intermediate_range", intermediate_range},
+             {"failures", failures}, {"cross_scan", cross_scan}, {"contract", contract}, {"reset", reset}, {"isolation", isolation},
+@@ -1032,7 +1047,18 @@ int main(int argc, char** argv) {
+             group(stream.get()); no_unexpected_errors(name);
+         }
+         if (!matched) throw std::invalid_argument("unknown group: " + only);
+-        report << "plugin_s02_comparisons\t" << trt.calls << "\nchecks\t" << checks << '\n';
++        const auto calls = trt->calls;
++        trt.reset();
++        backend = nullptr;
++        cache_scope.close();
++        if (only == "async_fault") {
++            // Only this isolated group deliberately invalidates its CUDA
++            // context. Keep the resulting teardown diagnostics in the report.
++            auto errors = logger.drain_errors();
++            for (auto& e : recorder.drain()) errors.push_back(std::move(e));
++            for (const auto& e : errors) report << "expected_fatal_teardown_error\t" << e << '\n';
++        } else no_unexpected_errors("teardown");
++        report << "plugin_s02_comparisons\t" << calls << "\nchecks\t" << checks << '\n';
+         if (!only.empty()) report << "group_only\t" << only << '\n';
+         if (!output.empty()) saccade::write_text_file(output, report.str());
+         std::cout << report.str() << "scan_trt_tests: " << checks << " checks passed\n";

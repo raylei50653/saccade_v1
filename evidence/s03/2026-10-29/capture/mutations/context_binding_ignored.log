@@ -1,0 +1,59 @@
+group contract
+identity	tensorrt_headers=10.16.1.11
+identity	tensorrt_library=101601.11
+identity	plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+identity	plugin_namespace=saccade
+identity	plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+identity	build_commit=e468044f0ab003fe5f76d6d2ef7260b618121516
+identity	build_dirty=false
+identity	nvcc=13.4.92
+identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+identity	cuda_arch_list=1200
+identity	host_compiler=16.2.1 20260810
+identity	tensorrt=10.16.1
+identity	cuda_runtime=13040
+identity	cuda_driver_api=13040
+identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+identity	compute_capability=12.0
+engine	scan_d	plan_bytes=54492	build_seconds=0.587
+diagnostic_channel	must be a power of two in [1, 32]	logger
+contract	state_3	rejected	PASS
+diagnostic_channel	A rows must be 1 or channels	logger
+contract	a_rows_2	rejected	PASS
+diagnostic_channel	C width must be 1 or state	logger
+contract	c_width_3	rejected	PASS
+diagnostic_channel	is not (batch, length, state)	logger
+contract	b_state_differs_from_a	rejected	PASS
+diagnostic_channel	differs from u	logger
+contract	delta_differs_from_u	rejected	PASS
+diagnostic_channel	is not (channels)	logger
+contract	d_differs_from_channels	rejected	PASS
+element	contract_recovery	0	0.37307198895702753	0.373071998	0x3ebf034b	9.4e-09	2.4e-06
+element	contract_recovery	1	0.11851924604502667	0.118519247	0x3df2ba38	5.33e-10	1.91e-06
+element	contract_recovery	2	-2.2665771093977787	-2.26657724	0xc0110f9a	1.34e-07	2.69e-05
+element	contract_recovery	3	0	-0	0x80000000	0	6.87e-44
+element	contract_recovery	4	-0.50274381641897414	-0.50274384	0xbf00b3d2	2.38e-08	2.42e-06
+element	contract_recovery	5	-0.081391865058527052	-0.0813918561	0xbda6b0c6	8.98e-09	1.42e-06
+element	contract_recovery	6	1.3792318134180261	1.37923181	0x3fb08aab	2.85e-09	1.3e-05
+element	contract_recovery	7	-0.54759800414111481	-0.547598004	0xbf0c2f62	2e-10	8.26e-06
+element	contract_recovery	8	-0.67416896792905567	-0.674169064	0xbf2c9658	9.56e-08	7.52e-06
+element	contract_recovery	9	0.060007357663311889	0.0600073151	0x3d75ca3b	4.25e-08	6.27e-06
+element	contract_recovery	10	-0.99439434218368605	-0.994394422	0xbf7e90a2	7.94e-08	2.7e-05
+element	contract_recovery	11	0.056713319400870876	0.0567139089	0x3d684cd8	5.9e-07	4.66e-05
+element	contract_recovery	12	-0.125	-0.125	0xbe000000	0	8.94e-08
+element	contract_recovery	13	0	0	0x00000000	0	2.38e-44
+element	contract_recovery	14	0	0	0x00000000	0	2.38e-44
+element	contract_recovery	15	-0.625	-0.625	0xbf200000	0	4.47e-07
+case	contract_recovery	count=16	max_abs=5.9e-07	max_rel=1.04e-05	max_err_over_tol=0.0127	failures=0	worst_index=8	worst_gpu=-0.674169064(0xbf2c9658)	worst_ref=-0.67416896792905567	worst_tol=7.52e-06	PASS
+contract	profile_bounds	setInputShape_refused	PASS
+diagnostic_channel	an explicit non-default stream is required	logger
+contract	default_stream	rejected	PASS
+diagnostic_channel	an explicit non-default stream is required	logger
+contract	legacy_stream	rejected	PASS
+diagnostic_channel	an explicit non-default stream is required	logger
+contract	per_thread_stream	rejected	PASS
+contract	build_fp16_inputs	rejected	PASS
+contract	build_five_inputs_for_has_d	rejected	PASS
+contract	build_constant_state_3	rejected	PASS
+contract	creator_fields	PASS
+scan_trt_tests: an unattached plugin refuses to enqueue

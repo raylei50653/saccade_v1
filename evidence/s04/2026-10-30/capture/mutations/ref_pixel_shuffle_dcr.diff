@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_reference.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_reference.cpp	2026-10-30 12:56:08.238966288 +0800
+@@ -284,7 +284,7 @@
+     for (std::int64_t c = 0; c < C; ++c)
+         for (std::int64_t i = 0; i < r; ++i)
+             for (std::int64_t j = 0; j < r; ++j) {
+-                const auto in_c = dcr ? (i * r + j) * C + c : c * r * r + i * r + j;
++                const auto in_c = !dcr ? (i * r + j) * C + c : c * r * r + i * r + j;
+                 for (std::int64_t h = 0; h < H; ++h)
+                     for (std::int64_t w = 0; w < W; ++w)
+                         copy_element(x, static_cast<std::size_t>((in_c * H + h) * W + w), y,

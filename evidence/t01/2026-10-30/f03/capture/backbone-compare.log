@@ -1,0 +1,21 @@
+MOT17-02-SDP/1 {'p3': 'fail 0 ratio 0.0096 abs 1.56e-04', 'p4': 'fail 0 ratio 0.0201 abs 1.81e-04', 'p5': 'fail 0 ratio 0.0044 abs 6.04e-05'}
+MOT17-10-SDP/1 {'p3': 'fail 0 ratio 0.0134 abs 2.09e-04', 'p4': 'fail 0 ratio 0.0270 abs 3.59e-04', 'p5': 'fail 0 ratio 0.0102 abs 2.23e-04'}
+MOT17-13-SDP/400 {'p3': 'fail 0 ratio 0.0136 abs 9.54e-04', 'p4': 'fail 0 ratio 0.0302 abs 3.94e-04', 'p5': 'fail 0 ratio 0.0064 abs 9.84e-05'}
+zeros {'p3': 'fail 0 ratio 0.0070 abs 7.77e-05', 'p4': 'fail 0 ratio 0.0104 abs 1.32e-04', 'p5': 'fail 0 ratio 0.0030 abs 6.08e-05'}
+ones {'p3': 'fail 0 ratio 0.0162 abs 7.30e-04', 'p4': 'fail 0 ratio 0.0275 abs 1.71e-03', 'p5': 'fail 0 ratio 0.0243 abs 4.44e-04'}
+random/1 {'p3': 'fail 0 ratio 0.0079 abs 8.77e-05', 'p4': 'fail 0 ratio 0.0095 abs 1.46e-04', 'p5': 'fail 0 ratio 0.0027 abs 2.66e-05'}
+variant bgr_input True True
+variant no_bn_eps True True
+variant bilinear_upsample True True
+variant concat_reversed True True
+variant flipped_kernels True True
+variant sppf_no_shortcut True True
+variant sppf_kernel3 True True
+variant attention_no_scale True True
+variant softmax_key_axis True True
+variant attention_no_pe True True
+variant chunk_swapped True True
+variant untrained_weights True True
+secondary {'fp32_implementation': '8.92e-06 <= 1.00e-04 True', 'train_vs_deploy': '2.13e-04 <= 5.88e-04 True'}
+variants missed none
+result PASS

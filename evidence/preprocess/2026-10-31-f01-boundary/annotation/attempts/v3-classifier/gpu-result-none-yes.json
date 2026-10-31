@@ -1,0 +1,95 @@
+{
+  "results_this_invocation": [
+    {
+      "mode": "none",
+      "nvtx": "yes",
+      "exit": 99,
+      "application_complete": true,
+      "application_stdout_outputs": [
+        [
+          "0",
+          "A",
+          "1",
+          "0"
+        ],
+        [
+          "1",
+          "B",
+          "1",
+          "0"
+        ],
+        [
+          "2",
+          "A",
+          "1",
+          "0"
+        ]
+      ],
+      "application_failed": false,
+      "loaded_modules": {
+        "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1": "70d8cd3774f4b0cf9359af3ca894f8e2586687cdc4c1fbb63af786fb69d90354",
+        "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338",
+        "/usr/lib/wsl/lib/libcuda.so.1": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+      },
+      "mapped_library_identity_matches_pins": false,
+      "summary_errors": 2835,
+      "uninitialized_headers": 2835,
+      "complete_converter_records": 2835,
+      "all_printed_errors_classified_as_converter_3byte_reads": true,
+      "reference_byte_checks": [
+        {
+          "repeat": 0,
+          "input": "A",
+          "present": true,
+          "exact": true,
+          "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+        },
+        {
+          "repeat": 1,
+          "input": "B",
+          "present": true,
+          "exact": true,
+          "sha256": "695db4a9efe440c839129ee3ff721de9b5663753689cf7b73be2c85ee7a623a9"
+        },
+        {
+          "repeat": 2,
+          "input": "A",
+          "present": true,
+          "exact": true,
+          "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+        }
+      ],
+      "warmup_discovery_present": true,
+      "postwarmup_aggregate_report_count": 1890,
+      "prediction_total_errors": 2835,
+      "acceptance": "not assessed; original unsuppressed warmup FAIL retained",
+      "added_sync": "caller stream synchronized after each annotation and in none controls; private converter stream not identified here",
+      "informative_diagnostic": false,
+      "prediction_matched": true
+    }
+  ],
+  "failure": "none-yes: uninformative/failed capture retained; no dependent intervention",
+  "files_after": {
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/annotation.cu": "ca8370be84c93c38ce5c7d75498dbb79b752b8e007f602dabc20579961cc9fea",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/nvtx_mark.hpp": "c8bd9a7c345b4c7741e7467b08021bf0d3525088a2899c7f006fa86978e69d4c",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/capture.py": "1a5c101163b4be206894e68d373840f9adc989d3aa5523738c57d187eb208a3a",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/annotation": "8340471c1fe25eb5907b93d4098d112c9bb8878b14b8912d64459cfb9335b531",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/A.jpg": "3dedf93555bdc2aff5aab2a608a99f69cd8d6cc5c0fd64d8d3404ebb2f78da56",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/A.ppm": "f68fc40f2d7d0a65968db4b16aa210cc07977c5d264db0ab82ba2cd1aa307ec5",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/A.rgb": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/B-source.ppm": "37a06e4030b64c927fc605f0422e373cdf92c94cefeec700520585dcc8927df9",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/B.jpg": "cc242dbb8a1ba821927724cfdda66e9a93c6fdddc3fc29cc0c0a3b04ab39c36c",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/B.ppm": "3d6cd2ad2fd9ec02e15065fef57667af90fe6299bf8e7481b2c6e00a450ee289",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v3/inputs/B.rgb": "695db4a9efe440c839129ee3ff721de9b5663753689cf7b73be2c85ee7a623a9",
+    "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338",
+    "/usr/lib/wsl/lib/libcuda.so.1": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d",
+    "/opt/cuda/bin/nvcc": "b6c72825585cb3d64d8cead9b43c165afed0f0f672319416261a0df76e6d600c",
+    "/opt/cuda/compute-sanitizer/compute-sanitizer": "fc3b9d2abad07999a56631a6be69c320461ebdb80a5ab0044775c44d301c9488"
+  },
+  "identity_unchanged": true,
+  "state": {
+    "head": "ce8fc5b9b74da93e737c67a8624ab5db49be5a8e",
+    "worktree": " M docs/PREPROCESS.md\n?? evidence/preprocess/2026-10-31-f01-boundary/\n"
+  },
+  "acceptance": "not changed"
+}

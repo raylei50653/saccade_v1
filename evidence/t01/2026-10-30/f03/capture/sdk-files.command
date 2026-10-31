@@ -1,0 +1,1 @@
+bash -c cd\ \"\$1\"\ \&\&\ find\ .\ \\\(\ -type\ f\ -o\ -type\ l\ \\\)\ \|\ sort\ \|\ while\ read\ -r\ f\;\ do\ if\ \[\[\ -L\ \$f\ \]\]\;\ then\ echo\ \"L\ \$f\ -\>\ \$\(readlink\ \"\$f\"\)\"\;\ else\ sha256sum\ \"\$f\"\;\ fi\;\ done _ /home/ray/.cache/saccade-native-trt/10.16.1.11/sdk 

@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/cuda/scan_frame.cu	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/cuda/scan_frame.cu	2026-10-29 22:59:12.235125867 +0800
+@@ -91,7 +91,7 @@
+         if (!ctl->frame_status && !ctl->published) ctl->frame_status |= kProtocol;
+         if (ctl->frame_status) {
+             ctl->fail_frame = ctl->current;
+-            ctl->fail_code = ctl->frame_status;
++            ctl->fail_code = ctl->frame_status; ctl->committed = ctl->current; ctl->committed_slot = ctl->working_slot;
+         } else {
+             ctl->committed = ctl->current;
+             ctl->committed_slot = ctl->working_slot;

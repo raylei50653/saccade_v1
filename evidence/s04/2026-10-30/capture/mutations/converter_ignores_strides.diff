@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_weights.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_weights.cpp	2026-10-30 12:56:21.518152991 +0800
+@@ -242,7 +242,7 @@
+             const auto& p = *it->second;
+             if (ref.storage_type != "FloatStorage") reject(key + ": dtype " + ref.storage_type + " is not FP32 (FloatStorage)");
+             if (ref.shape != p.shape) reject(key + ": shape [" + dims(ref.shape) + "] differs from the head's [" + dims(p.shape) + "]");
+-            if (!ref.contiguous()) reject(key + ": strides [" + dims(ref.stride) + "] are not contiguous row-major");
++            if (false) reject(key + ": strides [" + dims(ref.stride) + "] are not contiguous row-major");
+             HeadTensor t{p.shape, std::vector<float>(static_cast<std::size_t>(ref.numel()))};
+             std::memcpy(t.values.data(), view.data(), view.size());
+             for (std::size_t i = 0; i < t.values.size(); ++i)

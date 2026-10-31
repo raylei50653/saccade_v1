@@ -1,0 +1,1 @@
+bash -c stat\ -c\ \"%s\ bytes\"\ \"\$1\"\ \&\&\ sha256sum\ \"\$1\"\ \"\$\(cat\ \"\$2\"\)\" _ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/trt/head-trt/head.engine /home/ray/developer/ai/saccade_v1/build-s04-evidence4/trt/head-trt/bundle.path 

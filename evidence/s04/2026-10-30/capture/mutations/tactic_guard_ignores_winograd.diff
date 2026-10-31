@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:55:18.855530559 +0800
+@@ -273,7 +273,7 @@
+             std::string token = name.substr(begin, end - begin);
+             for (auto& c : token) c = static_cast<char>(c >= 'A' && c <= 'Z' ? c - 'A' + 'a' : c);
+             if (!token.starts_with("0x"))
+-                for (const char* marker : {"wngd", "winograd", "fft", "f16", "tf32", "hmma", "i8", "int8"})
++                for (const char* marker : {"fft", "f16", "tf32", "hmma", "i8", "int8"})
+                     bad = bad || token.find(marker) != std::string::npos;
+             begin = end + 1;
+         }

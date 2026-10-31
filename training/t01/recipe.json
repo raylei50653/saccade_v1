@@ -1,0 +1,159 @@
+{
+  "schema": "saccade-v1-t01-recipe/1",
+  "experiment": "T01-YOLO26M-MAMBA-FPN-20261030",
+  "seed": 20260612,
+  "artifact_root": "~/.cache/saccade-v1/t01",
+  "old_source": {
+    "repository": "https://github.com/raylei50653/saccade",
+    "local_clone": "/home/ray/developer/ai/saccade",
+    "revision": "e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2",
+    "paths": ["src", "scripts", "pyproject.toml", "LICENSE", "NOTICE", "uv.lock"],
+    "patch": "training/t01/patches/t01-e48f3b39.patch",
+    "lock": "training/t01/source.lock.json"
+  },
+  "base_weights": {
+    "path": "/home/ray/developer/ai/saccade/models/yolo/yolo26m.pt",
+    "bytes": 44255705,
+    "sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+    "upstream": {
+      "release": "https://github.com/ultralytics/assets/releases/tag/v8.4.0",
+      "asset_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26m.pt",
+      "asset_id": 340096038,
+      "asset_created": "2026-01-13T19:59:19Z",
+      "api_digest": "sha256:401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+      "license": "AGPL-3.0 (Ultralytics declaration; no Enterprise license held)"
+    }
+  },
+  "preprocessing": {
+    "contract": "t01-input/1",
+    "decode": "nvJPEG RGB via torchvision.io.decode_jpeg(device=cuda) (torchvision 0.26.0 bundled libnvjpeg.so.13)",
+    "normalize": "float32 / 255 before resizing",
+    "resize": "stretch to 640x640: torch.nn.functional.interpolate(mode=bilinear, antialias=True, align_corners=False) in float32, no uint8 rounding",
+    "layout": "RGB CHW, batch-major",
+    "used_by": ["teacher training", "GT1 live features", "cache_train", "cache_val", "cache_eval", "teacher validation diagnostics"],
+    "implementation": "gpu_decode_clip_batch in the patched dataset.py",
+    "decision": "user decision 2026-10-30: match v1 F01 (nvJPEG) / F02 (normalize, then stretch); F02 must implement this antialiased kernel"
+  },
+  "compute_precision": {
+    "module": "training/t01/t01_precision.py",
+    "policies": {
+      "fp32-strict": "cuDNN and cuBLAS TF32 off, float32 matmul precision highest, NVIDIA_TF32_OVERRIDE=0; the FP32 math of the deployment engines (S04: FP32, TF32 cleared)",
+      "torch-default": "the original recipe: PyTorch 2.11 defaults made explicit (cuDNN TF32 convolutions, FP32 matmuls)"
+    },
+    "check": "applied in the trainer process before the script runs, read back (flags plus a conv/matmul probe against float64), re-read every 10 s, at every checkpoint save and at exit; any mismatch fails the attempt",
+    "decision": "user decision 2026-10-30: features that the head trains on or is selected with are computed like the deployment features (strict FP32); a ~1% TF32 feature gap is not accepted as a known limitation. The teacher keeps its bf16 training policy."
+  },
+  "dataset": {
+    "root": "/home/ray/developer/ai/saccade/datasets/MOT17",
+    "split_manifest": "manifests/t01/split.json"
+  },
+  "split": {
+    "train": ["MOT17-04-SDP", "MOT17-05-SDP", "MOT17-09-SDP", "MOT17-11-SDP", "MOT17-13-SDP"],
+    "val": ["MOT17-10-SDP"],
+    "eval": ["MOT17-02-SDP"]
+  },
+  "stages": {
+    "teacher": {
+      "script": "scripts/train/temporal_yolo/train_gated_detector.py",
+      "precision": "torch-default",
+      "storage": "checkpoint (float32 weights)",
+      "autocast": "bfloat16 in the trainer (unchanged)",
+      "epochs": 30,
+      "selected_epoch_rule": "fixed epoch 12 of the 30-epoch schedule (protocol rule, not chosen on validation)",
+      "args": ["--epochs", "30", "--batch-size", "4", "--clip-len", "2", "--img-size", "640",
+               "--lr-gate", "1e-3", "--lr-yolo", "1e-5", "--gt-ratio", "0.5", "--warmup-epochs", "0",
+               "--save-every", "1", "--best-by", "train-loss", "--protocol-revision", "T01-YOLO26M-20261030",
+               "--gpu-decode", "--num-workers", "0"]
+    },
+    "cache_train": {
+      "script": "scripts/train/temporal_yolo/train_mamba_head.py",
+      "precision": "fp32-strict",
+      "storage": "float16 files: P3/P4/P5 features and teacher one2many cls/reg (manifest storage_dtype)",
+      "sequences": "train",
+      "args": ["--img-size", "640", "--gpu-decode", "--num-workers", "8"]
+    },
+    "cache_val": {
+      "script": "scripts/train/temporal_yolo/train_mamba_head.py",
+      "precision": "fp32-strict",
+      "storage": "float16 files: P3/P4/P5 features and teacher one2many cls/reg (manifest storage_dtype)",
+      "sequences": "val",
+      "args": ["--img-size", "640", "--gpu-decode", "--num-workers", "8"]
+    },
+    "cache_eval": {
+      "script": "scripts/train/temporal_yolo/train_mamba_head.py",
+      "precision": "fp32-strict",
+      "storage": "float16 files: P3/P4/P5 features and teacher one2many cls/reg (manifest storage_dtype)",
+      "sequences": "eval",
+      "args": ["--img-size", "640", "--gpu-decode", "--num-workers", "8"],
+      "requires": "t1 selection record"
+    },
+    "distill": {
+      "script": "scripts/train/temporal_yolo/train_mamba_head.py",
+      "precision": "torch-default",
+      "storage": "checkpoint (float32 weights)",
+      "parent": "cache_train",
+      "epochs": 30,
+      "args": ["--use-pixel-shuffle", "--use-cross-scan", "--d-state", "16", "--scan-stop-grad",
+               "--epochs", "30", "--batch-size", "8", "--lr", "1e-3", "--no-preload-cache"]
+    },
+    "gt1": {
+      "script": "scripts/train/temporal_yolo/train_mamba_gt.py",
+      "precision": "fp32-strict",
+      "precision_note": "the whole GT1 process: the live teacher features and the head's training math share one process",
+      "storage": "checkpoint (float32 weights)",
+      "parent": "distill",
+      "epochs": 30,
+      "args": ["--img-size", "640", "--clip-len", "4", "--clip-stride", "8", "--epochs", "30",
+               "--batch-size", "4", "--lr", "1e-4", "--warmup-epochs", "5", "--clip-grad", "1.0",
+               "--gt-ratio", "0.5", "--scan-stop-grad", "--best-by", "train-loss", "--save-every", "1",
+               "--gpu-decode", "--num-workers", "0"]
+    },
+    "t3": {
+      "script": "scripts/train/temporal_yolo/train_mamba_gt.py",
+      "precision": "torch-default",
+      "storage": "checkpoint (float32 weights)",
+      "parent": "gt1",
+      "epochs": 15,
+      "cache": true,
+      "args": ["--add-temporal", "--img-size", "640", "--clip-len", "3", "--clip-stride", "6",
+               "--epochs", "15", "--batch-size", "4", "--lr", "1e-4", "--warmup-epochs", "3",
+               "--clip-grad", "1.0", "--gt-ratio", "0", "--scan-stop-grad", "--best-by", "train-loss",
+               "--save-every", "1"]
+    },
+    "t1": {
+      "script": "scripts/train/temporal_yolo/train_mamba_gt.py",
+      "precision": "torch-default",
+      "storage": "checkpoint (float32 weights)",
+      "parent": "t3",
+      "epochs": 15,
+      "cache": true,
+      "args": ["--img-size", "640", "--clip-len", "1", "--clip-stride", "2", "--epochs", "15",
+               "--batch-size", "4", "--lr", "1e-4", "--warmup-epochs", "3", "--clip-grad", "1.0",
+               "--gt-ratio", "0", "--scan-stop-grad", "--best-by", "train-loss", "--save-every", "1"]
+    }
+  },
+  "selection": {
+    "policy": "t01-selection/1",
+    "stages": ["distill", "gt1", "t3", "t1"],
+    "data": "val split only, every frame; features from cache_val (teacher e12, ungated, fp32-strict, stored float16)",
+    "forward": "T=1, FP32 (policy fp32-strict, read back in the evaluating process), eval mode, temporal blocks bypassed",
+    "decode": {
+      "anchors": "(x+0.5, y+0.5) per level, P3/P4/P5 strides 8/16/32, row-major",
+      "boxes": "raw ltrb distances (reg_max=1, no DFL) times stride, then mapped to the original resolution",
+      "score": "max over 80 classes of sigmoid(cls)",
+      "class": "argmax of the same scores; only class 0 (person) is kept",
+      "conf_floor": 0.001,
+      "max_det_before_class_filter": 300,
+      "nms_iou": 0.5
+    },
+    "ground_truth": "gt.txt rows with mark==1, class==1, visibility>=0.1 (the training filter); no ignore regions",
+    "match_iou": 0.5,
+    "primary": "AP50: person, all sizes, all val frames; detections pooled and ranked by score, greedy one-to-one match at IoU>=0.5, 101-point interpolated precision",
+    "tie_breakers": ["recall at score>=0.25 over GT with resized min side in [4,16) px", "later epoch"],
+    "ineligible": "any non-finite raw output on the val frames",
+    "next_stage_parent": "the selected epoch checkpoint of the previous stage",
+    "train_loss_best": "kept as best.ckpt by the trainers; diagnostic only",
+    "teacher": "fixed epoch 12; validation metrics of every teacher epoch are diagnostics only",
+    "eval_split": "used once, after the T1 selection record is written; never for tuning or selection"
+  }
+}

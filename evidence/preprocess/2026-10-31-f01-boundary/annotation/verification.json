@@ -1,0 +1,82 @@
+{
+  "archive_checks": [
+    {
+      "directory": "capture-v4",
+      "verified_files": 118
+    },
+    {
+      "directory": "attempts/v2-overflow",
+      "verified_files": 68
+    },
+    {
+      "directory": "attempts/v3-classifier",
+      "verified_files": 72
+    }
+  ],
+  "raw_rederived": {
+    "controls": [
+      {
+        "label": "none-yes",
+        "actual_exit": 99,
+        "total_errors": 2835,
+        "warmup_errors": 945,
+        "postwarmup_errors": 1890,
+        "full_coordinate_batches": 3,
+        "all_three_RGB_outputs_exact": true,
+        "allocation_generation_stable": true
+      },
+      {
+        "label": "rgb-yes",
+        "actual_exit": 99,
+        "total_errors": 945,
+        "warmup_errors": 945,
+        "postwarmup_errors": 0,
+        "full_coordinate_batches": 1,
+        "all_three_RGB_outputs_exact": true,
+        "allocation_generation_stable": true
+      },
+      {
+        "label": "alpha-yes",
+        "actual_exit": 99,
+        "total_errors": 2835,
+        "warmup_errors": 945,
+        "postwarmup_errors": 1890,
+        "full_coordinate_batches": 3,
+        "all_three_RGB_outputs_exact": true,
+        "allocation_generation_stable": true
+      },
+      {
+        "label": "caller-yes",
+        "actual_exit": 99,
+        "total_errors": 2835,
+        "warmup_errors": 945,
+        "postwarmup_errors": 1890,
+        "full_coordinate_batches": 3,
+        "all_three_RGB_outputs_exact": true,
+        "allocation_generation_stable": true
+      },
+      {
+        "label": "rgb-no",
+        "actual_exit": 99,
+        "total_errors": 2835,
+        "warmup_errors": 945,
+        "postwarmup_errors": 1890,
+        "full_coordinate_batches": 3,
+        "all_three_RGB_outputs_exact": true,
+        "allocation_generation_stable": true
+      }
+    ],
+    "buffer_ids_per_process": {
+      "none-yes": 1077,
+      "rgb-yes": 1077,
+      "alpha-yes": 1077,
+      "caller-yes": 1077,
+      "rgb-no": 1077
+    },
+    "source_sha256": "ca8370be84c93c38ce5c7d75498dbb79b752b8e007f602dabc20579961cc9fea",
+    "binary_sha256_recorded_before_after": "95f070ace8853c2125d7d1ebafa08ce7e5bfe99124f1d22ee6abe9f69ee48bc1",
+    "classification": "data-preserving diagnostic intervention; original FAIL retained",
+    "gpu_execution": false
+  },
+  "failed_attempts_preserved": true
+}

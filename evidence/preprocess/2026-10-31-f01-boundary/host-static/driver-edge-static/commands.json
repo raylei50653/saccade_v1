@@ -1,0 +1,36 @@
+[
+  {
+    "label": "actual-driver-callee",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x4c7a50",
+      "--stop-address=0x4c7b2d",
+      "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:50:46.470579+00:00",
+    "end_utc": "2026-10-31T03:50:46.592002+00:00",
+    "exit": 0
+  },
+  {
+    "label": "direct-driver-helper",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x4c76e0",
+      "--stop-address=0x4c7a50",
+      "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:50:46.592158+00:00",
+    "end_utc": "2026-10-31T03:50:46.688874+00:00",
+    "exit": 0
+  }
+]

@@ -1,0 +1,52 @@
+
+/usr/lib/wsl/lib/libnvcuvid.so.1:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000017ee0 <cuvidDestroyVideoParser@@Base-0x28d0>:
+   17ee0:	push   rbx
+   17ee1:	sub    rsp,0x10
+   17ee5:	mov    QWORD PTR [rsp+0x8],rdx
+   17eea:	test   cl,cl
+   17eec:	je     17f30 <__cxa_finalize@plt+0x3a70>
+   17eee:	movsxd r8,r8d
+   17ef1:	mov    eax,0x64
+   17ef6:	mov    rdx,r8
+   17ef9:	shl    rdx,0x4
+   17efd:	sub    rdx,r8
+   17f00:	shl    rdx,0x4
+   17f04:	mov    ecx,DWORD PTR [rdi+rdx*1+0x40c]
+   17f0b:	test   ecx,ecx
+   17f0d:	je     17f29 <__cxa_finalize@plt+0x3a69>
+   17f0f:	lea    r8,[rsp+0x8]
+   17f14:	lea    rsi,[rdi+rdx*1+0x3f0]
+   17f1c:	mov    ecx,0x1
+   17f21:	mov    rdx,r8
+   17f24:	call   17df0 <__cxa_finalize@plt+0x3930>
+   17f29:	add    rsp,0x10
+   17f2d:	pop    rbx
+   17f2e:	ret
+   17f2f:	nop
+   17f30:	mov    rbx,QWORD PTR [rsp+0x8]
+   17f35:	test   rbx,rbx
+   17f38:	je     17f70 <__cxa_finalize@plt+0x3ab0>
+   17f3a:	mov    r9,rsi
+   17f3d:	mov    rsi,QWORD PTR [rbx+0x30]
+   17f41:	mov    eax,0x1
+   17f46:	test   esi,esi
+   17f48:	je     17f29 <__cxa_finalize@plt+0x3a69>
+   17f4a:	mov    rax,QWORD PTR [rdi+0x20]
+   17f4e:	mov    esi,esi
+   17f50:	mov    rdi,r9
+   17f53:	call   QWORD PTR [rax+0x40]
+   17f56:	test   eax,eax
+   17f58:	jne    17f29 <__cxa_finalize@plt+0x3a69>
+   17f5a:	xor    edx,edx
+   17f5c:	mov    WORD PTR [rbx+0x1e],dx
+   17f60:	add    rsp,0x10
+   17f64:	pop    rbx
+   17f65:	ret
+   17f66:	cs nop WORD PTR [rax+rax*1+0x0]
+   17f70:	mov    eax,0x1
+   17f75:	jmp    17f29 <__cxa_finalize@plt+0x3a69>

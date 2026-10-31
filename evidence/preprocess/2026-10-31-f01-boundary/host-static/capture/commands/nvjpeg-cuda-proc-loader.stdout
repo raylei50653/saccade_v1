@@ -1,0 +1,243 @@
+
+/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000018de30 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x1110e0>:
+  18de30:	push   rbp
+  18de31:	lea    rsi,[rip+0x14118]        # 1a1f50 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x125200>
+  18de38:	mov    rbp,rsp
+  18de3b:	push   rbx
+  18de3c:	mov    rbx,rdi
+  18de3f:	lea    rdi,[rip+0x686556]        # 81439c <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x79764c>
+  18de46:	sub    rsp,0x8
+  18de4a:	call   1fa720 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x17d9d0>
+  18de4f:	mov    rax,QWORD PTR [rip+0x68654a]        # 8143a0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797650>
+  18de56:	lea    rsi,[rip+0x126e95]        # 2b4cf2 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fa2>
+  18de5d:	mov    rdi,QWORD PTR [rax+0x110]
+  18de64:	call   1d590 <dlsym@plt>
+  18de69:	mov    QWORD PTR [rip+0x686510],rax        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18de70:	test   rax,rax
+  18de73:	je     18e2b8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x111568>
+  18de79:	xor    r8d,r8d
+  18de7c:	xor    ecx,ecx
+  18de7e:	lea    rsi,[rip+0x687463]        # 8152e8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798598>
+  18de85:	xor    edx,edx
+  18de87:	lea    rdi,[rip+0x136692]        # 2c4520 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x2477d0>
+  18de8e:	call   rax
+  18de90:	cmp    eax,0x22
+  18de93:	je     18e2b8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x111568>
+  18de99:	mov    eax,DWORD PTR [rbx+0x158]
+  18de9f:	lea    edx,[rax-0x1]
+  18dea2:	cmp    edx,0x7ce
+  18dea8:	ja     18e1d0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x111480>
+  18deae:	lea    rdx,[rip+0xffffffffffffbf1b]        # 189dd0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d080>
+  18deb5:	mov    QWORD PTR [rip+0x6864d4],rdx        # 814390 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797640>
+  18debc:	lea    rcx,[rip+0xffffffffffffbf1d]        # 189de0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d090>
+  18dec3:	mov    QWORD PTR [rip+0x6864be],rcx        # 814388 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797638>
+  18deca:	lea    rsi,[rip+0xffffffffffffbf1f]        # 189df0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0a0>
+  18ded1:	mov    QWORD PTR [rip+0x6864a8],rsi        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18ded8:	lea    edi,[rax-0x1]
+  18dedb:	cmp    edi,0x7ce
+  18dee1:	ja     19ebc0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121e70>
+  18dee7:	lea    r8,[rip+0xffffffffffffbf12]        # 189e00 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0b0>
+  18deee:	mov    QWORD PTR [rip+0x686483],r8        # 814378 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797628>
+  18def5:	lea    r9,[rip+0xffffffffffffbf14]        # 189e10 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0c0>
+  18defc:	mov    QWORD PTR [rip+0x68646d],r9        # 814370 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797620>
+  18df03:	lea    r10,[rip+0xffffffffffffbf16]        # 189e20 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0d0>
+  18df0a:	mov    QWORD PTR [rip+0x686457],r10        # 814368 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797618>
+  18df11:	lea    r11,[rip+0xffffffffffffda98]        # 18b9b0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10ec60>
+  18df18:	mov    QWORD PTR [rip+0x686441],r11        # 814360 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797610>
+  18df1f:	lea    edx,[rax-0x1]
+  18df22:	cmp    edx,0x7ce
+  18df28:	ja     19ea88 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121d38>
+  18df2e:	lea    rsi,[rip+0xffffffffffffbefb]        # 189e30 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0e0>
+  18df35:	mov    QWORD PTR [rip+0x68641c],rsi        # 814358 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797608>
+  18df3c:	lea    rdi,[rip+0xffffffffffffbefd]        # 189e40 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0f0>
+  18df43:	mov    QWORD PTR [rip+0x686406],rdi        # 814350 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797600>
+  18df4a:	lea    r8,[rip+0xffffffffffffbeff]        # 189e50 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d100>
+  18df51:	mov    QWORD PTR [rip+0x6863f0],r8        # 814348 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975f8>
+  18df58:	lea    r9,[rip+0xffffffffffffbf01]        # 189e60 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d110>
+  18df5f:	mov    QWORD PTR [rip+0x6863da],r9        # 814340 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975f0>
+  18df66:	lea    r10d,[rax-0x1]
+  18df6a:	cmp    r10d,0x7e2
+  18df71:	ja     19e7b0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121a60>
+  18df77:	lea    r9,[rip+0xffffffffffffebf2]        # 18cb70 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fe20>
+  18df7e:	mov    QWORD PTR [rip+0x6863b3],r9        # 814338 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975e8>
+  18df85:	lea    r10,[rip+0xffffffffffffbee4]        # 189e70 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d120>
+  18df8c:	mov    QWORD PTR [rip+0x68639d],r10        # 814330 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975e0>
+  18df93:	lea    r11,[rip+0xffffffffffffd9f6]        # 18b990 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10ec40>
+  18df9a:	mov    QWORD PTR [rip+0x686387],r11        # 814328 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975d8>
+  18dfa1:	lea    rdx,[rip+0xffffffffffffe3d8]        # 18c380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f630>
+  18dfa8:	mov    QWORD PTR [rip+0x686371],rdx        # 814320 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975d0>
+  18dfaf:	lea    rcx,[rip+0xffffffffffffbeca]        # 189e80 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d130>
+  18dfb6:	mov    QWORD PTR [rip+0x68635b],rcx        # 814318 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975c8>
+  18dfbd:	lea    rsi,[rip+0xffffffffffffe3cc]        # 18c390 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f640>
+  18dfc4:	mov    QWORD PTR [rip+0x686345],rsi        # 814310 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975c0>
+  18dfcb:	lea    rdi,[rip+0xffffffffffffbebe]        # 189e90 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d140>
+  18dfd2:	mov    QWORD PTR [rip+0x68632f],rdi        # 814308 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975b8>
+  18dfd9:	lea    r8,[rip+0xffffffffffffe3c0]        # 18c3a0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f650>
+  18dfe0:	mov    QWORD PTR [rip+0x686319],r8        # 814300 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975b0>
+  18dfe7:	lea    r9,[rip+0xffffffffffffbeb2]        # 189ea0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d150>
+  18dfee:	mov    QWORD PTR [rip+0x686303],r9        # 8142f8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975a8>
+  18dff5:	lea    r10d,[rax-0x1]
+  18dff9:	cmp    r10d,0x1b56
+  18e000:	ja     19e6c8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121978>
+  18e006:	lea    r9,[rip+0xffffffffffffe193]        # 18c1a0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f450>
+  18e00d:	mov    QWORD PTR [rip+0x6862dc],r9        # 8142f0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7975a0>
+  18e014:	lea    r10,[rip+0xffffffffffffbe95]        # 189eb0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d160>
+  18e01b:	mov    QWORD PTR [rip+0x6862c6],r10        # 8142e8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797598>
+  18e022:	lea    r11,[rip+0xffffffffffffbe97]        # 189ec0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d170>
+  18e029:	mov    QWORD PTR [rip+0x6862b0],r11        # 8142e0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797590>
+  18e030:	lea    edx,[rax-0x1]
+  18e033:	cmp    edx,0x1b56
+  18e039:	ja     19e630 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x1218e0>
+  18e03f:	lea    r8,[rip+0xffffffffffffbe8a]        # 189ed0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d180>
+  18e046:	mov    QWORD PTR [rip+0x68628b],r8        # 8142d8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797588>
+  18e04d:	lea    r9,[rip+0xffffffffffffeadc]        # 18cb30 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fde0>
+  18e054:	mov    QWORD PTR [rip+0x686275],r9        # 8142d0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797580>
+  18e05b:	lea    r10d,[rax-0x1]
+  18e05f:	cmp    r10d,0xbca
+  18e066:	ja     19e598 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121848>
+  18e06c:	lea    rsi,[rip+0xffffffffffffd90d]        # 18b980 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10ec30>
+  18e073:	mov    QWORD PTR [rip+0x68624e],rsi        # 8142c8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797578>
+  18e07a:	lea    rdi,[rip+0xffffffffffffea9f]        # 18cb20 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fdd0>
+  18e081:	mov    QWORD PTR [rip+0x686238],rdi        # 8142c0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797570>
+  18e088:	lea    r8d,[rax-0x1]
+  18e08c:	cmp    r8d,0xf9e
+  18e093:	ja     19e500 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x1217b0>
+  18e099:	lea    rcx,[rip+0xffffffffffffeb30]        # 18cbd0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fe80>
+  18e0a0:	mov    QWORD PTR [rip+0x686211],rcx        # 8142b8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797568>
+  18e0a7:	lea    rsi,[rip+0xffffffffffffeb32]        # 18cbe0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fe90>
+  18e0ae:	mov    QWORD PTR [rip+0x6861fb],rsi        # 8142b0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797560>
+  18e0b5:	lea    edi,[rax-0x1]
+  18e0b8:	cmp    edi,0x7ce
+  18e0be:	ja     19e468 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121718>
+  18e0c4:	lea    r11,[rip+0xffffffffffffeaf5]        # 18cbc0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fe70>
+  18e0cb:	mov    QWORD PTR [rip+0x6861d6],r11        # 8142a8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797558>
+  18e0d2:	lea    rdx,[rip+0xffffffffffffe297]        # 18c370 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f620>
+  18e0d9:	mov    QWORD PTR [rip+0x6861c0],rdx        # 8142a0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797550>
+  18e0e0:	lea    ecx,[rax-0x1]
+  18e0e3:	cmp    ecx,0x7ce
+  18e0e9:	ja     19e3d0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121680>
+  18e0ef:	lea    r9,[rip+0xffffffffffffe9fa]        # 18caf0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fda0>
+  18e0f6:	mov    QWORD PTR [rip+0x68619b],r9        # 814298 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797548>
+  18e0fd:	lea    r10,[rip+0xffffffffffffe18c]        # 18c290 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f540>
+  18e104:	mov    QWORD PTR [rip+0x686185],r10        # 814290 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797540>
+  18e10b:	lea    r11d,[rax-0x1]
+  18e10f:	cmp    r11d,0xbc0
+  18e116:	ja     19e1e8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x121498>
+  18e11c:	lea    r10,[rip+0xffffffffffffbdbd]        # 189ee0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d190>
+  18e123:	mov    QWORD PTR [rip+0x68615e],r10        # 814288 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797538>
+  18e12a:	lea    r11,[rip+0xffffffffffffbdbf]        # 189ef0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d1a0>
+  18e131:	mov    QWORD PTR [rip+0x686148],r11        # 814280 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797530>
+  18e138:	lea    rdx,[rip+0xffffffffffffe9c1]        # 18cb00 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fdb0>
+  18e13f:	mov    QWORD PTR [rip+0x686132],rdx        # 814278 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797528>
+  18e146:	lea    rcx,[rip+0xffffffffffffe9c3]        # 18cb10 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fdc0>
+  18e14d:	mov    QWORD PTR [rip+0x68611c],rcx        # 814270 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797520>
+  18e154:	lea    rsi,[rip+0xffffffffffffea45]        # 18cba0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10fe50>
+  18e15b:	mov    QWORD PTR [rip+0x686106],rsi        # 814268 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797518>
+  18e162:	lea    rdi,[rip+0xffffffffffffe137]        # 18c2a0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10f550>
+  18e169:	mov    QWORD PTR [rip+0x6860f0],rdi        # 814260 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797510>
+  18e170:	lea    r8d,[rax-0x1]
+  18e174:	cmp    r8d,0xfb2
+  18e17b:	jbe    193ab6 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x116d66>
+  18e181:	xor    r8d,r8d
+  18e184:	xor    ecx,ecx
+  18e186:	mov    edx,0xfb4
+  18e18b:	lea    rsi,[rip+0x68702e]        # 8151c0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798470>
+  18e192:	lea    rdi,[rip+0x126e04]        # 2b4f9d <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x23824d>
+  18e199:	call   QWORD PTR [rip+0x6861e1]        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18e19f:	test   eax,eax
+  18e1a1:	jne    193ab0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x116d60>
+  18e1a7:	mov    r9,QWORD PTR [rip+0x687012]        # 8151c0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798470>
+  18e1ae:	test   r9,r9
+  18e1b1:	je     193ab0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x116d60>
+  18e1b7:	mov    QWORD PTR [rip+0x68609a],r9        # 814258 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797508>
+  18e1be:	mov    eax,DWORD PTR [rbx+0x158]
+  18e1c4:	jmp    193ac4 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x116d74>
+  18e1c9:	nop    DWORD PTR [rax+0x0]
+  18e1d0:	xor    r8d,r8d
+  18e1d3:	xor    ecx,ecx
+  18e1d5:	mov    edx,0x7d0
+  18e1da:	lea    rsi,[rip+0x687117]        # 8152f8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7985a8>
+  18e1e1:	lea    rdi,[rip+0x126b1e]        # 2b4d06 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fb6>
+  18e1e8:	call   QWORD PTR [rip+0x686192]        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18e1ee:	test   eax,eax
+  18e1f0:	je     19f690 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x122940>
+  18e1f6:	lea    rsi,[rip+0xffffffffffffbbd3]        # 189dd0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d080>
+  18e1fd:	mov    QWORD PTR [rip+0x68618c],rsi        # 814390 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797640>
+  18e204:	mov    eax,DWORD PTR [rbx+0x158]
+  18e20a:	lea    edi,[rax-0x1]
+  18e20d:	cmp    edi,0x2b14
+  18e213:	jbe    18debc <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x11116c>
+  18e219:	xor    r8d,r8d
+  18e21c:	xor    ecx,ecx
+  18e21e:	mov    edx,0x2b16
+  18e223:	lea    rsi,[rip+0x6870c6]        # 8152f0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7985a0>
+  18e22a:	lea    rdi,[rip+0x126adc]        # 2b4d0d <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fbd>
+  18e231:	call   QWORD PTR [rip+0x686149]        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18e237:	test   eax,eax
+  18e239:	jne    1a0a98 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x123d48>
+  18e23f:	mov    r8,QWORD PTR [rip+0x6870aa]        # 8152f0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7985a0>
+  18e246:	test   r8,r8
+  18e249:	je     1a0a98 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x123d48>
+  18e24f:	mov    QWORD PTR [rip+0x686132],r8        # 814388 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797638>
+  18e256:	mov    eax,DWORD PTR [rbx+0x158]
+  18e25c:	lea    r10d,[rax-0x1]
+  18e260:	cmp    r10d,0x2ede
+  18e267:	jbe    18deca <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x11117a>
+  18e26d:	xor    r8d,r8d
+  18e270:	xor    ecx,ecx
+  18e272:	mov    edx,0x2ee0
+  18e277:	lea    rsi,[rip+0x68706a]        # 8152e8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798598>
+  18e27e:	lea    rdi,[rip+0x126a88]        # 2b4d0d <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fbd>
+  18e285:	call   QWORD PTR [rip+0x6860f5]        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18e28b:	test   eax,eax
+  18e28d:	jne    1a0a88 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x123d38>
+  18e293:	mov    r11,QWORD PTR [rip+0x68704e]        # 8152e8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798598>
+  18e29a:	test   r11,r11
+  18e29d:	je     1a0a88 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x123d38>
+  18e2a3:	mov    QWORD PTR [rip+0x6860d6],r11        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18e2aa:	mov    eax,DWORD PTR [rbx+0x158]
+  18e2b0:	jmp    18ded8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x111188>
+  18e2b5:	nop    DWORD PTR [rax]
+  18e2b8:	mov    rdi,QWORD PTR [rbx+0x110]
+  18e2bf:	lea    rsi,[rip+0x126a40]        # 2b4d06 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fb6>
+  18e2c6:	call   1d590 <dlsym@plt>
+  18e2cb:	lea    rdx,[rip+0xffffffffffffbafe]        # 189dd0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d080>
+  18e2d2:	mov    rdi,QWORD PTR [rbx+0x110]
+  18e2d9:	lea    rsi,[rip+0x126a2d]        # 2b4d0d <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fbd>
+  18e2e0:	test   rax,rax
+  18e2e3:	mov    QWORD PTR [rip+0x68700e],rax        # 8152f8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7985a8>
+  18e2ea:	cmove  rax,rdx
+  18e2ee:	mov    QWORD PTR [rip+0x68609b],rax        # 814390 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797640>
+  18e2f5:	call   1d590 <dlsym@plt>
+  18e2fa:	lea    rcx,[rip+0xffffffffffffbadf]        # 189de0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d090>
+  18e301:	mov    rdi,QWORD PTR [rbx+0x110]
+  18e308:	lea    rsi,[rip+0x1269e3]        # 2b4cf2 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fa2>
+  18e30f:	test   rax,rax
+  18e312:	mov    QWORD PTR [rip+0x686fd7],rax        # 8152f0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x7985a0>
+  18e319:	cmove  rax,rcx
+  18e31d:	mov    QWORD PTR [rip+0x686064],rax        # 814388 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797638>
+  18e324:	call   1d590 <dlsym@plt>
+  18e329:	lea    rsi,[rip+0xffffffffffffbac0]        # 189df0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0a0>
+  18e330:	mov    rdi,QWORD PTR [rbx+0x110]
+  18e337:	test   rax,rax
+  18e33a:	mov    QWORD PTR [rip+0x686fa7],rax        # 8152e8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798598>
+  18e341:	cmove  rax,rsi
+  18e345:	lea    rsi,[rip+0x1269d2]        # 2b4d1e <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fce>
+  18e34c:	mov    QWORD PTR [rip+0x68602d],rax        # 814380 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797630>
+  18e353:	call   1d590 <dlsym@plt>
+  18e358:	lea    rdi,[rip+0xffffffffffffbaa1]        # 189e00 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0b0>
+  18e35f:	lea    rsi,[rip+0x1269c4]        # 2b4d2a <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x237fda>
+  18e366:	test   rax,rax
+  18e369:	mov    QWORD PTR [rip+0x686f70],rax        # 8152e0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x798590>
+  18e370:	cmove  rax,rdi
+  18e374:	mov    rdi,QWORD PTR [rbx+0x110]
+  18e37b:	mov    QWORD PTR [rip+0x685ff6],rax        # 814378 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x797628>
+  18e382:	call   1d590 <dlsym@plt>
+  18e387:	lea    r8,[rip+0xffffffffffffba82]        # 189e10 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x10d0c0>
+  18e38e:	rex.W
+  18e38f:	.byte 0x8b

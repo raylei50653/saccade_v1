@@ -1,0 +1,15 @@
+ CMakeLists.txt                        |  10 +
+ cmake/ModelTensorRT.cmake             |  54 +++
+ include/saccade/head_reference.hpp    |   6 +
+ include/saccade/head_trt_network.hpp  |   8 +
+ include/saccade/model_trt_network.hpp |  43 ++
+ src/head_reference.cpp                |  17 +-
+ src/head_trt_network.cpp              |  20 +-
+ src/model_manifest.cpp                |  80 +++-
+ src/model_trt_network.cpp             | 127 ++++++
+ tests/head_reference_tests.cpp        |  41 ++
+ tests/model_manifest_tests.cpp        |  43 +-
+ tools/backbone_trt.cpp                | 257 ++++++++++++
+ tools/model_trt.cpp                   | 283 +++++++++++++
+ training/t01/t01_backbone_ref.py      | 743 ++++++++++++++++++++++++++++++++++
+ 14 files changed, 1708 insertions(+), 24 deletions(-)

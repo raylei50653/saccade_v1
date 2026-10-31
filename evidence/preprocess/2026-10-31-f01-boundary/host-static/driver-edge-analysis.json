@@ -1,0 +1,53 @@
+{
+  "scope": "final bounded normal CPU-debugger edge; no deeper GPU probing or synchronization theorem",
+  "checks": {
+    "debugger_and_target_completed": true,
+    "one_edge_observation": true,
+    "provider_callsite": true,
+    "provider_return_site_and_zero": true,
+    "target_is_real_driver": true,
+    "target_offset": true,
+    "mapping_identity_matches_entry": true,
+    "no_exported_name_claimed": true,
+    "driver_static_callee_captured": true,
+    "full_rgb_exact": true,
+    "raw_log_complete": true,
+    "no_debugger_exception": true
+  },
+  "edge_call": {
+    "args": {
+      "r8": "0x5",
+      "r9": "0x653c490fa240",
+      "rcx": "0x0",
+      "rdi": "0x653c490fa240",
+      "rdx": "0x653c4904e758",
+      "rsi": "0x40005300"
+    },
+    "kind": "private_driver_edge_call",
+    "pc": "0x7401fa5e9f53",
+    "symbol": "No symbol matches 0x740414d81a50.",
+    "table": "0x740416229020",
+    "target": "0x740414d81a50",
+    "target_module": {
+      "file_offset": "001a2000",
+      "map_start": "0x740414a5c000",
+      "mapped_file_sha256": "70d8cd3774f4b0cf9359af3ca894f8e2586687cdc4c1fbb63af786fb69d90354",
+      "offset": "0x4c7a50",
+      "path": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1"
+    }
+  },
+  "edge_return": {
+    "eax": 0,
+    "kind": "private_driver_edge_return",
+    "pc": "0x7401fa5e9f56"
+  },
+  "actual_boundary": "real WSL driver libcuda.so.1.1+0x4c7a50; no public symbol",
+  "static_summary": "calls internal resolver helper+0x1303fa0 then checks state; success branch passes a 32-bit single-element list to helper+0x4c76e0",
+  "unresolved": [
+    "semantics and hardware completion/visibility guarantee of hidden driver operation",
+    "which state branches execute inside the driver",
+    "initcheck shadow-state transition for private writes"
+  ],
+  "rgb_bytes": 2835,
+  "rgb_sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162"
+}

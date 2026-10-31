@@ -1,0 +1,1 @@
+bash -c cd\ \"\$1\"\ \&\&\ sha256sum\ CMakeLists.txt\ cmake/\*.cmake\ include/saccade/\*.hpp\ src/\*.cpp\ cuda/\*.cu\ tests/\*.cpp\ tests/\*.hpp\ tests/\*.cu\ tools/\*.cpp\ fixtures/model-manifest/\*\ manifests/s04/\*\ docs/HEAD_POLICY.md\ evidence/s04/2026-10-30/\*.sh _ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source 

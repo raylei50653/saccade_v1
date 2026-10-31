@@ -1,0 +1,1 @@
+bash -c $'set -e\n  date -Is\n  uname -srmo\n  git --version\n  cmake --version\n  "$1" --version\n  "$2" --version\n  "$3" --version\n  "$4" --version\n  djpeg -version\n  nvidia-smi --query-gpu=name,driver_version,uuid,pci.bus_id,compute_cap --format=csv\n  free -m' _ c++ /opt/cuda/bin/nvcc /opt/cuda/bin/compute-sanitizer /home/ray/.cache/saccade-v1/t01/venv-export/bin/python 

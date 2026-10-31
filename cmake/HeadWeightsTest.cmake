@@ -1,0 +1,33 @@
+# Converts the S04 candidate checkpoint with the native tool and requires the
+# recorded checkpoint and bundle SHA-256 (docs/HEAD_TRT.md §2); wrong expected
+# hashes must be refused with exit 2.
+file(MAKE_DIRECTORY "${OUTPUT_DIR}")
+set(bundle "${OUTPUT_DIR}/t1-head.swb")
+set(mapping "${OUTPUT_DIR}/t1-head-mapping.tsv")
+execute_process(COMMAND "${PROGRAM}" convert "${CHECKPOINT}" "${CHECKPOINT_SHA256}" "${bundle}" "${mapping}"
+  RESULT_VARIABLE code OUTPUT_VARIABLE out ERROR_VARIABLE err)
+if(NOT code EQUAL 0)
+  message(FATAL_ERROR "convert failed (${code}): ${err}")
+endif()
+if(NOT out MATCHES "bundle_sha256=${BUNDLE_SHA256}")
+  message(FATAL_ERROR "bundle hash differs from the recorded ${BUNDLE_SHA256}:\n${out}")
+endif()
+file(SHA256 "${bundle}" written)
+if(NOT written STREQUAL BUNDLE_SHA256)
+  message(FATAL_ERROR "bundle file hash ${written} differs from ${BUNDLE_SHA256}")
+endif()
+execute_process(COMMAND "${PROGRAM}" verify "${bundle}" "${BUNDLE_SHA256}" RESULT_VARIABLE code OUTPUT_VARIABLE out ERROR_VARIABLE err)
+if(NOT code EQUAL 0 OR NOT out MATCHES "tensors=69")
+  message(FATAL_ERROR "verify failed (${code}): ${out}${err}")
+endif()
+string(REPEAT "0" 64 zeros)
+execute_process(COMMAND "${PROGRAM}" convert "${CHECKPOINT}" "${zeros}" "${OUTPUT_DIR}/rejected.swb" "${OUTPUT_DIR}/rejected.tsv"
+  RESULT_VARIABLE code ERROR_VARIABLE err)
+if(NOT code EQUAL 2 OR NOT err MATCHES "differs from the expected" OR EXISTS "${OUTPUT_DIR}/rejected.swb")
+  message(FATAL_ERROR "a wrong checkpoint hash was not refused (${code}): ${err}")
+endif()
+execute_process(COMMAND "${PROGRAM}" verify "${bundle}" "${zeros}" RESULT_VARIABLE code ERROR_VARIABLE err)
+if(NOT code EQUAL 2 OR NOT err MATCHES "differs from the expected")
+  message(FATAL_ERROR "a wrong bundle hash was not refused (${code}): ${err}")
+endif()
+message(STATUS "candidate checkpoint and bundle hashes verified")

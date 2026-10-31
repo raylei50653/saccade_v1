@@ -1,0 +1,385 @@
+{
+  "dataset": {
+    "detector_variants": "DPM/FRCNN/SDP directories share byte-identical img1 frames and gt.txt (see variants); only the SDP directories are read, and isolation is by base sequence",
+    "license": "not shipped with the local copy; MOTChallenge publishes MOT17 under CC BY-NC-SA 3.0 (not verified from a local artifact)",
+    "name": "MOT17 train (SDP variant directories)",
+    "provenance": "local copy; original download URL, archive hash and date are not recorded locally",
+    "root": "/home/ray/developer/ai/saccade/datasets/MOT17",
+    "test_split": "MOT17 test sequences have no public GT and are not used"
+  },
+  "files_tsv": "manifests/t01/split-files.tsv",
+  "files_tsv_sha256": "375cb8b8d567101155e98cfad94f8ee48f04c044457a14bb39ffa253ac6ed7d6",
+  "frames": {
+    "eval": 600,
+    "train": 4062,
+    "val": 654
+  },
+  "gt_filter": "mark==1, class==1 (pedestrian), visibility>=0.1; pedestrians map to detector class 0",
+  "isolation": "sequence level: every frame of a val/eval sequence is excluded from teacher, cache, distill, GT1, T3 and T1 training; the seven sequences are distinct scenes per the MOT16/17 release",
+  "leakage": {
+    "eval_vs_train": {
+      "MOT17-02-SDP": {
+        "against": [
+          "MOT17-04-SDP",
+          "MOT17-05-SDP",
+          "MOT17-09-SDP",
+          "MOT17-11-SDP",
+          "MOT17-13-SDP"
+        ],
+        "frames_above_threshold": 0,
+        "max_ncc": 0.5505849123001099,
+        "max_pair": {
+          "frame": 534,
+          "other": "MOT17-13-SDP",
+          "other_frame": 651
+        }
+      }
+    },
+    "eval_vs_val": {
+      "MOT17-02-SDP": {
+        "against": [
+          "MOT17-10-SDP"
+        ],
+        "frames_above_threshold": 0,
+        "max_ncc": 0.4151071310043335,
+        "max_pair": {
+          "frame": 472,
+          "other": "MOT17-10-SDP",
+          "other_frame": 510
+        }
+      }
+    },
+    "method": "normalized cross-correlation of 32x32 grayscale thumbnails (stretch, mean removed); threshold 0.95",
+    "val_vs_train": {
+      "MOT17-10-SDP": {
+        "against": [
+          "MOT17-04-SDP",
+          "MOT17-05-SDP",
+          "MOT17-09-SDP",
+          "MOT17-11-SDP",
+          "MOT17-13-SDP"
+        ],
+        "frames_above_threshold": 0,
+        "max_ncc": 0.5869482755661011,
+        "max_pair": {
+          "frame": 653,
+          "other": "MOT17-13-SDP",
+          "other_frame": 653
+        }
+      }
+    },
+    "within_sequence_reference": {
+      "MOT17-02-SDP": 0.9995384216308594,
+      "MOT17-04-SDP": 0.9997643232345581,
+      "MOT17-05-SDP": 0.9634073376655579,
+      "MOT17-09-SDP": 0.9963604211807251,
+      "MOT17-10-SDP": 0.997051477432251,
+      "MOT17-11-SDP": 0.9945023655891418,
+      "MOT17-13-SDP": 0.9975146055221558
+    }
+  },
+  "limitations": [
+    "one sequence each for validation and final evaluation; both come from the same dataset and camera era as training (held-out sequences, not a test-server result)",
+    "validation MOT17-10 is a moving night-time camera; evaluation MOT17-02 is a static daytime camera; results do not cover other domains"
+  ],
+  "roles": {
+    "eval": [
+      "MOT17-02-SDP"
+    ],
+    "train": [
+      "MOT17-04-SDP",
+      "MOT17-05-SDP",
+      "MOT17-09-SDP",
+      "MOT17-11-SDP",
+      "MOT17-13-SDP"
+    ],
+    "val": [
+      "MOT17-10-SDP"
+    ]
+  },
+  "schema": "saccade-v1-t01-split/1",
+  "sequences": {
+    "MOT17-02-SDP": {
+      "frames": 600,
+      "gt_sha256": "2e3ecb488da8886d3200d402b2b08890c6d2879923839444e9b74fa43a551440",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 1958,
+          "h_64to128": 5365,
+          "h_ge128": 3626,
+          "h_lt32": 44,
+          "min_4to8": 2259,
+          "min_8to16": 4874,
+          "min_ge16": 3860,
+          "min_lt4": 0
+        },
+        "frames_with_gt": 600,
+        "gt_rows": 30003,
+        "track_ids": 56,
+        "valid_boxes": 10993
+      },
+      "img1_bytes": 105648879,
+      "img1_list_sha256": "b66eb13348bb4906aef01e0b1139286ec63eeda6fda1d0c7fe119c6eb2d5f276",
+      "role": "eval",
+      "seqinfo": {
+        "frameRate": 30,
+        "imHeight": 1080,
+        "imWidth": 1920,
+        "seqLength": 600
+      },
+      "seqinfo_sha256": "f58e8717a5edb67594497a46ca8aff6212fdef8cd04aa9d0c51c811a63d6539c"
+    },
+    "MOT17-04-SDP": {
+      "frames": 1050,
+      "gt_sha256": "f8cfbe36ef38a2e1857d7ebfe7d754b2355a3ffb9e1f9cedea435e86e4fbc948",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 0,
+          "h_64to128": 582,
+          "h_ge128": 44688,
+          "h_lt32": 0,
+          "min_4to8": 0,
+          "min_8to16": 7840,
+          "min_ge16": 37430,
+          "min_lt4": 0
+        },
+        "frames_with_gt": 1050,
+        "gt_rows": 108005,
+        "track_ids": 81,
+        "valid_boxes": 45270
+      },
+      "img1_bytes": 244650083,
+      "img1_list_sha256": "ab34ebb5eb0d95efc1e852ffdb287861c265fa869a87f5717d901fef11655b74",
+      "role": "train",
+      "seqinfo": {
+        "frameRate": 30,
+        "imHeight": 1080,
+        "imWidth": 1920,
+        "seqLength": 1050
+      },
+      "seqinfo_sha256": "13d2c4f151a6738d26c701f490c0d4858b8015dbcaa5b16dc26f9f1b257f50e1"
+    },
+    "MOT17-05-SDP": {
+      "frames": 837,
+      "gt_sha256": "ed74c54176b21b38cb690eda79a4755cf16e4c4a9ca2f019b0ba8904636174f5",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 371,
+          "h_64to128": 1036,
+          "h_ge128": 3864,
+          "h_lt32": 0,
+          "min_4to8": 0,
+          "min_8to16": 73,
+          "min_ge16": 5198,
+          "min_lt4": 0
+        },
+        "frames_with_gt": 837,
+        "gt_rows": 8013,
+        "track_ids": 124,
+        "valid_boxes": 5271
+      },
+      "img1_bytes": 30753294,
+      "img1_list_sha256": "ee08c5088ee9718c8feb4d115fdbabf34a683f6c90beb4e93fe01cc88be81702",
+      "role": "train",
+      "seqinfo": {
+        "frameRate": 14,
+        "imHeight": 480,
+        "imWidth": 640,
+        "seqLength": 837
+      },
+      "seqinfo_sha256": "8bbcb68df2e6d7d391db3e30e382855688102cc22bc2ce4f9e231081168545ad"
+    },
+    "MOT17-09-SDP": {
+      "frames": 525,
+      "gt_sha256": "592f0d5b519c03b35bb1578c33d726460f63abb91ea0c515f87e8d6d76be001d",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 0,
+          "h_64to128": 13,
+          "h_ge128": 4054,
+          "h_lt32": 0,
+          "min_4to8": 0,
+          "min_8to16": 0,
+          "min_ge16": 4067,
+          "min_lt4": 0
+        },
+        "frames_with_gt": 525,
+        "gt_rows": 10411,
+        "track_ids": 26,
+        "valid_boxes": 4067
+      },
+      "img1_bytes": 110432352,
+      "img1_list_sha256": "7f4bc01d50136516c11ecef0f4b903f4582905bbe2b7d7f22ae89ea8c2bc339f",
+      "role": "train",
+      "seqinfo": {
+        "frameRate": 30,
+        "imHeight": 1080,
+        "imWidth": 1920,
+        "seqLength": 525
+      },
+      "seqinfo_sha256": "439c4e3f764fa6fdf1171f238602ba6b32dc7a71a5cf8d17603d91e896a34fa8"
+    },
+    "MOT17-10-SDP": {
+      "frames": 654,
+      "gt_sha256": "f8cca05d98fa36d8b6f2b807e03d32407d00d40299d679e4da320e42862677c0",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 2150,
+          "h_64to128": 3986,
+          "h_ge128": 4981,
+          "h_lt32": 0,
+          "min_4to8": 1884,
+          "min_8to16": 4527,
+          "min_ge16": 4706,
+          "min_lt4": 0
+        },
+        "frames_with_gt": 654,
+        "gt_rows": 17450,
+        "track_ids": 57,
+        "valid_boxes": 11117
+      },
+      "img1_bytes": 89638455,
+      "img1_list_sha256": "2020ba826a2b0f90e240e644820bc3ca1f1398996ebe167dd14ef64928310f1c",
+      "role": "val",
+      "seqinfo": {
+        "frameRate": 30,
+        "imHeight": 1080,
+        "imWidth": 1920,
+        "seqLength": 654
+      },
+      "seqinfo_sha256": "6867998f66753629b7a4e4093d1e473131be0fa6a23fa7263b4f197bef9db3d8"
+    },
+    "MOT17-11-SDP": {
+      "frames": 900,
+      "gt_sha256": "4952d6e4efc705c90688e434fd138a55ada2c0d5f576ba3847ee102fc18aff93",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 203,
+          "h_64to128": 1167,
+          "h_ge128": 6715,
+          "h_lt32": 0,
+          "min_4to8": 14,
+          "min_8to16": 1580,
+          "min_ge16": 6491,
+          "min_lt4": 0
+        },
+        "frames_with_gt": 900,
+        "gt_rows": 10617,
+        "track_ids": 73,
+        "valid_boxes": 8085
+      },
+      "img1_bytes": 127337693,
+      "img1_list_sha256": "3a6a1113a022483c9c657057b03fb232f2123ac5283b3cac248b10630baf4ee4",
+      "role": "train",
+      "seqinfo": {
+        "frameRate": 30,
+        "imHeight": 1080,
+        "imWidth": 1920,
+        "seqLength": 900
+      },
+      "seqinfo_sha256": "b6487e5ae527741884ae30d3dd470c406f5b4aa8ed35381085941c421a43784b"
+    },
+    "MOT17-13-SDP": {
+      "frames": 750,
+      "gt_sha256": "4827603ef87bbd61123cb4c5f194b3bf23531bd78ed9cd916084e53dca998013",
+      "gt_stats": {
+        "bins": {
+          "h_32to64": 3315,
+          "h_64to128": 5041,
+          "h_ge128": 2624,
+          "h_lt32": 89,
+          "min_4to8": 3434,
+          "min_8to16": 4970,
+          "min_ge16": 2650,
+          "min_lt4": 15
+        },
+        "frames_with_gt": 750,
+        "gt_rows": 20202,
+        "track_ids": 108,
+        "valid_boxes": 11069
+      },
+      "img1_bytes": 175312582,
+      "img1_list_sha256": "d55bf35893ebb2322d279f8c6f375bf3ec2dda024a2d1ffb38c38423049eaf62",
+      "role": "train",
+      "seqinfo": {
+        "frameRate": 25,
+        "imHeight": 1080,
+        "imWidth": 1920,
+        "seqLength": 750
+      },
+      "seqinfo_sha256": "dc583f1ea7ace41f5ff4a8f3bd506fd92f20c5f3ccf78400eb02c69233d2283e"
+    }
+  },
+  "variants": {
+    "MOT17-02": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    },
+    "MOT17-04": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    },
+    "MOT17-05": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    },
+    "MOT17-09": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    },
+    "MOT17-10": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    },
+    "MOT17-11": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    },
+    "MOT17-13": {
+      "DPM": {
+        "gt_identical": true,
+        "img1_identical": true
+      },
+      "FRCNN": {
+        "gt_identical": true,
+        "img1_identical": true
+      }
+    }
+  }
+}

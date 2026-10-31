@@ -1,0 +1,2086 @@
+UpdateCTestConfiguration  from :/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/DartConfiguration.tcl
+Test project /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+      Start  1: protocol_happens_before
+
+1: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/protocol_model "--self-test"
+1: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+1: Test timeout computed to be: 10000000
+1: PASS baseline 216/216 configurations; 10 frames each; conflicts, producer identity, event binding, DAG
+1: PASS mutation remove-init-sync rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered initialize all session storage / F04 header frame=0
+1: PASS mutation remove-mi-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: MI.header[0]: unordered F05 header frame=0 / MI pre-header frame=0
+1: PASS mutation remove-mi-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-mi-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: MI.header[0]: unordered MI pre-header frame=0 / F05 header frame=1
+1: PASS mutation remove-mi-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_consumed[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-cs-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered F04 header frame=0 / CS pre-header frame=0
+1: PASS mutation remove-cs-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_ready[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-cs-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: CS.header[0]: unordered CS pre-header frame=0 / F04 header frame=1
+1: PASS mutation remove-cs-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_consumed[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-staged-host-wait rejected 108/216; witness MI=1,CS=1,H=1,RP=2,normal: STAGE[0]: unordered H2D and nvJPEG transfer frame=0 / fill STAGE frame=1
+1: PASS mutation remove-staged-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: staged[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-packet-host-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: HP[0]: unordered D2H frame=0 / consume packet frame=0
+1: PASS mutation remove-packet-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: pkt[0]: wait bound to unrecorded event, expected 0
+1: PASS mutation remove-terminal-waits rejected 108/216; witness MI=1,CS=1,H=1,RP=1,D-only-tail: CS.header[0]: unordered F04 header frame=9 / release or reset session storage
+1: PASS mutation enqueue-main-before-detect rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+1: PASS 15 mutation families detected
+ 1/31 Test  #1: protocol_happens_before ............   Passed    0.37 sec
+test 2
+      Start  2: protocol_state_and_packet
+
+2: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/protocol_tests
+2: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+2: Test timeout computed to be: 10000000
+2: protocol_tests: 630 checks passed
+ 2/31 Test  #2: protocol_state_and_packet ..........   Passed    0.00 sec
+test 3
+      Start  3: packet_compare_cli
+
+3: Test command: /usr/sbin/cmake "-DPROTOCOL_TESTS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/protocol_tests" "-DPACKET_COMPARE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/packet_compare" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/packet-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/PacketCompareTest.cmake"
+3: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+3: Test timeout computed to be: 10000000
+ 3/31 Test  #3: packet_compare_cli .................   Passed    0.02 sec
+test 4
+      Start  4: synthetic_resolved_config
+
+4: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/synthetic_config_tests
+4: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+4: Test timeout computed to be: 10000000
+4: synthetic_config_tests: 88 checks passed
+ 4/31 Test  #4: synthetic_resolved_config ..........   Passed    0.01 sec
+test 5
+      Start  5: checked_file_io
+
+5: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/file_io_tests
+5: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+5: Test timeout computed to be: 10000000
+5: file_io_tests: 23 checks passed
+ 5/31 Test  #5: checked_file_io ....................   Passed    0.00 sec
+test 6
+      Start  6: checked_resource_cleanup
+
+6: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/cleanup_tests
+6: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+6: Test timeout computed to be: 10000000
+6: cleanup_tests: 79 checks passed
+ 6/31 Test  #6: checked_resource_cleanup ...........   Passed    0.00 sec
+test 7
+      Start  7: model_manifest_contract
+
+7: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/model_manifest_tests "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/fixtures/model-manifest"
+7: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+7: Test timeout computed to be: 10000000
+7: model_manifest_tests: 105 checks passed
+ 7/31 Test  #7: model_manifest_contract ............   Passed    0.01 sec
+test 8
+      Start  8: model_manifest_cli
+
+8: Test command: /usr/sbin/cmake "-DPROGRAM=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/model_manifest" "-DFIXTURE_SOURCE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/fixtures/model-manifest" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/manifest-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/ManifestTest.cmake"
+8: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+8: Test timeout computed to be: 10000000
+8: -- manifest CLI checks passed; raw outputs: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/manifest-fixtures/manifest-7f02106570917434
+ 8/31 Test  #8: model_manifest_cli .................   Passed    0.04 sec
+test 9
+      Start  9: selective_scan_reference
+
+9: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/selective_scan_tests "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/fixtures/selective-scan"
+9: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+9: Test timeout computed to be: 10000000
+9: element	single_token	0	3.77258872223978123771	3.7725887222397811	9.28e-17
+9: element	single_token	1	-164	-164	0
+9: case	single_token	unit	count=2	max_abs=9.28e-17	max_rel=2.46e-17	worst_index=0	PASS
+9: element	three_token_decay	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+9: element	three_token_decay	1	1.73286795139986327357	1.7328679513998633	2.49e-18
+9: element	three_token_decay	2	2.94587551737976756513	2.9458755173797675	7.09e-17
+9: case	three_token_decay	unit	count=3	max_abs=7.09e-17	max_rel=3.35e-17	worst_index=2	PASS
+9: element	softplus_branches	0	9.35762296883973677941e-14	9.3576229688397368e-14	6.16e-31
+9: element	softplus_branches	1	2.0611536203143807032e-09	2.0611536203143808e-09	1.01e-25
+9: element	softplus_branches	2	0.313261687518222834044	0.31326168751822286	3.04e-17
+9: element	softplus_branches	3	0.693147180559945309429	0.69314718055994529	2.32e-17
+9: element	softplus_branches	4	20.000000002061153621	20.000000002061153	5.95e-16
+9: element	softplus_branches	5	20.5	20.5	0
+9: case	softplus_branches	relative	count=6	max_abs=5.95e-16	max_rel=9.69e-17	worst_index=4	PASS
+9: case	geometric_p3_length	unit	count=1600	max_abs=3.15e-15	max_rel=3.02e-16	worst_index=191	PASS
+9: case	per_channel_a	unit	count=75	max_abs=4.04e-15	max_rel=2.27e-15	worst_index=74	PASS
+9: case	state_32_p4_length	unit	count=200	max_abs=8.72e-15	max_rel=6.74e-16	worst_index=30	PASS
+9: case	varying_direct_sum	unit	count=42	max_abs=9.88e-16	max_rel=1.25e-14	worst_index=27	PASS
+9: case	m_head_abi_L25	unit	count=25600	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=20234	PASS
+9: case	m_head_abi_L100	unit	count=102400	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=77834	PASS
+9: case	m_head_abi_L400	unit	count=409600	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=308234	PASS
+9: element	extreme_large_delta_memoryless	0	3	3	0
+9: element	extreme_large_delta_memoryless	1	-5	-5	0
+9: element	extreme_large_delta_memoryless	2	7	7	0
+9: case	extreme_large_delta_memoryless	relative	count=3	max_abs=0	max_rel=0	worst_index=0	PASS
+9: element	extreme_negative_delta	0	1	1	0
+9: element	extreme_negative_delta	1	-1	-1	0
+9: case	extreme_negative_delta	relative	count=2	max_abs=0	max_rel=0	worst_index=0	PASS
+9: element	extreme_fp32_max_input	0	6.32938129123045190052e-06	6.3293812912304522e-06	2.67e-22
+9: case	extreme_fp32_max_input	relative	count=1	max_abs=2.67e-22	max_rel=4.22e-17	worst_index=0	PASS
+9: element	extreme_near_fp32_limit_output	0	1.11655151645932933324e+38	1.1165515164593293e+38	0
+9: case	extreme_near_fp32_limit_output	relative	count=1	max_abs=0	max_rel=0	worst_index=0	PASS
+9: element	extreme_subnormal_input	0	9.71306079669728058935e-46	9.7130607966972803e-46	3.25e-62
+9: element	extreme_subnormal_input	1	1.4569591195045920884e-45	1.456959119504592e-45	1.27e-61
+9: case	extreme_subnormal_input	relative	count=2	max_abs=1.27e-61	max_rel=8.69e-17	worst_index=1	PASS
+9: element	extreme_most_negative_a	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+9: element	extreme_most_negative_a	1	1.38629436111989061886	1.3862943611198906	4.64e-17
+9: element	extreme_most_negative_a	2	2.07944154167983592829	2.0794415416798357	1.81e-16
+9: case	extreme_most_negative_a	unit	count=3	max_abs=1.81e-16	max_rel=8.69e-17	worst_index=2	PASS
+9: equality	all	PASS
+9: rejection	all	PASS
+9: element	cross_scan_prefix_merge	0	7.6246189861593984035	7.6246189861593976	8.1e-16
+9: element	cross_scan_prefix_merge	1	7.97119257643937105832	7.9711925764393712	1.22e-16
+9: element	cross_scan_prefix_merge	2	8.31776616671934371314	8.317766166719343	7.23e-16
+9: element	cross_scan_prefix_merge	3	8.66433975699931636753	8.6643397569993148	1.57e-15
+9: element	cross_scan_prefix_merge	4	9.01091334727928902279	9.0109133472792884	6.35e-16
+9: element	cross_scan_prefix_merge	5	9.35748693755926167718	9.357486937559262	2.98e-16
+9: case	cross_scan_prefix_merge	unit	count=6	max_abs=1.57e-15	max_rel=1.81e-16	worst_index=3	PASS
+9: cross_scan	all	PASS
+9: checks	253
+9: selective_scan_tests: 253 checks passed
+ 9/31 Test  #9: selective_scan_reference ...........   Passed    0.07 sec
+test 10
+      Start 10: head_weight_delivery
+
+10: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights_tests
+10: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+10: Test timeout computed to be: 10000000
+10: schema_mapping	PASS
+10: conversion	PASS
+10: bundle	PASS
+10: head_weights_tests: 188 checks passed
+10/31 Test #10: head_weight_delivery ...............   Passed   13.55 sec
+test 11
+      Start 11: head_reference
+
+11: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_reference_tests
+11: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+11: Test timeout computed to be: 900
+11: primitive	conv1x1	PASS
+11: primitive	conv4x4_stride4	PASS
+11: primitive	conv3x3_pad1_correlation	PASS
+11: primitive	conv3x3_flipped_variant	PASS
+11: primitive	linear	PASS
+11: primitive	causal_conv1d	PASS
+11: primitive	anticausal_conv1d_variant	PASS
+11: primitive	silu	PASS
+11: primitive	pixel_shuffle_crd	PASS
+11: primitive	pixel_shuffle_dcr_variant	PASS
+11: primitive	pixel_shuffle_spatial	PASS
+11: primitive	concat_order	PASS
+11: primitive	slice_last	PASS
+11: primitive	multiply	PASS
+11: primitive	add	PASS
+11: primitive	cross_expand_order	PASS
+11: primitive	cross_merge_restores	PASS
+11: primitive	cross_merge_mean	PASS
+11: primitive	neg_exp	PASS
+11: scan_vs_s01	L=25	max_abs_diff=0	PASS
+11: scan_input_sensitivity	L=25	max_change_over_bound=0.948835	PASS
+11: scan_vs_s01	L=100	max_abs_diff=0	PASS
+11: scan_input_sensitivity	L=100	max_change_over_bound=0.960913	PASS
+11: fp32_inside_bound	conv3x3	max_err_over_bound=0.00283266	PASS
+11: fp32_inside_bound	silu	max_err_over_bound=0.10368	PASS
+11: fp32_inside_bound	linear	max_err_over_bound=0.00184937	PASS
+11: fp32_head_model_check	synthetic	asymmetric	cls_p3	max_abs=1.13e-07	max_err_over_lambda_sigma=0.00187	worst_index=230284	max_err_over_2bound=5.07e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	asymmetric	cls_p4	max_abs=1.03e-07	max_err_over_lambda_sigma=0.00179	worst_index=70204	max_err_over_2bound=2.4e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	asymmetric	cls_p5	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00201	worst_index=18843	max_err_over_2bound=2.8e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	asymmetric	reg_p3	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00187	worst_index=8471	max_err_over_2bound=3.38e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	asymmetric	reg_p4	max_abs=8.56e-08	max_err_over_lambda_sigma=0.00172	worst_index=5622	max_err_over_2bound=1.72e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	asymmetric	reg_p5	max_abs=8.36e-08	max_err_over_lambda_sigma=0.00159	worst_index=1418	max_err_over_2bound=2.05e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	random	cls_p3	max_abs=3.1e-07	max_err_over_lambda_sigma=0.00195	worst_index=476285	max_err_over_2bound=3.42e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	random	cls_p4	max_abs=3.03e-07	max_err_over_lambda_sigma=0.00203	worst_index=16063	max_err_over_2bound=2.7e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	random	cls_p5	max_abs=3.14e-07	max_err_over_lambda_sigma=0.00215	worst_index=6292	max_err_over_2bound=2.31e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	random	reg_p3	max_abs=2.83e-07	max_err_over_lambda_sigma=0.00197	worst_index=1872	max_err_over_2bound=2.39e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	random	reg_p4	max_abs=2.41e-07	max_err_over_lambda_sigma=0.00168	worst_index=1323	max_err_over_2bound=1.62e-09	outside=0	PASS
+11: fp32_head_model_check	synthetic	random	reg_p5	max_abs=2.15e-07	max_err_over_lambda_sigma=0.00154	worst_index=583	max_err_over_2bound=1.84e-09	outside=0	PASS
+11: reference_seconds	synthetic	0.866
+11: semantic_variant	synthetic	pixel_shuffle_dcr	outside_lambda_sigma=702904/705600	max_err_over_tol=1.05e+03	DETECTED
+11: semantic_variant	synthetic	anticausal_conv	outside_lambda_sigma=101519/705600	max_err_over_tol=3.87	DETECTED
+11: semantic_variant	synthetic	direction_identity	outside_lambda_sigma=0/705600	max_err_over_tol=0.873	MISSED
+11: semantic_variant	synthetic	merge_mismatch	outside_lambda_sigma=700011/705600	max_err_over_tol=510	DETECTED
+11: semantic_variant	synthetic	concat_reversed	outside_lambda_sigma=704806/705600	max_err_over_tol=3.41e+03	DETECTED
+11: semantic_variant	synthetic	flipped_kernels	outside_lambda_sigma=704774/705600	max_err_over_tol=3.67e+03	DETECTED
+11: semantic_variant	synthetic	swap_xz	outside_lambda_sigma=602581/705600	max_err_over_tol=28.1	DETECTED
+11: semantic_variant	synthetic	swap_dt_b	outside_lambda_sigma=2083/705600	max_err_over_tol=1.58	DETECTED
+11: semantic_variant	synthetic	c_first_state_only	outside_lambda_sigma=0/705600	max_err_over_tol=0.278	MISSED
+11: semantic_variant	synthetic	delta_bias_after_softplus	outside_lambda_sigma=0/705600	max_err_over_tol=0.0381	MISSED
+11: semantic_variant	synthetic	no_d_skip	outside_lambda_sigma=554378/705600	max_err_over_tol=17.6	DETECTED
+11: semantic_variant	synthetic	no_residual	outside_lambda_sigma=701719/705600	max_err_over_tol=684	DETECTED
+11: semantic_variant	synthetic	swap_level_weights	outside_lambda_sigma=167919/705600	max_err_over_tol=8.8e+03	DETECTED
+11: semantic_variants	synthetic	informational	missed=direction_identity, c_first_state_only, delta_bias_after_softplus
+11: tolerance_scale	synthetic	cls_p3	max_abs_ref=0.168	max_lambda_sigma=7.04e-05	max_2bound=51.9
+11: tolerance_scale	synthetic	cls_p4	max_abs_ref=0.18	max_lambda_sigma=6.76e-05	max_2bound=89.3
+11: tolerance_scale	synthetic	cls_p5	max_abs_ref=0.175	max_lambda_sigma=6.55e-05	max_2bound=86.3
+11: tolerance_scale	synthetic	reg_p3	max_abs_ref=0.149	max_lambda_sigma=6.44e-05	max_2bound=47.7
+11: tolerance_scale	synthetic	reg_p4	max_abs_ref=0.123	max_lambda_sigma=6.03e-05	max_2bound=81.3
+11: tolerance_scale	synthetic	reg_p5	max_abs_ref=0.134	max_lambda_sigma=6.35e-05	max_2bound=82.1
+11: skipped	t1_bundle	no bundle given
+11: head_reference_tests: 202 checks passed
+11/31 Test #11: head_reference .....................   Passed   15.57 sec
+test 12
+      Start 12: head_weights_candidate
+
+12: Test command: /usr/sbin/cmake "-DPROGRAM=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights" "-DCHECKPOINT=/home/ray/developer/ai/saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt" "-DCHECKPOINT_SHA256=a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c" "-DBUNDLE_SHA256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310" "-DOUTPUT_DIR=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/HeadWeightsTest.cmake"
+12: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+12: Test timeout computed to be: 300
+12: -- candidate checkpoint and bundle hashes verified
+12/31 Test #12: head_weights_candidate .............   Passed    3.07 sec
+test 13
+      Start 13: head_reference_candidate
+
+13: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_reference_tests "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb" "e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310"
+13: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+13: Test timeout computed to be: 900
+13: primitive	conv1x1	PASS
+13: primitive	conv4x4_stride4	PASS
+13: primitive	conv3x3_pad1_correlation	PASS
+13: primitive	conv3x3_flipped_variant	PASS
+13: primitive	linear	PASS
+13: primitive	causal_conv1d	PASS
+13: primitive	anticausal_conv1d_variant	PASS
+13: primitive	silu	PASS
+13: primitive	pixel_shuffle_crd	PASS
+13: primitive	pixel_shuffle_dcr_variant	PASS
+13: primitive	pixel_shuffle_spatial	PASS
+13: primitive	concat_order	PASS
+13: primitive	slice_last	PASS
+13: primitive	multiply	PASS
+13: primitive	add	PASS
+13: primitive	cross_expand_order	PASS
+13: primitive	cross_merge_restores	PASS
+13: primitive	cross_merge_mean	PASS
+13: primitive	neg_exp	PASS
+13: scan_vs_s01	L=25	max_abs_diff=0	PASS
+13: scan_input_sensitivity	L=25	max_change_over_bound=0.948835	PASS
+13: scan_vs_s01	L=100	max_abs_diff=0	PASS
+13: scan_input_sensitivity	L=100	max_change_over_bound=0.960913	PASS
+13: fp32_inside_bound	conv3x3	max_err_over_bound=0.00283266	PASS
+13: fp32_inside_bound	silu	max_err_over_bound=0.10368	PASS
+13: fp32_inside_bound	linear	max_err_over_bound=0.00184937	PASS
+13: fp32_head_model_check	synthetic	asymmetric	cls_p3	max_abs=1.13e-07	max_err_over_lambda_sigma=0.00187	worst_index=230284	max_err_over_2bound=5.07e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	asymmetric	cls_p4	max_abs=1.03e-07	max_err_over_lambda_sigma=0.00179	worst_index=70204	max_err_over_2bound=2.4e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	asymmetric	cls_p5	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00201	worst_index=18843	max_err_over_2bound=2.8e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	asymmetric	reg_p3	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00187	worst_index=8471	max_err_over_2bound=3.38e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	asymmetric	reg_p4	max_abs=8.56e-08	max_err_over_lambda_sigma=0.00172	worst_index=5622	max_err_over_2bound=1.72e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	asymmetric	reg_p5	max_abs=8.36e-08	max_err_over_lambda_sigma=0.00159	worst_index=1418	max_err_over_2bound=2.05e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	random	cls_p3	max_abs=3.1e-07	max_err_over_lambda_sigma=0.00195	worst_index=476285	max_err_over_2bound=3.42e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	random	cls_p4	max_abs=3.03e-07	max_err_over_lambda_sigma=0.00203	worst_index=16063	max_err_over_2bound=2.7e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	random	cls_p5	max_abs=3.14e-07	max_err_over_lambda_sigma=0.00215	worst_index=6292	max_err_over_2bound=2.31e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	random	reg_p3	max_abs=2.83e-07	max_err_over_lambda_sigma=0.00197	worst_index=1872	max_err_over_2bound=2.39e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	random	reg_p4	max_abs=2.41e-07	max_err_over_lambda_sigma=0.00168	worst_index=1323	max_err_over_2bound=1.62e-09	outside=0	PASS
+13: fp32_head_model_check	synthetic	random	reg_p5	max_abs=2.15e-07	max_err_over_lambda_sigma=0.00154	worst_index=583	max_err_over_2bound=1.84e-09	outside=0	PASS
+13: reference_seconds	synthetic	0.745
+13: semantic_variant	synthetic	pixel_shuffle_dcr	outside_lambda_sigma=702904/705600	max_err_over_tol=1.05e+03	DETECTED
+13: semantic_variant	synthetic	anticausal_conv	outside_lambda_sigma=101519/705600	max_err_over_tol=3.87	DETECTED
+13: semantic_variant	synthetic	direction_identity	outside_lambda_sigma=0/705600	max_err_over_tol=0.873	MISSED
+13: semantic_variant	synthetic	merge_mismatch	outside_lambda_sigma=700011/705600	max_err_over_tol=510	DETECTED
+13: semantic_variant	synthetic	concat_reversed	outside_lambda_sigma=704806/705600	max_err_over_tol=3.41e+03	DETECTED
+13: semantic_variant	synthetic	flipped_kernels	outside_lambda_sigma=704774/705600	max_err_over_tol=3.67e+03	DETECTED
+13: semantic_variant	synthetic	swap_xz	outside_lambda_sigma=602581/705600	max_err_over_tol=28.1	DETECTED
+13: semantic_variant	synthetic	swap_dt_b	outside_lambda_sigma=2083/705600	max_err_over_tol=1.58	DETECTED
+13: semantic_variant	synthetic	c_first_state_only	outside_lambda_sigma=0/705600	max_err_over_tol=0.278	MISSED
+13: semantic_variant	synthetic	delta_bias_after_softplus	outside_lambda_sigma=0/705600	max_err_over_tol=0.0381	MISSED
+13: semantic_variant	synthetic	no_d_skip	outside_lambda_sigma=554378/705600	max_err_over_tol=17.6	DETECTED
+13: semantic_variant	synthetic	no_residual	outside_lambda_sigma=701719/705600	max_err_over_tol=684	DETECTED
+13: semantic_variant	synthetic	swap_level_weights	outside_lambda_sigma=167919/705600	max_err_over_tol=8.8e+03	DETECTED
+13: semantic_variants	synthetic	informational	missed=direction_identity, c_first_state_only, delta_bias_after_softplus
+13: tolerance_scale	synthetic	cls_p3	max_abs_ref=0.168	max_lambda_sigma=7.04e-05	max_2bound=51.9
+13: tolerance_scale	synthetic	cls_p4	max_abs_ref=0.18	max_lambda_sigma=6.76e-05	max_2bound=89.3
+13: tolerance_scale	synthetic	cls_p5	max_abs_ref=0.175	max_lambda_sigma=6.55e-05	max_2bound=86.3
+13: tolerance_scale	synthetic	reg_p3	max_abs_ref=0.149	max_lambda_sigma=6.44e-05	max_2bound=47.7
+13: tolerance_scale	synthetic	reg_p4	max_abs_ref=0.123	max_lambda_sigma=6.03e-05	max_2bound=81.3
+13: tolerance_scale	synthetic	reg_p5	max_abs_ref=0.134	max_lambda_sigma=6.35e-05	max_2bound=82.1
+13: fp32_head_model_check	t1_bundle	asymmetric	cls_p3	max_abs=0.000126	max_err_over_lambda_sigma=0.00477	worst_index=217497	max_err_over_2bound=5.13e-10	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	asymmetric	cls_p4	max_abs=0.000226	max_err_over_lambda_sigma=0.00567	worst_index=28699	max_err_over_2bound=2.21e-10	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	asymmetric	cls_p5	max_abs=0.000111	max_err_over_lambda_sigma=0.00393	worst_index=19494	max_err_over_2bound=7.87e-11	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	asymmetric	reg_p3	max_abs=2.54e-05	max_err_over_lambda_sigma=0.00196	worst_index=8899	max_err_over_2bound=2.33e-10	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	asymmetric	reg_p4	max_abs=2.21e-05	max_err_over_lambda_sigma=0.00233	worst_index=3180	max_err_over_2bound=7.03e-11	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	asymmetric	reg_p5	max_abs=2.55e-05	max_err_over_lambda_sigma=0.00398	worst_index=418	max_err_over_2bound=1.19e-10	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	random	cls_p3	max_abs=0.000612	max_err_over_lambda_sigma=0.00604	worst_index=106782	max_err_over_2bound=1.36e-10	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	random	cls_p4	max_abs=0.000396	max_err_over_lambda_sigma=0.00338	worst_index=108764	max_err_over_2bound=4.72e-11	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	random	cls_p5	max_abs=0.000469	max_err_over_lambda_sigma=0.00111	worst_index=3773	max_err_over_2bound=6.64e-12	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	random	reg_p3	max_abs=6.94e-05	max_err_over_lambda_sigma=0.00174	worst_index=192	max_err_over_2bound=1.01e-10	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	random	reg_p4	max_abs=3.77e-05	max_err_over_lambda_sigma=0.00125	worst_index=1554	max_err_over_2bound=1.64e-11	outside=0	PASS
+13: fp32_head_model_check	t1_bundle	random	reg_p5	max_abs=0.000209	max_err_over_lambda_sigma=0.00141	worst_index=214	max_err_over_2bound=1.06e-11	outside=0	PASS
+13: reference_seconds	t1_bundle	0.779
+13: semantic_variant	t1_bundle	pixel_shuffle_dcr	outside_lambda_sigma=704834/705600	max_err_over_tol=5.47e+03	DETECTED
+13: semantic_variant	t1_bundle	anticausal_conv	outside_lambda_sigma=703919/705600	max_err_over_tol=5.35e+03	DETECTED
+13: semantic_variant	t1_bundle	direction_identity	outside_lambda_sigma=699029/705600	max_err_over_tol=663	DETECTED
+13: semantic_variant	t1_bundle	merge_mismatch	outside_lambda_sigma=704077/705600	max_err_over_tol=2.9e+03	DETECTED
+13: semantic_variant	t1_bundle	concat_reversed	outside_lambda_sigma=705487/705600	max_err_over_tol=3.06e+04	DETECTED
+13: semantic_variant	t1_bundle	flipped_kernels	outside_lambda_sigma=704816/705600	max_err_over_tol=6.61e+03	DETECTED
+13: semantic_variant	t1_bundle	swap_xz	outside_lambda_sigma=704623/705600	max_err_over_tol=4.47e+03	DETECTED
+13: semantic_variant	t1_bundle	swap_dt_b	outside_lambda_sigma=669582/705600	max_err_over_tol=369	DETECTED
+13: semantic_variant	t1_bundle	c_first_state_only	outside_lambda_sigma=672842/705600	max_err_over_tol=266	DETECTED
+13: semantic_variant	t1_bundle	delta_bias_after_softplus	outside_lambda_sigma=393480/705600	max_err_over_tol=24	DETECTED
+13: semantic_variant	t1_bundle	no_d_skip	outside_lambda_sigma=704195/705600	max_err_over_tol=5.15e+03	DETECTED
+13: semantic_variant	t1_bundle	no_residual	outside_lambda_sigma=704751/705600	max_err_over_tol=3.58e+03	DETECTED
+13: semantic_variant	t1_bundle	swap_level_weights	outside_lambda_sigma=167909/705600	max_err_over_tol=2.72e+04	DETECTED
+13: semantic_variants	t1_bundle	required	missed=none
+13: tolerance_scale	t1_bundle	cls_p3	max_abs_ref=90.3	max_lambda_sigma=0.033	max_2bound=4.29e+05
+13: tolerance_scale	t1_bundle	cls_p4	max_abs_ref=220	max_lambda_sigma=0.0529	max_2bound=1.87e+06
+13: tolerance_scale	t1_bundle	cls_p5	max_abs_ref=67.5	max_lambda_sigma=0.0364	max_2bound=2.88e+06
+13: tolerance_scale	t1_bundle	reg_p3	max_abs_ref=16	max_lambda_sigma=0.0182	max_2bound=1.96e+05
+13: tolerance_scale	t1_bundle	reg_p4	max_abs_ref=12.2	max_lambda_sigma=0.0135	max_2bound=5.3e+05
+13: tolerance_scale	t1_bundle	reg_p5	max_abs_ref=6.31	max_lambda_sigma=0.0104	max_2bound=7.22e+05
+13: head_reference_tests: 228 checks passed
+13/31 Test #13: head_reference_candidate ...........   Passed   30.24 sec
+test 14
+      Start 14: native_tensorrt_roundtrip
+
+14: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/tensorrt_smoke "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/native-smoke.engine" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/native-smoke.txt"
+14: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+14: Test timeout computed to be: 180
+14: TensorRT[3] [MemUsageChange] Init CUDA: CPU +0, GPU +0, now: CPU 50, GPU 1173 (MiB)
+14: TensorRT[4] CUDA lazy loading is enabled.
+14: TensorRT[4] could not open /sys/fs/cgroup/memory/memory.limit_in_bytes or /sys/fs/cgroup/memory.max
+14: TensorRT[4] Compiler backend convergence mode enabled
+14: TensorRT[4] Trying to load shared library libnvinfer_builder_resource_sm120.so.10.16.1
+14: TensorRT[4] Loaded shared library libnvinfer_builder_resource_sm120.so.10.16.1
+14: TensorRT[3] [MemUsageChange] Init builder kernel library: CPU +286, GPU +4, now: CPU 534, GPU 1177 (MiB)
+14: TensorRT[4] Original: 4 layers
+14: TensorRT[4] After dead-layer removal: 4 layers
+14: TensorRT[4] SYMBOLIC CHECKS
+14: TensorRT[4] GRAPH NODES
+14: TensorRT[4] CONSTANT (Unnamed Layer* 0) [Constant]
+14: TensorRT[4]     Output 0
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4] CONSTANT (Unnamed Layer* 1) [Constant]
+14: TensorRT[4]     Output 0
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4] ELEMENTWISE (Unnamed Layer* 2) [ElementWise]
+14: TensorRT[4]     Input 0
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         256	256
+14: TensorRT[4]     Input 1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]     Output 0
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         256	256
+14: TensorRT[4] ELEMENTWISE (Unnamed Layer* 3) [ElementWise]
+14: TensorRT[4]     Input 0
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         256	256
+14: TensorRT[4]     Input 1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]     Output 0
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         1	1
+14: TensorRT[4]         256	256
+14: TensorRT[4] Graph construction completed in 0.000316549 seconds.
+14: TensorRT[4] After adding DebugOutput nodes: 4 layers
+14: TensorRT[4] After Myelin optimization: 1 layers
+14: TensorRT[4] Applying ScaleNodes fusions.
+14: TensorRT[4] After scale fusion: 1 layers
+14: TensorRT[4] After dupe layer removal: 1 layers
+14: TensorRT[4] After final dead-layer removal: 1 layers
+14: TensorRT[4] After tensor merging: 1 layers
+14: TensorRT[4] After vertical fusions: 1 layers
+14: TensorRT[4] After dupe layer removal: 1 layers
+14: TensorRT[4] After final dead-layer removal: 1 layers
+14: TensorRT[4] After tensor merging: 1 layers
+14: TensorRT[4] After slice removal: 1 layers
+14: TensorRT[4] After concat removal: 1 layers
+14: TensorRT[4] Trying to split Reshape and strided tensor
+14: TensorRT[4] Graph optimization time: 0.000221138 seconds.
+14: TensorRT[4] Building graph using backend strategy 0
+14: TensorRT[3] Local timing cache in use. Profiling results in this builder pass will not be stored.
+14: TensorRT[4] Constructing optimization profile number 0 [1/1].
+14: TensorRT[4] Applying generic optimizations to the graph for inference.
+14: TensorRT[4] Reserving memory for host IO tensors. Host: 0 bytes
+14: TensorRT[4] =============== Computing costs for {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]}
+14: TensorRT[4] ForeignNode {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]} metadata: 
+14: TensorRT[4] *************** Autotuning format combination: Float(256,256,256,1) -> Float(256,256,256,1) ***************
+14: TensorRT[4] --------------- Timing Runner: {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]} (Myelin[0x80000023])
+14: TensorRT[3] Compiler backend is used during engine build.
+14: TensorRT[4] Disabling gemm+pointwise/reduce fusions at optimization level 0
+14: TensorRT[4] Set number of tactics to 1 at optimization level 0
+14: TensorRT[4]  (foreignNode) Set user's cuda kernel library
+14: TensorRT[4] Subgraph compilation completed in 0.048 seconds.
+14: TensorRT[4] Tactic: 0x0000000000000000 Time: 0
+14: TensorRT[4] Tactic: 0x0000000000000000 A valid tactic is found. Rest of the tactics are skipped.
+14: TensorRT[4] >>>>>>>>>>>>>>> Chose Runner Type: Myelin Tactic: 0x0000000000000000
+14: TensorRT[4] =============== Computing reformatting costs for available format set
+14: TensorRT[4] =============== Computing reformatting costs for available format set
+14: TensorRT[4] Formats and tactics selection completed in 0.0501927 seconds.
+14: TensorRT[4] After reformat layers: 1 layers
+14: TensorRT[4] Total number of blocks in pre-optimized block assignment: 1
+14: TensorRT[3] Detected 1 inputs and 1 output network tensors.
+14: TensorRT[4] Layer: {ForeignNode[(Unnamed Layer* 0) [Constant]...(Unnamed Layer* 3) [ElementWise]]} Host Persistent: 80 bytes Device Persistent: 0 bytes Scratch Memory: 0 bytes
+14: TensorRT[4] Skipped printing memory information for 0 layers with 0 memory size i.e. Host Persistent + Device Persistent + Scratch Memory == 0.
+14: TensorRT[3] Total Host Persistent Memory: 80 bytes
+14: TensorRT[3] Total Device Persistent Memory: 0 bytes
+14: TensorRT[3] Max Scratch Memory: 0 bytes
+14: TensorRT[4] Total number of blocks in optimized block assignment: 0
+14: TensorRT[3] Total Activation Memory: 0 bytes
+14: TensorRT[3] Total Weights Memory: 4 bytes
+14: TensorRT[4] Total number of generated kernels selected for the engine: 0
+14: TensorRT[3] Compiler backend is used during engine execution.
+14: TensorRT[4] Disabling unused tactic source: EDGE_MASK_CONVOLUTIONS
+14: TensorRT[4] Disabling unused tactic source: JIT_CONVOLUTIONS
+14: TensorRT[3] Engine generation completed in 0.071105 seconds.
+14: TensorRT[4] Layers:
+14: Name: __myl_MulAdd_myl0_0, LayerType: kgen, Inputs: [ { Name: x, Dimensions: [1,1,1,256], Format/Datatype: Float }], Outputs: [ { Name: y, Dimensions: [1,1,1,256], Format/Datatype: Float }], TacticName: __myl_MulAdd_0x3f242f4e15f28f48dfccb2005c35cfc4, StreamId: 0, Metadata: 
+14: 
+14: Bindings:
+14: x
+14: y
+14: TensorRT[3] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 0 MiB, GPU 0 MiB
+14: TensorRT[4] Adding 1 engine(s) to plan file.
+14: TensorRT[4] Adding 1 engine weights(s) to plan file.
+14: TensorRT[3] Loaded engine size: 0 MiB
+14: TensorRT[4] Deserialization required 1626 microseconds.
+14: TensorRT[4] Total per-runner device persistent memory is 0
+14: TensorRT[4] Total per-runner host persistent memory is 80
+14: TensorRT[3] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 0 (MiB)
+14: TensorRT[4] CUDA lazy loading is enabled.
+14: PASS native TensorRT build/save/reload/enqueue; elements=256 max_abs_error=0 engine_sha256=e59b00754e82853bbe1ef49ea903e111ba042b99d32d014a05ac191dcdf1a65f
+14/31 Test #14: native_tensorrt_roundtrip ..........   Passed    3.47 sec
+test 15
+      Start 15: native_tensorrt_cli_io
+
+15: Test command: /usr/sbin/cmake "-DPROGRAM=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/tensorrt_smoke" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/native-io-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/TensorRTIOTest.cmake"
+15: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+15: Test timeout computed to be: 180
+15: -- native TensorRT CLI checked I/O failures: PASS
+15/31 Test #15: native_tensorrt_cli_io .............   Passed    4.31 sec
+test 16
+      Start 16: selective_scan_cuda
+
+16: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/selective_scan_cuda_tests
+16: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+16: Test timeout computed to be: 300
+16: group s01_values
+16: group coverage
+16: group softplus
+16: group intermediate_range
+16: group failures
+16: group reset_and_determinism
+16: group streams
+16: group host_rejections
+16: group cross_scan
+16: identity	build_commit=222af61a8edf46950ffb2b58542c31074454b793
+16: identity	build_dirty=true
+16: identity	nvcc=13.4.92
+16: identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+16: identity	cuda_arch_list=1200
+16: identity	host_compiler=16.2.1 20260810
+16: identity	cuda_runtime=13040
+16: identity	cuda_driver_api=13040
+16: identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+16: identity	compute_capability=12.0
+16: identity	uuid=825ae551ba16539ae44422726b59ee9a
+16: identity	kernel=check_finite registers=20 local_bytes=0 shared_bytes=0 max_threads=1024
+16: identity	kernel=scan_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+16: identity	kernel=finalize registers=16 local_bytes=0 shared_bytes=0 max_threads=1024
+16: identity	kernel=expand_kernel registers=28 local_bytes=0 shared_bytes=0 max_threads=1024
+16: identity	kernel=merge_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+16: element	s01_single_token	0	3.7725887222397811	3.77258873	0x40717218	7.62e-09	4.32e-06
+16: element	s01_single_token	1	-164	-164	0xc3240000	0	0.000242
+16: case	s01_single_token	count=2	max_abs=7.62e-09	max_rel=2.02e-09	max_err_over_tol=0.00176	failures=0	worst_index=0	worst_gpu=3.77258873(0x40717218)	worst_ref=3.7725887222397811	worst_tol=4.32e-06	PASS
+16: element	s01_three_token_decay	0	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+16: element	s01_three_token_decay	1	1.7328679513998633	1.73286796	0x3fddce9e	4.76e-09	2.68e-06
+16: element	s01_three_token_decay	2	2.9458755173797675	2.94587564	0x403c893a	1.27e-07	5.08e-06
+16: case	s01_three_token_decay	count=3	max_abs=1.27e-07	max_rel=4.32e-08	max_err_over_tol=0.025	failures=0	worst_index=2	worst_gpu=2.94587564(0x403c893a)	worst_ref=2.9458755173797675	worst_tol=5.08e-06	PASS
+16: element	s01_softplus_branches	0	9.3576229688397368e-14	9.35762291e-14	0x29d2b706	5.66e-22	1.23e-19
+16: element	s01_softplus_branches	1	2.0611536203143808e-09	2.06115347e-09	0x310da432	1.5e-16	2.7e-15
+16: element	s01_softplus_branches	2	0.31326168751822286	0.313261718	0x3ea063d7	3e-08	4.11e-07
+16: element	s01_softplus_branches	3	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+16: element	s01_softplus_branches	4	20.000000002061153	20	0x41a00000	2.06e-09	2.62e-05
+16: element	s01_softplus_branches	5	20.5	20.5	0x41a40000	0	2.69e-05
+16: case	s01_softplus_branches	count=6	max_abs=3e-08	max_rel=9.59e-08	max_err_over_tol=0.0731	failures=0	worst_index=2	worst_gpu=0.313261718(0x3ea063d7)	worst_ref=0.31326168751822286	worst_tol=4.11e-07	PASS
+16: case	s01_geometric_p3_length	count=1600	max_abs=1.01e-06	max_rel=9.04e-08	max_err_over_tol=0.0461	failures=0	worst_index=38	worst_gpu=9.52699852(0x41186e96)	worst_ref=9.5269993815202607	worst_tol=1.87e-05	PASS
+16: case	s01_per_channel_a	count=75	max_abs=6.95e-06	max_rel=4.22e-07	max_err_over_tol=0.0465	failures=0	worst_index=71	worst_gpu=15.7889652(0x417c9f9a)	worst_ref=15.788958763816108	worst_tol=0.000139	PASS
+16: case	s01_state_32_p4_length	count=200	max_abs=5.52e-06	max_rel=2.4e-07	max_err_over_tol=0.0555	failures=0	worst_index=118	worst_gpu=22.9995613(0x41b7ff1a)	worst_ref=22.999555792551934	worst_tol=9.93e-05	PASS
+16: case	s01_varying_direct_sum	count=42	max_abs=3.02e-07	max_rel=1.42e-05	max_err_over_tol=0.0525	failures=0	worst_index=22	worst_gpu=-2.00063515(0xc0000a68)	worst_ref=-2.0006354494702681	worst_tol=5.76e-06	PASS
+16: case	s01_m_head_abi_L25	count=25600	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=13092	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+16: case	s01_m_head_abi_L100	count=102400	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=51492	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+16: case	s01_m_head_abi_L400	count=409600	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=205092	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+16: element	s01_extreme_large_delta_memoryless	0	3	3	0x40400000	0	3.93e-06
+16: element	s01_extreme_large_delta_memoryless	1	-5	-5	0xc0a00000	0	6.56e-06
+16: element	s01_extreme_large_delta_memoryless	2	7	7	0x40e00000	0	9.18e-06
+16: case	s01_extreme_large_delta_memoryless	count=3	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=3(0x40400000)	worst_ref=3	worst_tol=3.93e-06	PASS
+16: element	s01_extreme_negative_delta	0	1	1	0x3f800000	0	2.38e-07
+16: element	s01_extreme_negative_delta	1	-1	-1	0xbf800000	0	2.38e-07
+16: case	s01_extreme_negative_delta	count=2	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1(0x3f800000)	worst_ref=1	worst_tol=2.38e-07	PASS
+16: element	s01_extreme_fp32_max_input	0	6.3293812912304522e-06	6.32938145e-06	0x36d460f9	1.58e-13	8.3e-12
+16: case	s01_extreme_fp32_max_input	count=1	max_abs=1.58e-13	max_rel=2.5e-08	max_err_over_tol=0.019	failures=0	worst_index=0	worst_gpu=6.32938145e-06(0x36d460f9)	worst_ref=6.3293812912304522e-06	worst_tol=8.3e-12	PASS
+16: element	s01_extreme_near_fp32_limit_output	0	1.1165515164593293e+38	1.11655152e+38	0x7ea80000	0	1.46e+32
+16: case	s01_extreme_near_fp32_limit_output	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1.11655152e+38(0x7ea80000)	worst_ref=1.1165515164593293e+38	worst_tol=1.46e+32	PASS
+16: element	s01_extreme_subnormal_input	0	9.7130607966972803e-46	1.40129846e-45	0x00000001	4.3e-46	5.61e-45
+16: element	s01_extreme_subnormal_input	1	1.456959119504592e-45	2.80259693e-45	0x00000002	1.35e-45	7.01e-45
+16: case	s01_extreme_subnormal_input	count=2	max_abs=1.35e-45	max_rel=0.924	max_err_over_tol=0.192	failures=0	worst_index=1	worst_gpu=2.80259693e-45(0x00000002)	worst_ref=1.456959119504592e-45	worst_tol=7.01e-45	PASS
+16: element	s01_extreme_most_negative_a	0	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+16: element	s01_extreme_most_negative_a	1	1.3862943611198906	1.38629436	0x3fb17218	3.81e-09	1.82e-06
+16: element	s01_extreme_most_negative_a	2	2.0794415416798357	2.07944155	0x40051592	5.71e-09	2.73e-06
+16: case	s01_extreme_most_negative_a	count=3	max_abs=5.71e-09	max_rel=2.75e-09	max_err_over_tol=0.0021	failures=0	worst_index=2	worst_gpu=2.07944155(0x40051592)	worst_ref=2.0794415416798357	worst_tol=2.73e-06	PASS
+16: case	shared_a_rank1_c_d_N1	count=370	max_abs=4.48e-07	max_rel=4.32e-06	max_err_over_tol=0.295	failures=0	worst_index=0	worst_gpu=-1.13328409(0xbf910f74)	worst_ref=-1.1332841729075716	worst_tol=2.74e-07	PASS
+16: case	per_channel_a_full_c_no_d_N1	count=231	max_abs=4.6e-07	max_rel=6.18e-06	max_err_over_tol=0.0875	failures=0	worst_index=6	worst_gpu=0.00413588621(0x3b878654)	worst_ref=0.0041358857328494631	worst_tol=5.42e-09	PASS
+16: element	single_token_per_channel_a_N1	0	0.76921209857815864	0.769212067	0x3f44eb15	3.15e-08	1.07e-06
+16: element	single_token_per_channel_a_N1	1	-0.45184747165583461	-0.451847464	0xbee7588d	7.81e-09	1.21e-07
+16: element	single_token_per_channel_a_N1	2	0.40233526487012755	0.402335256	0x3ecdfee3	8.53e-09	9.86e-08
+16: case	single_token_per_channel_a_N1	count=3	max_abs=3.15e-08	max_rel=4.09e-08	max_err_over_tol=0.0865	failures=0	worst_index=2	worst_gpu=0.402335256(0x3ecdfee3)	worst_ref=0.40233526487012755	worst_tol=9.86e-08	PASS
+16: case	shared_a_rank1_c_d_N2	count=370	max_abs=1.02e-06	max_rel=5.65e-06	max_err_over_tol=0.102	failures=0	worst_index=3	worst_gpu=-1.42886472(0xbfb6e50a)	worst_ref=-1.4288646433437122	worst_tol=7.25e-07	PASS
+16: case	per_channel_a_full_c_no_d_N2	count=231	max_abs=5.44e-07	max_rel=1.6e-06	max_err_over_tol=0.0849	failures=0	worst_index=2	worst_gpu=0.00184214837(0x3af1743e)	worst_ref=0.0018421487475507531	worst_tol=4.46e-09	PASS
+16: element	single_token_per_channel_a_N2	0	0.33532656874875211	0.335326582	0x3eabafed	1.34e-08	2.58e-07
+16: element	single_token_per_channel_a_N2	1	0.057655464290090837	0.0576554611	0x3d6c2822	3.16e-09	8.32e-08
+16: element	single_token_per_channel_a_N2	2	-1.1157913404474669	-1.11579132	0xbf8ed240	1.96e-08	9.04e-07
+16: case	single_token_per_channel_a_N2	count=3	max_abs=1.96e-08	max_rel=5.48e-08	max_err_over_tol=0.0521	failures=0	worst_index=0	worst_gpu=0.335326582(0x3eabafed)	worst_ref=0.33532656874875211	worst_tol=2.58e-07	PASS
+16: case	shared_a_rank1_c_d_N4	count=370	max_abs=1.81e-06	max_rel=1.81e-05	max_err_over_tol=0.11	failures=0	worst_index=187	worst_gpu=-0.213304922(0xbe5a6c9b)	worst_ref=-0.213304910546709	worst_tol=1.04e-07	PASS
+16: case	per_channel_a_full_c_no_d_N4	count=231	max_abs=1.25e-06	max_rel=5.59e-05	max_err_over_tol=0.0981	failures=0	worst_index=77	worst_gpu=-0.695421517(0xbf320725)	worst_ref=-0.69542138751199034	worst_tol=1.32e-06	PASS
+16: element	single_token_per_channel_a_N4	0	-1.5446057893149439	-1.54460573	0xbfc5b5a4	5.74e-08	1.91e-06
+16: element	single_token_per_channel_a_N4	1	0.015183122722373798	0.0151831219	0x3c78c2a1	8.25e-10	8.58e-09
+16: element	single_token_per_channel_a_N4	2	-0.95079904655879	-0.950799048	0xbf736791	1.39e-09	8.94e-07
+16: case	single_token_per_channel_a_N4	count=3	max_abs=5.74e-08	max_rel=5.43e-08	max_err_over_tol=0.0962	failures=0	worst_index=1	worst_gpu=0.0151831219(0x3c78c2a1)	worst_ref=0.015183122722373798	worst_tol=8.58e-09	PASS
+16: case	shared_a_rank1_c_d_N8	count=370	max_abs=3.46e-06	max_rel=2.98e-05	max_err_over_tol=0.0635	failures=0	worst_index=19	worst_gpu=1.03958774(0x3f851136)	worst_ref=1.0395876809810256	worst_tol=8.69e-07	PASS
+16: case	per_channel_a_full_c_no_d_N8	count=231	max_abs=2.54e-06	max_rel=4.63e-05	max_err_over_tol=0.0777	failures=0	worst_index=77	worst_gpu=-15.311059(0xc174fa19)	worst_ref=-15.311061538342612	worst_tol=3.27e-05	PASS
+16: element	single_token_per_channel_a_N8	0	5.9251646444446591	5.92516422	0x40bd9af2	4.22e-07	9.4e-06
+16: element	single_token_per_channel_a_N8	1	0.66387745159332112	0.663877428	0x3f29f3df	2.4e-08	4.83e-07
+16: element	single_token_per_channel_a_N8	2	3.7598311699568994	3.75983119	0x4070a113	2.02e-08	6.03e-06
+16: case	single_token_per_channel_a_N8	count=3	max_abs=4.22e-07	max_rel=7.12e-08	max_err_over_tol=0.0498	failures=0	worst_index=1	worst_gpu=0.663877428(0x3f29f3df)	worst_ref=0.66387745159332112	worst_tol=4.83e-07	PASS
+16: case	shared_a_rank1_c_d_N16	count=370	max_abs=3.99e-06	max_rel=6.48e-06	max_err_over_tol=0.0944	failures=0	worst_index=199	worst_gpu=0.309907079(0x3e9eac24)	worst_ref=0.3099071080135048	worst_tol=3.1e-07	PASS
+16: case	per_channel_a_full_c_no_d_N16	count=231	max_abs=2.82e-06	max_rel=7.54e-06	max_err_over_tol=0.0381	failures=0	worst_index=118	worst_gpu=-16.3610039(0xc182e356)	worst_ref=-16.361006694850257	worst_tol=7.4e-05	PASS
+16: element	single_token_per_channel_a_N16	0	-6.0963748535098379	-6.09637547	0xc0c31582	6.12e-07	6.81e-05
+16: element	single_token_per_channel_a_N16	1	5.3384216556802393	5.33842087	0x40aad458	7.88e-07	6.35e-05
+16: element	single_token_per_channel_a_N16	2	-0.12456344035593049	-0.124563433	0xbdff1b1d	7.13e-09	1.25e-07
+16: case	single_token_per_channel_a_N16	count=3	max_abs=7.88e-07	max_rel=1.48e-07	max_err_over_tol=0.0571	failures=0	worst_index=2	worst_gpu=-0.124563433(0xbdff1b1d)	worst_ref=-0.12456344035593049	worst_tol=1.25e-07	PASS
+16: case	shared_a_rank1_c_d_N32	count=370	max_abs=6.45e-06	max_rel=4.02e-05	max_err_over_tol=0.0314	failures=0	worst_index=4	worst_gpu=0.149558067(0x3e1925c0)	worst_ref=0.14955805308352726	worst_tol=4.53e-07	PASS
+16: case	per_channel_a_full_c_no_d_N32	count=231	max_abs=7.43e-06	max_rel=8.82e-06	max_err_over_tol=0.0361	failures=0	worst_index=11	worst_gpu=16.56007(0x41847b06)	worst_ref=16.56007336134747	worst_tol=9.2e-05	PASS
+16: element	single_token_per_channel_a_N32	0	0.41121214311553106	0.411212146	0x3ed28a66	3.17e-09	1.28e-06
+16: element	single_token_per_channel_a_N32	1	-5.1124458829689825	-5.11244488	0xc0a39926	1.01e-06	6.94e-05
+16: element	single_token_per_channel_a_N32	2	2.3284650537351266	2.32846498	0x40150592	6.88e-08	1.71e-05
+16: case	single_token_per_channel_a_N32	count=3	max_abs=1.01e-06	max_rel=1.97e-07	max_err_over_tol=0.0145	failures=0	worst_index=1	worst_gpu=-5.11244488(0xc0a39926)	worst_ref=-5.1124458829689825	worst_tol=6.94e-05	PASS
+16: element	tail_1x1x1_N1	0	0.1940664171229344	0.19406642	0x3e46b959	3.07e-09	2.54e-07
+16: case	tail_1x1x1_N1	count=1	max_abs=3.07e-09	max_rel=1.58e-08	max_err_over_tol=0.0121	failures=0	worst_index=0	worst_gpu=0.19406642(0x3e46b959)	worst_ref=0.1940664171229344	worst_tol=2.54e-07	PASS
+16: case	tail_Dc13_N2	count=195	max_abs=7.7e-07	max_rel=4.67e-05	max_err_over_tol=0.202	failures=0	worst_index=95	worst_gpu=-0.549208343(0xbf0c98eb)	worst_ref=-0.54920838579961451	worst_tol=2.11e-07	PASS
+16: case	tail_Dc257_N4	count=2056	max_abs=2.71e-06	max_rel=0.00332	max_err_over_tol=0.197	failures=0	worst_index=175	worst_gpu=0.0680834204(0x3d8b6f52)	worst_ref=0.068083426860914412	worst_tol=3.29e-08	PASS
+16: case	tail_Dc33_N32	count=99	max_abs=2.04e-06	max_rel=2.44e-05	max_err_over_tol=0.0644	failures=0	worst_index=9	worst_gpu=-0.341477573(0xbeaed626)	worst_ref=-0.34147759966805125	worst_tol=4.16e-07	PASS
+16: case	empty_sequence	count=0	PASS
+16: case	long_slow_decay_L2000	count=8000	max_abs=9.27e-05	max_rel=2.49	max_err_over_tol=0.0629	failures=0	worst_index=249	worst_gpu=-0.535624802(0xbf091eb5)	worst_ref=-0.53562484174925029	worst_tol=6.3e-07	PASS
+16: case	m_head_random_L25	count=25600	max_abs=1.16e-05	max_rel=0.0214	max_err_over_tol=0.0988	failures=0	worst_index=7219	worst_gpu=-2.38666701(0xc018bf27)	worst_ref=-2.3866668094030108	worst_tol=2.06e-06	PASS
+16: case	m_head_random_L100	count=102400	max_abs=1.28e-05	max_rel=0.0819	max_err_over_tol=0.117	failures=0	worst_index=25882	worst_gpu=-2.21362495(0xc00dac08)	worst_ref=-2.2136247385488934	worst_tol=1.84e-06	PASS
+16: case	m_head_random_L400	count=409600	max_abs=1.75e-05	max_rel=0.049	max_err_over_tol=0.132	failures=0	worst_index=39502	worst_gpu=2.10278749(0x40069412)	worst_ref=2.1027872762376525	worst_tol=1.65e-06	PASS
+16: case	cancellation_two_states	count=150	max_abs=5.71e-07	max_rel=0.415	max_err_over_tol=0.0362	failures=0	worst_index=23	worst_gpu=-4.05311584e-06(0xb6880000)	worst_ref=-3.8316439938679281e-06	worst_tol=6.11e-06	PASS
+16: note	cancellation_two_states	max_rel_to_|y|=0.415	(threshold scales with the term magnitude, not |y|)
+16: element	softplus_minus18	0	1.5229979628736487	1.52299809	0x3fc2f19a	1.32e-07	2e-06
+16: case	softplus_minus18	count=1	max_abs=1.32e-07	max_rel=8.65e-08	max_err_over_tol=0.0659	failures=0	worst_index=0	worst_gpu=1.52299809(0x3fc2f19a)	worst_ref=1.5229979628736487	worst_tol=2e-06	PASS
+16: discrimination	softplus_minus18	ref=1.522997963	legacy=0	tol=2e-06	legacy_err_over_tol=7.63e+05
+16: sweep	-1100	0	0	0	5.61e-45	legacy_err=0
+16: sweep	-1024	0	0	0	5.61e-45	legacy_err=0
+16: sweep	-1000	0	0	0	5.61e-45	legacy_err=0
+16: sweep	-300	1.1103616274243276e-62	0	1.11e-62	5.61e-45	legacy_err=1.11e-62
+16: sweep	-160	0.070257373677735671	0.0702573732	5.24e-10	9.21e-08	legacy_err=0.0703	legacy_rejected
+16: sweep	-150	1.5112515997515612	1.51125157	3.1e-08	1.98e-06	legacy_err=1.51	legacy_rejected
+16: sweep	-120	1.8360369502981073	1.83603692	2.98e-08	2.41e-06	legacy_err=1.84	legacy_rejected
+16: sweep	-110	1.234173739127884	1.23417377	3.56e-08	1.62e-06	legacy_err=1.23	legacy_rejected
+16: sweep	-103.5	1.6033209693437245	1.60332108	1.06e-07	2.1e-06	legacy_err=0.397	legacy_rejected
+16: sweep	-100	1.6592093292083157	1.65920937	4.14e-08	2.18e-06	legacy_err=0.0283	legacy_rejected
+16: sweep	-95	1.9238163918771338	1.92381632	6.86e-08	2.52e-06	legacy_err=1.17e-05	legacy_rejected
+16: sweep	-90	1.1153112041086168	1.11531115	5.83e-08	1.46e-06	legacy_err=5.35e-07
+16: sweep	-87.5	1.6984090010447681	1.69840908	7.95e-08	2.23e-06	legacy_err=7.95e-08
+16: sweep	-85	1.2931785873770192	1.29317868	9.02e-08	1.7e-06	legacy_err=2.9e-08
+16: sweep	-80.5	1.8188785421084446	1.81887853	1.07e-08	2.39e-06	legacy_err=1.07e-08
+16: sweep	-80.0000076	1.4994004310360285	1.4994005	6.54e-08	1.97e-06	legacy_err=5.38e-08
+16: sweep	-80	1.4994118705971158	1.49941194	7e-08	1.97e-06	legacy_err=4.92e-08
+16: sweep	-79.9999924	1.4994233102454801	1.49942327	4.48e-08	1.97e-06	legacy_err=4.48e-08
+16: sweep	-79.5	1.2360561222968662	1.23605609	3.29e-08	1.62e-06	legacy_err=3.29e-08
+16: sweep	-60	1.3550044096969232	1.35500443	2.01e-08	1.78e-06	legacy_err=2.01e-08
+16: sweep	-50	1.8216527271729459	1.82165277	4.29e-08	2.39e-06	legacy_err=4.29e-08
+16: sweep	-30	1.6462104420132904	1.64621043	9.96e-09	2.16e-06	legacy_err=9.96e-09
+16: sweep	-25	1.9087444706652836	1.90874457	1.03e-07	2.5e-06	legacy_err=1.63e-08
+16: sweep	-20.5	1.3423414181938633	1.34234142	4.84e-09	1.76e-06	legacy_err=4.84e-09
+16: sweep	-20	1.1065734239102833	1.10657334	8.06e-08	1.45e-06	legacy_err=1.11	legacy_rejected
+16: sweep	-19.5	1.8244311403726174	1.82443118	4.06e-08	2.39e-06	legacy_err=1.82	legacy_rejected
+16: sweep	-18	1.0220666316276474	1.02206671	8.08e-08	1.34e-06	legacy_err=1.02	legacy_rejected
+16: sweep	-17	1.3891325579375089	1.38913262	6.1e-08	1.82e-06	legacy_err=1.39	legacy_rejected
+16: sweep	-15	1.2830471302465527	1.28304708	5.02e-08	1.68e-06	legacy_err=0.217	legacy_rejected
+16: sweep	-12	1.6106634550267886	1.61066341	4.1e-08	2.11e-06	legacy_err=0.0143	legacy_rejected
+16: sweep	-10	1.4876311295382207	1.4876312	7.22e-08	1.95e-06	legacy_err=0.000616	legacy_rejected
+16: sweep	-9	1.0109107382129363	1.01091075	1.12e-08	1.33e-06	legacy_err=0.000231	legacy_rejected
+16: sweep	-8	1.3738245033810692	1.37382448	2.62e-08	1.8e-06	legacy_err=3.15e-05	legacy_rejected
+16: sweep	-6	1.2675507905179901	1.26755083	3.56e-08	1.66e-06	legacy_err=1.7e-05	legacy_rejected
+16: sweep	-4	1.1615953867398232	1.16159546	7.7e-08	1.52e-06	legacy_err=2.1e-06	legacy_rejected
+16: sweep	-2	1.01542408834378	1.01542413	4.4e-08	1.33e-06	legacy_err=2.82e-07
+16: sweep	-1	1.2530467500728915	1.25304687	1.2e-07	1.64e-06	legacy_err=1.18e-07
+16: sweep	-0.5	1.8963079367204267	1.89630795	8.53e-09	2.49e-06	legacy_err=8.53e-09
+16: sweep	0	1.3862943611198906	1.38629436	3.81e-09	1.82e-06	legacy_err=3.81e-09
+16: sweep	0.5	1.9481539683602134	1.94815397	4.27e-09	2.55e-06	legacy_err=4.27e-09
+16: sweep	1	1.3132616875182228	1.31326163	5.94e-08	1.72e-06	legacy_err=5.94e-08
+16: sweep	2	1.0634640055214863	1.06346405	4e-08	1.39e-06	legacy_err=4e-08
+16: sweep	5	1.2516788371222796	1.25167882	1.27e-08	1.64e-06	legacy_err=1.27e-08
+16: sweep	10	1.2500056748624022	1.25000572	4.72e-08	1.64e-06	legacy_err=4.72e-08
+16: sweep	15	1.8750000382377843	1.875	3.82e-08	2.46e-06	legacy_err=3.82e-08
+16: sweep	19.5	1.2187500002123917	1.21875	2.12e-10	1.6e-06	legacy_err=2.12e-10
+16: sweep	20	1.2500000001288221	1.25	1.29e-10	1.64e-06	legacy_err=1.29e-10
+16: sweep	20.0000019	1.2500001192092896	1.25000012	0	1.64e-06	legacy_err=0
+16: sweep	20.5	1.28125	1.28125	0	1.68e-06	legacy_err=0
+16: sweep	25	1.5625	1.5625	0	2.05e-06	legacy_err=0
+16: sweep	100	1.5625	1.5625	0	2.05e-06	legacy_err=0
+16: sweep	1000	1.953125	1.953125	0	2.56e-06	legacy_err=0
+16: case	softplus_sweep	count=52	max_abs=1.2e-07	max_rel=1	max_err_over_tol=0.0731	failures=0	legacy_rejected=18	PASS
+16: element	drive_intermediate_overflow	0	1.2676506002282294e+30	1.2676506e+30	0x71800000	0	1.66e+24
+16: element	drive_intermediate_overflow	1	1.2676506002282294e+30	1.2676506e+30	0x71800000	0	1.66e+24
+16: case	drive_intermediate_overflow	count=2	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1.2676506e+30(0x71800000)	worst_ref=1.2676506002282294e+30	worst_tol=1.66e+24	PASS
+16: element	drive_delta_underflow_minus100	0	6.3293812912304522e-06	6.32938145e-06	0x36d460f9	1.58e-13	8.3e-12
+16: case	drive_delta_underflow_minus100	count=1	max_abs=1.58e-13	max_rel=2.5e-08	max_err_over_tol=0.019	failures=0	worst_index=0	worst_gpu=6.32938145e-06(0x36d460f9)	worst_ref=6.3293812912304522e-06	worst_tol=8.3e-12	PASS
+16: element	drive_delta_underflow_minus150	0	207704838302.74039	2.07704834e+11	0x524170b1	4.25e+03	2.72e+05
+16: case	drive_delta_underflow_minus150	count=1	max_abs=4.25e+03	max_rel=2.05e-08	max_err_over_tol=0.0156	failures=0	worst_index=0	worst_gpu=2.07704834e+11(0x524170b1)	worst_ref=207704838302.74039	worst_tol=2.72e+05	PASS
+16: element	drive_subnormal_b	0	0.00012207030784548248	0.000122070312	0x39000000	4.65e-12	1.6e-10
+16: case	drive_subnormal_b	count=1	max_abs=4.65e-12	max_rel=3.81e-08	max_err_over_tol=0.0291	failures=0	worst_index=0	worst_gpu=0.000122070312(0x39000000)	worst_ref=0.00012207030784548248	worst_tol=1.6e-10	PASS
+16: element	butterfly_partial_sum_overflow	0	1	1	0x3f800000	0	1.21e+33
+16: case	butterfly_partial_sum_overflow	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1(0x3f800000)	worst_ref=1	worst_tol=1.21e+33	PASS
+16: element	partial_sum_overflow_restored_by_skip	0	2.2065184730029603e+38	2.20651847e+38	0x7f260000	0	6.2e+32
+16: case	partial_sum_overflow_restored_by_skip	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=2.20651847e+38(0x7f260000)	worst_ref=2.2065184730029603e+38	worst_tol=6.2e+32	PASS
+16: failure	nonfinite_u	flags=0x00000201	PASS
+16: failure	nonfinite_delta	flags=0x00000202	PASS
+16: failure	nonfinite_a	flags=0x00000004	PASS
+16: failure	nonfinite_b	flags=0x00000208	PASS
+16: failure	nonfinite_c	flags=0x00000810	PASS
+16: failure	nonfinite_d	flags=0x00001020	PASS
+16: failure	empty_nonfinite_a	flags=0x00000004	PASS
+16: failure	empty_nonfinite_d	flags=0x00000020	PASS
+16: failure	range_drive	flags=0x00000200	PASS
+16: failure	range_decay	flags=0x00000100	PASS
+16: failure	range_state	flags=0x00000400	PASS
+16: failure	range_c_state	flags=0x00000800	PASS
+16: failure	range_d_u	flags=0x00001000	PASS
+16: failure	range_output	flags=0x00002000	PASS
+16: failure	range_one_lane_of_twelve	flags=0x00000200	PASS
+16: case	reset_first	count=306	max_abs=1.99e-06	max_rel=9.13e-06	max_err_over_tol=0.0503	failures=0	worst_index=23	worst_gpu=0.0675605834(0x3d8a5d34)	worst_ref=0.067560508567176492	worst_tol=1.49e-06	PASS
+16: case	reset_other_valid	count=306	max_abs=0.000412	max_rel=0.000155	max_err_over_tol=0.0445	failures=0	worst_index=156	worst_gpu=1556.33752(0x44c28acd)	worst_ref=1556.337670600205	worst_tol=0.00329	PASS
+16: reset	A_B(fail)_A_B(valid)_A	PASS
+16: determinism	m_head_L400_repeat	PASS
+16: case	stream_gate	count=594	max_abs=1.54e-06	max_rel=9.75e-05	max_err_over_tol=0.107	failures=0	worst_index=308	worst_gpu=-0.295527101(0xbe974f54)	worst_ref=-0.29552708002989314	worst_tol=1.91e-07	PASS
+16: case	graph_replay_new_inputs	count=102400	max_abs=1.69e-05	max_rel=0.00787	max_err_over_tol=0.101	failures=0	worst_index=63898	worst_gpu=-2.26566696(0xc01100b0)	worst_ref=-2.2656671608126011	worst_tol=1.97e-06	PASS
+16: graph	nodes=memset:1,kernel:3,other:0	PASS
+16: case	concurrent_stream_1	count=25600	max_abs=6.86e-06	max_rel=0.00388	max_err_over_tol=0.118	failures=0	worst_index=6439	worst_gpu=-0.0333438665(0xbd089394)	worst_ref=-0.033343869372699342	worst_tol=2.46e-08	PASS
+16: case	concurrent_stream_2	count=6000	max_abs=5e-06	max_rel=0.000468	max_err_over_tol=0.0816	failures=0	worst_index=29	worst_gpu=-0.0860669538(0xbdb043df)	worst_ref=-0.086066966838886483	worst_tol=1.59e-07	PASS
+16: host_rejection	all	PASS
+16: element	merge_1x2x2x3	0	-2.1467325687408447	-2.14673257	0xc0096411	0	2.41e-06
+16: element	merge_1x2x2x3	1	0.26044821739196777	0.260448217	0x3e855978	0	2.33e-06
+16: element	merge_1x2x2x3	2	1.6548142433166504	1.65481424	0x3fd3d0f4	0	1.41e-06
+16: element	merge_1x2x2x3	3	-4.2661705017089844	-4.2661705	0xc0888478	0	2.21e-06
+16: element	merge_1x2x2x3	4	2.6865899562835693	2.68658996	0x402bf117	0	1.56e-06
+16: element	merge_1x2x2x3	5	-4.1777107715606689	-4.17771053	0xc085afce	2.38e-07	1.99e-06
+16: element	merge_1x2x2x3	6	2.2948625087738037	2.29486251	0x4012df07	0	1.9e-06
+16: element	merge_1x2x2x3	7	-1.1674327850341797	-1.16743279	0xbf956e70	0	2.21e-06
+16: element	merge_1x2x2x3	8	-2.6582846641540527	-2.65828466	0xc02a2156	0	1.31e-06
+16: element	merge_1x2x2x3	9	1.7577316761016846	1.75773168	0x3fe0fd5a	0	9.41e-07
+16: element	merge_1x2x2x3	10	2.3796405792236328	2.37964058	0x40184c08	0	1.68e-06
+16: element	merge_1x2x2x3	11	-5.0687041282653809	-5.06870413	0xc0a232d3	0	2.42e-06
+16: case	merge_1x2x2x3	count=12	max_abs=2.38e-07	max_rel=5.71e-08	max_err_over_tol=0.12	failures=0	worst_index=5	worst_gpu=-4.17771053(0xc085afce)	worst_ref=-4.1777107715606689	worst_tol=1.99e-06	PASS
+16: case	merge_2x3x3x5	count=90	max_abs=2.38e-07	max_rel=8.17e-08	max_err_over_tol=0.115	failures=0	worst_index=67	worst_gpu=-4.33847809(0xc08ad4d0)	worst_ref=-4.3384783267974854	worst_tol=2.07e-06	PASS
+16: element	merge_1x4x1x4	0	-7.0207700729370117	-7.02077007	0xc0e0aa26	0	3.35e-06
+16: element	merge_1x4x1x4	1	-0.17346668243408203	-0.173466682	0xbe31a140	0	1.69e-06
+16: element	merge_1x4x1x4	2	1.5580606460571289	1.55806065	0x3fc76e88	0	1.76e-06
+16: element	merge_1x4x1x4	3	-1.0814633369445801	-1.08146334	0xbf8a6d64	0	8.58e-07
+16: element	merge_1x4x1x4	4	0.22557854652404785	0.225578547	0x3e66fe10	0	1.91e-06
+16: element	merge_1x4x1x4	5	-1.3181946277618408	-1.31819463	0xbfa8ba9a	0	1.16e-06
+16: element	merge_1x4x1x4	6	-0.83591365814208984	-0.835913658	0xbf55fe70	0	1.59e-06
+16: element	merge_1x4x1x4	7	-2.3050961494445801	-2.30509615	0xc01386b2	0	1.35e-06
+16: element	merge_1x4x1x4	8	-2.0107364654541016	-2.01073647	0xc000afe8	0	1.45e-06
+16: element	merge_1x4x1x4	9	-2.3257975578308105	-2.32579756	0xc014d9de	0	1.97e-06
+16: element	merge_1x4x1x4	10	1.7205097675323486	1.72050977	0x3fdc39aa	0	8.81e-07
+16: element	merge_1x4x1x4	11	-2.7323093414306641	-2.73230934	0xc02ede28	0	2.05e-06
+16: element	merge_1x4x1x4	12	-2.0362627506256104	-2.03626275	0xc0025221	0	1.43e-06
+16: element	merge_1x4x1x4	13	-0.16292023658752441	-0.162920237	0xbe26d490	0	1.68e-06
+16: element	merge_1x4x1x4	14	1.3303794860839844	1.33037949	0x3faa49e0	0	1.94e-06
+16: element	merge_1x4x1x4	15	-0.14781022071838379	-0.147810221	0xbe175b90	0	1.7e-06
+16: case	merge_1x4x1x4	count=16	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=-7.02077007(0xc0e0aa26)	worst_ref=-7.0207700729370117	worst_tol=3.35e-06	PASS
+16: element	merge_1x4x4x1	0	-1.8956332206726074	-1.89563322	0xbff2a41c	0	2.02e-06
+16: element	merge_1x4x4x1	1	1.9535961151123047	1.95359612	0x3ffa0f70	0	1.84e-06
+16: element	merge_1x4x4x1	2	0.8639681339263916	0.863968134	0x3f5d2d04	0	1.15e-06
+16: element	merge_1x4x4x1	3	-2.8337302207946777	-2.83373022	0xc0355bd6	0	2.36e-06
+16: element	merge_1x4x4x1	4	-4.5256597995758057	-4.52565956	0xc090d234	2.38e-07	2.16e-06
+16: element	merge_1x4x4x1	5	2.1517913341522217	2.15179133	0x4009b6f3	0	1.56e-06
+16: element	merge_1x4x4x1	6	-0.65812587738037109	-0.658125877	0xbf287af0	0	2.02e-06
+16: element	merge_1x4x4x1	7	-0.32933688163757324	-0.329336882	0xbea89ed8	0	2.22e-06
+16: element	merge_1x4x4x1	8	0.82381868362426758	0.823818684	0x3f52e5c8	0	1.31e-06
+16: element	merge_1x4x4x1	9	2.4092495441436768	2.40924954	0x401a3125	0	2.57e-06
+16: element	merge_1x4x4x1	10	-1.3994364738464355	-1.39943647	0xbfb320bc	0	2.67e-06
+16: element	merge_1x4x4x1	11	3.8646659851074219	3.86466599	0x407756b0	0	2.81e-06
+16: element	merge_1x4x4x1	12	-2.0176594257354736	-2.01765943	0xc0012155	0	1.22e-06
+16: element	merge_1x4x4x1	13	-1.5963077545166016	-1.59630775	0xbfcc53d0	0	2.43e-06
+16: element	merge_1x4x4x1	14	0.084768772125244141	0.0847687721	0x3dad9b40	0	1.63e-06
+16: element	merge_1x4x4x1	15	-4.2710824012756348	-4.2710824	0xc088acb5	0	2.82e-06
+16: case	merge_1x4x4x1	count=16	max_abs=2.38e-07	max_rel=5.27e-08	max_err_over_tol=0.11	failures=0	worst_index=4	worst_gpu=-4.52565956(0xc090d234)	worst_ref=-4.5256597995758057	worst_tol=2.16e-06	PASS
+16: element	merge_1x1x1x1	0	-1.9656567573547363	-1.96565676	0xbffb9aa4	0	2.52e-06
+16: case	merge_1x1x1x1	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=-1.96565676(0xbffb9aa4)	worst_ref=-1.9656567573547363	worst_tol=2.52e-06	PASS
+16: case	merge_2x5x7x3	count=210	max_abs=4.77e-07	max_rel=9.31e-08	max_err_over_tol=0.195	failures=0	worst_index=86	worst_gpu=-5.11992931(0xc0a3d676)	worst_ref=-5.1199297904968262	worst_tol=2.44e-06	PASS
+16: case	merge_1x128x20x20	count=51200	max_abs=4.77e-07	max_rel=1.19e-07	max_err_over_tol=0.245	failures=0	worst_index=37810	worst_gpu=4.08969021(0x4082debe)	worst_ref=4.0896906852722168	worst_tol=1.95e-06	PASS
+16: case	merge_1x128x10x10	count=12800	max_abs=4.77e-07	max_rel=1.16e-07	max_err_over_tol=0.244	failures=0	worst_index=12352	worst_gpu=4.09656906(0x40831718)	worst_ref=4.0965685844421387	worst_tol=1.95e-06	PASS
+16: case	merge_1x128x5x5	count=3200	max_abs=4.77e-07	max_rel=1.18e-07	max_err_over_tol=0.239	failures=0	worst_index=528	worst_gpu=-4.16725731(0xc0855a2c)	worst_ref=-4.1672568321228027	worst_tol=1.99e-06	PASS
+16: expand	all_shapes	bitwise	PASS
+16: element	merge_partial_sum_overflow	0	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+16: element	merge_partial_sum_overflow	1	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+16: element	merge_partial_sum_overflow	2	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+16: element	merge_partial_sum_overflow	3	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+16: case	merge_partial_sum_overflow	count=4	max_abs=2.54e+30	max_rel=2.98e-08	max_err_over_tol=0.0312	failures=0	worst_index=0	worst_gpu=8.50705816e+37(0x7e7ffffe)	worst_ref=8.5070584124331014e+37	worst_tol=8.11e+31	PASS
+16: element	pipeline_expand_scan_merge_1x2x3	0	7.6246189861593976	7.62461853	0x40f3fce0	4.56e-07	2.46e-05
+16: element	pipeline_expand_scan_merge_1x2x3	1	7.9711925764393712	7.97119236	0x40ff1402	2.17e-07	2.44e-05
+16: element	pipeline_expand_scan_merge_1x2x3	2	8.317766166719343	8.31776619	0x41051592	2.29e-08	2.5e-05
+16: element	pipeline_expand_scan_merge_1x2x3	3	8.6643397569993148	8.66433907	0x410aa122	6.91e-07	2.27e-05
+16: element	pipeline_expand_scan_merge_1x2x3	4	9.0109133472792884	9.0109129	0x41102cb3	4.52e-07	2.19e-05
+16: element	pipeline_expand_scan_merge_1x2x3	5	9.357486937559262	9.35748672	0x4115b844	2.13e-07	2.31e-05
+16: case	pipeline_expand_scan_merge_1x2x3	count=6	max_abs=6.91e-07	max_rel=7.98e-08	max_err_over_tol=0.0304	failures=0	worst_index=3	worst_gpu=8.66433907(0x410aa122)	worst_ref=8.6643397569993148	worst_tol=2.27e-05	PASS
+16: case	pipeline_expand_scan_merge_8x5x5	count=200	max_abs=4.11e-07	max_rel=9.73e-06	max_err_over_tol=0.0558	failures=0	worst_index=21	worst_gpu=1.06761456(0x3f88a798)	worst_ref=1.0676147125122237	worst_tol=2.82e-06	PASS
+16: cross_scan	all	PASS
+16: checks	364
+16: selective_scan_cuda_tests: 364 checks passed
+16/31 Test #16: selective_scan_cuda ................   Passed    0.66 sec
+test 17
+      Start 17: selective_scan_cuda_lazy_streams
+
+17: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/selective_scan_cuda_tests "--group" "streams"
+17: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+17: Environment variables: 
+17:  CUDA_MODULE_LOADING=LAZY
+17: Test timeout computed to be: 120
+17: group streams
+17: identity	build_commit=222af61a8edf46950ffb2b58542c31074454b793
+17: identity	build_dirty=true
+17: identity	nvcc=13.4.92
+17: identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+17: identity	cuda_arch_list=1200
+17: identity	host_compiler=16.2.1 20260810
+17: identity	cuda_runtime=13040
+17: identity	cuda_driver_api=13040
+17: identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+17: identity	compute_capability=12.0
+17: identity	uuid=825ae551ba16539ae44422726b59ee9a
+17: identity	kernel=check_finite registers=20 local_bytes=0 shared_bytes=0 max_threads=1024
+17: identity	kernel=scan_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+17: identity	kernel=finalize registers=16 local_bytes=0 shared_bytes=0 max_threads=1024
+17: identity	kernel=expand_kernel registers=28 local_bytes=0 shared_bytes=0 max_threads=1024
+17: identity	kernel=merge_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+17: case	stream_gate	count=594	max_abs=1.54e-06	max_rel=9.75e-05	max_err_over_tol=0.107	failures=0	worst_index=308	worst_gpu=-0.295527101(0xbe974f54)	worst_ref=-0.29552708002989314	worst_tol=1.91e-07	PASS
+17: case	graph_replay_new_inputs	count=102400	max_abs=1.69e-05	max_rel=0.00787	max_err_over_tol=0.101	failures=0	worst_index=63898	worst_gpu=-2.26566696(0xc01100b0)	worst_ref=-2.2656671608126011	worst_tol=1.97e-06	PASS
+17: graph	nodes=memset:1,kernel:3,other:0	PASS
+17: case	concurrent_stream_1	count=25600	max_abs=6.86e-06	max_rel=0.00388	max_err_over_tol=0.118	failures=0	worst_index=6439	worst_gpu=-0.0333438665(0xbd089394)	worst_ref=-0.033343869372699342	worst_tol=2.46e-08	PASS
+17: case	concurrent_stream_2	count=6000	max_abs=5e-06	max_rel=0.000468	max_err_over_tol=0.0816	failures=0	worst_index=29	worst_gpu=-0.0860669538(0xbdb043df)	worst_ref=-0.086066966838886483	worst_tol=1.59e-07	PASS
+17: group_only	streams
+17: checks	17
+17: selective_scan_cuda_tests: 17 checks passed
+17/31 Test #17: selective_scan_cuda_lazy_streams ...   Passed    0.31 sec
+test 18
+      Start 18: cuda_synthetic_protocol
+
+18: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/cuda_synthetic_tests "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/gpu-evidence"
+18: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+18: Test timeout computed to be: 180
+18: case=serial-repeat-1 mode=serial rings=1,1,1,1 delay_seed=11 packets=16 config_sha256=9c399c6b004001417409847d6ede3655fa5c119ca766bf3173703be11741b74b
+18: case=serial-repeat-2 mode=serial rings=1,1,1,1 delay_seed=11 packets=16 config_sha256=9c399c6b004001417409847d6ede3655fa5c119ca766bf3173703be11741b74b
+18: case=pipelined mode=pipelined rings=1,1,1,1 delay_seed=11 packets=16 config_sha256=13fec2cfe7087b07e11e1f7ef020e915b422f8e9270b3a3366d2d665591495b7
+18: case=serial-repeat-1 mode=serial rings=1,1,1,1 delay_seed=29 packets=16 config_sha256=32579370d5351f57955f59243040ff99c99aa827253882a0b72084df15f0a90f
+18: case=serial-repeat-2 mode=serial rings=1,1,1,1 delay_seed=29 packets=16 config_sha256=32579370d5351f57955f59243040ff99c99aa827253882a0b72084df15f0a90f
+18: case=pipelined mode=pipelined rings=1,1,1,1 delay_seed=29 packets=16 config_sha256=7e52316a09e3c3fd4ac7ea8ee0704a583f1729e8ccec3deb99c4e3fb1aac66e9
+18: case=serial-repeat-1 mode=serial rings=1,1,1,1 delay_seed=97 packets=16 config_sha256=f68b26726689c7ca71c4a7ef717b337957ced6ec069ee7f3f83d94c67b675cfe
+18: case=serial-repeat-2 mode=serial rings=1,1,1,1 delay_seed=97 packets=16 config_sha256=f68b26726689c7ca71c4a7ef717b337957ced6ec069ee7f3f83d94c67b675cfe
+18: case=pipelined mode=pipelined rings=1,1,1,1 delay_seed=97 packets=16 config_sha256=195b21fed1a260e9543e7d5a601e423656d584277d472df933f4360bf2799f69
+18: case=serial-repeat-1 mode=serial rings=2,2,2,2 delay_seed=11 packets=16 config_sha256=dbf8007b624b9cf7053ae21da7519028aeeddadccee1fc9d12e8f62e1b70e99e
+18: case=serial-repeat-2 mode=serial rings=2,2,2,2 delay_seed=11 packets=16 config_sha256=dbf8007b624b9cf7053ae21da7519028aeeddadccee1fc9d12e8f62e1b70e99e
+18: case=pipelined mode=pipelined rings=2,2,2,2 delay_seed=11 packets=16 config_sha256=e79052b31f758024c6c409cbfcd8bd75ffafa1aed862433e976c914e12d1ddbd
+18: case=serial-repeat-1 mode=serial rings=2,2,2,2 delay_seed=29 packets=16 config_sha256=ecb94f211c5e6c4077d8a8043215c864367b78c751ce29abb610a87a2f8f17f9
+18: case=serial-repeat-2 mode=serial rings=2,2,2,2 delay_seed=29 packets=16 config_sha256=ecb94f211c5e6c4077d8a8043215c864367b78c751ce29abb610a87a2f8f17f9
+18: case=pipelined mode=pipelined rings=2,2,2,2 delay_seed=29 packets=16 config_sha256=fc94fd850d6747ea5c07a637adbf1f8861fa8efadb353ae89824b94548ced97c
+18: case=serial-repeat-1 mode=serial rings=2,2,2,2 delay_seed=97 packets=16 config_sha256=4e6312cff5b18037fe15f96460c035240412e1b43d218cc6bcea603b41e29d21
+18: case=serial-repeat-2 mode=serial rings=2,2,2,2 delay_seed=97 packets=16 config_sha256=4e6312cff5b18037fe15f96460c035240412e1b43d218cc6bcea603b41e29d21
+18: case=pipelined mode=pipelined rings=2,2,2,2 delay_seed=97 packets=16 config_sha256=9c2961486d229e183077ac8317dd413b0f7d34db170def0b5fffb9937653da65
+18: case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=7e8b5b398e58fb09d296594d4ddc0c7392f04c06df29929fbcca4205488c9660
+18: case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=7e8b5b398e58fb09d296594d4ddc0c7392f04c06df29929fbcca4205488c9660
+18: case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=11 packets=16 config_sha256=5ebc3f4f836d75a27069a32fd348deb42772ee40746fee9d35a67ab91ba6a762
+18: case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=29 packets=16 config_sha256=e1b87b2b6966e18a951fdf77e58b3bed0f5679f49a8c36cae9ae853d0b8ce2be
+18: case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=29 packets=16 config_sha256=e1b87b2b6966e18a951fdf77e58b3bed0f5679f49a8c36cae9ae853d0b8ce2be
+18: case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=29 packets=16 config_sha256=6d37a2542fa2b030e7998b09ae7e480793cf7fd173cfbc6383103b000e2d97a6
+18: case=serial-repeat-1 mode=serial rings=1,2,3,4 delay_seed=97 packets=16 config_sha256=9c3729fefad785a106570e6889974672c04beceaae88ad12b553b59c3560b35c
+18: case=serial-repeat-2 mode=serial rings=1,2,3,4 delay_seed=97 packets=16 config_sha256=9c3729fefad785a106570e6889974672c04beceaae88ad12b553b59c3560b35c
+18: case=pipelined mode=pipelined rings=1,2,3,4 delay_seed=97 packets=16 config_sha256=b388b735eebf5a322efb38ac9e762bdb1cd023c19a226b408fbb45af1a92d99a
+18: case=serial-repeat-1 mode=serial rings=2,1,3,4 delay_seed=11 packets=16 config_sha256=5357a3cfc3b88bc093549fd4649e54458b238ffd239f8b96d325eeba033d90ae
+18: case=serial-repeat-2 mode=serial rings=2,1,3,4 delay_seed=11 packets=16 config_sha256=5357a3cfc3b88bc093549fd4649e54458b238ffd239f8b96d325eeba033d90ae
+18: case=pipelined mode=pipelined rings=2,1,3,4 delay_seed=11 packets=16 config_sha256=df9f77be2a9373d2981a874ea9ab4ac86cef4a569fe508a8a99d0a887560644d
+18: case=serial-repeat-1 mode=serial rings=2,1,3,4 delay_seed=29 packets=16 config_sha256=5f645bfe7677e6c1cee22a71a7ee0152760a9faaa1fe927377e1b54e66cf14c5
+18: case=serial-repeat-2 mode=serial rings=2,1,3,4 delay_seed=29 packets=16 config_sha256=5f645bfe7677e6c1cee22a71a7ee0152760a9faaa1fe927377e1b54e66cf14c5
+18: case=pipelined mode=pipelined rings=2,1,3,4 delay_seed=29 packets=16 config_sha256=e5dcb86f693400c524f9d48088e03e34331ad2288bb4d52aa9802ddb622bf866
+18: case=serial-repeat-1 mode=serial rings=2,1,3,4 delay_seed=97 packets=16 config_sha256=e0bc1d55baa580378ec52106c96627e3bb6f47da7905cd59a650321f609de300
+18: case=serial-repeat-2 mode=serial rings=2,1,3,4 delay_seed=97 packets=16 config_sha256=e0bc1d55baa580378ec52106c96627e3bb6f47da7905cd59a650321f609de300
+18: case=pipelined mode=pipelined rings=2,1,3,4 delay_seed=97 packets=16 config_sha256=8562c400d54c78612aec5c81b53608e642d67dd4586aaed526fd515599b4fcbc
+18: case=isolation-baseline-frames-0-through-2 mode=pipelined rings=1,2,8,8 delay_seed=11 packets=3 config_sha256=3f738a70ef6c43df2c73d3afa7b7b4fbbae595a0c03a91f04e41d33a3355b962
+18: case=fixed-failure-before_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=d9520fda0c45c1d6944c069951c54bc5b7161b8bf2ffdb63c585bce5bc36f2d6
+18: case=fixed-failure-repeat-before_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=d9520fda0c45c1d6944c069951c54bc5b7161b8bf2ffdb63c585bce5bc36f2d6
+18: case=fixed-failure-before_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=acf06639fd550c4852b2416c01fe2d5d23606a971b6439b9e3944e8dc7e270a6
+18: case=first-frame-failure-before_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=31a940b608b7a4fe616b4309446bbc1e09d9041013366fb640f95f9d6fb5eab7
+18: case=fixed-failure-after_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=e4dc2efc124136f5c10bc624fc49d387a62f50754c7995f422706df28d016b4f
+18: case=fixed-failure-repeat-after_spectrum mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=e4dc2efc124136f5c10bc624fc49d387a62f50754c7995f422706df28d016b4f
+18: case=fixed-failure-after_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=a82dd523d2069ec8213fe7e57d7dd72e5c27bbf60f8d2db8924afa4e50faacbf
+18: case=first-frame-failure-after_spectrum mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=cfe44417e61f0bbf949198f3df6bc0791d717460b7254c1da879b32350da4d0a
+18: case=fixed-failure-after_predict mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=66cb47cb353e2770191bc2ee590f63ef6cd76c8fb2f83dd0b2c44d0e8cd204c5
+18: case=fixed-failure-repeat-after_predict mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=66cb47cb353e2770191bc2ee590f63ef6cd76c8fb2f83dd0b2c44d0e8cd204c5
+18: case=fixed-failure-after_predict mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=99dc1e052216926138571ee6948d4e4e1404a641a769ff3c374bfd870b05492d
+18: case=first-frame-failure-after_predict mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=6a2bc1a9806f8f8e7e7c551613cefdf46cefd4c1def75b0304ec948b6c74b56a
+18: case=fixed-failure-after_update mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+18: case=fixed-failure-repeat-after_update mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+18: case=fixed-failure-after_update mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=6944a556983f536294e778921d32339543c6653696708dbc16dc2a4445ef6842
+18: case=first-frame-failure-after_update mode=pipelined rings=1,2,8,8 delay_seed=11 packets=4 config_sha256=ba893a915c0b6f525b56dc9f605f48c31bd781647816ee5e9f2ea70b7fcfce81
+18: case=ordinary-stop-on-observed-FAILED mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=8ba2f9876c95f12485b90d3dfb5db6cb91b7d37cbd0485c49b6d209d1073dd1d
+18: case=cancel-after_h2d mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=92259db802473241f16aec61feacc0a3277ff46bc03f6b506bec2669b74167d5
+18: case=cancel-after_h2d mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=f99c1d5a1cabea7ccf03b845bfb3fcfe262d8ac9cabc46bbd9ca5cb3d1800b7e
+18: case=cancel-after_mi mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=1804c738d5a467ce3cfaadb8f60b1bb9daba486ada18042552440ec2d6910060
+18: case=cancel-after_mi mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=5d5160d46c79ee78c8835533ff8c6c74146f065bf11bd306191e4eaacec0b7a4
+18: case=cancel-after_cs mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=b361804ae3ab787d3620076407ef95646c6118398cf0dc548e7ca81c54e94fc9
+18: case=cancel-after_cs mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=0c5e07657119e6ba3bfc3331df2f8387c1bcad4263282b08562522877bd48b77
+18: case=cancel-after_begin mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=c37d00dd2b16a70ef1377e36873898e4b2c354addf01537cf8efa28f991e1b6e
+18: case=cancel-after_begin mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=32c7e9554d3aad169b398afa9ed4c936e8bcbf49da151bc73cc8921aae2cd46b
+18: case=cancel-after_fft mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=ca5e8a97f70d029d205518a44b3aade4d3feeb78cce1456f682c28e3e7edaf4c
+18: case=cancel-after_fft mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=a71a99e7b83704b4959da8af393557e181223776535ed40bfba16ecefa62eadb
+18: case=cancel-after_predict mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=5b514756b31e98c7843331af06d26884e5e703768d9e53f3515c993d952bac29
+18: case=cancel-after_predict mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=85e60d313d3ea0abef0d24680800e99b130a587427f544b044c65766c6421f1b
+18: case=cancel-after_update mode=serial rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=bb3aae1639340ff341d868367037495055aced89a8cefefa3ac41fc20810a63a
+18: case=cancel-after_update mode=pipelined rings=1,2,3,4 delay_seed=11 packets=7 config_sha256=3e3f752fb6d32f88d257036c0b6997607d782245a73cdfa87ccb89a73e0149a6
+18: case=cancel-after_packet mode=serial rings=1,2,3,4 delay_seed=11 packets=8 config_sha256=67244a3f7076a6e97eb109dba52ae9b29e2f836355a43450e6dfe0d4b7a44ac0
+18: case=cancel-after_packet mode=pipelined rings=1,2,3,4 delay_seed=11 packets=8 config_sha256=382a861c86e7b996616bb191176b9729c50d1f63dce0900dba8d6cbfe18249f6
+18: case=shape-and-maximum-input-seed mode=pipelined rings=2,2,2,2 delay_seed=11 packets=8 config_sha256=5ce6304b332e108129862548ad01b55987e225b727f721c4c4949db60b468df0
+18: case=shape-and-maximum-input-seed mode=pipelined rings=2,2,2,2 delay_seed=11 packets=8 config_sha256=ecebe1942ad3eefb443c03974672f92a666dfe2a7981016fa3b224bdbaaedcf3
+18: case=observation-success-off mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=3cad30be0cc634ab69ae38c04d4bf9b220e899329a03d8bcd15dda86a9cc8790
+18: case=observation-success-on mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=4e5125d0730de45a0c3d3b4377a88667e5824160d4282184ed156f86198d8db0
+18: case=observation-success-off mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=3d5f4ffd5c5a0e24c16534997568948e1cafac8cbcac11de5d49175f1f90ef60
+18: case=observation-success-on mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=f95a21992e35819fca63a65ef33f082102454e5c2bd5471705a81f02e98ffb72
+18: case=observation-failure-after_update-off mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=a522f26c735d6bebbead83f3d9bf215e5e07272bd62caaf930eb51581d648dee
+18: case=observation-failure-after_update-on mode=serial rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=eab69e7f5596a5c0c20d94b3b898397dcf0b8a2b49d2f05a2a568bfb2f867232
+18: case=observation-failure-after_update-off mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=8a90aac62c7dc207a4cdabfcd0e09949ebb8cdf41b244d06821385aeedcaa758
+18: case=observation-failure-after_update-on mode=pipelined rings=1,2,8,8 delay_seed=11 packets=8 config_sha256=6944a556983f536294e778921d32339543c6653696708dbc16dc2a4445ef6842
+18: cuda_synthetic_tests: 43782 checks, 80 GPU sessions passed (full finite acceptance matrix)
+18/31 Test #18: cuda_synthetic_protocol ............   Passed    1.06 sec
+test 19
+      Start 19: cuda_synthetic_cli_io
+
+19: Test command: /usr/sbin/cmake "-DPROGRAM=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/cuda_synthetic" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/synthetic-io-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/SyntheticIOTest.cmake"
+19: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+19: Test timeout computed to be: 180
+19: -- directory_config: exit 2 with expected I/O diagnostic
+19: -- missing_config: exit 2 with expected I/O diagnostic
+19: -- resolved_write_full: exit 2 with expected I/O diagnostic
+19: -- identity_write_full: exit 2 with expected I/O diagnostic
+19: -- packet_write_full: exit 2 with expected I/O diagnostic
+19: -- CUDA CLI I/O regressions passed; fixtures: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/synthetic-io-fixtures/io-8ee9d1b0274b8696
+19/31 Test #19: cuda_synthetic_cli_io ..............   Passed    0.55 sec
+test 20
+      Start 20: cuda_checked_cleanup
+
+20: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/cuda_cleanup_tests
+20: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+20: Test timeout computed to be: 180
+20: case=normal-before injected=0 releases=1/14/2/14/2
+20: case=cufftDestroy injected=1 releases=1/14/2/14/2 caught=cufftDestroy(handle): cuFFT code 5
+20: case=cudaFree injected=1 releases=1/14/2/14/2 caught=cudaFree(handle): unknown error
+20: case=cudaFreeHost injected=1 releases=1/14/2/14/2 caught=cudaFreeHost(handle): unknown error
+20: case=cudaEventDestroy injected=1 releases=1/14/2/14/2 caught=cudaEventDestroy(handle): unknown error
+20: case=cudaStreamDestroy injected=1 releases=1/14/2/14/2 caught=cudaStreamDestroy(handle): unknown error
+20: case=normal-after injected=0 releases=1/14/2/14/2
+20: cuda_cleanup_tests: 91 checks, 7 GPU sessions passed (synthetic release return codes; no sanitizer or real driver fault injection)
+20/31 Test #20: cuda_checked_cleanup ...............   Passed    0.27 sec
+test 21
+      Start 21: scan_trt
+
+21: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan_trt_tests
+21: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+21: Test timeout computed to be: 900
+21: group s01_values
+21: group coverage
+21: group softplus
+21: group intermediate_range
+21: group failures
+21: group cross_scan
+21: group contract
+21: group reset
+21: group isolation
+21: group frame
+21: group ownership
+21: group graph
+21: group streams
+21: identity	tensorrt_headers=10.16.1.11
+21: identity	tensorrt_library=101601.11
+21: identity	plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+21: identity	plugin_namespace=saccade
+21: identity	plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+21: identity	build_commit=222af61a8edf46950ffb2b58542c31074454b793
+21: identity	build_dirty=true
+21: identity	nvcc=13.4.92
+21: identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+21: identity	cuda_arch_list=1200
+21: identity	host_compiler=16.2.1 20260810
+21: identity	tensorrt=10.16.1
+21: identity	cuda_runtime=13040
+21: identity	cuda_driver_api=13040
+21: identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+21: identity	compute_capability=12.0
+21: engine	scan_d	plan_bytes=54492	build_seconds=0.575
+21: element	s01_single_token	0	3.7725887222397811	3.77258873	0x40717218	7.62e-09	4.32e-06
+21: element	s01_single_token	1	-164	-164	0xc3240000	0	0.000242
+21: case	s01_single_token	count=2	max_abs=7.62e-09	max_rel=2.02e-09	max_err_over_tol=0.00176	failures=0	worst_index=0	worst_gpu=3.77258873(0x40717218)	worst_ref=3.7725887222397811	worst_tol=4.32e-06	PASS
+21: engine	scan_no_d	plan_bytes=51108	build_seconds=0.294
+21: element	s01_three_token_decay	0	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+21: element	s01_three_token_decay	1	1.7328679513998633	1.73286796	0x3fddce9e	4.76e-09	2.68e-06
+21: element	s01_three_token_decay	2	2.9458755173797675	2.94587564	0x403c893a	1.27e-07	5.08e-06
+21: case	s01_three_token_decay	count=3	max_abs=1.27e-07	max_rel=4.32e-08	max_err_over_tol=0.025	failures=0	worst_index=2	worst_gpu=2.94587564(0x403c893a)	worst_ref=2.9458755173797675	worst_tol=5.08e-06	PASS
+21: element	s01_softplus_branches	0	9.3576229688397368e-14	9.35762291e-14	0x29d2b706	5.66e-22	1.23e-19
+21: element	s01_softplus_branches	1	2.0611536203143808e-09	2.06115347e-09	0x310da432	1.5e-16	2.7e-15
+21: element	s01_softplus_branches	2	0.31326168751822286	0.313261718	0x3ea063d7	3e-08	4.11e-07
+21: element	s01_softplus_branches	3	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+21: element	s01_softplus_branches	4	20.000000002061153	20	0x41a00000	2.06e-09	2.62e-05
+21: element	s01_softplus_branches	5	20.5	20.5	0x41a40000	0	2.69e-05
+21: case	s01_softplus_branches	count=6	max_abs=3e-08	max_rel=9.59e-08	max_err_over_tol=0.0731	failures=0	worst_index=2	worst_gpu=0.313261718(0x3ea063d7)	worst_ref=0.31326168751822286	worst_tol=4.11e-07	PASS
+21: case	s01_geometric_p3_length	count=1600	max_abs=1.01e-06	max_rel=9.04e-08	max_err_over_tol=0.0461	failures=0	worst_index=38	worst_gpu=9.52699852(0x41186e96)	worst_ref=9.5269993815202607	worst_tol=1.87e-05	PASS
+21: case	s01_per_channel_a	count=75	max_abs=6.95e-06	max_rel=4.22e-07	max_err_over_tol=0.0465	failures=0	worst_index=71	worst_gpu=15.7889652(0x417c9f9a)	worst_ref=15.788958763816108	worst_tol=0.000139	PASS
+21: case	s01_state_32_p4_length	count=200	max_abs=5.52e-06	max_rel=2.4e-07	max_err_over_tol=0.0555	failures=0	worst_index=118	worst_gpu=22.9995613(0x41b7ff1a)	worst_ref=22.999555792551934	worst_tol=9.93e-05	PASS
+21: case	s01_varying_direct_sum	count=42	max_abs=3.02e-07	max_rel=1.42e-05	max_err_over_tol=0.0525	failures=0	worst_index=22	worst_gpu=-2.00063515(0xc0000a68)	worst_ref=-2.0006354494702681	worst_tol=5.76e-06	PASS
+21: case	s01_m_head_abi_L25	count=25600	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=13092	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+21: case	s01_m_head_abi_L100	count=102400	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=51492	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+21: case	s01_m_head_abi_L400	count=409600	max_abs=9.54e-07	max_rel=1.2e-07	max_err_over_tol=0.0611	failures=0	worst_index=205092	worst_gpu=4.06790447(0x40822c46)	worst_ref=4.0679049378681906	worst_tol=7.62e-06	PASS
+21: element	s01_extreme_large_delta_memoryless	0	3	3	0x40400000	0	3.93e-06
+21: element	s01_extreme_large_delta_memoryless	1	-5	-5	0xc0a00000	0	6.56e-06
+21: element	s01_extreme_large_delta_memoryless	2	7	7	0x40e00000	0	9.18e-06
+21: case	s01_extreme_large_delta_memoryless	count=3	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=3(0x40400000)	worst_ref=3	worst_tol=3.93e-06	PASS
+21: element	s01_extreme_negative_delta	0	1	1	0x3f800000	0	2.38e-07
+21: element	s01_extreme_negative_delta	1	-1	-1	0xbf800000	0	2.38e-07
+21: case	s01_extreme_negative_delta	count=2	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1(0x3f800000)	worst_ref=1	worst_tol=2.38e-07	PASS
+21: element	s01_extreme_fp32_max_input	0	6.3293812912304522e-06	6.32938145e-06	0x36d460f9	1.58e-13	8.3e-12
+21: case	s01_extreme_fp32_max_input	count=1	max_abs=1.58e-13	max_rel=2.5e-08	max_err_over_tol=0.019	failures=0	worst_index=0	worst_gpu=6.32938145e-06(0x36d460f9)	worst_ref=6.3293812912304522e-06	worst_tol=8.3e-12	PASS
+21: element	s01_extreme_near_fp32_limit_output	0	1.1165515164593293e+38	1.11655152e+38	0x7ea80000	0	1.46e+32
+21: case	s01_extreme_near_fp32_limit_output	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1.11655152e+38(0x7ea80000)	worst_ref=1.1165515164593293e+38	worst_tol=1.46e+32	PASS
+21: element	s01_extreme_subnormal_input	0	9.7130607966972803e-46	1.40129846e-45	0x00000001	4.3e-46	5.61e-45
+21: element	s01_extreme_subnormal_input	1	1.456959119504592e-45	2.80259693e-45	0x00000002	1.35e-45	7.01e-45
+21: case	s01_extreme_subnormal_input	count=2	max_abs=1.35e-45	max_rel=0.924	max_err_over_tol=0.192	failures=0	worst_index=1	worst_gpu=2.80259693e-45(0x00000002)	worst_ref=1.456959119504592e-45	worst_tol=7.01e-45	PASS
+21: element	s01_extreme_most_negative_a	0	0.69314718055994529	0.693147182	0x3f317218	1.9e-09	9.09e-07
+21: element	s01_extreme_most_negative_a	1	1.3862943611198906	1.38629436	0x3fb17218	3.81e-09	1.82e-06
+21: element	s01_extreme_most_negative_a	2	2.0794415416798357	2.07944155	0x40051592	5.71e-09	2.73e-06
+21: case	s01_extreme_most_negative_a	count=3	max_abs=5.71e-09	max_rel=2.75e-09	max_err_over_tol=0.0021	failures=0	worst_index=2	worst_gpu=2.07944155(0x40051592)	worst_ref=2.0794415416798357	worst_tol=2.73e-06	PASS
+21: case	shared_a_rank1_c_d_N1	count=370	max_abs=4.48e-07	max_rel=4.32e-06	max_err_over_tol=0.295	failures=0	worst_index=0	worst_gpu=-1.13328409(0xbf910f74)	worst_ref=-1.1332841729075716	worst_tol=2.74e-07	PASS
+21: case	per_channel_a_full_c_no_d_N1	count=231	max_abs=4.6e-07	max_rel=6.18e-06	max_err_over_tol=0.0875	failures=0	worst_index=6	worst_gpu=0.00413588621(0x3b878654)	worst_ref=0.0041358857328494631	worst_tol=5.42e-09	PASS
+21: element	single_token_per_channel_a_N1	0	0.76921209857815864	0.769212067	0x3f44eb15	3.15e-08	1.07e-06
+21: element	single_token_per_channel_a_N1	1	-0.45184747165583461	-0.451847464	0xbee7588d	7.81e-09	1.21e-07
+21: element	single_token_per_channel_a_N1	2	0.40233526487012755	0.402335256	0x3ecdfee3	8.53e-09	9.86e-08
+21: case	single_token_per_channel_a_N1	count=3	max_abs=3.15e-08	max_rel=4.09e-08	max_err_over_tol=0.0865	failures=0	worst_index=2	worst_gpu=0.402335256(0x3ecdfee3)	worst_ref=0.40233526487012755	worst_tol=9.86e-08	PASS
+21: case	shared_a_rank1_c_d_N2	count=370	max_abs=1.02e-06	max_rel=5.65e-06	max_err_over_tol=0.102	failures=0	worst_index=3	worst_gpu=-1.42886472(0xbfb6e50a)	worst_ref=-1.4288646433437122	worst_tol=7.25e-07	PASS
+21: case	per_channel_a_full_c_no_d_N2	count=231	max_abs=5.44e-07	max_rel=1.6e-06	max_err_over_tol=0.0849	failures=0	worst_index=2	worst_gpu=0.00184214837(0x3af1743e)	worst_ref=0.0018421487475507531	worst_tol=4.46e-09	PASS
+21: element	single_token_per_channel_a_N2	0	0.33532656874875211	0.335326582	0x3eabafed	1.34e-08	2.58e-07
+21: element	single_token_per_channel_a_N2	1	0.057655464290090837	0.0576554611	0x3d6c2822	3.16e-09	8.32e-08
+21: element	single_token_per_channel_a_N2	2	-1.1157913404474669	-1.11579132	0xbf8ed240	1.96e-08	9.04e-07
+21: case	single_token_per_channel_a_N2	count=3	max_abs=1.96e-08	max_rel=5.48e-08	max_err_over_tol=0.0521	failures=0	worst_index=0	worst_gpu=0.335326582(0x3eabafed)	worst_ref=0.33532656874875211	worst_tol=2.58e-07	PASS
+21: case	shared_a_rank1_c_d_N4	count=370	max_abs=1.81e-06	max_rel=1.81e-05	max_err_over_tol=0.11	failures=0	worst_index=187	worst_gpu=-0.213304922(0xbe5a6c9b)	worst_ref=-0.213304910546709	worst_tol=1.04e-07	PASS
+21: case	per_channel_a_full_c_no_d_N4	count=231	max_abs=1.25e-06	max_rel=5.59e-05	max_err_over_tol=0.0981	failures=0	worst_index=77	worst_gpu=-0.695421517(0xbf320725)	worst_ref=-0.69542138751199034	worst_tol=1.32e-06	PASS
+21: element	single_token_per_channel_a_N4	0	-1.5446057893149439	-1.54460573	0xbfc5b5a4	5.74e-08	1.91e-06
+21: element	single_token_per_channel_a_N4	1	0.015183122722373798	0.0151831219	0x3c78c2a1	8.25e-10	8.58e-09
+21: element	single_token_per_channel_a_N4	2	-0.95079904655879	-0.950799048	0xbf736791	1.39e-09	8.94e-07
+21: case	single_token_per_channel_a_N4	count=3	max_abs=5.74e-08	max_rel=5.43e-08	max_err_over_tol=0.0962	failures=0	worst_index=1	worst_gpu=0.0151831219(0x3c78c2a1)	worst_ref=0.015183122722373798	worst_tol=8.58e-09	PASS
+21: case	shared_a_rank1_c_d_N8	count=370	max_abs=3.46e-06	max_rel=2.98e-05	max_err_over_tol=0.0635	failures=0	worst_index=19	worst_gpu=1.03958774(0x3f851136)	worst_ref=1.0395876809810256	worst_tol=8.69e-07	PASS
+21: case	per_channel_a_full_c_no_d_N8	count=231	max_abs=2.54e-06	max_rel=4.63e-05	max_err_over_tol=0.0777	failures=0	worst_index=77	worst_gpu=-15.311059(0xc174fa19)	worst_ref=-15.311061538342612	worst_tol=3.27e-05	PASS
+21: element	single_token_per_channel_a_N8	0	5.9251646444446591	5.92516422	0x40bd9af2	4.22e-07	9.4e-06
+21: element	single_token_per_channel_a_N8	1	0.66387745159332112	0.663877428	0x3f29f3df	2.4e-08	4.83e-07
+21: element	single_token_per_channel_a_N8	2	3.7598311699568994	3.75983119	0x4070a113	2.02e-08	6.03e-06
+21: case	single_token_per_channel_a_N8	count=3	max_abs=4.22e-07	max_rel=7.12e-08	max_err_over_tol=0.0498	failures=0	worst_index=1	worst_gpu=0.663877428(0x3f29f3df)	worst_ref=0.66387745159332112	worst_tol=4.83e-07	PASS
+21: case	shared_a_rank1_c_d_N16	count=370	max_abs=3.99e-06	max_rel=6.48e-06	max_err_over_tol=0.0944	failures=0	worst_index=199	worst_gpu=0.309907079(0x3e9eac24)	worst_ref=0.3099071080135048	worst_tol=3.1e-07	PASS
+21: case	per_channel_a_full_c_no_d_N16	count=231	max_abs=2.82e-06	max_rel=7.54e-06	max_err_over_tol=0.0381	failures=0	worst_index=118	worst_gpu=-16.3610039(0xc182e356)	worst_ref=-16.361006694850257	worst_tol=7.4e-05	PASS
+21: element	single_token_per_channel_a_N16	0	-6.0963748535098379	-6.09637547	0xc0c31582	6.12e-07	6.81e-05
+21: element	single_token_per_channel_a_N16	1	5.3384216556802393	5.33842087	0x40aad458	7.88e-07	6.35e-05
+21: element	single_token_per_channel_a_N16	2	-0.12456344035593049	-0.124563433	0xbdff1b1d	7.13e-09	1.25e-07
+21: case	single_token_per_channel_a_N16	count=3	max_abs=7.88e-07	max_rel=1.48e-07	max_err_over_tol=0.0571	failures=0	worst_index=2	worst_gpu=-0.124563433(0xbdff1b1d)	worst_ref=-0.12456344035593049	worst_tol=1.25e-07	PASS
+21: case	shared_a_rank1_c_d_N32	count=370	max_abs=6.45e-06	max_rel=4.02e-05	max_err_over_tol=0.0314	failures=0	worst_index=4	worst_gpu=0.149558067(0x3e1925c0)	worst_ref=0.14955805308352726	worst_tol=4.53e-07	PASS
+21: case	per_channel_a_full_c_no_d_N32	count=231	max_abs=7.43e-06	max_rel=8.82e-06	max_err_over_tol=0.0361	failures=0	worst_index=11	worst_gpu=16.56007(0x41847b06)	worst_ref=16.56007336134747	worst_tol=9.2e-05	PASS
+21: element	single_token_per_channel_a_N32	0	0.41121214311553106	0.411212146	0x3ed28a66	3.17e-09	1.28e-06
+21: element	single_token_per_channel_a_N32	1	-5.1124458829689825	-5.11244488	0xc0a39926	1.01e-06	6.94e-05
+21: element	single_token_per_channel_a_N32	2	2.3284650537351266	2.32846498	0x40150592	6.88e-08	1.71e-05
+21: case	single_token_per_channel_a_N32	count=3	max_abs=1.01e-06	max_rel=1.97e-07	max_err_over_tol=0.0145	failures=0	worst_index=1	worst_gpu=-5.11244488(0xc0a39926)	worst_ref=-5.1124458829689825	worst_tol=6.94e-05	PASS
+21: element	tail_1x1x1_N1	0	0.1940664171229344	0.19406642	0x3e46b959	3.07e-09	2.54e-07
+21: case	tail_1x1x1_N1	count=1	max_abs=3.07e-09	max_rel=1.58e-08	max_err_over_tol=0.0121	failures=0	worst_index=0	worst_gpu=0.19406642(0x3e46b959)	worst_ref=0.1940664171229344	worst_tol=2.54e-07	PASS
+21: case	tail_Dc13_N2	count=195	max_abs=7.7e-07	max_rel=4.67e-05	max_err_over_tol=0.202	failures=0	worst_index=95	worst_gpu=-0.549208343(0xbf0c98eb)	worst_ref=-0.54920838579961451	worst_tol=2.11e-07	PASS
+21: case	tail_Dc257_N4	count=2056	max_abs=2.71e-06	max_rel=0.00332	max_err_over_tol=0.197	failures=0	worst_index=175	worst_gpu=0.0680834204(0x3d8b6f52)	worst_ref=0.068083426860914412	worst_tol=3.29e-08	PASS
+21: case	tail_Dc33_N32	count=99	max_abs=2.04e-06	max_rel=2.44e-05	max_err_over_tol=0.0644	failures=0	worst_index=9	worst_gpu=-0.341477573(0xbeaed626)	worst_ref=-0.34147759966805125	worst_tol=4.16e-07	PASS
+21: case	empty_sequence	count=0	PASS
+21: case	long_slow_decay_L2000	count=8000	max_abs=9.27e-05	max_rel=2.49	max_err_over_tol=0.0629	failures=0	worst_index=249	worst_gpu=-0.535624802(0xbf091eb5)	worst_ref=-0.53562484174925029	worst_tol=6.3e-07	PASS
+21: case	m_head_random_L25	count=25600	max_abs=1.16e-05	max_rel=0.0214	max_err_over_tol=0.0988	failures=0	worst_index=7219	worst_gpu=-2.38666701(0xc018bf27)	worst_ref=-2.3866668094030108	worst_tol=2.06e-06	PASS
+21: case	m_head_random_L100	count=102400	max_abs=1.28e-05	max_rel=0.0819	max_err_over_tol=0.117	failures=0	worst_index=25882	worst_gpu=-2.21362495(0xc00dac08)	worst_ref=-2.2136247385488934	worst_tol=1.84e-06	PASS
+21: case	m_head_random_L400	count=409600	max_abs=1.75e-05	max_rel=0.049	max_err_over_tol=0.132	failures=0	worst_index=39502	worst_gpu=2.10278749(0x40069412)	worst_ref=2.1027872762376525	worst_tol=1.65e-06	PASS
+21: case	cancellation_two_states	count=150	max_abs=5.71e-07	max_rel=0.415	max_err_over_tol=0.0362	failures=0	worst_index=23	worst_gpu=-4.05311584e-06(0xb6880000)	worst_ref=-3.8316439938679281e-06	worst_tol=6.11e-06	PASS
+21: note	cancellation_two_states	max_rel_to_|y|=0.415	(threshold scales with the term magnitude, not |y|)
+21: element	softplus_minus18	0	1.5229979628736487	1.52299809	0x3fc2f19a	1.32e-07	2e-06
+21: case	softplus_minus18	count=1	max_abs=1.32e-07	max_rel=8.65e-08	max_err_over_tol=0.0659	failures=0	worst_index=0	worst_gpu=1.52299809(0x3fc2f19a)	worst_ref=1.5229979628736487	worst_tol=2e-06	PASS
+21: discrimination	softplus_minus18	ref=1.522997963	legacy=0	tol=2e-06	legacy_err_over_tol=7.63e+05
+21: sweep	-1100	0	0	0	5.61e-45	legacy_err=0
+21: sweep	-1024	0	0	0	5.61e-45	legacy_err=0
+21: sweep	-1000	0	0	0	5.61e-45	legacy_err=0
+21: sweep	-300	1.1103616274243276e-62	0	1.11e-62	5.61e-45	legacy_err=1.11e-62
+21: sweep	-160	0.070257373677735671	0.0702573732	5.24e-10	9.21e-08	legacy_err=0.0703	legacy_rejected
+21: sweep	-150	1.5112515997515612	1.51125157	3.1e-08	1.98e-06	legacy_err=1.51	legacy_rejected
+21: sweep	-120	1.8360369502981073	1.83603692	2.98e-08	2.41e-06	legacy_err=1.84	legacy_rejected
+21: sweep	-110	1.234173739127884	1.23417377	3.56e-08	1.62e-06	legacy_err=1.23	legacy_rejected
+21: sweep	-103.5	1.6033209693437245	1.60332108	1.06e-07	2.1e-06	legacy_err=0.397	legacy_rejected
+21: sweep	-100	1.6592093292083157	1.65920937	4.14e-08	2.18e-06	legacy_err=0.0283	legacy_rejected
+21: sweep	-95	1.9238163918771338	1.92381632	6.86e-08	2.52e-06	legacy_err=1.17e-05	legacy_rejected
+21: sweep	-90	1.1153112041086168	1.11531115	5.83e-08	1.46e-06	legacy_err=5.35e-07
+21: sweep	-87.5	1.6984090010447681	1.69840908	7.95e-08	2.23e-06	legacy_err=7.95e-08
+21: sweep	-85	1.2931785873770192	1.29317868	9.02e-08	1.7e-06	legacy_err=2.9e-08
+21: sweep	-80.5	1.8188785421084446	1.81887853	1.07e-08	2.39e-06	legacy_err=1.07e-08
+21: sweep	-80.0000076	1.4994004310360285	1.4994005	6.54e-08	1.97e-06	legacy_err=5.38e-08
+21: sweep	-80	1.4994118705971158	1.49941194	7e-08	1.97e-06	legacy_err=4.92e-08
+21: sweep	-79.9999924	1.4994233102454801	1.49942327	4.48e-08	1.97e-06	legacy_err=4.48e-08
+21: sweep	-79.5	1.2360561222968662	1.23605609	3.29e-08	1.62e-06	legacy_err=3.29e-08
+21: sweep	-60	1.3550044096969232	1.35500443	2.01e-08	1.78e-06	legacy_err=2.01e-08
+21: sweep	-50	1.8216527271729459	1.82165277	4.29e-08	2.39e-06	legacy_err=4.29e-08
+21: sweep	-30	1.6462104420132904	1.64621043	9.96e-09	2.16e-06	legacy_err=9.96e-09
+21: sweep	-25	1.9087444706652836	1.90874457	1.03e-07	2.5e-06	legacy_err=1.63e-08
+21: sweep	-20.5	1.3423414181938633	1.34234142	4.84e-09	1.76e-06	legacy_err=4.84e-09
+21: sweep	-20	1.1065734239102833	1.10657334	8.06e-08	1.45e-06	legacy_err=1.11	legacy_rejected
+21: sweep	-19.5	1.8244311403726174	1.82443118	4.06e-08	2.39e-06	legacy_err=1.82	legacy_rejected
+21: sweep	-18	1.0220666316276474	1.02206671	8.08e-08	1.34e-06	legacy_err=1.02	legacy_rejected
+21: sweep	-17	1.3891325579375089	1.38913262	6.1e-08	1.82e-06	legacy_err=1.39	legacy_rejected
+21: sweep	-15	1.2830471302465527	1.28304708	5.02e-08	1.68e-06	legacy_err=0.217	legacy_rejected
+21: sweep	-12	1.6106634550267886	1.61066341	4.1e-08	2.11e-06	legacy_err=0.0143	legacy_rejected
+21: sweep	-10	1.4876311295382207	1.4876312	7.22e-08	1.95e-06	legacy_err=0.000616	legacy_rejected
+21: sweep	-9	1.0109107382129363	1.01091075	1.12e-08	1.33e-06	legacy_err=0.000231	legacy_rejected
+21: sweep	-8	1.3738245033810692	1.37382448	2.62e-08	1.8e-06	legacy_err=3.15e-05	legacy_rejected
+21: sweep	-6	1.2675507905179901	1.26755083	3.56e-08	1.66e-06	legacy_err=1.7e-05	legacy_rejected
+21: sweep	-4	1.1615953867398232	1.16159546	7.7e-08	1.52e-06	legacy_err=2.1e-06	legacy_rejected
+21: sweep	-2	1.01542408834378	1.01542413	4.4e-08	1.33e-06	legacy_err=2.82e-07
+21: sweep	-1	1.2530467500728915	1.25304687	1.2e-07	1.64e-06	legacy_err=1.18e-07
+21: sweep	-0.5	1.8963079367204267	1.89630795	8.53e-09	2.49e-06	legacy_err=8.53e-09
+21: sweep	0	1.3862943611198906	1.38629436	3.81e-09	1.82e-06	legacy_err=3.81e-09
+21: sweep	0.5	1.9481539683602134	1.94815397	4.27e-09	2.55e-06	legacy_err=4.27e-09
+21: sweep	1	1.3132616875182228	1.31326163	5.94e-08	1.72e-06	legacy_err=5.94e-08
+21: sweep	2	1.0634640055214863	1.06346405	4e-08	1.39e-06	legacy_err=4e-08
+21: sweep	5	1.2516788371222796	1.25167882	1.27e-08	1.64e-06	legacy_err=1.27e-08
+21: sweep	10	1.2500056748624022	1.25000572	4.72e-08	1.64e-06	legacy_err=4.72e-08
+21: sweep	15	1.8750000382377843	1.875	3.82e-08	2.46e-06	legacy_err=3.82e-08
+21: sweep	19.5	1.2187500002123917	1.21875	2.12e-10	1.6e-06	legacy_err=2.12e-10
+21: sweep	20	1.2500000001288221	1.25	1.29e-10	1.64e-06	legacy_err=1.29e-10
+21: sweep	20.0000019	1.2500001192092896	1.25000012	0	1.64e-06	legacy_err=0
+21: sweep	20.5	1.28125	1.28125	0	1.68e-06	legacy_err=0
+21: sweep	25	1.5625	1.5625	0	2.05e-06	legacy_err=0
+21: sweep	100	1.5625	1.5625	0	2.05e-06	legacy_err=0
+21: sweep	1000	1.953125	1.953125	0	2.56e-06	legacy_err=0
+21: case	softplus_sweep	count=52	max_abs=1.2e-07	max_rel=1	max_err_over_tol=0.0731	failures=0	legacy_rejected=18	PASS
+21: element	drive_intermediate_overflow	0	1.2676506002282294e+30	1.2676506e+30	0x71800000	0	1.66e+24
+21: element	drive_intermediate_overflow	1	1.2676506002282294e+30	1.2676506e+30	0x71800000	0	1.66e+24
+21: case	drive_intermediate_overflow	count=2	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1.2676506e+30(0x71800000)	worst_ref=1.2676506002282294e+30	worst_tol=1.66e+24	PASS
+21: element	drive_delta_underflow_minus100	0	6.3293812912304522e-06	6.32938145e-06	0x36d460f9	1.58e-13	8.3e-12
+21: case	drive_delta_underflow_minus100	count=1	max_abs=1.58e-13	max_rel=2.5e-08	max_err_over_tol=0.019	failures=0	worst_index=0	worst_gpu=6.32938145e-06(0x36d460f9)	worst_ref=6.3293812912304522e-06	worst_tol=8.3e-12	PASS
+21: element	drive_delta_underflow_minus150	0	207704838302.74039	2.07704834e+11	0x524170b1	4.25e+03	2.72e+05
+21: case	drive_delta_underflow_minus150	count=1	max_abs=4.25e+03	max_rel=2.05e-08	max_err_over_tol=0.0156	failures=0	worst_index=0	worst_gpu=2.07704834e+11(0x524170b1)	worst_ref=207704838302.74039	worst_tol=2.72e+05	PASS
+21: element	drive_subnormal_b	0	0.00012207030784548248	0.000122070312	0x39000000	4.65e-12	1.6e-10
+21: case	drive_subnormal_b	count=1	max_abs=4.65e-12	max_rel=3.81e-08	max_err_over_tol=0.0291	failures=0	worst_index=0	worst_gpu=0.000122070312(0x39000000)	worst_ref=0.00012207030784548248	worst_tol=1.6e-10	PASS
+21: element	butterfly_partial_sum_overflow	0	1	1	0x3f800000	0	1.21e+33
+21: case	butterfly_partial_sum_overflow	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=1(0x3f800000)	worst_ref=1	worst_tol=1.21e+33	PASS
+21: element	partial_sum_overflow_restored_by_skip	0	2.2065184730029603e+38	2.20651847e+38	0x7f260000	0	6.2e+32
+21: case	partial_sum_overflow_restored_by_skip	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=2.20651847e+38(0x7f260000)	worst_ref=2.2065184730029603e+38	worst_tol=6.2e+32	PASS
+21: failure	nonfinite_u	flags=0x00000201	PASS
+21: failure	nonfinite_delta	flags=0x00000202	PASS
+21: failure	nonfinite_a	flags=0x00000004	PASS
+21: failure	nonfinite_b	flags=0x00000208	PASS
+21: failure	nonfinite_c	flags=0x00000810	PASS
+21: failure	nonfinite_d	flags=0x00001020	PASS
+21: failure	empty_nonfinite_a	flags=0x00000004	PASS
+21: failure	empty_nonfinite_d	flags=0x00000020	PASS
+21: failure	range_drive	flags=0x00000200	PASS
+21: failure	range_decay	flags=0x00000100	PASS
+21: failure	range_state	flags=0x00000400	PASS
+21: failure	range_c_state	flags=0x00000800	PASS
+21: failure	range_d_u	flags=0x00001000	PASS
+21: failure	range_output	flags=0x00002000	PASS
+21: failure	range_one_lane_of_twelve	flags=0x00000200	PASS
+21: engine	expand	plan_bytes=21956	build_seconds=0.285
+21: engine	merge_2x3	plan_bytes=15692	build_seconds=0.282
+21: element	merge_1x2x2x3	0	-2.1467325687408447	-2.14673257	0xc0096411	0	2.41e-06
+21: element	merge_1x2x2x3	1	0.26044821739196777	0.260448217	0x3e855978	0	2.33e-06
+21: element	merge_1x2x2x3	2	1.6548142433166504	1.65481424	0x3fd3d0f4	0	1.41e-06
+21: element	merge_1x2x2x3	3	-4.2661705017089844	-4.2661705	0xc0888478	0	2.21e-06
+21: element	merge_1x2x2x3	4	2.6865899562835693	2.68658996	0x402bf117	0	1.56e-06
+21: element	merge_1x2x2x3	5	-4.1777107715606689	-4.17771053	0xc085afce	2.38e-07	1.99e-06
+21: element	merge_1x2x2x3	6	2.2948625087738037	2.29486251	0x4012df07	0	1.9e-06
+21: element	merge_1x2x2x3	7	-1.1674327850341797	-1.16743279	0xbf956e70	0	2.21e-06
+21: element	merge_1x2x2x3	8	-2.6582846641540527	-2.65828466	0xc02a2156	0	1.31e-06
+21: element	merge_1x2x2x3	9	1.7577316761016846	1.75773168	0x3fe0fd5a	0	9.41e-07
+21: element	merge_1x2x2x3	10	2.3796405792236328	2.37964058	0x40184c08	0	1.68e-06
+21: element	merge_1x2x2x3	11	-5.0687041282653809	-5.06870413	0xc0a232d3	0	2.42e-06
+21: case	merge_1x2x2x3	count=12	max_abs=2.38e-07	max_rel=5.71e-08	max_err_over_tol=0.12	failures=0	worst_index=5	worst_gpu=-4.17771053(0xc085afce)	worst_ref=-4.1777107715606689	worst_tol=1.99e-06	PASS
+21: engine	merge_3x5	plan_bytes=15700	build_seconds=0.282
+21: case	merge_2x3x3x5	count=90	max_abs=2.38e-07	max_rel=8.17e-08	max_err_over_tol=0.115	failures=0	worst_index=67	worst_gpu=-4.33847809(0xc08ad4d0)	worst_ref=-4.3384783267974854	worst_tol=2.07e-06	PASS
+21: engine	merge_1x4	plan_bytes=15468	build_seconds=0.283
+21: element	merge_1x4x1x4	0	-7.0207700729370117	-7.02077007	0xc0e0aa26	0	3.35e-06
+21: element	merge_1x4x1x4	1	-0.17346668243408203	-0.173466682	0xbe31a140	0	1.69e-06
+21: element	merge_1x4x1x4	2	1.5580606460571289	1.55806065	0x3fc76e88	0	1.76e-06
+21: element	merge_1x4x1x4	3	-1.0814633369445801	-1.08146334	0xbf8a6d64	0	8.58e-07
+21: element	merge_1x4x1x4	4	0.22557854652404785	0.225578547	0x3e66fe10	0	1.91e-06
+21: element	merge_1x4x1x4	5	-1.3181946277618408	-1.31819463	0xbfa8ba9a	0	1.16e-06
+21: element	merge_1x4x1x4	6	-0.83591365814208984	-0.835913658	0xbf55fe70	0	1.59e-06
+21: element	merge_1x4x1x4	7	-2.3050961494445801	-2.30509615	0xc01386b2	0	1.35e-06
+21: element	merge_1x4x1x4	8	-2.0107364654541016	-2.01073647	0xc000afe8	0	1.45e-06
+21: element	merge_1x4x1x4	9	-2.3257975578308105	-2.32579756	0xc014d9de	0	1.97e-06
+21: element	merge_1x4x1x4	10	1.7205097675323486	1.72050977	0x3fdc39aa	0	8.81e-07
+21: element	merge_1x4x1x4	11	-2.7323093414306641	-2.73230934	0xc02ede28	0	2.05e-06
+21: element	merge_1x4x1x4	12	-2.0362627506256104	-2.03626275	0xc0025221	0	1.43e-06
+21: element	merge_1x4x1x4	13	-0.16292023658752441	-0.162920237	0xbe26d490	0	1.68e-06
+21: element	merge_1x4x1x4	14	1.3303794860839844	1.33037949	0x3faa49e0	0	1.94e-06
+21: element	merge_1x4x1x4	15	-0.14781022071838379	-0.147810221	0xbe175b90	0	1.7e-06
+21: case	merge_1x4x1x4	count=16	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=-7.02077007(0xc0e0aa26)	worst_ref=-7.0207700729370117	worst_tol=3.35e-06	PASS
+21: engine	merge_4x1	plan_bytes=15468	build_seconds=0.283
+21: element	merge_1x4x4x1	0	-1.8956332206726074	-1.89563322	0xbff2a41c	0	2.02e-06
+21: element	merge_1x4x4x1	1	1.9535961151123047	1.95359612	0x3ffa0f70	0	1.84e-06
+21: element	merge_1x4x4x1	2	0.8639681339263916	0.863968134	0x3f5d2d04	0	1.15e-06
+21: element	merge_1x4x4x1	3	-2.8337302207946777	-2.83373022	0xc0355bd6	0	2.36e-06
+21: element	merge_1x4x4x1	4	-4.5256597995758057	-4.52565956	0xc090d234	2.38e-07	2.16e-06
+21: element	merge_1x4x4x1	5	2.1517913341522217	2.15179133	0x4009b6f3	0	1.56e-06
+21: element	merge_1x4x4x1	6	-0.65812587738037109	-0.658125877	0xbf287af0	0	2.02e-06
+21: element	merge_1x4x4x1	7	-0.32933688163757324	-0.329336882	0xbea89ed8	0	2.22e-06
+21: element	merge_1x4x4x1	8	0.82381868362426758	0.823818684	0x3f52e5c8	0	1.31e-06
+21: element	merge_1x4x4x1	9	2.4092495441436768	2.40924954	0x401a3125	0	2.57e-06
+21: element	merge_1x4x4x1	10	-1.3994364738464355	-1.39943647	0xbfb320bc	0	2.67e-06
+21: element	merge_1x4x4x1	11	3.8646659851074219	3.86466599	0x407756b0	0	2.81e-06
+21: element	merge_1x4x4x1	12	-2.0176594257354736	-2.01765943	0xc0012155	0	1.22e-06
+21: element	merge_1x4x4x1	13	-1.5963077545166016	-1.59630775	0xbfcc53d0	0	2.43e-06
+21: element	merge_1x4x4x1	14	0.084768772125244141	0.0847687721	0x3dad9b40	0	1.63e-06
+21: element	merge_1x4x4x1	15	-4.2710824012756348	-4.2710824	0xc088acb5	0	2.82e-06
+21: case	merge_1x4x4x1	count=16	max_abs=2.38e-07	max_rel=5.27e-08	max_err_over_tol=0.11	failures=0	worst_index=4	worst_gpu=-4.52565956(0xc090d234)	worst_ref=-4.5256597995758057	worst_tol=2.16e-06	PASS
+21: engine	merge_1x1	plan_bytes=14780	build_seconds=0.286
+21: element	merge_1x1x1x1	0	-1.9656567573547363	-1.96565676	0xbffb9aa4	0	2.52e-06
+21: case	merge_1x1x1x1	count=1	max_abs=0	max_rel=0	max_err_over_tol=0	failures=0	worst_index=0	worst_gpu=-1.96565676(0xbffb9aa4)	worst_ref=-1.9656567573547363	worst_tol=2.52e-06	PASS
+21: engine	merge_7x3	plan_bytes=15700	build_seconds=0.288
+21: case	merge_2x5x7x3	count=210	max_abs=4.77e-07	max_rel=9.31e-08	max_err_over_tol=0.195	failures=0	worst_index=86	worst_gpu=-5.11992931(0xc0a3d676)	worst_ref=-5.1199297904968262	worst_tol=2.44e-06	PASS
+21: engine	merge_20x20	plan_bytes=15708	build_seconds=0.285
+21: case	merge_1x128x20x20	count=51200	max_abs=4.77e-07	max_rel=1.19e-07	max_err_over_tol=0.245	failures=0	worst_index=37810	worst_gpu=4.08969021(0x4082debe)	worst_ref=4.0896906852722168	worst_tol=1.95e-06	PASS
+21: engine	merge_10x10	plan_bytes=15708	build_seconds=0.285
+21: case	merge_1x128x10x10	count=12800	max_abs=4.77e-07	max_rel=1.16e-07	max_err_over_tol=0.244	failures=0	worst_index=12352	worst_gpu=4.09656906(0x40831718)	worst_ref=4.0965685844421387	worst_tol=1.95e-06	PASS
+21: engine	merge_5x5	plan_bytes=15700	build_seconds=0.287
+21: case	merge_1x128x5x5	count=3200	max_abs=4.77e-07	max_rel=1.18e-07	max_err_over_tol=0.239	failures=0	worst_index=528	worst_gpu=-4.16725731(0xc0855a2c)	worst_ref=-4.1672568321228027	worst_tol=1.99e-06	PASS
+21: expand	all_shapes	bitwise	PASS
+21: engine	merge_1x2	plan_bytes=15692	build_seconds=0.287
+21: element	merge_partial_sum_overflow	0	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+21: element	merge_partial_sum_overflow	1	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+21: element	merge_partial_sum_overflow	2	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+21: element	merge_partial_sum_overflow	3	8.5070584124331014e+37	8.50705816e+37	0x7e7ffffe	2.54e+30	8.11e+31
+21: case	merge_partial_sum_overflow	count=4	max_abs=2.54e+30	max_rel=2.98e-08	max_err_over_tol=0.0312	failures=0	worst_index=0	worst_gpu=8.50705816e+37(0x7e7ffffe)	worst_ref=8.5070584124331014e+37	worst_tol=8.11e+31	PASS
+21: engine	pipeline_1x1x2x3_N1_no_d	plan_bytes=32964	build_seconds=0.352
+21: element	pipeline_expand_scan_merge_1x2x3	0	7.6246189861593976	7.62461853	0x40f3fce0	4.56e-07	2.46e-05
+21: element	pipeline_expand_scan_merge_1x2x3	1	7.9711925764393712	7.97119236	0x40ff1402	2.17e-07	2.44e-05
+21: element	pipeline_expand_scan_merge_1x2x3	2	8.317766166719343	8.31776619	0x41051592	2.29e-08	2.5e-05
+21: element	pipeline_expand_scan_merge_1x2x3	3	8.6643397569993148	8.66433907	0x410aa122	6.91e-07	2.27e-05
+21: element	pipeline_expand_scan_merge_1x2x3	4	9.0109133472792884	9.0109129	0x41102cb3	4.52e-07	2.19e-05
+21: element	pipeline_expand_scan_merge_1x2x3	5	9.357486937559262	9.35748672	0x4115b844	2.13e-07	2.31e-05
+21: case	pipeline_expand_scan_merge_1x2x3	count=6	max_abs=6.91e-07	max_rel=7.98e-08	max_err_over_tol=0.0304	failures=0	worst_index=3	worst_gpu=8.66433907(0x410aa122)	worst_ref=8.6643397569993148	worst_tol=2.27e-05	PASS
+21: engine	pipeline_1x8x5x5_N4_d	plan_bytes=33460	build_seconds=0.338
+21: case	pipeline_expand_scan_merge_8x5x5	count=200	max_abs=4.11e-07	max_rel=9.73e-06	max_err_over_tol=0.0558	failures=0	worst_index=21	worst_gpu=1.06761456(0x3f88a798)	worst_ref=1.0676147125122237	worst_tol=2.82e-06	PASS
+21: cross_scan	all	PASS
+21: diagnostic_channel	must be a power of two in [1, 32]	logger
+21: contract	state_3	rejected	PASS
+21: diagnostic_channel	A rows must be 1 or channels	logger
+21: contract	a_rows_2	rejected	PASS
+21: diagnostic_channel	C width must be 1 or state	logger
+21: contract	c_width_3	rejected	PASS
+21: diagnostic_channel	is not (batch, length, state)	logger
+21: contract	b_state_differs_from_a	rejected	PASS
+21: diagnostic_channel	differs from u	logger
+21: contract	delta_differs_from_u	rejected	PASS
+21: diagnostic_channel	is not (channels)	logger
+21: contract	d_differs_from_channels	rejected	PASS
+21: element	contract_recovery	0	0.37307198895702753	0.373071998	0x3ebf034b	9.4e-09	2.4e-06
+21: element	contract_recovery	1	0.11851924604502667	0.118519247	0x3df2ba38	5.33e-10	1.91e-06
+21: element	contract_recovery	2	-2.2665771093977787	-2.26657724	0xc0110f9a	1.34e-07	2.69e-05
+21: element	contract_recovery	3	0	-0	0x80000000	0	6.87e-44
+21: element	contract_recovery	4	-0.50274381641897414	-0.50274384	0xbf00b3d2	2.38e-08	2.42e-06
+21: element	contract_recovery	5	-0.081391865058527052	-0.0813918561	0xbda6b0c6	8.98e-09	1.42e-06
+21: element	contract_recovery	6	1.3792318134180261	1.37923181	0x3fb08aab	2.85e-09	1.3e-05
+21: element	contract_recovery	7	-0.54759800414111481	-0.547598004	0xbf0c2f62	2e-10	8.26e-06
+21: element	contract_recovery	8	-0.67416896792905567	-0.674169064	0xbf2c9658	9.56e-08	7.52e-06
+21: element	contract_recovery	9	0.060007357663311889	0.0600073151	0x3d75ca3b	4.25e-08	6.27e-06
+21: element	contract_recovery	10	-0.99439434218368605	-0.994394422	0xbf7e90a2	7.94e-08	2.7e-05
+21: element	contract_recovery	11	0.056713319400870876	0.0567139089	0x3d684cd8	5.9e-07	4.66e-05
+21: element	contract_recovery	12	-0.125	-0.125	0xbe000000	0	8.94e-08
+21: element	contract_recovery	13	0	0	0x00000000	0	2.38e-44
+21: element	contract_recovery	14	0	0	0x00000000	0	2.38e-44
+21: element	contract_recovery	15	-0.625	-0.625	0xbf200000	0	4.47e-07
+21: case	contract_recovery	count=16	max_abs=5.9e-07	max_rel=1.04e-05	max_err_over_tol=0.0127	failures=0	worst_index=8	worst_gpu=-0.674169064(0xbf2c9658)	worst_ref=-0.67416896792905567	worst_tol=7.52e-06	PASS
+21: contract	profile_bounds	setInputShape_refused	PASS
+21: diagnostic_channel	an explicit non-default stream is required	logger
+21: contract	default_stream	rejected	PASS
+21: diagnostic_channel	an explicit non-default stream is required	logger
+21: contract	legacy_stream	rejected	PASS
+21: diagnostic_channel	an explicit non-default stream is required	logger
+21: contract	per_thread_stream	rejected	PASS
+21: contract	build_fp16_inputs	rejected	PASS
+21: contract	build_five_inputs_for_has_d	rejected	PASS
+21: contract	build_constant_state_3	rejected	PASS
+21: contract	creator_fields	PASS
+21: diagnostic_channel	kernels are not loaded for any CUDA context	logger
+21: diagnostic_channel	the kernels were loaded in another CUDA context	logger
+21: contract	context_binding	PASS
+21: case	reset_b_valid	count=306	max_abs=1.9e-06	max_rel=5.5e-05	max_err_over_tol=0.0617	failures=0	worst_index=158	worst_gpu=-0.222416252(0xbe63c116)	worst_ref=-0.22241626422633221	worst_tol=2e-07	PASS
+21: reset	A_B(fail)_A_B(valid)_A	PASS
+21: case	isolated_1	count=25600	max_abs=8.07e-06	max_rel=0.0102	max_err_over_tol=0.104	failures=0	worst_index=1596	worst_gpu=-1.13197386(0xbf90e485)	worst_ref=-1.1319737588561645	worst_tol=9.95e-07	PASS
+21: case	isolated_2	count=6000	max_abs=5.13e-06	max_rel=0.000616	max_err_over_tol=0.1	failures=0	worst_index=18	worst_gpu=-0.280642569(0xbe8fb062)	worst_ref=-0.28064259010751003	worst_tol=2.1e-07	PASS
+21: isolation	same_engine_two_contexts_two_streams	PASS
+21: case	frame_p5_oracle	count=6400	max_abs=2.17e-06	max_rel=0.000341	max_err_over_tol=0.0375	failures=0	worst_index=4881	worst_gpu=-10.5652008(0xc1290b10)	worst_ref=-10.565202406344548	worst_tol=4.27e-05	PASS
+21: engine	pipeline_1x256x5x5_N16_d	plan_bytes=33492	build_seconds=0.338
+21: frame	flags_with_finite_payload	PASS
+21: frame	missing_completion	PASS
+21: frame	unknown_flag	PASS
+21: frame	expand_flag	PASS
+21: engine	pipeline_1x256x10x10_N16_d	plan_bytes=33516	build_seconds=0.339
+21: case	frame_m_head_L100	count=25600	max_abs=2.81e-06	max_rel=0.00192	max_err_over_tol=0.0416	failures=0	worst_index=19801	worst_gpu=-7.3058877(0xc0e9c9d5)	worst_ref=-7.3058892852833139	worst_tol=3.81e-05	PASS
+21: engine	pipeline_1x256x20x20_N16_d	plan_bytes=33524	build_seconds=0.354
+21: case	frame_m_head_L400	count=102400	max_abs=4.08e-06	max_rel=0.129	max_err_over_tol=0.0495	failures=0	worst_index=24137	worst_gpu=-10.1482887(0xc1225f64)	worst_ref=-10.148287200378684	worst_tol=3.08e-05	PASS
+21: frame	all	PASS
+21: ownership	slots=1	frames=10	delay_cycles=4000000	PASS
+21: ownership	slots=2	frames=10	delay_cycles=4000000	PASS
+21: graph_node	slot=0	node=0 type=memset deps=
+21: graph_node	slot=0	node=1 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE deps=0
+21: graph_node	slot=0	node=2 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a49813expand_kernelENS0_11CrossParamsEPKfPf deps=1
+21: graph_node	slot=0	node=3 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE deps=2
+21: graph_node	slot=0	node=4 type=memset deps=3
+21: graph_node	slot=0	node=5 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE deps=4
+21: graph_node	slot=0	node=6 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a49811scan_kernelENS0_10ScanParamsEPNS_10ScanStatusE deps=5
+21: graph_node	slot=0	node=7 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE deps=6
+21: graph_node	slot=0	node=8 type=memset deps=7
+21: graph_node	slot=0	node=9 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE deps=8
+21: graph_node	slot=0	node=10 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a49812merge_kernelENS0_11CrossParamsEPKfPf deps=9
+21: graph_node	slot=0	node=11 type=kernel name=_ZN7saccade50_GLOBAL__N__975a5379_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE deps=10
+21: graph	all	PASS
+21: streams	enqueueV3	returned_while_held	PASS
+21: streams	graph_launch	returned_while_held	PASS
+21: skipped	api_trace	explicit_group_only
+21: skipped	async_fault	explicit_group_only
+21: plugin_s02_comparisons	91
+21: checks	842
+21: scan_trt_tests: 842 checks passed
+21/31 Test #21: scan_trt ...........................   Passed    7.79 sec
+test 22
+      Start 22: scan_trt_api_trace
+
+22: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan_trt_tests "--group" "api_trace"
+22: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+22: Test timeout computed to be: 300
+22: group api_trace
+22: identity	tensorrt_headers=10.16.1.11
+22: identity	tensorrt_library=101601.11
+22: identity	plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+22: identity	plugin_namespace=saccade
+22: identity	plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+22: identity	build_commit=222af61a8edf46950ffb2b58542c31074454b793
+22: identity	build_dirty=true
+22: identity	nvcc=13.4.92
+22: identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+22: identity	cuda_arch_list=1200
+22: identity	host_compiler=16.2.1 20260810
+22: identity	tensorrt=10.16.1
+22: identity	cuda_runtime=13040
+22: identity	cuda_driver_api=13040
+22: identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+22: identity	compute_capability=12.0
+22: engine	pipeline_1x256x5x5_N16_d	plan_bytes=33492	build_seconds=0.636
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaStreamIsCapturing	stream=0
+22: api	enqueue	driver	cuStreamIsCapturing	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	driver	cuCtxGetDevice	stream=0
+22: api	enqueue	driver	cuDeviceGetAttribute	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaStreamIsCapturing	stream=0
+22: api	enqueue	driver	cuStreamIsCapturing	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	driver	cuCtxGetDevice	stream=0
+22: api	enqueue	driver	cuDeviceGetAttribute	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaStreamIsCapturing	stream=0
+22: api	enqueue	driver	cuStreamIsCapturing	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	driver	cuCtxGetDevice	stream=0
+22: api	enqueue	driver	cuDeviceGetAttribute	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuStreamGetCtx	stream=0
+22: api	enqueue	driver	cuCtxGetCurrent	stream=0
+22: api	enqueue	driver	cuCtxGetId	stream=0
+22: api	enqueue	runtime	cudaMemsetAsync	stream=0x62acc61d7010
+22: api	enqueue	driver	cuMemsetD8Async	stream=0x62acc61d7010
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	driver	cuKernelGetName	stream=0
+22: api	enqueue	runtime	cudaLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	driver	cuLaunchKernel	stream=0x62acc61d7010
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetDevice	stream=0
+22: api	enqueue	driver	cuCtxGetDevice_v2	stream=0
+22: api	enqueue	runtime	cudaGetDeviceCount	stream=0
+22: api	enqueue	runtime	cudaGetLastError	stream=0
+22: api_trace	enqueueV3_x3	calls=213	kernels=27	memsets=9	PASS
+22: api	graph	runtime	cudaGraphLaunch	stream=0x62acc61d7010
+22: api	graph	driver	cuGraphLaunch	stream=0x62acc61d7010
+22: api_trace	graph	calls=2	kernels=0	memsets=0	PASS
+22: plugin_s02_comparisons	0
+22: checks	729
+22: group_only	api_trace
+22: scan_trt_tests: 729 checks passed
+22/31 Test #22: scan_trt_api_trace .................   Passed    1.04 sec
+test 23
+      Start 23: scan_trt_async_fault
+
+23: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan_trt_tests "--group" "async_fault"
+23: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+23: Test timeout computed to be: 300
+23: group async_fault
+23: Internal Error: MyelinCheckException: l2cm_layer_internal.cpp:109: CHECK(false) failed. 
+23: error: cuModuleUnload(module_) failed with error unspecified launch failure
+23: identity	tensorrt_headers=10.16.1.11
+23: identity	tensorrt_library=101601.11
+23: identity	plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+23: identity	plugin_namespace=saccade
+23: identity	plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+23: identity	build_commit=222af61a8edf46950ffb2b58542c31074454b793
+23: identity	build_dirty=true
+23: identity	nvcc=13.4.92
+23: identity	scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+23: identity	cuda_arch_list=1200
+23: identity	host_compiler=16.2.1 20260810
+23: identity	tensorrt=10.16.1
+23: identity	cuda_runtime=13040
+23: identity	cuda_driver_api=13040
+23: identity	gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+23: identity	compute_capability=12.0
+23: engine	pipeline_1x256x5x5_N16_d	plan_bytes=33492	build_seconds=0.63
+23: async_fault	diagnostic=cudaEventSynchronize(e.handle): unspecified launch failure
+23: async_fault	frame=3	PASS
+23: expected_fatal_teardown_error	ICudaEngine::~ICudaEngine: Error Code 1: Cuda Runtime (In ScopedCudaStream at /_src/common/dispatch/cudaResources.cpp:25)
+23: plugin_s02_comparisons	0
+23: checks	6
+23: group_only	async_fault
+23: scan_trt_tests: 6 checks passed
+23/31 Test #23: scan_trt_async_fault ...............   Passed    1.04 sec
+test 24
+      Start 24: scan_trt_engine_build
+
+24: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan_trt_engine "build" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan-trt/pipeline.engine"
+24: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+24: Test timeout computed to be: 300
+24: engine_bytes=33516
+24: engine_sha256=ed7228a5f18d2905fa36f187032925c619db47010ed05da9e65b9a63bbe11e39
+24: result=PASS
+24/31 Test #24: scan_trt_engine_build ..............   Passed    1.02 sec
+test 25
+      Start 25: scan_trt_engine_run
+
+25: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan_trt_engine "run" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan-trt/pipeline.engine" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan-trt/run-report.txt"
+25: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+25: Environment variables: 
+25:  CUDA_MODULE_LOADING=LAZY
+25: Test timeout computed to be: 300
+25: engine_sha256=ed7228a5f18d2905fa36f187032925c619db47010ed05da9e65b9a63bbe11e39
+25: engine_bytes=33516
+25: cuda_module_loading=LAZY
+25: tensorrt_headers=10.16.1.11
+25: tensorrt_library=101601.11
+25: plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+25: plugin_namespace=saccade
+25: plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+25: build_commit=222af61a8edf46950ffb2b58542c31074454b793
+25: build_dirty=true
+25: nvcc=13.4.92
+25: scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+25: cuda_arch_list=1200
+25: host_compiler=16.2.1 20260810
+25: tensor=x mode=input dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+25: tensor=delta mode=input dtype=FP32 format=linear location=device shape=(4,100,256) shape_inference_io=false
+25: tensor=A mode=input dtype=FP32 format=linear location=device shape=(1,16) shape_inference_io=false
+25: tensor=B mode=input dtype=FP32 format=linear location=device shape=(4,100,16) shape_inference_io=false
+25: tensor=C mode=input dtype=FP32 format=linear location=device shape=(4,100,1) shape_inference_io=false
+25: tensor=D mode=input dtype=FP32 format=linear location=device shape=(256) shape_inference_io=false
+25: tensor=expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+25: tensor=scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+25: tensor=out mode=output dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+25: tensor=merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+25: aux_streams=0
+25: profiles=1
+25: device_memory_bytes=821248
+25: first_enqueue_held_stream=PASS
+25: first_enqueue_before_warmup=true
+25: first_enqueue_s02_bit_exact=PASS
+25: first_enqueue_microseconds=724
+25: tensorrt_headers=10.16.1.11
+25: tensorrt_library=101601.11
+25: plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+25: plugin_namespace=saccade
+25: plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+25: build_commit=222af61a8edf46950ffb2b58542c31074454b793
+25: build_dirty=true
+25: nvcc=13.4.92
+25: scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+25: cuda_arch_list=1200
+25: host_compiler=16.2.1 20260810
+25: tensor=x mode=input dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+25: tensor=delta mode=input dtype=FP32 format=linear location=device shape=(4,100,256) shape_inference_io=false
+25: tensor=A mode=input dtype=FP32 format=linear location=device shape=(1,16) shape_inference_io=false
+25: tensor=B mode=input dtype=FP32 format=linear location=device shape=(4,100,16) shape_inference_io=false
+25: tensor=C mode=input dtype=FP32 format=linear location=device shape=(4,100,1) shape_inference_io=false
+25: tensor=D mode=input dtype=FP32 format=linear location=device shape=(256) shape_inference_io=false
+25: tensor=expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+25: tensor=scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+25: tensor=out mode=output dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+25: tensor=merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+25: aux_streams=0
+25: profiles=1
+25: device_memory_bytes=821248
+25: frame_kernel=initialize registers=14 local_bytes=0
+25: frame_kernel=begin registers=10 local_bytes=0
+25: frame_kernel=gate registers=30 local_bytes=0
+25: frame_kernel=publish registers=28 local_bytes=0
+25: frame_kernel=commit registers=14 local_bytes=0
+25: frame_kernel=packet registers=24 local_bytes=0
+25: frame_kernel=delay registers=4 local_bytes=0
+25: frame_kernel=check_finite registers=12 local_bytes=0
+25: frame_kernel=check_done registers=8 local_bytes=0
+25: slots=1
+25: packet_slots=3
+25: graphs=false
+25: context_memory_bytes=821248
+25: payload=out
+25: statuses=expand_status,scan_status,merge_status
+25: ok_frames_s02_bit_exact=PASS
+25: failure_status_s02_exact=PASS
+25: failure_packet_sequence=OK,FAILED,SKIPPED
+25: committed_payload_s02_bit_exact=PASS
+25: result=PASS
+25/31 Test #25: scan_trt_engine_run ................   Passed    0.29 sec
+test 26
+      Start 26: scan_trt_engine_unregistered
+
+26: Test command: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan_trt_engine "run-unregistered" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/scan-trt/pipeline.engine"
+26: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+26: Test timeout computed to be: 300
+26: TensorRT: IPluginRegistry::getCreator: Error Code 4: API Usage Error (Cannot find plugin: CrossScanMergesaccade, version: 1, namespace:saccade. In getCreatorInternal at /_src/runtime/dispatch/pluginRegistry.cpp:436)
+26: TensorRT: ICudaEngine::createExecutionContext: Error Code 1: Serialization (Serialization assertion creator failed.Cannot deserialize plugin since corresponding IPluginCreatorInterface not found in Plugin Registry In load at /_src/runtime/gpu/cuda/pluginV3Runner.cpp:431)
+26: unregistered_deserialization=deferred
+26: unregistered_context=rejected
+26: result=PASS
+26/31 Test #26: scan_trt_engine_unregistered .......   Passed    0.31 sec
+test 27
+      Start 27: head_trt_engine_build
+
+27: Test command: /usr/sbin/cmake "-DWORK=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-trt" "-DHEAD_TRT=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt" "-DWEIGHTS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights" "-DSUITE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt_tests" "-DCANDIDATE_BUNDLE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb" "-DMODE=build" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/HeadTrtTest.cmake"
+27: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+27: Test timeout computed to be: 600
+27: -- engine_sha256=ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1
+27: engine_bytes=41471380
+27: bundle=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb sha256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310
+27/31 Test #27: head_trt_engine_build ..............   Passed   25.23 sec
+test 28
+      Start 28: head_trt_engine_run
+
+28: Test command: /usr/sbin/cmake "-DWORK=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-trt" "-DHEAD_TRT=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt" "-DWEIGHTS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights" "-DSUITE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt_tests" "-DCANDIDATE_BUNDLE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb" "-DMODE=run" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/HeadTrtTest.cmake"
+28: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+28: Environment variables: 
+28:  CUDA_MODULE_LOADING=LAZY
+28: Test timeout computed to be: 900
+28: -- engine_sha256=ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1
+28: bundle_sha256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310
+28: policy=s04-head-fp32/1
+28: cuda_module_loading=LAZY
+28: input	asymmetric/1	p3	sha256=df3df44d053efd673a286f319adbf7b9405bc121117e07245c2dac93329223b6
+28: input	asymmetric/1	p4	sha256=8d8972dd9a231f4a281fffef0eb9959e8cae0c1a0439430e2de3c9b3404d73ce
+28: input	asymmetric/1	p5	sha256=31913e72a7bd52d361a40dbe654eb5afbd478c4aab62b584dc9a8b776aac802b
+28: input	random/1	p3	sha256=974e4624702f78cb48733d910133fbd7551ea47c998217140b101c663419893a
+28: input	random/1	p4	sha256=0adaaad0d61b670666f4a9ae8a82f9f4639d42d70208bbceeef3a7dbc8456a56
+28: input	random/1	p5	sha256=9a9c9b2840a8fb86c8737ff6d12215af2e0495951a0d5c5c0b7be7cae047021f
+28: input	random/2	p3	sha256=1c281b803798b04ee1097f55a9f2e6af162e15f402c0d1a73a8a84ccec679fc9
+28: input	random/2	p4	sha256=87dbb7c6c9a08f591f20d9483781804208efbea035b5866c51e37d9636df7f3d
+28: input	random/2	p5	sha256=d9578715642c31065ced21709a36d31dd643ed6fcf3009b0070c5ff32fa79a7d
+28: tensorrt_headers=10.16.1.11
+28: tensorrt_library=101601.11
+28: plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+28: plugin_namespace=saccade
+28: plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+28: build_commit=222af61a8edf46950ffb2b58542c31074454b793
+28: build_dirty=true
+28: nvcc=13.4.92
+28: scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+28: cuda_arch_list=1200
+28: host_compiler=16.2.1 20260810
+28: tensor=p3 mode=input dtype=FP32 format=linear location=device shape=(1,256,80,80) shape_inference_io=false
+28: tensor=p4 mode=input dtype=FP32 format=linear location=device shape=(1,512,40,40) shape_inference_io=false
+28: tensor=p5 mode=input dtype=FP32 format=linear location=device shape=(1,512,20,20) shape_inference_io=false
+28: tensor=cls_p3 mode=output dtype=FP32 format=linear location=device shape=(1,80,80,80) shape_inference_io=false
+28: tensor=cls_p4 mode=output dtype=FP32 format=linear location=device shape=(1,80,40,40) shape_inference_io=false
+28: tensor=cls_p5 mode=output dtype=FP32 format=linear location=device shape=(1,80,20,20) shape_inference_io=false
+28: tensor=reg_p3 mode=output dtype=FP32 format=linear location=device shape=(1,4,80,80) shape_inference_io=false
+28: tensor=reg_p4 mode=output dtype=FP32 format=linear location=device shape=(1,4,40,40) shape_inference_io=false
+28: tensor=reg_p5 mode=output dtype=FP32 format=linear location=device shape=(1,4,20,20) shape_inference_io=false
+28: tensor=p3.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p3.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p3.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p4.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p4.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p4.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p5.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p5.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: tensor=p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+28: aux_streams=0
+28: profiles=1
+28: device_memory_bytes=16386048
+28: frame_kernel=initialize registers=14 local_bytes=0
+28: frame_kernel=begin registers=10 local_bytes=0
+28: frame_kernel=gate registers=30 local_bytes=0
+28: frame_kernel=publish registers=28 local_bytes=0
+28: frame_kernel=commit registers=14 local_bytes=0
+28: frame_kernel=packet registers=24 local_bytes=0
+28: frame_kernel=delay registers=4 local_bytes=0
+28: frame_kernel=check_finite registers=12 local_bytes=0
+28: frame_kernel=check_done registers=8 local_bytes=0
+28: slots=2
+28: packet_slots=3
+28: graphs=false
+28: context_memory_bytes=16386048
+28: payload=cls_p3,cls_p4,cls_p5,reg_p3,reg_p4,reg_p5
+28: statuses=p3.expand_status,p3.scan_status,p3.merge_status,p4.expand_status,p4.scan_status,p4.merge_status,p5.expand_status,p5.scan_status,p5.merge_status,frame_input_check,frame_output_check
+28: output=cls_p3 arena_offset=0 elements=512000
+28: output=cls_p4 arena_offset=512000 elements=128000
+28: output=cls_p5 arena_offset=640000 elements=32000
+28: output=reg_p3 arena_offset=672000 elements=25600
+28: output=reg_p4 arena_offset=697600 elements=6400
+28: output=reg_p5 arena_offset=704000 elements=1600
+28: status=p3.expand_status producer=saccade::CrossScanExpand (p3, v1)
+28: status=p3.scan_status producer=saccade::SelectiveScan (p3, v2, has_d=1)
+28: status=p3.merge_status producer=saccade::CrossScanMerge (p3, v1, 20x20)
+28: status=p4.expand_status producer=saccade::CrossScanExpand (p4, v1)
+28: status=p4.scan_status producer=saccade::SelectiveScan (p4, v2, has_d=1)
+28: status=p4.merge_status producer=saccade::CrossScanMerge (p4, v1, 10x10)
+28: status=p5.expand_status producer=saccade::CrossScanExpand (p5, v1)
+28: status=p5.scan_status producer=saccade::SelectiveScan (p5, v2, has_d=1)
+28: status=p5.merge_status producer=saccade::CrossScanMerge (p5, v1, 5x5)
+28: status=frame_input_check producer=harness: finite check of every input element
+28: status=frame_output_check producer=harness: finite check of every output element
+28: head_compare	asymmetric/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000126	max_rel=0.00201	rel_excluded=539	max_err_over_tol=0.00499	failures=0	nonfinite=0	worst=(c=60,h=62,w=8)	worst_gpu=40.3761177(0x42218125)	worst_ref=40.376239265741596	worst_tol=0.0244	max_err_over_2bound=5.04e-10	PASS
+28: head_compare	asymmetric/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000228	max_rel=0.0014	rel_excluded=78	max_err_over_tol=0.00626	failures=0	nonfinite=0	worst=(c=78,h=5,w=0)	worst_gpu=72.1010513(0x429033bd)	worst_ref=72.100886535339328	worst_tol=0.0263	max_err_over_2bound=3.08e-10	PASS
+28: head_compare	asymmetric/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=8.72e-05	max_rel=0.000991	rel_excluded=42	max_err_over_tol=0.00312	failures=0	nonfinite=0	worst=(c=11,h=13,w=2)	worst_gpu=-18.9508457(0xc1979b55)	worst_ref=-18.950828283873516	worst_tol=0.00559	max_err_over_2bound=6.69e-11	PASS
+28: head_compare	asymmetric/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=2.87e-05	max_rel=0.000827	rel_excluded=63	max_err_over_tol=0.00305	failures=0	nonfinite=0	worst=(c=0,h=72,w=1)	worst_gpu=2.05816579(0x4003b8fd)	worst_ref=2.058156118396671	worst_tol=0.00317	max_err_over_2bound=2.7e-10	PASS
+28: head_compare	asymmetric/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=1.76e-05	max_rel=0.000717	rel_excluded=19	max_err_over_tol=0.00179	failures=0	nonfinite=0	worst=(c=3,h=0,w=0)	worst_gpu=-3.05436897(0xc0437ac8)	worst_ref=-3.0543625453410703	worst_tol=0.00358	max_err_over_2bound=6.68e-11	PASS
+28: head_compare	asymmetric/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=1.82e-05	max_rel=0.00113	rel_excluded=1	max_err_over_tol=0.00283	failures=0	nonfinite=0	worst=(c=2,h=19,w=19)	worst_gpu=2.28871489(0x40127a4e)	worst_ref=2.2887120450916978	worst_tol=0.00101	max_err_over_2bound=6.41e-11	PASS
+28: determinism	asymmetric/1	rerun_bit_identical	PASS
+28: head_compare	random/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000354	max_rel=0.00295	rel_excluded=848	max_err_over_tol=0.00459	failures=0	nonfinite=0	worst=(c=79,h=2,w=30)	worst_gpu=22.3279972(0x41b29fbd)	worst_ref=22.328284195524766	worst_tol=0.0625	max_err_over_2bound=1.79e-10	PASS
+28: head_compare	random/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000389	max_rel=0.000791	rel_excluded=190	max_err_over_tol=0.00275	failures=0	nonfinite=0	worst=(c=62,h=26,w=0)	worst_gpu=96.1970901(0x42c064e9)	worst_ref=96.197390927201653	worst_tol=0.109	max_err_over_2bound=4.24e-11	PASS
+28: head_compare	random/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000214	max_rel=0.000281	rel_excluded=110	max_err_over_tol=0.00102	failures=0	nonfinite=0	worst=(c=20,h=19,w=1)	worst_gpu=13.7419586(0x415bdf10)	worst_ref=13.742047269764701	worst_tol=0.087	max_err_over_2bound=6.45e-12	PASS
+28: head_compare	random/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.39e-05	max_rel=0.000744	rel_excluded=107	max_err_over_tol=0.00279	failures=0	nonfinite=0	worst=(c=1,h=24,w=70)	worst_gpu=4.3636198(0x408ba2c6)	worst_ref=4.3635727164555531	worst_tol=0.0169	max_err_over_2bound=1.27e-10	PASS
+28: head_compare	random/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.45e-05	max_rel=0.000489	rel_excluded=42	max_err_over_tol=0.00112	failures=0	nonfinite=0	worst=(c=1,h=14,w=34)	worst_gpu=-11.1521645(0xc1326f44)	worst_ref=-11.152134034652644	worst_tol=0.0272	max_err_over_2bound=1.16e-11	PASS
+28: head_compare	random/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=6.09e-05	max_rel=0.000218	rel_excluded=5	max_err_over_tol=0.00069	failures=0	nonfinite=0	worst=(c=2,h=19,w=2)	worst_gpu=-11.3744946(0xc135fdee)	worst_ref=-11.374525124934081	worst_tol=0.0443	max_err_over_2bound=9.33e-12	PASS
+28: determinism	random/1	rerun_bit_identical	PASS
+28: head_compare	random/2	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.00051	max_rel=0.00186	rel_excluded=899	max_err_over_tol=0.00512	failures=0	nonfinite=0	worst=(c=60,h=26,w=33)	worst_gpu=184.393341(0x433864b2)	worst_ref=184.39385097770256	worst_tol=0.0996	max_err_over_2bound=1.45e-10	PASS
+28: head_compare	random/2	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000441	max_rel=0.00127	rel_excluded=195	max_err_over_tol=0.00252	failures=0	nonfinite=0	worst=(c=36,h=18,w=26)	worst_gpu=100.722336(0x42c971d6)	worst_ref=100.72194108516095	worst_tol=0.157	max_err_over_2bound=2.9e-11	PASS
+28: head_compare	random/2	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000247	max_rel=0.000525	rel_excluded=199	max_err_over_tol=0.000757	failures=0	nonfinite=0	worst=(c=13,h=15,w=2)	worst_gpu=1.18175375(0x3f9743b5)	worst_ref=1.1816592640242507	worst_tol=0.125	max_err_over_2bound=6.54e-12	PASS
+28: head_compare	random/2	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.37e-05	max_rel=0.000564	rel_excluded=97	max_err_over_tol=0.00243	failures=0	nonfinite=0	worst=(c=0,h=64,w=26)	worst_gpu=1.82829487(0x3fea0591)	worst_ref=1.8283178327103076	worst_tol=0.00945	max_err_over_2bound=1.04e-10	PASS
+28: head_compare	random/2	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.51e-05	max_rel=0.000421	rel_excluded=28	max_err_over_tol=0.00127	failures=0	nonfinite=0	worst=(c=1,h=8,w=21)	worst_gpu=-7.92566109(0xc0fd9f04)	worst_ref=-7.9256259490989471	worst_tol=0.0276	max_err_over_2bound=1.18e-11	PASS
+28: head_compare	random/2	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=9.82e-05	max_rel=0.000251	rel_excluded=10	max_err_over_tol=0.000832	failures=0	nonfinite=0	worst=(c=1,h=6,w=19)	worst_gpu=-35.6907272(0xc20ec34e)	worst_ref=-35.690628997568616	worst_tol=0.118	max_err_over_2bound=8.94e-12	PASS
+28: determinism	random/2	rerun_bit_identical	PASS
+28: failure_sequence	OK,FAILED(8),SKIPPED	committed=0	PASS
+28: graph_replay	three_inputs	bit_identical_to_enqueueV3	PASS
+28: result	PASS
+28: 
+28/31 Test #28: head_trt_engine_run ................   Passed    5.70 sec
+test 29
+      Start 29: head_trt_engine_unregistered
+
+29: Test command: /usr/sbin/cmake "-DWORK=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-trt" "-DHEAD_TRT=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt" "-DWEIGHTS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights" "-DSUITE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt_tests" "-DCANDIDATE_BUNDLE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb" "-DMODE=unregistered" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/HeadTrtTest.cmake"
+29: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+29: Test timeout computed to be: 900
+29: -- unregistered_deserialization=deferred
+29: unregistered_context=rejected
+29: 
+29/31 Test #29: head_trt_engine_unregistered .......   Passed    0.58 sec
+test 30
+      Start 30: head_trt
+
+30: Test command: /usr/sbin/cmake "-DWORK=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-trt" "-DHEAD_TRT=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt" "-DWEIGHTS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights" "-DSUITE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt_tests" "-DCANDIDATE_BUNDLE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb" "-DMODE=suite" "-DARGS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-trt/suite-report.tsv" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/HeadTrtTest.cmake"
+30: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+30: Test timeout computed to be: 900
+30: -- identity	engine_sha256=ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1
+30: identity	bundle_sha256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310
+30: identity	policy=s04-head-fp32/1
+30: session_identity_begin
+30: tensorrt_headers=10.16.1.11
+30: tensorrt_library=101601.11
+30: plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+30: plugin_namespace=saccade
+30: plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+30: build_commit=222af61a8edf46950ffb2b58542c31074454b793
+30: build_dirty=true
+30: nvcc=13.4.92
+30: scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+30: cuda_arch_list=1200
+30: host_compiler=16.2.1 20260810
+30: tensor=p3 mode=input dtype=FP32 format=linear location=device shape=(1,256,80,80) shape_inference_io=false
+30: tensor=p4 mode=input dtype=FP32 format=linear location=device shape=(1,512,40,40) shape_inference_io=false
+30: tensor=p5 mode=input dtype=FP32 format=linear location=device shape=(1,512,20,20) shape_inference_io=false
+30: tensor=cls_p3 mode=output dtype=FP32 format=linear location=device shape=(1,80,80,80) shape_inference_io=false
+30: tensor=cls_p4 mode=output dtype=FP32 format=linear location=device shape=(1,80,40,40) shape_inference_io=false
+30: tensor=cls_p5 mode=output dtype=FP32 format=linear location=device shape=(1,80,20,20) shape_inference_io=false
+30: tensor=reg_p3 mode=output dtype=FP32 format=linear location=device shape=(1,4,80,80) shape_inference_io=false
+30: tensor=reg_p4 mode=output dtype=FP32 format=linear location=device shape=(1,4,40,40) shape_inference_io=false
+30: tensor=reg_p5 mode=output dtype=FP32 format=linear location=device shape=(1,4,20,20) shape_inference_io=false
+30: tensor=p3.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p3.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p3.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p4.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p4.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p4.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p5.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p5.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: tensor=p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+30: aux_streams=0
+30: profiles=1
+30: device_memory_bytes=16386048
+30: frame_kernel=initialize registers=14 local_bytes=0
+30: frame_kernel=begin registers=10 local_bytes=0
+30: frame_kernel=gate registers=30 local_bytes=0
+30: frame_kernel=publish registers=28 local_bytes=0
+30: frame_kernel=commit registers=14 local_bytes=0
+30: frame_kernel=packet registers=24 local_bytes=0
+30: frame_kernel=delay registers=4 local_bytes=0
+30: frame_kernel=check_finite registers=12 local_bytes=0
+30: frame_kernel=check_done registers=8 local_bytes=0
+30: slots=2
+30: packet_slots=3
+30: graphs=false
+30: context_memory_bytes=16386048
+30: payload=cls_p3,cls_p4,cls_p5,reg_p3,reg_p4,reg_p5
+30: statuses=p3.expand_status,p3.scan_status,p3.merge_status,p4.expand_status,p4.scan_status,p4.merge_status,p5.expand_status,p5.scan_status,p5.merge_status,frame_input_check,frame_output_check
+30: output=cls_p3 arena_offset=0 elements=512000
+30: output=cls_p4 arena_offset=512000 elements=128000
+30: output=cls_p5 arena_offset=640000 elements=32000
+30: output=reg_p3 arena_offset=672000 elements=25600
+30: output=reg_p4 arena_offset=697600 elements=6400
+30: output=reg_p5 arena_offset=704000 elements=1600
+30: status=p3.expand_status producer=saccade::CrossScanExpand (p3, v1)
+30: status=p3.scan_status producer=saccade::SelectiveScan (p3, v2, has_d=1)
+30: status=p3.merge_status producer=saccade::CrossScanMerge (p3, v1, 20x20)
+30: status=p4.expand_status producer=saccade::CrossScanExpand (p4, v1)
+30: status=p4.scan_status producer=saccade::SelectiveScan (p4, v2, has_d=1)
+30: status=p4.merge_status producer=saccade::CrossScanMerge (p4, v1, 10x10)
+30: status=p5.expand_status producer=saccade::CrossScanExpand (p5, v1)
+30: status=p5.scan_status producer=saccade::SelectiveScan (p5, v2, has_d=1)
+30: status=p5.merge_status producer=saccade::CrossScanMerge (p5, v1, 5x5)
+30: status=frame_input_check producer=harness: finite check of every input element
+30: status=frame_output_check producer=harness: finite check of every output element
+30: session_identity_end
+30: head_compare	asymmetric/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000126	max_rel=0.00201	rel_excluded=539	max_err_over_tol=0.00499	failures=0	nonfinite=0	worst=(c=60,h=62,w=8)	worst_gpu=40.3761177(0x42218125)	worst_ref=40.376239265741596	worst_tol=0.0244	max_err_over_2bound=5.04e-10	PASS
+30: head_compare	asymmetric/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000228	max_rel=0.0014	rel_excluded=78	max_err_over_tol=0.00626	failures=0	nonfinite=0	worst=(c=78,h=5,w=0)	worst_gpu=72.1010513(0x429033bd)	worst_ref=72.100886535339328	worst_tol=0.0263	max_err_over_2bound=3.08e-10	PASS
+30: head_compare	asymmetric/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=8.72e-05	max_rel=0.000991	rel_excluded=42	max_err_over_tol=0.00312	failures=0	nonfinite=0	worst=(c=11,h=13,w=2)	worst_gpu=-18.9508457(0xc1979b55)	worst_ref=-18.950828283873516	worst_tol=0.00559	max_err_over_2bound=6.69e-11	PASS
+30: head_compare	asymmetric/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=2.87e-05	max_rel=0.000827	rel_excluded=63	max_err_over_tol=0.00305	failures=0	nonfinite=0	worst=(c=0,h=72,w=1)	worst_gpu=2.05816579(0x4003b8fd)	worst_ref=2.058156118396671	worst_tol=0.00317	max_err_over_2bound=2.7e-10	PASS
+30: head_compare	asymmetric/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=1.76e-05	max_rel=0.000717	rel_excluded=19	max_err_over_tol=0.00179	failures=0	nonfinite=0	worst=(c=3,h=0,w=0)	worst_gpu=-3.05436897(0xc0437ac8)	worst_ref=-3.0543625453410703	worst_tol=0.00358	max_err_over_2bound=6.68e-11	PASS
+30: head_compare	asymmetric/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=1.82e-05	max_rel=0.00113	rel_excluded=1	max_err_over_tol=0.00283	failures=0	nonfinite=0	worst=(c=2,h=19,w=19)	worst_gpu=2.28871489(0x40127a4e)	worst_ref=2.2887120450916978	worst_tol=0.00101	max_err_over_2bound=6.41e-11	PASS
+30: head_compare	random/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000354	max_rel=0.00295	rel_excluded=848	max_err_over_tol=0.00459	failures=0	nonfinite=0	worst=(c=79,h=2,w=30)	worst_gpu=22.3279972(0x41b29fbd)	worst_ref=22.328284195524766	worst_tol=0.0625	max_err_over_2bound=1.79e-10	PASS
+30: head_compare	random/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000389	max_rel=0.000791	rel_excluded=190	max_err_over_tol=0.00275	failures=0	nonfinite=0	worst=(c=62,h=26,w=0)	worst_gpu=96.1970901(0x42c064e9)	worst_ref=96.197390927201653	worst_tol=0.109	max_err_over_2bound=4.24e-11	PASS
+30: head_compare	random/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000214	max_rel=0.000281	rel_excluded=110	max_err_over_tol=0.00102	failures=0	nonfinite=0	worst=(c=20,h=19,w=1)	worst_gpu=13.7419586(0x415bdf10)	worst_ref=13.742047269764701	worst_tol=0.087	max_err_over_2bound=6.45e-12	PASS
+30: head_compare	random/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.39e-05	max_rel=0.000744	rel_excluded=107	max_err_over_tol=0.00279	failures=0	nonfinite=0	worst=(c=1,h=24,w=70)	worst_gpu=4.3636198(0x408ba2c6)	worst_ref=4.3635727164555531	worst_tol=0.0169	max_err_over_2bound=1.27e-10	PASS
+30: head_compare	random/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.45e-05	max_rel=0.000489	rel_excluded=42	max_err_over_tol=0.00112	failures=0	nonfinite=0	worst=(c=1,h=14,w=34)	worst_gpu=-11.1521645(0xc1326f44)	worst_ref=-11.152134034652644	worst_tol=0.0272	max_err_over_2bound=1.16e-11	PASS
+30: head_compare	random/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=6.09e-05	max_rel=0.000218	rel_excluded=5	max_err_over_tol=0.00069	failures=0	nonfinite=0	worst=(c=2,h=19,w=2)	worst_gpu=-11.3744946(0xc135fdee)	worst_ref=-11.374525124934081	worst_tol=0.0443	max_err_over_2bound=9.33e-12	PASS
+30: head_compare	random/2	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.00051	max_rel=0.00186	rel_excluded=899	max_err_over_tol=0.00512	failures=0	nonfinite=0	worst=(c=60,h=26,w=33)	worst_gpu=184.393341(0x433864b2)	worst_ref=184.39385097770256	worst_tol=0.0996	max_err_over_2bound=1.45e-10	PASS
+30: head_compare	random/2	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000441	max_rel=0.00127	rel_excluded=195	max_err_over_tol=0.00252	failures=0	nonfinite=0	worst=(c=36,h=18,w=26)	worst_gpu=100.722336(0x42c971d6)	worst_ref=100.72194108516095	worst_tol=0.157	max_err_over_2bound=2.9e-11	PASS
+30: head_compare	random/2	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000247	max_rel=0.000525	rel_excluded=199	max_err_over_tol=0.000757	failures=0	nonfinite=0	worst=(c=13,h=15,w=2)	worst_gpu=1.18175375(0x3f9743b5)	worst_ref=1.1816592640242507	worst_tol=0.125	max_err_over_2bound=6.54e-12	PASS
+30: head_compare	random/2	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.37e-05	max_rel=0.000564	rel_excluded=97	max_err_over_tol=0.00243	failures=0	nonfinite=0	worst=(c=0,h=64,w=26)	worst_gpu=1.82829487(0x3fea0591)	worst_ref=1.8283178327103076	worst_tol=0.00945	max_err_over_2bound=1.04e-10	PASS
+30: head_compare	random/2	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.51e-05	max_rel=0.000421	rel_excluded=28	max_err_over_tol=0.00127	failures=0	nonfinite=0	worst=(c=1,h=8,w=21)	worst_gpu=-7.92566109(0xc0fd9f04)	worst_ref=-7.9256259490989471	worst_tol=0.0276	max_err_over_2bound=1.18e-11	PASS
+30: head_compare	random/2	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=9.82e-05	max_rel=0.000251	rel_excluded=10	max_err_over_tol=0.000832	failures=0	nonfinite=0	worst=(c=1,h=6,w=19)	worst_gpu=-35.6907272(0xc20ec34e)	worst_ref=-35.690628997568616	worst_tol=0.118	max_err_over_2bound=8.94e-12	PASS
+30: numeric	scan_bound_is_s02	L=25,100,400	PASS
+30: debug_engine	bytes=41632268	build_seconds=23.9809	intermediates=51
+30: intermediate	p3.input_proj	count=819200	max_err_over_tol=0.0134	outside=0	PASS
+30: intermediate	p3.downsample	count=51200	max_err_over_tol=0.00694	outside=0	PASS
+30: intermediate	p3.tokens	count=204800	max_err_over_tol=0.00694	outside=0	PASS
+30: intermediate	p3.in_proj	count=819200	max_err_over_tol=0.00372	outside=0	PASS
+30: intermediate	p3.conv1d	count=409600	max_err_over_tol=0.00449	outside=0	PASS
+30: intermediate	p3.u	count=409600	max_err_over_tol=0.00317	outside=0	PASS
+30: intermediate	p3.x_proj	count=52800	max_err_over_tol=0.00353	outside=0	PASS
+30: intermediate	p3.delta	count=409600	max_err_over_tol=0.00414	outside=0	PASS
+30: intermediate	p3.scan	count=409600	max_err_over_tol=0.00287	outside=0	PASS
+30: intermediate	p3.gate	count=409600	max_err_over_tol=0.00287	outside=0	PASS
+30: intermediate	p3.out_proj	count=204800	max_err_over_tol=0.00429	outside=0	PASS
+30: intermediate	p3.residual	count=204800	max_err_over_tol=0.00396	outside=0	PASS
+30: intermediate	p3.merge	count=51200	max_err_over_tol=0.00379	outside=0	PASS
+30: intermediate	p3.upsample	count=819200	max_err_over_tol=0.00345	outside=0	PASS
+30: intermediate	p3.pixel_shuffle	count=819200	max_err_over_tol=0.00345	outside=0	PASS
+30: intermediate	p3.cls_hidden	count=819200	max_err_over_tol=0.00909	outside=0	PASS
+30: intermediate	p3.reg_hidden	count=819200	max_err_over_tol=0.00755	outside=0	PASS
+30: intermediate	p4.input_proj	count=204800	max_err_over_tol=0.00941	outside=0	PASS
+30: intermediate	p4.downsample	count=12800	max_err_over_tol=0.00519	outside=0	PASS
+30: intermediate	p4.tokens	count=51200	max_err_over_tol=0.00519	outside=0	PASS
+30: intermediate	p4.in_proj	count=204800	max_err_over_tol=0.00279	outside=0	PASS
+30: intermediate	p4.conv1d	count=102400	max_err_over_tol=0.0039	outside=0	PASS
+30: intermediate	p4.u	count=102400	max_err_over_tol=0.00264	outside=0	PASS
+30: intermediate	p4.x_proj	count=13200	max_err_over_tol=0.00389	outside=0	PASS
+30: intermediate	p4.delta	count=102400	max_err_over_tol=0.00351	outside=0	PASS
+30: intermediate	p4.scan	count=102400	max_err_over_tol=0.00234	outside=0	PASS
+30: intermediate	p4.gate	count=102400	max_err_over_tol=0.00233	outside=0	PASS
+30: intermediate	p4.out_proj	count=51200	max_err_over_tol=0.00211	outside=0	PASS
+30: intermediate	p4.residual	count=51200	max_err_over_tol=0.00383	outside=0	PASS
+30: intermediate	p4.merge	count=12800	max_err_over_tol=0.00371	outside=0	PASS
+30: intermediate	p4.upsample	count=204800	max_err_over_tol=0.00278	outside=0	PASS
+30: intermediate	p4.pixel_shuffle	count=204800	max_err_over_tol=0.00278	outside=0	PASS
+30: intermediate	p4.cls_hidden	count=204800	max_err_over_tol=0.00711	outside=0	PASS
+30: intermediate	p4.reg_hidden	count=204800	max_err_over_tol=0.0041	outside=0	PASS
+30: intermediate	p5.input_proj	count=51200	max_err_over_tol=0.00648	outside=0	PASS
+30: intermediate	p5.downsample	count=3200	max_err_over_tol=0.0028	outside=0	PASS
+30: intermediate	p5.tokens	count=12800	max_err_over_tol=0.0028	outside=0	PASS
+30: intermediate	p5.in_proj	count=51200	max_err_over_tol=0.00218	outside=0	PASS
+30: intermediate	p5.conv1d	count=25600	max_err_over_tol=0.00578	outside=0	PASS
+30: intermediate	p5.u	count=25600	max_err_over_tol=0.00226	outside=0	PASS
+30: intermediate	p5.x_proj	count=3300	max_err_over_tol=0.00207	outside=0	PASS
+30: intermediate	p5.delta	count=25600	max_err_over_tol=0.00216	outside=0	PASS
+30: intermediate	p5.scan	count=25600	max_err_over_tol=0.00206	outside=0	PASS
+30: intermediate	p5.gate	count=25600	max_err_over_tol=0.00169	outside=0	PASS
+30: intermediate	p5.out_proj	count=12800	max_err_over_tol=0.00184	outside=0	PASS
+30: intermediate	p5.residual	count=12800	max_err_over_tol=0.00207	outside=0	PASS
+30: intermediate	p5.merge	count=3200	max_err_over_tol=0.00198	outside=0	PASS
+30: intermediate	p5.upsample	count=51200	max_err_over_tol=0.00229	outside=0	PASS
+30: intermediate	p5.pixel_shuffle	count=51200	max_err_over_tol=0.00229	outside=0	PASS
+30: intermediate	p5.cls_hidden	count=51200	max_err_over_tol=0.00639	outside=0	PASS
+30: intermediate	p5.reg_hidden	count=51200	max_err_over_tol=0.00429	outside=0	PASS
+30: io_contract	status_missing_from_spec	scan frame session: engine tensor not in the I/O spec: p4.scan_status
+30: io_contract	status_absent_from_engine	scan frame session: engine lacks the status p6.scan_status
+30: io_contract	duplicate_output	scan frame session: I/O spec names a tensor twice or with an empty name: cls_p3
+30: io_contract	output_order_swapped	scan frame session: engine output shape differs from the spec: cls_p5
+30: io_contract	feature_order_swapped	scan frame session: engine input shape differs from the spec: p5
+30: io_contract	status_and_output_roles_swapped	scan frame session: engine tensor has the wrong data type: reg_p3
+30: io_contract	all	PASS
+30: atomicity	status=p3.expand_status	producer=saccade::CrossScanExpand (p3, v1)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p3.scan_status	producer=saccade::SelectiveScan (p3, v2, has_d=1)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p3.merge_status	producer=saccade::CrossScanMerge (p3, v1, 20x20)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p4.expand_status	producer=saccade::CrossScanExpand (p4, v1)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p4.scan_status	producer=saccade::SelectiveScan (p4, v2, has_d=1)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p4.merge_status	producer=saccade::CrossScanMerge (p4, v1, 10x10)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p5.expand_status	producer=saccade::CrossScanExpand (p5, v1)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p5.scan_status	producer=saccade::SelectiveScan (p5, v2, has_d=1)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=p5.merge_status	producer=saccade::CrossScanMerge (p5, v1, 5x5)	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=frame_input_check	producer=harness: finite check of every input element	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	status=frame_output_check	producer=harness: finite check of every output element	finite_payload_flag,missing_done,unknown_bit	PASS
+30: atomicity	output_check	cls_p3	PASS
+30: atomicity	output_check	cls_p4	PASS
+30: atomicity	output_check	cls_p5	PASS
+30: atomicity	output_check	reg_p3	PASS
+30: atomicity	output_check	reg_p4	PASS
+30: atomicity	output_check	reg_p5	PASS
+30: atomicity	input	p3	input_check+expand_status	PASS
+30: atomicity	input	p4	input_check+expand_status	PASS
+30: atomicity	input	p5	input_check+expand_status	PASS
+30: ownership	slots=1	frames=6	delay_cycles=4000000	PASS
+30: ownership	slots=2	frames=6	delay_cycles=4000000	PASS
+30: isolation	two_sessions_interleaved+reset	PASS
+30: graph	nodes	kernel=113	memset=9	nodes_with_typed_edges=52
+30: graph	replay+failure	PASS
+30: streams	enqueueV3	returned_while_held	PASS
+30: streams	graph_launch	returned_while_held	PASS
+30: skipped	api_trace	explicit_group_only
+30: checks	824
+30: head_trt_tests: 824 checks passed
+30: 
+30/31 Test #30: head_trt ...........................   Passed   32.83 sec
+test 31
+      Start 31: head_trt_api_trace
+
+31: Test command: /usr/sbin/cmake "-DWORK=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-trt" "-DHEAD_TRT=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt" "-DWEIGHTS=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_weights" "-DSUITE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head_trt_tests" "-DCANDIDATE_BUNDLE=/home/ray/developer/ai/saccade_v1/build-s04-evidence/trt/head-weights/t1-head.swb" "-DMODE=suite" "-DARGS=--group api_trace" "-P" "/home/ray/developer/ai/saccade_v1/build-s04-evidence/source/cmake/HeadTrtTest.cmake"
+31: Working Directory: /home/ray/developer/ai/saccade_v1/build-s04-evidence/trt
+31: Test timeout computed to be: 900
+31: -- identity	engine_sha256=ca74a50d04980b7b15ffd66a968e4851459c4fb8c3fa2db0724d9d55f69509c1
+31: identity	bundle_sha256=e1a8660fb9ad510f20ccc3d56a4feac61c6a2e5f771aab531caa741e7677f310
+31: identity	policy=s04-head-fp32/1
+31: session_identity_begin
+31: tensorrt_headers=10.16.1.11
+31: tensorrt_library=101601.11
+31: plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+31: plugin_namespace=saccade
+31: plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+31: build_commit=222af61a8edf46950ffb2b58542c31074454b793
+31: build_dirty=true
+31: nvcc=13.4.92
+31: scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+31: cuda_arch_list=1200
+31: host_compiler=16.2.1 20260810
+31: tensor=p3 mode=input dtype=FP32 format=linear location=device shape=(1,256,80,80) shape_inference_io=false
+31: tensor=p4 mode=input dtype=FP32 format=linear location=device shape=(1,512,40,40) shape_inference_io=false
+31: tensor=p5 mode=input dtype=FP32 format=linear location=device shape=(1,512,20,20) shape_inference_io=false
+31: tensor=cls_p3 mode=output dtype=FP32 format=linear location=device shape=(1,80,80,80) shape_inference_io=false
+31: tensor=cls_p4 mode=output dtype=FP32 format=linear location=device shape=(1,80,40,40) shape_inference_io=false
+31: tensor=cls_p5 mode=output dtype=FP32 format=linear location=device shape=(1,80,20,20) shape_inference_io=false
+31: tensor=reg_p3 mode=output dtype=FP32 format=linear location=device shape=(1,4,80,80) shape_inference_io=false
+31: tensor=reg_p4 mode=output dtype=FP32 format=linear location=device shape=(1,4,40,40) shape_inference_io=false
+31: tensor=reg_p5 mode=output dtype=FP32 format=linear location=device shape=(1,4,20,20) shape_inference_io=false
+31: tensor=p3.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p3.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p3.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p4.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p4.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p4.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p5.expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p5.scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: tensor=p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+31: aux_streams=0
+31: profiles=1
+31: device_memory_bytes=16386048
+31: frame_kernel=initialize registers=14 local_bytes=0
+31: frame_kernel=begin registers=10 local_bytes=0
+31: frame_kernel=gate registers=30 local_bytes=0
+31: frame_kernel=publish registers=28 local_bytes=0
+31: frame_kernel=commit registers=14 local_bytes=0
+31: frame_kernel=packet registers=24 local_bytes=0
+31: frame_kernel=delay registers=4 local_bytes=0
+31: frame_kernel=check_finite registers=12 local_bytes=0
+31: frame_kernel=check_done registers=8 local_bytes=0
+31: slots=2
+31: packet_slots=3
+31: graphs=false
+31: context_memory_bytes=16386048
+31: payload=cls_p3,cls_p4,cls_p5,reg_p3,reg_p4,reg_p5
+31: statuses=p3.expand_status,p3.scan_status,p3.merge_status,p4.expand_status,p4.scan_status,p4.merge_status,p5.expand_status,p5.scan_status,p5.merge_status,frame_input_check,frame_output_check
+31: output=cls_p3 arena_offset=0 elements=512000
+31: output=cls_p4 arena_offset=512000 elements=128000
+31: output=cls_p5 arena_offset=640000 elements=32000
+31: output=reg_p3 arena_offset=672000 elements=25600
+31: output=reg_p4 arena_offset=697600 elements=6400
+31: output=reg_p5 arena_offset=704000 elements=1600
+31: status=p3.expand_status producer=saccade::CrossScanExpand (p3, v1)
+31: status=p3.scan_status producer=saccade::SelectiveScan (p3, v2, has_d=1)
+31: status=p3.merge_status producer=saccade::CrossScanMerge (p3, v1, 20x20)
+31: status=p4.expand_status producer=saccade::CrossScanExpand (p4, v1)
+31: status=p4.scan_status producer=saccade::SelectiveScan (p4, v2, has_d=1)
+31: status=p4.merge_status producer=saccade::CrossScanMerge (p4, v1, 10x10)
+31: status=p5.expand_status producer=saccade::CrossScanExpand (p5, v1)
+31: status=p5.scan_status producer=saccade::SelectiveScan (p5, v2, has_d=1)
+31: status=p5.merge_status producer=saccade::CrossScanMerge (p5, v1, 5x5)
+31: status=frame_input_check producer=harness: finite check of every input element
+31: status=frame_output_check producer=harness: finite check of every output element
+31: session_identity_end
+31: head_compare	asymmetric/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000126	max_rel=0.00201	rel_excluded=539	max_err_over_tol=0.00499	failures=0	nonfinite=0	worst=(c=60,h=62,w=8)	worst_gpu=40.3761177(0x42218125)	worst_ref=40.376239265741596	worst_tol=0.0244	max_err_over_2bound=5.04e-10	PASS
+31: head_compare	asymmetric/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000228	max_rel=0.0014	rel_excluded=78	max_err_over_tol=0.00626	failures=0	nonfinite=0	worst=(c=78,h=5,w=0)	worst_gpu=72.1010513(0x429033bd)	worst_ref=72.100886535339328	worst_tol=0.0263	max_err_over_2bound=3.08e-10	PASS
+31: head_compare	asymmetric/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=8.72e-05	max_rel=0.000991	rel_excluded=42	max_err_over_tol=0.00312	failures=0	nonfinite=0	worst=(c=11,h=13,w=2)	worst_gpu=-18.9508457(0xc1979b55)	worst_ref=-18.950828283873516	worst_tol=0.00559	max_err_over_2bound=6.69e-11	PASS
+31: head_compare	asymmetric/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=2.87e-05	max_rel=0.000827	rel_excluded=63	max_err_over_tol=0.00305	failures=0	nonfinite=0	worst=(c=0,h=72,w=1)	worst_gpu=2.05816579(0x4003b8fd)	worst_ref=2.058156118396671	worst_tol=0.00317	max_err_over_2bound=2.7e-10	PASS
+31: head_compare	asymmetric/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=1.76e-05	max_rel=0.000717	rel_excluded=19	max_err_over_tol=0.00179	failures=0	nonfinite=0	worst=(c=3,h=0,w=0)	worst_gpu=-3.05436897(0xc0437ac8)	worst_ref=-3.0543625453410703	worst_tol=0.00358	max_err_over_2bound=6.68e-11	PASS
+31: head_compare	asymmetric/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=1.82e-05	max_rel=0.00113	rel_excluded=1	max_err_over_tol=0.00283	failures=0	nonfinite=0	worst=(c=2,h=19,w=19)	worst_gpu=2.28871489(0x40127a4e)	worst_ref=2.2887120450916978	worst_tol=0.00101	max_err_over_2bound=6.41e-11	PASS
+31: head_compare	random/1	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.000354	max_rel=0.00295	rel_excluded=848	max_err_over_tol=0.00459	failures=0	nonfinite=0	worst=(c=79,h=2,w=30)	worst_gpu=22.3279972(0x41b29fbd)	worst_ref=22.328284195524766	worst_tol=0.0625	max_err_over_2bound=1.79e-10	PASS
+31: head_compare	random/1	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000389	max_rel=0.000791	rel_excluded=190	max_err_over_tol=0.00275	failures=0	nonfinite=0	worst=(c=62,h=26,w=0)	worst_gpu=96.1970901(0x42c064e9)	worst_ref=96.197390927201653	worst_tol=0.109	max_err_over_2bound=4.24e-11	PASS
+31: head_compare	random/1	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000214	max_rel=0.000281	rel_excluded=110	max_err_over_tol=0.00102	failures=0	nonfinite=0	worst=(c=20,h=19,w=1)	worst_gpu=13.7419586(0x415bdf10)	worst_ref=13.742047269764701	worst_tol=0.087	max_err_over_2bound=6.45e-12	PASS
+31: head_compare	random/1	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.39e-05	max_rel=0.000744	rel_excluded=107	max_err_over_tol=0.00279	failures=0	nonfinite=0	worst=(c=1,h=24,w=70)	worst_gpu=4.3636198(0x408ba2c6)	worst_ref=4.3635727164555531	worst_tol=0.0169	max_err_over_2bound=1.27e-10	PASS
+31: head_compare	random/1	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.45e-05	max_rel=0.000489	rel_excluded=42	max_err_over_tol=0.00112	failures=0	nonfinite=0	worst=(c=1,h=14,w=34)	worst_gpu=-11.1521645(0xc1326f44)	worst_ref=-11.152134034652644	worst_tol=0.0272	max_err_over_2bound=1.16e-11	PASS
+31: head_compare	random/1	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=6.09e-05	max_rel=0.000218	rel_excluded=5	max_err_over_tol=0.00069	failures=0	nonfinite=0	worst=(c=2,h=19,w=2)	worst_gpu=-11.3744946(0xc135fdee)	worst_ref=-11.374525124934081	worst_tol=0.0443	max_err_over_2bound=9.33e-12	PASS
+31: head_compare	random/2	cls_p3	policy=s04-head-fp32/1	count=512000	max_abs=0.00051	max_rel=0.00186	rel_excluded=899	max_err_over_tol=0.00512	failures=0	nonfinite=0	worst=(c=60,h=26,w=33)	worst_gpu=184.393341(0x433864b2)	worst_ref=184.39385097770256	worst_tol=0.0996	max_err_over_2bound=1.45e-10	PASS
+31: head_compare	random/2	cls_p4	policy=s04-head-fp32/1	count=128000	max_abs=0.000441	max_rel=0.00127	rel_excluded=195	max_err_over_tol=0.00252	failures=0	nonfinite=0	worst=(c=36,h=18,w=26)	worst_gpu=100.722336(0x42c971d6)	worst_ref=100.72194108516095	worst_tol=0.157	max_err_over_2bound=2.9e-11	PASS
+31: head_compare	random/2	cls_p5	policy=s04-head-fp32/1	count=32000	max_abs=0.000247	max_rel=0.000525	rel_excluded=199	max_err_over_tol=0.000757	failures=0	nonfinite=0	worst=(c=13,h=15,w=2)	worst_gpu=1.18175375(0x3f9743b5)	worst_ref=1.1816592640242507	worst_tol=0.125	max_err_over_2bound=6.54e-12	PASS
+31: head_compare	random/2	reg_p3	policy=s04-head-fp32/1	count=25600	max_abs=8.37e-05	max_rel=0.000564	rel_excluded=97	max_err_over_tol=0.00243	failures=0	nonfinite=0	worst=(c=0,h=64,w=26)	worst_gpu=1.82829487(0x3fea0591)	worst_ref=1.8283178327103076	worst_tol=0.00945	max_err_over_2bound=1.04e-10	PASS
+31: head_compare	random/2	reg_p4	policy=s04-head-fp32/1	count=6400	max_abs=3.51e-05	max_rel=0.000421	rel_excluded=28	max_err_over_tol=0.00127	failures=0	nonfinite=0	worst=(c=1,h=8,w=21)	worst_gpu=-7.92566109(0xc0fd9f04)	worst_ref=-7.9256259490989471	worst_tol=0.0276	max_err_over_2bound=1.18e-11	PASS
+31: head_compare	random/2	reg_p5	policy=s04-head-fp32/1	count=1600	max_abs=9.82e-05	max_rel=0.000251	rel_excluded=10	max_err_over_tol=0.000832	failures=0	nonfinite=0	worst=(c=1,h=6,w=19)	worst_gpu=-35.6907272(0xc20ec34e)	worst_ref=-35.690628997568616	worst_tol=0.118	max_err_over_2bound=8.94e-12	PASS
+31: numeric	scan_bound_is_s02	L=25,100,400	PASS
+31: api_trace	enqueueV3_x3	calls=777	runtime_kernel_launches=81	runtime_memsets=27	PASS
+31: checks	2850
+31: group_only	api_trace
+31: head_trt_tests: 2850 checks passed
+31: 
+31/31 Test #31: head_trt_api_trace .................   Passed    6.27 sec
+
+100% tests passed out of 31
+
+Label Time Summary:
+gpu         =  92.72 sec*proc (18 tests)
+tensorrt    =  89.88 sec*proc (13 tests)
+
+Total Test time (real) = 155.67 sec

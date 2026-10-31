@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_trt_network.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_trt_network.cpp	2026-10-30 12:14:52.941579032 +0800
+@@ -48,7 +48,7 @@
+         require(network_ != nullptr, "createNetworkV2 failed");
+         config_.reset(builder_->createBuilderConfig());
+         require(config_ != nullptr, "createBuilderConfig failed");
+-        config_->clearFlag(BuilderFlag::kTF32);
++        config_->setFlag(BuilderFlag::kTF32);
+         config_->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE, kHeadBuilderWorkspace);
+         config_->setMaxAuxStreams(0);
+         config_->setBuilderOptimizationLevel(kHeadBuilderOptimizationLevel);

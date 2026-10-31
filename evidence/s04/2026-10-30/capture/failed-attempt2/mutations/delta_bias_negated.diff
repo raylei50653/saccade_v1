@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/head_trt_network.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/head_trt_network.cpp	2026-10-30 12:11:49.423532543 +0800
+@@ -172,7 +172,7 @@
+         auto* bm = slice(dbc, shape({0, 0, kHeadDState}), shape({4, L, kHeadDState}), "mamba.B");
+         auto* cm = slice(dbc, shape({0, 0, 2 * kHeadDState}), shape({4, L, kHeadCRank}), "mamba.C");
+         auto* dt_bias = constant(W("mamba.dt_proj.bias"), shape({1, 1, kHeadDInner}), "mamba.dt_proj.bias");
+-        auto* delta = keep(named(network_->addElementWise(*linear(dt, "mamba.dt_proj.weight"), *dt_bias, ElementWiseOperation::kSUM), "mamba.delta")
++        auto* delta = keep(named(network_->addElementWise(*linear(dt, "mamba.dt_proj.weight"), *dt_bias, ElementWiseOperation::kSUB), "mamba.delta")
+                                ->getOutput(0),
+                            "delta");
+         // 4e: A = -exp(A_log), computed in the graph.

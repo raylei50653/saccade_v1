@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/cuda/scan_frame.cu	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/cuda/scan_frame.cu	2026-10-29 22:59:16.877422430 +0800
+@@ -66,7 +66,7 @@
+ 
+ __global__ void publish(ScanFrameControl* ctl, const float* payload, unsigned long long count, float* results,
+                         std::int64_t* result_frames, ScanFrameRecord* records, std::int64_t capacity) {
+-    if (!ctl->run_stage) return; // fixed by the gate; this grid never writes it
++    if (false) return; // fixed by the gate; this grid never writes it
+     const unsigned long long first = static_cast<unsigned long long>(blockIdx.x) * blockDim.x + threadIdx.x;
+     const unsigned long long stride = static_cast<unsigned long long>(gridDim.x) * blockDim.x;
+     float* out = results + ctl->working_slot * count;

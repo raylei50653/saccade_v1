@@ -1,0 +1,26 @@
+/home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro.cpp: In function ‘int main(int, char**)’:
+/home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro.cpp:80:27: error: invalid conversion from ‘unsigned char**’ to ‘void**’ [-fpermissive]
+   80 |         ck(cudaMallocHost(&o.input,encoded.size()),"pinned input");
+      |                           ^~~~~~~~
+      |                           |
+      |                           unsigned char**
+In file included from /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro.cpp:2:
+/opt/cuda/include/cuda_runtime_api.h:4797:61: note: initializing argument 1 of ‘cudaError_t cudaMallocHost(void**, size_t)’
+ 4797 | extern __host__ cudaError_t CUDARTAPI cudaMallocHost(void **ptr, size_t size);
+      |                                                      ~~~~~~~^~~
+/home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro.cpp:81:27: error: invalid conversion from ‘unsigned char**’ to ‘void**’ [-fpermissive]
+   81 |         ck(cudaMallocHost(&o.download,count),"pinned output");
+      |                           ^~~~~~~~~~~
+      |                           |
+      |                           unsigned char**
+/opt/cuda/include/cuda_runtime_api.h:4797:61: note: initializing argument 1 of ‘cudaError_t cudaMallocHost(void**, size_t)’
+ 4797 | extern __host__ cudaError_t CUDARTAPI cudaMallocHost(void **ptr, size_t size);
+      |                                                      ~~~~~~~^~~
+/home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro.cpp:82:23: error: invalid conversion from ‘unsigned char**’ to ‘void**’ [-fpermissive]
+   82 |         ck(cudaMalloc(&o.rgb,count),"RGB allocation");
+      |                       ^~~~~~
+      |                       |
+      |                       unsigned char**
+/opt/cuda/include/cuda_runtime_api.h:4759:76: note: initializing argument 1 of ‘cudaError_t cudaMalloc(void**, size_t)’
+ 4759 | extern __host__ __cudart_builtin__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size);
+      |                                                                     ~~~~~~~^~~~~~

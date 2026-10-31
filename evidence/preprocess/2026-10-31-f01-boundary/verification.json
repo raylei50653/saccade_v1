@@ -1,0 +1,78 @@
+{
+  "saved_evidence_verified": true,
+  "gpu_executed": false,
+  "subtree_manifest_files": {
+    "static": 96,
+    "host-static": 191,
+    "dynamic": 85,
+    "contracts": 6,
+    "annotation": 267
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/static/verify.py",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/static/capture"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"disassemblers_agree_on_instructions\": 48,\n  \"exact_dataflow_instructions_checked\": 38,\n  \"global_memory_operations\": [\n    {\n      \"instruction\": \"LDG.E R13, desc[UR4][R2.64]\",\n      \"offset\": \"0x170\"\n    },\n    {\n      \"instruction\": \"STG.E.U8 desc[UR4][R2.64], R13\",\n      \"offset\": \"0x220\"\n    },\n    {\n      \"instruction\": \"STG.E.U8 desc[UR4][R4.64], R9\",\n      \"offset\": \"0x240\"\n    },\n    {\n      \"instruction\": \"STG.E.U8 desc[UR4][R6.64], R11\",\n      \"offset\": \"0x250\"\n    }\n  ],\n  \"gpu_commands_executed\": 0,\n  \"limitation\": \"saved-output consistency and reconstruction checks, not hardware execution, sanitizer shadow proof or F01 acceptance\",\n  \"offline_crosscheck\": \"PASS\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/analyze_gdb.py"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"checks\": {\n    \"debugger_and_inferior_completed\": true,\n    \"two_dispatch_observations\": true,\n    \"dispatch_matches_v2_static_vtable\": true,\n    \"private_getter_table_matches_static\": true,\n    \"private_slot_70_matches_provider\": true,\n    \"nvjpeg_actual_mapping_hash_matches_static\": true,\n    \"nvcuvid_actual_mapping_hash_matches_static\": true,\n    \"rgb_full_bytes_exact\": true,\n    \"raw_log_complete\": true,\n    \"no_debugger_python_exception\": true\n  },\n  \"dispatches\": [\n    {\n      \"pc_offset\": \"0x73905\",\n      \"target_offset\": \"0xd0900\",\n      \"vptr_offset\": \"0x809c78\",\n      \"rtti_name\": \"N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE\"\n    },\n    {\n      \"pc_offset\": \"0x73905\",\n      \"target_offset\": \"0xd0900\",\n      \"vptr_offset\": \"0x809c78\",\n      \"rtti_name\": \"N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE\"\n    }\n  ],\n  \"rgb_bytes\": 2835\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/analyze_inner.py"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"checks\": {\n    \"debugger_and_target_completed\": true,\n    \"one_inner_observation\": true,\n    \"correct_callsite\": true,\n    \"callee_address_matches_module_offset\": true,\n    \"callee_mapped_file_identity\": true,\n    \"outer_inner_return_zero\": true,\n    \"captured_branch_cl_zero\": true,\n    \"static_branch_and_private_call_present\": true,\n    \"full_rgb_exact\": true,\n    \"raw_log_complete\": true\n  },\n  \"callee\": \"libnvcuvid.so.1+0x17ee0\",\n  \"next_boundary\": \"actual target and semantic/synchronization guarantee of the table+0x40 function\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/analyze_driver_edge.py"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"checks\": {\n    \"debugger_and_target_completed\": true,\n    \"one_edge_observation\": true,\n    \"provider_callsite\": true,\n    \"provider_return_site_and_zero\": true,\n    \"target_is_real_driver\": true,\n    \"target_offset\": true,\n    \"mapping_identity_matches_entry\": true,\n    \"no_exported_name_claimed\": true,\n    \"driver_static_callee_captured\": true,\n    \"full_rgb_exact\": true,\n    \"raw_log_complete\": true,\n    \"no_debugger_exception\": true\n  },\n  \"boundary\": \"real WSL driver libcuda.so.1.1+0x4c7a50; no public symbol\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/dynamic/analyze.py"
+      ],
+      "exit": 0,
+      "stdout": "{\"verified\": true, \"captures\": 3, \"decodes\": 6}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/contracts/verify.py"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"sdk_files\": 8,\n  \"identity_failures\": [],\n  \"syntax_only_argv\": [\n    \"c++\",\n    \"-std=c++17\",\n    \"-fsyntax-only\",\n    \"-I/opt/cuda/include\",\n    \"/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/contracts/compile_probe.cpp\"\n  ],\n  \"syntax_only_exit\": 0,\n  \"stderr\": \"\",\n  \"gpu_executed\": false\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/annotation/verify.py"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"archive_checks\": [\n    {\n      \"directory\": \"capture-v4\",\n      \"verified_files\": 118\n    },\n    {\n      \"directory\": \"attempts/v2-overflow\",\n      \"verified_files\": 68\n    },\n    {\n      \"directory\": \"attempts/v3-classifier\",\n      \"verified_files\": 72\n    }\n  ],\n  \"raw_rederived\": {\n    \"controls\": [\n      {\n        \"label\": \"none-yes\",\n        \"actual_exit\": 99,\n        \"total_errors\": 2835,\n        \"warmup_errors\": 945,\n        \"postwarmup_errors\": 1890,\n        \"full_coordinate_batches\": 3,\n        \"all_three_RGB_outputs_exact\": true,\n        \"allocation_generation_stable\": true\n      },\n      {\n        \"label\": \"rgb-yes\",\n        \"actual_exit\": 99,\n        \"total_errors\": 945,\n        \"warmup_errors\": 945,\n        \"postwarmup_errors\": 0,\n        \"full_coordinate_batches\": 1,\n        \"all_three_RGB_outputs_exact\": true,\n        \"allocation_generation_stable\": true\n      },\n      {\n        \"label\": \"alpha-yes\",\n        \"actual_exit\": 99,\n        \"total_errors\": 2835,\n        \"warmup_errors\": 945,\n        \"postwarmup_errors\": 1890,\n        \"full_coordinate_batches\": 3,\n        \"all_three_RGB_outputs_exact\": true,\n        \"allocation_generation_stable\": true\n      },\n      {\n        \"label\": \"caller-yes\",\n        \"actual_exit\": 99,\n        \"total_errors\": 2835,\n        \"warmup_errors\": 945,\n        \"postwarmup_errors\": 1890,\n        \"full_coordinate_batches\": 3,\n        \"all_three_RGB_outputs_exact\": true,\n        \"allocation_generation_stable\": true\n      },\n      {\n        \"label\": \"rgb-no\",\n        \"actual_exit\": 99,\n        \"total_errors\": 2835,\n        \"warmup_errors\": 945,\n        \"postwarmup_errors\": 1890,\n        \"full_coordinate_batches\": 3,\n        \"all_three_RGB_outputs_exact\": true,\n        \"allocation_generation_stable\": true\n      }\n    ],\n    \"buffer_ids_per_process\": {\n      \"none-yes\": 1077,\n      \"rgb-yes\": 1077,\n      \"alpha-yes\": 1077,\n      \"caller-yes\": 1077,\n      \"rgb-no\": 1077\n    },\n    \"source_sha256\": \"ca8370be84c93c38ce5c7d75498dbb79b752b8e007f602dabc20579961cc9fea\",\n    \"binary_sha256_recorded_before_after\": \"95f070ace8853c2125d7d1ebafa08ce7e5bfe99124f1d22ee6abe9f69ee48bc1\",\n    \"classification\": \"data-preserving diagnostic intervention; original FAIL retained\",\n    \"gpu_execution\": false\n  },\n  \"failed_attempts_preserved\": true\n}\n",
+      "stderr": ""
+    }
+  ],
+  "classification": "artifact consistency and bounded reconstruction checks; original F01 initcheck FAIL unchanged"
+}

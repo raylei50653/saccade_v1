@@ -1,0 +1,68 @@
+
+/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000004c7a50 <cuVDPAUCtxCreate@@Base+0xeda30>:
+  4c7a50:	push   rbp
+  4c7a51:	mov    r10,rdi
+  4c7a54:	xor    r9d,r9d
+  4c7a57:	mov    edx,0x2
+  4c7a5c:	mov    rbp,rsp
+  4c7a5f:	push   r12
+  4c7a61:	push   rbx
+  4c7a62:	lea    rcx,[rbp-0x20]
+  4c7a66:	mov    rbx,rsi
+  4c7a69:	lea    rdi,[rbp-0x28]
+  4c7a6d:	lea    r8,[rbp-0x18]
+  4c7a71:	mov    rsi,r10
+  4c7a74:	sub    rsp,0x20
+  4c7a78:	mov    QWORD PTR [rbp-0x18],0x0
+  4c7a80:	mov    QWORD PTR [rbp-0x20],0x0
+  4c7a88:	mov    QWORD PTR [rbp-0x28],0x0
+  4c7a90:	call   1303fa0 <cuVDPAUCtxCreate@@Base+0xf29f80>
+  4c7a95:	mov    r12d,eax
+  4c7a98:	test   eax,eax
+  4c7a9a:	jne    4c7ab3 <cuVDPAUCtxCreate@@Base+0xeda93>
+  4c7a9c:	mov    rdi,QWORD PTR [rbp-0x18]
+  4c7aa0:	mov    rax,QWORD PTR [rdi+0x68]
+  4c7aa4:	cmp    DWORD PTR [rax+0xa598],0x1
+  4c7aab:	je     4c7ac0 <cuVDPAUCtxCreate@@Base+0xedaa0>
+  4c7aad:	mov    r12d,0x65
+  4c7ab3:	add    rsp,0x20
+  4c7ab7:	mov    eax,r12d
+  4c7aba:	pop    rbx
+  4c7abb:	pop    r12
+  4c7abd:	pop    rbp
+  4c7abe:	ret
+  4c7abf:	nop
+  4c7ac0:	mov    DWORD PTR [rbp-0x2c],ebx
+  4c7ac3:	cmp    DWORD PTR [rdi],0x1
+  4c7ac6:	je     4c7b10 <cuVDPAUCtxCreate@@Base+0xedaf0>
+  4c7ac8:	add    rdi,0x18
+  4c7acc:	call   12f5f20 <cuVDPAUCtxCreate@@Base+0xf1bf00>
+  4c7ad1:	mov    rax,QWORD PTR [rbp-0x18]
+  4c7ad5:	mov    rcx,QWORD PTR [rbp-0x20]
+  4c7ad9:	lea    rdx,[rbp-0x2c]
+  4c7add:	mov    esi,0x1
+  4c7ae2:	mov    rdi,QWORD PTR [rax+0x70]
+  4c7ae6:	call   4c76e0 <cuVDPAUCtxCreate@@Base+0xed6c0>
+  4c7aeb:	mov    rdi,QWORD PTR [rbp-0x18]
+  4c7aef:	cmp    DWORD PTR [rdi],0x1
+  4c7af2:	je     4c7b20 <cuVDPAUCtxCreate@@Base+0xedb00>
+  4c7af4:	add    rdi,0x18
+  4c7af8:	call   323e20 <cuEGLApiInit@@Base+0x8f5c0>
+  4c7afd:	add    rsp,0x20
+  4c7b01:	mov    eax,r12d
+  4c7b04:	pop    rbx
+  4c7b05:	pop    r12
+  4c7b07:	pop    rbp
+  4c7b08:	ret
+  4c7b09:	nop    DWORD PTR [rax+0x0]
+  4c7b10:	mov    rdi,QWORD PTR [rax+0x8e78]
+  4c7b17:	jmp    4c7ac8 <cuVDPAUCtxCreate@@Base+0xedaa8>
+  4c7b19:	nop    DWORD PTR [rax+0x0]
+  4c7b20:	mov    rax,QWORD PTR [rdi+0x68]
+  4c7b24:	mov    rdi,QWORD PTR [rax+0x8e78]
+  4c7b2b:	jmp    4c7af4 <cuVDPAUCtxCreate@@Base+0xedad4>

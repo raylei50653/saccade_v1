@@ -1,0 +1,73 @@
+engine_sha256=ed7228a5f18d2905fa36f187032925c619db47010ed05da9e65b9a63bbe11e39
+engine_bytes=33516
+cuda_module_loading=LAZY
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=e468044f0ab003fe5f76d6d2ef7260b618121516
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+tensor=x mode=input dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+tensor=delta mode=input dtype=FP32 format=linear location=device shape=(4,100,256) shape_inference_io=false
+tensor=A mode=input dtype=FP32 format=linear location=device shape=(1,16) shape_inference_io=false
+tensor=B mode=input dtype=FP32 format=linear location=device shape=(4,100,16) shape_inference_io=false
+tensor=C mode=input dtype=FP32 format=linear location=device shape=(4,100,1) shape_inference_io=false
+tensor=D mode=input dtype=FP32 format=linear location=device shape=(256) shape_inference_io=false
+tensor=expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=out mode=output dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+tensor=merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+aux_streams=0
+profiles=1
+device_memory_bytes=821248
+first_enqueue_held_stream=PASS
+first_enqueue_before_warmup=true
+first_enqueue_s02_bit_exact=PASS
+first_enqueue_microseconds=780
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=e468044f0ab003fe5f76d6d2ef7260b618121516
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+tensor=x mode=input dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+tensor=delta mode=input dtype=FP32 format=linear location=device shape=(4,100,256) shape_inference_io=false
+tensor=A mode=input dtype=FP32 format=linear location=device shape=(1,16) shape_inference_io=false
+tensor=B mode=input dtype=FP32 format=linear location=device shape=(4,100,16) shape_inference_io=false
+tensor=C mode=input dtype=FP32 format=linear location=device shape=(4,100,1) shape_inference_io=false
+tensor=D mode=input dtype=FP32 format=linear location=device shape=(256) shape_inference_io=false
+tensor=expand_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=scan_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+tensor=out mode=output dtype=FP32 format=linear location=device shape=(1,256,10,10) shape_inference_io=false
+tensor=merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false
+aux_streams=0
+profiles=1
+device_memory_bytes=821248
+frame_kernel=initialize registers=14 local_bytes=0
+frame_kernel=begin registers=10 local_bytes=0
+frame_kernel=gate registers=36 local_bytes=40
+frame_kernel=publish registers=28 local_bytes=0
+frame_kernel=commit registers=14 local_bytes=0
+frame_kernel=packet registers=24 local_bytes=0
+frame_kernel=delay registers=4 local_bytes=0
+slots=1
+packet_slots=3
+graphs=false
+context_memory_bytes=821248
+payload=out
+statuses=expand_status,scan_status,merge_status
+ok_frames_s02_bit_exact=PASS
+failure_status_s02_exact=PASS
+failure_packet_sequence=OK,FAILED,SKIPPED
+committed_payload_s02_bit_exact=PASS
+result=PASS

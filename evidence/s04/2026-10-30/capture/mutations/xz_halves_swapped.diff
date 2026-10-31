@@ -1,0 +1,13 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:50:45.644010303 +0800
+@@ -148,8 +148,8 @@
+         auto* tokens = keep(plugin(create_cross_scan_expand_plugin(), {down}, "expand"), "tokens");
+         // 4a: in_proj, x = [:256], z = [256:].
+         auto* xz = keep(linear(tokens, "mamba.in_proj.weight"), "in_proj");
+-        auto* xs = slice(xz, shape({0, 0, 0}), shape({4, L, kHeadDInner}), "mamba.x_half");
+-        auto* z = slice(xz, shape({0, 0, kHeadDInner}), shape({4, L, kHeadDInner}), "mamba.z_half");
++        auto* xs = slice(xz, shape({0, 0, kHeadDInner}), shape({4, L, kHeadDInner}), "mamba.x_half");
++        auto* z = slice(xz, shape({0, 0, 0}), shape({4, L, kHeadDInner}), "mamba.z_half");
+         // 4b: depthwise causal Conv1d, k = 4, pad 3 on both sides, keep the first L, + bias.
+         auto* to_conv = named(network_->addShuffle(*xs), "mamba.conv1d.to_nchw");
+         to_conv->setFirstTranspose(permutation({0, 2, 1}));

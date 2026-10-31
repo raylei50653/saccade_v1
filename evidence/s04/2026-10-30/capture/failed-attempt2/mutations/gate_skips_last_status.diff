@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/scan_trt_frame.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/scan_trt_frame.cpp	2026-10-30 12:15:41.093480889 +0800
+@@ -483,7 +483,7 @@
+     ScanStatusList status_list(const Slot& slot) const {
+         ScanStatusList list{};
+         for (std::size_t i = 0; i < slot.statuses.size(); ++i) list.status[i] = slot.statuses[i];
+-        list.count = static_cast<unsigned>(slot.statuses.size());
++        list.count = static_cast<unsigned>(slot.statuses.size()) - 1;
+         return list;
+     }
+ 

@@ -1,0 +1,1 @@
+bash -c 'set -e; date -Is; git rev-parse HEAD; git status --porcelain; sha256sum "$1/repro.cu" "$1/repro" "$1/repro.rebuilt" "$1/run.py" "$1/analyze.py" /opt/cuda/lib64/libcudart_static.a; c++ --version; free -m' _ /home/ray/developer/ai/saccade_v1/build-f01-investigation

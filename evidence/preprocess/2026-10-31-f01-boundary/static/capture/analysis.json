@@ -1,0 +1,98 @@
+{
+  "architecture": "sm_120",
+  "byte_permutation_model_examples_checked": 36,
+  "checked_instruction_operands": 21,
+  "classification": "STATIC_RECONSTRUCTION_CONFIRMED_FOR_PINNED_BINARY_NOT_F01_ACCEPTANCE",
+  "constant_bank_base": "0x380",
+  "function": "_ZN6nvjpeg8rgba2rgbIL20nvjpegOutputFormat_t3ENS_19RGBAToRGBConversion12LaunchParamsILi32ELi8EEEEEv13nvjpegImage_t8NppiSizeS5_",
+  "function_symbol_index": 166,
+  "historical_grid": {
+    "active_pixels": 945,
+    "distinct_load_addresses": 945,
+    "height": 27,
+    "last_load_start_offset": 13448,
+    "last_physical_load_end_exclusive": 13452,
+    "pitch": 512,
+    "reported_read_bytes": 3,
+    "reported_reads": 945,
+    "width": 35
+  },
+  "host_abi": {
+    "NVJPEG_OUTPUT_RGB": 3,
+    "NppiSize": {
+      "align": 4,
+      "height": 4,
+      "size": 8,
+      "width": 0
+    },
+    "nvjpegImage_t": {
+      "align": 8,
+      "channel": 0,
+      "components": 4,
+      "pitch": 32,
+      "size": 64
+    },
+    "pointer_bytes": 8,
+    "size_t_bytes": 8
+  },
+  "not_proved": [
+    "executed instrumented instruction stream is byte-identical to on-disk cubin",
+    "which internal agent wrote the private surface",
+    "hardware completion happens-before converter for every schedule",
+    "initcheck shadow-state implementation or reason for missing initialization",
+    "runtime numeric correctness beyond already captured cases",
+    "F01 sanitizer PASS or vendor false-positive classification"
+  ],
+  "parameter_bytes": 136,
+  "parameter_map": {
+    "destination_channel_0_1_2": [
+      "c0[0x3c8]",
+      "c0[0x3d0]",
+      "c0[0x3d8]"
+    ],
+    "destination_pitch_0_1_2": [
+      "c0[0x3e8]",
+      "c0[0x3f0]",
+      "c0[0x3f8]"
+    ],
+    "height": "c0[0x3c4]",
+    "source_channel_0": "c0[0x380]",
+    "source_pitch_0": "c0[0x3a0]",
+    "width": "c0[0x3c0]"
+  },
+  "parameters": [
+    {
+      "offset": 0,
+      "ordinal": 0,
+      "size": 64
+    },
+    {
+      "offset": 64,
+      "ordinal": 1,
+      "size": 8
+    },
+    {
+      "offset": 72,
+      "ordinal": 2,
+      "size": 64
+    }
+  ],
+  "reconstruction": {
+    "domain": "nonnegative launch coordinates and positive dimensions fitting signed int; valid allocated 64-bit address arithmetic and pitch; no coordinate/address overflow",
+    "early_exit": "x>=width || y>=height",
+    "high_byte": "loaded but has no path to any output store",
+    "output": "dst.channel[c][y*dst.pitch[c]+x] = byte_c(loaded_word), c=0,1,2",
+    "physical_load": "one 32-bit LDG.E at 0x170 (includes fourth byte)",
+    "source_address": "src.channel[0] + y*src.pitch[0] + 4*x",
+    "x": "32*blockIdx.x+threadIdx.x",
+    "y": "8*blockIdx.y+threadIdx.y"
+  },
+  "unused_load_metadata": {
+    "interpretation": "0x7 agrees with low-three-byte use; no public encoding specification or observation proving initcheck consumes this record",
+    "observed": true,
+    "raw_values": [
+      "0x170",
+      "0x7"
+    ]
+  }
+}

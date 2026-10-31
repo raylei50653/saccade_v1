@@ -1,0 +1,1 @@
+bash -c stat\ -c\ \"%s\ bytes\"\ \"\$1\"\ \&\&\ sha256sum\ \"\$1\"\ \&\&\ \[\[\ \$\(sha256sum\ \<\ \"\$1\"\ \|\ cut\ -d\"\ \"\ -f1\)\ ==\ \"\$2\"\ \]\]\ \&\&\ cat\ \"\$3\" _ /home/ray/.cache/saccade-v1/t01/export/head-features.f32 f8224da5118155a1bb7d9ecb19a508719cbca9a3342706568ff11e528aba52e1 /home/ray/.cache/saccade-v1/t01/export/head-features.json 

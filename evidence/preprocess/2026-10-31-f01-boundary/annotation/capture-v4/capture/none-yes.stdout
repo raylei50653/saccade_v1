@@ -1,0 +1,19 @@
+diagnostic mode=none dimensions=35x27 explicit_stream=0x5dea548cb850 caller_output=0xf0e400000 harness_device_writes=none
+phase=decode repeat=0 input=A
+surface point=discovered repeat=0 source=0xf0e200000 base=0xf0e200000 bytes=16384 pitch=512 id=1077
+discovery current_process=1 complete_rgb_records=945 headers=945 valid_coverage=945 pixel_stride=4 pitch=512 tool_bytes=987202
+tool_checkpoint repeat=0 complete_records=945 uninitialized_headers=945 bytes=987202 completeness_after_warmup=not_assumed
+output repeat=0 input=A rgb_exact=1 differences=0
+surface point=before_annotation repeat=1 source=0xf0e200000 base=0xf0e200000 bytes=16384 pitch=512 id=1077
+annotation repeat=1 mode=none ranges=0 bytes=0 changes_device_bytes=0 acknowledged=unknown
+phase=decode repeat=1 input=B
+surface point=after_decode repeat=1 source=0xf0e200000 base=0xf0e200000 bytes=16384 pitch=512 id=1077
+tool_checkpoint repeat=1 complete_records=1890 uninitialized_headers=1890 bytes=1974376 completeness_after_warmup=not_assumed
+output repeat=1 input=B rgb_exact=1 differences=0
+surface point=before_annotation repeat=2 source=0xf0e200000 base=0xf0e200000 bytes=16384 pitch=512 id=1077
+annotation repeat=2 mode=none ranges=0 bytes=0 changes_device_bytes=0 acknowledged=unknown
+phase=decode repeat=2 input=A
+surface point=after_decode repeat=2 source=0xf0e200000 base=0xf0e200000 bytes=16384 pitch=512 id=1077
+tool_checkpoint repeat=2 complete_records=2835 uninitialized_headers=2835 bytes=2961550 completeness_after_warmup=not_assumed
+output repeat=2 input=A rgb_exact=1 differences=0
+result=complete warmup_fail_preserved=1 discovery=current_process repeats=3 sequence=A,B,A rgb_exact=1 diagnostic_only=1

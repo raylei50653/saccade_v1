@@ -1,0 +1,1 @@
+sha256sum build-s03-evidence-final/cpu/selective_scan_tests build-s03-evidence-final/trt/scan_trt_tests build-s03-evidence-final/trt/scan_trt_engine build-s03-evidence-final/trt/libsaccade_selective_scan_cuda.a build-s03-evidence-final/trt/libsaccade_scan_trt.a build-s03-evidence-final/trt/libsaccade_scan_trt_frame.a build-s03-evidence-final/sanitizer-control 

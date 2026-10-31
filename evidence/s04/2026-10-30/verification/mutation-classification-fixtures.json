@@ -1,0 +1,3187 @@
+{
+  "classificationScript": "evidence/s04/2026-10-30/mutation-check.sh",
+  "inputRoot": "evidence/s04/2026-10-30",
+  "classificationScriptSha256": "8999b864cec9fe6bdf448fc4f238dbdd7744c8267695366e68c6f94eb6f51e28",
+  "mutationDirectory": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations",
+  "captureCoverage": {
+    "expected": 26,
+    "completed": 26,
+    "absent": [],
+    "allCompletedDiagnosticsRecognized": true,
+    "note": "All 26 saved failed-attempt2 rows are required. This checks the current classifier and does not change the original failed capture verdict."
+  },
+  "captureRows": [
+    {
+      "name": "pixel_shuffle_dcr",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/pixel_shuffle_dcr.log",
+      "logSha256": "a1844a9f75b92fb7ffc81e21b64284f2abaec54815ce133f6b2536c9d641b157",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "conv1d_anticausal",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/conv1d_anticausal.log",
+      "logSha256": "fffad37cebae3b63cdccc4fe8c7b57ec566f7a1c4ae9343ce7bd59660196d2c4",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "concat_reversed",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/concat_reversed.log",
+      "logSha256": "75ad358889a59c4eb127192c59f41886b4d7ee0e61bf352f871f4480d549ce73",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "xz_halves_swapped",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/xz_halves_swapped.log",
+      "logSha256": "150c3e0637e10dde50a970e88e84e14cfc7f90be8b8c4fbcf86a9c5d7c917da1",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "dt_b_swapped",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/dt_b_swapped.log",
+      "logSha256": "1fee3ed692728b445d9140d8dcb7eeac91c513543b94f2785e99776a7ea79ffa",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "delta_bias_negated",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/delta_bias_negated.log",
+      "logSha256": "c5542c094c61965bb2d107104014f62c4cd5617cc682f3f8ce687e87f0290fac",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "residual_subtracted",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/residual_subtracted.log",
+      "logSha256": "d6d38ba1ebad6419d8788fff4fcd6cf147507a12ed6d4ad5b81ea058ee42fefe",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "a_not_negated",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/a_not_negated.log",
+      "logSha256": "e1944e8f0b002cfab6c2c84dc4923898aa49f5164dd12cf8b0b085cc6574fcb4",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: accepted",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "gate_without_silu",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/gate_without_silu.log",
+      "logSha256": "de8a2d652865d4b80d6d8c153f0bb0488739216d20146ff16b77b93a7684a05f",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "output_names_swapped",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/output_names_swapped.log",
+      "logSha256": "e8172f4550773f7fa107bfe8fdc46076a8c4c41871bde1421f9184c154770f77",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: scan frame session: engine output shape differs from the spec: cls_p4$",
+      "finalDiagnostic": "head_trt_tests: scan frame session: engine output shape differs from the spec: cls_p4",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "level_weights_swapped",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/level_weights_swapped.log",
+      "logSha256": "bed50a1350b5dab91d20d74955bd2b7f7d11b67205369ac30d1665a752f9d37c",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "tf32_enabled",
+      "check": "engine:numeric",
+      "exit": "1",
+      "capturedResult": "INVALID_RUNTIME",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/tf32_enabled.log",
+      "logSha256": "41a3ffe91a9860318bbb79c1a3ea43b0fd368adb4cc4c22820e631c74abfbc2d",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt: head engine build: tactics outside the FP32 direct-summation model: .*_tf32[[:alnum:]_]*.*$",
+      "finalDiagnostic": "head_trt: head engine build: tactics outside the FP32 direct-summation model: sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8_alignc4, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x16x32_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8_alignc8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8_alignc4, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x16x32_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8_alignc8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8_alignc4, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x16x64_stage1_warpsize4x1x1_g1_tensor16x8x8_alignc8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x64x32_stage4_warpsize2x2x1_tensor16x8x8, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8, sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna8",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "tactic_guard_ignores_winograd",
+      "check": "suite:io_contract",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/tactic_guard_ignores_winograd.log",
+      "logSha256": "75a933ed1db52ba1386d606198f564f3d00cc758f012cde2d60f186ba1497000",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: Winograd tactic rejected$",
+      "finalDiagnostic": "head_trt_tests: Winograd tactic rejected",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "output_check_skipped",
+      "check": "suite:atomicity",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/output_check_skipped.log",
+      "logSha256": "579490bba276fe62a81d6998f705bc817982e8cf00d18465b0ed0e64d36e036c",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: (asymmetric/1: accepted|input check and the level.s expand status both report the non-finite feature|nan_in_[a-z0-9_]+: frame [0-9]+ status [0-9]+ error 0x[0-9a-f]+ fail 0x[0-9a-f]+)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: accepted",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "input_check_skipped",
+      "check": "suite:atomicity",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/input_check_skipped.log",
+      "logSha256": "579490bba276fe62a81d6998f705bc817982e8cf00d18465b0ed0e64d36e036c",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: (asymmetric/1: accepted|input check and the level.s expand status both report the non-finite feature|nan_in_[a-z0-9_]+: frame [0-9]+ status [0-9]+ error 0x[0-9a-f]+ fail 0x[0-9a-f]+)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: accepted",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "gate_skips_last_status",
+      "check": "suite:atomicity",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/gate_skips_last_status.log",
+      "logSha256": "1d0590c67d9bc2cfd03805852645377f697da0c08375b26bc7a8046276ad8952",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: the gate read every status valid$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: the gate read every status valid",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "publish_first_output_only",
+      "check": "suite:numeric",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/publish_first_output_only.log",
+      "logSha256": "194cc00acb7f2e9abdbfb0545d9591e8c782202bb5e40bcca1dc4e4faf3faf8e",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: asymmetric/1: (accepted|all six outputs within the policy)$",
+      "finalDiagnostic": "head_trt_tests: asymmetric/1: all six outputs within the policy",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "missing_consumed_wait",
+      "check": "suite:ownership",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/missing_consumed_wait.log",
+      "logSha256": "7a2539019603719b28eb2235113b8c80ff6705df287dd13db7579ffad2e06c5d",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: (ownership stress accepts six frames|delayed gate publishes the six outputs of its own frame|last committed result is frame 5.s|ownership: every consumed status is retired to zero)$",
+      "finalDiagnostic": "head_trt_tests: ownership stress accepts six frames",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "spec_output_shape_unchecked",
+      "check": "suite:io_contract",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/spec_output_shape_unchecked.log",
+      "logSha256": "7ec2c08fc5629e291f17a398f1219eab4a01dd1da5189d89aaf59b599a80702c",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_trt_tests: I/O spec mismatch rejected: output_order_swapped$",
+      "finalDiagnostic": "head_trt_tests: I/O spec mismatch rejected: output_order_swapped",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "ref_pixel_shuffle_dcr",
+      "check": "cpu:head_reference_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/ref_pixel_shuffle_dcr.log",
+      "logSha256": "2f8a60692d46f7565be58abec43cbad9f42186af529d70873cff0bbcbfe0367f",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_reference_tests: pixel_shuffle_crd: element [0-9]+ = .+, expected .+$",
+      "finalDiagnostic": "head_reference_tests: pixel_shuffle_crd: element 1 = 2, expected 1",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "ref_conv1d_offset",
+      "check": "cpu:head_reference_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/ref_conv1d_offset.log",
+      "logSha256": "950b60e659d35ec2d7090f3bd6a6a68c44de497508be4f36d0c4ccdd47b3b17a",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_reference_tests: causal_conv1d: element [0-9]+ = .+, expected .+$",
+      "finalDiagnostic": "head_reference_tests: causal_conv1d: element 0 = 2100, expected 1000",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "ref_scan_without_d",
+      "check": "cpu:head_reference_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/ref_scan_without_d.log",
+      "logSha256": "d0f79d4cc5b6ac6444a41097447bb64815c10d75fce31bd42550a9f8446a3c0d",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_reference_tests: head scan equals the S01 reference bit for bit [(]L=[0-9]+, max diff .+[)]$",
+      "finalDiagnostic": "head_reference_tests: head scan equals the S01 reference bit for bit (L=25, max diff 1.979312)",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "ref_sigma_zero_for_dot_products",
+      "check": "cpu:head_reference_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/ref_sigma_zero_for_dot_products.log",
+      "logSha256": "07067b8d9ae156ac9b51895bddf35bd07dee0ea71d3a8035d809179ca3030e3e",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_reference_tests: FP32 CPU head inside the policy: (cls|reg)_p[345]$",
+      "finalDiagnostic": "head_reference_tests: FP32 CPU head inside the policy: cls_p3",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "converter_ignores_strides",
+      "check": "cpu:head_weights_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/converter_ignores_strides.log",
+      "logSha256": "5676e3bcc2a62e6c5ef39148502fe141ebd3116f42ff65bf3b1ad908ec0c7f64",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_weights_tests: expected rejection: not contiguous$",
+      "finalDiagnostic": "head_weights_tests: expected rejection: not contiguous",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "converter_level_swap",
+      "check": "cpu:head_weights_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/converter_level_swap.log",
+      "logSha256": "0de9a5cd5fdb02bce503b4aa029d1870302da48930bd059aa46bacba0898090a",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_weights_tests: bundle level of p[345][.].+ is the checkpoint index of .+$",
+      "finalDiagnostic": "head_weights_tests: bundle level of p4.input_proj.weight is the checkpoint index of input_proj.2.weight",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    },
+    {
+      "name": "bundle_skips_tensor_sha",
+      "check": "cpu:head_weights_tests",
+      "exit": "1",
+      "capturedResult": "DETECTED",
+      "logFile": "evidence/s04/2026-10-30/capture/failed-attempt2/mutations/bundle_skips_tensor_sha.log",
+      "logSha256": "cc7898e07b6aae9241f19d71b3a66147a550455356651ac6c80a6ad0b694cda1",
+      "currentClassification": "DETECTED",
+      "expectedDiagnostic": "^head_weights_tests: unexpected diagnostic: head bundle: bytes are not the canonical encoding [(]offsets, padding or trailing data[)]; wanted SHA-256 mismatch$",
+      "finalDiagnostic": "head_weights_tests: unexpected diagnostic: head bundle: bytes are not the canonical encoding (offsets, padding or trailing data); wanted SHA-256 mismatch",
+      "note": "Captured result is preserved; currentClassification is a classifier regression check only."
+    }
+  ],
+  "fixtures": {
+    "count": 317,
+    "failures": [],
+    "allPassed": true,
+    "tests": [
+      {
+        "label": "source-derived-positive",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Literal current assertion and catch prefix; synthetic fixture, not runtime evidence."
+      },
+      {
+        "label": "source-derived-positive",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Literal current assertion and catch prefix; synthetic fixture, not runtime evidence."
+      },
+      {
+        "label": "actual-tf32-full-build-prefix",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Immutable capture2 raw log; original capture classification remains INVALID_RUNTIME."
+      },
+      {
+        "label": "unrelated-tactic-guard",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic non-TF32 guard rejection."
+      },
+      {
+        "label": "unwrapped-tf32-message",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Current source always adds head engine build prefix; do not accept guessed alternate wrapping."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "pixel_shuffle_dcr",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "pixel_shuffle_dcr",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "pixel_shuffle_dcr",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "pixel_shuffle_dcr",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "pixel_shuffle_dcr",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "pixel_shuffle_dcr",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "conv1d_anticausal",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "conv1d_anticausal",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "conv1d_anticausal",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "conv1d_anticausal",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "conv1d_anticausal",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "conv1d_anticausal",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "conv1d_anticausal",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "concat_reversed",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "concat_reversed",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "concat_reversed",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "concat_reversed",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "concat_reversed",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "concat_reversed",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "concat_reversed",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "xz_halves_swapped",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "xz_halves_swapped",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "xz_halves_swapped",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "xz_halves_swapped",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "xz_halves_swapped",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "xz_halves_swapped",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "xz_halves_swapped",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "dt_b_swapped",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "dt_b_swapped",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "dt_b_swapped",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "dt_b_swapped",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "dt_b_swapped",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "dt_b_swapped",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "dt_b_swapped",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "delta_bias_negated",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "delta_bias_negated",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "delta_bias_negated",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "delta_bias_negated",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "delta_bias_negated",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "delta_bias_negated",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "delta_bias_negated",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "residual_subtracted",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "residual_subtracted",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "residual_subtracted",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "residual_subtracted",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "residual_subtracted",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "residual_subtracted",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "residual_subtracted",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "a_not_negated",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "a_not_negated",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "a_not_negated",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "a_not_negated",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "a_not_negated",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "a_not_negated",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "a_not_negated",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "gate_without_silu",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_without_silu",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_without_silu",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_without_silu",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_without_silu",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_without_silu",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_without_silu",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "output_names_swapped",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_names_swapped",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_names_swapped",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_names_swapped",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_names_swapped",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_names_swapped",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_names_swapped",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "level_weights_swapped",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "level_weights_swapped",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "level_weights_swapped",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "level_weights_swapped",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "level_weights_swapped",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "level_weights_swapped",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "level_weights_swapped",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tf32_enabled",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tf32_enabled",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tf32_enabled",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tf32_enabled",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tf32_enabled",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tf32_enabled",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "output_check_skipped",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_check_skipped",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_check_skipped",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_check_skipped",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_check_skipped",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_check_skipped",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "output_check_skipped",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "input_check_skipped",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "input_check_skipped",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "input_check_skipped",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "input_check_skipped",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "input_check_skipped",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "input_check_skipped",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "input_check_skipped",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "gate_skips_last_status",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_skips_last_status",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_skips_last_status",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_skips_last_status",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_skips_last_status",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_skips_last_status",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "gate_skips_last_status",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "publish_first_output_only",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "publish_first_output_only",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "publish_first_output_only",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "publish_first_output_only",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "publish_first_output_only",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "publish_first_output_only",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "publish_first_output_only",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "missing_consumed_wait",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "missing_consumed_wait",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "missing_consumed_wait",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "missing_consumed_wait",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "missing_consumed_wait",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "missing_consumed_wait",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "missing_consumed_wait",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "spec_output_shape_unchecked",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "spec_output_shape_unchecked",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "spec_output_shape_unchecked",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "spec_output_shape_unchecked",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "spec_output_shape_unchecked",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "spec_output_shape_unchecked",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "spec_output_shape_unchecked",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "ref_conv1d_offset",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_conv1d_offset",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_conv1d_offset",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_conv1d_offset",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_conv1d_offset",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_conv1d_offset",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_conv1d_offset",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "ref_scan_without_d",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_scan_without_d",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_scan_without_d",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_scan_without_d",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_scan_without_d",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_scan_without_d",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_scan_without_d",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "converter_ignores_strides",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_ignores_strides",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_ignores_strides",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_ignores_strides",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_ignores_strides",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_ignores_strides",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_ignores_strides",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_level_swap",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_level_swap",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_level_swap",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_level_swap",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_level_swap",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "converter_level_swap",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "captured-target-rejection",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 1,
+        "expected": "DETECTED",
+        "actual": "DETECTED",
+        "ok": true,
+        "provenance": "Saved failed-attempt2 raw diagnostic; original attempt verdict is unchanged."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 0,
+        "expected": "INSENSITIVE",
+        "actual": "INSENSITIVE",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 2,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 99,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 124,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 137,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "wrong-exit-even-with-matching-diagnostic",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 139,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic exit perturbation; no GPU execution."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "conv1d_anticausal",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "conv1d_anticausal",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "conv1d_anticausal",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "conv1d_anticausal",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "conv1d_anticausal",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "concat_reversed",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "concat_reversed",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "concat_reversed",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "concat_reversed",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "concat_reversed",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "xz_halves_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "xz_halves_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "xz_halves_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "xz_halves_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "xz_halves_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "dt_b_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "dt_b_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "dt_b_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "dt_b_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "dt_b_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "delta_bias_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "delta_bias_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "delta_bias_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "delta_bias_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "delta_bias_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "residual_subtracted",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "residual_subtracted",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "residual_subtracted",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "residual_subtracted",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "residual_subtracted",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "a_not_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "a_not_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "a_not_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "a_not_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "a_not_negated",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_without_silu",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_without_silu",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_without_silu",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_without_silu",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_without_silu",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_names_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_names_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_names_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_names_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_names_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "level_weights_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "level_weights_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "level_weights_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "level_weights_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "level_weights_swapped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tf32_enabled",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "tactic_guard_ignores_winograd",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "output_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "input_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "input_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "input_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "input_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "input_check_skipped",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_skips_last_status",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_skips_last_status",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_skips_last_status",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_skips_last_status",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "gate_skips_last_status",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "publish_first_output_only",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "publish_first_output_only",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "publish_first_output_only",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "publish_first_output_only",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "publish_first_output_only",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "missing_consumed_wait",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "missing_consumed_wait",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "missing_consumed_wait",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "missing_consumed_wait",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "missing_consumed_wait",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "spec_output_shape_unchecked",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "spec_output_shape_unchecked",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "spec_output_shape_unchecked",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "spec_output_shape_unchecked",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "spec_output_shape_unchecked",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_pixel_shuffle_dcr",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_conv1d_offset",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_conv1d_offset",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_conv1d_offset",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_conv1d_offset",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_conv1d_offset",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_scan_without_d",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_scan_without_d",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_scan_without_d",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_scan_without_d",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_scan_without_d",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "ref_sigma_zero_for_dot_products",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_ignores_strides",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_ignores_strides",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_ignores_strides",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_ignores_strides",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_ignores_strides",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "converter_level_swap",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      },
+      {
+        "label": "unrelated-runtime-error",
+        "name": "bundle_skips_tensor_sha",
+        "exit": 1,
+        "expected": "INVALID_RUNTIME",
+        "actual": "INVALID_RUNTIME",
+        "ok": true,
+        "provenance": "Synthetic I/O/CUDA/tool failure."
+      }
+    ]
+  }
+}

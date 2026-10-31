@@ -1,0 +1,37 @@
+Function "__std_2U4S4U_X08" not defined.
+api=stream_create cuda_status=0
+api=nvjpegCreateEx nvjpeg_status=0
+api=nvjpegJpegStateCreate nvjpeg_status=0
+api=version_major nvjpeg_status=0
+api=version_minor nvjpeg_status=0
+api=version_patch nvjpeg_status=0
+api=nvjpegGetImageInfo nvjpeg_status=0
+api=nvjpegDecodeBatchedInitialize nvjpeg_status=0
+api=nvjpegDecodeBatchedPreAllocate nvjpeg_status=0
+api=input_allocate cuda_status=0
+api=download_allocate cuda_status=0
+api=output_allocate cuda_status=0
+api=observed_allocate cuda_status=0
+phase=decode repeat=0
+api=nvjpegDecodeBatched nvjpeg_status=0
+api=decode_sync cuda_status=0
+phase=inspect_caller_output repeat=0
+api=inspect_launch cuda_status=0
+api=inspect_sync cuda_status=0
+api=download cuda_status=0
+api=download_sync cuda_status=0
+phase=decode repeat=1
+api=nvjpegDecodeBatched nvjpeg_status=0
+api=decode_sync cuda_status=0
+phase=inspect_caller_output repeat=1
+api=inspect_launch cuda_status=0
+api=inspect_sync cuda_status=0
+api=download cuda_status=0
+api=download_sync cuda_status=0
+cleanup=stream_drain cuda_status=0
+cleanup=state_destroy nvjpeg_status=0
+/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/observe.gdb:86: Error in sourced command file:
+Warning:
+Cannot insert breakpoint -52.
+Cannot access memory at address 0x7e61b261ee10
+

@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/scan_trt_frame.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/scan_trt_frame.cpp	2026-10-30 12:55:33.719808802 +0800
+@@ -536,7 +536,7 @@
+             }
+             log("engine", cfg.graphs ? "graph" : "enqueueV3", s, k);
+             if (hook) hook(k, view(slot), d);
+-            if (check_inputs) scan_frame_check_finite(slot.input_arena, input_arena_count, slot.statuses[engine_statuses], kFrameNonFiniteInput, d);
++            if (false) scan_frame_check_finite(slot.input_arena, input_arena_count, slot.statuses[engine_statuses], kFrameNonFiniteInput, d);
+             if (check_outputs)
+                 scan_frame_check_finite(slot.payload, payload_count, slot.statuses[engine_statuses + (check_inputs ? 1 : 0)], kFrameNonFiniteOutput, d);
+             if (after_checks) after_checks(k, view(slot), d);

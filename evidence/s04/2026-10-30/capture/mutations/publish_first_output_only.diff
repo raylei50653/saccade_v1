@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/scan_trt_frame.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/scan_trt_frame.cpp	2026-10-30 12:55:44.647164025 +0800
+@@ -547,7 +547,7 @@
+             wait(slot.ready, m, k, "ready", s);
+             if (cfg.gate_delay_cycles) scan_frame_delay(cfg.gate_delay_cycles, m);
+             scan_frame_gate(ctl, status_list(slot), records, cfg.max_frames, m);
+-            scan_frame_publish(ctl, slot.payload, payload_count, results, result_frames, records, cfg.max_frames, m);
++            scan_frame_publish(ctl, slot.payload, outputs.front().count, results, result_frames, records, cfg.max_frames, m);
+             record(slot.consumed, m, k, "consumed", s); // last M read of the slot
+             scan_frame_commit(ctl, m);
+             scan_frame_packet(ctl, rp, m);

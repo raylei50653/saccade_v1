@@ -1,0 +1,1 @@
+bash -c cat\ \"\$1\"/input-\{0\,1\,2\,3\,4\,5\}.f32\ \>\ \"\$2\"\ \&\&\ sha256sum\ \"\$2\" _ /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/backbone-dump /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/stage/backbone-features.f32 

@@ -1,0 +1,20 @@
+--- /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/source/src/scan_trt_plugin.cpp	2026-10-29 22:56:26.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s03-evidence-final/mutations/source/src/scan_trt_plugin.cpp	2026-10-29 23:00:07.188989249 +0800
+@@ -210,14 +210,14 @@
+             case Op::scan: {
+                 const auto* f = reinterpret_cast<const float* const*>(in);
+                 const SelectiveScanDeviceInputs inputs{f[0], f[1], f[2], f[3], f[4], has_d_ ? f[5] : nullptr};
+-                selective_scan_cuda(call.scan, inputs, static_cast<float*>(out[0]), status, stream);
++                selective_scan_cuda(call.scan, inputs, static_cast<float*>(out[0]), status, cudaStream_t{});
+                 break;
+             }
+             case Op::expand:
+-                cross_scan_expand_cuda(call.cross, static_cast<const float*>(in[0]), static_cast<float*>(out[0]), status, stream);
++                cross_scan_expand_cuda(call.cross, static_cast<const float*>(in[0]), static_cast<float*>(out[0]), status, cudaStream_t{});
+                 break;
+             case Op::merge:
+-                cross_scan_merge_cuda(call.cross, static_cast<const float*>(in[0]), static_cast<float*>(out[0]), status, stream);
++                cross_scan_merge_cuda(call.cross, static_cast<const float*>(in[0]), static_cast<float*>(out[0]), status, cudaStream_t{});
+                 break;
+             }
+             return 0;

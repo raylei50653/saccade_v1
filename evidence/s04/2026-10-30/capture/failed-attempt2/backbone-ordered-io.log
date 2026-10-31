@@ -1,0 +1,10 @@
+scope=structural-inspection-only
+ir_version=9
+producer_name=pytorch
+producer_version=2.11.0
+opset		20
+graph	root	name=main_graph	nodes=509	initializers=176
+input	0	images	FLOAT	batch,3,640,640
+output	0	p3_feat	FLOAT	batch,256,80,80
+output	1	p4_feat	FLOAT	batch,512,40,40
+output	2	p5_feat	FLOAT	batch,512,20,20

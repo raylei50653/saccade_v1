@@ -1,0 +1,1 @@
+bash -c bash\ \"\$1/evidence/s02/2026-10-29/historical-hashes.sh\"\ \&\&\ sha256sum\ --quiet\ -c\ \"\$1/evidence/s02/2026-10-29/SHA256SUMS\"\ \&\&\ echo\ \"S02\ all\ entries\ OK\" _ build-s03-evidence-final/source 

@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "g++",
+    "-std=c++17",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "-g",
+    "-I/opt/cuda/include",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-cupti-2/cupti_trace.cpp",
+    "-L/opt/cuda/lib64",
+    "-Wl,-rpath,/opt/cuda/lib64",
+    "-lcupti",
+    "-L/usr/lib/wsl/lib",
+    "-lcuda",
+    "-ldl",
+    "-o",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-cupti-2/trace.so"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1",
+  "environment_overrides": {},
+  "time": "2026-10-31T11:41:41.513829+08:00",
+  "mem_available_kib": 46509372,
+  "timeout_seconds": 60
+}

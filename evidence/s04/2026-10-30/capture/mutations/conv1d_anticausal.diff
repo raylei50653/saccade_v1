@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:49:43.795656662 +0800
+@@ -160,7 +160,7 @@
+                              "mamba.conv1d");
+         conv1d->setNbGroups(kHeadDInner);
+         conv1d->setPaddingNd(DimsHW{0, kHeadConvKernel - 1});
+-        auto* causal = slice(conv1d->getOutput(0), shape({0, 0, 0, 0}), shape({4, kHeadDInner, 1, L}), "mamba.conv1d.causal");
++        auto* causal = slice(conv1d->getOutput(0), shape({0, 0, 0, kHeadConvKernel - 1}), shape({4, kHeadDInner, 1, L}), "mamba.conv1d.causal");
+         auto* back = named(network_->addShuffle(*causal), "mamba.conv1d.to_nlc");
+         back->setReshapeDimensions(shape({4, kHeadDInner, L}));
+         back->setSecondTranspose(permutation({0, 2, 1}));

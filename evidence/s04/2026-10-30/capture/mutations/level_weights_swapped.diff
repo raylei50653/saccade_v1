@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence4/source/src/head_trt_network.cpp	2026-10-30 12:33:10.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence4/mutations/source/src/head_trt_network.cpp	2026-10-30 12:54:20.327520977 +0800
+@@ -88,7 +88,7 @@
+     }
+ 
+ private:
+-    const HeadTensor& W(const std::string& key) const { return w_.at(prefix_ + key); }
++    const HeadTensor& W(const std::string& key) const { return w_.at((prefix_ == "p4." ? std::string("p5.") : prefix_ == "p5." ? std::string("p4.") : prefix_) + key); }
+     template <typename L> L* named(L* layer, const std::string& what) {
+         require(layer != nullptr, "TensorRT rejected " + prefix_ + what);
+         layer->setName((prefix_ + what).c_str());

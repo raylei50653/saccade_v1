@@ -1,0 +1,11 @@
+--- /home/ray/developer/ai/saccade_v1/build-s04-evidence2/source/src/scan_trt_frame.cpp	2026-10-30 11:52:59.000000000 +0800
++++ /home/ray/developer/ai/saccade_v1/build-s04-evidence2/mutations/source/src/scan_trt_frame.cpp	2026-10-30 12:16:01.667159201 +0800
+@@ -316,7 +316,7 @@
+         }
+         std::size_t offset = 0;
+         for (const auto& t : spec.outputs) {
+-            require(same_shape(engine->getTensorShape(t.name.c_str()), t.shape), "engine output shape differs from the spec: " + t.name);
++            (void)0;
+             const auto count = volume(engine->getTensorShape(t.name.c_str()));
+             outputs.push_back({t.name, offset, count});
+             offset = align_up(offset + count);

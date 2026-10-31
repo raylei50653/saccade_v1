@@ -1,0 +1,43 @@
+Sat Oct 31 09:46:55 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.78.08              KMD Version: 617.42        CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 5070 ...    On  |   00000000:01:00.0 Off |                  N/A |
+| N/A   52C    P2             14W /  122W |       0MiB /  12227MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Tue_Sep_01_08:45:21_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.92
+Build cuda_13.4.r13.4/compiler.38855100_0
+NVIDIA (R) Compute Sanitizer
+Copyright (c) 2020-2026 NVIDIA Corporation
+Version 2026.3.0.0 (build 38855100) (public-release)
+	linux-vdso.so.1 (0x000077ec06a86000)
+	libcudart.so.13 => /opt/cuda/lib64/libcudart.so.13 (0x000077ec06600000)
+	libnvjpeg.so.13 => /opt/cuda/lib64/libnvjpeg.so.13 (0x000077ec05c00000)
+	libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x000077ec05800000)
+	libm.so.6 => /usr/lib/libm.so.6 (0x000077ec06914000)
+	libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x000077ec068e5000)
+	libc.so.6 => /usr/lib/libc.so.6 (0x000077ec05400000)
+	libdl.so.2 => /usr/lib/libdl.so.2 (0x000077ec068e0000)
+	libpthread.so.0 => /usr/lib/libpthread.so.0 (0x000077ec068db000)
+	librt.so.1 => /usr/lib/librt.so.1 (0x000077ec068d6000)
+	/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x000077ec06a88000)
+3f75cbdb69726c38b82b9c87cfd334fae427c5cd0408bb324bc51265f75f6fa6  /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro
+c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338  /opt/cuda/lib64/libnvjpeg.so
+7fb00519a24512bf677b59e87921e5c05aac8246ceb6a57435c0d9dfeef364f6  /opt/cuda/lib64/libcudart.so
+2b39ddaf7cefcbdfb8a7fc143ecfd83466618cb3

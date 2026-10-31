@@ -1,0 +1,1 @@
+timeout --signal=TERM --kill-after=15s 300s /opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --print-limit 100 /home/ray/developer/ai/saccade_v1/build-preprocess-evidence/build/preprocess run /home/ray/developer/ai/saccade_v1/build-preprocess-evidence/refs /home/ray/developer/ai/saccade_v1/build-preprocess-evidence/reference-initcheck --case 0 

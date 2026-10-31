@@ -1,0 +1,1 @@
+c++ -std=c++20 -O2 -Wall -Wextra -Werror -I/opt/cuda/include /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro.cpp -L/opt/cuda/lib64 -Wl\,-rpath\,/opt/cuda/lib64 -lcudart -lnvjpeg -o /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro 

@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro custom-a5 fixtures/preprocess/baseline.jpg /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/baseline.rgb /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/custom-a5-normal.rgb 

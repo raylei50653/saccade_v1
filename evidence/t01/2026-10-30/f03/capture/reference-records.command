@@ -1,0 +1,1 @@
+cp /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/t01root/export/f03-inputs.json /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/t01root/export/backbone-reference.json /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/t01root/export/backbone-precheck.json /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/capture/ 

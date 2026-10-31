@@ -1,0 +1,904 @@
+{
+ "root": "smoke",
+ "attempts": [
+  {
+   "stage": "cache_eval",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 35.2,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "fp32-strict"
+   },
+   "policy": "fp32-strict",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 2,
+   "deviations": [],
+   "storage_declared": "float16 files: P3/P4/P5 features and teacher one2many cls/reg (manifest storage_dtype)",
+   "cache_manifest": {
+    "compute_precision": {
+     "conv_math": "fp32",
+     "cuda_matmul_allow_tf32": false,
+     "cudnn_allow_tf32": false,
+     "float32_matmul_precision": "highest",
+     "matmul_math": "fp32",
+     "nvidia_tf32_override": "0",
+     "policy": "fp32-strict"
+    },
+    "decode_backend": "torchvision_nvjpeg",
+    "dtype": "float16",
+    "storage_dtype": "float16",
+    "total_frames": 600
+   },
+   "checkpoints": [],
+   "storage_problems": null
+  },
+  {
+   "stage": "cache_train",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 30.3,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "fp32-strict"
+   },
+   "policy": "fp32-strict",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 2,
+   "deviations": [],
+   "storage_declared": "float16 files: P3/P4/P5 features and teacher one2many cls/reg (manifest storage_dtype)",
+   "cache_manifest": {
+    "compute_precision": {
+     "conv_math": "fp32",
+     "cuda_matmul_allow_tf32": false,
+     "cudnn_allow_tf32": false,
+     "float32_matmul_precision": "highest",
+     "matmul_math": "fp32",
+     "nvidia_tf32_override": "0",
+     "policy": "fp32-strict"
+    },
+    "decode_backend": "torchvision_nvjpeg",
+    "dtype": "float16",
+    "storage_dtype": "float16",
+    "total_frames": 525
+   },
+   "checkpoints": [],
+   "storage_problems": null
+  },
+  {
+   "stage": "cache_val",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 32.7,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "fp32-strict"
+   },
+   "policy": "fp32-strict",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 2,
+   "deviations": [],
+   "storage_declared": "float16 files: P3/P4/P5 features and teacher one2many cls/reg (manifest storage_dtype)",
+   "cache_manifest": {
+    "compute_precision": {
+     "conv_math": "fp32",
+     "cuda_matmul_allow_tf32": false,
+     "cudnn_allow_tf32": false,
+     "float32_matmul_precision": "highest",
+     "matmul_math": "fp32",
+     "nvidia_tf32_override": "0",
+     "policy": "fp32-strict"
+    },
+    "decode_backend": "torchvision_nvjpeg",
+    "dtype": "float16",
+    "storage_dtype": "float16",
+    "total_frames": 654
+   },
+   "checkpoints": [],
+   "storage_problems": null
+  },
+  {
+   "stage": "distill",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 21.1,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "(unset)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "torch-default"
+   },
+   "policy": "torch-default",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 1,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0001.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 69
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    },
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 69
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    }
+   ],
+   "storage_problems": []
+  },
+  {
+   "stage": "distill",
+   "attempt": "attempt-02",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": "/home/ray/.cache/saccade-v1/t01/smoke/distill/attempt-01/run/epoch_0001.ckpt",
+   "wall_seconds": 10.3,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "(unset)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "torch-default"
+   },
+   "policy": "torch-default",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 0,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 69
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    }
+   ],
+   "storage_problems": []
+  },
+  {
+   "stage": "gt1",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 32.5,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "fp32-strict"
+   },
+   "policy": "fp32-strict",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": false,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": "0",
+    "conv_math": "fp32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 3,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0001.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 69
+      }
+     },
+     "save_time": {
+      "conv_math": "fp32",
+      "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": false,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": "0",
+      "policy": "fp32-strict"
+     }
+    },
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 69
+      }
+     },
+     "save_time": {
+      "conv_math": "fp32",
+      "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": false,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": "0",
+      "policy": "fp32-strict"
+     }
+    }
+   ],
+   "storage_problems": []
+  },
+  {
+   "stage": "t1",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 15.9,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "(unset)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "torch-default"
+   },
+   "policy": "torch-default",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 1,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0001.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 108
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    },
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 144
+      },
+      "student": {
+       "float32": 108
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    }
+   ],
+   "storage_problems": []
+  },
+  {
+   "stage": "t3",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 26.1,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "(unset)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "torch-default"
+   },
+   "policy": "torch-default",
+   "autocast": null,
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 1,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0001.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 162
+      },
+      "student": {
+       "float32": 108
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    },
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "optimizer": {
+       "float32": 162
+      },
+      "student": {
+       "float32": 108
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    }
+   ],
+   "storage_problems": []
+  },
+  {
+   "stage": "teacher",
+   "attempt": "attempt-01",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": null,
+   "wall_seconds": 46.8,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "(unset)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "torch-default"
+   },
+   "policy": "torch-default",
+   "autocast": "bfloat16 in the trainer (unchanged)",
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 4,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0001.ckpt",
+     "tensor_dtypes": {
+      "model": {
+       "float32": 647,
+       "int64": 124
+      },
+      "optimizer": {
+       "float32": 999
+      },
+      "rng_state": {
+       "uint8": 3
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    },
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "model": {
+       "float32": 647,
+       "int64": 124
+      },
+      "optimizer": {
+       "float32": 999
+      },
+      "rng_state": {
+       "uint8": 3
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    }
+   ],
+   "storage_problems": []
+  },
+  {
+   "stage": "teacher",
+   "attempt": "attempt-02",
+   "status": "complete",
+   "exit_code": 0,
+   "resume": "/home/ray/.cache/saccade-v1/t01/smoke/teacher/attempt-01/run/epoch_0001.ckpt",
+   "wall_seconds": 33.6,
+   "env_overrides": {
+    "NVIDIA_TF32_OVERRIDE": "(unset)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "SACCADE_T01_GPU_DECODE_ONLY": "1",
+    "SACCADE_T01_PRECISION": "torch-default"
+   },
+   "policy": "torch-default",
+   "autocast": "bfloat16 in the trainer (unchanged)",
+   "problems": [],
+   "start": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "exit": {
+    "cudnn_allow_tf32": true,
+    "cuda_matmul_allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "nvidia_tf32_override": null,
+    "conv_math": "tf32",
+    "matmul_math": "fp32",
+    "conv_rel_err_vs_fp64": 0.0002941761812139187,
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07
+   },
+   "monitor_samples": 3,
+   "deviations": [],
+   "storage_declared": "checkpoint (float32 weights)",
+   "cache_manifest": null,
+   "checkpoints": [
+    {
+     "checkpoint": "epoch_0002.ckpt",
+     "tensor_dtypes": {
+      "model": {
+       "float32": 647,
+       "int64": 124
+      },
+      "optimizer": {
+       "float32": 999
+      },
+      "rng_state": {
+       "uint8": 3
+      }
+     },
+     "save_time": {
+      "conv_math": "tf32",
+      "conv_rel_err_vs_fp64": 0.0002941761812139187,
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest",
+      "matmul_math": "fp32",
+      "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+      "nvidia_tf32_override": null,
+      "policy": "torch-default"
+     }
+    }
+   ],
+   "storage_problems": []
+  }
+ ],
+ "evaluations": [
+  {
+   "file": "distill/val/epoch_0001.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "distill/val/epoch_0002.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "gt1/val/epoch_0001.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "fp32-strict"
+  },
+  {
+   "file": "gt1/val/epoch_0002.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "fp32-strict"
+  },
+  {
+   "file": "t1/val/epoch_0001.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "t1/val/epoch_0002.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "t3/val/epoch_0001.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "t3/val/epoch_0002.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "teacher/val/epoch_0001.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "teacher/val/epoch_0002.json",
+   "block": "result",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "final/final_eval.json",
+   "block": "t1_eval",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  },
+  {
+   "file": "final/final_eval.json",
+   "block": "t1_val",
+   "start_policy": "fp32-strict",
+   "start_conv_math": "fp32",
+   "start_matmul_math": "fp32",
+   "end_policy": "fp32-strict",
+   "end_conv_math": "fp32",
+   "end_matmul_math": "fp32",
+   "checkpoint_save_time_policy": "torch-default"
+  }
+ ]
+}

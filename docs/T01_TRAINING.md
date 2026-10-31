@@ -1,5 +1,7 @@
 # T01：YOLO26m＋Mamba-FPN 重新訓練
 
+2026-10-31：T01 訓練實驗以 `t01-experiment-final-2026-10-31`（`a47fb16`）結案；合併、封存與恢復入口見 [最終結案報告](history/2026-10-31-t01-closeout.md)。F04、完整 async session 與 P01 依 [後續工作](BACKLOG.md) 分項保留 OPEN。
+
 T01 從官方 YOLO26m 權重出發，重跑 `Teacher → Feature Cache → Distill → GT1 → T3 → T1`，產生新的 v1 候選模型。這是**新的訓練實驗**：不宣稱逐位元重現舊 checkpoint，也不繼承舊模型的品質結論。架構與 scan 語義沿用 [SCAN_CONTRACT](SCAN_CONTRACT.md)，部署為 T=1。
 
 本文件分兩部分：§1–§7 是**正式訓練前固定的規格**（與第一個正式 run 一同提交，提交時沒有任何正式訓練或驗證結果）；§8 起是執行紀錄。訓練、選模與評估使用 PyTorch／Python；v1 的推論仍是 C++／CUDA／TensorRT，不引入 Python runtime 依賴。

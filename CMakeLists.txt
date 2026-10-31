@@ -20,6 +20,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   endforeach()
 endif()
 
+
 enable_testing()
 add_test(NAME protocol_happens_before COMMAND protocol_model --self-test)
 add_test(NAME protocol_state_and_packet COMMAND protocol_tests)
@@ -236,4 +237,13 @@ if(SACCADE_ENABLE_MODEL_TRT)
     message(FATAL_ERROR "SACCADE_ENABLE_MODEL_TRT needs SACCADE_ENABLE_CUDA=ON and SACCADE_ENABLE_TENSORRT=ON")
   endif()
   include(cmake/ModelTensorRT.cmake)
+endif()
+
+# Native F01/F02 is independent of TensorRT. The default CPU build stays SDK-free.
+option(SACCADE_ENABLE_PREPROCESS "Build hardware nvJPEG and CUDA antialiased resize" OFF)
+if(SACCADE_ENABLE_PREPROCESS)
+  if(NOT SACCADE_ENABLE_CUDA)
+    message(FATAL_ERROR "SACCADE_ENABLE_PREPROCESS needs SACCADE_ENABLE_CUDA=ON")
+  endif()
+  include(cmake/Preprocess.cmake)
 endif()

@@ -1,0 +1,1 @@
+cmake -S . -B /home/ray/developer/ai/saccade_v1/build-preprocess-evidence/build -DCMAKE_BUILD_TYPE=Release -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_PREPROCESS=ON -DCMAKE_CXX_COMPILER=c++ -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc -DCMAKE_CUDA_ARCHITECTURES=120 -DSACCADE_PREPROCESS_REFERENCES=/home/ray/developer/ai/saccade_v1/build-preprocess-evidence/refs 

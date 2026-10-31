@@ -1,0 +1,1 @@
+bash -c nvidia-smi\;\ /opt/cuda/bin/nvcc\ --version\;\ /opt/cuda/bin/compute-sanitizer\ --version\;\ ldd\ \"\$1\"\;\ sha256sum\ \"\$1\"\ /opt/cuda/lib64/libnvjpeg.so\ /opt/cuda/lib64/libcudart.so\;\ git\ rev-parse\ HEAD\;\ git\ status\ --porcelain _ /home/ray/developer/ai/saccade_v1/build-preprocess-initcheck-control/repro 

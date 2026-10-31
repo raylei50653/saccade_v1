@@ -1,6 +1,6 @@
 # Saccade v1
 
-Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作，數值驗證待補；decode／NMS（F04）、完整 GMC、tracker 與 MOT writer 仍待各自任務實作。
+Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作，17 組數值對照逐位元相同；F02 在受測範圍 PASS，F01 的 nvJPEG initcheck 仍 FAIL／原因 OPEN；decode／NMS（F04）、完整 GMC、tracker 與 MOT writer 仍待各自任務實作。
 
 以舊架構的 YOLO26＋Mamba-FPN、GPU GMC、geometry-first／ReID-free tracker 與 MOT 輸出作為設計基線；重新抽象資料與責任邊界，全部重新實作。
 
@@ -21,7 +21,7 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 - [S04 完整 head（TensorRT FP32）](docs/HEAD_TRT.md)：指定 T1 checkpoint 的 native 轉換與 `SCWB 1` bundle、native network API 建圖、六個 raw cls／reg 輸出與 9 個 plugin status＋輸入／輸出有限值檢查共同決定 frame 發布、生命週期與重跑命令；數值政策在首次 GPU 比較前固定於 [HEAD_POLICY](docs/HEAD_POLICY.md)。**S04 PASS**，限指定候選、固定介面與受測 FP32 head 範圍；正式結果見 [S04 證據](evidence/s04/2026-10-30/REPORT.md)。head racecheck／synccheck 未執行；backbone／neck、前處理、decode 與模型品質仍未驗收，P01 仍 OPEN。
 - [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
 - [T01 backbone engine 與 F03](docs/MODEL_TRT.md)：T01 backbone ONNX 經 pinned SDK 的 ONNX parser 建成 FP32 engine，與 S04 head 組成完整模型 engine；政策在首次 GPU 比較前固定於 [BACKBONE_POLICY](docs/BACKBONE_POLICY.md)。**backbone PASS、F03 PASS**，限六個固定輸入與受測環境；native 前處理、decode 未驗收，P01 仍 OPEN。
-- [Native 影像前處理 F01／F02](docs/PREPROCESS.md)：獨立於 TensorRT 的 nvJPEG hardware batch-1 planar RGB decode、FP32 正規化與 antialiased stretch、ImageMapping、同 stream 重用與 checked drain；使用 `SACCADE_ENABLE_PREPROCESS` 可選建置。比較政策在 [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md)，native 數值驗證待補；單 staging 實作尚未整合雙 STAGE 的完整 async session。
+- [Native 影像前處理 F01／F02](docs/PREPROCESS.md)：獨立於 TensorRT 的 nvJPEG hardware batch-1 planar RGB decode、FP32 正規化與 antialiased stretch、ImageMapping、同 stream 重用與 checked drain；使用 `SACCADE_ENABLE_PREPROCESS` 可選建置。比較政策在 [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md)，17 組對照逐位元相同、19/19 CTest；F02 四種 sanitizer 通過，F01 initcheck 在獨立 nvJPEG 重現仍失敗（[證據](evidence/preprocess/2026-10-31/REPORT.md)）。單 staging 尚未整合雙 STAGE 的完整 async session。
 - [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
 
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：

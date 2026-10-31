@@ -1,0 +1,164 @@
+========= COMPUTE-SANITIZER
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (0,3,0) in block (0,0,0)
+=========     Address 0xf0e200600
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (1,3,0) in block (0,0,0)
+=========     Address 0xf0e200604
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (2,3,0) in block (0,0,0)
+=========     Address 0xf0e200608
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (3,3,0) in block (0,0,0)
+=========     Address 0xf0e20060c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (4,3,0) in block (0,0,0)
+=========     Address 0xf0e200610
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (5,3,0) in block (0,0,0)
+=========     Address 0xf0e200614
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (6,3,0) in block (0,0,0)
+=========     Address 0xf0e200618
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (7,3,0) in block (0,0,0)
+=========     Address 0xf0e20061c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (8,3,0) in block (0,0,0)
+=========     Address 0xf0e200620
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (9,3,0) in block (0,0,0)
+=========     Address 0xf0e200624
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: main [0x43ab] in repro
+========= 
+nvjpeg=13.2.3 mode=v2-dirty size=35x27 rgb_exact=1 repeat_exact=1 allocations=0
+========= ERROR SUMMARY: 1890 errors
+========= ERROR SUMMARY: 1880 errors were not printed. Use --print-limit option to adjust the number of printed errors

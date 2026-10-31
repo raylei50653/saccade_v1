@@ -1,0 +1,308 @@
+Start testing: Oct 31 09:38 CST
+----------------------------------------------------------
+1/11 Testing: protocol_happens_before
+1/11 Test: protocol_happens_before
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/protocol_model" "--self-test"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"protocol_happens_before" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+PASS baseline 216/216 configurations; 10 frames each; conflicts, producer identity, event binding, DAG
+PASS mutation remove-init-sync rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered initialize all session storage / F04 header frame=0
+PASS mutation remove-mi-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: MI.header[0]: unordered F05 header frame=0 / MI pre-header frame=0
+PASS mutation remove-mi-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-mi-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: MI.header[0]: unordered MI pre-header frame=0 / F05 header frame=1
+PASS mutation remove-mi-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered F04 header frame=0 / CS pre-header frame=0
+PASS mutation remove-cs-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: CS.header[0]: unordered CS pre-header frame=0 / F04 header frame=1
+PASS mutation remove-cs-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-staged-host-wait rejected 108/216; witness MI=1,CS=1,H=1,RP=2,normal: STAGE[0]: unordered H2D and nvJPEG transfer frame=0 / fill STAGE frame=1
+PASS mutation remove-staged-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: staged[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-packet-host-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: HP[0]: unordered D2H frame=0 / consume packet frame=0
+PASS mutation remove-packet-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: pkt[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-terminal-waits rejected 108/216; witness MI=1,CS=1,H=1,RP=1,D-only-tail: CS.header[0]: unordered F04 header frame=9 / release or reset session storage
+PASS mutation enqueue-main-before-detect rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS 15 mutation families detected
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_happens_before" end time: Oct 31 09:38 CST
+"protocol_happens_before" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/11 Testing: protocol_state_and_packet
+2/11 Test: protocol_state_and_packet
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/protocol_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"protocol_state_and_packet" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+protocol_tests: 630 checks passed
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_state_and_packet" end time: Oct 31 09:38 CST
+"protocol_state_and_packet" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/11 Testing: packet_compare_cli
+3/11 Test: packet_compare_cli
+Command: "/usr/bin/cmake" "-DPROTOCOL_TESTS=/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/protocol_tests" "-DPACKET_COMPARE=/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/packet_compare" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/packet-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/cmake/PacketCompareTest.cmake"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"packet_compare_cli" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"packet_compare_cli" end time: Oct 31 09:38 CST
+"packet_compare_cli" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/11 Testing: synthetic_resolved_config
+4/11 Test: synthetic_resolved_config
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/synthetic_config_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"synthetic_resolved_config" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+synthetic_config_tests: 88 checks passed
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"synthetic_resolved_config" end time: Oct 31 09:38 CST
+"synthetic_resolved_config" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/11 Testing: checked_file_io
+5/11 Test: checked_file_io
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/file_io_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"checked_file_io" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+file_io_tests: 23 checks passed
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"checked_file_io" end time: Oct 31 09:38 CST
+"checked_file_io" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/11 Testing: checked_resource_cleanup
+6/11 Test: checked_resource_cleanup
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/cleanup_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"checked_resource_cleanup" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+cleanup_tests: 79 checks passed
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"checked_resource_cleanup" end time: Oct 31 09:38 CST
+"checked_resource_cleanup" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/11 Testing: model_manifest_contract
+7/11 Test: model_manifest_contract
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/model_manifest_tests" "/home/ray/developer/ai/saccade_v1/fixtures/model-manifest"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"model_manifest_contract" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+model_manifest_tests: 126 checks passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"model_manifest_contract" end time: Oct 31 09:38 CST
+"model_manifest_contract" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/11 Testing: model_manifest_cli
+8/11 Test: model_manifest_cli
+Command: "/usr/bin/cmake" "-DPROGRAM=/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/model_manifest" "-DFIXTURE_SOURCE=/home/ray/developer/ai/saccade_v1/fixtures/model-manifest" "-DFIXTURE_DIR=/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/manifest-fixtures" "-P" "/home/ray/developer/ai/saccade_v1/cmake/ManifestTest.cmake"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"model_manifest_cli" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+-- manifest CLI checks passed; raw outputs: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu/manifest-fixtures/manifest-a1189f6e16283a97
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"model_manifest_cli" end time: Oct 31 09:38 CST
+"model_manifest_cli" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/11 Testing: selective_scan_reference
+9/11 Test: selective_scan_reference
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/selective_scan_tests" "/home/ray/developer/ai/saccade_v1/fixtures/selective-scan"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"selective_scan_reference" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+element	single_token	0	3.77258872223978123771	3.7725887222397811	9.28e-17
+element	single_token	1	-164	-164	0
+case	single_token	unit	count=2	max_abs=9.28e-17	max_rel=2.46e-17	worst_index=0	PASS
+element	three_token_decay	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	three_token_decay	1	1.73286795139986327357	1.7328679513998633	2.49e-18
+element	three_token_decay	2	2.94587551737976756513	2.9458755173797675	7.09e-17
+case	three_token_decay	unit	count=3	max_abs=7.09e-17	max_rel=3.35e-17	worst_index=2	PASS
+element	softplus_branches	0	9.35762296883973677941e-14	9.3576229688397368e-14	6.16e-31
+element	softplus_branches	1	2.0611536203143807032e-09	2.0611536203143808e-09	1.01e-25
+element	softplus_branches	2	0.313261687518222834044	0.31326168751822286	3.04e-17
+element	softplus_branches	3	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	softplus_branches	4	20.000000002061153621	20.000000002061153	5.95e-16
+element	softplus_branches	5	20.5	20.5	0
+case	softplus_branches	relative	count=6	max_abs=5.95e-16	max_rel=9.69e-17	worst_index=4	PASS
+case	geometric_p3_length	unit	count=1600	max_abs=3.15e-15	max_rel=3.02e-16	worst_index=191	PASS
+case	per_channel_a	unit	count=75	max_abs=4.04e-15	max_rel=2.27e-15	worst_index=74	PASS
+case	state_32_p4_length	unit	count=200	max_abs=8.72e-15	max_rel=6.74e-16	worst_index=30	PASS
+case	varying_direct_sum	unit	count=42	max_abs=9.88e-16	max_rel=1.25e-14	worst_index=27	PASS
+case	m_head_abi_L25	unit	count=25600	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=20234	PASS
+case	m_head_abi_L100	unit	count=102400	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=77834	PASS
+case	m_head_abi_L400	unit	count=409600	max_abs=3.97e-15	max_rel=3.44e-16	worst_index=308234	PASS
+element	extreme_large_delta_memoryless	0	3	3	0
+element	extreme_large_delta_memoryless	1	-5	-5	0
+element	extreme_large_delta_memoryless	2	7	7	0
+case	extreme_large_delta_memoryless	relative	count=3	max_abs=0	max_rel=0	worst_index=0	PASS
+element	extreme_negative_delta	0	1	1	0
+element	extreme_negative_delta	1	-1	-1	0
+case	extreme_negative_delta	relative	count=2	max_abs=0	max_rel=0	worst_index=0	PASS
+element	extreme_fp32_max_input	0	6.32938129123045190052e-06	6.3293812912304522e-06	2.67e-22
+case	extreme_fp32_max_input	relative	count=1	max_abs=2.67e-22	max_rel=4.22e-17	worst_index=0	PASS
+element	extreme_near_fp32_limit_output	0	1.11655151645932933324e+38	1.1165515164593293e+38	0
+case	extreme_near_fp32_limit_output	relative	count=1	max_abs=0	max_rel=0	worst_index=0	PASS
+element	extreme_subnormal_input	0	9.71306079669728058935e-46	9.7130607966972803e-46	3.25e-62
+element	extreme_subnormal_input	1	1.4569591195045920884e-45	1.456959119504592e-45	1.27e-61
+case	extreme_subnormal_input	relative	count=2	max_abs=1.27e-61	max_rel=8.69e-17	worst_index=1	PASS
+element	extreme_most_negative_a	0	0.693147180559945309429	0.69314718055994529	2.32e-17
+element	extreme_most_negative_a	1	1.38629436111989061886	1.3862943611198906	4.64e-17
+element	extreme_most_negative_a	2	2.07944154167983592829	2.0794415416798357	1.81e-16
+case	extreme_most_negative_a	unit	count=3	max_abs=1.81e-16	max_rel=8.69e-17	worst_index=2	PASS
+equality	all	PASS
+rejection	all	PASS
+element	cross_scan_prefix_merge	0	7.6246189861593984035	7.6246189861593976	8.1e-16
+element	cross_scan_prefix_merge	1	7.97119257643937105832	7.9711925764393712	1.22e-16
+element	cross_scan_prefix_merge	2	8.31776616671934371314	8.317766166719343	7.23e-16
+element	cross_scan_prefix_merge	3	8.66433975699931636753	8.6643397569993148	1.57e-15
+element	cross_scan_prefix_merge	4	9.01091334727928902279	9.0109133472792884	6.35e-16
+element	cross_scan_prefix_merge	5	9.35748693755926167718	9.357486937559262	2.98e-16
+case	cross_scan_prefix_merge	unit	count=6	max_abs=1.57e-15	max_rel=1.81e-16	worst_index=3	PASS
+cross_scan	all	PASS
+checks	253
+selective_scan_tests: 253 checks passed
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"selective_scan_reference" end time: Oct 31 09:38 CST
+"selective_scan_reference" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/11 Testing: head_weight_delivery
+10/11 Test: head_weight_delivery
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/head_weights_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"head_weight_delivery" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+schema_mapping	PASS
+conversion	PASS
+bundle	PASS
+head_weights_tests: 188 checks passed
+<end of output>
+Test time =  12.93 sec
+----------------------------------------------------------
+Test Passed.
+"head_weight_delivery" end time: Oct 31 09:38 CST
+"head_weight_delivery" time elapsed: 00:00:12
+----------------------------------------------------------
+
+11/11 Testing: head_reference
+11/11 Test: head_reference
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-cpu/head_reference_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-cpu
+"head_reference" start time: Oct 31 09:38 CST
+Output:
+----------------------------------------------------------
+primitive	conv1x1	PASS
+primitive	conv4x4_stride4	PASS
+primitive	conv3x3_pad1_correlation	PASS
+primitive	conv3x3_flipped_variant	PASS
+primitive	linear	PASS
+primitive	causal_conv1d	PASS
+primitive	anticausal_conv1d_variant	PASS
+primitive	silu	PASS
+primitive	pixel_shuffle_crd	PASS
+primitive	pixel_shuffle_dcr_variant	PASS
+primitive	pixel_shuffle_spatial	PASS
+primitive	concat_order	PASS
+primitive	slice_last	PASS
+primitive	multiply	PASS
+primitive	add	PASS
+primitive	cross_expand_order	PASS
+primitive	cross_merge_restores	PASS
+primitive	cross_merge_mean	PASS
+primitive	neg_exp	PASS
+scan_vs_s01	L=25	max_abs_diff=0	PASS
+scan_input_sensitivity	L=25	max_change_over_bound=0.948835	PASS
+scan_vs_s01	L=100	max_abs_diff=0	PASS
+scan_input_sensitivity	L=100	max_change_over_bound=0.960913	PASS
+fp32_inside_bound	conv3x3	max_err_over_bound=0.00283266	PASS
+fp32_inside_bound	silu	max_err_over_bound=0.10368	PASS
+fp32_inside_bound	linear	max_err_over_bound=0.00184937	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p3	max_abs=1.13e-07	max_err_over_lambda_sigma=0.00187	worst_index=230284	max_err_over_2bound=5.07e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p4	max_abs=1.03e-07	max_err_over_lambda_sigma=0.00179	worst_index=70204	max_err_over_2bound=2.4e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	cls_p5	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00201	worst_index=18843	max_err_over_2bound=2.8e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	reg_p3	max_abs=1.06e-07	max_err_over_lambda_sigma=0.00187	worst_index=8471	max_err_over_2bound=3.38e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	reg_p4	max_abs=8.56e-08	max_err_over_lambda_sigma=0.00172	worst_index=5622	max_err_over_2bound=1.72e-09	outside=0	PASS
+fp32_head_model_check	synthetic	asymmetric	reg_p5	max_abs=8.36e-08	max_err_over_lambda_sigma=0.00159	worst_index=1418	max_err_over_2bound=2.05e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	cls_p3	max_abs=3.1e-07	max_err_over_lambda_sigma=0.00195	worst_index=476285	max_err_over_2bound=3.42e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	cls_p4	max_abs=3.03e-07	max_err_over_lambda_sigma=0.00203	worst_index=16063	max_err_over_2bound=2.7e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	cls_p5	max_abs=3.14e-07	max_err_over_lambda_sigma=0.00215	worst_index=6292	max_err_over_2bound=2.31e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	reg_p3	max_abs=2.83e-07	max_err_over_lambda_sigma=0.00197	worst_index=1872	max_err_over_2bound=2.39e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	reg_p4	max_abs=2.41e-07	max_err_over_lambda_sigma=0.00168	worst_index=1323	max_err_over_2bound=1.62e-09	outside=0	PASS
+fp32_head_model_check	synthetic	random	reg_p5	max_abs=2.15e-07	max_err_over_lambda_sigma=0.00154	worst_index=583	max_err_over_2bound=1.84e-09	outside=0	PASS
+reference_seconds	synthetic	0.743
+semantic_variant	synthetic	pixel_shuffle_dcr	outside_lambda_sigma=702904/705600	max_err_over_tol=1.05e+03	DETECTED
+semantic_variant	synthetic	anticausal_conv	outside_lambda_sigma=101519/705600	max_err_over_tol=3.87	DETECTED
+semantic_variant	synthetic	direction_identity	outside_lambda_sigma=0/705600	max_err_over_tol=0.873	MISSED
+semantic_variant	synthetic	merge_mismatch	outside_lambda_sigma=700011/705600	max_err_over_tol=510	DETECTED
+semantic_variant	synthetic	concat_reversed	outside_lambda_sigma=704806/705600	max_err_over_tol=3.41e+03	DETECTED
+semantic_variant	synthetic	flipped_kernels	outside_lambda_sigma=704774/705600	max_err_over_tol=3.67e+03	DETECTED
+semantic_variant	synthetic	swap_xz	outside_lambda_sigma=602581/705600	max_err_over_tol=28.1	DETECTED
+semantic_variant	synthetic	swap_dt_b	outside_lambda_sigma=2083/705600	max_err_over_tol=1.58	DETECTED
+semantic_variant	synthetic	c_first_state_only	outside_lambda_sigma=0/705600	max_err_over_tol=0.278	MISSED
+semantic_variant	synthetic	delta_bias_after_softplus	outside_lambda_sigma=0/705600	max_err_over_tol=0.0381	MISSED
+semantic_variant	synthetic	no_d_skip	outside_lambda_sigma=554378/705600	max_err_over_tol=17.6	DETECTED
+semantic_variant	synthetic	no_residual	outside_lambda_sigma=701719/705600	max_err_over_tol=684	DETECTED
+semantic_variant	synthetic	swap_level_weights	outside_lambda_sigma=167919/705600	max_err_over_tol=8.8e+03	DETECTED
+semantic_variants	synthetic	informational	missed=direction_identity, c_first_state_only, delta_bias_after_softplus
+tolerance_scale	synthetic	cls_p3	max_abs_ref=0.168	max_lambda_sigma=7.04e-05	max_2bound=51.9
+tolerance_scale	synthetic	cls_p4	max_abs_ref=0.18	max_lambda_sigma=6.76e-05	max_2bound=89.3
+tolerance_scale	synthetic	cls_p5	max_abs_ref=0.175	max_lambda_sigma=6.55e-05	max_2bound=86.3
+tolerance_scale	synthetic	reg_p3	max_abs_ref=0.149	max_lambda_sigma=6.44e-05	max_2bound=47.7
+tolerance_scale	synthetic	reg_p4	max_abs_ref=0.123	max_lambda_sigma=6.03e-05	max_2bound=81.3
+tolerance_scale	synthetic	reg_p5	max_abs_ref=0.134	max_lambda_sigma=6.35e-05	max_2bound=82.1
+from_refs	PASS
+skipped	t1_bundle	no bundle given
+head_reference_tests: 215 checks passed
+<end of output>
+Test time =  17.23 sec
+----------------------------------------------------------
+Test Passed.
+"head_reference" end time: Oct 31 09:38 CST
+"head_reference" time elapsed: 00:00:17
+----------------------------------------------------------
+
+End testing: Oct 31 09:38 CST

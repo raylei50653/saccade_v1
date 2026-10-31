@@ -1,0 +1,47 @@
+Test project /home/ray/developer/ai/saccade_v1/build-preprocess-evidence/build
+      Start  1: protocol_happens_before
+ 1/19 Test  #1: protocol_happens_before ............   Passed    0.35 sec
+      Start  2: protocol_state_and_packet
+ 2/19 Test  #2: protocol_state_and_packet ..........   Passed    0.00 sec
+      Start  3: packet_compare_cli
+ 3/19 Test  #3: packet_compare_cli .................   Passed    0.02 sec
+      Start  4: synthetic_resolved_config
+ 4/19 Test  #4: synthetic_resolved_config ..........   Passed    0.00 sec
+      Start  5: checked_file_io
+ 5/19 Test  #5: checked_file_io ....................   Passed    0.00 sec
+      Start  6: checked_resource_cleanup
+ 6/19 Test  #6: checked_resource_cleanup ...........   Passed    0.00 sec
+      Start  7: model_manifest_contract
+ 7/19 Test  #7: model_manifest_contract ............   Passed    0.01 sec
+      Start  8: model_manifest_cli
+ 8/19 Test  #8: model_manifest_cli .................   Passed    0.04 sec
+      Start  9: selective_scan_reference
+ 9/19 Test  #9: selective_scan_reference ...........   Passed    0.06 sec
+      Start 10: head_weight_delivery
+10/19 Test #10: head_weight_delivery ...............   Passed   13.04 sec
+      Start 11: head_reference
+11/19 Test #11: head_reference .....................   Passed   17.60 sec
+      Start 12: selective_scan_cuda
+12/19 Test #12: selective_scan_cuda ................   Passed    2.99 sec
+      Start 13: selective_scan_cuda_lazy_streams
+13/19 Test #13: selective_scan_cuda_lazy_streams ...   Passed    0.29 sec
+      Start 14: cuda_synthetic_protocol
+14/19 Test #14: cuda_synthetic_protocol ............   Passed    1.19 sec
+      Start 15: cuda_synthetic_cli_io
+15/19 Test #15: cuda_synthetic_cli_io ..............   Passed    0.55 sec
+      Start 16: cuda_checked_cleanup
+16/19 Test #16: cuda_checked_cleanup ...............   Passed    0.32 sec
+      Start 17: resize_cuda
+17/19 Test #17: resize_cuda ........................   Passed    0.58 sec
+      Start 18: native_preprocess
+18/19 Test #18: native_preprocess ..................   Passed    1.71 sec
+      Start 19: preprocess_reference
+19/19 Test #19: preprocess_reference ...............   Passed    1.17 sec
+
+100% tests passed out of 19
+
+Label Time Summary:
+gpu           =   8.80 sec*proc (8 tests)
+preprocess    =   3.46 sec*proc (3 tests)
+
+Total Test time (real) =  39.93 sec

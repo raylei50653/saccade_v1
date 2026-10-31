@@ -1,6 +1,6 @@
 # F01／F02：native JPEG decode 與 antialiased resize
 
-[`NativePreprocessor`](../include/saccade/preprocess.hpp) 實作 `t01-input/1`：C++ 讀壓縮 JPEG，nvJPEG hardware backend 解碼成原尺寸 planar RGB uint8，再以 CUDA FP32 `/255` 與 antialiased bilinear、`align_corners=False` stretch 產生 `[1,3,640,640]`。不取整、不 clamp，沒有 mean／std、letterbox 或額外色彩轉換。數值比較政策為 [`t01-preprocess-fp32/1`](PREPROCESS_POLICY.md)，訓練側來源見 [T01 §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。本文件先記錄實作與重跑方式，native 數值驗證結果待補。
+[`NativePreprocessor`](../include/saccade/preprocess.hpp) 實作 `t01-input/1`：C++ 讀壓縮 JPEG，nvJPEG hardware backend 解碼成原尺寸 planar RGB uint8，再以 CUDA FP32 `/255` 與 antialiased bilinear、`align_corners=False` stretch 產生 `[1,3,640,640]`。不取整、不 clamp，沒有 mean／std、letterbox 或額外色彩轉換。數值比較政策為 [`t01-preprocess-fp32/1`](PREPROCESS_POLICY.md)，訓練側來源見 [T01 §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。結果見 [2026-10-31 證據](../evidence/preprocess/2026-10-31/REPORT.md)：17 組輸出與訓練參考逐位元相同；F02 在受測範圍 PASS，F01 數值與 API 通過，但 nvJPEG 內部 initcheck FAIL／原因 OPEN。
 
 ## 1. 支援範圍與 API
 
@@ -75,4 +75,4 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 
 `resize_cuda_tests` 檢查低階 resize 的 CPU reference／手算案例、stream、repeat／graph 與 host 參數拒絕；`preprocess_tests` 使用 repo fixtures 檢查 odd-size decode、尺寸切換／重用、caller JPEG bytes 複製、independent sessions、ImageMapping、格式／容量／metadata／frame order／default-stream 拒絕、failure latch、capture 拒絕與 checked close。具體執行結果與 sanitizer 覆蓋須由實際紀錄佐證，不能以測試存在推論已通過。
 
-Native 數值驗證及 sanitizer 結果待補。此實作不關閉 F04 decode／NMS、完整 async session 整合、P01 或模型品質；七張真實影像也不代表本次已重驗全部 5,316 張 MOT17 frame。
+乾淨 source `2b39dda` 的 19/19 CTest 通過，17 組共 13,522,182 個 FP32 輸出元素與訓練參考逐位元相同。F02 memcheck／initcheck／racecheck／synccheck 均為 0 errors／hazards；session memcheck／racecheck／synccheck 亦通過。session initcheck 在 nvJPEG 私有 `rgba2rgb` 報 8,151 errors，capture 因此 exit 99；不使用本專案程式的獨立 HW decode control 同樣報 1,890 errors。原因尚未由 NVIDIA 確認，不能當作已確認誤報，也不列全路徑 sanitizer PASS。完整結果與補跑範圍見上述報告。此實作不關閉 F04 decode／NMS、完整 async session 整合、P01 或模型品質；七張真實影像也不代表本次已重驗全部 5,316 張 MOT17 frame。

@@ -193,3 +193,9 @@ T01 重新訓練（[T01_TRAINING](T01_TRAINING.md)）取代 S04 的工程驗證�
 | H05 decode | 未變：仍屬 F04 |
 
 **目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：影像前處理的 native 實作（F01／F02，須符合 `t01-input/1`）、decode／NMS 與候選容量（F04），以及 P01 原列的其他缺件；head 與 F03 的 racecheck／synccheck 未執行。
+
+## 10. Native F01／F02 後的狀態（2026-10-31）
+
+Native 前處理已實作，詳見 [PREPROCESS](PREPROCESS.md) 與 [證據](../evidence/preprocess/2026-10-31/REPORT.md)。乾淨 source `2b39dda` 的 19/19 CTest 通過；7 張真實 JPEG 加 10 組合成輸入的 RGB／FP32 輸出與訓練參考逐位元相同，前三張亦與既有 F03 輸入 hashes 相同。F02 的四種 sanitizer 在受測範圍通過。
+
+**F01 initcheck 仍 FAIL／原因 OPEN**：nvJPEG 私有 `rgba2rgb` 報未初始化讀取，獨立 SDK control 亦重現；不可宣稱已確認誤報或完整 sanitizer PASS。F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與容量仍待實作；P01 仍 OPEN。

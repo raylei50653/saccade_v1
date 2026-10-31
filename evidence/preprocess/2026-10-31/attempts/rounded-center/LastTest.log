@@ -1,0 +1,85 @@
+Start testing: Oct 31 09:37 CST
+----------------------------------------------------------
+17/19 Testing: resize_cuda
+17/19 Test: resize_cuda
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-dev/resize_cuda_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-dev
+"resize_cuda" start time: Oct 31 09:37 CST
+Output:
+----------------------------------------------------------
+contract=t01-input/1
+resize=fp32-antialiased-bilinear-half-pixel
+source_commit=88f906809c68111d8a132c2f9fe08f45b4adecc4
+source_dirty=true
+nvcc=13.4.92
+normalize=fp32-reciprocal-255-before-resize
+registers=36 local_bytes=0 shared_bytes=0
+registers=36 local_bytes=0 shared_bytes=0
+resize_cuda_tests PASS cases=68 max_abs_binary64=3.48558e-05 held_stream=PASS
+<end of output>
+Test time =   3.30 sec
+----------------------------------------------------------
+Test Passed.
+"resize_cuda" end time: Oct 31 09:37 CST
+"resize_cuda" time elapsed: 00:00:03
+----------------------------------------------------------
+
+18/19 Testing: native_preprocess
+18/19 Test: native_preprocess
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-dev/preprocess_tests" "/home/ray/developer/ai/saccade_v1/fixtures/preprocess"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-dev
+"native_preprocess" start time: Oct 31 09:37 CST
+Output:
+----------------------------------------------------------
+case=positive frames=4 odd-size=35x27 alternate=48x32 bitwise-repeat=PASS
+case=independent-streams mapping=nonuniform bitwise=PASS
+case=host-rejections malformed/unsupported/capacity/metadata/order/config/default-stream/latch/closed=PASS
+case=capture-rejected=PASS
+preprocess_tests checks=2977 PASS
+<end of output>
+Test time =   1.73 sec
+----------------------------------------------------------
+Test Passed.
+"native_preprocess" end time: Oct 31 09:37 CST
+"native_preprocess" time elapsed: 00:00:01
+----------------------------------------------------------
+
+19/19 Testing: preprocess_reference
+19/19 Test: preprocess_reference
+Command: "/home/ray/developer/ai/saccade_v1/build-preprocess-dev/preprocess" "run" "/home/ray/developer/ai/saccade_v1/build-preprocess-ref" "/home/ray/developer/ai/saccade_v1/build-preprocess-dev/preprocess-reference"
+Directory: /home/ray/developer/ai/saccade_v1/build-preprocess-dev
+"preprocess_reference" start time: Oct 31 09:37 CST
+Output:
+----------------------------------------------------------
+MOT17-02-SDP/1 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+MOT17-10-SDP/1 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+MOT17-13-SDP/400 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+MOT17-04-SDP/1 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+MOT17-05-SDP/1 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+MOT17-09-SDP/1 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+MOT17-11-SDP/1 rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+zeros-singleton rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+ones-upsample rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+color-ramp rgb_exact=1 repeat_exact=1 max_abs=2.02656e-06 violations=0
+edge-impulse rgb_exact=1 repeat_exact=1 max_abs=4.47035e-08 violations=0
+checker-odd-downsample rgb_exact=1 repeat_exact=1 max_abs=1.49012e-05 violations=48087
+stripes rgb_exact=1 repeat_exact=1 max_abs=2.98023e-07 violations=0
+random-downsample rgb_exact=1 repeat_exact=1 max_abs=4.17233e-07 violations=0
+identity rgb_exact=1 repeat_exact=1 max_abs=0 violations=0
+single-row rgb_exact=1 repeat_exact=1 max_abs=5.96046e-08 violations=0
+single-column rgb_exact=1 repeat_exact=1 max_abs=1.19209e-07 violations=0
+preprocess: native preprocessing comparison failed; see report.tsv
+<end of output>
+Test time =   1.20 sec
+----------------------------------------------------------
+Test Failed.
+"preprocess_reference" end time: Oct 31 09:37 CST
+"preprocess_reference" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Oct 31 09:37 CST
+
+gpu =   6.23 sec*proc
+
+preprocess =   6.23 sec*proc
+

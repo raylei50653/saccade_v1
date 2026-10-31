@@ -1,0 +1,96 @@
+{
+  "required_scope_status": "PASS",
+  "targeted_postprocess_asan_ubsan": {
+    "name": "postprocess-only",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-f04-asan",
+      "-R",
+      "^postprocess_reference$",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "started_utc": "2026-10-31T05:31:54.889770+00:00",
+    "finished_utc": "2026-10-31T05:31:55.467022+00:00",
+    "elapsed_seconds": 0.577257159999931,
+    "exit_code": 0
+  },
+  "extra_full_debug_cpu_status": "INTERRUPTED",
+  "reason": "scope-bounded stop after required checks passed",
+  "extra_full_debug_cpu_classification": "Neither PASS nor a diagnosed test bug.",
+  "extra_full_debug_cpu_interruption": {
+    "status": "INTERRUPTED",
+    "reason": "scope-bounded stop after required checks passed",
+    "time_utc": "2026-10-31T05:32:59.193635+00:00",
+    "ctest_pid": 33821,
+    "ctest_argv": [
+      "ctest",
+      "--test-dir",
+      "build-f04-asan",
+      "--output-on-failure"
+    ],
+    "terminated_descendants": [
+      {
+        "pid": 40715,
+        "argv": [
+          "/home/ray/developer/ai/saccade_v1/build-f04-asan/head_reference_tests"
+        ]
+      }
+    ],
+    "required_checks": {
+      "default_release_cpu": "PASS 12/12",
+      "targeted_postprocess_asan_ubsan": "PASS 1/1",
+      "preprocess_header_compatibility": "PASS 2/2"
+    },
+    "classification": "Extra full Debug ASan CTest intentionally interrupted; neither PASS nor a diagnosed test bug.",
+    "remaining_test_processes": []
+  },
+  "configure": {
+    "name": "configure",
+    "argv": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build-f04-asan",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer",
+      "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "started_utc": "2026-10-31T05:28:04.078587+00:00",
+    "finished_utc": "2026-10-31T05:28:04.429150+00:00",
+    "elapsed_seconds": 0.35057539399997495,
+    "exit_code": 0
+  },
+  "build": {
+    "name": "build",
+    "argv": [
+      "cmake",
+      "--build",
+      "build-f04-asan",
+      "--parallel",
+      "3"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "started_utc": "2026-10-31T05:28:04.429504+00:00",
+    "finished_utc": "2026-10-31T05:28:16.082357+00:00",
+    "elapsed_seconds": 11.652868631999922,
+    "exit_code": 0
+  },
+  "extra_full_debug_cpu_ctest": {
+    "name": "ctest",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-f04-asan",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "started_utc": "2026-10-31T05:28:16.082908+00:00",
+    "finished_utc": "2026-10-31T05:32:59.196922+00:00",
+    "elapsed_seconds": 283.11402733399996,
+    "exit_code": -15
+  }
+}

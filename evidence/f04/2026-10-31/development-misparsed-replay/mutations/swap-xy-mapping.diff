@@ -1,0 +1,13 @@
+--- baseline/cuda/postprocess.cu
++++ swap-xy-mapping/cuda/postprocess.cu
+@@ -205,8 +205,8 @@
+         }
+         if (bad) break;
+     }
+-    const float sx = static_cast<float>(request.mapping.scale_x);
+-    const float sy = static_cast<float>(request.mapping.scale_y);
++    const float sx = static_cast<float>(request.mapping.scale_y);
++    const float sy = static_cast<float>(request.mapping.scale_x);
+     if (!bad) for (unsigned i = 0; i < count; ++i) {
+         auto& candidate = result[i];
+         candidate.x1 = __fdiv_rn(candidate.x1, sx);

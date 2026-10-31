@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "tests": "2/2",
+  "build": {
+    "name": "f04-header-compat-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "build-preprocess-dev",
+      "--parallel",
+      "3",
+      "--target",
+      "preprocess_tests",
+      "resize_cuda_tests"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "started_utc": "2026-10-31T05:31:29.180146+00:00",
+    "finished_utc": "2026-10-31T05:31:34.342483+00:00",
+    "elapsed_seconds": 5.162347936999936,
+    "exit_code": 0
+  },
+  "ctest": {
+    "name": "f04-header-compat-ctest",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-preprocess-dev",
+      "-R",
+      "^(resize_cuda|native_preprocess)$",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "started_utc": "2026-10-31T05:31:34.342887+00:00",
+    "finished_utc": "2026-10-31T05:31:38.998619+00:00",
+    "elapsed_seconds": 4.655745091999961,
+    "exit_code": 0
+  },
+  "scope": "Normal resize/native-preprocess compatibility after ImageMapping extraction; does not reclassify historical nvJPEG initcheck diagnosis."
+}

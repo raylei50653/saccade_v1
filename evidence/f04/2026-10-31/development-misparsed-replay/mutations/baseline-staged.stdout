@@ -1,0 +1,58 @@
+registers=20 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=48 shared_bytes=0
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+policy=f04-postprocess-fp32/1
+source_commit=b0dfffcbd25244c0e24f83bba5abcf4a0a55619a
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=202812
+ordering=score-descending-model-id-ascending
+case=empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=single-asymmetric-map-no-clip count=1 kept=1 suppressed=0 flags=0 PASS
+case=level-first-last-layout count=6 kept=6 suppressed=0 flags=0 PASS
+case=class-tie-lowest count=1 kept=1 suppressed=0 flags=0 PASS
+case=class-rounded-sigmoid-saturation count=1 kept=1 suppressed=0 flags=0 PASS
+case=top300-before-person count=0 kept=0 suppressed=0 flags=0 PASS
+case=top300-tie-id count=300 kept=300 suppressed=0 flags=0 PASS
+case=degenerate-occupies-top300 count=0 kept=0 suppressed=0 flags=0 PASS
+case=threshold-adjacent-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=nms-equal-score-id-suppressed-pool count=3 kept=1 suppressed=2 flags=0 PASS
+case=nms-iou-exact-half count=2 kept=2 suppressed=0 flags=0 PASS
+case=nms-iou-above-half count=2 kept=1 suppressed=1 flags=0 PASS
+case=nms-iou-below-half count=2 kept=2 suppressed=0 flags=0 PASS
+case=nms-greedy-chain count=3 kept=2 suppressed=1 flags=0 PASS
+case=negative-ltrb-valid-and-degenerate count=1 kept=1 suppressed=0 flags=0 PASS
+case=finite-extreme-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=minimum-anchor-adjacent-valid-box count=1 kept=1 suppressed=0 flags=0 PASS
+case=capacity-zero-empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=capacity-zero-overflow count=0 kept=0 suppressed=0 flags=8 PASS
+case=capacity-exact count=2 kept=2 suppressed=0 flags=0 PASS
+case=capacity-one-short count=0 kept=0 suppressed=0 flags=8 PASS
+case=nan-low-score-logit count=0 kept=0 suppressed=0 flags=1 PASS
+case=inf-low-score-reg count=0 kept=0 suppressed=0 flags=1 PASS
+case=decode-overflow-low-score count=0 kept=0 suppressed=0 flags=1 PASS
+case=nms-area-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=nms-union-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=mapping-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=producer-not-done count=0 kept=0 suppressed=0 flags=4 PASS
+case=producer-upstream-failure count=0 kept=0 suppressed=0 flags=2 PASS
+case=producer-both-failures count=0 kept=0 suppressed=0 flags=6 PASS
+case=deterministic-dense-random count=4 kept=4 suppressed=0 flags=0 PASS
+arguments=PASS
+streams=PASS held=UNEXECUTED
+f03=0 raw_sha256=12df20281dd2bd1b4dd2aefbffcb2ce598115e993f530b1d3b82ae2dbdf763e5 output_sha256=b5ca033f4b55a1ddd6894860fe269477fcc5f42da87fe5977b36ed829e215807 count=10 kept=8 suppressed=2 PASS
+f03=1 raw_sha256=02558978a3e7437cc82c24c3532386588d596c2f9f54a6760d811a4543a9cf16 output_sha256=007fb95fcf087d9203fbf993667c689fcaaefbecc0676a2c9f5020f9b93790ac count=0 kept=0 suppressed=0 PASS
+f03=2 raw_sha256=b69dc2f3a468540d507a35ee5da767d7607c88948c68418b1dfa8296b55ea85f output_sha256=3abbfffeddb612e6a28087c3c12e1811d3589b5b1b1688245649fb784a7edf60 count=0 kept=0 suppressed=0 PASS
+f03=3 raw_sha256=c273efb9986a957a79ff29ec2c9ffa2fb98469fe284f2d11c4f3fa63b559c815 output_sha256=e64f5ff4f1d6b95ade910d4a89ce8fb79551dca44e69956e22c3619982b8edd9 count=0 kept=0 suppressed=0 PASS
+f03=4 raw_sha256=a6c72c191da4fad43ae298ea0f677037c1f8ae36d04618a1e7305890f37def57 output_sha256=00bac057b1db5838a041e7912768c2d5c5242c7b94ace44680e52bc0a1b01fe1 count=13 kept=7 suppressed=6 PASS
+f03=5 raw_sha256=ccd755c5f7a087bce0168e36076e377053fc6678fe8b5dc0ad981fcd52e2e771 output_sha256=819367c3f22a3ee2fae84bb8eed60e9c030c73d82854d098fb934cafdb47882b count=24 kept=4 suppressed=20 PASS
+checks=12936 max_score_abs_error=5.96046e-08 PASS

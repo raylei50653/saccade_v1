@@ -1,0 +1,28 @@
+registers=20 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=48 shared_bytes=0
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+policy=f04-postprocess-fp32/1
+source_commit=b0dfffcbd25244c0e24f83bba5abcf4a0a55619a
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=202812
+ordering=score-descending-model-id-ascending
+case=empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=single-asymmetric-map-no-clip count=1 kept=1 suppressed=0 flags=0 PASS
+case=level-first-last-layout count=6 kept=6 suppressed=0 flags=0 PASS
+case=class-tie-lowest count=1 kept=1 suppressed=0 flags=0 PASS
+case=class-rounded-sigmoid-saturation count=1 kept=1 suppressed=0 flags=0 PASS
+case=top300-before-person count=0 kept=0 suppressed=0 flags=0 PASS
+case=top300-tie-id count=300 kept=300 suppressed=0 flags=0 PASS
+case=degenerate-occupies-top300 count=0 kept=0 suppressed=0 flags=0 PASS
+case=threshold-adjacent-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=nms-equal-score-id-suppressed-pool count=3 kept=1 suppressed=2 flags=0 PASS

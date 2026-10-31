@@ -145,6 +145,19 @@ endif()
 
 include(cmake/TensorRT.cmake)
 
+# F04 scalar reference and device-independent candidate ABI. The default build
+# exercises the observation policy without requiring a CUDA SDK.
+add_library(saccade_postprocess src/postprocess.cpp)
+target_include_directories(saccade_postprocess PUBLIC include)
+add_executable(postprocess_tests tests/postprocess_tests.cpp)
+target_link_libraries(postprocess_tests PRIVATE saccade_postprocess)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_postprocess postprocess_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+add_test(NAME postprocess_reference COMMAND postprocess_tests)
+
 option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)
 if(SACCADE_ENABLE_CUDA)
   enable_language(CUDA)
@@ -246,4 +259,14 @@ if(SACCADE_ENABLE_PREPROCESS)
     message(FATAL_ERROR "SACCADE_ENABLE_PREPROCESS needs SACCADE_ENABLE_CUDA=ON")
   endif()
   include(cmake/Preprocess.cmake)
+endif()
+
+# F04 has no TensorRT or nvJPEG dependency: it consumes recorded or live raw
+# tensors plus the producer's device status on the caller's explicit stream.
+option(SACCADE_ENABLE_POSTPROCESS "Build F04 CUDA detection postprocessing" OFF)
+if(SACCADE_ENABLE_POSTPROCESS)
+  if(NOT SACCADE_ENABLE_CUDA)
+    message(FATAL_ERROR "SACCADE_ENABLE_POSTPROCESS needs SACCADE_ENABLE_CUDA=ON")
+  endif()
+  include(cmake/Postprocess.cmake)
 endif()

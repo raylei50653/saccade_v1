@@ -1,0 +1,103 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a46a1bb..278ef0d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -145,6 +145,19 @@ endif()
+ 
+ include(cmake/TensorRT.cmake)
+ 
++# F04 scalar reference and device-independent candidate ABI. The default build
++# exercises the observation policy without requiring a CUDA SDK.
++add_library(saccade_postprocess src/postprocess.cpp)
++target_include_directories(saccade_postprocess PUBLIC include)
++add_executable(postprocess_tests tests/postprocess_tests.cpp)
++target_link_libraries(postprocess_tests PRIVATE saccade_postprocess)
++if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
++  foreach(target saccade_postprocess postprocess_tests)
++    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
++  endforeach()
++endif()
++add_test(NAME postprocess_reference COMMAND postprocess_tests)
++
+ option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)
+ if(SACCADE_ENABLE_CUDA)
+   enable_language(CUDA)
+@@ -247,3 +260,13 @@ if(SACCADE_ENABLE_PREPROCESS)
+   endif()
+   include(cmake/Preprocess.cmake)
+ endif()
++
++# F04 has no TensorRT or nvJPEG dependency: it consumes recorded or live raw
++# tensors plus the producer's device status on the caller's explicit stream.
++option(SACCADE_ENABLE_POSTPROCESS "Build F04 CUDA detection postprocessing" OFF)
++if(SACCADE_ENABLE_POSTPROCESS)
++  if(NOT SACCADE_ENABLE_CUDA)
++    message(FATAL_ERROR "SACCADE_ENABLE_POSTPROCESS needs SACCADE_ENABLE_CUDA=ON")
++  endif()
++  include(cmake/Postprocess.cmake)
++endif()
+diff --git a/README.md b/README.md
+index 385adb7..c07b2a9 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ 目前里程碑為 **Saccade v1 — T01 Experimental Closeout**。原始實驗固定於 [`t01-experiment-final-2026-10-31`](https://github.com/raylei50653/saccade_v1/tree/t01-experiment-final-2026-10-31)（`a47fb16`），由 PR #1 以 merge commit 整合到 main；封存與恢復入口見 [結案報告](docs/history/2026-10-31-t01-closeout.md)。實驗完成不代表產品部署完成；F04、完整 async session 與 P01 分開保留於 [後續工作](docs/BACKLOG.md)。
+ 
+-Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻；decode／NMS（F04）、完整 GMC、tracker 與 MOT writer 仍待各自任務實作。
++Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。[F04 decode／篩選／NMS](docs/POSTPROCESS.md) 已實作，驗證待正式判定；完整 async session、GMC、tracker 與 MOT writer 仍待接續實作與整合。
+ 
+ 以舊架構的 YOLO26＋Mamba-FPN、GPU GMC、geometry-first／ReID-free tracker 與 MOT 輸出作為設計基線；重新抽象資料與責任邊界，全部重新實作。
+ 
+@@ -24,6 +24,7 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構
+ - [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
+ - [T01 backbone engine 與 F03](docs/MODEL_TRT.md)：T01 backbone ONNX 經 pinned SDK 的 ONNX parser 建成 FP32 engine，與 S04 head 組成完整模型 engine；政策在首次 GPU 比較前固定於 [BACKBONE_POLICY](docs/BACKBONE_POLICY.md)。**backbone PASS、F03 PASS**，限六個固定輸入與受測環境；該 engine 驗收不涵蓋 native 前處理或 decode／NMS；P01 仍 OPEN。
+ - [Native 影像前處理 F01／F02](docs/PREPROCESS.md)：獨立於 TensorRT 的 nvJPEG hardware batch-1 planar RGB decode、FP32 正規化與 antialiased stretch、ImageMapping、同 stream 重用與 checked drain；使用 `SACCADE_ENABLE_PREPROCESS` 可選建置。數值仍依 [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md)，既有 17 組對照逐位元相同、19/19 CTest；依 [PREPROCESS_USAGE_POLICY](docs/PREPROCESS_USAGE_POLICY.md) 的正常使用驗收亦 **PASS（受測範圍）**：7 張固定真實 JPEG、4 個 sessions 共 208 幀，全部 RGB／FP32 輸出逐位元對齊，涵蓋尺寸切換、延後 consumer、ring 重用與雙 instance（[使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)）。既知 nvJPEG initcheck FAIL 保留為診斷項，原始 [證據](evidence/preprocess/2026-10-31/REPORT.md)不改寫；單 staging 尚未整合雙 STAGE 的完整 async session。
++- [F04 native 偵測後處理](docs/POSTPROCESS.md)：CPU FP32 reference 與 CUDA decode／全類別 top-300／person 篩選／greedy NMS／原圖映射已實作，保留穩定 candidate ID 與完整 kept／suppressed pool；政策為 [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md)。使用 `SACCADE_ENABLE_POSTPROCESS` 可選建置，驗證待正式判定（[證據入口](evidence/f04/2026-10-31/REPORT.md)）；F03 producer 聚合器與完整 async session 尚未整合，P01 仍 OPEN。
+ - [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
+ 
+ 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
+diff --git a/docs/BACKLOG.md b/docs/BACKLOG.md
+index 148acf1..ba22da4 100644
+--- a/docs/BACKLOG.md
++++ b/docs/BACKLOG.md
+@@ -6,11 +6,11 @@
+ 
+ 輸入是 F03 的六個 raw cls／ltrb outputs 與 `ImageMapping`；輸出為保留穩定 candidate ID、原始 score／class、原圖 xyxy、kept／suppressed、device count／capacity／status 的 `DetectionCandidates`。依 [DATAFLOW](DATAFLOW.md#4-跨階段資料契約)，suppressed 候選須留給 F04b，suppression 只執行一次。
+ 
+-先寫定版本化 F04 policy，沿用 T01 已固定的語義：P3→P5 row-major、stride 8／16／32、anchor `(x+0.5,y+0.5)`、raw ltrb、80 類 sigmoid 後 max／argmax、conf≥0.001、**class 篩選前 top-300**、只留 class 0、NMS IoU 0.5，再映射原圖。不能將「top-k＋NMS」縮成 person-only top-k 或只交付 kept boxes。
++已依版本化 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md) 實作 [CPU scalar reference 與 CUDA API](POSTPROCESS.md)，沿用 T01 已固定的語義：P3→P5 row-major、stride 8／16／32、anchor `(x+0.5,y+0.5)`、raw ltrb、80 類 sigmoid 後 max／argmax、conf≥0.001、**class 篩選前 top-300**、只留 class 0、greedy NMS IoU>0.5，再映射原圖。保留完整 kept／suppressed pool，不能將此契約縮成 person-only top-k 或只交付 kept boxes。
+ 
+-政策仍須明定 class／top-k／NMS ties、FP32 計算與閾值邊界、clipping、退化／非有限框、capacity／padding／overflow，以及被 NMS suppressed 與低分／非 person／top-k 淘汰的區別。T01 evaluator 的 invalid-topk 只有統計，不能宣稱已固定 native 處置。候選 ID 由篩選前模型序號建立並在 compact 後保留。
++政策已固定 class／top-k／NMS ties、FP32 計算與閾值邊界、不 clipping、退化／非有限框、capacity／padding／overflow，以及被 NMS suppressed 與低分／非 person／top-k 淘汰的區別。T01 evaluator 的 invalid-topk 只有歷史統計；新增 native 處置不回寫其實驗結果。候選 ID 由篩選前模型序號建立並在 compact 後保留。
+ 
+-完成條件：固定 reference／cases／政策後，驗證完整輸出與穩定順序、重跑與資源重用、同分與閾值邊界、空候選及明確失敗；保留 F04b 可用的 suppressed pool。正常 runtime 的中途 count／status 留 device，不增加 per-frame postprocess D2H。本項尚未開始實作。
++完成條件：依 GPU 前固定的 reference／cases／政策，驗證完整輸出與穩定順序、重跑與資源重用、同分與閾值邊界、空候選及明確失敗；保留 F04b 可用的 suppressed pool。正常 runtime 的中途 count／status 留 device，不增加 per-frame postprocess D2H。**實作已完成，驗證待正式判定**；實際執行與未驗範圍見 [F04 證據入口](../evidence/f04/2026-10-31/REPORT.md)。F03 plugin／finite statuses 的 producer 聚合器及 native 前處理／模型接續尚未整合，留於完整 session 任務，不因 raw replay 而視為完成。
+ 
+ ## 2. 完整 async session：串起已完成階段
+ 
+diff --git a/include/saccade/preprocess.hpp b/include/saccade/preprocess.hpp
+index 55f7869..7fcb507 100644
+--- a/include/saccade/preprocess.hpp
++++ b/include/saccade/preprocess.hpp
+@@ -1,5 +1,7 @@
+ #pragma once
+ 
++#include "saccade/image_mapping.hpp"
++
+ #include <cuda_runtime_api.h>
+ 
+ #include <cstddef>
+@@ -16,12 +18,6 @@ struct PreprocessConfig {
+     std::size_t max_jpeg_bytes = 16 * 1024 * 1024;
+ };
+ 
+-// Continuous image-edge coordinates: model_x = original_x * scale_x.
+-// The resize filter itself uses half-pixel sampling (align_corners=false).
+-struct ImageMapping {
+-    int original_width, original_height, model_width, model_height;
+-    double scale_x, scale_y;
+-};
+ struct PreprocessedFrame {
+     std::uint64_t frame;
+     ImageMapping mapping;

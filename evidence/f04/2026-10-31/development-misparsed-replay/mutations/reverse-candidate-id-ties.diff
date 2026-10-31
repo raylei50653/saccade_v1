@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ reverse-candidate-id-ties/cuda/postprocess.cu
+@@ -133,7 +133,7 @@
+     unsigned rank = 0;
+     for (unsigned other = 0; other < kPostprocessPositions; ++other) {
+         const float rival = work->positions[other].score;
+-        if (rival > score || (rival == score && other < id)) ++rank;
++        if (rival > score || (rival == score && other > id)) ++rank;
+         if (rank >= kPostprocessCapacity) return;
+     }
+     work->top_ids[rank] = id;

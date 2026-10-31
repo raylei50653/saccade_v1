@@ -1,0 +1,6 @@
+========= COMPUTE-SANITIZER
+========= Error: Race reported between Write access at shared_race(float *)+0x80 in postprocess_sanitizer_control.cu:11
+=========     and Read access at shared_race(float *)+0xb0 in postprocess_sanitizer_control.cu:12 [256 hazards]
+========= 
+control=racecheck launch=0 completion=0
+========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)

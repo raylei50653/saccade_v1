@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ suppressed-can-suppress/cuda/postprocess.cu
+@@ -195,7 +195,7 @@
+         if (!box_area(result[i], areas[i])) { bad = true; break; }
+         result[i].flags = kDetectionKept;
+         for (unsigned j = 0; j < i; ++j) {
+-            if (result[j].flags != kDetectionKept) continue;
++            if (result[j].flags == 0) continue;
+             float overlap = 0.0f;
+             if (!iou(result[i], result[j], areas[i], areas[j], overlap)) { bad = true; break; }
+             if (overlap > kPostprocessNmsIou) {

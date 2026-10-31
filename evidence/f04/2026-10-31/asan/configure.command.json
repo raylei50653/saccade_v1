@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "cmake",
+    "-S",
+    ".",
+    "-B",
+    "build-f04-asan",
+    "-DCMAKE_BUILD_TYPE=Debug",
+    "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer",
+    "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1"
+}

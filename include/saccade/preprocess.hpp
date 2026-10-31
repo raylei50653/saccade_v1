@@ -1,5 +1,7 @@
 #pragma once
 
+#include "saccade/image_mapping.hpp"
+
 #include <cuda_runtime_api.h>
 
 #include <cstddef>
@@ -16,12 +18,6 @@ struct PreprocessConfig {
     std::size_t max_jpeg_bytes = 16 * 1024 * 1024;
 };
 
-// Continuous image-edge coordinates: model_x = original_x * scale_x.
-// The resize filter itself uses half-pixel sampling (align_corners=false).
-struct ImageMapping {
-    int original_width, original_height, model_width, model_height;
-    double scale_x, scale_y;
-};
 struct PreprocessedFrame {
     std::uint64_t frame;
     ImageMapping mapping;

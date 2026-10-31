@@ -1,0 +1,11 @@
+--- baseline/tests/postprocess_cuda_tests.cpp
++++ legacy-parser/tests/postprocess_cuda_tests.cpp
+@@ -428,7 +428,7 @@
+         Raw raw; std::size_t at = 0;
+         // model_io_spec()/F03 dump order is cls_p3, cls_p4, cls_p5,
+         // reg_p3, reg_p4, reg_p5 (not interleaved cls/reg level pairs).
+-        for (unsigned kind = 0; kind < 2; ++kind) for (unsigned l = 0; l < 3; ++l) {
++        for (unsigned l = 0; l < 3; ++l) for (unsigned kind = 0; kind < 2; ++kind) {
+             auto& tensor = kind == 0 ? raw.cls[l] : raw.reg[l];
+             std::memcpy(tensor.data(), data.data() + at, tensor.size() * 4); at += tensor.size() * 4;
+         }

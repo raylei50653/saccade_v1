@@ -1,0 +1,27 @@
+{
+  "status": "INTERRUPTED",
+  "reason": "scope-bounded stop after required checks passed",
+  "time_utc": "2026-10-31T05:32:59.193635+00:00",
+  "ctest_pid": 33821,
+  "ctest_argv": [
+    "ctest",
+    "--test-dir",
+    "build-f04-asan",
+    "--output-on-failure"
+  ],
+  "terminated_descendants": [
+    {
+      "pid": 40715,
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build-f04-asan/head_reference_tests"
+      ]
+    }
+  ],
+  "required_checks": {
+    "default_release_cpu": "PASS 12/12",
+    "targeted_postprocess_asan_ubsan": "PASS 1/1",
+    "preprocess_header_compatibility": "PASS 2/2"
+  },
+  "classification": "Extra full Debug ASan CTest intentionally interrupted; neither PASS nor a diagnosed test bug.",
+  "remaining_test_processes": []
+}

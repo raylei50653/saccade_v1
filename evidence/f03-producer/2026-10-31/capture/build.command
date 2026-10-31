@@ -1,0 +1,1 @@
+cmake --build /home/ray/developer/ai/saccade_v1/build-f03-producer-evidence/cuda --parallel 3 --target model_producer_cuda_tests model_producer_trt_tests postprocess_cuda_tests postprocess_tests postprocess_sanitizer_control 

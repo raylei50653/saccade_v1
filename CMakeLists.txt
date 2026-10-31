@@ -270,3 +270,13 @@ if(SACCADE_ENABLE_POSTPROCESS)
   endif()
   include(cmake/Postprocess.cmake)
 endif()
+
+# F03 device-side producer adapter. The primitive needs CUDA, but neither
+# TensorRT nor nvJPEG; actual engine integration tests additionally use F03/F04.
+option(SACCADE_ENABLE_MODEL_PRODUCER "Build the F03 plugin/finite status producer adapter" OFF)
+if(SACCADE_ENABLE_MODEL_PRODUCER)
+  if(NOT SACCADE_ENABLE_CUDA)
+    message(FATAL_ERROR "SACCADE_ENABLE_MODEL_PRODUCER needs SACCADE_ENABLE_CUDA=ON")
+  endif()
+  include(cmake/ModelProducer.cmake)
+endif()

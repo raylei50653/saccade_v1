@@ -33,12 +33,13 @@ enum DetectionCandidateFlag : std::uint32_t {
     kDetectionSuppressed = 2u,
 };
 
-// Caller-owned aggregate producer status. The future F03 adapter must gate all
-// plugin and finite statuses, write flags and only then done on the producing
+// Caller-owned aggregate producer status. model_producer_cuda gates all F03
+// plugin and finite statuses, writes flags and only then done on the producing
 // stream. F04 borrows it read-only; lifetime/freshness belong to the caller.
 struct PostprocessProducerStatus {
     std::uint32_t flags = 0, done = 0;
 };
+static_assert(sizeof(PostprocessProducerStatus) == 8);
 
 // NCHW FP32, one pointer/count per level. Counts must match exactly:
 // cls: 80*size*size, reg: 4*size*size. The reference reads host memory; the

@@ -1,6 +1,6 @@
 # Saccade v1 後續工作
 
-日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；完整 async session、F03 producer 聚合器與 P01 保留 OPEN，不把單階段 PASS 當作整條 runtime 已完成。
+日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已實作（[開發驗證](../evidence/f03-producer/2026-10-31/REPORT.md)）；完整 async session 與 P01 保留 OPEN，不把單階段 PASS 當作整條 runtime 已完成。
 
 ## 1. F04：先固定觀測政策，再實作
 
@@ -18,9 +18,13 @@
 
 先前 [adaptive dirty development 報告](../evidence/f04/2026-10-31-adaptive/REPORT.md) 保留原身分與 attempt 紀錄；三份真實輸入的完整 F04 API 測時為 1.77–1.97× 加速，排除 H2D／D2H 與 CPU reference。正式驗收未重測效能，也未驗完整模型或 tracking 端到端速度。
 
-[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 producer 聚合器及 native 前處理／模型接續仍留於完整 session 任務。
+[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 [producer 聚合器](MODEL_PRODUCER.md) 已接續實作並完成有界 engine→F04 開發驗證；native 前處理／模型接續仍留於完整 session 任務。
 
-## 2. 完整 async session：串起已完成階段
+## 2. F03 producer：已實作，完整 async session 接續
+
+[`f03-producer/1`](MODEL_PRODUCER.md) 以三個同 stream kernels 完成全部模型 input／raw finite checks、九個 plugin status 的角色檢查、來源退休及 F04 aggregate 發布；[開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 分開列獨立 primitive、pinned engine→F04 與 sanitizer 範圍。這不是 clean-source 正式結案；fresh slot 初始化、ready／consumed、identity 與 session 首次失敗仍由 caller 管理。
+
+完整 async session：串起已完成階段。
 
 依 [ASYNC_CONTROL](ASYNC_CONTROL.md)、[DATAFLOW](DATAFLOW.md#6-gpu-所有權與同步依賴) 與 [ResultPacket](RESULT_PACKET.md)，將 F01→F05／F02／F03／F04、main 的 F06→F08a→F04b→F07／F08b、最後 F09 接成完整 session。
 
@@ -30,7 +34,7 @@
 
 ## 3. P01：依原 readiness 缺件整體判定
 
-以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；接續補齊 F03 producer 聚合器、正常 native 輸入至完整模型與 F04 的接續整合，以及其餘原列缺件。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
+以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；F03 producer 聚合器已有有界開發驗證；接續補齊正常 native 輸入至完整模型與 F04 的接續整合，以及其餘原列缺件。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
 
 P01 保留 **OPEN**。Head／F03 racecheck、synccheck 目前 UNEXECUTED；模型品質、tracker／GMC／MOT writer 與完整 tracking 指標依各自驗收，不能由 detection AP 或有限數值對照推導。T01 不因本項未完成而重開已完成的訓練實驗。
 

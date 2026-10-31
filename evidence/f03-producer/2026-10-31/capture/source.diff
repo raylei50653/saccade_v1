@@ -1,0 +1,144 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 278ef0d..b967d4a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -270,3 +270,13 @@ if(SACCADE_ENABLE_POSTPROCESS)
+   endif()
+   include(cmake/Postprocess.cmake)
+ endif()
++
++# F03 device-side producer adapter. The primitive needs CUDA, but neither
++# TensorRT nor nvJPEG; actual engine integration tests additionally use F03/F04.
++option(SACCADE_ENABLE_MODEL_PRODUCER "Build the F03 plugin/finite status producer adapter" OFF)
++if(SACCADE_ENABLE_MODEL_PRODUCER)
++  if(NOT SACCADE_ENABLE_CUDA)
++    message(FATAL_ERROR "SACCADE_ENABLE_MODEL_PRODUCER needs SACCADE_ENABLE_CUDA=ON")
++  endif()
++  include(cmake/ModelProducer.cmake)
++endif()
+diff --git a/README.md b/README.md
+index 323df5d..d7c5a00 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+ # Saccade v1
+ 
+-目前里程碑為 **Saccade v1 — T01 Experimental Closeout**。原始實驗固定於 [`t01-experiment-final-2026-10-31`](https://github.com/raylei50653/saccade_v1/tree/t01-experiment-final-2026-10-31)（`a47fb16`），由 PR #1 以 merge commit 整合到 main；封存與恢復入口見 [結案報告](docs/history/2026-10-31-t01-closeout.md)。實驗完成不代表產品部署完成；[F04 已獨立結案（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)，完整 async session、F03 producer 聚合器與 P01 依 [後續工作](docs/BACKLOG.md) 接續。
++目前里程碑為 **Saccade v1 — T01 Experimental Closeout**。原始實驗固定於 [`t01-experiment-final-2026-10-31`](https://github.com/raylei50653/saccade_v1/tree/t01-experiment-final-2026-10-31)（`a47fb16`），由 PR #1 以 merge commit 整合到 main；封存與恢復入口見 [結案報告](docs/history/2026-10-31-t01-closeout.md)。實驗完成不代表產品部署完成；[F04 已獨立結案（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)，[F03 producer 聚合器](docs/MODEL_PRODUCER.md) 已實作，驗證範圍見 [開發證據](evidence/f03-producer/2026-10-31/REPORT.md)；完整 async session 與 P01 依 [後續工作](docs/BACKLOG.md) 接續。
+ 
+ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。[F04 decode／篩選／NMS](docs/POSTPROCESS.md) 已改為 decode 融合壓實、依 device 合格數分級排序；**F04 clean-source 正式驗收 PASS（受測範圍）**，結果來自乾淨 `995bca5` 的 [正式證據](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；原始 rank 與 adaptive 開發報告保留。完整 async session、GMC、tracker 與 MOT writer 仍待接續實作與整合。
+ 
+@@ -23,8 +23,9 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構
+ - [S04 完整 head（TensorRT FP32）](docs/HEAD_TRT.md)：指定 T1 checkpoint 的 native 轉換與 `SCWB 1` bundle、native network API 建圖、六個 raw cls／reg 輸出與 9 個 plugin status＋輸入／輸出有限值檢查共同決定 frame 發布、生命週期與重跑命令；數值政策在首次 GPU 比較前固定於 [HEAD_POLICY](docs/HEAD_POLICY.md)。**S04 PASS**，限指定候選、固定介面與受測 FP32 head 範圍；正式結果見 [S04 證據](evidence/s04/2026-10-30/REPORT.md)。head racecheck／synccheck 未執行；該 head 驗收不涵蓋 backbone／neck、前處理、decode 或模型品質，各自依所屬階段判定；P01 仍 OPEN。
+ - [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
+ - [T01 backbone engine 與 F03](docs/MODEL_TRT.md)：T01 backbone ONNX 經 pinned SDK 的 ONNX parser 建成 FP32 engine，與 S04 head 組成完整模型 engine；政策在首次 GPU 比較前固定於 [BACKBONE_POLICY](docs/BACKBONE_POLICY.md)。**backbone PASS、F03 PASS**，限六個固定輸入與受測環境；該 engine 驗收不涵蓋 native 前處理或 decode／NMS；P01 仍 OPEN。
++- [F03 producer 聚合器](docs/MODEL_PRODUCER.md)：完整 input／六個 raw outputs 的 finite checks、9 個 plugin statuses 的角色檢查與退休，於 detect stream 發布既有 F04 aggregate ABI；有界 engine→F04 接續、測試與 sanitizer 範圍見 [開發證據](evidence/f03-producer/2026-10-31/REPORT.md)，不代表完整 async session 或 P01 結案。
+ - [Native 影像前處理 F01／F02](docs/PREPROCESS.md)：獨立於 TensorRT 的 nvJPEG hardware batch-1 planar RGB decode、FP32 正規化與 antialiased stretch、ImageMapping、同 stream 重用與 checked drain；使用 `SACCADE_ENABLE_PREPROCESS` 可選建置。數值仍依 [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md)，既有 17 組對照逐位元相同、19/19 CTest；依 [PREPROCESS_USAGE_POLICY](docs/PREPROCESS_USAGE_POLICY.md) 的正常使用驗收亦 **PASS（受測範圍）**：7 張固定真實 JPEG、4 個 sessions 共 208 幀，全部 RGB／FP32 輸出逐位元對齊，涵蓋尺寸切換、延後 consumer、ring 重用與雙 instance（[使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)）。既知 nvJPEG initcheck FAIL 保留為診斷項，原始 [證據](evidence/preprocess/2026-10-31/REPORT.md)不改寫；單 staging 尚未整合雙 STAGE 的完整 async session。
+-- [F04 native 偵測後處理](docs/POSTPROCESS.md)：政策仍為 [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md)，保留全類別 Top-300、穩定原始 candidate ID、完整 kept／suppressed pool 與原輸出 ABI。CUDA 使用 decode 融合壓實與 device 分級排序，中途 counts 留 device。**乾淨 `995bca5` 的 [正式驗收 PASS（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)**：49 cases、10-phase reuse、六份 replay、F04 CTest 4/4、四種 sanitizer 與控制案例通過；sanitizer callback gates 為 UNEXECUTED，正常 gates 已驗。先前 [dirty adaptive 開發測時](evidence/f04/2026-10-31-adaptive/REPORT.md) 的三份真實輸入為 1.77–1.97× 加速，本次正式驗收未重測效能；該數字不代表完整模型或 tracking 端到端速度。既有開發證據保持原樣。F03 producer 聚合器與完整 async session 尚未整合，P01 仍 OPEN。
++- [F04 native 偵測後處理](docs/POSTPROCESS.md)：政策仍為 [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md)，保留全類別 Top-300、穩定原始 candidate ID、完整 kept／suppressed pool 與原輸出 ABI。CUDA 使用 decode 融合壓實與 device 分級排序，中途 counts 留 device。**乾淨 `995bca5` 的 [正式驗收 PASS（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)**：49 cases、10-phase reuse、六份 replay、F04 CTest 4/4、四種 sanitizer 與控制案例通過；sanitizer callback gates 為 UNEXECUTED，正常 gates 已驗。先前 [dirty adaptive 開發測時](evidence/f04/2026-10-31-adaptive/REPORT.md) 的三份真實輸入為 1.77–1.97× 加速，本次正式驗收未重測效能；該數字不代表完整模型或 tracking 端到端速度。既有開發證據保持原樣。[F03 producer 聚合器](docs/MODEL_PRODUCER.md) 已實作；完整 async session 尚未整合，P01 仍 OPEN。
+ - [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
+ 
+ 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
+diff --git a/docs/BACKLOG.md b/docs/BACKLOG.md
+index b85040f..da78159 100644
+--- a/docs/BACKLOG.md
++++ b/docs/BACKLOG.md
+@@ -1,6 +1,6 @@
+ # Saccade v1 後續工作
+ 
+-日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；完整 async session、F03 producer 聚合器與 P01 保留 OPEN，不把單階段 PASS 當作整條 runtime 已完成。
++日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已實作（[開發驗證](../evidence/f03-producer/2026-10-31/REPORT.md)）；完整 async session 與 P01 保留 OPEN，不把單階段 PASS 當作整條 runtime 已完成。
+ 
+ ## 1. F04：先固定觀測政策，再實作
+ 
+@@ -18,9 +18,13 @@
+ 
+ 先前 [adaptive dirty development 報告](../evidence/f04/2026-10-31-adaptive/REPORT.md) 保留原身分與 attempt 紀錄；三份真實輸入的完整 F04 API 測時為 1.77–1.97× 加速，排除 H2D／D2H 與 CPU reference。正式驗收未重測效能，也未驗完整模型或 tracking 端到端速度。
+ 
+-[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 producer 聚合器及 native 前處理／模型接續仍留於完整 session 任務。
++[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 [producer 聚合器](MODEL_PRODUCER.md) 已接續實作並完成有界 engine→F04 開發驗證；native 前處理／模型接續仍留於完整 session 任務。
+ 
+-## 2. 完整 async session：串起已完成階段
++## 2. F03 producer：已實作，完整 async session 接續
++
++[`f03-producer/1`](MODEL_PRODUCER.md) 以三個同 stream kernels 完成全部模型 input／raw finite checks、九個 plugin status 的角色檢查、來源退休及 F04 aggregate 發布；[開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 分開列獨立 primitive、pinned engine→F04 與 sanitizer 範圍。這不是 clean-source 正式結案；fresh slot 初始化、ready／consumed、identity 與 session 首次失敗仍由 caller 管理。
++
++完整 async session：串起已完成階段。
+ 
+ 依 [ASYNC_CONTROL](ASYNC_CONTROL.md)、[DATAFLOW](DATAFLOW.md#6-gpu-所有權與同步依賴) 與 [ResultPacket](RESULT_PACKET.md)，將 F01→F05／F02／F03／F04、main 的 F06→F08a→F04b→F07／F08b、最後 F09 接成完整 session。
+ 
+@@ -30,7 +34,7 @@
+ 
+ ## 3. P01：依原 readiness 缺件整體判定
+ 
+-以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；接續補齊 F03 producer 聚合器、正常 native 輸入至完整模型與 F04 的接續整合，以及其餘原列缺件。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
++以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；F03 producer 聚合器已有有界開發驗證；接續補齊正常 native 輸入至完整模型與 F04 的接續整合，以及其餘原列缺件。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
+ 
+ P01 保留 **OPEN**。Head／F03 racecheck、synccheck 目前 UNEXECUTED；模型品質、tracker／GMC／MOT writer 與完整 tracking 指標依各自驗收，不能由 detection AP 或有限數值對照推導。T01 不因本項未完成而重開已完成的訓練實驗。
+ 
+diff --git a/docs/MODEL_ARTIFACT_READINESS.md b/docs/MODEL_ARTIFACT_READINESS.md
+index b096a7e..a09681d 100644
+--- a/docs/MODEL_ARTIFACT_READINESS.md
++++ b/docs/MODEL_ARTIFACT_READINESS.md
+@@ -8,7 +8,7 @@
+ 
+ 2026-10-30 T01 更新見 [§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)：T01 的 matching backbone／neck ONNX 與 head bundle 已 native 交付並建成完整模型 engine，backbone 與 F03 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) PASS（有範圍）；P01 仍 OPEN。
+ 
+-2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；完整 async session、F03 producer 聚合器與 P01 仍 OPEN。§1–§10 保留各階段當時的狀態。
++2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；F03 producer 的接續實作與開發驗證見 [§12](#12-f03-producer-聚合器2026-10-31)；完整 async session 與 P01 仍 OPEN。§1–§11 保留各階段當時的狀態。
+ 
+ **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
+ 
+@@ -211,3 +211,9 @@ F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與
+ **F04 clean-source 正式驗收 PASS（受測範圍），獨立結案**。乾淨 `995bca5` 的 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md) 固定 source、實際執行 binary、sanitizer 與六份 F03 replay bytes；完整 `DetectionCandidates`、容量／失敗輸出、穩定順序、重跑／重用及獨立 API stream 契約依 [POSTPROCESS_POLICY](POSTPROCESS_POLICY.md) 驗證。四種 sanitizer 的 callback gates 使用 `--no-held-stream`，為 UNEXECUTED；正常 gates 已驗。
+ 
+ **P01 仍 OPEN**：完整 F03 producer 聚合器尚須彙整全部 plugin statuses 與 input／output finite checks；native F01／F02→F03→F04 的完整 session、CS ready／consumed、first-error latch、drain／checked close 仍待整合證據。Head／F03 racecheck、synccheck 的 UNEXECUTED 邊界不因 F04 通過而改變；模型品質與完整 tracking 亦不在本項範圍。後續依 [BACKLOG](BACKLOG.md) 接續。
++
++## 12. F03 producer 聚合器（2026-10-31）
++
++[`f03-producer/1`](MODEL_PRODUCER.md) 已實作全部 9 個 plugin statuses＋input／output finite checks 的 device 聚合與退休，發布 F04 已有的 aggregate ABI。[開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 列出獨立 API、六個固定輸入的 live engine→F04、重用／失敗／graph 及 sanitizer 的受測界線；dirty-source 開發驗證不稱 clean-source 正式結案。
++
++**P01 仍 OPEN**：正常 native F01／F02→F03→F04 完整 session、CS ready／consumed、first-error latch、drain／checked close 與其他既列缺件仍待整合證據。Head／F03 racecheck／synccheck、模型品質及 tracking 指標不由本項推導。
+diff --git a/docs/MODEL_TRT.md b/docs/MODEL_TRT.md
+index 155353d..f465c40 100644
+--- a/docs/MODEL_TRT.md
++++ b/docs/MODEL_TRT.md
+@@ -65,4 +65,4 @@ capture 在獨立的 `SACCADE_T01_ROOT` 重新產生六個輸入與 binary64 ref
+ 
+ 開發中的觀察：ONNX Runtime CPU 的 Sigmoid 在 x < −8 相對誤差很大（政策 §5 的預檢）；TensorRT 的 FP32 SiLU 沒有這個問題（backbone 最大比值 0.030）。開發建置與 capture 的 engine hash 不同，輸出卻逐位元相同。
+ 
+-**本 F03 capture 未涵蓋**：native 前處理（F01／F02）、decode／NMS（F04）、racecheck／synccheck、其他 GPU／版本。前處理與 F04 的獨立驗收現況分別見 [PREPROCESS](PREPROCESS.md)、[POSTPROCESS](POSTPROCESS.md)；完整 native 接續、F03 producer 聚合器與 P01 仍 OPEN。
++**本 F03 capture 未涵蓋**：native 前處理（F01／F02）、decode／NMS（F04）、racecheck／synccheck、其他 GPU／版本。前處理與 F04 的獨立驗收現況分別見 [PREPROCESS](PREPROCESS.md)、[POSTPROCESS](POSTPROCESS.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作並有 [有界開發證據](../evidence/f03-producer/2026-10-31/REPORT.md)；完整 native 接續與 P01 仍 OPEN。
+diff --git a/docs/POSTPROCESS.md b/docs/POSTPROCESS.md
+index 5b38df9..f8f5aa4 100644
+--- a/docs/POSTPROCESS.md
++++ b/docs/POSTPROCESS.md
+@@ -58,7 +58,7 @@ M 是全部 8,400 個位置中 `score >= float(0.001)` 的數量，**在 class 0
+ 
+ producer 是 caller-owned **唯讀**狀態。caller 必須在同 stream 排入本幀 raw／status producer，或以 producer-ready event 建立跨 stream 依賴；不能沿用前幀成功 marker。F04 不退休 producer、不鎖定整個 session 的首次失敗，也不代管下游 slot lease。raw、producer、output 與 workspace 必須活到其工作完成；交付 main stream 後，直到 F04b 最後讀取並發出 consumed，detect 才可覆寫該候選 slot。
+ 
+-**完整 F03 producer 聚合器尚未整合。** 它將來須彙整該 engine 的全部 9 個 plugin statuses 與 input／output finite checks，再寫 aggregate flags／done。F04 replay 測試由 caller 提供明確 status，不能視為已完成此聚合器或 native F01→F03→F04 接續。完整 ready／consumed、session failure latch、drain／checked close 仍依 [ASYNC_CONTROL](ASYNC_CONTROL.md) 接續實作；CUDA API／launch error 直接拋 runtime error，不保證輸出完成 marker。
++[F03 producer 聚合器](MODEL_PRODUCER.md) 已實作：檢查該 engine 的全部 9 個 plugin statuses 與完整 input／output finite checks，退休來源，再寫 aggregate flags／done。有界 live engine→F04 接續見 [開發證據](../evidence/f03-producer/2026-10-31/REPORT.md)。F04 replay 測試由 caller 提供明確 status，不能視為已完成此聚合器或 native F01→F03→F04 接續。完整 ready／consumed、session failure latch、drain／checked close 仍依 [ASYNC_CONTROL](ASYNC_CONTROL.md) 接續實作；CUDA API／launch error 直接拋 runtime error，不保證輸出完成 marker。
+ 
+ ## 3. 建置與重跑
+ 
+diff --git a/include/saccade/postprocess.hpp b/include/saccade/postprocess.hpp
+index b246993..e11e6d2 100644
+--- a/include/saccade/postprocess.hpp
++++ b/include/saccade/postprocess.hpp
+@@ -33,12 +33,13 @@ enum DetectionCandidateFlag : std::uint32_t {
+     kDetectionSuppressed = 2u,
+ };
+ 
+-// Caller-owned aggregate producer status. The future F03 adapter must gate all
+-// plugin and finite statuses, write flags and only then done on the producing
++// Caller-owned aggregate producer status. model_producer_cuda gates all F03
++// plugin and finite statuses, writes flags and only then done on the producing
+ // stream. F04 borrows it read-only; lifetime/freshness belong to the caller.
+ struct PostprocessProducerStatus {
+     std::uint32_t flags = 0, done = 0;
+ };
++static_assert(sizeof(PostprocessProducerStatus) == 8);
+ 
+ // NCHW FP32, one pointer/count per level. Counts must match exactly:
+ // cls: 80*size*size, reg: 4*size*size. The reference reads host memory; the

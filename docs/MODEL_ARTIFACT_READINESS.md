@@ -8,7 +8,7 @@
 
 2026-10-30 T01 更新見 [§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)：T01 的 matching backbone／neck ONNX 與 head bundle 已 native 交付並建成完整模型 engine，backbone 與 F03 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) PASS（有範圍）；P01 仍 OPEN。
 
-2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；完整 async session、F03 producer 聚合器與 P01 仍 OPEN。§1–§10 保留各階段當時的狀態。
+2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；F03 producer 的接續實作與開發驗證見 [§12](#12-f03-producer-聚合器2026-10-31)；完整 async session 與 P01 仍 OPEN。§1–§11 保留各階段當時的狀態。
 
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
@@ -211,3 +211,9 @@ F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與�
 **F04 clean-source 正式驗收 PASS（受測範圍），獨立結案**。乾淨 `995bca5` 的 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md) 固定 source、實際執行 binary、sanitizer 與六份 F03 replay bytes；完整 `DetectionCandidates`、容量／失敗輸出、穩定順序、重跑／重用及獨立 API stream 契約依 [POSTPROCESS_POLICY](POSTPROCESS_POLICY.md) 驗證。四種 sanitizer 的 callback gates 使用 `--no-held-stream`，為 UNEXECUTED；正常 gates 已驗。
 
 **P01 仍 OPEN**：完整 F03 producer 聚合器尚須彙整全部 plugin statuses 與 input／output finite checks；native F01／F02→F03→F04 的完整 session、CS ready／consumed、first-error latch、drain／checked close 仍待整合證據。Head／F03 racecheck、synccheck 的 UNEXECUTED 邊界不因 F04 通過而改變；模型品質與完整 tracking 亦不在本項範圍。後續依 [BACKLOG](BACKLOG.md) 接續。
+
+## 12. F03 producer 聚合器（2026-10-31）
+
+[`f03-producer/1`](MODEL_PRODUCER.md) 已實作全部 9 個 plugin statuses＋input／output finite checks 的 device 聚合與退休，發布 F04 已有的 aggregate ABI。[開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 列出獨立 API、六個固定輸入的 live engine→F04、重用／失敗／graph 及 sanitizer 的受測界線；dirty-source 開發驗證不稱 clean-source 正式結案。
+
+**P01 仍 OPEN**：正常 native F01／F02→F03→F04 完整 session、CS ready／consumed、first-error latch、drain／checked close 與其他既列缺件仍待整合證據。Head／F03 racecheck／synccheck、模型品質及 tracking 指標不由本項推導。

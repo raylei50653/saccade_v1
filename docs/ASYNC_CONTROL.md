@@ -67,7 +67,9 @@ D 與 M 都以 `cudaStreamNonBlocking` 建立。協定只依賴以下語義，�
 
 目前合成 CUDA profile 只落地上述協定所需的子集：STAGE 為 pinned 合成 metadata；D 以它生成獨立 MI 與最多兩筆 CS，M 將 CS 複製至獨立 DB。MI／CS 各 slot 有 ready／consumed event，STAGE 與 HP 各 slot 有 host lease event，所有 event 都記錄成功 record 的 frame generation。CTL、TS[2]、SPEC[2]、FFT_TMP、固定 RP、cuFFT plan／workspace 及終端診斷的 pinned 區均預先配置。此 profile 沒有 nvJPEG、RAW、模型、PRIOR 或 tracker 資料結構；詳細對應與生命週期見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。
 
-[native F01／F02](PREPROCESS.md) 現在提供獨立的 `NativePreprocessor`：一個 host submitter、一條 explicit non-default D、單份 pinned JPEG staging／nvJPEG state、RAW 與模型輸入。下一次 enqueue 改寫 staging 前，host 等前幀 F02 event；下游 F05／F03 的 RAW／模型輸入讀取必須先排入同一 D，再呼叫下一次 enqueue，靠 stream 順序避免覆寫。這比上表的雙 STAGE decoupled 設計保守，尚未實作 host phase 跨幀重疊，也未接入本節的完整 session／ResultPacket；合成 CUDA profile 本身仍不含 nvJPEG。`enqueue`／`wait` 錯誤 latch 序列失敗，明確 `close()` 會 checked drain borrowed stream 並釋放資源；17 組數值對照逐位元相同，F02 四種 sanitizer 通過；F01 nvJPEG initcheck 在獨立 SDK control 仍失敗，原因 OPEN，詳見 [前處理證據](../evidence/preprocess/2026-10-31/REPORT.md)。
+[native F01／F02](PREPROCESS.md) 現在提供獨立的 `NativePreprocessor`：一個 host submitter、一條 explicit non-default D、單份 pinned JPEG staging／nvJPEG state、RAW 與模型輸入。下一次 enqueue 改寫 staging 前，host 等前幀 F02 event；下游 F05／F03 的 RAW／模型輸入讀取必須先排入同一 D，再呼叫下一次 enqueue，靠 stream 順序避免覆寫。這比上表的雙 STAGE decoupled 設計保守，尚未實作 host phase 跨幀重疊，也未接入本節的完整 session／ResultPacket；合成 CUDA profile 本身仍不含 nvJPEG。`enqueue`／`wait` 錯誤 latch 序列失敗，明確 `close()` 會 checked drain borrowed stream 並釋放資源；既有 17 組數值對照逐位元相同，結果見 [前處理證據](../evidence/preprocess/2026-10-31/REPORT.md)。正常輸出、重跑與資源重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)判定；既知 nvJPEG initcheck FAIL 保留為診斷項，不再阻擋使用結案，也不豁免 API 錯誤或上述生命週期合約。
+
+**F01／F02 使用驗收 PASS（受測範圍）**：[正常使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)在原 public API／未修改 runtime 上，以 7 張固定真實 JPEG、4 個 sessions 共 208 幀驗證尺寸切換、延後 consumer、ring 重用與獨立雙 instance，全部 RGB／FP32 輸出逐位元對齊。部分下一次 enqueue 開始時已觀察到前幀 consumer 仍未完成；這是有限測試中的重用證據，不代表每幀都有 pending consumer，亦不關閉完整 async session 整合。
 
 ## 4. 每幀提交程序
 

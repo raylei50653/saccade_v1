@@ -1,0 +1,58 @@
+
+/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000073870 <nvjpegDecodeBatched@@libnvjpeg.so.13>:
+   73870:	push   rbp
+   73871:	mov    rbp,rsp
+   73874:	push   r15
+   73876:	push   r14
+   73878:	push   r13
+   7387a:	push   r12
+   7387c:	push   rbx
+   7387d:	sub    rsp,0x58
+   73881:	mov    QWORD PTR [rbp-0x78],r9
+   73885:	test   rdi,rdi
+   73888:	je     7391a <nvjpegDecodeBatched@@libnvjpeg.so.13+0xaa>
+   7388e:	mov    rbx,rsi
+   73891:	test   rsi,rsi
+   73894:	je     73b59 <nvjpegDecodeBatched@@libnvjpeg.so.13+0x2e9>
+   7389a:	mov    r13,rdx
+   7389d:	test   rdx,rdx
+   738a0:	je     73a73 <nvjpegDecodeBatched@@libnvjpeg.so.13+0x203>
+   738a6:	mov    r14,rcx
+   738a9:	test   rcx,rcx
+   738ac:	je     73ae6 <nvjpegDecodeBatched@@libnvjpeg.so.13+0x276>
+   738b2:	mov    r15,r8
+   738b5:	test   r8,r8
+   738b8:	je     73a00 <nvjpegDecodeBatched@@libnvjpeg.so.13+0x190>
+   738be:	mov    eax,DWORD PTR [rsi+0x20]
+   738c1:	test   eax,eax
+   738c3:	je     7398d <nvjpegDecodeBatched@@libnvjpeg.so.13+0x11d>
+   738c9:	mov    r12,rdi
+   738cc:	mov    rdi,QWORD PTR [rdi+0x88]
+   738d3:	mov    r8,rcx
+   738d6:	xor    r9d,r9d
+   738d9:	lea    rdx,[rsi+0x20]
+   738dd:	mov    rcx,r13
+   738e0:	lea    rsi,[rsi+0x18]
+   738e4:	call   6eec0 <getc@plt+0x51660>
+   738e9:	mov    rsi,QWORD PTR [rbx+0x18]
+   738ed:	mov    r9,QWORD PTR [rbp-0x78]
+   738f1:	mov    r8,r15
+   738f4:	mov    rcx,r14
+   738f7:	mov    rdi,QWORD PTR [r12+0x88]
+   738ff:	mov    rdx,r13
+   73902:	mov    r10,QWORD PTR [rdi]
+   73905:	call   QWORD PTR [r10+0x38]
+   73909:	xor    eax,eax
+   7390b:	add    rsp,0x58
+   7390f:	pop    rbx
+   73910:	pop    r12
+   73912:	pop    r13
+   73914:	pop    r14
+   73916:	pop    r15
+   73918:	pop    rbp
+   73919:	ret

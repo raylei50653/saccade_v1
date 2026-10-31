@@ -1,0 +1,7580 @@
+{
+  "sqlite": "evidence/preprocess/2026-10-31-f01-investigation/surface-poison/raw/nsys-rgb.sqlite",
+  "sha256": "bcccf174c15198e8cd85454e22fb1f2ee45c6d4be62e83d5a98b48c77154804d",
+  "tables": [
+    "StringIds",
+    "ANALYSIS_FILE",
+    "ProcessStreams",
+    "TARGET_INFO_SYSTEM_ENV",
+    "TARGET_INFO_SESSION_START_TIME",
+    "ANALYSIS_DETAILS",
+    "DIAGNOSTIC_EVENT",
+    "PROCESSES",
+    "CUPTI_ACTIVITY_KIND_RUNTIME",
+    "CUPTI_ACTIVITY_KIND_CUDA_EVENT",
+    "CUPTI_ACTIVITY_KIND_KERNEL",
+    "CUPTI_ACTIVITY_KIND_MEMCPY",
+    "CUPTI_ACTIVITY_KIND_SYNCHRONIZATION",
+    "CUPTI_ACTIVITY_KIND_OVERHEAD",
+    "PROFILER_OVERHEAD",
+    "ThreadNames",
+    "TARGET_INFO_GPU",
+    "TARGET_INFO_CUDA_DEVICE",
+    "TARGET_INFO_CUDA_CONTEXT_INFO",
+    "TARGET_INFO_CUDA_STREAM",
+    "ENUM_NSYS_EVENT_TYPE",
+    "ENUM_NSYS_EVENT_CLASS",
+    "ENUM_NSYS_GENERIC_EVENT_SOURCE",
+    "ENUM_NSYS_GENERIC_EVENT_GROUP",
+    "ENUM_NSYS_GENERIC_EVENT_FIELD_TYPE",
+    "ENUM_NSYS_GENERIC_EVENT_FIELD_ETW_PROPERTY",
+    "ENUM_NSYS_GENERIC_EVENT_FIELD_ETW_TYPE",
+    "ENUM_NSYS_GENERIC_EVENT_FIELD_ETW_FLAGS",
+    "ENUM_CUDA_MEMCPY_OPER",
+    "ENUM_CUDA_MEM_KIND",
+    "ENUM_CUDA_MEMPOOL_TYPE",
+    "ENUM_CUDA_MEMPOOL_OPER",
+    "ENUM_CUDA_DEV_MEM_EVENT_OPER",
+    "ENUM_CUDA_KERNEL_LAUNCH_TYPE",
+    "ENUM_CUDA_SHARED_MEM_LIMIT_CONFIG",
+    "ENUM_CUDA_UNIF_MEM_MIGRATION",
+    "ENUM_CUDA_UNIF_MEM_ACCESS_TYPE",
+    "ENUM_CUDA_FUNC_CACHE_CONFIG",
+    "ENUM_CUPTI_STREAM_TYPE",
+    "ENUM_CUPTI_SYNC_TYPE",
+    "ENUM_CUPTI_OVERHEAD_TYPE",
+    "ENUM_CUPTI_JIT_ENTRY_TYPE",
+    "ENUM_CUPTI_JIT_OPERATION_TYPE",
+    "ENUM_DIAGNOSTIC_SEVERITY_LEVEL",
+    "ENUM_DIAGNOSTIC_SOURCE_TYPE",
+    "ENUM_DIAGNOSTIC_TIMESTAMP_SOURCE",
+    "META_DATA_CAPTURE",
+    "META_DATA_EXPORT"
+  ],
+  "runtime_api_counts": {
+    "cuModuleGetLoadingMode": 2,
+    "cudaStreamCreateWithFlags_v5000": 5,
+    "cuGetProcAddress_v2": 480,
+    "cuInit": 4,
+    "cudaGetDeviceProperties_v12000": 1,
+    "cudaFree_v3020": 3,
+    "cudaEventCreate_v3020": 3,
+    "cudaHostAlloc_v3020": 2,
+    "cudaMalloc_v3020": 2,
+    "cudaMemcpyAsync_v3020": 4,
+    "cuMemFree_v2": 5,
+    "cuLibraryLoadData": 2,
+    "cuLibraryGetKernel": 2,
+    "cuKernelGetName": 4,
+    "cudaLaunchKernel_v7000": 4,
+    "cudaEventRecord_v3020": 2,
+    "cudaStreamWaitEvent_v3020": 2,
+    "cudaStreamSynchronize_v3020": 7,
+    "cudaEventDestroy_v3020": 3,
+    "cudaStreamDestroy_v5050": 5,
+    "cudaFreeHost_v3020": 2
+  },
+  "all_runtime_callchain_ids_null": true,
+  "driver_activity_table_present": false,
+  "cuda_callchains_table_present": false,
+  "runtime": [
+    {
+      "start": 622462150,
+      "end": 622465586,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 1,
+      "nameId": 138,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuModuleGetLoadingMode"
+    },
+    {
+      "start": 622589060,
+      "end": 748986321,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 118,
+      "nameId": 142,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamCreateWithFlags_v5000"
+    },
+    {
+      "start": 749057565,
+      "end": 749059319,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 120,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749059479,
+      "end": 749060090,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 121,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749062865,
+      "end": 749063436,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 122,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749063607,
+      "end": 749063717,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 123,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749063917,
+      "end": 749064408,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 124,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749064789,
+      "end": 749065220,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 125,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749065300,
+      "end": 749065711,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 126,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749065791,
+      "end": 749066362,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 127,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749066562,
+      "end": 749066943,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 128,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749067073,
+      "end": 749067785,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 129,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749067865,
+      "end": 749068857,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 130,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749068937,
+      "end": 749069237,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 131,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749069408,
+      "end": 749069688,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 132,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749069768,
+      "end": 749070259,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 133,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749070329,
+      "end": 749070700,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 134,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749070790,
+      "end": 749071251,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 135,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749071331,
+      "end": 749071642,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 136,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749071712,
+      "end": 749071993,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 137,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749072063,
+      "end": 749072554,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 138,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749072624,
+      "end": 749072804,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 139,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749072884,
+      "end": 749073525,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 140,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749073726,
+      "end": 749074117,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 141,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749074197,
+      "end": 749074387,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 142,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749074467,
+      "end": 749074948,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 143,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749075128,
+      "end": 749075509,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 144,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749075589,
+      "end": 749075980,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 145,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749076180,
+      "end": 749076571,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 146,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749076701,
+      "end": 749076982,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 147,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749077152,
+      "end": 749077613,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 148,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749077733,
+      "end": 749078004,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 149,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749078184,
+      "end": 749078545,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 150,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749078625,
+      "end": 749078996,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 151,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749079427,
+      "end": 749079677,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 152,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749079767,
+      "end": 749079938,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 153,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749080398,
+      "end": 749080759,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 154,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749080839,
+      "end": 749081020,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 155,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749081100,
+      "end": 749081531,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 156,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749081611,
+      "end": 749081961,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 157,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749082052,
+      "end": 749082352,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 158,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749082432,
+      "end": 749082823,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 159,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749082913,
+      "end": 749083504,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 160,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749083885,
+      "end": 749084376,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 161,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749084516,
+      "end": 749084687,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 162,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749084767,
+      "end": 749085057,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 163,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749085328,
+      "end": 749085688,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 164,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749085779,
+      "end": 749085969,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 165,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749086149,
+      "end": 749086410,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 166,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749086500,
+      "end": 749086841,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 167,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749086921,
+      "end": 749087191,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 168,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749087271,
+      "end": 749087602,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 169,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749087682,
+      "end": 749088263,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 170,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749088333,
+      "end": 749088604,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 171,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749088814,
+      "end": 749089365,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 172,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749089446,
+      "end": 749089816,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 173,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749089886,
+      "end": 749090257,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 174,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749090337,
+      "end": 749090698,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 175,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749090778,
+      "end": 749091049,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 176,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749091119,
+      "end": 749091479,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 177,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749091560,
+      "end": 749092061,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 178,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749092141,
+      "end": 749092421,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 179,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749092491,
+      "end": 749092862,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 180,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749092942,
+      "end": 749093293,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 181,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749093363,
+      "end": 749093654,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 182,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749093734,
+      "end": 749094034,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 183,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749094114,
+      "end": 749094275,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 184,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749094345,
+      "end": 749094986,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 185,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749095166,
+      "end": 749095517,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 186,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749095597,
+      "end": 749096038,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 187,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749096118,
+      "end": 749096559,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 188,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749096639,
+      "end": 749096940,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 189,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749097010,
+      "end": 749097391,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 190,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749097471,
+      "end": 749097841,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 191,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749098022,
+      "end": 749098312,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 192,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749098403,
+      "end": 749099014,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 193,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749099094,
+      "end": 749099455,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 194,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749099535,
+      "end": 749099625,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 195,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749099705,
+      "end": 749100066,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 196,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749100246,
+      "end": 749100456,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 197,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749100577,
+      "end": 749100847,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 198,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749101017,
+      "end": 749101358,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 199,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749101478,
+      "end": 749101659,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 200,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749101739,
+      "end": 749102009,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 201,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749102079,
+      "end": 749102450,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 202,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749102841,
+      "end": 749103111,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 203,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749103192,
+      "end": 749103482,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 204,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749103572,
+      "end": 749104173,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 205,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749104344,
+      "end": 749104865,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 206,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749104985,
+      "end": 749105356,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 207,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749105576,
+      "end": 749105746,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 208,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749105877,
+      "end": 749106147,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 209,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749106267,
+      "end": 749106698,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 210,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749106808,
+      "end": 749107089,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 211,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749107209,
+      "end": 749107660,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 212,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749107780,
+      "end": 749108001,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 213,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749108121,
+      "end": 749108221,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 214,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749108301,
+      "end": 749108562,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 215,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749108642,
+      "end": 749108722,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 216,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749108802,
+      "end": 749109153,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 217,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749109283,
+      "end": 749109453,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 218,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749109534,
+      "end": 749109634,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 219,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749109754,
+      "end": 749110035,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 220,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749110115,
+      "end": 749110596,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 221,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749110676,
+      "end": 749110946,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 222,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749111066,
+      "end": 749111337,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 223,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749111417,
+      "end": 749111738,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 224,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749111808,
+      "end": 749112028,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 225,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749112138,
+      "end": 749112289,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 226,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749112369,
+      "end": 749112649,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 227,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749112770,
+      "end": 749113060,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 228,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749113211,
+      "end": 749113391,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 229,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749113471,
+      "end": 749113541,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 230,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749113671,
+      "end": 749113932,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 231,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749114042,
+      "end": 749114112,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 232,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749114583,
+      "end": 749114733,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 233,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749114854,
+      "end": 749115024,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 234,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749115204,
+      "end": 749115525,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 235,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749115655,
+      "end": 749115725,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 236,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749115906,
+      "end": 749115996,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 237,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749116126,
+      "end": 749116206,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 238,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749116387,
+      "end": 749116567,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 239,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749116647,
+      "end": 749116827,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 240,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749117008,
+      "end": 749117288,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 241,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749117418,
+      "end": 749117499,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 242,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749117679,
+      "end": 749117859,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 243,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749117980,
+      "end": 749118060,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 244,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749118450,
+      "end": 749118531,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 245,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749118621,
+      "end": 749118701,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 246,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749118881,
+      "end": 749118961,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 247,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749119082,
+      "end": 749119152,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 248,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749119282,
+      "end": 749119543,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 249,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749119673,
+      "end": 749119753,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 250,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749119943,
+      "end": 749120094,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 251,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749120214,
+      "end": 749120384,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 252,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749120564,
+      "end": 749120845,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 253,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749120925,
+      "end": 749121005,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 254,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749121186,
+      "end": 749121376,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 255,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749121456,
+      "end": 749121626,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 256,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749121807,
+      "end": 749122077,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 257,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749122398,
+      "end": 749122578,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 258,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749122759,
+      "end": 749123019,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 259,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749123280,
+      "end": 749123360,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 260,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749123540,
+      "end": 749123821,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 261,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749123901,
+      "end": 749123981,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 262,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749124091,
+      "end": 749124352,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 263,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749124432,
+      "end": 749124612,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 264,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749124692,
+      "end": 749124933,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 265,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749125013,
+      "end": 749125103,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 266,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749125374,
+      "end": 749125454,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 267,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749125584,
+      "end": 749125654,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 268,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749125724,
+      "end": 749125915,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 269,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749125985,
+      "end": 749126065,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 270,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749126205,
+      "end": 749126365,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 271,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749126446,
+      "end": 749126636,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 272,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749126716,
+      "end": 749127217,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 273,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749127287,
+      "end": 749127367,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 274,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749127558,
+      "end": 749127808,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 275,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749127948,
+      "end": 749128019,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 276,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749128209,
+      "end": 749128389,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 277,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749128479,
+      "end": 749128560,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 278,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749128740,
+      "end": 749129010,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 279,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749129091,
+      "end": 749129351,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 280,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749129571,
+      "end": 749129782,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 281,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749129872,
+      "end": 749129952,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 282,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749130163,
+      "end": 749130273,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 283,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749130393,
+      "end": 749130583,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 284,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749130764,
+      "end": 749131205,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 285,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749131295,
+      "end": 749131445,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 286,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749131555,
+      "end": 749131635,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 287,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749131716,
+      "end": 749132056,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 288,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749132146,
+      "end": 749132317,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 289,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749132487,
+      "end": 749132607,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 290,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749132697,
+      "end": 749132898,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 291,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749132968,
+      "end": 749133158,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 292,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749133278,
+      "end": 749133389,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 293,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749133569,
+      "end": 749133659,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 294,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749133739,
+      "end": 749133930,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 295,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749134100,
+      "end": 749134290,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 296,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749134371,
+      "end": 749134571,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 297,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749134661,
+      "end": 749135012,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 298,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749135092,
+      "end": 749135312,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 299,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749135483,
+      "end": 749135984,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 300,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749136064,
+      "end": 749136334,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 301,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749136404,
+      "end": 749136615,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 302,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749136825,
+      "end": 749136955,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 303,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749137086,
+      "end": 749137206,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 304,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749137326,
+      "end": 749137506,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 305,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749137587,
+      "end": 749137877,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 306,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749137957,
+      "end": 749138248,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 307,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749138318,
+      "end": 749138508,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 308,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749138599,
+      "end": 749138789,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 309,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749138859,
+      "end": 749139069,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 310,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749139190,
+      "end": 749139460,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 311,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749139530,
+      "end": 749139811,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 312,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749139891,
+      "end": 749140021,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 313,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749140141,
+      "end": 749140222,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 314,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749140302,
+      "end": 749140592,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 315,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749140713,
+      "end": 749140923,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 316,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749141043,
+      "end": 749141153,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 317,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749141234,
+      "end": 749141504,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 318,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749141805,
+      "end": 749141885,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 319,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749141955,
+      "end": 749142245,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 320,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749142326,
+      "end": 749142476,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 321,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749142897,
+      "end": 749142977,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 322,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749143057,
+      "end": 749143137,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 323,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749143257,
+      "end": 749143498,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 324,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749143578,
+      "end": 749143678,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 325,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749143748,
+      "end": 749144039,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 326,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749144149,
+      "end": 749144229,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 327,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749144309,
+      "end": 749144490,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 328,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749144570,
+      "end": 749144650,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 329,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749144770,
+      "end": 749144870,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 330,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749144951,
+      "end": 749145041,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 331,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749145221,
+      "end": 749145411,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 332,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749145492,
+      "end": 749145562,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 333,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749145642,
+      "end": 749145722,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 334,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749145842,
+      "end": 749146003,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 335,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749146083,
+      "end": 749146163,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 336,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749146353,
+      "end": 749146594,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 337,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749146714,
+      "end": 749146804,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 338,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749146884,
+      "end": 749146974,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 339,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749147155,
+      "end": 749147425,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 340,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749147505,
+      "end": 749147686,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 341,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749147876,
+      "end": 749148076,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 342,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749148187,
+      "end": 749148277,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 343,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749148357,
+      "end": 749148547,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 344,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749148628,
+      "end": 749148718,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 345,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749148838,
+      "end": 749149018,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 346,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749149088,
+      "end": 749149189,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 347,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749149609,
+      "end": 749149700,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 348,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749149820,
+      "end": 749150080,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 349,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749150251,
+      "end": 749150511,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 350,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749150641,
+      "end": 749150802,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 351,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749150932,
+      "end": 749151022,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 352,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749151102,
+      "end": 749151333,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 353,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749151453,
+      "end": 749151653,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 354,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749151723,
+      "end": 749151824,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 355,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749152054,
+      "end": 749152154,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 356,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749152284,
+      "end": 749152375,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 357,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749152455,
+      "end": 749152545,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 358,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749152675,
+      "end": 749152825,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 359,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749152996,
+      "end": 749153176,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 360,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749153256,
+      "end": 749153517,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 361,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749153637,
+      "end": 749153717,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 362,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749153847,
+      "end": 749154118,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 363,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749154559,
+      "end": 749154739,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 364,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749154829,
+      "end": 749154899,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 365,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749155090,
+      "end": 749155490,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 366,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749155581,
+      "end": 749155651,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 367,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749155831,
+      "end": 749155951,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 368,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749156042,
+      "end": 749156182,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 369,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749156372,
+      "end": 749156643,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 370,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749156733,
+      "end": 749156803,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 371,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749156983,
+      "end": 749157414,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 372,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749157494,
+      "end": 749157574,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 373,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749157655,
+      "end": 749157845,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 374,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749157915,
+      "end": 749158025,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 375,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749158115,
+      "end": 749158406,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 376,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749158476,
+      "end": 749158626,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 377,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749158747,
+      "end": 749158917,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 378,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749158997,
+      "end": 749159067,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 379,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749159368,
+      "end": 749159548,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 380,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749159628,
+      "end": 749159829,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 381,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749159899,
+      "end": 749159989,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 382,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749160069,
+      "end": 749160249,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 383,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749160320,
+      "end": 749160420,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 384,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749160500,
+      "end": 749160690,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 385,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749160801,
+      "end": 749160941,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 386,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749161332,
+      "end": 749161412,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 387,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749161522,
+      "end": 749161702,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 388,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749161822,
+      "end": 749162323,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 389,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749162504,
+      "end": 749162664,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 390,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749162744,
+      "end": 749163025,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 391,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749163205,
+      "end": 749163385,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 392,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749163466,
+      "end": 749163616,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 393,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749163726,
+      "end": 749163816,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 394,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749163997,
+      "end": 749164267,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 395,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749164357,
+      "end": 749164437,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 396,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749164618,
+      "end": 749164778,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 397,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749164868,
+      "end": 749165249,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 398,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749165469,
+      "end": 749165610,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 399,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749165730,
+      "end": 749165830,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 400,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749165910,
+      "end": 749166211,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 401,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749166321,
+      "end": 749166521,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 402,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749166602,
+      "end": 749166892,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 403,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749167012,
+      "end": 749167193,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 404,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749167323,
+      "end": 749167623,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 405,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749167704,
+      "end": 749167874,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 406,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749167954,
+      "end": 749168144,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 407,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749168215,
+      "end": 749168515,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 408,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749168595,
+      "end": 749168705,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 409,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749168816,
+      "end": 749169176,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 410,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749169277,
+      "end": 749169397,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 411,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749169547,
+      "end": 749169667,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 412,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749169798,
+      "end": 749170098,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 413,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749170278,
+      "end": 749170389,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 414,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749170469,
+      "end": 749170659,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 415,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749170749,
+      "end": 749170850,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 416,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749171030,
+      "end": 749171110,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 417,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749171230,
+      "end": 749171310,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 418,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749171441,
+      "end": 749171591,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 419,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749171781,
+      "end": 749172002,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 420,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749172082,
+      "end": 749172352,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 421,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749172533,
+      "end": 749173064,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 422,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749173154,
+      "end": 749173254,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 423,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749173344,
+      "end": 749173525,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 424,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749173605,
+      "end": 749174006,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 425,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749174186,
+      "end": 749174276,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 426,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749174366,
+      "end": 749174537,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 427,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749174717,
+      "end": 749174927,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 428,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749175007,
+      "end": 749175138,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 429,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749175328,
+      "end": 749175568,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 430,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749175689,
+      "end": 749175849,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 431,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749175919,
+      "end": 749176140,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 432,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749176220,
+      "end": 749176420,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 433,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749176500,
+      "end": 749176590,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 434,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749176941,
+      "end": 749177121,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 435,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749177212,
+      "end": 749177512,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 436,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749177582,
+      "end": 749177923,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 437,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749177993,
+      "end": 749178083,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 438,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749178153,
+      "end": 749178254,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 439,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749178334,
+      "end": 749178434,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 440,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749178514,
+      "end": 749178644,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 441,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749178724,
+      "end": 749178805,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 442,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749178875,
+      "end": 749179165,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 443,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749179286,
+      "end": 749179376,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 444,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749179506,
+      "end": 749179716,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 445,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749179796,
+      "end": 749179907,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 446,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749180087,
+      "end": 749180167,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 447,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749180247,
+      "end": 749180428,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 448,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749180498,
+      "end": 749180838,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 449,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749181039,
+      "end": 749181229,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 450,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749181319,
+      "end": 749181410,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 451,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749181480,
+      "end": 749181560,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 452,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749181640,
+      "end": 749181830,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 453,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749181910,
+      "end": 749182021,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 454,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749182111,
+      "end": 749182411,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 455,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749182612,
+      "end": 749182812,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 456,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749182932,
+      "end": 749183093,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 457,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749183203,
+      "end": 749183393,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 458,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749183524,
+      "end": 749183614,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 459,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749183734,
+      "end": 749183824,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 460,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749183954,
+      "end": 749184135,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 461,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749184255,
+      "end": 749184425,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 462,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749184555,
+      "end": 749184726,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 463,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749184846,
+      "end": 749185127,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 464,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749185247,
+      "end": 749185347,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 465,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749185718,
+      "end": 749185828,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 466,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749185958,
+      "end": 749186229,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 467,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749186349,
+      "end": 749186519,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 468,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749186690,
+      "end": 749186900,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 469,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749187010,
+      "end": 749187180,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 470,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749187291,
+      "end": 749187401,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 471,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749187471,
+      "end": 749187691,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 472,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749187772,
+      "end": 749187942,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 473,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749188012,
+      "end": 749188122,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 474,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749188192,
+      "end": 749188333,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 475,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749188643,
+      "end": 749188753,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 476,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749188884,
+      "end": 749189074,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 477,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749189144,
+      "end": 749189284,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 478,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749189375,
+      "end": 749189645,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 479,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749189725,
+      "end": 749189996,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 480,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749190076,
+      "end": 749190286,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 481,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749190397,
+      "end": 749190507,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 482,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749190587,
+      "end": 749190697,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 483,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749190777,
+      "end": 749190978,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 484,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749191108,
+      "end": 749191308,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 485,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749191388,
+      "end": 749191479,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 486,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749191559,
+      "end": 749191849,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 487,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749191929,
+      "end": 749192110,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 488,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749192541,
+      "end": 749192701,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 489,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749192821,
+      "end": 749192971,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 490,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749193052,
+      "end": 749193142,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 491,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749193212,
+      "end": 749193552,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 492,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749193663,
+      "end": 749193793,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 493,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749193873,
+      "end": 749194063,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 494,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749194144,
+      "end": 749194214,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 495,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749194294,
+      "end": 749194374,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 496,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749194564,
+      "end": 749194675,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 497,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749194765,
+      "end": 749194945,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 498,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749195015,
+      "end": 749195206,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 499,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749195276,
+      "end": 749195366,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 500,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749195546,
+      "end": 749195677,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 501,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749195757,
+      "end": 749195847,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 502,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749196037,
+      "end": 749196448,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 503,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749196538,
+      "end": 749196628,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 504,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749196819,
+      "end": 749196999,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 505,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749197079,
+      "end": 749197169,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 506,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749197350,
+      "end": 749197530,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 507,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749197620,
+      "end": 749197710,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 508,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749197891,
+      "end": 749198021,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 509,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749198101,
+      "end": 749198442,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 510,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749198522,
+      "end": 749198612,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 511,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749198682,
+      "end": 749198893,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 512,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749199073,
+      "end": 749199163,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 513,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749199293,
+      "end": 749199384,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 514,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749199594,
+      "end": 749199704,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 515,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749199844,
+      "end": 749199925,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 516,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749200345,
+      "end": 749200436,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 517,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749200556,
+      "end": 749200636,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 518,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749200756,
+      "end": 749200936,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 519,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749201047,
+      "end": 749201137,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 520,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749201317,
+      "end": 749201397,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 521,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749201477,
+      "end": 749201558,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 522,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749201648,
+      "end": 749201848,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 523,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749201928,
+      "end": 749202029,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 524,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749202209,
+      "end": 749202339,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 525,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749202419,
+      "end": 749202539,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 526,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749202720,
+      "end": 749202810,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 527,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749202900,
+      "end": 749202990,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 528,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749203070,
+      "end": 749203151,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 529,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749203281,
+      "end": 749203351,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 530,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749203431,
+      "end": 749203632,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 531,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749203722,
+      "end": 749203832,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 532,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749203902,
+      "end": 749204012,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 533,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749204092,
+      "end": 749204203,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 534,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749204283,
+      "end": 749204383,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 535,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749204463,
+      "end": 749204563,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 536,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749204744,
+      "end": 749204964,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 537,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749205054,
+      "end": 749205164,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 538,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749205245,
+      "end": 749205365,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 539,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749205445,
+      "end": 749205565,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 540,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749205695,
+      "end": 749205886,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 541,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749206076,
+      "end": 749206257,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 542,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749206377,
+      "end": 749206517,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 543,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749206587,
+      "end": 749206777,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 544,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749206858,
+      "end": 749206978,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 545,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749207048,
+      "end": 749207178,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 546,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749207258,
+      "end": 749207439,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 547,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749207619,
+      "end": 749207739,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 548,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749207829,
+      "end": 749208010,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 549,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749208240,
+      "end": 749208371,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 550,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749208491,
+      "end": 749208601,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 551,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749208671,
+      "end": 749208871,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 552,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749208942,
+      "end": 749209032,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 553,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749209112,
+      "end": 749209212,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 554,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749209292,
+      "end": 749209583,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 555,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749209653,
+      "end": 749209743,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 556,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749209823,
+      "end": 749209933,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 557,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749210014,
+      "end": 749210204,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 558,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749210284,
+      "end": 749210394,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 559,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749210474,
+      "end": 749210735,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 560,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749210815,
+      "end": 749211016,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 561,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749211096,
+      "end": 749211206,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 562,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749211276,
+      "end": 749211456,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 563,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749211537,
+      "end": 749211647,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 564,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749211727,
+      "end": 749211817,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 565,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749212118,
+      "end": 749212218,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 566,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749212298,
+      "end": 749212398,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 567,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749212578,
+      "end": 749212679,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 568,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749212769,
+      "end": 749212889,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 569,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749212969,
+      "end": 749213240,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 570,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749213330,
+      "end": 749213550,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 571,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749213711,
+      "end": 749213821,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 572,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749213901,
+      "end": 749214101,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 573,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749214182,
+      "end": 749214362,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 574,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749214482,
+      "end": 749214652,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 575,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749214723,
+      "end": 749214933,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 576,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749215103,
+      "end": 749215193,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 577,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749215314,
+      "end": 749215504,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 578,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749215584,
+      "end": 749215674,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 579,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749215955,
+      "end": 749216075,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 580,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749216155,
+      "end": 749216356,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 581,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749216426,
+      "end": 749216506,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 582,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749216586,
+      "end": 749216937,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 583,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749217017,
+      "end": 749217117,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 584,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749217197,
+      "end": 749217378,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 585,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749217468,
+      "end": 749217628,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 586,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749217718,
+      "end": 749217798,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 587,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749217878,
+      "end": 749218059,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 588,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749218129,
+      "end": 749218309,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 589,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749218389,
+      "end": 749218580,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 590,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749218660,
+      "end": 749218840,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 591,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749218920,
+      "end": 749219111,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 592,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749219191,
+      "end": 749219371,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 593,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749219461,
+      "end": 749219862,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 594,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749219942,
+      "end": 749220023,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 595,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749220103,
+      "end": 749220383,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 596,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749220463,
+      "end": 749220954,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 597,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749221024,
+      "end": 749221235,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 598,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749221315,
+      "end": 749221586,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 599,
+      "nameId": 143,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuGetProcAddress_v2"
+    },
+    {
+      "start": 749223840,
+      "end": 749226825,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 600,
+      "nameId": 144,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuInit"
+    },
+    {
+      "start": 749228118,
+      "end": 749228629,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 601,
+      "nameId": 138,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuModuleGetLoadingMode"
+    },
+    {
+      "start": 749346231,
+      "end": 749346642,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 719,
+      "nameId": 145,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaGetDeviceProperties_v12000"
+    },
+    {
+      "start": 750351653,
+      "end": 750362614,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 720,
+      "nameId": 146,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaFree_v3020"
+    },
+    {
+      "start": 750388372,
+      "end": 750389915,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 722,
+      "nameId": 144,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuInit"
+    },
+    {
+      "start": 753828560,
+      "end": 753830944,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 730,
+      "nameId": 144,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuInit"
+    },
+    {
+      "start": 755538915,
+      "end": 755549014,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 738,
+      "nameId": 142,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamCreateWithFlags_v5000"
+    },
+    {
+      "start": 755549725,
+      "end": 755553432,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 739,
+      "nameId": 147,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventCreate_v3020"
+    },
+    {
+      "start": 755554494,
+      "end": 755556257,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 740,
+      "nameId": 142,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamCreateWithFlags_v5000"
+    },
+    {
+      "start": 755589540,
+      "end": 755592486,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 741,
+      "nameId": 144,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuInit"
+    },
+    {
+      "start": 801318182,
+      "end": 801327109,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 755,
+      "nameId": 147,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventCreate_v3020"
+    },
+    {
+      "start": 801327510,
+      "end": 801336537,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 756,
+      "nameId": 142,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamCreateWithFlags_v5000"
+    },
+    {
+      "start": 801336667,
+      "end": 801337198,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 757,
+      "nameId": 147,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventCreate_v3020"
+    },
+    {
+      "start": 801337359,
+      "end": 801338721,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 758,
+      "nameId": 142,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamCreateWithFlags_v5000"
+    },
+    {
+      "start": 802017385,
+      "end": 803346173,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 759,
+      "nameId": 150,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaHostAlloc_v3020"
+    },
+    {
+      "start": 803391559,
+      "end": 803403171,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 760,
+      "nameId": 150,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaHostAlloc_v3020"
+    },
+    {
+      "start": 803442696,
+      "end": 803747006,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 761,
+      "nameId": 151,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaMalloc_v3020"
+    },
+    {
+      "start": 803768797,
+      "end": 803774789,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 762,
+      "nameId": 151,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaMalloc_v3020"
+    },
+    {
+      "start": 803853778,
+      "end": 803892521,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 763,
+      "nameId": 152,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaMemcpyAsync_v3020"
+    },
+    {
+      "start": 803896890,
+      "end": 803955921,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 765,
+      "nameId": 153,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuMemFree_v2"
+    },
+    {
+      "start": 804394371,
+      "end": 808230437,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 767,
+      "nameId": 154,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuLibraryLoadData"
+    },
+    {
+      "start": 808231699,
+      "end": 808232661,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 768,
+      "nameId": 155,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuLibraryGetKernel"
+    },
+    {
+      "start": 808237781,
+      "end": 808238522,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 769,
+      "nameId": 156,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuKernelGetName"
+    },
+    {
+      "start": 808239494,
+      "end": 809940972,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 770,
+      "nameId": 160,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaLaunchKernel_v7000"
+    },
+    {
+      "start": 809942665,
+      "end": 809951662,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 772,
+      "nameId": 161,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventRecord_v3020"
+    },
+    {
+      "start": 809952103,
+      "end": 809955339,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 773,
+      "nameId": 162,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamWaitEvent_v3020"
+    },
+    {
+      "start": 809980216,
+      "end": 809984023,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 774,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 809995806,
+      "end": 810049227,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 775,
+      "nameId": 154,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuLibraryLoadData"
+    },
+    {
+      "start": 810049768,
+      "end": 810050329,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 776,
+      "nameId": 155,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuLibraryGetKernel"
+    },
+    {
+      "start": 810053375,
+      "end": 810053605,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 777,
+      "nameId": 156,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuKernelGetName"
+    },
+    {
+      "start": 810053775,
+      "end": 810162100,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 778,
+      "nameId": 160,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaLaunchKernel_v7000"
+    },
+    {
+      "start": 810184913,
+      "end": 810245859,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 780,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 810268792,
+      "end": 810286976,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 781,
+      "nameId": 152,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaMemcpyAsync_v3020"
+    },
+    {
+      "start": 810305712,
+      "end": 810332412,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 782,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 810373440,
+      "end": 810388769,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 783,
+      "nameId": 152,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaMemcpyAsync_v3020"
+    },
+    {
+      "start": 810795193,
+      "end": 810796024,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 784,
+      "nameId": 156,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuKernelGetName"
+    },
+    {
+      "start": 810796445,
+      "end": 810809319,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 785,
+      "nameId": 160,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaLaunchKernel_v7000"
+    },
+    {
+      "start": 810810191,
+      "end": 810815501,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 787,
+      "nameId": 161,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventRecord_v3020"
+    },
+    {
+      "start": 810815752,
+      "end": 810817044,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 788,
+      "nameId": 162,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamWaitEvent_v3020"
+    },
+    {
+      "start": 810839667,
+      "end": 810900402,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 789,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 810921211,
+      "end": 810921712,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 790,
+      "nameId": 156,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuKernelGetName"
+    },
+    {
+      "start": 810922033,
+      "end": 810938233,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 791,
+      "nameId": 160,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaLaunchKernel_v7000"
+    },
+    {
+      "start": 810957129,
+      "end": 810959383,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 793,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 810963030,
+      "end": 810976456,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 794,
+      "nameId": 152,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaMemcpyAsync_v3020"
+    },
+    {
+      "start": 810994810,
+      "end": 811004559,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 795,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 811077497,
+      "end": 811079861,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 796,
+      "nameId": 163,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamSynchronize_v3020"
+    },
+    {
+      "start": 811163424,
+      "end": 811168574,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 798,
+      "nameId": 153,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuMemFree_v2"
+    },
+    {
+      "start": 811171429,
+      "end": 811174124,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 801,
+      "nameId": 153,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuMemFree_v2"
+    },
+    {
+      "start": 811174976,
+      "end": 811176268,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 804,
+      "nameId": 153,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuMemFree_v2"
+    },
+    {
+      "start": 811176979,
+      "end": 811382499,
+      "eventClass": 1,
+      "globalTid": 284054339606670,
+      "correlationId": 807,
+      "nameId": 153,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cuMemFree_v2"
+    },
+    {
+      "start": 811386977,
+      "end": 811389131,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 809,
+      "nameId": 166,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventDestroy_v3020"
+    },
+    {
+      "start": 811389311,
+      "end": 811389722,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 810,
+      "nameId": 166,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventDestroy_v3020"
+    },
+    {
+      "start": 811508717,
+      "end": 811512655,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 811,
+      "nameId": 167,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamDestroy_v5050"
+    },
+    {
+      "start": 811512865,
+      "end": 811514228,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 812,
+      "nameId": 167,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamDestroy_v5050"
+    },
+    {
+      "start": 820935918,
+      "end": 820941218,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 813,
+      "nameId": 167,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamDestroy_v5050"
+    },
+    {
+      "start": 820941759,
+      "end": 820943021,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 814,
+      "nameId": 166,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaEventDestroy_v3020"
+    },
+    {
+      "start": 820944243,
+      "end": 820945937,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 815,
+      "nameId": 167,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamDestroy_v5050"
+    },
+    {
+      "start": 830437840,
+      "end": 830451175,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 816,
+      "nameId": 146,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaFree_v3020"
+    },
+    {
+      "start": 830469199,
+      "end": 830643339,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 817,
+      "nameId": 146,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaFree_v3020"
+    },
+    {
+      "start": 830663066,
+      "end": 830672454,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 818,
+      "nameId": 168,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaFreeHost_v3020"
+    },
+    {
+      "start": 830690367,
+      "end": 831186155,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 819,
+      "nameId": 168,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaFreeHost_v3020"
+    },
+    {
+      "start": 831207686,
+      "end": 831211543,
+      "eventClass": 0,
+      "globalTid": 284054339606670,
+      "correlationId": 820,
+      "nameId": 167,
+      "returnValue": 0,
+      "callchainId": null,
+      "name": "cudaStreamDestroy_v5050"
+    }
+  ],
+  "kernels": [
+    {
+      "start": 809950276,
+      "end": 809951844,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 16,
+      "correlationId": 770,
+      "globalPid": 284054339452928,
+      "demangledName": 158,
+      "shortName": 159,
+      "mangledName": 148,
+      "launchType": 0,
+      "cacheConfig": 0,
+      "registersPerThread": 16,
+      "gridX": 2,
+      "gridY": 4,
+      "gridZ": 1,
+      "blockX": 32,
+      "blockY": 8,
+      "blockZ": 1,
+      "staticSharedMemory": 0,
+      "dynamicSharedMemory": 0,
+      "localMemoryPerThread": 0,
+      "localMemoryTotal": 40697856,
+      "gridId": 1,
+      "sharedMemoryExecuted": 16384,
+      "graphNodeId": null,
+      "sharedMemoryLimitConfig": 0,
+      "qmdBulkReleaseDone": null,
+      "qmdPreexitDone": null,
+      "qmdLastCtaDone": null,
+      "graphId": null,
+      "clusterX": 0,
+      "clusterY": 0,
+      "clusterZ": 0,
+      "clusterSchedulingPolicy": 1,
+      "maxPotentialClusterSize": 0,
+      "maxActiveClusters": 0,
+      "sharedMemoryRequestedPercentage": null,
+      "tensorSizeMinusOneElements": "[]",
+      "name": "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+    },
+    {
+      "start": 810254024,
+      "end": 810255240,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 778,
+      "globalPid": 284054339452928,
+      "demangledName": 164,
+      "shortName": 165,
+      "mangledName": 149,
+      "launchType": 0,
+      "cacheConfig": 0,
+      "registersPerThread": 16,
+      "gridX": 12,
+      "gridY": 1,
+      "gridZ": 1,
+      "blockX": 256,
+      "blockY": 1,
+      "blockZ": 1,
+      "staticSharedMemory": 0,
+      "dynamicSharedMemory": 0,
+      "localMemoryPerThread": 0,
+      "localMemoryTotal": 40697856,
+      "gridId": 2,
+      "sharedMemoryExecuted": 16384,
+      "graphNodeId": null,
+      "sharedMemoryLimitConfig": 0,
+      "qmdBulkReleaseDone": null,
+      "qmdPreexitDone": null,
+      "qmdLastCtaDone": null,
+      "graphId": null,
+      "clusterX": 0,
+      "clusterY": 0,
+      "clusterZ": 0,
+      "clusterSchedulingPolicy": 1,
+      "maxPotentialClusterSize": 0,
+      "maxActiveClusters": 0,
+      "sharedMemoryRequestedPercentage": null,
+      "tensorSizeMinusOneElements": "[]",
+      "name": "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)"
+    },
+    {
+      "start": 810906066,
+      "end": 810906642,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 16,
+      "correlationId": 785,
+      "globalPid": 284054339452928,
+      "demangledName": 158,
+      "shortName": 159,
+      "mangledName": 148,
+      "launchType": 0,
+      "cacheConfig": 0,
+      "registersPerThread": 16,
+      "gridX": 2,
+      "gridY": 4,
+      "gridZ": 1,
+      "blockX": 32,
+      "blockY": 8,
+      "blockZ": 1,
+      "staticSharedMemory": 0,
+      "dynamicSharedMemory": 0,
+      "localMemoryPerThread": 0,
+      "localMemoryTotal": 40697856,
+      "gridId": 3,
+      "sharedMemoryExecuted": 16384,
+      "graphNodeId": null,
+      "sharedMemoryLimitConfig": 0,
+      "qmdBulkReleaseDone": null,
+      "qmdPreexitDone": null,
+      "qmdLastCtaDone": null,
+      "graphId": null,
+      "clusterX": 0,
+      "clusterY": 0,
+      "clusterZ": 0,
+      "clusterSchedulingPolicy": 1,
+      "maxPotentialClusterSize": 0,
+      "maxActiveClusters": 0,
+      "sharedMemoryRequestedPercentage": null,
+      "tensorSizeMinusOneElements": "[]",
+      "name": "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+    },
+    {
+      "start": 810965138,
+      "end": 810965682,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 791,
+      "globalPid": 284054339452928,
+      "demangledName": 164,
+      "shortName": 165,
+      "mangledName": 149,
+      "launchType": 0,
+      "cacheConfig": 0,
+      "registersPerThread": 16,
+      "gridX": 12,
+      "gridY": 1,
+      "gridZ": 1,
+      "blockX": 256,
+      "blockY": 1,
+      "blockZ": 1,
+      "staticSharedMemory": 0,
+      "dynamicSharedMemory": 0,
+      "localMemoryPerThread": 0,
+      "localMemoryTotal": 40697856,
+      "gridId": 4,
+      "sharedMemoryExecuted": 16384,
+      "graphNodeId": null,
+      "sharedMemoryLimitConfig": 0,
+      "qmdBulkReleaseDone": null,
+      "qmdPreexitDone": null,
+      "qmdLastCtaDone": null,
+      "graphId": null,
+      "clusterX": 0,
+      "clusterY": 0,
+      "clusterZ": 0,
+      "clusterSchedulingPolicy": 1,
+      "maxPotentialClusterSize": 0,
+      "maxActiveClusters": 0,
+      "sharedMemoryRequestedPercentage": null,
+      "tensorSizeMinusOneElements": "[]",
+      "name": "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)"
+    }
+  ],
+  "events": [
+    {
+      "timestamp": 0,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 16,
+      "correlationId": 772,
+      "globalPid": 284054339452928,
+      "eventId": 2,
+      "eventSyncId": 1
+    },
+    {
+      "timestamp": 0,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 16,
+      "correlationId": 787,
+      "globalPid": 284054339452928,
+      "eventId": 2,
+      "eventSyncId": 2
+    }
+  ],
+  "synchronization": [
+    {
+      "start": 809953025,
+      "end": 809955089,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 773,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 2,
+      "eventId": 2,
+      "eventSyncId": 1
+    },
+    {
+      "start": 809981569,
+      "end": 809983623,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 774,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    },
+    {
+      "start": 810185635,
+      "end": 810245478,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 780,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    },
+    {
+      "start": 810306303,
+      "end": 810332032,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 782,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    },
+    {
+      "start": 810816012,
+      "end": 810816814,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 788,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 2,
+      "eventId": 2,
+      "eventSyncId": 2
+    },
+    {
+      "start": 810840188,
+      "end": 810900011,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 789,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    },
+    {
+      "start": 810957690,
+      "end": 810959003,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 793,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    },
+    {
+      "start": 810995351,
+      "end": 811004188,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 795,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    },
+    {
+      "start": 811078128,
+      "end": 811079470,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 796,
+      "globalPid": 284054339452928,
+      "deprecatedSyncType": null,
+      "syncType": 3,
+      "eventId": 4294967295,
+      "eventSyncId": 0
+    }
+  ],
+  "memcpy": [
+    {
+      "start": 803958545,
+      "end": 803961553,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 16,
+      "correlationId": 763,
+      "globalPid": 284054339452928,
+      "bytes": 1124,
+      "copyKind": 1,
+      "deprecatedSrcId": null,
+      "srcKind": 1,
+      "dstKind": 2,
+      "srcDeviceId": null,
+      "srcContextId": null,
+      "dstDeviceId": null,
+      "dstContextId": null,
+      "migrationCause": null,
+      "graphNodeId": null,
+      "virtualAddress": null,
+      "copyCount": 1
+    },
+    {
+      "start": 810340874,
+      "end": 810341866,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 781,
+      "globalPid": 284054339452928,
+      "bytes": 2835,
+      "copyKind": 2,
+      "deprecatedSrcId": null,
+      "srcKind": 2,
+      "dstKind": 1,
+      "srcDeviceId": null,
+      "srcContextId": null,
+      "dstDeviceId": null,
+      "dstContextId": null,
+      "migrationCause": null,
+      "graphNodeId": null,
+      "virtualAddress": null,
+      "copyCount": 1
+    },
+    {
+      "start": 810431755,
+      "end": 810432555,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 16,
+      "correlationId": 783,
+      "globalPid": 284054339452928,
+      "bytes": 1124,
+      "copyKind": 1,
+      "deprecatedSrcId": null,
+      "srcKind": 1,
+      "dstKind": 2,
+      "srcDeviceId": null,
+      "srcContextId": null,
+      "dstDeviceId": null,
+      "dstContextId": null,
+      "migrationCause": null,
+      "graphNodeId": null,
+      "virtualAddress": null,
+      "copyCount": 1
+    },
+    {
+      "start": 811013235,
+      "end": 811014099,
+      "deviceId": 0,
+      "contextId": 1,
+      "greenContextId": 0,
+      "streamId": 13,
+      "correlationId": 794,
+      "globalPid": 284054339452928,
+      "bytes": 2835,
+      "copyKind": 2,
+      "deprecatedSrcId": null,
+      "srcKind": 2,
+      "dstKind": 1,
+      "srcDeviceId": null,
+      "srcContextId": null,
+      "dstDeviceId": null,
+      "dstContextId": null,
+      "migrationCause": null,
+      "graphNodeId": null,
+      "virtualAddress": null,
+      "copyCount": 1
+    }
+  ],
+  "metadata": [
+    {
+      "name": "DEVICE_ID",
+      "value": "Local (CLI)"
+    },
+    {
+      "name": "CAPTURE_EVENT_TYPE",
+      "value": "Cuda"
+    },
+    {
+      "name": "RATE_HZ",
+      "value": "0"
+    },
+    {
+      "name": "START_TRIGGER",
+      "value": "Immediate"
+    },
+    {
+      "name": "STOP_TRIGGER",
+      "value": "Delayed"
+    },
+    {
+      "name": "THREAD_STATE_SCAN_FREQ",
+      "value": "50"
+    },
+    {
+      "name": "POWER_RATE_SCAN_FREQ",
+      "value": "50"
+    },
+    {
+      "name": "DEVICE_TYPE",
+      "value": "Unix"
+    },
+    {
+      "name": "DEVICE_DISPLAY_NAME",
+      "value": "DESKTOP-0FLA6SQ"
+    },
+    {
+      "name": "CUDA_GRAPH_TRACE_OPTIONS:MODE",
+      "value": "Graph"
+    },
+    {
+      "name": "CUDA_GRAPH_TRACE_OPTIONS:TRACE_DEVICE_GRAPH_LAUNCH",
+      "value": "true"
+    },
+    {
+      "name": "CUDA_FLUSH_PERIODICALLY",
+      "value": "true"
+    },
+    {
+      "name": "CUDA_FLUSH_PERIOD",
+      "value": "0"
+    },
+    {
+      "name": "CUDA_SKIP_SOME_API_CALLS",
+      "value": "true"
+    },
+    {
+      "name": "COLLECT_GPU_MEMORY_USAGE",
+      "value": "false"
+    },
+    {
+      "name": "COLLECT_UVM_CPU_PAGE_FAULTS",
+      "value": "false"
+    },
+    {
+      "name": "COLLECT_UVM_GPU_PAGE_FAULTS",
+      "value": "false"
+    },
+    {
+      "name": "CUDA_FLUSH_ON_CUDA_PROFILER_STOP",
+      "value": "false"
+    },
+    {
+      "name": "CUDA_TRACE_SCOPE",
+      "value": "ProcessTree"
+    },
+    {
+      "name": "PROCESS_0:HOW_TO_ATTACH",
+      "value": "LaunchAnother"
+    },
+    {
+      "name": "PROCESS_0:LAUNCH_AS_ROOT",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COMMAND",
+      "value": "/tmp/claude-1000/-home-ray-developer-ai-saccade-v1/1c3d56aa-2e17-433d-b405-33b28355d3f3/scratchpad/f01-alloc/repro_alloc"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_0",
+      "value": "hw"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_1",
+      "value": "rgb"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_2",
+      "value": "default"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_3",
+      "value": "preallocate"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_4",
+      "value": "uninit"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_5",
+      "value": "2"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_6",
+      "value": "fixtures/preprocess/baseline.jpg"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_7",
+      "value": "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb"
+    },
+    {
+      "name": "PROCESS_0:ARGUMENT_8",
+      "value": "/tmp/claude-1000/-home-ray-developer-ai-saccade-v1/1c3d56aa-2e17-433d-b405-33b28355d3f3/scratchpad/f01-alloc/nsys.bin"
+    },
+    {
+      "name": "PROCESS_0:WORKING_DIR",
+      "value": "/home/ray/developer/ai/saccade_v1"
+    },
+    {
+      "name": "PROCESS_0:PID",
+      "value": "0"
+    },
+    {
+      "name": "PROCESS_0:USER_NAME",
+      "value": ""
+    },
+    {
+      "name": "PROCESS_0:COLLECT_NVTX_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_CUDA_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_CPU_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_NVMEDIA_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_VIDEO_API_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_PID=\"150539\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_EXECPATH=\"/home/ray/.local/share/claude/versions/2.1.314\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_SESSION_ATTENDED=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "GIT_EDITOR=\"true\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDECODE=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_MESSAGING_TOKEN=\"fced02e3bb9bcf3d01b5f22ef4c6eec4\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_MESSAGING_SOCKET=\"/run/user/1000/cc-socks/150539.sock\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "AI_AGENT=\"claude-code_2-1-314_agent\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NoDefaultCurrentDirectoryInExePath=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "_=\"/usr/sbin/timeout\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LD_LIBRARY_PATH=\"/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NVM_BIN=\"/home/ray/.nvm/versions/node/v24.14.1/bin\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "MANPATH=\"/home/ray/.nvm/versions/node/v24.14.1/share/man:\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NVM_CD_FLAGS=\"-q\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NVM_DIR=\"/home/ray/.nvm\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "DOCKER_BUILDKIT=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LS_COLORS=\"rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.7z=01;31:*.ace=01;31:*.alz=01;31:*.apk=01;31:*.arc=01;31:*.arj=01;31:*.bz=01;31:*.bz2=01;31:*.cab=01;31:*.cpio=01;31:*.crate=01;31:*.deb=01;31:*.drpm=01;31:*.dwm=01;31:*.dz=01;31:*.ear=01;31:*.egg=01;31:*.esd=01;31:*.gz=01;31:*.jar=01;31:*.lha=01;31:*.lrz=01;31:*.lz=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.lzo=01;31:*.pyz=01;31:*.rar=01;31:*.rpm=01;31:*.rz=01;31:*.sar=01;31:*.swm=01;31:*.t7z=01;31:*.tar=01;31:*.taz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tgz=01;31:*.tlz=01;31:*.txz=01;31:*.tz=01;31:*.tzo=01;31:*.tzst=01;31:*.udeb=01;31:*.war=01;31:*.whl=01;31:*.wim=01;31:*.xz=01;31:*.z=01;31:*.zip=01;31:*.zoo=01;31:*.zst=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.jxl=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LSCOLORS=\"Gxfxcxdxbxegedabagacad\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "PAGER=\"less\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WT_PROFILE_ID=\"{8b8e6765-37a0-57e3-b40d-4771559b07bc}\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "USER=\"ray\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WT_SESSION=\"297c8cb2-5303-46d2-b361-0beaca120e04\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "SHLVL=\"2\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "PULSE_SERVER=\"unix:/mnt/wslg/PulseServer\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LD_PRELOAD=\"{}\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "SHELL=\"/bin/zsh\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "COREPACK_ENABLE_AUTO_PIN=\"0\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "VSSCRIPT_PATH=\"/usr/lib/python3.14/site-packages/vapoursynth/libvsscript.so\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LESS=\"-R\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WAYLAND_DISPLAY=\"wayland-0\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "XDG_RUNTIME_DIR=\"/run/user/1000\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "TERM=\"xterm-256color\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "ZSH=\"/home/ray/.oh-my-zsh\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "HOSTTYPE=\"x86_64\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "IS_PROCESS_PROFILED_BY_NSYS=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_EFFORT=\"xhigh\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NVM_INC=\"/home/ray/.nvm/versions/node/v24.14.1/include/node\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "PATH=\"/home/ray/.elan/bin:/home/ray/.kimi-code/bin:/home/ray/.grok/bin:/home/ray/.local/bin:/home/ray/.nvm/versions/node/v24.14.1/bin:/home/ray/.local/bin:/home/ray/.elan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/VulkanSDK/1.4.357.0/Bin:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/Microsoft VS Code/bin:/mnt/c/Program Files/Tailscale/:/mnt/c/Program Files/usbipd-win/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/GitHub CLI/:/mnt/c/Program Files/CMake/bin:/mnt/c/Users/Ray Lei/.local/bin:/mnt/c/Program Files/SnapAny/bin:/mnt/c/Users/Ray Lei/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Ray Lei/AppData/Local/Programs/Antigravity IDE/bin:/opt/cuda/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LANG=\"en_US.UTF-8\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "DISPLAY=\":0\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WSL2_GUI_APPS_ENABLED=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_CHILD_SESSION=\"1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_SESSION_ID=\"1c3d56aa-2e17-433d-b405-33b28355d3f3\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NAME=\"DESKTOP-0FLA6SQ\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WSL_DISTRO_NAME=\"archlinux\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CLAUDE_CODE_ENTRYPOINT=\"cli\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WSLENV=\"WT_SESSION:WT_PROFILE_ID:\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "PWD=\"/home/ray/developer/ai/saccade_v1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "WSL_INTEROP=\"/run/WSL/150122_interop\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "HOME=\"/home/ray\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "LOGNAME=\"ray\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "OLDPWD=\"/home/ray/developer/ai/saccade_v1\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "DEBUGINFOD_URLS=\"https://debuginfod.archlinux.org \""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/1000/bus\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "CUDA_PATH=\"/opt/cuda\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "NVCC_CCBIN=\"/usr/bin/g++\""
+    },
+    {
+      "name": "PROCESS_0:ENVIRONMENT_VARIABLE",
+      "value": "HG=\"/usr/bin/hg\""
+    },
+    {
+      "name": "PROCESS_0:CUDA_FLUSH_PERIODICALLY",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:CUDA_FLUSH_PERIOD",
+      "value": "0"
+    },
+    {
+      "name": "PROCESS_0:CUDA_SKIP_SOME_API_CALLS",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_GPU_MEMORY_USAGE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_UVM_CPU_PAGE_FAULTS",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_UVM_GPU_PAGE_FAULTS",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_GL_WORKLOAD",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_DX12_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_DX11_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:COLLECT_VULKAN_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "PROCESS_0:CUDA_FLUSH_ON_CUDA_PROFILER_STOP",
+      "value": "false"
+    },
+    {
+      "name": "PROFILING_SESSION_ID",
+      "value": ""
+    },
+    {
+      "name": "PROFILING_SESSION_UUID",
+      "value": "6ece2180-fa78-49de-9d4c-51a34df08ddb"
+    },
+    {
+      "name": "APPLICATION_PID",
+      "value": "0"
+    },
+    {
+      "name": "PACKAGE_NAME",
+      "value": ""
+    },
+    {
+      "name": "RESUME",
+      "value": "false"
+    },
+    {
+      "name": "SHOW_BACKTRACE",
+      "value": "false"
+    },
+    {
+      "name": "START_DELAY_MS",
+      "value": "0"
+    },
+    {
+      "name": "RUN_DURATION_MS",
+      "value": "966"
+    },
+    {
+      "name": "HAS_ANNOTATIONS",
+      "value": "false"
+    },
+    {
+      "name": "USE_UNWIND_TABLES",
+      "value": "false"
+    },
+    {
+      "name": "USE_FRAME_POINTERS",
+      "value": "false"
+    },
+    {
+      "name": "USE_DWARF",
+      "value": "false"
+    },
+    {
+      "name": "BANDWIDTH_VERSION",
+      "value": "0"
+    },
+    {
+      "name": "BANDWIDTH_RATE_HZ",
+      "value": "0"
+    },
+    {
+      "name": "COLLECT_GPU_CTX_SW_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "TRACE_ALL_TASKS",
+      "value": "false"
+    },
+    {
+      "name": "IN_APP_FREQ_MODE",
+      "value": "false"
+    },
+    {
+      "name": "COLLECT_VSYNC",
+      "value": "false"
+    },
+    {
+      "name": "COLLECT_THREAD_STATE_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "ALLOW_SEND_ONLY_MODE",
+      "value": "false"
+    },
+    {
+      "name": "FORCE_ARCH_TIMER",
+      "value": "false"
+    },
+    {
+      "name": "USE_LBRS",
+      "value": "false"
+    },
+    {
+      "name": "INCLUDE_CHILDREN",
+      "value": "true"
+    },
+    {
+      "name": "USE_LINUX_PERF",
+      "value": "false"
+    },
+    {
+      "name": "DISABLE_TIME_SYNC",
+      "value": "false"
+    },
+    {
+      "name": "LAUNCH_AS_ROOT",
+      "value": "false"
+    },
+    {
+      "name": "TRACE_AFTER_FORK_BEFORE_EXEC",
+      "value": "false"
+    },
+    {
+      "name": "COLLECT_SLI_EVENTS",
+      "value": "false"
+    },
+    {
+      "name": "HOTKEY_ENABLED",
+      "value": "false"
+    },
+    {
+      "name": "HOTKEY_VALUE",
+      "value": "0"
+    },
+    {
+      "name": "COLLECT_WDDM_EVENTS",
+      "value": "false"
+    },
+    {
+      "name": "COLLECT_OPENSHMEM_TRACE",
+      "value": "false"
+    },
+    {
+      "name": "START_FRAME_VALUE",
+      "value": "0"
+    },
+    {
+      "name": "RUN_DURATION_FRAMES",
+      "value": "0"
+    },
+    {
+      "name": "SYMBOL_RESOLUTION_OPTIONS:RESOLVE_SYMBOLS",
+      "value": "true"
+    },
+    {
+      "name": "SAMPLE_ALL_TASKS",
+      "value": "false"
+    }
+  ],
+  "diagnostics": [
+    {
+      "timestamp": 0,
+      "timestampType": 1,
+      "source": 3,
+      "severity": 1,
+      "text": "Profiling has started.",
+      "globalPid": -144115188075855872
+    },
+    {
+      "timestamp": 60374,
+      "timestampType": 1,
+      "source": 2,
+      "severity": 1,
+      "text": "Process was launched by the profiler, see /tmp/nvidia/nsight_systems/quadd_session_10153723/streams/pid_153742_stdout.log and stderr.log for program output",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 16051701,
+      "timestampType": 2,
+      "source": 3,
+      "severity": 1,
+      "text": "Number of CUDA events collected: \t552.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 217821884,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Common injection library initialized successfully.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 217928716,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Buffers holding CUDA trace data will be flushed on CudaProfilerStop() call. See --flush-on-cudaprofilerstop to control this behavior.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 225158721,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Loaded CUPTI library: /usr/lib/nsight-systems/target-linux-x64/libcupti.so.13.4",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 552230582,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Enabling trace for device graph launch",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 556018527,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "CUDA injection initialized successfully.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 616399643,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 2,
+      "text": "CUDA device 0: Unified Memory cannot be traced on devices that don't support peer-to-peer transfers.Please verify that SLI/NVLink is functioning properly.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 833176791,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Number of CUPTI events produced: \t590, CUPTI buffers: 50.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 833181780,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Hardware tracing used for CUDA tracing.",
+      "globalPid": 284054339452928
+    },
+    {
+      "timestamp": 965099792,
+      "timestampType": 1,
+      "source": 3,
+      "severity": 1,
+      "text": "Profiling has stopped.",
+      "globalPid": -144115188075855872
+    },
+    {
+      "timestamp": 1643988003,
+      "timestampType": 1,
+      "source": 2,
+      "severity": 1,
+      "text": "Number of Debuginfod queries: 0 (successful queries: 0, timed out queries: 0).",
+      "globalPid": 281474976710656
+    },
+    {
+      "timestamp": 1643996349,
+      "timestampType": 1,
+      "source": 2,
+      "severity": 1,
+      "text": "Number of used Debuginfod cached files: 0.",
+      "globalPid": 281474976710656
+    },
+    {
+      "timestamp": 1643997541,
+      "timestampType": 1,
+      "source": 2,
+      "severity": 1,
+      "text": "Total time spent on all Debuginfod queries: 0 sec (successful queries: 0 sec).",
+      "globalPid": 281474976710656
+    }
+  ],
+  "streams": [
+    {
+      "streamId": 16,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 15,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 14,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 12,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 4294967291,
+      "flag": 1
+    },
+    {
+      "streamId": 11,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 17,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 10,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 8,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 13,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 7,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 3
+    },
+    {
+      "streamId": 9,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 2
+    },
+    {
+      "streamId": 6,
+      "hwId": 0,
+      "vmId": 1,
+      "processId": 153742,
+      "contextId": 1,
+      "priority": 0,
+      "flag": 1
+    }
+  ],
+  "handoffs": [
+    {
+      "converter": {
+        "start": 809950276,
+        "end": 809951844,
+        "deviceId": 0,
+        "contextId": 1,
+        "greenContextId": 0,
+        "streamId": 16,
+        "correlationId": 770,
+        "globalPid": 284054339452928,
+        "demangledName": 158,
+        "shortName": 159,
+        "mangledName": 148,
+        "launchType": 0,
+        "cacheConfig": 0,
+        "registersPerThread": 16,
+        "gridX": 2,
+        "gridY": 4,
+        "gridZ": 1,
+        "blockX": 32,
+        "blockY": 8,
+        "blockZ": 1,
+        "staticSharedMemory": 0,
+        "dynamicSharedMemory": 0,
+        "localMemoryPerThread": 0,
+        "localMemoryTotal": 40697856,
+        "gridId": 1,
+        "sharedMemoryExecuted": 16384,
+        "graphNodeId": null,
+        "sharedMemoryLimitConfig": 0,
+        "qmdBulkReleaseDone": null,
+        "qmdPreexitDone": null,
+        "qmdLastCtaDone": null,
+        "graphId": null,
+        "clusterX": 0,
+        "clusterY": 0,
+        "clusterZ": 0,
+        "clusterSchedulingPolicy": 1,
+        "maxPotentialClusterSize": 0,
+        "maxActiveClusters": 0,
+        "sharedMemoryRequestedPercentage": null,
+        "tensorSizeMinusOneElements": "[]",
+        "name": "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+      },
+      "record": {
+        "timestamp": 0,
+        "deviceId": 0,
+        "contextId": 1,
+        "greenContextId": 0,
+        "streamId": 16,
+        "correlationId": 772,
+        "globalPid": 284054339452928,
+        "eventId": 2,
+        "eventSyncId": 1
+      },
+      "record_api": {
+        "start": 809942665,
+        "end": 809951662,
+        "eventClass": 0,
+        "globalTid": 284054339606670,
+        "correlationId": 772,
+        "nameId": 161,
+        "returnValue": 0,
+        "callchainId": null,
+        "name": "cudaEventRecord_v3020"
+      },
+      "wait": {
+        "start": 809953025,
+        "end": 809955089,
+        "deviceId": 0,
+        "contextId": 1,
+        "greenContextId": 0,
+        "streamId": 13,
+        "correlationId": 773,
+        "globalPid": 284054339452928,
+        "deprecatedSyncType": null,
+        "syncType": 2,
+        "eventId": 2,
+        "eventSyncId": 1
+      },
+      "wait_api": {
+        "start": 809952103,
+        "end": 809955339,
+        "eventClass": 0,
+        "globalTid": 284054339606670,
+        "correlationId": 773,
+        "nameId": 162,
+        "returnValue": 0,
+        "callchainId": null,
+        "name": "cudaStreamWaitEvent_v3020"
+      },
+      "inspectors_after_converter": [
+        {
+          "start": 810254024,
+          "end": 810255240,
+          "deviceId": 0,
+          "contextId": 1,
+          "greenContextId": 0,
+          "streamId": 13,
+          "correlationId": 778,
+          "globalPid": 284054339452928,
+          "demangledName": 164,
+          "shortName": 165,
+          "mangledName": 149,
+          "launchType": 0,
+          "cacheConfig": 0,
+          "registersPerThread": 16,
+          "gridX": 12,
+          "gridY": 1,
+          "gridZ": 1,
+          "blockX": 256,
+          "blockY": 1,
+          "blockZ": 1,
+          "staticSharedMemory": 0,
+          "dynamicSharedMemory": 0,
+          "localMemoryPerThread": 0,
+          "localMemoryTotal": 40697856,
+          "gridId": 2,
+          "sharedMemoryExecuted": 16384,
+          "graphNodeId": null,
+          "sharedMemoryLimitConfig": 0,
+          "qmdBulkReleaseDone": null,
+          "qmdPreexitDone": null,
+          "qmdLastCtaDone": null,
+          "graphId": null,
+          "clusterX": 0,
+          "clusterY": 0,
+          "clusterZ": 0,
+          "clusterSchedulingPolicy": 1,
+          "maxPotentialClusterSize": 0,
+          "maxActiveClusters": 0,
+          "sharedMemoryRequestedPercentage": null,
+          "tensorSizeMinusOneElements": "[]",
+          "name": "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)"
+        }
+      ],
+      "claim": "record/wait match by process, context, eventId and eventSyncId; does not expose hardware producer"
+    },
+    {
+      "converter": {
+        "start": 810906066,
+        "end": 810906642,
+        "deviceId": 0,
+        "contextId": 1,
+        "greenContextId": 0,
+        "streamId": 16,
+        "correlationId": 785,
+        "globalPid": 284054339452928,
+        "demangledName": 158,
+        "shortName": 159,
+        "mangledName": 148,
+        "launchType": 0,
+        "cacheConfig": 0,
+        "registersPerThread": 16,
+        "gridX": 2,
+        "gridY": 4,
+        "gridZ": 1,
+        "blockX": 32,
+        "blockY": 8,
+        "blockZ": 1,
+        "staticSharedMemory": 0,
+        "dynamicSharedMemory": 0,
+        "localMemoryPerThread": 0,
+        "localMemoryTotal": 40697856,
+        "gridId": 3,
+        "sharedMemoryExecuted": 16384,
+        "graphNodeId": null,
+        "sharedMemoryLimitConfig": 0,
+        "qmdBulkReleaseDone": null,
+        "qmdPreexitDone": null,
+        "qmdLastCtaDone": null,
+        "graphId": null,
+        "clusterX": 0,
+        "clusterY": 0,
+        "clusterZ": 0,
+        "clusterSchedulingPolicy": 1,
+        "maxPotentialClusterSize": 0,
+        "maxActiveClusters": 0,
+        "sharedMemoryRequestedPercentage": null,
+        "tensorSizeMinusOneElements": "[]",
+        "name": "void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+      },
+      "record": {
+        "timestamp": 0,
+        "deviceId": 0,
+        "contextId": 1,
+        "greenContextId": 0,
+        "streamId": 16,
+        "correlationId": 787,
+        "globalPid": 284054339452928,
+        "eventId": 2,
+        "eventSyncId": 2
+      },
+      "record_api": {
+        "start": 810810191,
+        "end": 810815501,
+        "eventClass": 0,
+        "globalTid": 284054339606670,
+        "correlationId": 787,
+        "nameId": 161,
+        "returnValue": 0,
+        "callchainId": null,
+        "name": "cudaEventRecord_v3020"
+      },
+      "wait": {
+        "start": 810816012,
+        "end": 810816814,
+        "deviceId": 0,
+        "contextId": 1,
+        "greenContextId": 0,
+        "streamId": 13,
+        "correlationId": 788,
+        "globalPid": 284054339452928,
+        "deprecatedSyncType": null,
+        "syncType": 2,
+        "eventId": 2,
+        "eventSyncId": 2
+      },
+      "wait_api": {
+        "start": 810815752,
+        "end": 810817044,
+        "eventClass": 0,
+        "globalTid": 284054339606670,
+        "correlationId": 788,
+        "nameId": 162,
+        "returnValue": 0,
+        "callchainId": null,
+        "name": "cudaStreamWaitEvent_v3020"
+      },
+      "inspectors_after_converter": [
+        {
+          "start": 810965138,
+          "end": 810965682,
+          "deviceId": 0,
+          "contextId": 1,
+          "greenContextId": 0,
+          "streamId": 13,
+          "correlationId": 791,
+          "globalPid": 284054339452928,
+          "demangledName": 164,
+          "shortName": 165,
+          "mangledName": 149,
+          "launchType": 0,
+          "cacheConfig": 0,
+          "registersPerThread": 16,
+          "gridX": 12,
+          "gridY": 1,
+          "gridZ": 1,
+          "blockX": 256,
+          "blockY": 1,
+          "blockZ": 1,
+          "staticSharedMemory": 0,
+          "dynamicSharedMemory": 0,
+          "localMemoryPerThread": 0,
+          "localMemoryTotal": 40697856,
+          "gridId": 4,
+          "sharedMemoryExecuted": 16384,
+          "graphNodeId": null,
+          "sharedMemoryLimitConfig": 0,
+          "qmdBulkReleaseDone": null,
+          "qmdPreexitDone": null,
+          "qmdLastCtaDone": null,
+          "graphId": null,
+          "clusterX": 0,
+          "clusterY": 0,
+          "clusterZ": 0,
+          "clusterSchedulingPolicy": 1,
+          "maxPotentialClusterSize": 0,
+          "maxActiveClusters": 0,
+          "sharedMemoryRequestedPercentage": null,
+          "tensorSizeMinusOneElements": "[]",
+          "name": "inspect_caller_output(const unsigned char *, unsigned char *, unsigned long)"
+        }
+      ],
+      "claim": "record/wait match by process, context, eventId and eventSyncId; does not expose hardware producer"
+    }
+  ],
+  "queries": {
+    "runtime": "SELECT * FROM CUPTI_ACTIVITY_KIND_RUNTIME ORDER BY start",
+    "kernels": "SELECT * FROM CUPTI_ACTIVITY_KIND_KERNEL ORDER BY start",
+    "events": "SELECT * FROM CUPTI_ACTIVITY_KIND_CUDA_EVENT ORDER BY correlationId",
+    "synchronization": "SELECT * FROM CUPTI_ACTIVITY_KIND_SYNCHRONIZATION ORDER BY start",
+    "memcpy": "SELECT * FROM CUPTI_ACTIVITY_KIND_MEMCPY ORDER BY start",
+    "capture_metadata": "SELECT * FROM META_DATA_CAPTURE",
+    "diagnostics": "SELECT * FROM DIAGNOSTIC_EVENT ORDER BY timestamp",
+    "streams": "SELECT * FROM TARGET_INFO_CUDA_STREAM"
+  }
+}

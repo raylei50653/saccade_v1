@@ -178,7 +178,7 @@ S04 依使用者指定，以 T1 主線 `best.ckpt`（§7.1）作為**工程驗�
 | backbone／neck component I/O | **ordered I/O 結構已查**：舊 `yolo26m_backbone_640.onnx`（75,900,061 bytes，SHA-256 `2154f937dec832dcefc4229a66dfc438c8fb99ee0c1547d80c00cc0143e56a6a`）輸入 `images [batch,3,640,640]`，輸出依序 `p3_feat [batch,256,80,80]`、`p4_feat [batch,512,40,40]`、`p5_feat [batch,512,20,20]`，形狀與 head 輸入相符。其權重歸屬（是否為 T1 訓練時的 teacher e12 features 來源）、native engine 與推論**未驗**。 |
 | H05 decode | 未變：head 只輸出 raw cls／reg；候選容量、padding、invalid mask、class tie 仍屬 F04。 |
 
-**目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：matching backbone／neck 權重歸屬與 native engine、影像前處理的 native 實作（訓練側契約已由 T01 固定為 nvJPEG GPU decode＋float antialiased stretch，[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）、decode／NMS 與容量、以及新訓練或正式選模（[T01](T01_TRAINING.md)）。
+**S04 當時的目標真實 artifact readiness（P01）：仍 OPEN。** 該 head 驗收未涵蓋 matching backbone／neck 權重歸屬與 native engine、影像前處理、decode／NMS 與容量、新訓練或正式選模。後續進展分別見 §9 的 T01 與 §10 的 native F01／F02；訓練側輸入契約見 [T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。
 
 ## 9. 2026-10-30 T01：matching backbone／neck 與完整模型
 
@@ -192,10 +192,14 @@ T01 重新訓練（[T01_TRAINING](T01_TRAINING.md)）取代 S04 的工程驗證�
 | backbone／neck component I/O 與推論 | **已驗**：ordered `p3_feat`／`p4_feat`／`p5_feat`；backbone engine 與 F03 engine 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) 逐元素 PASS（[MODEL_TRT](MODEL_TRT.md)） |
 | H05 decode | 未變：仍屬 F04 |
 
-**目標真實 artifact readiness（P01）：仍 OPEN。** 剩餘：影像前處理的 native 實作（F01／F02，須符合 `t01-input/1`）、decode／NMS 與候選容量（F04），以及 P01 原列的其他缺件；head 與 F03 的 racecheck／synccheck 未執行。
+**目標真實 artifact readiness（P01）：仍 OPEN。** 此 engine 驗收不涵蓋 native 影像前處理（F01／F02，現況見 §10）、decode／NMS 與候選容量（F04），以及 P01 原列的其他缺件；head 與 F03 的 racecheck／synccheck 未執行。
 
 ## 10. Native F01／F02 後的狀態（2026-10-31）
 
 Native 前處理已實作，詳見 [PREPROCESS](PREPROCESS.md) 與 [證據](../evidence/preprocess/2026-10-31/REPORT.md)。乾淨 source `2b39dda` 的 19/19 CTest 通過；7 張真實 JPEG 加 10 組合成輸入的 RGB／FP32 輸出與訓練參考逐位元相同，前三張亦與既有 F03 輸入 hashes 相同。F02 的四種 sanitizer 在受測範圍通過。
 
-**F01 initcheck 仍 FAIL／原因 OPEN**：nvJPEG 私有 `rgba2rgb` 報未初始化讀取，獨立 SDK control 亦重現；不可宣稱已確認誤報或完整 sanitizer PASS。F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與容量仍待實作；P01 仍 OPEN。
+2026-10-31 使用者將 F01／F02 的使用結案目標定為正常輸出相同、重跑與重用正確，規則見 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)；原數值門檻與固定 references 不變。**既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻，也不要求先取得 NVIDIA 分類。** 原始報告不改寫成 sanitizer PASS 或已確認誤報，API 錯誤、輸出不符與重用錯誤仍須拒絕。
+
+**F01／F02 使用驗收 PASS（受測範圍）**：[正常使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)沿用原 public runtime，以 7 張固定真實 JPEG、4 個 sessions 共 208 幀驗證串行、尺寸切換、延後 consumer、ring 重用與獨立雙 instance；全部 RGB／FP32 輸出逐位元符合固定 reference，重跑、mapping 與 checked close 通過。結果限受測硬體／SDK、固定輸入與呼叫合約。
+
+F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與容量仍待實作；P01 仍 OPEN。

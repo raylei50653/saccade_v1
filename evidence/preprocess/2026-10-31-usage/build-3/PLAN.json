@@ -1,0 +1,61 @@
+{
+  "schema": "saccade-preprocess-normal-usage/1",
+  "policy": "t01-preprocess-usage/1",
+  "sequence": [
+    0,
+    4,
+    1,
+    4,
+    2,
+    4,
+    3,
+    4,
+    5,
+    4,
+    6,
+    4,
+    0
+  ],
+  "cycles": 4,
+  "sessions": {
+    "serial": [
+      "serial",
+      1
+    ],
+    "queued": [
+      "queued",
+      3
+    ],
+    "dual-a": [
+      "dual",
+      3
+    ],
+    "dual-b": [
+      "dual",
+      3
+    ]
+  },
+  "total_frames": 208,
+  "dual_b_sequence": [
+    1,
+    5,
+    2,
+    5,
+    3,
+    5,
+    4,
+    5,
+    6,
+    5,
+    0,
+    5,
+    1
+  ],
+  "delay_clock64_cycles": 10000000,
+  "delay_placement": "same detect stream after enqueue F02 event and before both pinned D2H consumers",
+  "preload_delay_kernel": true,
+  "queued_coverage": "each window3 session must observe prior consumer cudaErrorNotReady at next enqueue",
+  "readback_slots_per_session": 3,
+  "caller_jpeg_overwrite": true,
+  "comparisons": "all RGB bytes and all FP32 bits exact to frozen refs; finite; repeats; frame/mapping; checked close"
+}

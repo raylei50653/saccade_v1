@@ -94,7 +94,7 @@ main 的必要順序是 F06 GMC(k) → F08a GMC control＋predict(k) → Predict
 
 | 階段 | 輸入 | 輸出 | 唯一責任與邊界 |
 | --- | --- | --- | --- |
-| F01 輸入與 GPU 影像準備 | JPEG sequence、序列 metadata | GpuFrame、FrameMeta | C++ 讀取壓縮資料，nvJPEG 產生 GPU RGB 影像並建立 frame 身份；尺寸／數量檢查及解碼錯誤與 EOF 分開。[native F01](PREPROCESS.md) 已實作 HARDWARE backend、batch-1 planar RGB，嚴格接受 baseline 8-bit YCbCr 4:2:0，無 fallback；7 張 native RGB 對訓練 reference 與 libjpeg-turbo `-nosmooth` 逐位元相同；nvJPEG 內部 initcheck FAIL／原因 OPEN（[證據](../evidence/preprocess/2026-10-31/REPORT.md)）。 |
+| F01 輸入與 GPU 影像準備 | JPEG sequence、序列 metadata | GpuFrame、FrameMeta | C++ 讀取壓縮資料，nvJPEG 產生 GPU RGB 影像並建立 frame 身份；尺寸／數量檢查及解碼錯誤與 EOF 分開。[native F01](PREPROCESS.md) 已實作 HARDWARE backend、batch-1 planar RGB，嚴格接受 baseline 8-bit YCbCr 4:2:0，無 fallback；依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**：7 張固定真實 JPEG、4 個 sessions 共 208 幀的 RGB／FP32 輸出逐位元對齊（[使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)）。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。 |
 | F02 模型輸入轉換 | GpuFrame、模型輸入規格 | 640×640 RGB CHW 模型輸入、ImageMapping | [native F02](PREPROCESS.md) 已實作 float32 正規化後的 antialiased bilinear stretch（B04）；ImageMapping 分別保留原圖到模型的 x／y scales。比較門檻由 [PREPROCESS_POLICY](PREPROCESS_POLICY.md) 固定；17 組輸出逐位元相同、四種 sanitizer 通過，F02 在受測範圍 PASS（[證據](../evidence/preprocess/2026-10-31/REPORT.md)）。 |
 | F03 模型推論 | 模型輸入 | RawPredictions | YOLO26 backbone／neck 產生 P3／P4／P5，Mamba-FPN head 產生 cls／reg；基線為幀內推論。 |
 | F04 觀測整理 | RawPredictions、ImageMapping、觀測政策 | DetectionCandidates | decode、class／score 選擇、篩選、穩定排列、NMS、座標還原；區分 kept 與 suppressed candidates，供 F04b 使用。 |
@@ -405,7 +405,7 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 | 編號 | OPEN 規格 | 已有基線 |
 | --- | --- | --- |
 | P01 模型 artifact | 新模型檔案的來源／版本、engine 精度／shape binding、可供 native 載入的 m 權重與 component I/O。 | YOLO26m＋原版 m Mamba-FPN head、640、單幀 GPU 推論；scan 契約與 S01 reference 見 [SCAN_CONTRACT](SCAN_CONTRACT.md)，分階段驗證見 [MODEL_FEASIBILITY.md](MODEL_FEASIBILITY.md)，P01 仍 OPEN。 |
-| P02 邊界數值規格 | clipping／退化框、class 範圍、NMS 決勝與排序；F01 的 nvJPEG initcheck 原因 OPEN。 | RGB CHW 正規化、stretch、原圖 xyxy、穩定候選順序、class 保留；模型輸入 resize 已固定（B04、T01 `t01-input/1`），F01 bitwise／F02 FP32 比較門檻已由 [PREPROCESS_POLICY](PREPROCESS_POLICY.md) 固定，17 組有限案例通過數值驗證。 |
+| P02 邊界數值規格 | clipping／退化框、class 範圍、NMS 決勝與排序。 | RGB CHW 正規化、stretch、原圖 xyxy、穩定候選順序、class 保留；模型輸入 resize 已固定（B04、T01 `t01-input/1`），F01 bitwise／F02 FP32 比較門檻已由 [PREPROCESS_POLICY](PREPROCESS_POLICY.md) 固定，17 組有限案例通過數值驗證。正常輸出與重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)；既知 initcheck 診斷不作為 P02 數值門檻。 |
 | P03 決策參數與簡化 | GMC downscale／可信度及 invalid 處置、分數／關聯／生命週期／bridge 閾值、預測後 prior 資格與 DDA 等歷史開關去留。 | F08a → predicted prior → F04b → F08b 已定；所有 top-k 與 auction 平手依 §3.2 的 `(cost, track UID, candidate ID)` 字典序，auction 保留 bid 主排序。 |
 | P04 容量與記憶體 | detections、suppressed candidates、GPU TrackState、top-k、獨立小影像／頻譜與序列輸出儲存的上限、dtype／layout；GPU 封包 writer 與容量驗證。 | [ResultPacket v1](RESULT_PACKET.md) 的最小 wire profile 已定為 256 rows、80-byte header＋48-byte rows，共 12368 bytes；有 C++ codec。此 profile 不代替其他 GPU 容量決策；每幀一次封包 D2H，容量不足顯式失敗。 |
 | P05 graph 與比較鍵封裝 | capture／event／資源封裝、warm-up／cache 政策、fixed output 交付，以及 packed winner key 的位寬／序碼或分階段比較方式。 | serial／double-buffer 均滿足 E01–E11 與 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的 A01–A10；F05 在 detect、原圖不跨 stream；物理比較必須完全等價於 §3.2 已定的全序與 phase boundary。 |

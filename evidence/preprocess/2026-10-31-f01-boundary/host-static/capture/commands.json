@@ -1,0 +1,340 @@
+[
+  {
+    "label": "git-head",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.483301+00:00",
+    "end_utc": "2026-10-31T03:38:25.485330+00:00",
+    "exit": 0
+  },
+  {
+    "label": "git-status",
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.485398+00:00",
+    "end_utc": "2026-10-31T03:38:25.492631+00:00",
+    "exit": 0
+  },
+  {
+    "label": "version-readelf",
+    "argv": [
+      "readelf",
+      "--version"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.492753+00:00",
+    "end_utc": "2026-10-31T03:38:25.496888+00:00",
+    "exit": 0
+  },
+  {
+    "label": "version-objdump",
+    "argv": [
+      "objdump",
+      "--version"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.496949+00:00",
+    "end_utc": "2026-10-31T03:38:25.501071+00:00",
+    "exit": 0
+  },
+  {
+    "label": "version-nm",
+    "argv": [
+      "nm",
+      "--version"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.501130+00:00",
+    "end_utc": "2026-10-31T03:38:25.502359+00:00",
+    "exit": 0
+  },
+  {
+    "label": "version-strings",
+    "argv": [
+      "strings",
+      "--version"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.502410+00:00",
+    "end_utc": "2026-10-31T03:38:25.503736+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-dynamic",
+    "argv": [
+      "readelf",
+      "-dW",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.503785+00:00",
+    "end_utc": "2026-10-31T03:38:25.507245+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-sections",
+    "argv": [
+      "readelf",
+      "-SW",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.507299+00:00",
+    "end_utc": "2026-10-31T03:38:25.511097+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-relocations",
+    "argv": [
+      "readelf",
+      "-rW",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.511202+00:00",
+    "end_utc": "2026-10-31T03:38:25.517913+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-imports",
+    "argv": [
+      "nm",
+      "-D",
+      "--undefined-only",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.517995+00:00",
+    "end_utc": "2026-10-31T03:38:25.529230+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-exports",
+    "argv": [
+      "nm",
+      "-D",
+      "--defined-only",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.529318+00:00",
+    "end_utc": "2026-10-31T03:38:25.540068+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-strings",
+    "argv": [
+      "strings",
+      "-t",
+      "x",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.540150+00:00",
+    "end_utc": "2026-10-31T03:38:25.580480+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvcuvid-dynamic",
+    "argv": [
+      "readelf",
+      "-dW",
+      "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.580598+00:00",
+    "end_utc": "2026-10-31T03:38:25.587518+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvcuvid-exports",
+    "argv": [
+      "nm",
+      "-D",
+      "--defined-only",
+      "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.587574+00:00",
+    "end_utc": "2026-10-31T03:38:25.602568+00:00",
+    "exit": 0
+  },
+  {
+    "label": "decode-batched-dispatch",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x73870",
+      "--stop-address=0x7391a",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.602648+00:00",
+    "end_utc": "2026-10-31T03:38:25.608717+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-private-loader",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x6fa70",
+      "--stop-address=0x6fd80",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.608774+00:00",
+    "end_utc": "2026-10-31T03:38:25.614342+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-cuda-proc-loader",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x18de30",
+      "--stop-address=0x18e390",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.614455+00:00",
+    "end_utc": "2026-10-31T03:38:25.620460+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-v2-decode-wrapper",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0xd0900",
+      "--stop-address=0xd0917",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.620581+00:00",
+    "end_utc": "2026-10-31T03:38:25.626500+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-hw-decode-prefix",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0xd7d70",
+      "--stop-address=0xd8070",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.626608+00:00",
+    "end_utc": "2026-10-31T03:38:25.632303+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-hwv2-decode-prefix",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0xd4bf0",
+      "--stop-address=0xd4dc0",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.632410+00:00",
+    "end_utc": "2026-10-31T03:38:25.637649+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvcuvid-private-table-getter",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x4d220",
+      "--stop-address=0x4d32e",
+      "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.637700+00:00",
+    "end_utc": "2026-10-31T03:38:25.653147+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvcuvid-private-wrappers",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x4cb60",
+      "--stop-address=0x4d220",
+      "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:38:25.653229+00:00",
+    "end_utc": "2026-10-31T03:38:25.668354+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvcuvid-private-slot70-inner",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0x4e000",
+      "--stop-address=0x4e037",
+      "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:43:12.256139+00:00",
+    "end_utc": "2026-10-31T03:43:12.271153+00:00",
+    "exit": 0
+  },
+  {
+    "label": "nvjpeg-observed-slot70-callsite",
+    "argv": [
+      "objdump",
+      "-d",
+      "-M",
+      "intel",
+      "--no-show-raw-insn",
+      "--start-address=0xd2fb7",
+      "--stop-address=0xd301c",
+      "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58"
+    ],
+    "cwd": "/home/ray/developer/ai/saccade_v1",
+    "start_utc": "2026-10-31T03:43:12.271219+00:00",
+    "end_utc": "2026-10-31T03:43:12.277894+00:00",
+    "exit": 0
+  }
+]

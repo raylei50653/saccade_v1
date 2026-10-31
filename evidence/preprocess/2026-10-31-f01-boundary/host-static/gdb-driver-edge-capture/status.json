@@ -1,0 +1,226 @@
+{
+  "argv": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-x",
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/observe_driver_edge.gdb",
+    "--args",
+    "build-f01-investigation/repro",
+    "hw",
+    "rgb",
+    "default",
+    "preallocate",
+    "uninit",
+    "2",
+    "fixtures/preprocess/baseline.jpg",
+    "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb",
+    "evidence/preprocess/2026-10-31-f01-boundary/host-static/gdb-driver-edge-capture/output.rgb"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1",
+  "timeout_seconds": 60,
+  "start_utc": "2026-10-31T03:49:54.641336+00:00",
+  "env": {
+    "LD_LIBRARY_PATH": "/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:"
+  },
+  "identity": {
+    "build-f01-investigation/repro": {
+      "sha256": "58e2c0ea589fd64ef9e334793c2af8230f4e580d6a303888de769313b5da27c3",
+      "bytes": 1152280
+    },
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/observe_driver_edge.gdb": {
+      "sha256": "56967daf094f6521ddb27fcd7fab53b29366ebddcc28ab2a2867715a30fd9cde",
+      "bytes": 7104
+    },
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/run_driver_edge.py": {
+      "sha256": "603d22fe48e6beada4497323e2f61ac5f685693717e4a236cc17efdc8102e8da",
+      "bytes": 4192
+    },
+    "fixtures/preprocess/baseline.jpg": {
+      "sha256": "3dedf93555bdc2aff5aab2a608a99f69cd8d6cc5c0fd64d8d3404ebb2f78da56",
+      "bytes": 1124
+    },
+    "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb": {
+      "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+      "bytes": 2835
+    },
+    "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": {
+      "sha256": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338",
+      "bytes": 6366832
+    },
+    "/usr/lib/wsl/lib/libnvcuvid.so.1": {
+      "sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+      "bytes": 27446016
+    },
+    "/usr/lib/wsl/lib/libcuda.so.1": {
+      "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d",
+      "bytes": 188024
+    }
+  },
+  "scope": "diagnostic CPU debugger changes host timing; no sanitizer or CUDA debugger",
+  "debugger_exit": 0,
+  "timeout": false,
+  "observations": [
+    {
+      "kind": "private_getter_entry",
+      "pc": "0x7401fa61f220",
+      "table": "0x653c48d8e530"
+    },
+    {
+      "kind": "private_getter_return",
+      "return_value": "None",
+      "slot70_owner": "/usr/lib/wsl/lib/libnvcuvid.so.1",
+      "table": "0x653c48d8e530",
+      "values": {
+        "0x0": "0x7401fa61eb60",
+        "0x10": "0x7401fa61efa0",
+        "0x18": "0x7401fa61ec50",
+        "0x20": "0x7401fa61ed10",
+        "0x28": "0x7401fa61ed30",
+        "0x30": "0x7401fa61ed50",
+        "0x38": "0x7401fa61ed70",
+        "0x40": "0x7401fa61ed90",
+        "0x48": "0x7401fa61edb0",
+        "0x50": "0x7401fa61eba0",
+        "0x58": "0x7401fa61ebd0",
+        "0x60": "0x7401fa61edd0",
+        "0x68": "0x7401fa61edf0",
+        "0x70": "0x7401fa61ee10",
+        "0x78": "0x7401fa61ee30",
+        "0x8": "0x7401fa61f000",
+        "0x80": "0x7401fa61eb80",
+        "0x88": "0x7401fa61ee50",
+        "0x90": "0x7401fa61f0f0",
+        "0x98": "0x7401fa61ec10"
+      }
+    },
+    {
+      "breakpoint_pc": "0x740416c73881",
+      "entry": "0x740416c73870",
+      "kind": "decode_entry",
+      "modules": {
+        "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": {
+          "realpath": "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58",
+          "sha256": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338"
+        },
+        "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1": {
+          "realpath": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+          "sha256": "70d8cd3774f4b0cf9359af3ca894f8e2586687cdc4c1fbb63af786fb69d90354"
+        },
+        "/usr/lib/wsl/lib/libcuda.so.1": {
+          "realpath": "/usr/lib/wsl/lib/libcuda.so.1",
+          "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+        },
+        "/usr/lib/wsl/lib/libdxcore.so": {
+          "realpath": "/usr/lib/wsl/lib/libdxcore.so",
+          "sha256": "83d1671a839bcf71709349e77cd68341515df2e63080765618876996a0f4190c"
+        },
+        "/usr/lib/wsl/lib/libnvcuvid.so.1": {
+          "realpath": "/usr/lib/wsl/lib/libnvcuvid.so.1",
+          "sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf"
+        }
+      }
+    },
+    {
+      "kind": "actual_backend_dispatch",
+      "pc": "0x740416c73905",
+      "rtti_name": "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE",
+      "target": "0x740416cd0900",
+      "target_owner": "/opt/cuda/lib64/libnvjpeg.so.13",
+      "vptr": "0x740417409c78"
+    },
+    {
+      "kind": "private_slot_70_entry",
+      "owner": "/usr/lib/wsl/lib/libnvcuvid.so.1",
+      "pc": "0x7401fa61ee10",
+      "rdi": "0x653c48f69e50",
+      "rdx": "0x653c490fa240",
+      "rsi": "0x653c490fa5f0"
+    },
+    {
+      "args": {
+        "r8": "0x5",
+        "r9": "0x653c490f9f70",
+        "rcx": "0x0",
+        "rdi": "0x653c490427e0",
+        "rdx": "0x653c4904e758",
+        "rsi": "0x653c490fa240"
+      },
+      "kind": "private_inner_call",
+      "pc": "0x7401fa620028",
+      "rtti_error": "Cannot access memory at address 0x8",
+      "target": "0x7401fa5e9ee0",
+      "target_module": {
+        "file_offset": "00014000",
+        "map_start": "0x7401fa5e6000",
+        "mapped_file_sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+        "offset": "0x17ee0",
+        "path": "/usr/lib/wsl/lib/libnvcuvid.so.1"
+      },
+      "vptr": "0x7401fbff7740"
+    },
+    {
+      "args": {
+        "r8": "0x5",
+        "r9": "0x653c490fa240",
+        "rcx": "0x0",
+        "rdi": "0x653c490fa240",
+        "rdx": "0x653c4904e758",
+        "rsi": "0x40005300"
+      },
+      "kind": "private_driver_edge_call",
+      "pc": "0x7401fa5e9f53",
+      "symbol": "No symbol matches 0x740414d81a50.",
+      "table": "0x740416229020",
+      "target": "0x740414d81a50",
+      "target_module": {
+        "file_offset": "001a2000",
+        "map_start": "0x740414a5c000",
+        "mapped_file_sha256": "70d8cd3774f4b0cf9359af3ca894f8e2586687cdc4c1fbb63af786fb69d90354",
+        "offset": "0x4c7a50",
+        "path": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1"
+      }
+    },
+    {
+      "eax": 0,
+      "kind": "private_driver_edge_return",
+      "pc": "0x7401fa5e9f56"
+    },
+    {
+      "eax": 0,
+      "kind": "private_inner_return",
+      "pc": "0x7401fa62002e"
+    },
+    {
+      "kind": "actual_backend_dispatch",
+      "pc": "0x740416c73905",
+      "rtti_name": "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE",
+      "target": "0x740416cd0900",
+      "target_owner": "/opt/cuda/lib64/libnvjpeg.so.13",
+      "vptr": "0x740417409c78"
+    },
+    {
+      "exit_code": 0,
+      "kind": "inferior_exited"
+    }
+  ],
+  "target_exit_observed": true,
+  "end_utc": "2026-10-31T03:49:58.152061+00:00",
+  "output": {
+    "sha256": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "bytes": 2835,
+    "rgb_exact": true
+  },
+  "identity_after": {
+    "build-f01-investigation/repro": "58e2c0ea589fd64ef9e334793c2af8230f4e580d6a303888de769313b5da27c3",
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/observe_driver_edge.gdb": "56967daf094f6521ddb27fcd7fab53b29366ebddcc28ab2a2867715a30fd9cde",
+    "/home/ray/developer/ai/saccade_v1/evidence/preprocess/2026-10-31-f01-boundary/host-static/run_driver_edge.py": "603d22fe48e6beada4497323e2f61ac5f685693717e4a236cc17efdc8102e8da",
+    "fixtures/preprocess/baseline.jpg": "3dedf93555bdc2aff5aab2a608a99f69cd8d6cc5c0fd64d8d3404ebb2f78da56",
+    "evidence/preprocess/2026-10-31-f01-investigation/baseline.rgb": "761809bdcad84f79c1b01f0d2369bb4cf52f280cb2dff92be87c3ef9f11c7162",
+    "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338",
+    "/usr/lib/wsl/lib/libnvcuvid.so.1": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+    "/usr/lib/wsl/lib/libcuda.so.1": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+  },
+  "diagnostic_complete": true
+}

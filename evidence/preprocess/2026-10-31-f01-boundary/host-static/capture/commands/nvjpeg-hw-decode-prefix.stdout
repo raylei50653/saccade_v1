@@ -1,0 +1,166 @@
+
+/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000d7d70 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b020>:
+   d7d70:	push   rbp
+   d7d71:	mov    rbp,rsp
+   d7d74:	push   r15
+   d7d76:	push   r14
+   d7d78:	push   r13
+   d7d7a:	push   r12
+   d7d7c:	push   rbx
+   d7d7d:	sub    rsp,0x238
+   d7d84:	mov    QWORD PTR [rbp-0x208],rdi
+   d7d8b:	mov    QWORD PTR [rbp-0x258],r9
+   d7d92:	test   rsi,rsi
+   d7d95:	je     d83dc <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b68c>
+   d7d9b:	mov    rdi,rsi
+   d7d9e:	mov    rbx,rdx
+   d7da1:	lea    rsi,[rip+0x731810]        # 8095b8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x78c868>
+   d7da8:	mov    r12,rcx
+   d7dab:	lea    rdx,[rip+0x731d6e]        # 809b20 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x78cdd0>
+   d7db2:	xor    ecx,ecx
+   d7db4:	mov    r13,r8
+   d7db7:	call   1fdd00 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x180fb0>
+   d7dbc:	mov    r15,rax
+   d7dbf:	test   rax,rax
+   d7dc2:	je     d83dc <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b68c>
+   d7dc8:	mov    rax,QWORD PTR [rbp-0x208]
+   d7dcf:	mov    edx,DWORD PTR [rax+0x44]
+   d7dd2:	test   edx,edx
+   d7dd4:	jne    d805d <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b30d>
+   d7dda:	lea    rcx,[rip+0xffffffffffffc7ff]        # d45e0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x57890>
+   d7de1:	mov    QWORD PTR [rbp-0x228],rcx
+   d7de8:	mov    esi,DWORD PTR [r15+0xd8]
+   d7def:	test   esi,esi
+   d7df1:	jle    d804b <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b2fb>
+   d7df7:	mov    rdi,QWORD PTR [rbp-0x208]
+   d7dfe:	mov    QWORD PTR [rbp-0x238],r13
+   d7e05:	mov    QWORD PTR [rbp-0x250],r12
+   d7e0c:	mov    QWORD PTR [rbp-0x248],rbx
+   d7e13:	mov    ecx,DWORD PTR [rdi+0x3c]
+   d7e16:	mov    DWORD PTR [rbp-0x220],0x0
+   d7e20:	mov    DWORD PTR [rbp-0x230],0x0
+   d7e2a:	nop    WORD PTR [rax+rax*1+0x0]
+   d7e30:	mov    r8d,DWORD PTR [rbp-0x220]
+   d7e37:	lea    r10d,[rcx+rcx*4]
+   d7e3b:	lea    r9d,[r8+0x5]
+   d7e3f:	cmp    r9d,esi
+   d7e42:	mov    DWORD PTR [rbp-0x23c],r9d
+   d7e49:	cmovle esi,r9d
+   d7e4d:	mov    DWORD PTR [rbp-0x22c],esi
+   d7e53:	cmp    r10d,r8d
+   d7e56:	jle    d8070 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b320>
+   d7e5c:	mov    ebx,DWORD PTR [rbp-0x220]
+   d7e62:	cmp    DWORD PTR [rbp-0x22c],ebx
+   d7e68:	jle    d7f9d <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b24d>
+   d7e6e:	mov    r12d,DWORD PTR [rbp-0x230]
+   d7e75:	mov    rdi,QWORD PTR [rbp-0x248]
+   d7e7c:	mov    rbx,QWORD PTR [rbp-0x250]
+   d7e83:	lea    r13d,[r12+r12*4]
+   d7e87:	mov    QWORD PTR [rbp-0x210],rdi
+   d7e8e:	movsxd rax,r13d
+   d7e91:	mov    esi,r13d
+   d7e94:	sub    esi,DWORD PTR [rbp-0x220]
+   d7e9a:	add    esi,DWORD PTR [rbp-0x22c]
+   d7ea0:	lea    rcx,[rax+rax*2]
+   d7ea4:	lea    rdx,[rax+rax*8]
+   d7ea8:	mov    DWORD PTR [rbp-0x21c],esi
+   d7eae:	shl    rcx,0x3
+   d7eb2:	imul   r14,rax,0x10b0
+   d7eb9:	lea    r12,[rax+rdx*4]
+   d7ebd:	mov    QWORD PTR [rbp-0x218],rcx
+   d7ec4:	shl    r12,0x5
+   d7ec8:	nop    DWORD PTR [rax+rax*1+0x0]
+   d7ed0:	mov    r9,QWORD PTR [rbp-0x210]
+   d7ed7:	mov    r8d,r13d
+   d7eda:	mov    rcx,QWORD PTR [rbx]
+   d7edd:	mov    rsi,r15
+   d7ee0:	mov    r10,QWORD PTR [rbp-0x228]
+   d7ee7:	mov    rdi,QWORD PTR [rbp-0x208]
+   d7eee:	add    rbx,0x8
+   d7ef2:	mov    rdx,QWORD PTR [r9]
+   d7ef5:	call   r10
+   d7ef8:	mov    rsi,QWORD PTR [r15+0xe0]
+   d7eff:	mov    rdi,QWORD PTR [r15+0x58]
+   d7f03:	xor    ecx,ecx
+   d7f05:	mov    rdx,QWORD PTR [rbx-0x8]
+   d7f09:	xor    r8d,r8d
+   d7f0c:	add    rsi,r12
+   d7f0f:	add    rdi,r14
+   d7f12:	call   e3870 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x66b20>
+   d7f17:	mov    rcx,QWORD PTR [rbx-0x8]
+   d7f1b:	mov    r8d,r13d
+   d7f1e:	mov    rsi,r15
+   d7f21:	mov    r11,QWORD PTR [rbp-0x210]
+   d7f28:	mov    rdi,QWORD PTR [rbp-0x208]
+   d7f2f:	add    r13d,0x1
+   d7f33:	mov    rdx,QWORD PTR [r11]
+   d7f36:	call   d23b0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x55660>
+   d7f3b:	mov    rdx,QWORD PTR [r15+0xe0]
+   d7f42:	mov    r8,QWORD PTR [r15+0x58]
+   d7f46:	mov    rsi,r15
+   d7f49:	mov    rdi,QWORD PTR [rbp-0x208]
+   d7f50:	mov    rcx,QWORD PTR [rbp-0x218]
+   d7f57:	add    rdx,r12
+   d7f5a:	add    r8,r14
+   d7f5d:	add    rcx,QWORD PTR [r15+0x30]
+   d7f61:	add    r12,0x4a0
+   d7f68:	call   d21f0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x554a0>
+   d7f6d:	add    r14,0x10b0
+   d7f74:	add    QWORD PTR [rbp-0x210],0x8
+   d7f7c:	add    QWORD PTR [rbp-0x218],0x18
+   d7f84:	cmp    DWORD PTR [rbp-0x21c],r13d
+   d7f8b:	jne    d7ed0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b180>
+   d7f91:	mov    r8d,DWORD PTR [rbp-0x220]
+   d7f98:	test   r8d,r8d
+   d7f9b:	je     d7fc5 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b275>
+   d7f9d:	mov    r13,QWORD PTR [r15+0x8]
+   d7fa1:	mov    rdx,QWORD PTR [r15+0xb8]
+   d7fa8:	mov    rsi,QWORD PTR [r15+0x50]
+   d7fac:	mov    rdi,QWORD PTR [r15+0x10]
+   d7fb0:	call   QWORD PTR [r13+0x70]
+   d7fb4:	cmp    eax,0x2
+   d7fb7:	je     d8170 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b420>
+   d7fbd:	test   eax,eax
+   d7fbf:	jne    d823a <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b4ea>
+   d7fc5:	mov    ebx,DWORD PTR [rbp-0x230]
+   d7fcb:	mov    r14,QWORD PTR [rbp-0x238]
+   d7fd2:	mov    rsi,r15
+   d7fd5:	mov    r12,QWORD PTR [rbp-0x208]
+   d7fdc:	mov    rcx,QWORD PTR [rbp-0x258]
+   d7fe3:	mov    rdx,r14
+   d7fe6:	mov    r8d,DWORD PTR [rbp-0x22c]
+   d7fed:	mov    r9d,ebx
+   d7ff0:	sub    r8d,DWORD PTR [rbp-0x220]
+   d7ff7:	mov    rdi,r12
+   d7ffa:	add    r14,0x140
+   d8001:	call   d5b20 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x58dd0>
+   d8006:	mov    eax,ebx
+   d8008:	mov    ecx,DWORD PTR [r12+0x3c]
+   d800d:	mov    edi,DWORD PTR [rbp-0x23c]
+   d8013:	add    eax,0x1
+   d8016:	mov    esi,DWORD PTR [r15+0xd8]
+   d801d:	mov    QWORD PTR [rbp-0x238],r14
+   d8024:	cdq
+   d8025:	add    QWORD PTR [rbp-0x250],0x28
+   d802d:	idiv   ecx
+   d802f:	mov    DWORD PTR [rbp-0x220],edi
+   d8035:	add    QWORD PTR [rbp-0x248],0x28
+   d803d:	mov    DWORD PTR [rbp-0x230],edx
+   d8043:	cmp    esi,edi
+   d8045:	jg     d7e30 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b0e0>
+   d804b:	add    rsp,0x238
+   d8052:	pop    rbx
+   d8053:	pop    r12
+   d8055:	pop    r13
+   d8057:	pop    r14
+   d8059:	pop    r15
+   d805b:	pop    rbp
+   d805c:	ret
+   d805d:	lea    rsi,[rip+0x48c]        # d84f0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b7a0>
+   d8064:	mov    QWORD PTR [rbp-0x228],rsi
+   d806b:	jmp    d7de8 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x5b098>

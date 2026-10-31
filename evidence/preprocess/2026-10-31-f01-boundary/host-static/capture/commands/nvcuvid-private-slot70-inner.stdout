@@ -1,0 +1,24 @@
+
+/usr/lib/wsl/lib/libnvcuvid.so.1:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000004e000 <__std_2U4S4U_X08@@Base+0xde0>:
+   4e000:	push   rbx
+   4e001:	mov    eax,0x1
+   4e006:	mov    rbx,rsi
+   4e009:	test   rsi,rsi
+   4e00c:	je     4e035 <__std_2U4S4U_X08@@Base+0xe15>
+   4e00e:	mov    rdi,QWORD PTR [rdi+0x20]
+   4e012:	test   rdi,rdi
+   4e015:	je     4e035 <__std_2U4S4U_X08@@Base+0xe15>
+   4e017:	mov    rax,QWORD PTR [rdi]
+   4e01a:	mov    rsi,rdx
+   4e01d:	mov    r8d,0x5
+   4e023:	mov    rdx,QWORD PTR [rbx]
+   4e026:	xor    ecx,ecx
+   4e028:	call   QWORD PTR [rax+0xb8]
+   4e02e:	mov    DWORD PTR [rbx+0x8],0x0
+   4e035:	pop    rbx
+   4e036:	ret

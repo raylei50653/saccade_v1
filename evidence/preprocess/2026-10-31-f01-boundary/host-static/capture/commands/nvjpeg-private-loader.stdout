@@ -1,0 +1,160 @@
+
+/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000006fa70 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x1e0>:
+   6fa70:	test   ch,ah
+   6fa72:	or     DWORD PTR [rax],eax
+   6fa74:	add    BYTE PTR [rbp+0x79850fc0],al
+   6fa7a:	or     eax,DWORD PTR [rax]
+   6fa7c:	add    BYTE PTR [rbx+0x200bb],al
+   6fa82:	add    BYTE PTR [rdi],al
+   6fa84:	jle    6fd80 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4f0>
+   6fa8a:	mov    rdi,QWORD PTR [rbx+0x898]
+   6fa91:	test   rdi,rdi
+   6fa94:	je     6faa6 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x216>
+   6fa96:	call   1d120 <dlclose@plt>
+   6fa9b:	mov    QWORD PTR [rbx+0x898],0x0
+   6faa6:	lea    rdi,[rip+0x233371]        # 2a2e1e <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x2260ce>
+   6faad:	mov    esi,0x2
+   6fab2:	call   1d530 <dlopen@plt>
+   6fab7:	mov    rdi,QWORD PTR [rbx+0x8a0]
+   6fabe:	mov    QWORD PTR [rbx+0x898],rax
+   6fac5:	test   rdi,rdi
+   6fac8:	je     6fada <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x24a>
+   6faca:	call   1d120 <dlclose@plt>
+   6facf:	mov    QWORD PTR [rbx+0x8a0],0x0
+   6fada:	lea    rdi,[rip+0x23334a]        # 2a2e2b <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x2260db>
+   6fae1:	mov    esi,0x2
+   6fae6:	call   1d530 <dlopen@plt>
+   6faeb:	mov    rdi,QWORD PTR [rbx+0x898]
+   6faf2:	mov    QWORD PTR [rbx+0x8a0],rax
+   6faf9:	test   rax,rax
+   6fafc:	je     6fd80 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4f0>
+   6fb02:	test   rdi,rdi
+   6fb05:	je     6fd80 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4f0>
+   6fb0b:	lea    rsi,[rip+0x233329]        # 2a2e3b <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x2260eb>
+   6fb12:	call   1d590 <dlsym@plt>
+   6fb17:	mov    rdi,QWORD PTR [rbx+0x8a0]
+   6fb1e:	mov    QWORD PTR [rbp-0x258],rax
+   6fb25:	test   rdi,rdi
+   6fb28:	je     70100 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x870>
+   6fb2e:	lea    rsi,[rip+0x233316]        # 2a2e4b <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x2260fb>
+   6fb35:	call   1d590 <dlsym@plt>
+   6fb3a:	mov    rdi,QWORD PTR [rbx+0x8a0]
+   6fb41:	mov    QWORD PTR [rbp-0x268],rax
+   6fb48:	test   rdi,rdi
+   6fb4b:	je     70d39 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x14a9>
+   6fb51:	lea    rsi,[rip+0x233304]        # 2a2e5c <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x22610c>
+   6fb58:	call   1d590 <dlsym@plt>
+   6fb5d:	mov    QWORD PTR [rbp-0x260],rax
+   6fb64:	xor    edi,edi
+   6fb66:	call   1c24e0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x145790>
+   6fb6b:	mov    r15d,eax
+   6fb6e:	cmp    eax,0x2
+   6fb71:	je     7092c <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x109c>
+   6fb77:	test   eax,eax
+   6fb79:	jne    70790 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0xf00>
+   6fb7f:	lea    rdi,[rbx+0x788]
+   6fb86:	mov    rax,QWORD PTR [rbp-0x258]
+   6fb8d:	mov    QWORD PTR [rbp-0x270],rdi
+   6fb94:	call   rax
+   6fb96:	mov    r15d,eax
+   6fb99:	cmp    eax,0x2
+   6fb9c:	je     7085d <nvjpegGetCudartProperty@@libnvjpeg.so.13+0xfcd>
+   6fba2:	test   eax,eax
+   6fba4:	jne    706c3 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0xe33>
+   6fbaa:	lea    r15,[rbx+0x490]
+   6fbb1:	mov    rax,QWORD PTR [rbp-0x268]
+   6fbb8:	mov    rdi,r15
+   6fbbb:	call   rax
+   6fbbd:	test   eax,eax
+   6fbbf:	jne    6fd56 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4c6>
+   6fbc5:	lea    rdi,[rbx+0x7a4]
+   6fbcc:	lea    rcx,[rbx+0x79c]
+   6fbd3:	xor    eax,eax
+   6fbd5:	xor    esi,esi
+   6fbd7:	and    rdi,0xfffffffffffffff8
+   6fbdb:	mov    QWORD PTR [rbp-0x268],rcx
+   6fbe2:	mov    QWORD PTR [rbx+0x79c],0x0
+   6fbed:	sub    rcx,rdi
+   6fbf0:	mov    QWORD PTR [rbx+0x7f4],0x0
+   6fbfb:	add    ecx,0x60
+   6fbfe:	shr    ecx,0x3
+   6fc01:	rep stos QWORD PTR [rdi],rax
+   6fc04:	lea    rdi,[rbx+0x8a8]
+   6fc0b:	call   QWORD PTR [rbx+0x490]
+   6fc11:	mov    DWORD PTR [rbp-0x258],eax
+   6fc17:	cmp    eax,0x2
+   6fc1a:	je     70ee8 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x1658>
+   6fc20:	mov    edx,DWORD PTR [rbp-0x258]
+   6fc26:	test   edx,edx
+   6fc28:	jne    70b9a <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x130a>
+   6fc2e:	cmp    DWORD PTR [rbx+0x8a8],0x101
+   6fc38:	jg     70010 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x780>
+   6fc3e:	xor    ecx,ecx
+   6fc40:	xor    edx,edx
+   6fc42:	lea    rdi,[rbp-0x248]
+   6fc49:	mov    esi,0x1
+   6fc4e:	mov    QWORD PTR [rbp-0x248],0x0
+   6fc59:	mov    r8,QWORD PTR [rbx+0x788]
+   6fc60:	call   QWORD PTR [rbx+0x498]
+   6fc66:	test   eax,eax
+   6fc68:	jne    6fccc <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x43c>
+   6fc6a:	lea    rsi,[rbp-0x200]
+   6fc71:	mov    rdi,QWORD PTR [rbp-0x248]
+   6fc78:	mov    rdx,rsi
+   6fc7b:	mov    QWORD PTR [rbp-0x278],rsi
+   6fc82:	mov    esi,0x1
+   6fc87:	call   QWORD PTR [rbx+0x4a8]
+   6fc8d:	mov    r8,QWORD PTR [rbp-0x278]
+   6fc94:	cmp    eax,0x2
+   6fc97:	mov    DWORD PTR [rbp-0x258],eax
+   6fc9d:	je     70fb7 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x1727>
+   6fca3:	mov    r9d,DWORD PTR [rbp-0x258]
+   6fcaa:	test   r9d,r9d
+   6fcad:	jne    70aca <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x123a>
+   6fcb3:	mov    rdi,QWORD PTR [rbp-0x268]
+   6fcba:	mov    rsi,r8
+   6fcbd:	call   6f980 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0xf0>
+   6fcc2:	mov    DWORD PTR [rbx+0x790],0x1
+   6fccc:	mov    rdi,QWORD PTR [rbp-0x248]
+   6fcd3:	test   rdi,rdi
+   6fcd6:	je     6fcfd <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x46d>
+   6fcd8:	call   QWORD PTR [rbx+0x4a0]
+   6fcde:	mov    DWORD PTR [rbp-0x258],eax
+   6fce4:	cmp    eax,0x2
+   6fce7:	je     70e19 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x1589>
+   6fced:	mov    r10d,DWORD PTR [rbp-0x258]
+   6fcf4:	test   r10d,r10d
+   6fcf7:	jne    70d49 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x14b9>
+   6fcfd:	mov    edi,DWORD PTR [rbx+0x790]
+   6fd03:	test   edi,edi
+   6fd05:	je     6fd56 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4c6>
+   6fd07:	cmp    BYTE PTR [rbx+0x7bd],0x5
+   6fd0e:	mov    edi,0x30
+   6fd13:	je     70350 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0xac0>
+   6fd19:	call   1ff580 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x182830>
+   6fd1e:	mov    r9d,DWORD PTR [rbx+0x790]
+   6fd25:	mov    rsi,r15
+   6fd28:	mov    r8d,DWORD PTR [rbx+0x488]
+   6fd2f:	mov    rcx,QWORD PTR [rbp-0x268]
+   6fd36:	mov    rdi,rax
+   6fd39:	mov    r15,rax
+   6fd3c:	mov    rdx,QWORD PTR [rbp-0x270]
+   6fd43:	mov    QWORD PTR [rbp-0x258],rax
+   6fd4a:	call   cece0 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x51f90>
+   6fd4f:	mov    QWORD PTR [rbx+0x80],r15
+   6fd56:	mov    rax,QWORD PTR [rbp-0x260]
+   6fd5d:	test   rax,rax
+   6fd60:	je     6fd80 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4f0>
+   6fd62:	mov    edx,DWORD PTR [rbx+0x21c]
+   6fd68:	test   edx,edx
+   6fd6a:	je     6fd80 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x4f0>
+   6fd6c:	lea    rdi,[rbx+0x590]
+   6fd73:	call   rax
+   6fd75:	test   eax,eax
+   6fd77:	je     70040 <nvjpegGetCudartProperty@@libnvjpeg.so.13+0x7b0>
+   6fd7d:	nop    DWORD PTR [rax]

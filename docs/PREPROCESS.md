@@ -1,6 +1,6 @@
 # F01／F02：native JPEG decode 與 antialiased resize
 
-[`NativePreprocessor`](../include/saccade/preprocess.hpp) 實作 `t01-input/1`：C++ 讀壓縮 JPEG，nvJPEG hardware backend 解碼成原尺寸 planar RGB uint8，再以 CUDA FP32 `/255` 與 antialiased bilinear、`align_corners=False` stretch 產生 `[1,3,640,640]`。不取整、不 clamp，沒有 mean／std、letterbox 或額外色彩轉換。數值比較政策為 [`t01-preprocess-fp32/1`](PREPROCESS_POLICY.md)，訓練側來源見 [T01 §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。結果見 [2026-10-31 證據](../evidence/preprocess/2026-10-31/REPORT.md)：17 組輸出與訓練參考逐位元相同；F02 在受測範圍 PASS，F01 數值與 API 通過，但 nvJPEG 內部 initcheck FAIL／原因 OPEN。
+[`NativePreprocessor`](../include/saccade/preprocess.hpp) 實作 `t01-input/1`：C++ 讀壓縮 JPEG，nvJPEG hardware backend 解碼成原尺寸 planar RGB uint8，再以 CUDA FP32 `/255` 與 antialiased bilinear、`align_corners=False` stretch 產生 `[1,3,640,640]`。不取整、不 clamp，沒有 mean／std、letterbox 或額外色彩轉換。數值比較政策為 [`t01-preprocess-fp32/1`](PREPROCESS_POLICY.md)，訓練側來源見 [T01 §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。**F01／F02 使用驗收在受測範圍 PASS**：依 [`t01-preprocess-usage/1`](PREPROCESS_USAGE_POLICY.md)，[正常使用補驗](../evidence/preprocess/2026-10-31-usage/REPORT.md)的 208 幀 RGB／FP32 全部與固定 reference 逐位元相同；[既有 17 組對照](../evidence/preprocess/2026-10-31/REPORT.md)亦保留。nvJPEG initcheck FAIL／原因 OPEN 另列診斷，不再作為目前使用結案的門檻。
 
 ## 1. 支援範圍與 API
 
@@ -52,7 +52,7 @@ build-preprocess/preprocess jpeg /path/to/frame.jpg build-preprocess-single
 
 ## 4. 離線 references 與重跑
 
-完整 capture 入口為 `bash scripts/run_preprocess_acceptance.sh build-NEW-OUTPUT`；預設要求 clean committed source，在新的忽略目錄保存 source／library hashes、references、完整 CTest、獨立比較、CLI 與 sanitizer 的命令、退出碼、log 和 RSS。`--allow-dirty` 只產生明確標記的開發證據。Sanitizer 執行前須有至少 4 GiB MemAvailable，並設逐項 timeout。
+原完整診斷 capture 入口為 `bash scripts/run_preprocess_acceptance.sh build-NEW-OUTPUT`；預設要求 clean committed source，在新的忽略目錄保存 source／library hashes、references、完整 CTest、獨立比較、CLI 與 sanitizer 的命令、退出碼、log 和 RSS。它保留遇到 sanitizer 非零即停止的原始行為；目前正常使用驗收依 [PREPROCESS_USAGE_POLICY](PREPROCESS_USAGE_POLICY.md)，不以既知 nvJPEG initcheck 報告作結案門檻。`--allow-dirty` 只產生明確標記的開發證據。Sanitizer 執行前須有至少 4 GiB MemAvailable，並設逐項 timeout。
 
 Reference 工具使用 T01 pinned export venv、torch 2.11.0／torchvision 0.26.0 與 `djpeg`；Python 僅用於產生與比較證據，不是 native runtime 依賴。輸出目錄必須為空；預設 dataset root 來自 T01 recipe，可用 `--dataset` 明確指定。
 
@@ -77,10 +77,32 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 
 乾淨 source `2b39dda` 的 19/19 CTest 通過，17 組共 13,522,182 個 FP32 輸出元素與訓練參考逐位元相同。F02 memcheck／initcheck／racecheck／synccheck 均為 0 errors／hazards；session memcheck／racecheck／synccheck 亦通過。session initcheck 在 nvJPEG 私有 `rgba2rgb` 報 8,151 errors，capture 因此 exit 99；不使用本專案程式的獨立 HW decode control 同樣報 1,890 errors。原因尚未由 NVIDIA 確認，不能當作已確認誤報，也不列全路徑 sanitizer PASS。完整結果與補跑範圍見上述報告。此實作不關閉 F04 decode／NMS、完整 async session 整合、P01 或模型品質；七張真實影像也不代表本次已重驗全部 5,316 張 MOT17 frame。
 
-[F01 後續追查](../evidence/preprocess/2026-10-31-f01-investigation/REPORT.md)另以同一 standalone binary 對照 nvJPEG 13.0.1／13.2.3、停用內部 buffering、不預配置、清零 caller output 與 RGBI，均未消除 initcheck。單次 decode 的完整 log 確認 945 個有效像素各一次在 SDK 私有 RGBA surface 報未初始化 3-byte read；Y／YUV 輸出則在 SDK 內部 cudaMemcpy source 報錯。這些結果支持 hardware surface 初始化追蹤問題的假說，尚未確認誤報或修復，F01 狀態維持 FAIL／原因 OPEN。
+[F01 後續追查](../evidence/preprocess/2026-10-31-f01-investigation/REPORT.md)另以同一 standalone binary 對照 nvJPEG 13.0.1／13.2.3、停用內部 buffering、不預配置、清零 caller output 與 RGBI，均未消除 initcheck。單次 decode 的完整 log 確認 945 個有效像素各一次在 SDK 私有 RGBA surface 報未初始化 3-byte read；Y／YUV 輸出則在 SDK 內部 cudaMemcpy source 報錯。這些結果支持 hardware surface 初始化追蹤問題的假說，尚未確認誤報或修復，initcheck 診斷維持 FAIL／原因 OPEN。
 
 另已封存 [surface poison／trace 補充證據](../evidence/preprocess/2026-10-31-f01-investigation/surface-poison/README.md)：私有配置身分穩定後，tracked poison 使後續 decode 不再新增 initcheck 報告，RGB 仍 exact；945 個有效像素均在 dump 中符合 reference。這為未追蹤硬體寫入的機制提供直接干預證據，部分 scratch run 的命令／退出碼身分仍不完整。官方分類、一般同步正確性與跨環境適用性尚未確認；未改驗收狀態，poison 不進 runtime。
 
-[原生 Windows 對照](../evidence/preprocess/2026-10-31-f01-investigation/windows-native/REPORT.md)亦重現同樣的 HARDWARE RGB initcheck 1,890 errors／exit 99，RGB bytes 與 WSL／CPU reference 相同，memcheck 0；工具正反控制正常。WSL 不是重現此問題的必要條件；兩邊仍共用 Windows host driver，原生 Linux driver 尚未驗證，F01 驗收狀態維持 FAIL。
+[原生 Windows 對照](../evidence/preprocess/2026-10-31-f01-investigation/windows-native/REPORT.md)亦重現同樣的 HARDWARE RGB initcheck 1,890 errors／exit 99，RGB bytes 與 WSL／CPU reference 相同，memcheck 0；工具正反控制正常。WSL 不是重現此問題的必要條件；兩邊仍共用 Windows host driver，原生 Linux driver 尚未驗證，該次 initcheck 結果仍為 FAIL。
 
-此問題已以 standalone repro 向 NVIDIA 回報為 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件另寄 NVSDKIssues；送出內容見 [NVIDIA 回報紀錄](../evidence/preprocess/2026-10-31-f01-investigation/nvidia-report/README.md)。目前尚無 NVIDIA 分類，F01 驗收狀態維持 FAIL／原因 OPEN。
+此問題已以 standalone repro 向 NVIDIA 回報為 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件另寄 NVSDKIssues；送出內容見 [NVIDIA 回報紀錄](../evidence/preprocess/2026-10-31-f01-investigation/nvidia-report/README.md)。repo 尚未收錄 NVIDIA 分類，initcheck 診斷維持 FAIL／原因 OPEN；目前的使用結案依 §7 判定。
+
+## 6. 逆向與初始化診斷的證明邊界
+
+[後續邊界證據](../evidence/preprocess/2026-10-31-f01-boundary/REPORT.md)已將同一 nvJPEG binary 的 `rgba2rgb<3> +0x170` 還原為 32-bit load，只有低三 bytes 寫入 RGB planes；動態 driver callbacks 亦確認當次 source、512-byte pitch、16 KiB allocation 與獨立 destination。三種正常配置、共六次 decode 都記錄到 converter private stream → event record → caller stream wait 的成功提交鏈，RGB 與固定 reference 全 bytes 相同。這說明 nvJPEG 的內部 kernel 可以在 private stream 執行，再把依賴接回呼叫者的 detect stream；caller 仍依原 API 契約排序下游工作。
+
+16 KiB 是 allocation 大小，不是已確認的物理 page；initcheck 報告涵蓋有效 RGB bytes，不能解讀成只有頁尾／padding 未初始化。CPU debugger 另確認實際 `NVJPGV2BatchedDecoder` 與 `libnvcuvid` 私有 provider 路徑；hardware producer → converter 的完成／可見性語義、工具 shadow 行為及一般同步正確性仍有未完成的證明義務。這些是獨立診斷，不提升為新的 application acceptance，F01 initcheck FAIL／原因 OPEN 與 P01 OPEN 保留。
+
+[不改像素的 NVTX 對照](../evidence/preprocess/2026-10-31-f01-boundary/annotation/REPORT.md)另在同一診斷 binary、五個獨立 process 執行 A→B→A：只標記私有 surface 的有效 RGB bytes，後兩輪新增報告由 1,890 降到 0；alpha-only、caller-output 或 NVTX 關閉的控制均仍新增 1,890，全部 RGB 與各自獨立 reference exact。每組首輪 945 errors 與 exit 99 保留；標記前後另有明示的診斷同步。這支持有效 RGB bytes 的追蹤狀態是本機報告的關鍵，但 annotation 本身刻意排除檢查，不是原 runtime 修正或一般硬體同步證明。
+
+## 7. 目前的使用結案：輸出等價與重用
+
+2026-10-31 使用者指定目前目標為「使用時輸出相同」，規則固定於 [PREPROCESS_USAGE_POLICY](PREPROCESS_USAGE_POLICY.md)。**F01／F02 使用驗收 PASS，限以下受測環境、固定 inputs 與 API 使用範圍**；既知 initcheck 報告不再單獨阻擋此項結案，不要求先完成 NVIDIA 分類。
+
+[正常使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)直接連結既有乾淨 source `2b39dda` 的原生 libraries；runtime source 未改。新 caller 使用公開 `NativePreprocessor`，沒有 sanitizer、preload、poison 或 NVTX 標記。七張固定真實 JPEG、1920×1080／640×480，輸出均為 640×640；四個 instances 各連續處理 52 幀，共 208 幀：
+
+- serial、三份 pinned readback slots 的 queued 重用，以及兩條獨立 stream 的交錯 sessions；兩個交錯 sessions 使用不同影像順序。
+- 下游在同一 detect stream 上先排入有限 GPU delay，再讀取 RAW／模型輸入，之後立即提交下一幀；queued／dual 三個 instances 均實際觀察到先前 consumer 尚未完成，並驗證其對應輸出。
+- 每幀完整 RGB bytes 與 FP32 bits 均對固定 reference，另查 finite、重跑／跨 session 等價、frame 身分、ImageMapping、caller JPEG 立即覆寫及 checked close。
+
+正常 process exit 0；891,187,200 RGB bytes 與 255,590,400 FP32 元素全部相同，四個 instances 的 cleanup failures 均為 0。新 caller／binary 及原 libraries、references、policy、實際 loaded SDK／driver 身分均隨 capture 保存；新 caller 不冒稱原始 clean-source capture，也不沿用先前的診斷介入作使用證據。
+
+此使用結案不包含全量 5,316 張、其他 GPU／SDK、完整 F01→F03／F05 async session、F04、tracker 或 P01。原始 sanitizer FAIL 與後續逆向證據繼續作獨立診斷紀錄；不為了讓工具零報告改變解碼／數值路徑。

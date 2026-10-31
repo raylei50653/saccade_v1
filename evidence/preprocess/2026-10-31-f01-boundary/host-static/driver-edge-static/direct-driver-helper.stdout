@@ -1,0 +1,212 @@
+
+/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000004c76e0 <cuVDPAUCtxCreate@@Base+0xed6c0>:
+  4c76e0:	push   rbp
+  4c76e1:	pxor   xmm0,xmm0
+  4c76e5:	mov    rbp,rsp
+  4c76e8:	push   r15
+  4c76ea:	push   r14
+  4c76ec:	mov    r14,rcx
+  4c76ef:	push   r13
+  4c76f1:	push   r12
+  4c76f3:	lea    r12,[rbp-0x60]
+  4c76f7:	push   rbx
+  4c76f8:	sub    rsp,0x78
+  4c76fc:	mov    rax,QWORD PTR [rdi+0x8]
+  4c7700:	mov    QWORD PTR [rbp-0x80],rdi
+  4c7704:	mov    DWORD PTR [rbp-0x84],esi
+  4c770a:	mov    rsi,r12
+  4c770d:	mov    QWORD PTR [rbp-0x98],rax
+  4c7714:	mov    rax,QWORD PTR [rcx+0x10]
+  4c7718:	mov    QWORD PTR [rbp-0x90],rdx
+  4c771f:	mov    rdx,rcx
+  4c7722:	mov    rdi,QWORD PTR [rax+0x70]
+  4c7726:	mov    QWORD PTR [rbp-0x40],0x0
+  4c772e:	movaps XMMWORD PTR [rbp-0x60],xmm0
+  4c7732:	movaps XMMWORD PTR [rbp-0x50],xmm0
+  4c7736:	call   26e940 <cuMemGetAttribute_v2@@Base+0x58c60>
+  4c773b:	cmp    BYTE PTR [rax+0x5d],0x0
+  4c773f:	mov    r15,rax
+  4c7742:	je     4c7990 <cuVDPAUCtxCreate@@Base+0xed970>
+  4c7748:	lea    rdi,[rax+0x8]
+  4c774c:	call   35f1e0 <cuCtxSetFlags@@Base+0x96e0>
+  4c7751:	mov    ecx,DWORD PTR [rip+0x1624b5d]        # 1aec2b4 <cudbgInitiateDebuggerAttachProcedureFd@@Base+0x68f8>
+  4c7757:	test   ecx,ecx
+  4c7759:	je     4c7800 <cuVDPAUCtxCreate@@Base+0xed7e0>
+  4c775f:	cmp    BYTE PTR [rip+0x1624b7a],0x0        # 1aec2e0 <cudbgInitiateDebuggerAttachProcedureFd@@Base+0x6924>
+  4c7766:	jne    4c7800 <cuVDPAUCtxCreate@@Base+0xed7e0>
+  4c776c:	mov    rax,QWORD PTR [r15+0x9488]
+  4c7773:	mov    rax,QWORD PTR [rax]
+  4c7776:	mov    rax,QWORD PTR [rax+0x8]
+  4c777a:	mov    rax,QWORD PTR [rax+0x68]
+  4c777e:	cmp    BYTE PTR [rax+0x9114],0x0
+  4c7785:	je     4c7800 <cuVDPAUCtxCreate@@Base+0xed7e0>
+  4c7787:	lea    rax,[r15+0x9620]
+  4c778e:	mov    QWORD PTR [rbp-0x78],rax
+  4c7792:	nop    WORD PTR [rax+rax*1+0x0]
+  4c7798:	mov    rax,QWORD PTR [rbp-0x78]
+  4c779c:	mov    eax,DWORD PTR [rax]
+  4c779e:	test   eax,eax
+  4c77a0:	je     4c7800 <cuVDPAUCtxCreate@@Base+0xed7e0>
+  4c77a2:	movdqa xmm2,XMMWORD PTR [rip+0xf40b56]        # 1408300 <cuVDPAUCtxCreate@@Base+0x102e2e0>
+  4c77aa:	lea    r13,[rbp-0x70]
+  4c77ae:	mov    rsi,r12
+  4c77b1:	mov    rdi,r13
+  4c77b4:	movaps XMMWORD PTR [rbp-0x70],xmm2
+  4c77b8:	call   1a2bd0 <nanosleep@plt>
+  4c77bd:	test   eax,eax
+  4c77bf:	je     4c7798 <cuVDPAUCtxCreate@@Base+0xed778>
+  4c77c1:	call   1a2b40 <__errno_location@plt>
+  4c77c6:	mov    rbx,rax
+  4c77c9:	nop    DWORD PTR [rax+0x0]
+  4c77d0:	cmp    DWORD PTR [rbx],0x4
+  4c77d3:	jne    4c7798 <cuVDPAUCtxCreate@@Base+0xed778>
+  4c77d5:	movdqa xmm1,XMMWORD PTR [rbp-0x60]
+  4c77da:	mov    rsi,r12
+  4c77dd:	mov    rdi,r13
+  4c77e0:	movaps XMMWORD PTR [rbp-0x70],xmm1
+  4c77e4:	call   1a2bd0 <nanosleep@plt>
+  4c77e9:	test   eax,eax
+  4c77eb:	jne    4c77d0 <cuVDPAUCtxCreate@@Base+0xed7b0>
+  4c77ed:	mov    rax,QWORD PTR [rbp-0x78]
+  4c77f1:	mov    eax,DWORD PTR [rax]
+  4c77f3:	test   eax,eax
+  4c77f5:	jne    4c77a2 <cuVDPAUCtxCreate@@Base+0xed782>
+  4c77f7:	nop    WORD PTR [rax+rax*1+0x0]
+  4c7800:	mov    rcx,QWORD PTR [rbp-0x80]
+  4c7804:	mov    eax,DWORD PTR [r15+0x58]
+  4c7808:	mov    rdx,QWORD PTR [rcx+0x8]
+  4c780c:	cmp    eax,0x15
+  4c780f:	ja     4c7948 <cuVDPAUCtxCreate@@Base+0xed928>
+  4c7815:	cmp    eax,0xb
+  4c7818:	ja     4c782b <cuVDPAUCtxCreate@@Base+0xed80b>
+  4c781a:	test   eax,eax
+  4c781c:	je     4c7951 <cuVDPAUCtxCreate@@Base+0xed931>
+  4c7822:	cmp    eax,0xb
+  4c7825:	je     4c79f8 <cuVDPAUCtxCreate@@Base+0xed9d8>
+  4c782b:	mov    rdx,QWORD PTR [rdx+0x68]
+  4c782f:	cmp    eax,0xb
+  4c7832:	adc    eax,0xfffffffe
+  4c7835:	mov    rdx,QWORD PTR [rdx+0x9c80]
+  4c783c:	cdqe
+  4c783e:	mov    rax,QWORD PTR [rdx+rax*8+0xc8]
+  4c7846:	test   BYTE PTR [rax+0x10],0x1
+  4c784a:	je     4c79f8 <cuVDPAUCtxCreate@@Base+0xed9d8>
+  4c7850:	mov    rdx,QWORD PTR [rbp-0x90]
+  4c7857:	mov    esi,DWORD PTR [rbp-0x84]
+  4c785d:	mov    rdi,r15
+  4c7860:	call   131f120 <cuVDPAUCtxCreate@@Base+0xf45100>
+  4c7865:	cmp    BYTE PTR [r15+0x5d],0x0
+  4c786a:	je     4c79b0 <cuVDPAUCtxCreate@@Base+0xed990>
+  4c7870:	lea    rdi,[r15+0x8]
+  4c7874:	call   35a6d0 <cuCtxSetFlags@@Base+0x4bd0>
+  4c7879:	mov    rax,QWORD PTR [r14+0x10]
+  4c787d:	cmp    DWORD PTR [rax],0x1
+  4c7880:	je     4c79d0 <cuVDPAUCtxCreate@@Base+0xed9b0>
+  4c7886:	mov    rdi,QWORD PTR [rax+0x80]
+  4c788d:	movzx  eax,BYTE PTR [r14+0x78]
+  4c7892:	add    rdi,0x58
+  4c7896:	and    eax,0x3
+  4c7899:	or     al,BYTE PTR [rip+0x162b1d2]        # 1af2a71 <cudbgInitiateDebuggerAttachProcedureFd@@Base+0xd0b5>
+  4c789f:	je     4c7a30 <cuVDPAUCtxCreate@@Base+0xeda10>
+  4c78a5:	call   12f5f20 <cuVDPAUCtxCreate@@Base+0xf1bf00>
+  4c78aa:	mov    eax,DWORD PTR [r14+0x310]
+  4c78b1:	test   eax,eax
+  4c78b3:	je     4c7a18 <cuVDPAUCtxCreate@@Base+0xed9f8>
+  4c78b9:	mov    edx,DWORD PTR [r14+0x318]
+  4c78c0:	test   edx,edx
+  4c78c2:	je     4c78cd <cuVDPAUCtxCreate@@Base+0xed8ad>
+  4c78c4:	cmp    eax,0x1
+  4c78c7:	je     4c7a3a <cuVDPAUCtxCreate@@Base+0xeda1a>
+  4c78cd:	lea    rdi,[r14+0x320]
+  4c78d4:	call   1a2470 <pthread_spin_lock@plt>
+  4c78d9:	xor    ecx,ecx
+  4c78db:	mov    rdx,r12
+  4c78de:	mov    rsi,r14
+  4c78e1:	mov    rdi,r15
+  4c78e4:	call   4886c0 <cuVDPAUCtxCreate@@Base+0xae6a0>
+  4c78e9:	mov    eax,DWORD PTR [r15+0x58]
+  4c78ed:	test   eax,eax
+  4c78ef:	je     4c7968 <cuVDPAUCtxCreate@@Base+0xed948>
+  4c78f1:	cmp    eax,0x2a
+  4c78f4:	je     4c7968 <cuVDPAUCtxCreate@@Base+0xed948>
+  4c78f6:	mov    rsi,QWORD PTR [rbp-0x60]
+  4c78fa:	cmp    eax,0xa
+  4c78fd:	ja     4c7938 <cuVDPAUCtxCreate@@Base+0xed918>
+  4c78ff:	mov    rax,QWORD PTR [rbp-0x98]
+  4c7906:	mov    rdi,rsi
+  4c7909:	mov    rax,QWORD PTR [rax+0x68]
+  4c790d:	call   QWORD PTR [rax+0x98f0]
+  4c7913:	mov    QWORD PTR [rbp-0x60],rax
+  4c7917:	mov    rsi,rax
+  4c791a:	mov    rdi,r14
+  4c791d:	call   489850 <cuVDPAUCtxCreate@@Base+0xaf830>
+  4c7922:	add    rsp,0x78
+  4c7926:	pop    rbx
+  4c7927:	pop    r12
+  4c7929:	pop    r13
+  4c792b:	pop    r14
+  4c792d:	pop    r15
+  4c792f:	pop    rbp
+  4c7930:	ret
+  4c7931:	nop    DWORD PTR [rax+0x0]
+  4c7938:	sub    eax,0xc
+  4c793b:	cmp    eax,0x9
+  4c793e:	ja     4c791a <cuVDPAUCtxCreate@@Base+0xed8fa>
+  4c7940:	jmp    4c78ff <cuVDPAUCtxCreate@@Base+0xed8df>
+  4c7942:	nop    WORD PTR [rax+rax*1+0x0]
+  4c7948:	cmp    eax,0x2a
+  4c794b:	jne    4c79f8 <cuVDPAUCtxCreate@@Base+0xed9d8>
+  4c7951:	mov    rax,QWORD PTR [rdx+0x4be0]
+  4c7958:	mov    rax,QWORD PTR [rax+0x8]
+  4c795c:	jmp    4c7846 <cuVDPAUCtxCreate@@Base+0xed826>
+  4c7961:	nop    DWORD PTR [rax+0x0]
+  4c7968:	mov    rax,QWORD PTR [rbp-0x98]
+  4c796f:	mov    rdi,QWORD PTR [rbp-0x60]
+  4c7973:	mov    rax,QWORD PTR [rax+0x68]
+  4c7977:	call   QWORD PTR [rax+0x98e8]
+  4c797d:	mov    QWORD PTR [rbp-0x60],rax
+  4c7981:	mov    rsi,rax
+  4c7984:	jmp    4c791a <cuVDPAUCtxCreate@@Base+0xed8fa>
+  4c7986:	cs nop WORD PTR [rax+rax*1+0x0]
+  4c7990:	mov    rax,QWORD PTR [rax]
+  4c7993:	mov    rdi,QWORD PTR [rax+0xa0]
+  4c799a:	add    rdi,0x8
+  4c799e:	call   35f1e0 <cuCtxSetFlags@@Base+0x96e0>
+  4c79a3:	jmp    4c7751 <cuVDPAUCtxCreate@@Base+0xed731>
+  4c79a8:	nop    DWORD PTR [rax+rax*1+0x0]
+  4c79b0:	mov    rax,QWORD PTR [r15]
+  4c79b3:	mov    rdi,QWORD PTR [rax+0xa0]
+  4c79ba:	add    rdi,0x8
+  4c79be:	call   35a6d0 <cuCtxSetFlags@@Base+0x4bd0>
+  4c79c3:	mov    rax,QWORD PTR [r14+0x10]
+  4c79c7:	cmp    DWORD PTR [rax],0x1
+  4c79ca:	jne    4c7886 <cuVDPAUCtxCreate@@Base+0xed866>
+  4c79d0:	mov    rax,QWORD PTR [rax+0x68]
+  4c79d4:	mov    rax,QWORD PTR [rax+0x8e78]
+  4c79db:	mov    rdi,QWORD PTR [rax+0x80]
+  4c79e2:	add    rdi,0x58
+  4c79e6:	call   1307f30 <cuVDPAUCtxCreate@@Base+0xf2df10>
+  4c79eb:	mov    rax,QWORD PTR [r14+0x10]
+  4c79ef:	jmp    4c7886 <cuVDPAUCtxCreate@@Base+0xed866>
+  4c79f4:	nop    DWORD PTR [rax+0x0]
+  4c79f8:	mov    rdx,QWORD PTR [rbp-0x90]
+  4c79ff:	mov    esi,DWORD PTR [rbp-0x84]
+  4c7a05:	mov    rdi,r15
+  4c7a08:	call   131f8c0 <cuVDPAUCtxCreate@@Base+0xf458a0>
+  4c7a0d:	jmp    4c7865 <cuVDPAUCtxCreate@@Base+0xed845>
+  4c7a12:	nop    WORD PTR [rax+rax*1+0x0]
+  4c7a18:	lea    rdi,[r14+0x320]
+  4c7a1f:	call   1a2360 <pthread_mutex_lock@plt>
+  4c7a24:	jmp    4c78d9 <cuVDPAUCtxCreate@@Base+0xed8b9>
+  4c7a29:	nop    DWORD PTR [rax+0x0]
+  4c7a30:	call   1307f30 <cuVDPAUCtxCreate@@Base+0xf2df10>
+  4c7a35:	jmp    4c78aa <cuVDPAUCtxCreate@@Base+0xed88a>
+  4c7a3a:	lea    rdi,[r14+0x310]
+  4c7a41:	call   35f160 <cuCtxSetFlags@@Base+0x9660>
+  4c7a46:	jmp    4c78d9 <cuVDPAUCtxCreate@@Base+0xed8b9>
+  4c7a4b:	nop    DWORD PTR [rax+rax*1+0x0]

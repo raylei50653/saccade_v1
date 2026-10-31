@@ -1,0 +1,238 @@
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.archlinux.org>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+[Detaching after vfork from child process 274647]
+F01_GDB {"kind": "private_getter_entry", "pc": "0x753d552ed220", "table": "0x63e2154ab420"}
+#0  0x0000753d552ed220 in __std_2U4S4U_X08 () from /usr/lib/wsl/lib/libnvcuvid.so.1
+#1  0x0000753f6c86fbbd in ?? () from /opt/cuda/lib64/libnvjpeg.so.13
+#2  0x0000753f6c871448 in nvjpegCreateEx () from /opt/cuda/lib64/libnvjpeg.so.13
+#3  0x000063e1d6aea91d in main ()
+
+F01_GDB {"kind": "private_getter_return", "return_value": "None", "slot70_owner": "/usr/lib/wsl/lib/libnvcuvid.so.1", "table": "0x63e2154ab420", "values": {"0x0": "0x753d552ecb60", "0x10": "0x753d552ecfa0", "0x18": "0x753d552ecc50", "0x20": "0x753d552ecd10", "0x28": "0x753d552ecd30", "0x30": "0x753d552ecd50", "0x38": "0x753d552ecd70", "0x40": "0x753d552ecd90", "0x48": "0x753d552ecdb0", "0x50": "0x753d552ecba0", "0x58": "0x753d552ecbd0", "0x60": "0x753d552ecdd0", "0x68": "0x753d552ecdf0", "0x70": "0x753d552ece10", "0x78": "0x753d552ece30", "0x8": "0x753d552ed000", "0x80": "0x753d552ecb80", "0x88": "0x753d552ece50", "0x90": "0x753d552ed0f0", "0x98": "0x753d552ecc10"}}
+plane=0 pitch=35 rows=27 bytes=945
+plane=1 pitch=35 rows=27 bytes=945
+plane=2 pitch=35 rows=27 bytes=945
+nvjpeg=13.2.3 backend=hw format=rgb flags=default flags_value=0 preallocation=preallocate fill=uninit dimensions=35x27 repeats=2 raw_bytes=2835 caller_output=0xf09400000 observed=0xf09400c00
+F01_GDB {"breakpoint_pc": "0x753f6c873881", "entry": "0x753f6c873870", "kind": "decode_entry", "modules": {"/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58": {"realpath": "/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58", "sha256": "c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338"}, "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1": {"realpath": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1", "sha256": "70d8cd3774f4b0cf9359af3ca894f8e2586687cdc4c1fbb63af786fb69d90354"}, "/usr/lib/wsl/lib/libcuda.so.1": {"realpath": "/usr/lib/wsl/lib/libcuda.so.1", "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"}, "/usr/lib/wsl/lib/libdxcore.so": {"realpath": "/usr/lib/wsl/lib/libdxcore.so", "sha256": "83d1671a839bcf71709349e77cd68341515df2e63080765618876996a0f4190c"}, "/usr/lib/wsl/lib/libnvcuvid.so.1": {"realpath": "/usr/lib/wsl/lib/libnvcuvid.so.1", "sha256": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf"}}}
+From                To                  Syms Read   Shared Object Library
+0x0000753f6d084000  0x0000753f6d0c5000  Yes (*)     /lib64/ld-linux-x86-64.so.2
+0x0000753f6c800000  0x0000753f6d200000  Yes (*)     /opt/cuda/lib64/libnvjpeg.so.13
+0x0000753f6c400000  0x0000753f6c6d3000  Yes (*)     /usr/lib/libstdc++.so.6
+0x0000753f6c2c9000  0x0000753f6c400000  Yes (*)     /usr/lib/libm.so.6
+0x0000753f6d023000  0x0000753f6d050000  Yes (*)     /usr/lib/libgcc_s.so.1
+0x0000753f6c000000  0x0000753f6c223000  Yes (*)     /usr/lib/libc.so.6
+0x0000753f6d01c000  0x0000753f6d021000  Yes (*)     /usr/lib/librt.so.1
+0x0000753f6c7fb000  0x0000753f6c800000  Yes (*)     /usr/lib/libpthread.so.0
+0x0000753f6c7f6000  0x0000753f6c7fb000  Yes (*)     /usr/lib/libdl.so.2
+0x0000753f6c7be000  0x0000753f6c7ed000  Yes (*)     /usr/lib/wsl/lib/libcuda.so.1
+0x0000753f6bf13000  0x0000753f6c000000  Yes (*)     /usr/lib/wsl/lib/libdxcore.so
+0x0000753f6a3cd000  0x0000753f6bf13000  Yes (*)     /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1
+0x0000753f6c7ac000  0x0000753f6c7be000  Yes (*)     /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdxgdmal.so.1
+0x0000753f6c7a7000  0x0000753f6c7ac000  Yes (*)     /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdiagclt.so.1
+0x0000753d552a0000  0x0000753d56cce000  Yes (*)     /usr/lib/wsl/lib/libnvcuvid.so.1
+(*): Shared library is missing debugging information.
+
+process 274641
+Mapped address spaces:
+
+Start Addr         End Addr           Size               Offset             Perms File 
+0x0000000200000000 0x0000000200600000 0x600000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000200600000 0x0000000202a00000 0x2400000          0x0                ---p   
+0x0000000202a00000 0x0000000202c00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000202c00000 0x0000000203c00000 0x1000000          0x0                ---p   
+0x0000000203c00000 0x0000000203e00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000203e00000 0x0000000204000000 0x200000           0x0                ---p   
+0x0000000204000000 0x0000000204200000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000204200000 0x0000000204400000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000204400000 0x0000000204800000 0x400000           0x0                ---p   
+0x0000000204800000 0x0000000204a00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000204a00000 0x0000000204c00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000204c00000 0x0000000204e00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000000204e00000 0x0000001300000000 0x10fb200000       0x0                ---p   
+0x000063e1d6ade000 0x000063e1d6ae8000 0xa000             0x0                r--p  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro 
+0x000063e1d6ae8000 0x000063e1d6b7a000 0x92000            0xa000             r-xp  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro 
+0x000063e1d6b7a000 0x000063e1d6ba2000 0x28000            0x9c000            r--p  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro 
+0x000063e1d6ba2000 0x000063e1d6ba7000 0x5000             0xc4000            r--p  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro 
+0x000063e1d6ba7000 0x000063e1d6ba8000 0x1000             0xc9000            rw-p  /home/ray/developer/ai/saccade_v1/build-f01-investigation/repro 
+0x000063e1d6ba8000 0x000063e1d6baa000 0x2000             0x0                rw-p   
+0x000063e214436000 0x000063e21582c000 0x13f6000          0x0                rw-p  [heap] 
+0x0000753d50000000 0x0000753d50021000 0x21000            0x0                rw-p   
+0x0000753d50021000 0x0000753d54000000 0x3fdf000          0x0                ---p   
+0x0000753d552a0000 0x0000753d552b4000 0x14000            0x0                r--p  /usr/lib/wsl/lib/libnvcuvid.so.1 
+0x0000753d552b4000 0x0000753d55411000 0x15d000           0x14000            r-xp  /usr/lib/wsl/lib/libnvcuvid.so.1 
+0x0000753d55411000 0x0000753d56cc4000 0x18b3000          0x171000           r--p  /usr/lib/wsl/lib/libnvcuvid.so.1 
+0x0000753d56cc4000 0x0000753d56ccd000 0x9000             0x1a23000          r--p  /usr/lib/wsl/lib/libnvcuvid.so.1 
+0x0000753d56ccd000 0x0000753d56cce000 0x1000             0x1a2c000          rw-p  /usr/lib/wsl/lib/libnvcuvid.so.1 
+0x0000753d56cce000 0x0000753d574cf000 0x801000           0x0                rw-p   
+0x0000753d574cf000 0x0000753d5778c000 0x2bd000           0x0                rw-p   
+0x0000753d578f8000 0x0000753d57cfa000 0x402000           0x0                rw-p   
+0x0000753d57cfa000 0x0000753d57efa000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d57efa000 0x0000753d58021000 0x127000           0x0                rw-p   
+0x0000753d58021000 0x0000753d5c000000 0x3fdf000          0x0                ---p   
+0x0000753d5c000000 0x0000753d5c200000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5c200000 0x0000753d5c400000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5c400000 0x0000753d5c600000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5c600000 0x0000753d5c800000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5c800000 0x0000753d5ca00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5ca00000 0x0000753d5cc00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5cc00000 0x0000753d5ce00000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5ce00000 0x0000753d5d000000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5d000000 0x0000753d5d200000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5d200000 0x0000753d5f400000 0x2200000          0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5f400000 0x0000753d5f600000 0x200000           0x0                rw-s  /dev/zero (deleted) 
+0x0000753d5f600000 0x0000753f63600000 0x204000000        0x0                ---p   
+0x0000753f63613000 0x0000753f64021000 0xa0e000           0x0                rw-p   
+0x0000753f64021000 0x0000753f68000000 0x3fdf000          0x0                ---p   
+0x0000753f6800a000 0x0000753f6800b000 0x1000             0xa03e62000        rw-s  /dev/zero (deleted) 
+0x0000753f6800b000 0x0000753f6800c000 0x1000             0xa03e61000        rw-s  /dev/zero (deleted) 
+0x0000753f6800c000 0x0000753f6800d000 0x1000             0xa03e60000        rw-s  /dev/zero (deleted) 
+0x0000753f6800d000 0x0000753f6800e000 0x1000             0xa03e5f000        rw-s  /dev/zero (deleted) 
+0x0000753f6800e000 0x0000753f6800f000 0x1000             0xa03e5e000        rw-s  /dev/zero (deleted) 
+0x0000753f6800f000 0x0000753f68010000 0x1000             0xa03e5d000        rw-s  /dev/zero (deleted) 
+0x0000753f68010000 0x0000753f68011000 0x1000             0xa03e5b000        rw-s  /dev/zero (deleted) 
+0x0000753f68011000 0x0000753f68012000 0x1000             0xa03e5a000        rw-s  /dev/zero (deleted) 
+0x0000753f68012000 0x0000753f68013000 0x1000             0xa03e59000        rw-s  /dev/zero (deleted) 
+0x0000753f68013000 0x0000753f68014000 0x1000             0xa03e57000        rw-s  /dev/zero (deleted) 
+0x0000753f68014000 0x0000753f68015000 0x1000             0xa03e56000        rw-s  /dev/zero (deleted) 
+0x0000753f68015000 0x0000753f683c9000 0x3b4000           0x0                rw-p   
+0x0000753f683c9000 0x0000753f6a3cd000 0x2004000          0x0                rw-p   
+0x0000753f6a3cd000 0x0000753f6a56f000 0x1a2000           0x0                r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1 
+0x0000753f6a56f000 0x0000753f6b70e000 0x119f000          0x1a2000           r-xp  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1 
+0x0000753f6b70e000 0x0000753f6bd34000 0x626000           0x1341000          r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1 
+0x0000753f6bd34000 0x0000753f6bd35000 0x1000             0x1967000          ---p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1 
+0x0000753f6bd35000 0x0000753f6beb2000 0x17d000           0x1967000          r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1 
+0x0000753f6beb2000 0x0000753f6beb6000 0x4000             0x1ae4000          rw-p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1 
+0x0000753f6beb6000 0x0000753f6bf13000 0x5d000            0x0                rw-p   
+0x0000753f6bf13000 0x0000753f6bf76000 0x63000            0x0                r--p  /usr/lib/wsl/lib/libdxcore.so 
+0x0000753f6bf76000 0x0000753f6bff3000 0x7d000            0x62000            r-xp  /usr/lib/wsl/lib/libdxcore.so 
+0x0000753f6bff3000 0x0000753f6bffb000 0x8000             0xde000            r--p  /usr/lib/wsl/lib/libdxcore.so 
+0x0000753f6bffb000 0x0000753f6bffc000 0x1000             0xe5000            rw-p  /usr/lib/wsl/lib/libdxcore.so 
+0x0000753f6bffc000 0x0000753f6c000000 0x4000             0x0                rw-p   
+0x0000753f6c000000 0x0000753f6c024000 0x24000            0x0                r--p  /usr/lib/libc.so.6 
+0x0000753f6c024000 0x0000753f6c19f000 0x17b000           0x24000            r-xp  /usr/lib/libc.so.6 
+0x0000753f6c19f000 0x0000753f6c215000 0x76000            0x19f000           r--p  /usr/lib/libc.so.6 
+0x0000753f6c215000 0x0000753f6c219000 0x4000             0x214000           r--p  /usr/lib/libc.so.6 
+0x0000753f6c219000 0x0000753f6c21b000 0x2000             0x218000           rw-p  /usr/lib/libc.so.6 
+0x0000753f6c21b000 0x0000753f6c223000 0x8000             0x0                rw-p   
+0x0000753f6c223000 0x0000753f6c224000 0x1000             0xa03e55000        rw-s  /dev/zero (deleted) 
+0x0000753f6c224000 0x0000753f6c225000 0x1000             0xa03e53000        rw-s  /dev/zero (deleted) 
+0x0000753f6c225000 0x0000753f6c226000 0x1000             0xa03e52000        rw-s  /dev/zero (deleted) 
+0x0000753f6c226000 0x0000753f6c2c9000 0xa3000            0x0                rw-p   
+0x0000753f6c2c9000 0x0000753f6c2d9000 0x10000            0x0                r--p  /usr/lib/libm.so.6 
+0x0000753f6c2d9000 0x0000753f6c375000 0x9c000            0x10000            r-xp  /usr/lib/libm.so.6 
+0x0000753f6c375000 0x0000753f6c3fe000 0x89000            0xac000            r--p  /usr/lib/libm.so.6 
+0x0000753f6c3fe000 0x0000753f6c3ff000 0x1000             0x134000           r--p  /usr/lib/libm.so.6 
+0x0000753f6c3ff000 0x0000753f6c400000 0x1000             0x135000           rw-p  /usr/lib/libm.so.6 
+0x0000753f6c400000 0x0000753f6c49a000 0x9a000            0x0                r--p  /usr/lib/libstdc++.so.6.0.36 
+0x0000753f6c49a000 0x0000753f6c61d000 0x183000           0x9a000            r-xp  /usr/lib/libstdc++.so.6.0.36 
+0x0000753f6c61d000 0x0000753f6c6bd000 0xa0000            0x21d000           r--p  /usr/lib/libstdc++.so.6.0.36 
+0x0000753f6c6bd000 0x0000753f6c6ce000 0x11000            0x2bc000           r--p  /usr/lib/libstdc++.so.6.0.36 
+0x0000753f6c6ce000 0x0000753f6c6cf000 0x1000             0x2cd000           rw-p  /usr/lib/libstdc++.so.6.0.36 
+0x0000753f6c6cf000 0x0000753f6c6d3000 0x4000             0x0                rw-p   
+0x0000753f6c6d3000 0x0000753f6c6d4000 0x1000             0xa03e51000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6d4000 0x0000753f6c6d5000 0x1000             0xa03e4f000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6d5000 0x0000753f6c6d6000 0x1000             0xa03e4e000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6d6000 0x0000753f6c6d7000 0x1000             0xa03e4d000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6d7000 0x0000753f6c6d8000 0x1000             0xa03e4b000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6d8000 0x0000753f6c6d9000 0x1000             0xa03e4a000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6d9000 0x0000753f6c6da000 0x1000             0xa03e49000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6da000 0x0000753f6c6db000 0x1000             0xa03e47000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6db000 0x0000753f6c6dc000 0x1000             0xa03e46000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6dc000 0x0000753f6c6dd000 0x1000             0xa03e45000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6dd000 0x0000753f6c6de000 0x1000             0xa03e43000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6de000 0x0000753f6c6df000 0x1000             0xa03e42000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6df000 0x0000753f6c6e0000 0x1000             0xa03e41000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6e0000 0x0000753f6c6e1000 0x1000             0xa03e3f000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6e1000 0x0000753f6c6e2000 0x1000             0xa03e3e000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6e2000 0x0000753f6c6e3000 0x1000             0xa03e3d000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6e3000 0x0000753f6c6e4000 0x1000             0xa03e3b000        rw-s  /dev/zero (deleted) 
+0x0000753f6c6e4000 0x0000753f6c7a6000 0xc2000            0x0                rw-p   
+0x0000753f6c7a6000 0x0000753f6c7a7000 0x1000             0xa03e3a000        rw-s  /dev/zero (deleted) 
+0x0000753f6c7a7000 0x0000753f6c7a8000 0x1000             0x0                r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdiagclt.so.1 
+0x0000753f6c7a8000 0x0000753f6c7a9000 0x1000             0x1000             r-xp  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdiagclt.so.1 
+0x0000753f6c7a9000 0x0000753f6c7aa000 0x1000             0x2000             r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdiagclt.so.1 
+0x0000753f6c7aa000 0x0000753f6c7ab000 0x1000             0x2000             r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdiagclt.so.1 
+0x0000753f6c7ab000 0x0000753f6c7ac000 0x1000             0x3000             rw-p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdiagclt.so.1 
+0x0000753f6c7ac000 0x0000753f6c7ad000 0x1000             0x0                r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdxgdmal.so.1 
+0x0000753f6c7ad000 0x0000753f6c7b9000 0xc000             0x1000             r-xp  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdxgdmal.so.1 
+0x0000753f6c7b9000 0x0000753f6c7bc000 0x3000             0xd000             r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdxgdmal.so.1 
+0x0000753f6c7bc000 0x0000753f6c7bd000 0x1000             0xf000             r--p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdxgdmal.so.1 
+0x0000753f6c7bd000 0x0000753f6c7be000 0x1000             0x10000            rw-p  /usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libnvdxgdmal.so.1 
+0x0000753f6c7be000 0x0000753f6c7ce000 0x10000            0x0                r--p  /usr/lib/wsl/lib/libcuda.so.1 
+0x0000753f6c7ce000 0x0000753f6c7e5000 0x17000            0x10000            r-xp  /usr/lib/wsl/lib/libcuda.so.1 
+0x0000753f6c7e5000 0x0000753f6c7ea000 0x5000             0x27000            r--p  /usr/lib/wsl/lib/libcuda.so.1 
+0x0000753f6c7ea000 0x0000753f6c7eb000 0x1000             0x2b000            r--p  /usr/lib/wsl/lib/libcuda.so.1 
+0x0000753f6c7eb000 0x0000753f6c7ed000 0x2000             0x2c000            rw-p  /usr/lib/wsl/lib/libcuda.so.1 
+0x0000753f6c7ed000 0x0000753f6c7f6000 0x9000             0x0                rw-p   
+0x0000753f6c7f6000 0x0000753f6c7f7000 0x1000             0x0                r--p  /usr/lib/libdl.so.2 
+0x0000753f6c7f7000 0x0000753f6c7f8000 0x1000             0x1000             r-xp  /usr/lib/libdl.so.2 
+0x0000753f6c7f8000 0x0000753f6c7f9000 0x1000             0x2000             r--p  /usr/lib/libdl.so.2 
+0x0000753f6c7f9000 0x0000753f6c7fa000 0x1000             0x2000             r--p  /usr/lib/libdl.so.2 
+0x0000753f6c7fa000 0x0000753f6c7fb000 0x1000             0x3000             rw-p  /usr/lib/libdl.so.2 
+0x0000753f6c7fb000 0x0000753f6c7fc000 0x1000             0x0                r--p  /usr/lib/libpthread.so.0 
+0x0000753f6c7fc000 0x0000753f6c7fd000 0x1000             0x1000             r-xp  /usr/lib/libpthread.so.0 
+0x0000753f6c7fd000 0x0000753f6c7fe000 0x1000             0x2000             r--p  /usr/lib/libpthread.so.0 
+0x0000753f6c7fe000 0x0000753f6c7ff000 0x1000             0x2000             r--p  /usr/lib/libpthread.so.0 
+0x0000753f6c7ff000 0x0000753f6c800000 0x1000             0x3000             rw-p  /usr/lib/libpthread.so.0 
+0x0000753f6c800000 0x0000753f6ce04000 0x604000           0x0                r-xp  /opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58 
+0x0000753f6ce04000 0x0000753f6d004000 0x200000           0x604000           ---p  /opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58 
+0x0000753f6d004000 0x0000753f6d011000 0xd000             0x604000           r--p  /opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58 
+0x0000753f6d011000 0x0000753f6d012000 0x1000             0x611000           rw-p  /opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58 
+0x0000753f6d012000 0x0000753f6d019000 0x7000             0x0                rw-p   
+0x0000753f6d019000 0x0000753f6d01a000 0x1000             0xa03e39000        rw-s  /dev/zero (deleted) 
+0x0000753f6d01a000 0x0000753f6d01c000 0x2000             0x0                rw-p   
+0x0000753f6d01c000 0x0000753f6d01d000 0x1000             0x0                r--p  /usr/lib/librt.so.1 
+0x0000753f6d01d000 0x0000753f6d01e000 0x1000             0x1000             r-xp  /usr/lib/librt.so.1 
+0x0000753f6d01e000 0x0000753f6d01f000 0x1000             0x2000             r--p  /usr/lib/librt.so.1 
+0x0000753f6d01f000 0x0000753f6d020000 0x1000             0x2000             r--p  /usr/lib/librt.so.1 
+0x0000753f6d020000 0x0000753f6d021000 0x1000             0x3000             rw-p  /usr/lib/librt.so.1 
+0x0000753f6d021000 0x0000753f6d023000 0x2000             0x0                rw-p   
+0x0000753f6d023000 0x0000753f6d027000 0x4000             0x0                r--p  /usr/lib/libgcc_s.so.1 
+0x0000753f6d027000 0x0000753f6d04a000 0x23000            0x4000             r-xp  /usr/lib/libgcc_s.so.1 
+0x0000753f6d04a000 0x0000753f6d04e000 0x4000             0x27000            r--p  /usr/lib/libgcc_s.so.1 
+0x0000753f6d04e000 0x0000753f6d04f000 0x1000             0x2b000            r--p  /usr/lib/libgcc_s.so.1 
+0x0000753f6d04f000 0x0000753f6d050000 0x1000             0x2c000            rw-p  /usr/lib/libgcc_s.so.1 
+0x0000753f6d050000 0x0000753f6d052000 0x2000             0x0                rw-p   
+0x0000753f6d052000 0x0000753f6d07c000 0x2a000            0x0                r--p  /etc/ld.so.cache 
+0x0000753f6d07c000 0x0000753f6d080000 0x4000             0x0                r--p  [vvar] 
+0x0000753f6d080000 0x0000753f6d082000 0x2000             0x0                r--p  [vvar_vclock] 
+0x0000753f6d082000 0x0000753f6d084000 0x2000             0x0                r-xp  [vdso] 
+0x0000753f6d084000 0x0000753f6d085000 0x1000             0x0                r--p  /usr/lib/ld-linux-x86-64.so.2 
+0x0000753f6d085000 0x0000753f6d0b2000 0x2d000            0x1000             r-xp  /usr/lib/ld-linux-x86-64.so.2 
+0x0000753f6d0b2000 0x0000753f6d0c1000 0xf000             0x2e000            r--p  /usr/lib/ld-linux-x86-64.so.2 
+0x0000753f6d0c1000 0x0000753f6d0c3000 0x2000             0x3d000            r--p  /usr/lib/ld-linux-x86-64.so.2 
+0x0000753f6d0c3000 0x0000753f6d0c4000 0x1000             0x3f000            rw-p  /usr/lib/ld-linux-x86-64.so.2 
+0x0000753f6d0c4000 0x0000753f6d0c5000 0x1000             0x0                rw-p   
+0x00007ffe79ea2000 0x00007ffe79ec3000 0x21000            0x0                rw-p  [stack] 
+
+F01_GDB {"kind": "actual_backend_dispatch", "pc": "0x753f6c873905", "rtti_name": "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE", "target": "0x753f6c8d0900", "target_owner": "/opt/cuda/lib64/libnvjpeg.so.13", "vptr": "0x753f6d009c78"}
+=> 0x753f6c873905 <nvjpegDecodeBatched+149>:	call   *0x38(%r10)
+
+#0  0x0000753f6c873905 in nvjpegDecodeBatched () from /opt/cuda/lib64/libnvjpeg.so.13
+#1  0x000063e1d6aeb3aa in main ()
+
+F01_GDB {"kind": "private_slot_70_entry", "owner": "/usr/lib/wsl/lib/libnvcuvid.so.1", "pc": "0x753d552ece10", "rdi": "0x63e215686d40", "rdx": "0x63e215817130", "rsi": "0x63e2158174e0"}
+#0  0x0000753d552ece10 in ?? () from /usr/lib/wsl/lib/libnvcuvid.so.1
+#1  0x0000753f6c8d2fd6 in ?? () from /opt/cuda/lib64/libnvjpeg.so.13
+#2  0x0000753f6c8d4ffb in ?? () from /opt/cuda/lib64/libnvjpeg.so.13
+#3  0x0000753f6c8d0913 in ?? () from /opt/cuda/lib64/libnvjpeg.so.13
+#4  0x0000753f6c873909 in nvjpegDecodeBatched () from /opt/cuda/lib64/libnvjpeg.so.13
+#5  0x000063e1d6aeb3aa in main ()
+
+repeat=0 rgb_exact=1 rgb_differences=0 max_difference=0
+F01_GDB {"kind": "actual_backend_dispatch", "pc": "0x753f6c873905", "rtti_name": "N6nvjpeg18decoder_hw_batched21NVJPGV2BatchedDecoderE", "target": "0x753f6c8d0900", "target_owner": "/opt/cuda/lib64/libnvjpeg.so.13", "vptr": "0x753f6d009c78"}
+=> 0x753f6c873905 <nvjpegDecodeBatched+149>:	call   *0x38(%r10)
+
+#0  0x0000753f6c873905 in nvjpegDecodeBatched () from /opt/cuda/lib64/libnvjpeg.so.13
+#1  0x000063e1d6aeb3aa in main ()
+
+repeat=1 rgb_exact=1 rgb_differences=0 max_difference=0
+result=complete repeat_exact=1 rgb_equivalence=exact rgb_differences_across_repeats=0 rgb_max_difference=0 output_layout=planar-rgb
+[Inferior 1 (process 274641) exited normally]
+F01_GDB {"exit_code": 0, "kind": "inferior_exited"}
+F01_GDB_INFERIOR_EXIT 0

@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "/opt/cuda/bin/nvcc",
+    "-std=c++17",
+    "-O2",
+    "-lineinfo",
+    "--allow-unsupported-compiler",
+    "-arch=sm_120",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v4/annotation.cu",
+    "-I/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v4",
+    "-L/opt/cuda/lib64",
+    "-lnvjpeg",
+    "-L/usr/lib/wsl/lib",
+    "-lcuda",
+    "-ldl",
+    "-o",
+    "/home/ray/developer/ai/saccade_v1/build-f01-boundary-annotation-v4/annotation"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1",
+  "timeout_seconds": 60,
+  "time": "2026-10-31T11:49:04.195108+08:00",
+  "mem_available_kib": 46528348,
+  "environment": {
+    "CUDA_PATH": "/opt/cuda",
+    "LD_LIBRARY_PATH": "/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:/home/ray/.local/lib/nvtop-wsl:/usr/lib/wsl/lib:"
+  }
+}

@@ -1,0 +1,31 @@
+
+/opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13.2.3.58:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000d2fb7 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x56267>:
+   d2fb7:	mov    r9,QWORD PTR [r14+0x60]
+   d2fbb:	mov    rdi,QWORD PTR [r14+0xc0]
+   d2fc2:	mov    rsi,QWORD PTR [r9+r15*8]
+   d2fc6:	mov    r15,QWORD PTR [r14+0x8]
+   d2fca:	mov    rdx,QWORD PTR [rdi+rbx*8]
+   d2fce:	mov    rdi,QWORD PTR [r14+0x10]
+   d2fd2:	call   QWORD PTR [r15+0x70]
+   d2fd6:	mov    r13d,eax
+   d2fd9:	cmp    eax,0x2
+   d2fdc:	je     d3d23 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x56fd3>
+   d2fe2:	test   eax,eax
+   d2fe4:	jne    d3f90 <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x57240>
+   d2fea:	mov    r10,QWORD PTR [r14+0x78]
+   d2fee:	mov    rax,QWORD PTR [r14+0x8]
+   d2ff2:	lea    r13,[rbp-0x2a0]
+   d2ff9:	mov    rdi,QWORD PTR [r14+0x10]
+   d2ffd:	mov    rsi,r13
+   d3000:	mov    rdx,QWORD PTR [r10+r12*1+0x28]
+   d3005:	call   QWORD PTR [rax+0x48]
+   d3008:	mov    r15d,eax
+   d300b:	cmp    eax,0x2
+   d300e:	je     d3b8a <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x56e3a>
+   d3014:	test   eax,eax
+   d3016:	jne    d412a <nvjpegDecodeJpegDevice@@libnvjpeg.so.13+0x573da>

@@ -280,3 +280,14 @@ if(SACCADE_ENABLE_MODEL_PRODUCER)
   endif()
   include(cmake/ModelProducer.cmake)
 endif()
+
+# Bounded native JPEG -> complete model -> F04 asynchronous detection session.
+option(SACCADE_ENABLE_DETECTION_SESSION "Build the native F01-F04 asynchronous detection session" OFF)
+if(SACCADE_ENABLE_DETECTION_SESSION)
+  if(NOT (SACCADE_ENABLE_PREPROCESS AND SACCADE_ENABLE_MODEL_TRT AND SACCADE_ENABLE_MODEL_PRODUCER AND SACCADE_ENABLE_POSTPROCESS))
+    message(FATAL_ERROR "SACCADE_ENABLE_DETECTION_SESSION needs PREPROCESS, MODEL_TRT, MODEL_PRODUCER and POSTPROCESS enabled")
+  endif()
+  include(cmake/DetectionSession.cmake)
+endif()
+
+include(cmake/DetectionSessionModel.cmake)

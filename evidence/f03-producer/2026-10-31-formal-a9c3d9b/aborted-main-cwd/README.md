@@ -1,0 +1,3 @@
+# Aborted pre-GPU launch
+
+The first launcher inadvertently ran from the main worktree rather than the newly created detached worktree. It was explicitly stopped via `systemctl --user stop run-p168319-i169025.scope` during CPU build before CUDA configuration or GPU tests. This attempt is incomplete and is not acceptance evidence. Its empty source status and `allow_dirty=false` identify initial source only; concurrent main edits were expected, so the complete accepted run was restarted from isolated clean `a9c3d9b` instead. No test failure is inferred from the intentional termination. Missing CPU-build exit metadata reflects interruption.

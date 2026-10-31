@@ -41,6 +41,6 @@ cmake --build build-f03-producer --target model_producer_cuda_tests --parallel 2
 ctest --test-dir build-f03-producer -R '^model_producer_cuda' --output-on-failure
 ```
 
-額外開啟既有 `SACCADE_ENABLE_MODEL_TRT`／`SACCADE_ENABLE_TENSORRT` 並提供 pinned SDK root 後，可建立 `model_producer_trt_tests`。設定 `SACCADE_MODEL_PRODUCER_ENGINE` 與 `SACCADE_MODEL_PRODUCER_INPUTS` 可將 actual F03 engine 接續測試加入 CTest。資源、固定 artifacts、實際執行與尚未執行項目以本次證據報告為準。
+額外開啟既有 `SACCADE_ENABLE_MODEL_TRT`／`SACCADE_ENABLE_TENSORRT` 並提供 pinned SDK root 後，可建立 `model_producer_trt_tests`。設定 `SACCADE_MODEL_PRODUCER_ENGINE` 與 `SACCADE_MODEL_PRODUCER_INPUTS` 可將 actual F03 engine 接續測試加入 CTest。**乾淨 `a9c3d9b` 正式驗收 PASS（受測範圍）**：[正式證據](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md) 保存 clean source／實際 binary 身分、CPU 12/12、CUDA／live 6/6、四種獨立 adapter sanitizers 及正控制、第一個固定 live 輸入的 memcheck／initcheck。原 [dirty-source 開發報告](../evidence/f03-producer/2026-10-31/REPORT.md) 保留。Sanitizer host callback gates／CUPTI 與 head／F03 racecheck／synccheck 的未執行界線以正式報告為準。
 
-本項僅完成 producer 聚合與有界 engine→F04 接續；native JPEG→F03、完整 async session、候選 ring／F04b、session failure latch、GMC／tracker／ResultPacket／MOT writer 與 P01 仍依 [BACKLOG](BACKLOG.md) 接續。歷史 head／F03 racecheck／synccheck 與模型品質判定不因本 primitive 測試而改寫。
+本項正式驗收僅涵蓋 producer 聚合與有界 engine→F04 接續。另行實作的 [F01–F04 detection session](DETECTION_SESSION.md) 已接通 native JPEG→F03→F04、候選 ready／consumed ring、session first-error latch 與雙 stream drain／checked close；其[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)，不列入 `a9c3d9b` 正式 source 範圍。雙 staging overlap、F04b／GMC／tracker／ResultPacket／MOT writer 與 P01 仍依 [BACKLOG](BACKLOG.md) 接續。歷史 head／F03 racecheck／synccheck 與模型品質判定不因本 primitive 測試而改寫。

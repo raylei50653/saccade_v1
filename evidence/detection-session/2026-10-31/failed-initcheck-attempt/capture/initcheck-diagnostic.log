@@ -1,0 +1,1822 @@
+========= COMPUTE-SANITIZER
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (0,1,0) in block (0,0,0)
+=========     Address 0xf15601e00
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (1,1,0) in block (0,0,0)
+=========     Address 0xf15601e04
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (2,1,0) in block (0,0,0)
+=========     Address 0xf15601e08
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (3,1,0) in block (0,0,0)
+=========     Address 0xf15601e0c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (4,1,0) in block (0,0,0)
+=========     Address 0xf15601e10
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (5,1,0) in block (0,0,0)
+=========     Address 0xf15601e14
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (6,1,0) in block (0,0,0)
+=========     Address 0xf15601e18
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (7,1,0) in block (0,0,0)
+=========     Address 0xf15601e1c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (8,1,0) in block (0,0,0)
+=========     Address 0xf15601e20
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (9,1,0) in block (0,0,0)
+=========     Address 0xf15601e24
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (10,1,0) in block (0,0,0)
+=========     Address 0xf15601e28
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (11,1,0) in block (0,0,0)
+=========     Address 0xf15601e2c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (12,1,0) in block (0,0,0)
+=========     Address 0xf15601e30
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (13,1,0) in block (0,0,0)
+=========     Address 0xf15601e34
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (14,1,0) in block (0,0,0)
+=========     Address 0xf15601e38
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (15,1,0) in block (0,0,0)
+=========     Address 0xf15601e3c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (16,1,0) in block (0,0,0)
+=========     Address 0xf15601e40
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (17,1,0) in block (0,0,0)
+=========     Address 0xf15601e44
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (18,1,0) in block (0,0,0)
+=========     Address 0xf15601e48
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (19,1,0) in block (0,0,0)
+=========     Address 0xf15601e4c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (20,1,0) in block (0,0,0)
+=========     Address 0xf15601e50
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (21,1,0) in block (0,0,0)
+=========     Address 0xf15601e54
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (22,1,0) in block (0,0,0)
+=========     Address 0xf15601e58
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (23,1,0) in block (0,0,0)
+=========     Address 0xf15601e5c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (24,1,0) in block (0,0,0)
+=========     Address 0xf15601e60
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (25,1,0) in block (0,0,0)
+=========     Address 0xf15601e64
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (26,1,0) in block (0,0,0)
+=========     Address 0xf15601e68
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (27,1,0) in block (0,0,0)
+=========     Address 0xf15601e6c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (28,1,0) in block (0,0,0)
+=========     Address 0xf15601e70
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (29,1,0) in block (0,0,0)
+=========     Address 0xf15601e74
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (30,1,0) in block (0,0,0)
+=========     Address 0xf15601e78
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (31,1,0) in block (0,0,0)
+=========     Address 0xf15601e7c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (0,0,0) in block (0,0,0)
+=========     Address 0xf15600000
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (1,0,0) in block (0,0,0)
+=========     Address 0xf15600004
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (2,0,0) in block (0,0,0)
+=========     Address 0xf15600008
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (3,0,0) in block (0,0,0)
+=========     Address 0xf1560000c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (4,0,0) in block (0,0,0)
+=========     Address 0xf15600010
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (5,0,0) in block (0,0,0)
+=========     Address 0xf15600014
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (6,0,0) in block (0,0,0)
+=========     Address 0xf15600018
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (7,0,0) in block (0,0,0)
+=========     Address 0xf1560001c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (8,0,0) in block (0,0,0)
+=========     Address 0xf15600020
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (9,0,0) in block (0,0,0)
+=========     Address 0xf15600024
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (10,0,0) in block (0,0,0)
+=========     Address 0xf15600028
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (11,0,0) in block (0,0,0)
+=========     Address 0xf1560002c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (12,0,0) in block (0,0,0)
+=========     Address 0xf15600030
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (13,0,0) in block (0,0,0)
+=========     Address 0xf15600034
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (14,0,0) in block (0,0,0)
+=========     Address 0xf15600038
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (15,0,0) in block (0,0,0)
+=========     Address 0xf1560003c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (16,0,0) in block (0,0,0)
+=========     Address 0xf15600040
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (17,0,0) in block (0,0,0)
+=========     Address 0xf15600044
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (18,0,0) in block (0,0,0)
+=========     Address 0xf15600048
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (19,0,0) in block (0,0,0)
+=========     Address 0xf1560004c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (20,0,0) in block (0,0,0)
+=========     Address 0xf15600050
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (21,0,0) in block (0,0,0)
+=========     Address 0xf15600054
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (22,0,0) in block (0,0,0)
+=========     Address 0xf15600058
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (23,0,0) in block (0,0,0)
+=========     Address 0xf1560005c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (24,0,0) in block (0,0,0)
+=========     Address 0xf15600060
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (25,0,0) in block (0,0,0)
+=========     Address 0xf15600064
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (26,0,0) in block (0,0,0)
+=========     Address 0xf15600068
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (27,0,0) in block (0,0,0)
+=========     Address 0xf1560006c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (28,0,0) in block (0,0,0)
+=========     Address 0xf15600070
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (29,0,0) in block (0,0,0)
+=========     Address 0xf15600074
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (30,0,0) in block (0,0,0)
+=========     Address 0xf15600078
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (31,0,0) in block (0,0,0)
+=========     Address 0xf1560007c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (0,5,0) in block (0,0,0)
+=========     Address 0xf15609600
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (1,5,0) in block (0,0,0)
+=========     Address 0xf15609604
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (2,5,0) in block (0,0,0)
+=========     Address 0xf15609608
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (3,5,0) in block (0,0,0)
+=========     Address 0xf1560960c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (4,5,0) in block (0,0,0)
+=========     Address 0xf15609610
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (5,5,0) in block (0,0,0)
+=========     Address 0xf15609614
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (6,5,0) in block (0,0,0)
+=========     Address 0xf15609618
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (7,5,0) in block (0,0,0)
+=========     Address 0xf1560961c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (8,5,0) in block (0,0,0)
+=========     Address 0xf15609620
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (9,5,0) in block (0,0,0)
+=========     Address 0xf15609624
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (10,5,0) in block (0,0,0)
+=========     Address 0xf15609628
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (11,5,0) in block (0,0,0)
+=========     Address 0xf1560962c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (12,5,0) in block (0,0,0)
+=========     Address 0xf15609630
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (13,5,0) in block (0,0,0)
+=========     Address 0xf15609634
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (14,5,0) in block (0,0,0)
+=========     Address 0xf15609638
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (15,5,0) in block (0,0,0)
+=========     Address 0xf1560963c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (16,5,0) in block (0,0,0)
+=========     Address 0xf15609640
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (17,5,0) in block (0,0,0)
+=========     Address 0xf15609644
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (18,5,0) in block (0,0,0)
+=========     Address 0xf15609648
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (19,5,0) in block (0,0,0)
+=========     Address 0xf1560964c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (20,5,0) in block (0,0,0)
+=========     Address 0xf15609650
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (21,5,0) in block (0,0,0)
+=========     Address 0xf15609654
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (22,5,0) in block (0,0,0)
+=========     Address 0xf15609658
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (23,5,0) in block (0,0,0)
+=========     Address 0xf1560965c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (24,5,0) in block (0,0,0)
+=========     Address 0xf15609660
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (25,5,0) in block (0,0,0)
+=========     Address 0xf15609664
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (26,5,0) in block (0,0,0)
+=========     Address 0xf15609668
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (27,5,0) in block (0,0,0)
+=========     Address 0xf1560966c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (28,5,0) in block (0,0,0)
+=========     Address 0xf15609670
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (29,5,0) in block (0,0,0)
+=========     Address 0xf15609674
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (30,5,0) in block (0,0,0)
+=========     Address 0xf15609678
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (31,5,0) in block (0,0,0)
+=========     Address 0xf1560967c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (0,6,0) in block (0,0,0)
+=========     Address 0xf1560b400
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (1,6,0) in block (0,0,0)
+=========     Address 0xf1560b404
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (2,6,0) in block (0,0,0)
+=========     Address 0xf1560b408
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+========= Uninitialized __global__ memory read of size 3 bytes
+=========     at void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)+0x170
+=========     by thread (3,6,0) in block (0,0,0)
+=========     Address 0xf1560b40c
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x17a433] in libnvjpeg.so.13
+=========         Host Frame:  [0x1ea607] in libnvjpeg.so.13
+=========         Host Frame:  [0x10d23e] in libnvjpeg.so.13
+=========         Host Frame:  [0x1039b8] in libnvjpeg.so.13
+=========         Host Frame:  [0xd374e] in libnvjpeg.so.13
+=========         Host Frame:  [0xd4ffa] in libnvjpeg.so.13
+=========         Host Frame:  [0xd0912] in libnvjpeg.so.13
+=========         Host Frame: nvjpegDecodeBatched [0x73908] in libnvjpeg.so.13
+=========         Host Frame: saccade::NativePreprocessor::enqueue(std::span<unsigned char const, 18446744073709551615ul>, unsigned long, int, int) [0x3269f] in detection_session_tests
+=========         Host Frame: (anonymous namespace)::independent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, (anonymous namespace)::Corpus const&, std::filesystem::__cxx11::path const&, unsigned int) [0x29d52] in detection_session_tests
+=========         Host Frame: main [0x1e341] in detection_session_tests
+========= 
+corpus=0 label=MOT17-02-SDP/1 jpeg_sha256=41ff65408c5338f4a83035fd12e9f5f7b658ee82feacf4512655677032636597
+corpus=1 label=MOT17-10-SDP/1 jpeg_sha256=bc655b86e7dcd9993df950217534f2f6cbf85217faba544dce956b834fb053a0
+corpus=2 label=MOT17-13-SDP/400 jpeg_sha256=eab49b69eeb4816aaac41f2699479a4ead316672e6d1fef49efd912721eea05a
+corpus=3 label=MOT17-04-SDP/1 jpeg_sha256=53f3d86aad1aa4912b2919bae344919b54d193e72c1c7169ce8bc4685408053c
+corpus=4 label=MOT17-05-SDP/1 jpeg_sha256=9f4f112b29e93846501db27d2bcc2c99795715aa6376d5b5662d75f2e2f196d7
+corpus=5 label=MOT17-09-SDP/1 jpeg_sha256=e4b1c40c44d53489f191e1099156ad57d3963d8c434615750fba0065a8a572af
+corpus=6 label=MOT17-11-SDP/1 jpeg_sha256=45c999f9f2bff3d308cf8cd877ff63b95394f53e7319c1b9c444acff77d73b3c
+Internal Error: MyelinCheckException: l2cm_layer_internal.cpp:109: CHECK(false) failed. 
+error: cuModuleUnload(module_) failed with error the launch timed out and was terminated
+TensorRT: [graphContext.cpp::~MyelinGraphContext::101] Error Code 1: Myelin ([cudamod.cpp:42: ~CUDAMod] CUDA error 702 when unloading module. In ~MyelinGraphContext at /_src/runtime/myelin/graphContext.cpp:101)
+TensorRT: [defaultAllocator.cpp::deallocate::91] Error Code 1: Cuda Runtime (In deallocate at /_src/common/dispatch/defaultAllocator.cpp:91)
+TensorRT: [defaultAllocator.cpp::deallocate::91] Error Code 1: Cuda Runtime (In deallocate at /_src/common/dispatch/defaultAllocator.cpp:91)
+TensorRT: [cudaResources.cpp::~ScopedCudaStream::35] Error Code 1: Cuda Runtime (In ~ScopedCudaStream at /_src/common/dispatch/cudaResources.cpp:35)
+TensorRT: [scopedCudaResources.cpp::~ScopedCudaEvent::30] Error Code 1: Cuda Runtime (In ~ScopedCudaEvent at /_src/common/extended/scopedCudaResources.cpp:30)
+TensorRT: [scopedCudaResources.cpp::~ScopedCudaEvent::30] Error Code 1: Cuda Runtime (In ~ScopedCudaEvent at /_src/common/extended/scopedCudaResources.cpp:30)
+TensorRT: ICudaEngine::~ICudaEngine: Error Code 1: Cuda Runtime (In ScopedCudaStream at /_src/common/dispatch/cudaResources.cpp:25)
+TensorRT: [defaultAllocator.cpp::deallocate::91] Error Code 1: Cuda Runtime (In deallocate at /_src/common/dispatch/defaultAllocator.cpp:91)
+detection_session=FAIL checks=67 error=the launch timed out and was terminated
+========= Target application returned an error
+========= ERROR SUMMARY: 12704 errors
+========= ERROR SUMMARY: 12604 errors were not printed. Use --print-limit option to adjust the number of printed errors

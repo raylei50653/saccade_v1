@@ -1,0 +1,1 @@
+ctest --test-dir /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda -R \^\(detection_session\(\$\|_\)\|native_preprocess\$\|resize_cuda\$\|model_producer_cuda\|postprocess_\) --output-on-failure 

@@ -1,0 +1,50 @@
+========= COMPUTE-SANITIZER
+engine_sha256=c6cff1936194e679ce11c3736cab552e4a73a2b1a9ae5508bc3e5d1b3fbab9c5
+inputs_sha256=14dda6867e23ed8a2d83086224d71a445a7fdcb606c7507a3f39c0e5faf60aa0
+policy=f03-producer/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=false
+nvcc=13.4.92
+cuda_flags=--ftz=false --fmad=false -lineinfo
+runtime=13040
+driver=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+sm=120
+workspace_bytes=16
+plugin_statuses=9
+policy=f04-postprocess-fp32/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=false
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=295712
+cub_version=300500
+cccl_version=3005000
+sort_strategy=decode-compaction/adaptive-top300-v1
+sort_rank_threshold=100
+sort_radix_threshold=512
+sort_dense_tile_items=1024
+sort_dense_tiles=9
+sort_key_bits=46
+sort_candidate_id_bits=14
+sort_stage_kernels=2
+kernels_per_enqueue=5
+ordering=score-descending-model-id-ascending
+initialize registers=8 local=0 shared=0 max_threads=1024
+finite registers=13 local=0 shared=0 max_threads=1024
+aggregate registers=32 local=0 shared=0 max_threads=1024
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+live_input=0 kept=32 suppressed=205 raw_sha256=12df20281dd2bd1b4dd2aefbffcb2ce598115e993f530b1d3b82ae2dbdf763e5
+live_integration=PASS inputs=1 checks=1630 full_async_session=UNEXECUTED P01=OPEN
+========= ERROR SUMMARY: 0 errors

@@ -1,6 +1,6 @@
 # Saccade v1 後續工作
 
-日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已實作（[開發驗證](../evidence/f03-producer/2026-10-31/REPORT.md)）；完整 async session 與 P01 保留 OPEN，不把單階段 PASS 當作整條 runtime 已完成。
+日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已完成乾淨 `a9c3d9b` 的 [正式驗收（受測範圍）](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)；[F01–F04 detection session](DETECTION_SESSION.md) 已實作，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 保留 OPEN。
 
 ## 1. F04：先固定觀測政策，再實作
 
@@ -18,23 +18,23 @@
 
 先前 [adaptive dirty development 報告](../evidence/f04/2026-10-31-adaptive/REPORT.md) 保留原身分與 attempt 紀錄；三份真實輸入的完整 F04 API 測時為 1.77–1.97× 加速，排除 H2D／D2H 與 CPU reference。正式驗收未重測效能，也未驗完整模型或 tracking 端到端速度。
 
-[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 [producer 聚合器](MODEL_PRODUCER.md) 已接續實作並完成有界 engine→F04 開發驗證；native 前處理／模型接續仍留於完整 session 任務。
+[原始 rank 版本的 F04 證據](../evidence/f04/2026-10-31/REPORT.md) 保留 31 個固定 cases、正確解析與獨立 historical kept-count 核對的六份 F03 dumps、正常 pending gates、四種 sanitizer、正控制與 10 個 mutations 的歷史結果；當時 `source_dirty=true`、sanitizer callback gates 為 UNEXECUTED，clean-source 正式驗收亦未執行，不能將該 PASS 套用到本次 adaptive 改版。F03 plugin／finite statuses 的 [producer 聚合器](MODEL_PRODUCER.md) 已完成有界 engine→F04 乾淨 source 正式驗收；native 前處理／模型接續已另行實作於 [detection session](DETECTION_SESSION.md)，依其獨立證據判定。
 
-## 2. F03 producer：已實作，完整 async session 接續
+## 2. F03 producer 與 bounded detection session
 
-[`f03-producer/1`](MODEL_PRODUCER.md) 以三個同 stream kernels 完成全部模型 input／raw finite checks、九個 plugin status 的角色檢查、來源退休及 F04 aggregate 發布；[開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 分開列獨立 primitive、pinned engine→F04 與 sanitizer 範圍。這不是 clean-source 正式結案；fresh slot 初始化、ready／consumed、identity 與 session 首次失敗仍由 caller 管理。
+[`f03-producer/1`](MODEL_PRODUCER.md) 以三個同 stream kernels 完成全部模型 input／raw finite checks、九個 plugin status 的角色檢查、來源退休及 F04 aggregate 發布；**乾淨 `a9c3d9b` 正式驗收 PASS（受測範圍）**，見 [正式證據](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)。原 [開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 保留。Fresh slot 初始化、ready／consumed、identity 與 session 首次失敗屬 caller 責任，不由 primitive 的 PASS 推導。
 
-完整 async session：串起已完成階段。
+[F01–F04 bounded async detection session](DETECTION_SESSION.md) 已實作：D 串接原 nvJPEG／F02、完整 F03、producer 與 F04；M 管理候選 consumer、device first-error latch 及固定容量 detection result。CS ready／consumed ring 防止尚未消費即覆寫，pinned HP ring 在 host receive 後重用；支援 frame／epoch identity、overflow／failure／後續 skip、EOF／cancel、D-only tail 的雙 stream drain、checked close 及新 instance 隔離。[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)；不能記為 clean-source session 正式結案，也不納入 `a9c3d9b` 的既有 producer 驗收。
 
-依 [ASYNC_CONTROL](ASYNC_CONTROL.md)、[DATAFLOW](DATAFLOW.md#6-gpu-所有權與同步依賴) 與 [ResultPacket](RESULT_PACKET.md)，將 F01→F05／F02／F03／F04、main 的 F06→F08a→F04b→F07／F08b、最後 F09 接成完整 session。
+本版沿用單 JPEG staging，尚未實作雙 host staging overlap。正常 detection 資料面每幀交付一次完整固定容量 `DetectionSessionResult` D2H，沒有中間 count／status 讀回；這不是 tracking `ResultPacket`，M consumer 也不是 F04b。
 
-須明列 JPEG staging、RAW／model input、MotionImage、推論 outputs、候選 slots 與 ResultPacket 的 owner／ready／last-use／consumed。候選在 F04b 消費完前不得被下一次 inference 覆寫；原圖只在 detect stream 借用。F04b 使用本幀 GMC＋predict 的 prior，continuation-only 候選維持 `can_birth=false`。正常資料面每幀只交付一次固定容量 ResultPacket D2H。
+完整 tracking session 仍須依 [ASYNC_CONTROL](ASYNC_CONTROL.md)、[DATAFLOW](DATAFLOW.md#6-gpu-所有權與同步依賴) 與 [ResultPacket](RESULT_PACKET.md)，實作並接通 F05、main 的 F06→F08a→F04b→F07／F08b 及最後 F09。新增 MotionImage／prior／tracker state 與 ResultPacket 時須擴充 owner／ready／last-use／consumed；候選須活到 F04b 最後消費，F04b 使用本幀 GMC＋predict prior，continuation-only 候選維持 `can_birth=false`。
 
-完成條件：真實模型與影像的 serial／queued 對照、跨幀與跨 session 隔離、pending consumer 下的重用、frame／epoch／版本一致性、錯誤／overflow／缺幀／drain／checked close 全部有證據。現有 F01／F02 的 208 次 usage 測試只驗獨立前處理與 caller-owned consumer，尚未完成本項；雙 host staging／完整 overlap 等規劃依各自實作證據判定。
+完整 tracking 完成條件仍含真實影像 serial／queued、跨幀／跨 session 隔離、pending consumer 下的重用、frame／epoch／版本一致性、錯誤／overflow／缺幀／drain／checked close，以及 tracking state／MOT bytes 的獨立對照。既有前處理 usage 或新 bounded detection 驗證皆不能替代這些新增階段的證據。
 
 ## 3. P01：依原 readiness 缺件整體判定
 
-以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；F03 producer 聚合器已有有界開發驗證；接續補齊正常 native 輸入至完整模型與 F04 的接續整合，以及其餘原列缺件。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
+以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；F03 producer 聚合器已有乾淨 `a9c3d9b` 正式驗收；正常 native 輸入至完整模型與 F04 已另行實作 bounded detection session，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)；其餘原列缺件仍依各自證據判定。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
 
 P01 保留 **OPEN**。Head／F03 racecheck、synccheck 目前 UNEXECUTED；模型品質、tracker／GMC／MOT writer 與完整 tracking 指標依各自驗收，不能由 detection AP 或有限數值對照推導。T01 不因本項未完成而重開已完成的訓練實驗。
 

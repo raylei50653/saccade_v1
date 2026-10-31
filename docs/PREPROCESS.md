@@ -106,3 +106,7 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 正常 process exit 0；891,187,200 RGB bytes 與 255,590,400 FP32 元素全部相同，四個 instances 的 cleanup failures 均為 0。新 caller／binary 及原 libraries、references、policy、實際 loaded SDK／driver 身分均隨 capture 保存；新 caller 不冒稱原始 clean-source capture，也不沿用先前的診斷介入作使用證據。
 
 此使用結案不包含全量 5,316 張、其他 GPU／SDK、完整 F01→F03／F05 async session、F04、tracker 或 P01。原始 sanitizer FAIL 與後續逆向證據繼續作獨立診斷紀錄；不為了讓工具零報告改變解碼／數值路徑。
+
+## Native F01–F04 session 接續
+
+[`DetectionSession`](DETECTION_SESSION.md) 現在管理這個前處理器的 detect stream 與生命週期，將其輸入直接交給完整 F03 engine、producer aggregate 及 F04；跨 stream 候選 ready／consumed、host 接收 ring 與 session 首次失敗由 session 負責。原單 staging／同 stream borrowed-buffer 合約不變，完整 tracking ResultPacket／GMC／tracker 與雙 STAGE host overlap 仍未涵蓋。

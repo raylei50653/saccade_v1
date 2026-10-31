@@ -1,0 +1,36 @@
+add_library(saccade_detection_session src/detection_session.cpp cuda/detection_session.cu)
+set_target_properties(saccade_detection_session PROPERTIES CUDA_STANDARD 20 CUDA_STANDARD_REQUIRED ON)
+target_link_libraries(saccade_detection_session PUBLIC
+  saccade_preprocess saccade_model_trt saccade_model_producer_cuda saccade_postprocess_cuda saccade_file_io saccade_sha256)
+target_compile_definitions(saccade_detection_session PRIVATE
+  SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
+target_compile_options(saccade_detection_session PRIVATE
+  $<$<COMPILE_LANGUAGE:CUDA>:--ftz=false;--fmad=false;-lineinfo>)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(saccade_detection_session PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra;-Wpedantic;-Werror;-ffp-contract=off>)
+endif()
+add_executable(detection_session_tests tests/detection_session_tests.cpp)
+target_link_libraries(detection_session_tests PRIVATE saccade_detection_session)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(detection_session_tests PRIVATE ${SACCADE_SCAN_TRT_WARNINGS} -ffp-contract=off)
+endif()
+set_target_properties(detection_session_tests PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+target_link_options(detection_session_tests PRIVATE "LINKER:--disable-new-dtags")
+set(SACCADE_DETECTION_ENGINE "" CACHE FILEPATH "F03 model engine for optional detection session integration test")
+set(SACCADE_DETECTION_REFERENCES "" CACHE PATH "Frozen JPEG/RGB/FP32 corpus for optional detection session integration test")
+if(SACCADE_DETECTION_ENGINE AND SACCADE_DETECTION_REFERENCES)
+  add_test(NAME detection_session COMMAND detection_session_tests ${SACCADE_DETECTION_ENGINE}
+    ${SACCADE_DETECTION_REFERENCES} ${CMAKE_CURRENT_BINARY_DIR}/session-test-results)
+  set_tests_properties(detection_session PROPERTIES LABELS "gpu;session;tensorrt;preprocess" TIMEOUT 600)
+endif()
+
+add_executable(detection_session_cuda_tests tests/detection_session_cuda_tests.cpp)
+target_link_libraries(detection_session_cuda_tests PRIVATE saccade_detection_session)
+add_test(NAME detection_session_cuda COMMAND detection_session_cuda_tests)
+set_tests_properties(detection_session_cuda PROPERTIES LABELS "gpu;session" TIMEOUT 180)
+set_target_properties(detection_session_cuda_tests PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+target_link_options(detection_session_cuda_tests PRIVATE "LINKER:--disable-new-dtags")
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(detection_session_cuda_tests PRIVATE ${SACCADE_SCAN_TRT_WARNINGS} -ffp-contract=off)
+endif()

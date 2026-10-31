@@ -1,0 +1,37 @@
+{
+  "source_commit": "a9c3d9bfecb61fdea8850b3fdf2308f09aace629",
+  "source_clean_before": true,
+  "source_clean_after": true,
+  "source_manifest_archive_verified_files": 117,
+  "artifact_hashes_before_after_equal": true,
+  "binary_hashes_before_after_equal": true,
+  "normal_steps_all_exit_zero": [
+    "environment",
+    "artifacts",
+    "cpu-configure",
+    "cpu-build",
+    "cpu-ctest",
+    "configure",
+    "build",
+    "binaries",
+    "ctest",
+    "sanitizer-memcheck",
+    "sanitizer-initcheck",
+    "sanitizer-racecheck",
+    "sanitizer-synccheck",
+    "live-memcheck",
+    "live-initcheck",
+    "binaries-after",
+    "standalone-configure",
+    "standalone-build"
+  ],
+  "positive_control_expected_exit": 99,
+  "positive_control_expected_diagnostics": {
+    "memcheck": "Invalid __global__ write",
+    "initcheck": "Uninitialized __global__ memory read",
+    "racecheck": "Error: Race reported between",
+    "synccheck": "Barrier error detected"
+  },
+  "verdict": "PASS",
+  "scope": "bounded F03 producer primitive and fixed six-input F03-engine-to-F04 integration; no async-session acceptance"
+}

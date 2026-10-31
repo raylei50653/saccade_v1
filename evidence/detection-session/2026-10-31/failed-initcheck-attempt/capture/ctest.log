@@ -1,0 +1,33 @@
+Test project /home/ray/developer/ai/saccade_v1/build-detection-session-evidence/cuda
+      Start 14: postprocess_reference
+ 1/10 Test #14: postprocess_reference ..............   Passed    0.19 sec
+      Start 31: resize_cuda
+ 2/10 Test #31: resize_cuda ........................   Passed    0.85 sec
+      Start 32: native_preprocess
+ 3/10 Test #32: native_preprocess ..................   Passed    3.20 sec
+      Start 33: postprocess_cuda
+ 4/10 Test #33: postprocess_cuda ...................   Passed    1.03 sec
+      Start 34: postprocess_cuda_lazy_streams
+ 5/10 Test #34: postprocess_cuda_lazy_streams ......   Passed    0.34 sec
+      Start 35: model_producer_cuda
+ 6/10 Test #35: model_producer_cuda ................   Passed    0.42 sec
+      Start 36: model_producer_cuda_lazy_streams
+ 7/10 Test #36: model_producer_cuda_lazy_streams ...   Passed    0.26 sec
+      Start 37: detection_session
+ 8/10 Test #37: detection_session ..................   Passed   25.69 sec
+      Start 38: detection_session_cuda
+ 9/10 Test #38: detection_session_cuda .............   Passed    0.41 sec
+      Start 39: detection_session_happens_before
+10/10 Test #39: detection_session_happens_before ...   Passed    0.05 sec
+
+100% tests passed out of 10
+
+Label Time Summary:
+gpu               =  32.20 sec*proc (8 tests)
+model_producer    =   0.68 sec*proc (2 tests)
+postprocess       =   1.37 sec*proc (2 tests)
+preprocess        =  29.73 sec*proc (3 tests)
+session           =  26.10 sec*proc (2 tests)
+tensorrt          =  25.69 sec*proc (1 test)
+
+Total Test time (real) =  32.44 sec

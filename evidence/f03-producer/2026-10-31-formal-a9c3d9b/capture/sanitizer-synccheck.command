@@ -1,0 +1,1 @@
+timeout 240 /opt/cuda/bin/compute-sanitizer --tool synccheck --error-exitcode 99 /home/ray/developer/ai/saccade_v1/build-f03-producer-formal-a9c3d9b/source/build-capture/cuda/model_producer_cuda_tests --no-held-stream --no-api-trace 

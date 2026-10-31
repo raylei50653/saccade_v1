@@ -1,0 +1,1 @@
+timeout 240 /opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 /home/ray/developer/ai/saccade_v1/build-f03-producer-formal-a9c3d9b/source/build-capture/cuda/model_producer_trt_tests /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/stage/model.engine /home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/t01root/export/f03-inputs.f32 --inputs 1 

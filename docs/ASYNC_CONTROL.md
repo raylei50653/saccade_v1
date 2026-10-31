@@ -222,3 +222,7 @@ V01 的早期外部腳本紀錄沒有隨 `e08a1da` 入庫，不作可重跑證�
 | E08 | `pkt[r]` 與 HP 帳本。 |
 | E09 | 診斷讀取計入 slot 的最後讀取，排在 consumed record 之前。 |
 | P05 | graph 內 event 的綁定、parity graph 與 kernel 參數的取捨、TensorRT aux stream 的驗證。 |
+
+## Native detection session 的已實作子集
+
+[`DetectionSession`](DETECTION_SESSION.md) 已將 F01／F02→F03→producer aggregate→F04 接成 bounded async detection session，實作 CS ready／consumed、pinned host result ring、device 首次失敗鎖定、完整候選交付及 D／M 終端 drain。它沿用單 staging 的 `NativePreprocessor`；M 目前只做候選 consumer／session commit，不包含 MI、GMC、F04b、tracker 或 tracking ResultPacket。新增有限 happens-before 模型檢查 18 組設定及六種缺邊／錯綁變體；實機覆蓋以 session 證據為準，不沿用合成骨架的 GPU 結論。完整 §4 tracking 流程及雙 STAGE overlap 仍待接續。

@@ -1,0 +1,237 @@
+{
+  "model_producer_cuda_tests": {
+    "ldd": "\tlinux-vdso.so.1 (0x000072d7eb7f7000)\n\tlibcupti.so.13 => /opt/cuda/targets/x86_64-linux/lib/libcupti.so.13 (0x000072d7eae00000)\n\tlibcudart.so.13 => /opt/cuda/targets/x86_64-linux/lib/libcudart.so.13 (0x000072d7eaa00000)\n\tlibcuda.so.1 => /usr/lib/wsl/lib/libcuda.so.1 (0x000072d7eb719000)\n\tlibstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x000072d7ea600000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x000072d7eb5e0000)\n\tlibgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x000072d7eb5b3000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x000072d7ea200000)\n\tlibpthread.so.0 => /usr/lib/libpthread.so.0 (0x000072d7eb5ae000)\n\tlibrt.so.1 => /usr/lib/librt.so.1 (0x000072d7eb5a9000)\n\tlibdl.so.2 => /usr/lib/libdl.so.2 (0x000072d7eb5a4000)\n\tlibutil.so.1 => /usr/lib/libutil.so.1 (0x000072d7eb59d000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x000072d7eb7f9000)\n",
+    "dependencies": [
+      {
+        "path": "/opt/cuda/targets/x86_64-linux/lib/libcupti.so.13",
+        "resolved_path": "/opt/cuda/targets/x86_64-linux/lib/libcupti.so.2026.3.1",
+        "sha256": "4c57c8ba32ef52c7426d93adb0318a4a234942c2e20955774077b5918825189d"
+      },
+      {
+        "path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13",
+        "resolved_path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13.4.92",
+        "sha256": "7fb00519a24512bf677b59e87921e5c05aac8246ceb6a57435c0d9dfeef364f6"
+      },
+      {
+        "path": "/usr/lib/wsl/lib/libcuda.so.1",
+        "resolved_path": "/usr/lib/wsl/lib/libcuda.so.1",
+        "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+      },
+      {
+        "path": "/usr/lib/libstdc++.so.6",
+        "resolved_path": "/usr/lib/libstdc++.so.6.0.36",
+        "sha256": "f5fc7380f2ae46fa4053a64be04e7b98109f1066a4bbfff3c37042488aa0be0e"
+      },
+      {
+        "path": "/usr/lib/libm.so.6",
+        "resolved_path": "/usr/lib/libm.so.6",
+        "sha256": "965106704753eefe8c31ae7da6daba3ead3d18c52b19b5fcc41178bcc4aa999d"
+      },
+      {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "resolved_path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "e618cb9c90c2eb3a1dad1cfea5b6c1eebcf2e799ad805976f4ae47bdd61c716a"
+      },
+      {
+        "path": "/usr/lib/libc.so.6",
+        "resolved_path": "/usr/lib/libc.so.6",
+        "sha256": "02c8c3d06180beee9c7d0392aa85736c7d19f274a81e7f8f0b3d9e28e0641524"
+      },
+      {
+        "path": "/usr/lib/libpthread.so.0",
+        "resolved_path": "/usr/lib/libpthread.so.0",
+        "sha256": "839b91403f89fa4c6888d50deb2b59cd0612f8cfe3d57dd9d6314832b4cb31ab"
+      },
+      {
+        "path": "/usr/lib/librt.so.1",
+        "resolved_path": "/usr/lib/librt.so.1",
+        "sha256": "e06e12b8a78494908d08376838c380fb3817bfd7d54f6a86ef050016f7ade5f8"
+      },
+      {
+        "path": "/usr/lib/libdl.so.2",
+        "resolved_path": "/usr/lib/libdl.so.2",
+        "sha256": "9b3812e7f6b766e2d0a1d9eeca1a58c1272392859e8b04f708b2f86b2256d03c"
+      },
+      {
+        "path": "/usr/lib/libutil.so.1",
+        "resolved_path": "/usr/lib/libutil.so.1",
+        "sha256": "8c2cbf01f52acb42478b9ab10506af9878b7e8d47aefacc8896bb5b37384c222"
+      },
+      {
+        "path": "/lib64/ld-linux-x86-64.so.2",
+        "resolved_path": "/usr/lib/ld-linux-x86-64.so.2",
+        "sha256": "f5e11cc62f8f2c24dff532982559f4303dba3b17e7450551372a88c8e7ea8757"
+      }
+    ]
+  },
+  "model_producer_trt_tests": {
+    "ldd": "\tlinux-vdso.so.1 (0x00007a1e603b4000)\n\tlibnvinfer.so.10 => /home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10 (0x00007a1e37800000)\n\tlibnvonnxparser.so.10 => /home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvonnxparser.so.10 (0x00007a1e37200000)\n\tlibcudart.so.13 => /opt/cuda/targets/x86_64-linux/lib/libcudart.so.13 (0x00007a1e36e00000)\n\tlibcuda.so.1 => /usr/lib/wsl/lib/libcuda.so.1 (0x00007a1e60258000)\n\tlibstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x00007a1e36a00000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x00007a1e370c9000)\n\tlibgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x00007a1e6022b000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x00007a1e36600000)\n\tlibdl.so.2 => /usr/lib/libdl.so.2 (0x00007a1e60226000)\n\tlibpthread.so.0 => /usr/lib/libpthread.so.0 (0x00007a1e6021f000)\n\tlibrt.so.1 => /usr/lib/librt.so.1 (0x00007a1e6021a000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007a1e603b6000)\n",
+    "dependencies": [
+      {
+        "path": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10",
+        "resolved_path": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+        "sha256": "5731ee938cb5826ec948fec01734e16e9aea94dc4eca37e91878f07d95b50708"
+      },
+      {
+        "path": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvonnxparser.so.10",
+        "resolved_path": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvonnxparser.so.10.16.1",
+        "sha256": "2b517c9d21d90d8eef5c9c5b1b9acbe46c39ccd4bb36b927ef29776d5fde48e3"
+      },
+      {
+        "path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13",
+        "resolved_path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13.4.92",
+        "sha256": "7fb00519a24512bf677b59e87921e5c05aac8246ceb6a57435c0d9dfeef364f6"
+      },
+      {
+        "path": "/usr/lib/wsl/lib/libcuda.so.1",
+        "resolved_path": "/usr/lib/wsl/lib/libcuda.so.1",
+        "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+      },
+      {
+        "path": "/usr/lib/libstdc++.so.6",
+        "resolved_path": "/usr/lib/libstdc++.so.6.0.36",
+        "sha256": "f5fc7380f2ae46fa4053a64be04e7b98109f1066a4bbfff3c37042488aa0be0e"
+      },
+      {
+        "path": "/usr/lib/libm.so.6",
+        "resolved_path": "/usr/lib/libm.so.6",
+        "sha256": "965106704753eefe8c31ae7da6daba3ead3d18c52b19b5fcc41178bcc4aa999d"
+      },
+      {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "resolved_path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "e618cb9c90c2eb3a1dad1cfea5b6c1eebcf2e799ad805976f4ae47bdd61c716a"
+      },
+      {
+        "path": "/usr/lib/libc.so.6",
+        "resolved_path": "/usr/lib/libc.so.6",
+        "sha256": "02c8c3d06180beee9c7d0392aa85736c7d19f274a81e7f8f0b3d9e28e0641524"
+      },
+      {
+        "path": "/usr/lib/libdl.so.2",
+        "resolved_path": "/usr/lib/libdl.so.2",
+        "sha256": "9b3812e7f6b766e2d0a1d9eeca1a58c1272392859e8b04f708b2f86b2256d03c"
+      },
+      {
+        "path": "/usr/lib/libpthread.so.0",
+        "resolved_path": "/usr/lib/libpthread.so.0",
+        "sha256": "839b91403f89fa4c6888d50deb2b59cd0612f8cfe3d57dd9d6314832b4cb31ab"
+      },
+      {
+        "path": "/usr/lib/librt.so.1",
+        "resolved_path": "/usr/lib/librt.so.1",
+        "sha256": "e06e12b8a78494908d08376838c380fb3817bfd7d54f6a86ef050016f7ade5f8"
+      },
+      {
+        "path": "/lib64/ld-linux-x86-64.so.2",
+        "resolved_path": "/usr/lib/ld-linux-x86-64.so.2",
+        "sha256": "f5e11cc62f8f2c24dff532982559f4303dba3b17e7450551372a88c8e7ea8757"
+      }
+    ]
+  },
+  "postprocess_cuda_tests": {
+    "ldd": "\tlinux-vdso.so.1 (0x000079fcbdf79000)\n\tlibcudart.so.13 => /opt/cuda/targets/x86_64-linux/lib/libcudart.so.13 (0x000079fcbdc00000)\n\tlibcuda.so.1 => /usr/lib/wsl/lib/libcuda.so.1 (0x000079fcbdbd1000)\n\tlibstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x000079fcbd800000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x000079fcbd6c9000)\n\tlibgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x000079fcbdba4000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x000079fcbd400000)\n\tlibdl.so.2 => /usr/lib/libdl.so.2 (0x000079fcbdecd000)\n\tlibpthread.so.0 => /usr/lib/libpthread.so.0 (0x000079fcbdec8000)\n\tlibrt.so.1 => /usr/lib/librt.so.1 (0x000079fcbdb9f000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x000079fcbdf7b000)\n",
+    "dependencies": [
+      {
+        "path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13",
+        "resolved_path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13.4.92",
+        "sha256": "7fb00519a24512bf677b59e87921e5c05aac8246ceb6a57435c0d9dfeef364f6"
+      },
+      {
+        "path": "/usr/lib/wsl/lib/libcuda.so.1",
+        "resolved_path": "/usr/lib/wsl/lib/libcuda.so.1",
+        "sha256": "2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d"
+      },
+      {
+        "path": "/usr/lib/libstdc++.so.6",
+        "resolved_path": "/usr/lib/libstdc++.so.6.0.36",
+        "sha256": "f5fc7380f2ae46fa4053a64be04e7b98109f1066a4bbfff3c37042488aa0be0e"
+      },
+      {
+        "path": "/usr/lib/libm.so.6",
+        "resolved_path": "/usr/lib/libm.so.6",
+        "sha256": "965106704753eefe8c31ae7da6daba3ead3d18c52b19b5fcc41178bcc4aa999d"
+      },
+      {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "resolved_path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "e618cb9c90c2eb3a1dad1cfea5b6c1eebcf2e799ad805976f4ae47bdd61c716a"
+      },
+      {
+        "path": "/usr/lib/libc.so.6",
+        "resolved_path": "/usr/lib/libc.so.6",
+        "sha256": "02c8c3d06180beee9c7d0392aa85736c7d19f274a81e7f8f0b3d9e28e0641524"
+      },
+      {
+        "path": "/usr/lib/libdl.so.2",
+        "resolved_path": "/usr/lib/libdl.so.2",
+        "sha256": "9b3812e7f6b766e2d0a1d9eeca1a58c1272392859e8b04f708b2f86b2256d03c"
+      },
+      {
+        "path": "/usr/lib/libpthread.so.0",
+        "resolved_path": "/usr/lib/libpthread.so.0",
+        "sha256": "839b91403f89fa4c6888d50deb2b59cd0612f8cfe3d57dd9d6314832b4cb31ab"
+      },
+      {
+        "path": "/usr/lib/librt.so.1",
+        "resolved_path": "/usr/lib/librt.so.1",
+        "sha256": "e06e12b8a78494908d08376838c380fb3817bfd7d54f6a86ef050016f7ade5f8"
+      },
+      {
+        "path": "/lib64/ld-linux-x86-64.so.2",
+        "resolved_path": "/usr/lib/ld-linux-x86-64.so.2",
+        "sha256": "f5e11cc62f8f2c24dff532982559f4303dba3b17e7450551372a88c8e7ea8757"
+      }
+    ]
+  },
+  "postprocess_sanitizer_control": {
+    "ldd": "\tlinux-vdso.so.1 (0x0000782721d46000)\n\tlibcudart.so.13 => /opt/cuda/lib64/libcudart.so.13 (0x0000782721a00000)\n\tlibstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x0000782721600000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x00007827214c9000)\n\tlibgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x0000782721cdb000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x0000782721200000)\n\tlibdl.so.2 => /usr/lib/libdl.so.2 (0x0000782721cd4000)\n\tlibpthread.so.0 => /usr/lib/libpthread.so.0 (0x0000782721ccf000)\n\tlibrt.so.1 => /usr/lib/librt.so.1 (0x0000782721cca000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x0000782721d48000)\n",
+    "dependencies": [
+      {
+        "path": "/opt/cuda/lib64/libcudart.so.13",
+        "resolved_path": "/opt/cuda/targets/x86_64-linux/lib/libcudart.so.13.4.92",
+        "sha256": "7fb00519a24512bf677b59e87921e5c05aac8246ceb6a57435c0d9dfeef364f6"
+      },
+      {
+        "path": "/usr/lib/libstdc++.so.6",
+        "resolved_path": "/usr/lib/libstdc++.so.6.0.36",
+        "sha256": "f5fc7380f2ae46fa4053a64be04e7b98109f1066a4bbfff3c37042488aa0be0e"
+      },
+      {
+        "path": "/usr/lib/libm.so.6",
+        "resolved_path": "/usr/lib/libm.so.6",
+        "sha256": "965106704753eefe8c31ae7da6daba3ead3d18c52b19b5fcc41178bcc4aa999d"
+      },
+      {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "resolved_path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "e618cb9c90c2eb3a1dad1cfea5b6c1eebcf2e799ad805976f4ae47bdd61c716a"
+      },
+      {
+        "path": "/usr/lib/libc.so.6",
+        "resolved_path": "/usr/lib/libc.so.6",
+        "sha256": "02c8c3d06180beee9c7d0392aa85736c7d19f274a81e7f8f0b3d9e28e0641524"
+      },
+      {
+        "path": "/usr/lib/libdl.so.2",
+        "resolved_path": "/usr/lib/libdl.so.2",
+        "sha256": "9b3812e7f6b766e2d0a1d9eeca1a58c1272392859e8b04f708b2f86b2256d03c"
+      },
+      {
+        "path": "/usr/lib/libpthread.so.0",
+        "resolved_path": "/usr/lib/libpthread.so.0",
+        "sha256": "839b91403f89fa4c6888d50deb2b59cd0612f8cfe3d57dd9d6314832b4cb31ab"
+      },
+      {
+        "path": "/usr/lib/librt.so.1",
+        "resolved_path": "/usr/lib/librt.so.1",
+        "sha256": "e06e12b8a78494908d08376838c380fb3817bfd7d54f6a86ef050016f7ade5f8"
+      },
+      {
+        "path": "/lib64/ld-linux-x86-64.so.2",
+        "resolved_path": "/usr/lib/ld-linux-x86-64.so.2",
+        "sha256": "f5e11cc62f8f2c24dff532982559f4303dba3b17e7450551372a88c8e7ea8757"
+      }
+    ]
+  }
+}

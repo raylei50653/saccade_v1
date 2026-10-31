@@ -1,0 +1,70 @@
+corpus=0 label=MOT17-02-SDP/1 jpeg_sha256=41ff65408c5338f4a83035fd12e9f5f7b658ee82feacf4512655677032636597
+corpus=1 label=MOT17-10-SDP/1 jpeg_sha256=bc655b86e7dcd9993df950217534f2f6cbf85217faba544dce956b834fb053a0
+corpus=2 label=MOT17-13-SDP/400 jpeg_sha256=eab49b69eeb4816aaac41f2699479a4ead316672e6d1fef49efd912721eea05a
+corpus=3 label=MOT17-04-SDP/1 jpeg_sha256=53f3d86aad1aa4912b2919bae344919b54d193e72c1c7169ce8bc4685408053c
+corpus=4 label=MOT17-05-SDP/1 jpeg_sha256=9f4f112b29e93846501db27d2bcc2c99795715aa6376d5b5662d75f2e2f196d7
+corpus=5 label=MOT17-09-SDP/1 jpeg_sha256=e4b1c40c44d53489f191e1099156ad57d3963d8c434615750fba0065a8a572af
+corpus=6 label=MOT17-11-SDP/1 jpeg_sha256=45c999f9f2bff3d308cf8cd877ff63b95394f53e7319c1b9c444acff77d73b3c
+independent_input=0 kept=32 suppressed=205 raw_sha256=12df20281dd2bd1b4dd2aefbffcb2ce598115e993f530b1d3b82ae2dbdf763e5 candidates_sha256=41164400d8d3ca66048aefffde23d62b96f6578b9ec8a68d488e892532610598
+independent_input=1 kept=28 suppressed=218 raw_sha256=02558978a3e7437cc82c24c3532386588d596c2f9f54a6760d811a4543a9cf16 candidates_sha256=87d8ab27d942548f7eef7b184feef43325a807aa89069396f12e04521e759f96
+independent_input=2 kept=39 suppressed=246 raw_sha256=b69dc2f3a468540d507a35ee5da767d7607c88948c68418b1dfa8296b55ea85f candidates_sha256=b9775e8534aade6ec8df0136e7e35819895a01af54ca6ee153d8d4af37cebdd7
+independent_input=3 kept=39 suppressed=261 raw_sha256=ebca9ab32158353ca0d0db64b9f3a608c35a67df4117b56be864b82d9e992e95 candidates_sha256=aadcdc49c642d539a086b91cac5e48c9eabafbedac93b6ecc00adf2a4209ed2c
+independent_input=4 kept=12 suppressed=71 raw_sha256=061e4766d26f69a875bcb9cd34ebd16a6b4c270a8a2ab18c5f4b2effbb5725c3 candidates_sha256=d9879a8e4a35479d174f8f1fa7d47900de647f547579ca1aa18ca9d40b5b5c90
+independent_input=5 kept=15 suppressed=89 raw_sha256=7486e6bd59e03852f0fd76b57e10bedf51aaaa7381cf6b365062fdd82addb4cd candidates_sha256=3a2be2b15dfd91ca88c4575c9d2ac27ca93c7329ce71922869af937454ba9e36
+independent_input=6 kept=34 suppressed=239 raw_sha256=831fa0cf4e337b39ae1f7a79b254e660c37d4035e424b2b406b1fcbf2d1e4b95 candidates_sha256=4bbe66a50f5d23d60851f1f5a6d70ae4d82f733683eb2c7b5ae4ab98ff7ee960
+rejection=receive-empty error=no pending detection result
+rejection=enqueue-after-finish error=session is not accepting frames
+rejection=enqueue-after-close error=detection session is closed
+rejection=receive-after-close error=detection session is closed
+case=normal slots=1 result_slots=1 frames=13 serial_queued_full_bytes=PASS
+rejection=receive-empty error=no pending detection result
+rejection=enqueue-after-finish error=session is not accepting frames
+rejection=enqueue-after-close error=detection session is closed
+rejection=receive-after-close error=detection session is closed
+case=normal slots=2 result_slots=5 frames=13 serial_queued_full_bytes=PASS
+rejection=receive-empty error=no pending detection result
+rejection=enqueue-after-finish error=session is not accepting frames
+rejection=enqueue-after-close error=detection session is closed
+rejection=receive-after-close error=detection session is closed
+case=normal slots=3 result_slots=5 frames=13 serial_queued_full_bytes=PASS
+rejection=result-ring-full error=session result ring full; receive first
+case=result-ring-backpressure no-drop/retry-same-frame=PASS
+rejection=enqueue-after-observed-device-failure error=session is not accepting frames
+case=device-failure scenario=0 first_code=2 first-failure/skip/zero-output=PASS
+rejection=enqueue-after-observed-device-failure error=session is not accepting frames
+case=device-failure scenario=1 first_code=4 first-failure/skip/zero-output=PASS
+rejection=enqueue-after-observed-device-failure error=session is not accepting frames
+case=device-failure scenario=2 first_code=8 first-failure/skip/zero-output=PASS
+rejection=empty-jpeg error=JPEG size is empty, truncated or over capacity
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=invalid-jpeg error=JPEG must have complete SOI/EOI markers
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=metadata-mismatch error=JPEG dimensions differ from sequence metadata
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=missing-frame error=session frame must be contiguous and zero-based
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=duplicate-frame error=session frame must be contiguous and zero-based
+rejection=enqueue-after-host-failure error=session is not accepting frames
+case=host-failures malformed/metadata/missing/duplicate/latch/preserve-prefix=PASS
+rejection=enqueue-after-cancel error=session is not accepting frames
+rejection=zero-candidate-ring error=candidate_slots must be in [1,16]
+rejection=zero-result-ring error=result_slots must be in [1,64]
+rejection=wrong-model-shape error=F03 requires 640x640 preprocessing
+rejection=output-capacity-range error=output_capacity must be in [1,300]
+rejection=missing-engine error=cannot open input: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/capture/session/missing.engine
+DetectionSession TensorRT: [runtime.cpp::readHeader::618] Error Code 2: Internal Error (Assertion bufferSize >= minBufferSize failed.  In readHeader at /_src/runtime/dispatch/runtime.cpp:618)
+rejection=malformed-engine error=session requires model engine with zero auxiliary streams
+case=lifecycle empty-EOF/cancel/finish/checked-close/destructor/fresh-epoch/config/engine=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=0 independent-D-drain=PASS callback_gate=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=1 independent-D-drain=PASS callback_gate=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=2 independent-D-drain=PASS callback_gate=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=3 independent-D-drain=PASS callback_gate=PASS
+case=pending-consumer slots=1 reuse-before-consumed=PASS
+case=pending-consumer slots=2 reuse-before-consumed=PASS
+coverage=independent-reference,serial,queued,rings123,backpressure,first-failure,skip,overflow,identity,malformed,metadata,missing,duplicate,cancel,EOF,D-only-tail,drain,close,destructor,fresh-epoch
+callback_gates=PASS
+detection_session=PASS checks=4293 mode=normal

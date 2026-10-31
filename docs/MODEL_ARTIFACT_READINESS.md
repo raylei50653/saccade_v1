@@ -8,7 +8,7 @@
 
 2026-10-30 T01 更新見 [§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)：T01 的 matching backbone／neck ONNX 與 head bundle 已 native 交付並建成完整模型 engine，backbone 與 F03 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) PASS（有範圍）；P01 仍 OPEN。
 
-2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；F03 producer 的接續實作與開發驗證見 [§12](#12-f03-producer-聚合器2026-10-31)；完整 async session 與 P01 仍 OPEN。§1–§11 保留各階段當時的狀態。
+2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；F03 producer 的乾淨 `a9c3d9b` 正式驗收見 [§12](#12-f03-producer-聚合器2026-10-31)；新實作的 bounded detection session 見 [§13](#13-f01f04-bounded-detection-session2026-10-31)，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 仍 OPEN。§1–§11 保留各階段當時的狀態。
 
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
@@ -214,6 +214,14 @@ F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與�
 
 ## 12. F03 producer 聚合器（2026-10-31）
 
-[`f03-producer/1`](MODEL_PRODUCER.md) 已實作全部 9 個 plugin statuses＋input／output finite checks 的 device 聚合與退休，發布 F04 已有的 aggregate ABI。[開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 列出獨立 API、六個固定輸入的 live engine→F04、重用／失敗／graph 及 sanitizer 的受測界線；dirty-source 開發驗證不稱 clean-source 正式結案。
+[`f03-producer/1`](MODEL_PRODUCER.md) 已實作全部 9 個 plugin statuses＋input／output finite checks 的 device 聚合與退休，發布 F04 已有的 aggregate ABI。**乾淨 `a9c3d9b` 正式驗收 PASS（受測範圍）**：[正式證據](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md) 保存獨立乾淨 worktree／實際 binaries、CPU 12/12、CUDA／live 6/6、六個固定輸入、獨立 adapter 四種 sanitizer 與正控制，以及第一個固定 live 輸入的 memcheck／initcheck。原 [dirty-source 開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 保留。
 
-**P01 仍 OPEN**：正常 native F01／F02→F03→F04 完整 session、CS ready／consumed、first-error latch、drain／checked close 與其他既列缺件仍待整合證據。Head／F03 racecheck／synccheck、模型品質及 tracking 指標不由本項推導。
+此驗收只涵蓋 primitive 與固定 engine→F04，未包含後續 async session source。Head／F03 racecheck／synccheck 仍 UNEXECUTED，sanitizer callback gates／CUPTI 亦維持報告所列邊界；模型品質、tracking 指標與 P01 不由本項推導。
+
+## 13. F01–F04 bounded detection session（2026-10-31）
+
+[F01–F04 detection session](DETECTION_SESSION.md) 已接通原 nvJPEG／F02→完整 F03→producer→F04；新實作擁有 D／M streams、CS ready／consumed 與 pinned result rings、epoch／frame identity、device first-error latch／後續 skip、EOF／cancel、D-only tail drain、checked close 及新 instance 生命週期。[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)，不列為已正式驗收，亦不回寫成 `a9c3d9b` 的 clean-source 範圍。
+
+本版保留單 JPEG staging，未實作雙 STAGE overlap。交付的固定容量 `DetectionSessionResult` 包含完整 kept／suppressed candidates，與 tracking `ResultPacket` 不同；正常路徑沒有中間 count／status D2H。原 nvJPEG initcheck FAIL 仍依 [使用政策](PREPROCESS_USAGE_POLICY.md) 分開診斷，不因新 session 改稱原路徑 sanitizer PASS。
+
+**P01 仍 OPEN**：完整 tracking session 的 F05／GMC／F04b／tracker／ResultPacket／MOT writer、原列其他缺件及各階段未執行驗證仍須獨立判定；bounded detection session 的實作與有限驗證不能提升模型品質或 tracking 指標。後續依 [BACKLOG](BACKLOG.md) 接續。

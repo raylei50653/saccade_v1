@@ -170,3 +170,7 @@ build-f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 上述驗證限本機受測 GPU／CUDA 與固定 inputs，不繼承為其他環境的結果。F04 CPU ASan／UBSan 單項 1/1 通過；額外全 CPU Debug suite 中途停止，未列全套 ASan PASS。前處理 header 相容性 rebuild 與指定測試 2/2 通過，不重分類既知 nvJPEG initcheck 診斷。實際執行與開發失敗紀錄以原始報告為準。
 
 此實作的範圍是 raw predictions→`DetectionCandidates`；不包含 F03 producer 聚合器、native 前處理與模型接續、F04b 續追、GMC、tracker、ResultPacket 或 MOT writer。**完整 async session 與 P01 仍 OPEN**；T01 實驗不因此重開，也不由 F04 數值或執行驗證推導新的模型品質成績。
+
+## 候選的 session owner
+
+[`DetectionSession`](DETECTION_SESSION.md) 現在是 native F01／F02→F03→producer→F04 的 bounded caller：D 在覆寫候選 slot 前 wait M consumed，F04 後 record ready，M 在 wait ready 後讀完整 kept／suppressed pool、鎖定首次失敗，再歸還 slot。原 F04 政策、aggregate／candidate ABI 與獨立正式驗收不變。這個 M consumer 尚不是 F04b，也不提供 GMC／tracker／tracking ResultPacket。

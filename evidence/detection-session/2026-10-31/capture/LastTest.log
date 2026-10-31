@@ -1,0 +1,431 @@
+Start testing: Oct 31 15:44 CST
+----------------------------------------------------------
+14/39 Testing: postprocess_reference
+14/39 Test: postprocess_reference
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/postprocess_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"postprocess_reference" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+postprocess_reference: 442 checks passed
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"postprocess_reference" end time: Oct 31 15:44 CST
+"postprocess_reference" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/39 Testing: resize_cuda
+31/39 Test: resize_cuda
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/resize_cuda_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"resize_cuda" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+contract=t01-input/1
+resize=fp32-antialiased-bilinear-half-pixel
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=true
+nvcc=13.4.92
+normalize=fp32-reciprocal-255-before-resize
+registers=36 local_bytes=0 shared_bytes=0
+registers=36 local_bytes=0 shared_bytes=0
+resize_cuda_tests PASS cases=68 max_abs_binary64=1.41507e-05 held_stream=PASS
+<end of output>
+Test time =   0.86 sec
+----------------------------------------------------------
+Test Passed.
+"resize_cuda" end time: Oct 31 15:44 CST
+"resize_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/39 Testing: native_preprocess
+32/39 Test: native_preprocess
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/preprocess_tests" "/home/ray/developer/ai/saccade_v1/fixtures/preprocess"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"native_preprocess" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+case=positive frames=4 odd-size=35x27 alternate=48x32 bitwise-repeat=PASS
+case=independent-streams mapping=nonuniform bitwise=PASS
+case=host-rejections malformed/unsupported/capacity/metadata/order/config/default-stream/latch/closed=PASS
+case=capture-rejected=PASS
+preprocess_tests checks=2977 PASS
+<end of output>
+Test time =   3.55 sec
+----------------------------------------------------------
+Test Passed.
+"native_preprocess" end time: Oct 31 15:44 CST
+"native_preprocess" time elapsed: 00:00:03
+----------------------------------------------------------
+
+33/39 Testing: postprocess_cuda
+33/39 Test: postprocess_cuda
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/postprocess_cuda_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"postprocess_cuda" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+policy=f04-postprocess-fp32/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=295712
+cub_version=300500
+cccl_version=3005000
+sort_strategy=decode-compaction/adaptive-top300-v1
+sort_rank_threshold=100
+sort_radix_threshold=512
+sort_dense_tile_items=1024
+sort_dense_tiles=9
+sort_key_bits=46
+sort_candidate_id_bits=14
+sort_stage_kernels=2
+kernels_per_enqueue=5
+ordering=score-descending-model-id-ascending
+case=empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=single-asymmetric-map-no-clip count=1 kept=1 suppressed=0 flags=0 PASS
+case=level-first-last-layout count=6 kept=6 suppressed=0 flags=0 PASS
+case=class-tie-lowest count=1 kept=1 suppressed=0 flags=0 PASS
+case=class-rounded-sigmoid-saturation count=1 kept=1 suppressed=0 flags=0 PASS
+case=top300-before-person count=0 kept=0 suppressed=0 flags=0 PASS
+case=top300-tie-id count=300 kept=300 suppressed=0 flags=0 PASS
+case=degenerate-occupies-top300 count=0 kept=0 suppressed=0 flags=0 PASS
+case=threshold-adjacent-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=nms-equal-score-id-suppressed-pool count=3 kept=1 suppressed=2 flags=0 PASS
+case=nms-iou-exact-half count=2 kept=2 suppressed=0 flags=0 PASS
+case=nms-iou-above-half count=2 kept=1 suppressed=1 flags=0 PASS
+case=nms-iou-below-half count=2 kept=2 suppressed=0 flags=0 PASS
+case=nms-greedy-chain count=3 kept=2 suppressed=1 flags=0 PASS
+case=negative-ltrb-valid-and-degenerate count=1 kept=1 suppressed=0 flags=0 PASS
+case=finite-extreme-logits count=1 kept=1 suppressed=0 flags=0 PASS
+case=minimum-anchor-adjacent-valid-box count=1 kept=1 suppressed=0 flags=0 PASS
+case=capacity-zero-empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=capacity-zero-overflow count=0 kept=0 suppressed=0 flags=8 PASS
+case=capacity-exact count=2 kept=2 suppressed=0 flags=0 PASS
+case=capacity-one-short count=0 kept=0 suppressed=0 flags=8 PASS
+case=nan-low-score-logit count=0 kept=0 suppressed=0 flags=1 PASS
+case=inf-low-score-reg count=0 kept=0 suppressed=0 flags=1 PASS
+case=decode-overflow-low-score count=0 kept=0 suppressed=0 flags=1 PASS
+case=nms-area-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=nms-union-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=mapping-overflow count=0 kept=0 suppressed=0 flags=1 PASS
+case=producer-not-done count=0 kept=0 suppressed=0 flags=4 PASS
+case=producer-upstream-failure count=0 kept=0 suppressed=0 flags=2 PASS
+case=producer-both-failures count=0 kept=0 suppressed=0 flags=6 PASS
+case=deterministic-dense-random count=4 kept=4 suppressed=0 flags=0 PASS
+case=adaptive-count-0 count=0 kept=0 suppressed=0 flags=0 PASS
+case=adaptive-count-1 count=1 kept=1 suppressed=0 flags=0 PASS
+case=adaptive-count-99 count=99 kept=99 suppressed=0 flags=0 PASS
+case=adaptive-count-100 count=100 kept=100 suppressed=0 flags=0 PASS
+case=adaptive-count-101 count=101 kept=101 suppressed=0 flags=0 PASS
+case=adaptive-count-299 count=299 kept=299 suppressed=0 flags=0 PASS
+case=adaptive-count-300 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-301 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-511 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-512 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-513 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-count-8400 count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-cross-tile-level-ties count=16 kept=16 suppressed=0 flags=0 PASS
+case=adaptive-dense-high-id-winners count=300 kept=300 suppressed=0 flags=0 PASS
+case=adaptive-dense-nonperson-before-topk count=0 kept=0 suppressed=0 flags=0 PASS
+case=adaptive-dense-degenerate-no-refill count=0 kept=0 suppressed=0 flags=0 PASS
+case=adaptive-dense-capacity-overflow count=0 kept=0 suppressed=0 flags=8 PASS
+case=adaptive-dense-unselected-nan count=0 kept=0 suppressed=0 flags=1 PASS
+reuse_phase=0 case=adaptive-dense-high-id-winners PASS
+reuse_phase=1 case=adaptive-count-100 PASS
+reuse_phase=2 case=adaptive-dense-unselected-nan PASS
+reuse_phase=3 case=adaptive-count-0 PASS
+reuse_phase=4 case=adaptive-count-512 PASS
+reuse_phase=5 case=adaptive-count-513 PASS
+reuse_phase=6 case=adaptive-dense-capacity-overflow PASS
+reuse_phase=7 case=adaptive-count-99 PASS
+reuse_phase=8 case=adaptive-count-0 PASS
+reuse_phase=9 case=adaptive-dense-high-id-winners PASS
+arguments=PASS
+streams=PASS held=PASS
+checks=32302 max_score_abs_error=5.96046e-08 PASS
+<end of output>
+Test time =   1.18 sec
+----------------------------------------------------------
+Test Passed.
+"postprocess_cuda" end time: Oct 31 15:44 CST
+"postprocess_cuda" time elapsed: 00:00:01
+----------------------------------------------------------
+
+34/39 Testing: postprocess_cuda_lazy_streams
+34/39 Test: postprocess_cuda_lazy_streams
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/postprocess_cuda_tests" "--streams-only"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"postprocess_cuda_lazy_streams" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+policy=f04-postprocess-fp32/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=295712
+cub_version=300500
+cccl_version=3005000
+sort_strategy=decode-compaction/adaptive-top300-v1
+sort_rank_threshold=100
+sort_radix_threshold=512
+sort_dense_tile_items=1024
+sort_dense_tiles=9
+sort_key_bits=46
+sort_candidate_id_bits=14
+sort_stage_kernels=2
+kernels_per_enqueue=5
+ordering=score-descending-model-id-ascending
+streams=PASS held=PASS
+checks=1513 max_score_abs_error=5.96046e-08 PASS
+<end of output>
+Test time =   0.33 sec
+----------------------------------------------------------
+Test Passed.
+"postprocess_cuda_lazy_streams" end time: Oct 31 15:44 CST
+"postprocess_cuda_lazy_streams" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/39 Testing: model_producer_cuda
+35/39 Test: model_producer_cuda
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/model_producer_cuda_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"model_producer_cuda" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+policy=f03-producer/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --fmad=false -lineinfo
+runtime=13040
+driver=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+sm=120
+workspace_bytes=16
+plugin_statuses=9
+initialize registers=8 local=0 shared=0 max_threads=1024
+finite registers=13 local=0 shared=0 max_threads=1024
+aggregate registers=32 local=0 shared=0 max_threads=1024
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+statuses=PASS
+finite=PASS
+f04-integration=PASS
+graph=PASS
+arguments=PASS
+api-trace=PASS calls=90 launches=3
+streams=PASS held=PASS
+PASS checks=1282
+<end of output>
+Test time =   0.62 sec
+----------------------------------------------------------
+Test Passed.
+"model_producer_cuda" end time: Oct 31 15:44 CST
+"model_producer_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/39 Testing: model_producer_cuda_lazy_streams
+36/39 Test: model_producer_cuda_lazy_streams
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/model_producer_cuda_tests" "--streams-only"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"model_producer_cuda_lazy_streams" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+policy=f03-producer/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=true
+nvcc=13.4.92
+cuda_flags=--ftz=false --fmad=false -lineinfo
+runtime=13040
+driver=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+sm=120
+workspace_bytes=16
+plugin_statuses=9
+initialize registers=8 local=0 shared=0 max_threads=1024
+finite registers=13 local=0 shared=0 max_threads=1024
+aggregate registers=32 local=0 shared=0 max_threads=1024
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+streams=PASS held=PASS
+PASS checks=30
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"model_producer_cuda_lazy_streams" end time: Oct 31 15:44 CST
+"model_producer_cuda_lazy_streams" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/39 Testing: detection_session
+37/39 Test: detection_session
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/detection_session_tests" "/home/ray/developer/ai/saccade_v1/build-t01-f03-evidence/stage/model.engine" "/home/ray/developer/ai/saccade_v1/build-preprocess-evidence/refs" "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/session-test-results"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"detection_session" start time: Oct 31 15:44 CST
+Output:
+----------------------------------------------------------
+corpus=0 label=MOT17-02-SDP/1 jpeg_sha256=41ff65408c5338f4a83035fd12e9f5f7b658ee82feacf4512655677032636597
+corpus=1 label=MOT17-10-SDP/1 jpeg_sha256=bc655b86e7dcd9993df950217534f2f6cbf85217faba544dce956b834fb053a0
+corpus=2 label=MOT17-13-SDP/400 jpeg_sha256=eab49b69eeb4816aaac41f2699479a4ead316672e6d1fef49efd912721eea05a
+corpus=3 label=MOT17-04-SDP/1 jpeg_sha256=53f3d86aad1aa4912b2919bae344919b54d193e72c1c7169ce8bc4685408053c
+corpus=4 label=MOT17-05-SDP/1 jpeg_sha256=9f4f112b29e93846501db27d2bcc2c99795715aa6376d5b5662d75f2e2f196d7
+corpus=5 label=MOT17-09-SDP/1 jpeg_sha256=e4b1c40c44d53489f191e1099156ad57d3963d8c434615750fba0065a8a572af
+corpus=6 label=MOT17-11-SDP/1 jpeg_sha256=45c999f9f2bff3d308cf8cd877ff63b95394f53e7319c1b9c444acff77d73b3c
+independent_input=0 kept=32 suppressed=205 raw_sha256=12df20281dd2bd1b4dd2aefbffcb2ce598115e993f530b1d3b82ae2dbdf763e5 candidates_sha256=41164400d8d3ca66048aefffde23d62b96f6578b9ec8a68d488e892532610598
+independent_input=1 kept=28 suppressed=218 raw_sha256=02558978a3e7437cc82c24c3532386588d596c2f9f54a6760d811a4543a9cf16 candidates_sha256=87d8ab27d942548f7eef7b184feef43325a807aa89069396f12e04521e759f96
+independent_input=2 kept=39 suppressed=246 raw_sha256=b69dc2f3a468540d507a35ee5da767d7607c88948c68418b1dfa8296b55ea85f candidates_sha256=b9775e8534aade6ec8df0136e7e35819895a01af54ca6ee153d8d4af37cebdd7
+independent_input=3 kept=39 suppressed=261 raw_sha256=ebca9ab32158353ca0d0db64b9f3a608c35a67df4117b56be864b82d9e992e95 candidates_sha256=aadcdc49c642d539a086b91cac5e48c9eabafbedac93b6ecc00adf2a4209ed2c
+independent_input=4 kept=12 suppressed=71 raw_sha256=061e4766d26f69a875bcb9cd34ebd16a6b4c270a8a2ab18c5f4b2effbb5725c3 candidates_sha256=d9879a8e4a35479d174f8f1fa7d47900de647f547579ca1aa18ca9d40b5b5c90
+independent_input=5 kept=15 suppressed=89 raw_sha256=7486e6bd59e03852f0fd76b57e10bedf51aaaa7381cf6b365062fdd82addb4cd candidates_sha256=3a2be2b15dfd91ca88c4575c9d2ac27ca93c7329ce71922869af937454ba9e36
+independent_input=6 kept=34 suppressed=239 raw_sha256=831fa0cf4e337b39ae1f7a79b254e660c37d4035e424b2b406b1fcbf2d1e4b95 candidates_sha256=4bbe66a50f5d23d60851f1f5a6d70ae4d82f733683eb2c7b5ae4ab98ff7ee960
+rejection=receive-empty error=no pending detection result
+rejection=enqueue-after-finish error=session is not accepting frames
+rejection=enqueue-after-close error=detection session is closed
+rejection=receive-after-close error=detection session is closed
+case=normal slots=1 result_slots=1 frames=13 serial_queued_full_bytes=PASS
+rejection=receive-empty error=no pending detection result
+rejection=enqueue-after-finish error=session is not accepting frames
+rejection=enqueue-after-close error=detection session is closed
+rejection=receive-after-close error=detection session is closed
+case=normal slots=2 result_slots=5 frames=13 serial_queued_full_bytes=PASS
+rejection=receive-empty error=no pending detection result
+rejection=enqueue-after-finish error=session is not accepting frames
+rejection=enqueue-after-close error=detection session is closed
+rejection=receive-after-close error=detection session is closed
+case=normal slots=3 result_slots=5 frames=13 serial_queued_full_bytes=PASS
+rejection=result-ring-full error=session result ring full; receive first
+case=result-ring-backpressure no-drop/retry-same-frame=PASS
+rejection=enqueue-after-observed-device-failure error=session is not accepting frames
+case=device-failure scenario=0 first_code=2 first-failure/skip/zero-output=PASS
+rejection=enqueue-after-observed-device-failure error=session is not accepting frames
+case=device-failure scenario=1 first_code=4 first-failure/skip/zero-output=PASS
+rejection=enqueue-after-observed-device-failure error=session is not accepting frames
+case=device-failure scenario=2 first_code=8 first-failure/skip/zero-output=PASS
+rejection=empty-jpeg error=JPEG size is empty, truncated or over capacity
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=invalid-jpeg error=JPEG must have complete SOI/EOI markers
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=metadata-mismatch error=JPEG dimensions differ from sequence metadata
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=missing-frame error=session frame must be contiguous and zero-based
+rejection=enqueue-after-host-failure error=session is not accepting frames
+rejection=duplicate-frame error=session frame must be contiguous and zero-based
+rejection=enqueue-after-host-failure error=session is not accepting frames
+case=host-failures malformed/metadata/missing/duplicate/latch/preserve-prefix=PASS
+rejection=enqueue-after-cancel error=session is not accepting frames
+rejection=zero-candidate-ring error=candidate_slots must be in [1,16]
+rejection=zero-result-ring error=result_slots must be in [1,64]
+rejection=wrong-model-shape error=F03 requires 640x640 preprocessing
+rejection=output-capacity-range error=output_capacity must be in [1,300]
+rejection=missing-engine error=cannot open input: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/session-test-results/missing.engine
+DetectionSession TensorRT: [runtime.cpp::readHeader::618] Error Code 2: Internal Error (Assertion bufferSize >= minBufferSize failed.  In readHeader at /_src/runtime/dispatch/runtime.cpp:618)
+rejection=malformed-engine error=session requires model engine with zero auxiliary streams
+case=lifecycle empty-EOF/cancel/finish/checked-close/destructor/fresh-epoch/config/engine=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=0 independent-D-drain=PASS callback_gate=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=1 independent-D-drain=PASS callback_gate=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=2 independent-D-drain=PASS callback_gate=PASS
+rejection=D-only-tail-after-F02 error=directed D-only tail after preprocessing
+case=D-only-tail terminal=3 independent-D-drain=PASS callback_gate=PASS
+case=pending-consumer slots=1 reuse-before-consumed=PASS
+case=pending-consumer slots=2 reuse-before-consumed=PASS
+coverage=independent-reference,serial,queued,rings123,backpressure,first-failure,skip,overflow,identity,malformed,metadata,missing,duplicate,cancel,EOF,D-only-tail,drain,close,destructor,fresh-epoch
+callback_gates=PASS
+detection_session=PASS checks=4293 mode=normal
+<end of output>
+Test time =  26.45 sec
+----------------------------------------------------------
+Test Passed.
+"detection_session" end time: Oct 31 15:45 CST
+"detection_session" time elapsed: 00:00:26
+----------------------------------------------------------
+
+38/39 Testing: detection_session_cuda
+38/39 Test: detection_session_cuda
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/detection_session_cuda_tests"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"detection_session_cuda" start time: Oct 31 15:45 CST
+Output:
+----------------------------------------------------------
+PASS checks=78 policy=f01-f04-session/1 scope=session-control-kernels
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"detection_session_cuda" end time: Oct 31 15:45 CST
+"detection_session_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/39 Testing: detection_session_happens_before
+39/39 Test: detection_session_happens_before
+Command: "/home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda/detection_session_model"
+Directory: /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda
+"detection_session_happens_before" start time: Oct 31 15:45 CST
+Output:
+----------------------------------------------------------
+remove-ready-wait rejected=18/18
+remove-consumed-wait rejected=18/18
+remove-staging-host-wait rejected=18/18
+remove-result-host-wait rejected=18/18
+remove-detect-terminal-wait rejected=9/18
+bind-previous-ready-generation rejected=18/18
+PASS configurations=18 mutations=6
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"detection_session_happens_before" end time: Oct 31 15:45 CST
+"detection_session_happens_before" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 31 15:45 CST
+
+gpu =  33.77 sec*proc
+
+model_producer =   0.99 sec*proc
+
+postprocess =   1.51 sec*proc
+
+preprocess =  30.86 sec*proc
+
+session =  26.86 sec*proc
+
+tensorrt =  26.45 sec*proc
+

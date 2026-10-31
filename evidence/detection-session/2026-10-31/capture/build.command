@@ -1,0 +1,1 @@
+cmake --build /home/ray/developer/ai/saccade_v1/build-detection-session-evidence-final/cuda --parallel 3 --target detection_session_tests detection_session_cuda_tests detection_session_model preprocess_tests resize_cuda_tests model_producer_cuda_tests postprocess_cuda_tests postprocess_tests postprocess_sanitizer_control 

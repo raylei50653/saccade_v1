@@ -1,0 +1,29 @@
+========= COMPUTE-SANITIZER
+policy=f03-producer/1
+source_commit=a9c3d9bfecb61fdea8850b3fdf2308f09aace629
+source_dirty=false
+nvcc=13.4.92
+cuda_flags=--ftz=false --fmad=false -lineinfo
+runtime=13040
+driver=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+sm=120
+workspace_bytes=16
+plugin_statuses=9
+initialize registers=8 local=0 shared=0 max_threads=1024
+finite registers=13 local=0 shared=0 max_threads=1024
+aggregate registers=32 local=0 shared=0 max_threads=1024
+registers=20 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+statuses=PASS
+finite=PASS
+f04-integration=PASS
+graph=PASS
+arguments=PASS
+api-trace=UNEXECUTED
+streams=PASS held=UNEXECUTED
+PASS checks=1167
+========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)

@@ -1,6 +1,6 @@
 # F04：native 偵測後處理
 
-F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`。目前改用 **decode 融合壓實＋依合格數 M 分級排序**，本次 adaptive 改版的 **本機開發驗證通過**；[新證據](../evidence/f04/2026-10-31-adaptive/REPORT.md) 明列 `source_dirty=true`，不是 clean-source 正式驗收。既有 [原始 rank 版本的開發驗證](../evidence/f04/2026-10-31/REPORT.md) 保留其當時的 source／binary／範圍，不將歷史 PASS 套用到新實作。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變；clean-source 正式驗收、完整 async session 與 P01 仍未由本次改版關閉。
+F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。**乾淨 `995bca5` 的 clean-source 正式驗收 PASS（受測範圍），F04 獨立結案**；source、binary、sanitizer 與六份 replay 身分見 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分；完整 async session、F03 producer 聚合器與 P01 仍 OPEN。
 
 ## 1. 支援範圍與資料
 
@@ -108,13 +108,30 @@ build-f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 
 參數依序為 dump 目錄、每輪 iterations（預設 32）與 rounds（預設 7）。計時從已在 device 的 raw tensors 到 `DetectionCandidates`，包含 `postprocess_cuda` 產生的完整 initialize、bbox decode、排序、finalize 與 NMS 工作，排除 H2D／D2H 及 CPU reference。工具在 timing 外核對 raw hashes、歷史 kept counts、完整 CPU 對照與重跑 output hash，並另列 ordinary submissions 與 batch graph 的節點數／時間。batch graph 在測時前完成 host 驗參、capture 與 instantiate；其數字不含每幀重新執行這些 host 操作。分位數是 **round 平均延遲**的分位，不是單幀 p95；也不包含 F01／F02、TensorRT F03 或 tracker 的時間。
 
-## 4. Adaptive 改版驗證與目前邊界
+## 4. 正式驗收與開發紀錄
 
 `postprocess_tests` 檢查 CPU 手算／排序／class tie、sigmoid 飽和、全類別 top-300、無回填、NMS 邊界／greedy chain、容量與數值／參數失敗。`postprocess_cuda_tests` 對固定 cases 比較完整 header／rows、score 界與座標 bits、重跑／graph、未用 bytes、allocation bounds／alias 拒絕；stream cases 包含 producer-ready／consumer-consumed、held enqueue、獨立 instances。
 
-本次 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 包含 M=0／1、99／100／101、299／300／301、511／512／513 與密集 8,400 等路徑及分界，跨 tile／跨 level 同分、非 person 與退化框占名額、高 ID 全域勝出，以及 dense／sparse／empty／failure 的交替重用。每條路徑仍比較完整 header／300 rows、score 固定界、座標 bits 與全部未用 bytes；reference／觀測政策不因執行分界調整。
+### 4.1 Clean-source 正式驗收（2026-10-31）
 
-| 本次 adaptive 項目 | 實際結果與範圍 |
+以乾淨 detached checkout `995bca50d41510611b3990c9f8a020a9d8b76074` 重跑獨立 F04 驗收，binary 回報 `source_dirty=false`。[正式報告](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md) 固定受測 source、實際執行的 binary、compiler／sanitizer 與 replay bytes；驗收後另保存受測 artifacts。
+
+| 正式項目 | 結果與範圍 |
+| --- | --- |
+| CPU fixtures／reference | GPU 初始化前 2,805 fixture checks；CPU reference 442 checks，均 PASS。 |
+| CUDA／重用／replay | 49 cases、10-phase 重用、repeat／graph、完整 header／rows／padding 比較；F04 CTest **4/4**，完整 suite＋六份 replay **34,915 checks PASS**。正常及 lazy streams 的 callback gates 已驗。 |
+| Sanitizers／正控制 | memcheck／initcheck／racecheck／synccheck 各 **34,610 checks**，0 errors／hazards；四個正控制均以預期診斷及 exit 99 偵測。`--no-held-stream` 下的 callback gates 為 **UNEXECUTED**。 |
+| 語義變體 | **13/13 DETECTED**，各為預期完整診斷及 exit 1；還原 staged source 後 baseline **34,610 checks PASS**。變體 binary 屬獨立控制證據。 |
+
+結果限 raw predictions→`DetectionCandidates`、固定 inputs 與受測 GPU／toolchain。完整 F03 producer 聚合器、native F01→F03→F04 接續及完整 async session 尚未完成，P01 保留 OPEN。本次未重測效能。
+
+### 4.2 保留的 adaptive 開發結果
+
+以下開發結果與測時保留原 `source_dirty=true` 身分，不作為本次 clean-source capture 的效能證據。
+
+該次 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 包含 M=0／1、99／100／101、299／300／301、511／512／513 與密集 8,400 等路徑及分界，跨 tile／跨 level 同分、非 person 與退化框占名額、高 ID 全域勝出，以及 dense／sparse／empty／failure 的交替重用。每條路徑仍比較完整 header／300 rows、score 固定界、座標 bits 與全部未用 bytes；reference／觀測政策不因執行分界調整。
+
+| 該次 adaptive 開發項目 | 實際結果與範圍 |
 | --- | --- |
 | 固定 cases／重用 | 49 個固定 cases 與同一 slot 的 10-phase 重用，涵蓋 dense／sparse／empty／failure、epoch／frame 變更；repeat／graph 與完整 bytes 比較通過。 |
 | CPU fixtures／reference | GPU 初始化前的 fixture 不變量 2,805 checks；固定 CPU reference 442 checks，均通過。 |
@@ -122,11 +139,11 @@ build-f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 | Sanitizers／正控制 | memcheck／initcheck／racecheck／synccheck 各 **34,610 checks**，0 errors／hazards；四個 planted controls 均以對應診斷及 exit 99 偵測。sanitizer 使用 `--no-held-stream`，其中 callback gates 明列 **UNEXECUTED**。 |
 | 輸出相容性 | 同一個 benchmark request 下，新版與原 `a7e1041` 版本的六份 F03 完整 output hashes 相同；不只比較 kept boxes 或 score 容差。 |
 | 語義變體 | **13/13 DETECTED**，各以預期完整診斷及 exit 1 偵測；還原 production source 後 baseline 34,610 checks PASS。首次 classifier attempt 的未完成紀錄另存，未當作新版 PASS。 |
-| 正式驗收 | **UNEXECUTED**：本次 capture 使用 `source_dirty=true` 的開發 source，不稱 clean-source formal F04 PASS。 |
+| 正式驗收 | **UNEXECUTED（該次開發 capture）**：使用 `source_dirty=true`，不改列 clean-source formal F04 PASS。 |
 
 完整 API 的同工具比較以已在 device 的相同 raw tensors、32 次呼叫／輪與 7 輪 batch graph 測時：三份真實影像輸出的 F04 API 由約 **1.81–2.14 ms** 降至 **0.924–1.211 ms**，受測加速為 **1.77–1.97×**。三份合成 inputs 的約 23–25× 結果單獨列於報告，不推廣為真實影像或完整模型加速。這些是 round 平均延遲，未宣稱單幀 p95、F01→F03→F04 或完整 tracking 的端到端速度。
 
-### 4.1 保留的原始 rank 版本結果
+### 4.3 保留的原始 rank 版本結果
 
 以下為 2026-10-31 [原始 rank 版本的本機開發驗證](../evidence/f04/2026-10-31/REPORT.md)，不是本次 adaptive 實作的驗收；source、binary、library 與固定 inputs 以該歷史報告保存的 hashes 為準：
 

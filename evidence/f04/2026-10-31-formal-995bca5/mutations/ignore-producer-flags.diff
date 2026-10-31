@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ ignore-producer-flags/cuda/postprocess.cu
+@@ -81,7 +81,7 @@
+                            DetectionCandidates* output, Workspace* work,
+                            PostprocessRequest request) {
+     std::uint32_t flags = 0;
+-    if (producer->flags != 0) flags |= kPostprocessUpstream;
++    if (false && producer->flags != 0) flags |= kPostprocessUpstream;
+     if (producer->done != kPostprocessProducerDone) flags |= kPostprocessProtocol;
+     reset(output, request, flags);
+     work->run_stage = flags == 0 ? 1u : 0u;

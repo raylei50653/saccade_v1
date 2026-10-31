@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ swap-left-top/cuda/postprocess.cu
+@@ -120,7 +120,7 @@
+     }
+     const float ax = __fadd_rn(static_cast<float>(local % side), 0.5f);
+     const float ay = __fadd_rn(static_cast<float>(local / side), 0.5f);
+-    const float raw[4]{__fsub_rn(ax, reg[0]), __fsub_rn(ay, reg[1]),
++    const float raw[4]{__fsub_rn(ax, reg[1]), __fsub_rn(ay, reg[0]),
+                        __fadd_rn(ax, reg[2]), __fadd_rn(ay, reg[3])};
+     Decoded candidate{};
+     float box[4];

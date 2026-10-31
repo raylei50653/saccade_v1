@@ -1,0 +1,38 @@
+--- baseline/cuda/postprocess.cu
++++ reverse-candidate-id-ties/cuda/postprocess.cu
+@@ -138,7 +138,7 @@
+     // order is numeric order, so this ascending, unique 46-bit key preserves
+     // score descending / original model ID ascending without quantization.
+     const std::uint64_t key = qualified
+-        ? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | id
++        ? (std::uint64_t{~__float_as_uint(best_score)} << kCandidateIdBits) | (kCandidateIdMask - id)
+         : kInvalidKey;
+     work->full_keys[id] = key;
+     if (qualified) {
+@@ -173,7 +173,7 @@
+             const std::uint64_t key = shared.small[threadIdx.x];
+             unsigned rank = 0;
+             for (unsigned j = 0; j < count; ++j) rank += shared.small[j] < key;
+-            work->top_ids[rank] = static_cast<std::uint32_t>(key & kCandidateIdMask);
++            work->top_ids[rank] = static_cast<std::uint32_t>(kCandidateIdMask - (key & kCandidateIdMask));
+         }
+         return;
+     }
+@@ -190,7 +190,7 @@
+         for (unsigned i = 0; i < kRadixThreshold / kSortThreads; ++i) {
+             const unsigned rank = threadIdx.x + i * kSortThreads;
+             if (rank < count && rank < kPostprocessCapacity)
+-                work->top_ids[rank] = static_cast<std::uint32_t>(keys[i] & kCandidateIdMask);
++                work->top_ids[rank] = static_cast<std::uint32_t>(kCandidateIdMask - (keys[i] & kCandidateIdMask));
+         }
+         return;
+     }
+@@ -234,7 +234,7 @@
+         rank += begin;
+         if (rank >= kPostprocessCapacity) return;
+     }
+-    work->top_ids[rank] = static_cast<std::uint32_t>(key & kCandidateIdMask);
++    work->top_ids[rank] = static_cast<std::uint32_t>(kCandidateIdMask - (key & kCandidateIdMask));
+ }
+ 
+ __device__ bool box_area(const DetectionCandidate& box, float& area) {

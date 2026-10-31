@@ -1,0 +1,1 @@
+timeout 240 /opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 /home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/source/build-acceptance/cuda/postprocess_cuda_tests --no-held-stream --f03-dumps /home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/inputs 

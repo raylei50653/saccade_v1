@@ -1,0 +1,70 @@
+{
+  "prior_custody_attempt_exit": 1,
+  "date": "2026-10-31T15:02:27.366624+08:00",
+  "verdict": "PASS",
+  "scope": "standalone F04 raw predictions to complete DetectionCandidates",
+  "source_revision": "995bca50d41510611b3990c9f8a020a9d8b76074",
+  "source_tree": "ea42fb5c403316a80dc3027bc70e9ed1ace40efc",
+  "source_dirty": false,
+  "cpu_reference_checks": 442,
+  "fixture_invariants": 2805,
+  "fixed_cases": 49,
+  "reuse_phases": 10,
+  "ctest_passed": 4,
+  "normal_checks": 34915,
+  "normal_callback_gates": "PASS",
+  "lazy_stream_callback_gates": "PASS",
+  "replay_inputs": 6,
+  "max_score_abs_error": 1.19209e-07,
+  "sanitizers": {
+    "memcheck": {
+      "checks": 34610,
+      "summary": "========= ERROR SUMMARY: 0 errors",
+      "positive_control_exit": 99,
+      "callback_gates": "UNEXECUTED"
+    },
+    "initcheck": {
+      "checks": 34610,
+      "summary": "========= ERROR SUMMARY: 0 errors",
+      "positive_control_exit": 99,
+      "callback_gates": "UNEXECUTED"
+    },
+    "racecheck": {
+      "checks": 34610,
+      "summary": "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)",
+      "positive_control_exit": 99,
+      "callback_gates": "UNEXECUTED"
+    },
+    "synccheck": {
+      "checks": 34610,
+      "summary": "========= ERROR SUMMARY: 0 errors",
+      "positive_control_exit": 99,
+      "callback_gates": "UNEXECUTED"
+    }
+  },
+  "mutations_detected": 13,
+  "mutations_total": 13,
+  "restored_baseline_checks": 34610,
+  "binary_bytes_fixed_through_acceptance_and_controls": true,
+  "reproducible_rebuild": "not claimed",
+  "historical_evidence_files_unchanged": 5238,
+  "local_artifacts": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/formal-binaries-and-replay.tar.gz",
+      "sha256": "7c1de885b950cfd1d839a2b46f1024bf2ae6fc01880bce52ded6d5ad3752a681",
+      "bytes": 14515927
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/custody/source-995bca5.tar.gz",
+      "sha256": "c581f5fe3c256e678bd986042bd390a06b8a326a2ce38b3e07c12a430b1695ed",
+      "bytes": 9237282
+    }
+  ],
+  "open": [
+    "complete async session",
+    "F03 plugin/finite status aggregation",
+    "P01",
+    "F04b/GMC/tracker/ResultPacket/MOT writer integration",
+    "model quality"
+  ]
+}

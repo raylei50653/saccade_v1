@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ dense-first512-only/cuda/postprocess.cu
+@@ -198,7 +198,7 @@
+ #pragma unroll
+     for (unsigned i = 0; i < kDenseTileItems / kSortThreads; ++i) {
+         const unsigned index = blockIdx.x * kDenseTileItems + threadIdx.x + i * kSortThreads;
+-        keys[i] = index < kPostprocessPositions ? work->full_keys[index] : kInvalidKey;
++        keys[i] = index < kRadixThreshold ? work->full_keys[index] : kInvalidKey;
+     }
+     DenseSort(shared.dense).SortBlockedToStriped(keys, 0, kSortKeyBits);
+ #pragma unroll

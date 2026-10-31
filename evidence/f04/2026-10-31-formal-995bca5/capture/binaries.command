@@ -1,0 +1,1 @@
+sha256sum /home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/source/build-acceptance/cuda/postprocess_tests /home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/source/build-acceptance/cuda/postprocess_cuda_tests /home/ray/developer/ai/saccade_v1/build-f04-formal-995bca5-final/source/build-acceptance/cuda/postprocess_sanitizer_control 

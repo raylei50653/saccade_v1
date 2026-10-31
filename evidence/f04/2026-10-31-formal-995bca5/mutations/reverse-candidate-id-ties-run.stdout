@@ -1,0 +1,32 @@
+registers=20 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=48 shared_bytes=0
+registers=40 local_bytes=0 shared_bytes=9280
+registers=16 local_bytes=0 shared_bytes=0
+registers=31 local_bytes=1200 shared_bytes=0
+policy=f04-postprocess-fp32/1
+source_commit=995bca50d41510611b3990c9f8a020a9d8b76074
+source_dirty=false
+nvcc=13.4.92
+cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+cuda_runtime=13040
+cuda_driver_api=13040
+gpu=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+device_ordinal=0
+workspace_bytes=295712
+cub_version=300500
+cccl_version=3005000
+sort_strategy=decode-compaction/adaptive-top300-v1
+sort_rank_threshold=100
+sort_radix_threshold=512
+sort_dense_tile_items=1024
+sort_dense_tiles=9
+sort_key_bits=46
+sort_candidate_id_bits=14
+sort_stage_kernels=2
+kernels_per_enqueue=5
+ordering=score-descending-model-id-ascending
+case=empty count=0 kept=0 suppressed=0 flags=0 PASS
+case=single-asymmetric-map-no-clip count=1 kept=1 suppressed=0 flags=0 PASS

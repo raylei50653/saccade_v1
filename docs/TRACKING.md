@@ -440,11 +440,19 @@ FP16 的偵測與 FP32 不完全相同，tracker 會放大這些差異，所以 
 從同一個乾淨 commit，在 GPU lock 下依序執行：
 
 1. **完整正式驗收**（§11 的「M4 結案時」那一次）：`scripts/run_tracking_session_acceptance.sh`，§14.5 的 1–5 項與預期 hash 全部不變，必須 PASS。
-2. **評估**：`scripts/run_mot17_evaluation.sh`，只使用第 1 步 build 出的 CUDA binaries（先核對它們的 SHA-256 等於第 1 步的 `binaries.sha256`，且第 1 步的 revision 等於目前 HEAD）。以下守門項目都在讀任何 GT 之前完成，任一不符就停止，不讀 GT：
+2. **評估**：`scripts/run_mot17_evaluation.sh` 執行與守門，`scripts/score_mot17_evaluation.sh` 只在守門 PASS 後讀 GT 計分（MOT17-02 最後）。只使用第 1 步 build 出的 CUDA binaries（先核對它們的 SHA-256 等於第 1 步的 `binaries.sha256`，且第 1 步的 revision 等於目前 HEAD）。以下守門項目都在讀任何 GT 之前完成，任一不符就停止，不讀 GT：
    - **身分鏈**：student checkpoint、teacher checkpoint、base 權重、backbone ONNX、head bundle 的 SHA-256 等於 `~/.cache/saccade-v1/hr-deploy/manifest.json` 的紀錄；build report（[evidence/precision/2026-11-03-formal/build-report.txt](../evidence/precision/2026-11-03-formal/build-report.txt)）的 `onnx_sha256`／`bundle_sha256`／`engine_sha256` 等於上述 ONNX、bundle 與部署 engine。
    - **CPU reference 對照**：每個序列的 `track_offline`（HR SCDR＋`m1-data` 的 SCMO）與 `track_sequence` 的 MOT 檔逐位元相同。
    - **與既有紀錄一致**：MOT17-10 的 SCDR 等於 `98e2554f…`、MOT 等於 `1fb713f3…`；5 個 in-domain 序列的 MOT 等於 [§16 的紀錄](../evidence/precision/2026-11-03-formal/tracking-mot.sha256)。
-   - **Stream 位置**：以 `nsys` 追蹤 HR FP16 `track_sequence` 的 MOT17-10 前 30 幀。從第一幀的 F02 kernel 起，所有 kernel 只出現在兩個 stream：nvJPEG、F02、F05、TensorRT engine、producer 與 F04 的 kernel 在 D；cuFFT、F06、tracking、stage control、commit 與 packet kernel 在 M。這對應 [ASYNC_CONTROL](ASYNC_CONTROL.md) 列入 P01／P05 的兩項。程式本身已保證這兩項：session 拒絕 aux streams ≠ 0 的 engine（`getNbAuxStreams() == 0`），cuFFT plan 每幀以 `cufftSetStream` 綁到 M。這一項是執行期的觀測確認。
+   - **Stream 位置**：以 `nsys` 追蹤 HR FP16 `track_sequence` 的 MOT17-10 前 30 幀，由 [`scripts/check_stream_placement.py`](../scripts/check_stream_placement.py) 判定。從第一幀的 F02 kernel 起，每個 kernel 都要歸入恰好一類：
+     - D：TensorRT engine（launch 呼叫落在 `ExecutionContext::enqueueV3` 的 NVTX range 內，含 scan plugin）、F02、F05、producer、F04。
+     - M：cuFFT、F06、tracking、stage control、commit、packet。
+     - D 是 F02 kernel 的 stream，M 是 tracking kernel 的 stream，兩者不同。
+     - nvJPEG HARDWARE backend 的 `rgba2rgb` 跑在 nvJPEG 自己的 stream 上，不在 D。這就是 §14.1 那個順序問題的來源，session 以 host 等待 `rgb_read_done` 處理；這裡只記錄它的 stream。除了 nvJPEG，不得有 kernel 在 D、M 之外。
+
+     這對應 [ASYNC_CONTROL](ASYNC_CONTROL.md) 列入 P01／P05 的兩項。程式本身已保證這兩項：session 拒絕 aux streams ≠ 0 的 engine（`getNbAuxStreams() == 0`），cuFFT plan 每幀以 `cufftSetStream` 綁到 M。這一項是執行期的觀測確認。
+
+     （修訂：本項原寫「nvJPEG 在 D」。開發 trace 顯示 `rgba2rgb` 在另一個 stream，因此在正式執行前改為只記錄 nvJPEG。這不影響 MOT17-02 的封存。）
 
    守門通過後才計算 §17.2 的指標。
 3. **Evidence report**：記錄 source、環境、每個命令的 exit 與時間、hash、守門結果與全部指標。

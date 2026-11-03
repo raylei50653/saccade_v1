@@ -249,3 +249,49 @@ M1 以 `detect_sequence`（native F01–F04 detection session）與 `motion_sequ
 - GMC 的效果（MOT17-10，`track_offline` 的 motion 參數給 `-` 即停用）：HOTA 34.8 → 42.2，AssA 31.3 → 42.7，IDSW 202 → 94。
 - 瓶頸在偵測器的泛化：直接把 MOT17-10 的 kept detections（score ≥ 0.3）當結果評估，DetA 40.4、DetRe 43.4、LocA 79.4；配對框對 GT 沒有系統性偏移（四邊平均偏移在 ±2% 以內），所以不是座標映射錯誤。這與 T01 記錄的 val AP50 0.676、eval AP50 0.544 一致。in-domain 序列的偵測好，tracking 指標也高。
 - 依 §1，任何 tracker 參數或加權項的調整只看 MOT17-10。
+
+## 14. M3：Tracking session 規格
+
+`TrackingSession` 把 F01–F09 接成一條 native 執行路徑，依 [ASYNC_CONTROL](ASYNC_CONTROL.md) §3–§6 的協定實作。D 側沿用 DetectionSession 已驗證的做法（F01／F02 → F03 → producer → F04、CS ready／consumed、首次失敗鎖定、drain／close）；M 側換成 tracking。DetectionSession 本身不改。
+
+### 14.1 每幀提交順序
+
+D（detect stream）：F01／F02 → F05（等 `mi_consumed[m]` 後寫 MI[m]，record `mi_ready[m]`）→ F03 → producer → F04（等 `cs_consumed[c]` 後寫 CS[c]，record `cs_ready[c]`）。
+
+M（main stream）：
+
+| 順序 | 工作 | 類型 |
+| --- | --- | --- |
+| 1 | begin | 控制，每幀必執行 |
+| 2 | wait `mi_ready[m]`；cuFFT forward（MI[m] → FFT_TMP） | 函式庫，不受 guard |
+| 3 | stage 控制；頻譜交付（FFT_TMP → SPEC[working]）；record `mi_consumed[m]` | 控制＋受 guard 的計算 |
+| 4 | cross-power、IFFT、MotionContext | 計算受 guard；IFFT 只寫 scratch |
+| 5 | stage 控制（併入 F06 的 NUMERIC）；F08a：讀 TS[committed]，寫 PREDICTED | 控制＋計算 |
+| 6 | stage 控制（併入 PREDICTED.error）；wait `cs_ready[c]`；F04b：讀 CS[c]，寫 BATCH；record `cs_consumed[c]` | 控制＋計算 |
+| 7 | stage 控制（併入 BATCH.error）；F07／F08b：寫 TS[working] 與 ROWS | 控制＋計算 |
+| 8 | stage 控制（併入 ROWS.error）；commit | 控制 |
+| 9 | packet：寫 device RP（v1 wire bytes）；D2H 到 HP[r]；record `pkt[r]` | 控制 |
+
+### 14.2 CTL 與 guard
+
+- CTL 欄位與初值依 ASYNC_CONTROL §5：`epoch`、`committed_frame=-1`、`committed_slot=1`、`working_frame`、`working_slot`、`frame_status`、`run_stage`、`fail_frame=-1`、`fail_code=0`。TS[0]、TS[1] 都初始化為同 epoch 的空 TrackState（`committed_frame=-1`、`next_uid=1`）；SPEC 清零。
+- stage 控制是單 thread kernel：把前一階段輸出的 error 位元 OR 進 `frame_status`，再設 `run_stage = (fail_code == 0 && frame_status == 0)`。
+- 自訂計算 kernel 開頭讀 `run_stage`，為假就整個 grid 直接返回。M2 的三個 tracker entry point 與 MotionCuda 的自訂 kernel 加一個可為 null 的 `run_stage` 指標（null 表示一律執行），保持 M2／M1 既有測試結果不變。
+- commit：已有 sticky failure 就不動；否則本幀 `frame_status ≠ 0` 時鎖定 `fail_frame = k`、`fail_code = frame_status`；成功時同時翻轉 TS 與 SPEC 共用的 `committed_slot`，`committed_frame = k`。MotionCuda 的 committed 頻譜與 reference frame 改由 CTL 決定（M1 的 host 端 commit 保留給 `motion_sequence`）。
+- packet：OK／FAILED／SKIPPED_AFTER_FAILURE 依 [RESULT_PACKET](RESULT_PACKET.md)；device 端逐欄寫出 12,368 bytes，必須與 host `encode_packet` 對同一邏輯封包的輸出逐位元相同（含 `-0 → +0`、reserved 與未用 rows 為 0）。
+
+### 14.3 API 與模式
+
+- `TrackingSessionConfig`：epoch、device、序列原圖寬高（建立 MotionImageKey）、`candidate_slots`、`motion_slots`、`result_slots`、`PreprocessConfig`、`MotionConfig`、`TrackerConfig`、`mode`（serial／pipelined）、測試用 `perturb_seed`（0 表示關閉）。
+- `enqueue(jpeg, frame)`、`receive()`（回傳 raw `PacketBytes` 與 decode 後的 `ResultPacket`）、`pending()`、`finish()`、`cancel()`、`close()`、`state()`、`identity()`，語義與 DetectionSession 相同（結果 ring 滿時 `length_error`、可恢復）。
+- serial：每次 enqueue 後 host 等 D、M 都完成，作為 V04 的依賴參考。pipelined：只靠 event 與 ring 背壓，detect(k+1) 可與 main(k) 重疊。
+- `perturb_seed ≠ 0`：在 D、M 各 stage 邊界插入長度由 seed 決定的 spin kernel（V03），只供測試。
+- 工具 `track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--packets OUT.bin] [--epoch N]`：TrackingSession → F09 SequenceOutput → MOT 檔；`--packets` 存下完整 raw packet stream。
+
+### 14.4 驗收（M3 實作階段）
+
+- device packet writer 對 `encode_packet`：隨機邏輯封包（含 FAILED／SKIPPED、負零、滿 256 rows）逐位元相同。
+- 同一序列 serial 與 pipelined 的 packet stream 逐位元相同；兩個 `perturb_seed` 的 pipelined 也相同（A10／V04）。
+- 與 CPU 對照：TrackingSession 的 packet stream 等於以 `m1-data` 的 SCDR／SCMO 跑 `TrackerReference` 再 `encode_packet` 的結果；`track_sequence` 的 MOT 檔與 `track_offline` 的逐位元相同。前提是 F03 與 cuFFT 在同一裝置與 build 下重跑決定性；若不相同，先定位是哪個輸入不同，不放寬比較。
+- 失敗：producer flag 注入使第 k 幀 FAILED、之後 SKIPPED，committed 狀態凍結；EOF／cancel／D-only tail 都能 drain；close 可重複呼叫。
+- 新 CUDA 程式碼 memcheck（短序列）。完整正式驗收（四種 sanitizer、clean source、evidence report）在 M3 合併後另做。

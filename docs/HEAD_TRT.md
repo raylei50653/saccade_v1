@@ -95,21 +95,21 @@ S04 把 [S01](SCAN_CONTRACT.md)／[S02](SCAN_CUDA.md)／[S03](SCAN_TRT.md) 接�
 
 ```sh
 # CPU（不需 GPU；給 checkpoint 才會跑候選轉換與真實權重的 reference 檢查）
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_HEAD_CHECKPOINT=/home/ray/developer/ai/saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt
-cmake --build build --parallel 8 && ctest --test-dir build --output-on-failure
-build/head_weights convert CHECKPOINT a5a0e709…59c0676c t1-head.swb t1-head-mapping.tsv
-build/head_weights verify t1-head.swb e1a8660f…7677f310
+cmake --build build/cpu --parallel 8 && ctest --test-dir build/cpu --output-on-failure
+build/cpu/head_weights convert CHECKPOINT a5a0e709…59c0676c t1-head.swb t1-head-mapping.tsv
+build/cpu/head_weights verify t1-head.swb e1a8660f…7677f310
 
 # CUDA + TensorRT
-cmake -S . -B build-s04 -DCMAKE_BUILD_TYPE=Release -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_TENSORRT=ON \
+cmake -S . -B build/s04 -DCMAKE_BUILD_TYPE=Release -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_TENSORRT=ON \
   -DSACCADE_TENSORRT_ROOT=/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk \
   -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc -DCMAKE_CUDA_ARCHITECTURES=120 -DSACCADE_HEAD_CHECKPOINT=CHECKPOINT
-cmake --build build-s04 --parallel 8 && ctest --test-dir build-s04 --output-on-failure
-build-s04/head_trt build BUNDLE BUNDLE_SHA head.engine build-report.txt          # checked save + readback + layers
-CUDA_MODULE_LOADING=LAZY build-s04/head_trt run head.engine ENGINE_SHA BUNDLE BUNDLE_SHA run-report.txt
-build-s04/head_trt run-unregistered head.engine
-build-s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--group NAME] [--skip NAME] [--no-held-stream]
+cmake --build build/s04 --parallel 8 && ctest --test-dir build/s04 --output-on-failure
+build/s04/head_trt build BUNDLE BUNDLE_SHA head.engine build-report.txt          # checked save + readback + layers
+CUDA_MODULE_LOADING=LAZY build/s04/head_trt run head.engine ENGINE_SHA BUNDLE BUNDLE_SHA run-report.txt
+build/s04/head_trt run-unregistered head.engine
+build/s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--group NAME] [--skip NAME] [--no-held-stream]
 ```
 
 `head_trt run` 是新程序：註冊、反序列化、初始化 session、三組輸入各自比較六個輸出、同一 engine 重跑逐位元相同、A／NaN-P4／A 失敗序列、CUDA graph 重播與 enqueueV3 逐位元相同、checked close 後正常退出；失敗時仍寫出已量測的部分。`run-unregistered` 確認未註冊 creators 時無法形成 execution context（TensorRT 10.16 將 plugin 實體化延後到 context 建立，同 SCAN_TRT §3）。CTest 未給 checkpoint 時以 `head_weights synthetic 3` 的合成權重建圖，只驗結構與失敗路徑，不代表任何模型。

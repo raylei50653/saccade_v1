@@ -65,28 +65,28 @@ producer 是 caller-owned **唯讀**狀態。caller 必須在同 stream 排入�
 預設 CPU build 不需要 CUDA、TensorRT、nvJPEG 或 Python，包含 reference 與 CPU tests：
 
 ```sh
-cmake -S . -B build-f04-cpu -DCMAKE_BUILD_TYPE=Release
-cmake --build build-f04-cpu --target postprocess_tests --parallel 2
-ctest --test-dir build-f04-cpu -R '^postprocess_reference$' --output-on-failure
+cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release
+cmake --build build/cpu --target postprocess_tests --parallel 2
+ctest --test-dir build/cpu -R '^postprocess_reference$' --output-on-failure
 ```
 
 CUDA F04 由 `SACCADE_ENABLE_CUDA=ON` 與 `SACCADE_ENABLE_POSTPROCESS=ON` 開啟，不需要 TensorRT 或 nvJPEG。以下 `120` 是目前本機 sm_120 的明確設定，其他 GPU 須指定自己的架構：
 
 ```sh
-cmake -S . -B build-f04 -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/f04 -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_POSTPROCESS=ON \
   -DCMAKE_CUDA_ARCHITECTURES=120
-cmake --build build-f04 --target postprocess_tests postprocess_cuda_tests --parallel 2
-ctest --test-dir build-f04 -R '^postprocess_' --output-on-failure
+cmake --build build/f04 --target postprocess_tests postprocess_cuda_tests --parallel 2
+ctest --test-dir build/f04 -R '^postprocess_' --output-on-failure
 ```
 
 測試工具另有以下入口：
 
 ```sh
-build-f04/postprocess_cuda_tests --list-cases
-build-f04/postprocess_cuda_tests --check-fixtures
-build-f04/postprocess_cuda_tests --streams-only
-CUDA_MODULE_LOADING=LAZY build-f04/postprocess_cuda_tests --streams-only
+build/f04/postprocess_cuda_tests --list-cases
+build/f04/postprocess_cuda_tests --check-fixtures
+build/f04/postprocess_cuda_tests --streams-only
+CUDA_MODULE_LOADING=LAZY build/f04/postprocess_cuda_tests --streams-only
 ```
 
 `--list-cases` 列出固定合成案例；`--check-fixtures` 以 CPU reference 檢查其手算不變量，兩者在初始化 CUDA device 前返回，但使用的是已建置的 CUDA-linked 測試工具。`--streams-only` 只跑 stream／ownership 測試，不代表完整數值案例通過。`--no-held-stream` 略過 host callback gate 的延遲測試，輸出會明列 held=UNEXECUTED；不能據此宣稱已驗證 pending producer／consumer 或 enqueue 在 held stream 下無同步。
@@ -94,7 +94,7 @@ CUDA_MODULE_LOADING=LAZY build-f04/postprocess_cuda_tests --streams-only
 F03 raw dumps 是可選的大型外部測試資料。指向含 `input-0.f32` 至 `input-5.f32` 的目錄時，工具先核對每份固定 2,822,400 bytes／SHA-256，再依正式 F03 file schema 讀取：**`cls_p3, cls_p4, cls_p5, reg_p3, reg_p4, reg_p5`**，先三份 cls、再三份 reg，不能交錯成各 level 的 cls／reg pairs。其 float element offsets 依序為 `0, 512000, 640000, 672000, 697600, 704000`，對應原始 [F03 payload 紀錄](../evidence/t01/2026-10-30/f03/capture/model-run-report.txt)。
 
 ```sh
-build-f04/postprocess_cuda_tests --f03-dumps /absolute/path/to/model-dump
+build/f04/postprocess_cuda_tests --f03-dumps /absolute/path/to/model-dump
 ```
 
 這是 [F03 固定六輸入](../evidence/t01/2026-10-30/f03/REPORT.md) 對應的錄製 raw outputs，不是重新執行 TensorRT 或 native 前處理。除了 CPU／CUDA 完整結果比較，工具亦獨立核對 [原 training-side diagnostic](../evidence/t01/2026-10-30/f03/capture/f03-diagnostics.json) 的六個 kept counts：`32, 28, 39, 2, 3, 1`，避免共同的 parser 錯誤讓兩份實作一起讀錯仍互相通過。若要把此項加入 CTest，configure 另給 `-DSACCADE_POSTPROCESS_F03_DUMPS=/absolute/path/to/model-dump`。沒有給路徑時不註冊 replay test，不把缺少 replay 說成已驗真實模型輸出。
@@ -102,8 +102,8 @@ build-f04/postprocess_cuda_tests --f03-dumps /absolute/path/to/model-dump
 完整 F04 API 的測時工具另有以下入口，需先提供相同六份 pinned raw dumps：
 
 ```sh
-cmake --build build-f04 --target postprocess_benchmark --parallel 2
-build-f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
+cmake --build build/f04 --target postprocess_benchmark --parallel 2
+build/f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 ```
 
 參數依序為 dump 目錄、每輪 iterations（預設 32）與 rounds（預設 7）。計時從已在 device 的 raw tensors 到 `DetectionCandidates`，包含 `postprocess_cuda` 產生的完整 initialize、bbox decode、排序、finalize 與 NMS 工作，排除 H2D／D2H 及 CPU reference。工具在 timing 外核對 raw hashes、歷史 kept counts、完整 CPU 對照與重跑 output hash，並另列 ordinary submissions 與 batch graph 的節點數／時間。batch graph 在測時前完成 host 驗參、capture 與 instantiate；其數字不含每幀重新執行這些 host 操作。分位數是 **round 平均延遲**的分位，不是單幀 p95；也不包含 F01／F02、TensorRT F03 或 tracker 的時間。

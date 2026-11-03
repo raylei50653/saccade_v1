@@ -4,12 +4,12 @@
 # MOT17-10 and the four compute-sanitizer tools. Run it under the GPU lock.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: run_tracking_session_acceptance.sh build-NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: run_tracking_session_acceptance.sh build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 1 && $# -le 2 ]] || usage
 out=$1
 allow_dirty=false
 if [[ $# == 2 ]]; then [[ $2 == --allow-dirty ]] || usage; allow_dirty=true; fi
-[[ $out == build-* && $out != */* && ! -e $out && ! -L $out ]] || usage
+[[ $out =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $out && ! -L $out ]] || usage
 [[ $allow_dirty == true || -z $(git status --porcelain) ]] || { echo 'clean source required; --allow-dirty records development evidence' >&2; exit 2; }
 nvcc=${NVCC:-/opt/cuda/bin/nvcc}
 sanitizer=${SANITIZER:-/opt/cuda/bin/compute-sanitizer}
@@ -31,7 +31,7 @@ v1_kernels='_tracking_session_cu_|_tracking_cu_|_motion_cu_'
 [[ -f $t01_engine && -f $hr_engine && -f $detection_refs/cases.tsv && -d $sdk && -d $sequences && -d $records ]] ||
   { echo 'missing engine, reference corpus, SDK, sequences or records' >&2; exit 2; }
 [[ $(sha256sum < "$hr_engine" | cut -d' ' -f1) == "$hr_engine_sha" ]] || { echo 'HR engine is not the deployed FP16 engine' >&2; exit 2; }
-mkdir "$out"
+mkdir -p build && mkdir "$out"
 out=$(cd "$out" && pwd)
 cap=$out/capture
 mkdir "$cap"

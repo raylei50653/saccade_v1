@@ -72,18 +72,18 @@ S04 起，同一 harness 另可接收明確的 `FrameIoSpec`：engine I/O 須恰
 ## 6. 重跑與證據
 
 ```sh
-cmake -S . -B build-s03 -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/s03 -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_TENSORRT=ON \
   -DSACCADE_TENSORRT_ROOT=/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk \
   -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc -DCMAKE_CUDA_ARCHITECTURES=120
-cmake --build build-s03 --parallel 4
-ctest --test-dir build-s03 --output-on-failure
-build-s03/scan_trt_tests build-s03/report.tsv
-build-s03/scan_trt_tests --group api_trace
-build-s03/scan_trt_tests --group async_fault
-build-s03/scan_trt_engine build build-s03/pipeline.engine
-CUDA_MODULE_LOADING=LAZY build-s03/scan_trt_engine run build-s03/pipeline.engine build-s03/engine-report.txt
-build-s03/scan_trt_engine run-unregistered build-s03/pipeline.engine
+cmake --build build/s03 --parallel 4
+ctest --test-dir build/s03 --output-on-failure
+build/s03/scan_trt_tests build/s03/report.tsv
+build/s03/scan_trt_tests --group api_trace
+build/s03/scan_trt_tests --group async_fault
+build/s03/scan_trt_engine build build/s03/pipeline.engine
+CUDA_MODULE_LOADING=LAZY build/s03/scan_trt_engine run build/s03/pipeline.engine build/s03/engine-report.txt
+build/s03/scan_trt_engine run-unregistered build/s03/pipeline.engine
 ```
 
 預設 GPU suite 包含數值、contract、reset、context isolation、frame-end、slot ownership、graph、held stream。`api_trace` 與 `async_fault` 只在明確指定時執行。CUPTI trace 在 warmup 後 arm，檢查三次 pipeline `enqueueV3`：每次 9 個 kernels、3 個 async memsets；launch／memset 必須在指定 stream；禁止配置／釋放、同步、module／library loading、同步版 memcpy／memset 與 D2H。graph launch 另外 trace。graph nodes 只允許 kernel／memset，檢查 expand→scan→merge 與各 finalize 的遞移依賴，再重播比較每個 frame digest。

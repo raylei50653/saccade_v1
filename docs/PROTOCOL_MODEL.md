@@ -3,10 +3,10 @@
 `tools/protocol_model.cpp` 是從零建立的 C++20 CPU 工具，不需要 CUDA、GPU 或 Python。它驗證 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的 H／D／M 提交順序；不是 GPU kernel 的模擬器。
 
 ```sh
-cmake -S . -B build
-cmake --build build
-./build/protocol_model --self-test
-ctest --test-dir build --output-on-failure
+cmake -S . -B build/cpu
+cmake --build build/cpu
+./build/cpu/protocol_model --self-test
+ctest --test-dir build/cpu --output-on-failure
 ```
 
 也可獨立編譯：

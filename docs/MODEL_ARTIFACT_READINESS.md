@@ -87,14 +87,14 @@ Inspector 解析成功並列出 graph I/O、所有 `value_info`、所有 node �
 sh evidence/p01-a/2026-10-28/artifact/replay.sh
 ```
 
-預設將重跑輸出放入 ignored `build-artifact-replay/evidence`，不覆蓋已提交 capture。每步 `.command`、`.exit`、`.log` 保存下載、大小／hash、schema 產生、C++ 編譯、完整結構查核及與原始輸出的逐 byte 比較。成功結論限於上述檔案的結構讀取；沒有執行真實 YOLO 推論或新 scan。
+預設將重跑輸出放入 `build-artifact-replay/evidence`，不覆蓋已提交 capture。這份 replay 是凍結的證據腳本，沿用當時的根目錄配置：可用 `OUTPUT_DIR=build/artifact-replay/evidence` 改輸出位置，但工作目錄 `build-artifact-inspector` 固定在根目錄，會出現在 `git status`，重跑後刪除。每步 `.command`、`.exit`、`.log` 保存下載、大小／hash、schema 產生、C++ 編譯、完整結構查核及與原始輸出的逐 byte 比較。成功結論限於上述檔案的結構讀取；沒有執行真實 YOLO 推論或新 scan。
 
 候選 JSON 的相對 artifact 路徑以 JSON 父目錄為基準。要驗證實際下載檔，先將候選宣告放入 cache 內相同目錄，再執行 CLI（或建立等價的獨立 bundle）：
 
 ```sh
 cp evidence/p01-a/2026-10-28/artifact/yolo26s.candidate.json /home/ray/.cache/saccade-v1/p01-a/artifact/
-build-p01-cpu/model_manifest verify /home/ray/.cache/saccade-v1/p01-a/artifact/yolo26s.candidate.json build-artifact-replay/yolo26s.canonical.json
-sha256sum build-artifact-replay/yolo26s.canonical.json
+build/cpu/model_manifest verify /home/ray/.cache/saccade-v1/p01-a/artifact/yolo26s.candidate.json build/artifact-replay/yolo26s.canonical.json
+sha256sum build/artifact-replay/yolo26s.canonical.json
 ```
 
 [實際 CLI 輸出](../evidence/p01-a/2026-10-28/artifact/manifest-verify.log)／[exit code](../evidence/p01-a/2026-10-28/artifact/manifest-verify.exit) 保存 `manifest_declaration=verified`、`artifact_files=verified`、`model_content=not_checked`、`real_model_ready=false`。上面的人工外部結構查核不被 CLI 冒充為內容驗證。

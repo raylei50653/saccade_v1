@@ -36,7 +36,7 @@ Host 的 frame／JPEG／metadata／CUDA enqueue 錯誤會 latch session `Failed`
 GPU 使用以下可選建置；`120` 為本機 GPU 架構，其他環境應據實指定：
 
 ```sh
-cmake -S . -B build-detection -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/detection -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_PREPROCESS=ON \
   -DSACCADE_ENABLE_POSTPROCESS=ON -DSACCADE_ENABLE_MODEL_PRODUCER=ON \
   -DSACCADE_ENABLE_TENSORRT=ON -DSACCADE_ENABLE_MODEL_TRT=ON \
@@ -44,8 +44,8 @@ cmake -S . -B build-detection -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_TENSORRT_ROOT=/absolute/path/to/pinned-sdk \
   -DSACCADE_DETECTION_ENGINE=/absolute/path/to/model.engine \
   -DSACCADE_DETECTION_REFERENCES=/absolute/path/to/frozen-refs
-cmake --build build-detection --target detection_session_tests detection_session_cuda_tests --parallel 3
-ctest --test-dir build-detection -R '^detection_session' --output-on-failure
+cmake --build build/detection --target detection_session_tests detection_session_cuda_tests --parallel 3
+ctest --test-dir build/detection -R '^detection_session' --output-on-failure
 ```
 
 `detection_session_tests ENGINE REFS OUTPUT_DIR [--sanitizer]` 比對獨立串行 F01–F04／CPU F04 reference、session serial／queued 完整候選，並測同步、錯誤及生命週期。test-only friend seam 用於 producer failure／候選 identity 錯誤、D-only tail 及延後 consumer，不是正常 caller 設定。`detection_session_cuda_tests` 只執行 session control／finalize kernels，四種 sanitizer 的範圍不擴張到完整 TensorRT engine。

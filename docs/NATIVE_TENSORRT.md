@@ -22,8 +22,8 @@ API 依據：[NVIDIA 10.x C++ API](https://docs.nvidia.com/deeplearning/tensorrt
 首次準備 SDK 可在獨立目錄執行下列命令；先核對上述官方 hashes，再解壓，無需系統安裝：
 
 ```sh
-mkdir -p build-sdk-download/sdk
-cd build-sdk-download
+mkdir -p build/sdk-download/sdk
+cd build/sdk-download
 curl -fLO https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/libnvinfer-headers-dev_10.16.1.11-1+cuda13.2_amd64.deb
 curl -fLO https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/libnvinfer10_10.16.1.11-1+cuda13.2_amd64.deb
 printf '%s  %s\n' 8447e3fc65f46bf28907c7d03c39f3fa86ef2bf6ec46afb848ea6533fb7fcd65 libnvinfer-headers-dev_10.16.1.11-1+cuda13.2_amd64.deb 3d2caaf0796fab517fffea327727ef829f46510fb1cd6bcd0efc84cb3b1ef002 libnvinfer10_10.16.1.11-1+cuda13.2_amd64.deb | sha256sum -c -
@@ -34,15 +34,15 @@ cd ..
 SDK root 可用 tar SDK 的 `include/`＋`lib/`，或本次 extracted Debian 的 `usr/include/x86_64-linux-gnu/`＋`usr/lib/x86_64-linux-gnu/`。CMake 預設 `SACCADE_ENABLE_TENSORRT=OFF`，CPU build 不搜尋 CUDA／TensorRT。開啟後只搜尋指定 root，不從 Python 或其他系統 SDK 補依賴；缺件、header／library 版本不符、CUDA 不在 [13.2,14)、driver API 低於 runtime、GPU 不可用或 SM < 7.5 均以明確錯誤停止。該 target 以 C++ compiler 編譯，不需 `enable_language(CUDA)`。
 
 ```sh
-cmake -S . -B build-native -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/native -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_TENSORRT=ON \
   -DSACCADE_TENSORRT_ROOT=/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk \
   -DCUDAToolkit_ROOT=/opt/cuda
-cmake --build build-native --parallel 2
-ctest --test-dir build-native --output-on-failure
-build-native/tensorrt_smoke build-native/test.engine build-native/test.txt
+cmake --build build/native --parallel 2
+ctest --test-dir build/native --output-on-failure
+build/native/tensorrt_smoke build/native/test.engine build/native/test.txt
 compute-sanitizer --tool memcheck --error-exitcode 99 \
-  build-native/tensorrt_smoke build-native/memcheck.engine build-native/memcheck.txt
+  build/native/tensorrt_smoke build/native/memcheck.engine build/native/memcheck.txt
 ```
 
 改變 source commit 後須重新 configure，讓 binary 內嵌的 commit／dirty 身分對應編譯來源。原始命令、exit code、完整輸出、SDK／GPU 身分與 hashes 見 P01-A evidence。執行報告包含 header 路徑與 hash、`dladdr` 核對的實際 nvinfer library（必須等於 configure 的 library）、`/proc/self/maps` 的實際 CUDA／TensorRT libraries、CUDA runtime／driver API、GPU 名稱／PCI bus／SM、compiler、engine hash 及全部 256 個輸出。OS、kernel driver、compiler 詳細身分另由執行命令保存。

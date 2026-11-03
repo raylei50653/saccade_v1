@@ -9,26 +9,26 @@
 CPU 建置不啟用 CUDA 語言，也不尋找 toolkit：
 
 ```sh
-cmake -S . -B build-cpu -DSACCADE_ENABLE_CUDA=OFF -DCMAKE_BUILD_TYPE=Release
-cmake --build build-cpu --parallel 4
-ctest --test-dir build-cpu --output-on-failure
+cmake -S . -B build/cpu -DSACCADE_ENABLE_CUDA=OFF -DCMAKE_BUILD_TYPE=Release
+cmake --build build/cpu --parallel 4
+ctest --test-dir build/cpu --output-on-failure
 ```
 
 下列 GPU 命令對應本次 SM 12.0 裝置；其他裝置須指定適當 architecture，未列入本次驗證：
 
 ```sh
-cmake -S . -B build-cuda -DSACCADE_ENABLE_CUDA=ON \
+cmake -S . -B build/cuda -DSACCADE_ENABLE_CUDA=ON \
   -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc \
   -DCMAKE_CUDA_ARCHITECTURES=120 -DCMAKE_BUILD_TYPE=Release
-cmake --build build-cuda --parallel 4
-ctest --test-dir build-cuda --output-on-failure
-build-cuda/cuda_synthetic_tests build-cuda/full-rerun
-build-cuda/cuda_synthetic examples/synthetic/serial.cfg build-cuda/serial
-build-cuda/cuda_synthetic examples/synthetic/pipelined.cfg build-cuda/pipelined
-build-cuda/packet_compare build-cuda/serial/packets.bin build-cuda/pipelined/packets.bin
+cmake --build build/cuda --parallel 4
+ctest --test-dir build/cuda --output-on-failure
+build/cuda/cuda_synthetic_tests build/cuda/full-rerun
+build/cuda/cuda_synthetic examples/synthetic/serial.cfg build/cuda/serial
+build/cuda/cuda_synthetic examples/synthetic/pipelined.cfg build/cuda/pipelined
+build/cuda/packet_compare build/cuda/serial/packets.bin build/cuda/pipelined/packets.bin
 ```
 
-CTest 包含六項 CPU tests，加上 `cuda_synthetic_protocol` 與 `cuda_synthetic_cli_io`；Linux GNU／Clang 另建置 `cuda_checked_cleanup`，本次共九項。GPU suite 會保存到 `build-cuda/gpu-evidence`。CLI `cuda_synthetic CONFIG OUTPUT_DIRECTORY` 的 exit code：0 為正常完成，1 為 sticky failure 或取消，2 為設定／I/O／CUDA API 錯誤。`examples/synthetic/failure.cfg` 是預期 exit 1 的固定尾端實驗。每次重跑使用新的 output directory，避免保留前次更多案例的殘留目錄。
+CTest 包含六項 CPU tests，加上 `cuda_synthetic_protocol` 與 `cuda_synthetic_cli_io`；Linux GNU／Clang 另建置 `cuda_checked_cleanup`，本次共九項。GPU suite 會保存到 `build/cuda/gpu-evidence`。CLI `cuda_synthetic CONFIG OUTPUT_DIRECTORY` 的 exit code：0 為正常完成，1 為 sticky failure 或取消，2 為設定／I/O／CUDA API 錯誤。`examples/synthetic/failure.cfg` 是預期 exit 1 的固定尾端實驗。每次重跑使用新的 output directory，避免保留前次更多案例的殘留目錄。
 
 空的普通設定檔合法，使用 typed defaults；讀取錯誤、目錄或不存在的路徑不會被當成空檔。設定讀取成功並完成驗證後才建立輸出目錄與 CUDA session。合成 CLI 及 GPU 測試的所有證據檔案寫入與 index append 都明確 close 並檢查結果，避免小型緩衝寫入在 destructor 才失敗而仍回報成功；不承諾 `fsync`、斷電耐久性或整組輸出的原子發布。CPU `file_io_tests` 驗證讀取、原始 bytes、append 與錯誤傳播；CLI I/O 測試包含目錄／缺失設定，以及 Linux `/dev/full` 的 resolved config、identity、packet 三類寫入失敗，逐項核對 exit 2 和對應診斷。
 
@@ -116,8 +116,8 @@ Sanitizer 的代表 subset 保留原有11個 sessions（mixed rings成功serial�
 ```sh
 for tool in memcheck initcheck synccheck racecheck; do
   /opt/cuda/bin/compute-sanitizer --tool "$tool" --error-exitcode 99 \
-    build-cuda/cuda_synthetic_tests --sanitizer "build-cuda/sanitizer-$tool" \
-    > "build-cuda/$tool.log" 2>&1
+    build/cuda/cuda_synthetic_tests --sanitizer "build/cuda/sanitizer-$tool" \
+    > "build/cuda/$tool.log" 2>&1
   result=$?
   printf '%s exit=%s\n' "$tool" "$result"
 done

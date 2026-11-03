@@ -4,7 +4,7 @@
 # at the same source. MOT17-02 is scored last.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: score_mot17_evaluation.sh build-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: score_mot17_evaluation.sh build/OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 1 && $# -le 2 ]] || usage
 allow_dirty=false
 if [[ $# == 2 ]]; then [[ $2 == --allow-dirty ]] || usage; allow_dirty=true; fi

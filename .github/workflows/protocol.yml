@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release
       - name: Build
-        run: cmake --build build --parallel 2
+        run: cmake --build build/cpu --parallel 2
       - name: Verify protocol, checked I/O, config, model manifest (schema 1, 2 and 3), selective-scan reference, head weight delivery and head reference contracts
-        run: ctest --test-dir build --output-on-failure
+        run: ctest --test-dir build/cpu --output-on-failure

@@ -5,12 +5,12 @@
 # shellcheck disable=SC2016
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: run_postprocess_acceptance.sh build-NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: run_postprocess_acceptance.sh build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 1 && $# -le 2 ]] || usage
 out=$1
 allow_dirty=false
 if [[ $# == 2 ]]; then [[ $2 == --allow-dirty ]] || usage; allow_dirty=true; fi
-[[ $out == build-* && $out != */* && ! -e $out && ! -L $out ]] || usage
+[[ $out =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $out && ! -L $out ]] || usage
 if [[ $allow_dirty == false && -n $(git status --porcelain) ]]; then
   echo 'clean committed source required; --allow-dirty records development evidence only' >&2
   exit 2
@@ -18,14 +18,14 @@ fi
 nvcc=${NVCC:-/opt/cuda/bin/nvcc}
 sanitizer=${SANITIZER:-/opt/cuda/bin/compute-sanitizer}
 arch=${SACCADE_CUDA_ARCHITECTURES:-120}
-dumps=${SACCADE_F04_F03_DUMPS:-$PWD/build-t01-f03-evidence/model-dump}
+dumps=${SACCADE_F04_F03_DUMPS:-$PWD/build/t01-f03-evidence/model-dump}
 limit=${SACCADE_F04_SANITIZER_TIMEOUT:-240}
 [[ $arch =~ ^[0-9]+$ && $limit =~ ^[1-9][0-9]*$ ]] || usage
 for dependency in cmake ctest timeout sha256sum rg nvidia-smi "$nvcc" "$sanitizer" /usr/bin/time; do
   command -v "$dependency" >/dev/null || { echo "missing dependency: $dependency" >&2; exit 2; }
 done
 for index in {0..5}; do [[ -f $dumps/input-$index.f32 ]] || { echo "missing pinned F03 dump: $dumps/input-$index.f32" >&2; exit 2; }; done
-mkdir "$out"
+mkdir -p build && mkdir "$out"
 out=$(cd "$out" && pwd)
 cap=$out/capture
 mkdir "$cap"

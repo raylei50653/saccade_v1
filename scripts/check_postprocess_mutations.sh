@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # F04 negative controls. Mutate only a disposable copied CUDA source tree.
-# Usage: bash scripts/check_postprocess_mutations.sh BASELINE_BUILD build-NEW-STAGE [--check-only]
+# Usage: bash scripts/check_postprocess_mutations.sh BASELINE_BUILD build/NEW-STAGE [--check-only]
 # --check-only verifies exact mutation matches/diffs without compiling or using GPU.
 set -euo pipefail
 
 usage() {
-  echo 'usage: check_postprocess_mutations.sh BASELINE_BUILD build-NEW-STAGE [--check-only]' >&2
+  echo 'usage: check_postprocess_mutations.sh BASELINE_BUILD build/NEW-STAGE [--check-only]' >&2
   exit 2
 }
 [[ $# -ge 2 && $# -le 3 ]] || usage
@@ -15,8 +15,8 @@ check_only=false
 if [[ $# == 3 ]]; then [[ $3 == --check-only ]] || usage; check_only=true; fi
 repo=$(git rev-parse --show-toplevel)
 cd "$repo"
-[[ $stage_name == build-* && $stage_name != */* && ! -e $stage_name && ! -L $stage_name ]] || {
-  echo 'stage must be a new build-* directory at the repository root' >&2
+[[ $stage_name =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $stage_name && ! -L $stage_name ]] || {
+  echo 'stage must be a new build/NAME directory' >&2
   exit 2
 }
 [[ -d $baseline_arg ]] || { echo 'baseline build directory is missing' >&2; exit 2; }
@@ -36,7 +36,7 @@ nvcc=$(cache_value CMAKE_CUDA_COMPILER)
 cxx=$(cache_value CMAKE_CXX_COMPILER)
 [[ -n $nvcc && -n $cxx ]] || { echo 'baseline compiler identities are missing' >&2; exit 2; }
 
-mkdir "$stage_name"
+mkdir -p build && mkdir "$stage_name"
 stage=$(cd "$stage_name" && pwd)
 cap=$stage/capture
 source_tree=$stage/source

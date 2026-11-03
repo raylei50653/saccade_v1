@@ -1,7 +1,7 @@
 """Offline F01/F02 references and comparisons, t01-preprocess-fp32/1.
 
-    venv-export/bin/python training/t01/t01_preprocess_ref.py generate --out build-preprocess-ref
-    venv-export/bin/python training/t01/t01_preprocess_ref.py compare --refs build-preprocess-ref --dump NATIVE_DIR
+    venv-export/bin/python training/t01/t01_preprocess_ref.py generate --out build/preprocess-ref
+    venv-export/bin/python training/t01/t01_preprocess_ref.py compare --refs build/preprocess-ref --dump NATIVE_DIR
 
 The native runtime has no Python dependency. cases.tsv is UTF-8, one case per
 line (comment header), with tab-separated label, input width, input height,

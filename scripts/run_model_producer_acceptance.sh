@@ -2,12 +2,12 @@
 # Bounded F03 producer capture; dirty work is development evidence only.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: run_model_producer_acceptance.sh build-NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: run_model_producer_acceptance.sh build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 1 && $# -le 2 ]] || usage
 out=$1
 allow_dirty=false
 if [[ $# == 2 ]]; then [[ $2 == --allow-dirty ]] || usage; allow_dirty=true; fi
-[[ $out == build-* && $out != */* && ! -e $out && ! -L $out ]] || usage
+[[ $out =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $out && ! -L $out ]] || usage
 if [[ $allow_dirty == false && -n $(git status --porcelain) ]]; then
   echo 'clean source required; --allow-dirty records development evidence only' >&2; exit 2
 fi
@@ -15,12 +15,12 @@ nvcc=${NVCC:-/opt/cuda/bin/nvcc}
 sanitizer=${SANITIZER:-/opt/cuda/bin/compute-sanitizer}
 arch=${SACCADE_CUDA_ARCHITECTURES:-120}
 sdk=${SACCADE_TENSORRT_ROOT:-$HOME/.cache/saccade-native-trt/10.16.1.11/sdk}
-engine=${SACCADE_MODEL_PRODUCER_ENGINE:-$PWD/build-t01-f03-evidence/stage/model.engine}
-inputs=${SACCADE_MODEL_PRODUCER_INPUTS:-$PWD/build-t01-f03-evidence/t01root/export/f03-inputs.f32}
+engine=${SACCADE_MODEL_PRODUCER_ENGINE:-$PWD/build/t01-f03-evidence/stage/model.engine}
+inputs=${SACCADE_MODEL_PRODUCER_INPUTS:-$PWD/build/t01-f03-evidence/t01root/export/f03-inputs.f32}
 limit=${SACCADE_MODEL_PRODUCER_SANITIZER_TIMEOUT:-240}
 [[ $arch =~ ^[0-9]+$ && $limit =~ ^[1-9][0-9]*$ ]] || usage
 [[ -f $engine && -f $inputs && -d $sdk ]] || { echo 'missing pinned F03 engine/inputs or SDK' >&2; exit 2; }
-mkdir "$out"
+mkdir -p build && mkdir "$out"
 out=$(cd "$out" && pwd)
 cap=$out/capture
 mkdir "$cap"

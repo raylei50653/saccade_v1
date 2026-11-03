@@ -2,17 +2,17 @@
 # Positional parameters in bash -c strings are intentionally expanded by that child.
 # shellcheck disable=SC2016
 # Reproducible F01/F02 capture. No source commits or Python runtime dependency.
-# Usage: bash scripts/run_preprocess_acceptance.sh build-NEW-OUTPUT [--allow-dirty]
+# Usage: bash scripts/run_preprocess_acceptance.sh build/NEW-OUTPUT [--allow-dirty]
 # Needs pinned T01 export venv/data, CUDA, a hardware JPEG GPU, djpeg and sanitizers.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: run_preprocess_acceptance.sh build-NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: run_preprocess_acceptance.sh build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 1 && $# -le 2 ]] || usage
 out=$1
 allow_dirty=false
 if [[ $# == 2 ]]; then [[ $2 == --allow-dirty ]] || usage; allow_dirty=true; fi
-[[ $out == build-* && $out != */* && ! -e $out && ! -L $out ]] || {
-  echo 'output must be a new build-* directory at the repository root' >&2; exit 2;
+[[ $out =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $out && ! -L $out ]] || {
+  echo 'output must be a new build/NAME directory' >&2; exit 2;
 }
 if [[ $allow_dirty == false && -n $(git status --porcelain) ]]; then
   echo 'acceptance requires clean committed source; --allow-dirty records development evidence only' >&2
@@ -29,12 +29,12 @@ sanitizer_timeout=${SACCADE_PREPROCESS_SANITIZER_TIMEOUT:-300}
 for dependency in cmake ctest nvidia-smi timeout djpeg sha256sum awk "$cxx" "$nvcc" "$sanitizer" "$py" /usr/bin/time; do
   command -v "$dependency" >/dev/null || { echo "missing dependency: $dependency" >&2; exit 2; }
 done
-mkdir "$out"
+mkdir -p build && mkdir "$out"
 out=$(cd "$out" && pwd)
 mkdir "$out/capture"
 cap=$out/capture
 revision=$(git rev-parse HEAD)
-# Hash both tracked and untracked nonignored source; build-* outputs are ignored.
+# Hash both tracked and untracked nonignored source; build/ outputs are ignored.
 # This guards development captures against edits while a command is running too.
 source_digest() {
   {

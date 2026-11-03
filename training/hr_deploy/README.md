@@ -15,20 +15,20 @@ OUT=$HOME/.cache/saccade-v1/hr-deploy
 DEV=/home/ray/developer/ai/saccade_v1_dev
 mkdir -p "$OUT"
 export PYTHONDONTWRITEBYTECODE=1
-cmake -S . -B build-d1-cpu -DCMAKE_BUILD_TYPE=Release
-cmake --build build-d1-cpu --parallel 8
-ctest --test-dir build-d1-cpu --output-on-failure --parallel 8
+cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release
+cmake --build build/cpu --parallel 8
+ctest --test-dir build/cpu --output-on-failure --parallel 8
 CUDA_VISIBLE_DEVICES='' "$PY" training/hr_deploy/test_eval_scdr.py
 
-build-d1-cpu/head_weights convert \
+build/cpu/head_weights convert \
   "$DEV/build-hr-mixed/HR01-MS-FULL25-20261103/mixed/attempt-001/epoch_0010.ckpt" \
   53bccffe9bdbf37bdcfc81d03e95ccbd2d142d67a557ea015b76d356e4fa5f7d \
   "$OUT/hr-head.swb" "$OUT/hr-head-mapping.tsv"
-build-d1-cpu/head_weights convert \
+build/cpu/head_weights convert \
   "$HOME/.cache/saccade-v1/s04/best.ckpt" \
   a5a0e7091cd854ad68210ae4bbd43af73c7d3d098ea119f02ea65fab59c0676c \
   "$OUT/s04-regression.swb" "$OUT/s04-regression-mapping.tsv"
-build-d1-cpu/head_weights convert \
+build/cpu/head_weights convert \
   "$HOME/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt" \
   070580f9f5755e57acd9ee7ed9b4307672f4d9996332b40e6b61ee7cc6e6962b \
   "$OUT/t01-regression.swb" "$OUT/t01-regression-mapping.tsv"

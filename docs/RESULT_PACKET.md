@@ -70,10 +70,10 @@ decode_packet 嚴格核對 profile、身份／狀態、數量、數值，以及�
 從 repo root 執行：
 
 ```sh
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
-build/packet_compare serial.bin pipelined.bin
+cmake -S . -B build/cpu
+cmake --build build/cpu
+ctest --test-dir build/cpu --output-on-failure
+build/cpu/packet_compare serial.bin pipelined.bin
 ```
 
 packet_compare 接受一個或多個完整 v1 封包串接而成的檔案，逐位元比較 **所有 bytes**，包括 reserved 與未用 rows。它刻意不先 decode，讓 reserved／padding 污染也以差異回報；canonical 合法性由 decode_packet 另外檢查。檔案為空或不是 12,368 的整數倍會拒絕；完整封包數不同則是比較失敗。

@@ -44,11 +44,11 @@ T01 候選 [`manifests/t01/yolo26m-t1.json`](../manifests/t01/yolo26m-t1.json) �
 ## 執行與三種查核狀態
 
 ```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build --parallel 2
-ctest --test-dir build --output-on-failure
-build/model_manifest validate fixtures/model-manifest/contract.json build/manifest.canonical.json
-build/model_manifest verify fixtures/model-manifest/contract.json
+cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release
+cmake --build build/cpu --parallel 2
+ctest --test-dir build/cpu --output-on-failure
+build/cpu/model_manifest validate fixtures/model-manifest/contract.json build/cpu/manifest.canonical.json
+build/cpu/model_manifest verify fixtures/model-manifest/contract.json
 ```
 
 `validate` 完成語法、型別、必要欄位及內部一致性查核，回報 `manifest_declaration=verified`、`artifact_files=not_checked`。`verify` 在相同查核後讀取**全部** artifact，核對 size 與 SHA-256，成功才回報 `artifact_files=verified`。兩者都回報 `model_content=not_checked`、`real_model_ready=false`；外部內容核對文件須分別指明哪個欄位與原始檔案相符，工具不把宣告中的 `content_review` 視為獨立查核結果。

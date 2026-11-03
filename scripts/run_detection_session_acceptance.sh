@@ -3,25 +3,25 @@
 # development evidence; the independent a9c3d9b F03 acceptance stays separate.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: run_detection_session_acceptance.sh build-NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: run_detection_session_acceptance.sh build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 1 && $# -le 2 ]] || usage
 out=$1
 allow_dirty=false
 if [[ $# == 2 ]]; then [[ $2 == --allow-dirty ]] || usage; allow_dirty=true; fi
-[[ $out == build-* && $out != */* && ! -e $out && ! -L $out ]] || usage
+[[ $out =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $out && ! -L $out ]] || usage
 [[ $allow_dirty == true || -z $(git status --porcelain) ]] || { echo 'clean source required; --allow-dirty records development evidence' >&2; exit 2; }
 nvcc=${NVCC:-/opt/cuda/bin/nvcc}
 sanitizer=${SANITIZER:-/opt/cuda/bin/compute-sanitizer}
 arch=${SACCADE_CUDA_ARCHITECTURES:-120}
 sdk=${SACCADE_TENSORRT_ROOT:-$HOME/.cache/saccade-native-trt/10.16.1.11/sdk}
-engine=${SACCADE_DETECTION_ENGINE:-$PWD/build-t01-f03-evidence/stage/model.engine}
-refs=${SACCADE_DETECTION_REFERENCES:-$PWD/build-preprocess-evidence/refs}
+engine=${SACCADE_DETECTION_ENGINE:-$PWD/build/t01-f03-evidence/stage/model.engine}
+refs=${SACCADE_DETECTION_REFERENCES:-$PWD/build/preprocess-evidence/refs}
 limit=${SACCADE_DETECTION_TIMEOUT:-300}
 run_initcheck=${SACCADE_DETECTION_INITCHECK_DIAGNOSTIC:-0}
 [[ $arch =~ ^[0-9]+$ && $limit =~ ^[1-9][0-9]*$ ]] || usage
 [[ $run_initcheck == 0 || $run_initcheck == 1 ]] || usage
 [[ -f $engine && -f $refs/cases.tsv && -d $sdk ]] || { echo 'missing engine/reference corpus/SDK' >&2; exit 2; }
-mkdir "$out"
+mkdir -p build && mkdir "$out"
 out=$(cd "$out" && pwd)
 cap=$out/capture
 mkdir "$cap"

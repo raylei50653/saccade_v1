@@ -34,11 +34,11 @@ caller 先在 submitter thread 呼叫 `cudaSetDevice`，建立 explicit non-defa
 primitive 只需 CUDA，不依賴 TensorRT／nvJPEG；預設 CPU build 不變。獨立 CUDA／F04 測試由以下選項建立（`120` 為本機 sm_120，其他裝置改用自己的架構）：
 
 ```sh
-cmake -S . -B build-f03-producer -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/f03-producer -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_MODEL_PRODUCER=ON \
   -DSACCADE_ENABLE_POSTPROCESS=ON -DCMAKE_CUDA_ARCHITECTURES=120
-cmake --build build-f03-producer --target model_producer_cuda_tests --parallel 2
-ctest --test-dir build-f03-producer -R '^model_producer_cuda' --output-on-failure
+cmake --build build/f03-producer --target model_producer_cuda_tests --parallel 2
+ctest --test-dir build/f03-producer -R '^model_producer_cuda' --output-on-failure
 ```
 
 額外開啟既有 `SACCADE_ENABLE_MODEL_TRT`／`SACCADE_ENABLE_TENSORRT` 並提供 pinned SDK root 後，可建立 `model_producer_trt_tests`。設定 `SACCADE_MODEL_PRODUCER_ENGINE` 與 `SACCADE_MODEL_PRODUCER_INPUTS` 可將 actual F03 engine 接續測試加入 CTest。**乾淨 `a9c3d9b` 正式驗收 PASS（受測範圍）**：[正式證據](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md) 保存 clean source／實際 binary 身分、CPU 12/12、CUDA／live 6/6、四種獨立 adapter sanitizers 及正控制、第一個固定 live 輸入的 memcheck／initcheck。原 [dirty-source 開發報告](../evidence/f03-producer/2026-10-31/REPORT.md) 保留。Sanitizer host callback gates／CUPTI 與 head／F03 racecheck／synccheck 的未執行界線以正式報告為準。

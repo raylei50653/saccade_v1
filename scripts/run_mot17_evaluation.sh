@@ -6,13 +6,13 @@
 # Run it under the GPU lock.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-usage() { echo 'usage: run_mot17_evaluation.sh ACCEPTANCE_DIR build-NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
+usage() { echo 'usage: run_mot17_evaluation.sh ACCEPTANCE_DIR build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }
 [[ $# -ge 2 && $# -le 3 ]] || usage
 acceptance=$1
 out=$2
 allow_dirty=false
 if [[ $# == 3 ]]; then [[ $3 == --allow-dirty ]] || usage; allow_dirty=true; fi
-[[ -d $acceptance && $out == build-* && $out != */* && ! -e $out && ! -L $out ]] || usage
+[[ -d $acceptance && $out =~ ^build/[A-Za-z0-9][A-Za-z0-9._-]*$ && ! -e $out && ! -L $out ]] || usage
 [[ $allow_dirty == true || -z $(git status --porcelain) ]] || { echo 'clean source required; --allow-dirty records development evidence' >&2; exit 2; }
 acceptance=$(cd "$acceptance" && pwd)
 sequences=$(cd "${SACCADE_TRACKING_SEQUENCES:?MOT17 train directory}" && pwd -P)
@@ -33,7 +33,7 @@ bin=$acceptance/cuda
 [[ $(sed -n 's/^revision=//p' "$acceptance/capture/source.txt") == $(git rev-parse HEAD) ]] || { echo 'acceptance revision is not HEAD' >&2; exit 2; }
 binaries() { find "$bin" -maxdepth 1 -type f \( -perm -u+x -o -name '*.a' \) -print0 | sort -z | xargs -0 sha256sum; }
 cmp <(binaries) "$acceptance/capture/binaries.sha256" || { echo 'acceptance binaries changed' >&2; exit 2; }
-mkdir "$out"
+mkdir -p build && mkdir "$out"
 out=$(cd "$out" && pwd)
 cap=$out/capture
 mkdir "$cap"

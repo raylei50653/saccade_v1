@@ -35,17 +35,17 @@ F02 的獨立低階介面 [`resize_rgb_chw_cuda`](../include/saccade/resize_cuda
 CUDA Toolkit 須提供 nvJPEG，GPU 須支援 hardware backend；不需要 TensorRT。CPU 預設建置維持不啟用此模組。以下 `120` 是本機 sm_120 GPU 的架構設定，其他 GPU 請指定自己的架構。
 
 ```sh
-cmake -S . -B build-preprocess -DCMAKE_BUILD_TYPE=Release \
+cmake -S . -B build/preprocess -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_PREPROCESS=ON \
   -DCMAKE_CUDA_ARCHITECTURES=120
-cmake --build build-preprocess --parallel 2
-ctest --test-dir build-preprocess -L preprocess --output-on-failure
+cmake --build build/preprocess --parallel 2
+ctest --test-dir build/preprocess -L preprocess --output-on-failure
 ```
 
 單張 JPEG：
 
 ```sh
-build-preprocess/preprocess jpeg /path/to/frame.jpg build-preprocess-single
+build/preprocess/preprocess jpeg /path/to/frame.jpg build/preprocess-single
 ```
 
 輸出 `frame.rgb`（原尺寸 contiguous planar RGB uint8）、`frame.f32`（640×640 RGB CHW FP32）與 `mapping.txt`。後者記錄原圖／模型尺寸、獨立 x／y scales、JPEG hash、nvJPEG／CUDA／GPU 與 build source 身分。此 CLI 使用預設 1920×1080 與 16 MiB 容量；其他容量由 C++ API 設定。
@@ -58,11 +58,11 @@ Reference 工具使用 T01 pinned export venv、torch 2.11.0／torchvision 0.26.
 
 ```sh
 ~/.cache/saccade-v1/t01/venv-export/bin/python \
-  training/t01/t01_preprocess_ref.py generate --out build-preprocess-ref
-build-preprocess/preprocess run build-preprocess-ref build-preprocess-result
+  training/t01/t01_preprocess_ref.py generate --out build/preprocess-ref
+build/preprocess/preprocess run build/preprocess-ref build/preprocess-result
 ~/.cache/saccade-v1/t01/venv-export/bin/python \
   training/t01/t01_preprocess_ref.py compare \
-  --refs build-preprocess-ref --dump build-preprocess-result
+  --refs build/preprocess-ref --dump build/preprocess-result
 ```
 
 References 包含 7 張 MOT17 幀、10 組 synthetic，`cases.tsv` 給出順序、輸入／輸出尺寸、JPEG（synthetic 為 `-`）、planar `.rgb` 與 CHW little-endian `.f32` 路徑。`manifest.json` 固定 hashes、policy snapshot、library／GPU 身分與語義對照。MOT17-02／10／13 的三個 float32 inputs 與已固定的 F03 輸入逐 byte 相同；其餘 synthetic 用於邊界、identity、upsample、非整除 downsample 與 singleton。

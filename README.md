@@ -29,21 +29,23 @@ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構�
 - [F01–F04 async detection session](docs/DETECTION_SESSION.md)：D 執行 native 前處理／F03／producer／F04，M 消費完整候選，透過 CS ready／consumed 與 pinned result ring 管理所有權；包含 epoch／frame identity、首次失敗與後續 skip、EOF／cancel／D-only tail drain、checked close 及新 session 隔離。已實作，[開發來源驗證 PASS（受測範圍）](evidence/detection-session/2026-10-31/REPORT.md)；不包含完整 tracking 或 P01。
 - [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
 
+所有建置與驗收輸出都放在 `build/<名稱>/`，整個 `build/` 不入 Git：日常建置用 `build/cpu`、`build/cuda`，驗收腳本只接受新的 `build/<名稱>` 輸出目錄。根目錄不放其他建置資料夾；根目錄的 `build-*` 不再被忽略，誤建會出現在 `git status`，要求乾淨工作樹的驗收腳本也會拒絕執行。
+
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
 
 ```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build --parallel 2
-ctest --test-dir build --output-on-failure
+cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release
+cmake --build build/cpu --parallel 2
+ctest --test-dir build/cpu --output-on-failure
 ```
 
-`build/protocol_model --self-test` 檢查同步協定；`build/protocol_tests` 驗證首幀初始化、錯誤注入、失敗鎖定、頻譜隔離與封包編碼。`build/packet_compare serial.bin pipelined.bin` 比較整份固定容量封包串流，包含未使用 rows 與 reserved bytes。
+`build/cpu/protocol_model --self-test` 檢查同步協定；`build/cpu/protocol_tests` 驗證首幀初始化、錯誤注入、失敗鎖定、頻譜隔離與封包編碼。`build/cpu/packet_compare serial.bin pipelined.bin` 比較整份固定容量封包串流，包含未使用 rows 與 reserved bytes。
 
 `synthetic_config_tests` 另外驗證最小設定 schema、非法輸入、穩定序列化與 hash；`file_io_tests` 驗證讀取及明確 close 的錯誤傳播，`cleanup_tests` 以 CPU fake 驗證資源釋放錯誤與所有權政策。`model_manifest_tests` 與 CLI 測試加入模型輸入契約及失敗條件；`selective_scan_tests` 以 bc 推導、手算與契約等式驗證 S01 的 binary64 scan reference 及其拒絕條件（[fixtures](fixtures/selective-scan/README.md)）。預設建置不需 GPU。
 
 ```sh
-build/model_manifest validate fixtures/model-manifest/contract.json
-build/model_manifest verify fixtures/model-manifest/contract.json build/canonical-manifest.json
+build/cpu/model_manifest validate fixtures/model-manifest/contract.json
+build/cpu/model_manifest verify fixtures/model-manifest/contract.json build/cpu/canonical-manifest.json
 ```
 
 這份 fixture 只驗證工具；CLI 將宣告、檔案完整性、模型內容分開回報，不能用 fixture 或檔案 hash 通過推導真實模型已就緒。
@@ -51,10 +53,10 @@ build/model_manifest verify fixtures/model-manifest/contract.json build/canonica
 CUDA 骨架採可選建置，預設關閉；需 CUDA Toolkit、cuFFT 及可執行的 NVIDIA GPU：
 
 ```sh
-cmake -S . -B build-cuda -DCMAKE_BUILD_TYPE=Release -DSACCADE_ENABLE_CUDA=ON
-cmake --build build-cuda --parallel 2
-ctest --test-dir build-cuda --output-on-failure
-build-cuda/cuda_synthetic config.txt output-directory
+cmake -S . -B build/cuda -DCMAKE_BUILD_TYPE=Release -DSACCADE_ENABLE_CUDA=ON
+cmake --build build/cuda --parallel 2
+ctest --test-dir build/cuda --output-on-failure
+build/cuda/cuda_synthetic config.txt output-directory
 ```
 
 CPU 模型與合成 GPU 測試各驗證明列的有限範圍。真實模型推論、phase correlation／GMC、tracker、MOT 輸出及模型 artifact P01 不在本骨架驗收範圍；實際 GPU 與工具身分、已執行及未驗證項目見 [CUDA_SYNTHETIC](docs/CUDA_SYNTHETIC.md)。

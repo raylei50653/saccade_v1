@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Run from repository root. All generated outputs stay in an ignored build-* tree
+# Run from repository root. All generated outputs stay in the ignored build/ tree
 # so configure records the actual clean source commit. No Python is involved.
 set -euo pipefail
 if [[ $# != 2 ]]; then
-  echo 'usage: scripts/run_p01_acceptance.sh TENSORRT_SDK_ROOT build-OUTPUT' >&2
+  echo 'usage: scripts/run_p01_acceptance.sh TENSORRT_SDK_ROOT build/OUTPUT' >&2
   exit 2
 fi
 sdk=$(realpath "$1")
 out=$(realpath -m "$2")
 root=$(git rev-parse --show-toplevel)
-[[ $PWD == "$root" && $(basename "$out") == build-* && ! -e "$out" ]] || {
-  echo 'run at repository root with a fresh build-* output directory' >&2; exit 2;
+[[ $PWD == "$root" && $(dirname "$out") == "$root/build" && ! -e "$out" ]] || {
+  echo 'run at repository root with a fresh build/NAME output directory' >&2; exit 2;
 }
 mkdir -p "$out"
 run() {

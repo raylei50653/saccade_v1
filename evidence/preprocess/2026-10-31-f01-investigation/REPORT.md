@@ -4,7 +4,7 @@
 
 **原生 Windows 對照已補齊**：同一張 GPU、相同 standalone source／fixture、對齊的 nvJPEG／CUDA／sanitizer 版本，Windows PE 執行檔同樣報 initcheck 1,890 errors、RGB exact、memcheck 0。**WSL 不是重現問題的必要條件。** 詳見 [Windows 實測報告](windows-native/REPORT.md)；仍沒有原生 Linux driver 對照，驗收狀態未改。
 
-**已向 NVIDIA 回報 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)**（2026-10-31），standalone repro、完整 945-error log、Windows log 與去除本機路徑的 identity 以 email 附件寄至 NVSDKIssues。回報只請 NVIDIA 分類，尚無回覆；送出內容與附件 hash 見 [nvidia-report/](nvidia-report/README.md)。
+**已向 NVIDIA 回報 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)**（2026-10-31），standalone repro、完整 945-error log、Windows log 與去除本機路徑的 identity 以 email 附件寄至 NVSDKIssues。回報只請 NVIDIA 分類；2026-11-02 NVIDIA 回覆已重現問題並交由 Sanitizer 工程團隊調查，尚未分類。送出內容、回覆原文與附件 hash 見 [nvidia-report/](nvidia-report/README.md)。
 
 這是接續[原始 F01／F02 驗證](../2026-10-31/REPORT.md)的獨立 SDK 診斷；沒有連結 Saccade、F02、TensorRT 或 Python runtime。未變更 native runtime、比較政策或錯誤抑制；原始 capture 的失敗不改寫。這次不重驗 F02、F03、完整 async session 或 P01。
 

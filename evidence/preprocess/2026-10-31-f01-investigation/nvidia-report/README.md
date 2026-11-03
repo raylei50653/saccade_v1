@@ -1,6 +1,6 @@
 # F01 nvJPEG initcheck：NVIDIA 回報（Bug 7021871）
 
-**已向 NVIDIA 回報 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件已寄至 NVSDKIssues@nvidia.com；目前狀態 OPEN，尚無 NVIDIA 回覆。** 回報只請 NVIDIA 分類，沒有宣稱已確認誤報；F01 initcheck FAIL／原因 OPEN 與 P01 OPEN 均不變。
+**已向 NVIDIA 回報 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件已寄至 NVSDKIssues@nvidia.com。2026-11-02 NVIDIA 回覆已重現問題，交由 Sanitizer 工程團隊調查；尚未分類，狀態仍 OPEN。** 回報只請 NVIDIA 分類，沒有宣稱已確認誤報；F01 initcheck FAIL／原因 OPEN 與 P01 OPEN 均不變。
 
 ## 送出內容
 
@@ -34,3 +34,11 @@
 - 回報說明原生 Linux driver 尚未測試，亦未區分 nvJPEG、Compute Sanitizer 或共用 Windows driver 路徑的責任。
 
 NVIDIA 回覆後，另以新紀錄保存原文與分類，不改寫本目錄已送出的內容。
+
+## NVIDIA 回覆
+
+| 日期 | 內容 | 原文 |
+| --- | --- | --- |
+| 2026-11-02 01:44（Pacific，Gmail 顯示 +08:00 17:44） | Yuki Ni 回覆可用所附 reproducer 重現，由 Sanitizer 工程團隊調查，之後會再更新。Severity Medium、Priority 3 - Low | [nvidia-reply-2026-11-02.txt](nvidia-reply-2026-11-02.txt) |
+
+原文由 Gmail 畫面轉錄，requester email 省略；沒有匯出 `.eml`，不宣稱為 byte-exact 原件。交給 Sanitizer 團隊不等於已分類為誤報；F01 initcheck FAIL／原因 OPEN 不變。

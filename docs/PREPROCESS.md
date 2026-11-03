@@ -83,7 +83,7 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 
 [原生 Windows 對照](../evidence/preprocess/2026-10-31-f01-investigation/windows-native/REPORT.md)亦重現同樣的 HARDWARE RGB initcheck 1,890 errors／exit 99，RGB bytes 與 WSL／CPU reference 相同，memcheck 0；工具正反控制正常。WSL 不是重現此問題的必要條件；兩邊仍共用 Windows host driver，原生 Linux driver 尚未驗證，該次 initcheck 結果仍為 FAIL。
 
-此問題已以 standalone repro 向 NVIDIA 回報為 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件另寄 NVSDKIssues；送出內容見 [NVIDIA 回報紀錄](../evidence/preprocess/2026-10-31-f01-investigation/nvidia-report/README.md)。repo 尚未收錄 NVIDIA 分類，initcheck 診斷維持 FAIL／原因 OPEN；目前的使用結案依 §7 判定。
+此問題已以 standalone repro 向 NVIDIA 回報為 [Bug 7021871](https://developer.nvidia.com/bugs/7021871)，附件另寄 NVSDKIssues；送出內容見 [NVIDIA 回報紀錄](../evidence/preprocess/2026-10-31-f01-investigation/nvidia-report/README.md)。2026-11-02 NVIDIA 回覆已重現問題，交由 Sanitizer 工程團隊調查；尚未分類，initcheck 診斷維持 FAIL／原因 OPEN；目前的使用結案依 §7 判定。
 
 ## 6. 逆向與初始化診斷的證明邊界
 

@@ -1,0 +1,20 @@
+From: nvinfo@nvidia.com
+To: (requester Gmail)
+Subject: NVIDIA Incident Report Update (7021871) - compute-sanitizer initcheck reports uninitialized reads in nvjpeg::rgba2rgb with NVJPEG_BACKEND_HARDWARE, while decoded output is bit-exact
+Received: 2026-11-02 17:44 (+08:00), per Gmail
+
+New comment [NVIDIA]: 11/02/2026 1:44 AM (Pacific time) - Yuki Ni
+Hi Ray, Thanks for filing a bug ticket to us with detailed reproducer. We can reproduce the issue. Our Sanitizer engineering team will investigate this. We will keep you updated. Best, Yuki
+
+Known changes for this bug
+- A comment has been added
+
+Bug Information
+NVIDIA Bug ID: 7021871
+Requester: ray lei
+Date: 10/30/2026 8:23 PM
+Customer: CUDA RegDev Program [DevZone]
+Severity: Medium
+Priority: 3 - Low
+Project(s): [unknown]
+Synopsis: compute-sanitizer initcheck reports uninitialized reads in nvjpeg::rgba2rgb with NVJPEG_BACKEND_HARDWARE, while decoded output is bit-exact

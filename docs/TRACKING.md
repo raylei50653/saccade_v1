@@ -1,6 +1,6 @@
 # Tracking 半段規格（F05–F09）
 
-日期：2026-11-03。狀態：M0 契約，供 M1 實作。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
+日期：2026-11-03。狀態：M0 契約與 M1（CPU tracker 端到端）完成；M2 起依 §12 接續。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
 
 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
 
@@ -235,3 +235,17 @@ M1 分工（每條線只改自己擁有的檔案；契約 header 只能做本線
 | A | F05／F06：CPU reference、CUDA（F05 在 detect stream、F06 在 main stream 用 cuFFT、頻譜雙緩衝）、`motion_sequence` 工具輸出每幀 MotionContext | `motion.hpp`、`motion_cuda.hpp`、`src/motion*.cpp`、`cuda/motion.cu`、`tests/motion*`、`tools/motion_sequence.cpp`、`cmake/Motion.cmake` |
 | B | F08a／F04b／F07／F08b 的 CPU reference 與 `TrackerReference` session、`tracking_math.hpp` | `tracking.hpp`、`tracking_math.hpp`、`src/tracking*.cpp`、`tests/tracking*`、`cmake/TrackingReference.cmake` |
 | C | F09 輸出、偵測紀錄格式、`detect_sequence` 工具（用 DetectionSession 跑整個序列並存下每幀候選） | `mot_output.hpp`、`src/mot_output.cpp`、`tests/mot_output*`、`tools/detect_sequence.cpp`、`cmake/MotOutput.cmake` |
+
+## 13. M1 結果（2026-11-03）
+
+M1 以 `detect_sequence`（native F01–F04 detection session）與 `motion_sequence`（CUDA F05／F06）錄下 7 個 MOT17 SDP 序列，再用 `track_offline`（CPU `TrackerReference`＋F09）產生 MOT 檔，以 `scripts/eval_mot17.sh`（舊專案的 TrackEval，只作量測工具）評估。tracker 每序列 8–108 ms（CPU）。
+
+| 組別 | HOTA | DetA | AssA | IDF1 | MOTA | IDSW |
+| --- | --- | --- | --- | --- | --- | --- |
+| val（MOT17-10） | 42.2 | 42.1 | 42.7 | 50.8 | 45.5 | 94 |
+| eval（MOT17-02） | 31.6 | 23.7 | 42.2 | 37.2 | 23.5 | 31 |
+| in-domain（04／05／09／11／13） | 75.0 | 78.1 | 72.2 | 81.7 | 85.7 | 243 |
+
+- GMC 的效果（MOT17-10，`track_offline` 的 motion 參數給 `-` 即停用）：HOTA 34.8 → 42.2，AssA 31.3 → 42.7，IDSW 202 → 94。
+- 瓶頸在偵測器的泛化：直接把 MOT17-10 的 kept detections（score ≥ 0.3）當結果評估，DetA 40.4、DetRe 43.4、LocA 79.4；配對框對 GT 沒有系統性偏移（四邊平均偏移在 ±2% 以內），所以不是座標映射錯誤。這與 T01 記錄的 val AP50 0.676、eval AP50 0.544 一致。in-domain 序列的偵測好，tracking 指標也高。
+- 依 §1，任何 tracker 參數或加權項的調整只看 MOT17-10。

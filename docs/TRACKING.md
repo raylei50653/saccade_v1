@@ -301,3 +301,16 @@ M（main stream）：
 部署 `saccade_v1_dev` 的 HR mixed Full25 e10（`hr-input/1`，1280×768 stretch；MOT17-10 val AP50 86.0093%）。runtime 新增固定的 `hr-1280x768` model profile，與既有 `t01-640x640` 並存；不做任意尺寸。產物與工具見 [training/hr_deploy](../training/hr_deploy/README.md)，檔案在 `~/.cache/saccade-v1/hr-deploy/`（含雜湊 manifest）。
 
 **通過標準（在 native HR 結果產生前固定）**：以 native `detect_sequence --profile hr-1280x768` 錄下 MOT17-10-SDP，用 `training/hr_deploy/eval_scdr.py` 計算，AP50 必須落在 86.0093% ± 0.1 pp。參考尺度：T01 的 native 錄製與訓練時記錄只差 +0.0006 pp。MOT17-02 只在 M4 最終評估時開啟。
+
+**結果（2026-11-03）**：
+- 部署驗收 **PASS**：native HR 錄製的 MOT17-10 AP50 為 86.0092%，與訓練記錄 86.0093% 相差 −0.0001 pp。
+- 權重身分：UA2 Teacher 的 primary EMA 權重，匯出 backbone 的特徵在 FP16 捨入後與訓練 cache 的 51,118,080 個元素逐位元相同。
+- runtime：`hr-1280x768` profile 加入 S04 head、F03、producer、F04、DetectionSession 與 TrackingSession；640 profile 的既有測試（含 7 序列 session 對 CPU reference 的逐位元比較）全部照舊通過。
+- Tracking（native `track_sequence --profile hr-1280x768`，pipelined，約 27 ms／1080p 幀）：
+
+| 組別 | HOTA | DetA | AssA | IDF1 | MOTA | IDSW |
+| --- | --- | --- | --- | --- | --- | --- |
+| val（MOT17-10），T01 → HR | 42.2 → **49.5** | 42.1 → 53.2 | 42.7 → 46.3 | 50.8 → 62.6 | 45.5 → 63.2 | 94 → 65 |
+| in-domain（04／05／09／11／13），T01 → HR | 75.0 → 69.0 | 78.1 → 73.8 | 72.2 → 64.7 | 81.7 → 77.1 | 85.7 → 83.8 | 243 → 231 |
+
+in-domain 下降是預期的：T01 只在這 5 個序列上訓練而過擬合；HR 另加 MOTSynth。它不是泛化指標。MOT17-02 的 HR 結果已產生但未評估，留給 M4。

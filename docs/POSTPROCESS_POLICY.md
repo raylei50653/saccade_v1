@@ -2,6 +2,8 @@
 
 固定日期：2026-10-31。本檔、CPU scalar reference 與固定測例須在首次 F04 GPU 比較前保存 SHA-256；不得依 GPU 誤差改變容差或離散判斷。若政策或算術假設改變，保留原失敗結果並另立版本。本政策固定 [BACKLOG](BACKLOG.md#1-f04先固定觀測政策再實作) 的 F04；不改寫已結案的 [T01 evaluator](../training/t01/t01_eval.py) 或其歷史結果。
 
+**HR profile 增補（2026-11-03）**：`hr-1280x768` model profile（[TRACKING §15](TRACKING.md#15-d1hr-偵測器部署2026-11-03-使用者核准)）沿用本政策的全部語義與算術，只換尺寸：模型輸入 1280×768，P3／P4／P5 為 96×160／48×80／24×40（H×W），候選 ID 依同樣的 level 順序與 `y*W+x` 編號為 0–20159；scales 為 `1280.0/original_width` 與 `768.0/original_height`，IoU 在該模型座標計算。下文的 640 數字描述 `t01-640x640` profile。GPU 排序 key 的候選 ID 欄位改為 15 bits 以容納 20,160 個位置；640 的六份 replay 輸出雜湊不變。
+
 ## 1. 輸入、身份與容量
 
 輸入為單幀、batch 1、640×640 的六個 dense FP32 tensor。每個 level 為一對 cls `[1,80,H,W]` logits 與 reg `[1,4,H,W]` raw ltrb；依 P3、P4、P5 排列，H=W 分別為 80、40、20，stride 分別為 8、16、32。reg 通道順序為 left、top、right、bottom；沒有 DFL、softmax、額外 exp、rectify 或角點量化。

@@ -323,6 +323,11 @@ M（main stream）：
 - 完整 session 的 initcheck：nvJPEG 的既知報告依上述政策處理，不在本驗收執行。
 - 效能與追蹤品質：不設門檻。MOT17-02 的 GT 評估留給 M4。
 
+**結果（2026-11-03）**：M3 正式驗收 **PASS**（e021bd1，乾淨 worktree，約 18 分鐘）。證據見 [evidence/tracking-session/2026-11-03-formal-e021bd1](../evidence/tracking-session/2026-11-03-formal-e021bd1/REPORT.md)。
+- CPU CTest 16/16，CUDA CTest 59/59。7 序列 packet 與 CPU reference 逐位元相同。
+- HR FP16 部署路徑的 SCDR 與 MOT 檔 hash 等於 §16；CPU reference、serial、pipelined 三者相同。
+- Sanitizer 17 次執行皆 0 errors／0 hazards，4 個正控制都偵測到。
+
 ## 15. D1：HR 偵測器部署（2026-11-03 使用者核准）
 
 部署 `saccade_v1_dev` 的 HR mixed Full25 e10（`hr-input/1`，1280×768 stretch；MOT17-10 val AP50 86.0093%）。runtime 新增固定的 `hr-1280x768` model profile，與既有 `t01-640x640` 並存；不做任意尺寸。產物與工具見 [training/hr_deploy](../training/hr_deploy/README.md)，檔案在 `~/.cache/saccade-v1/hr-deploy/`（含雜湊 manifest）。

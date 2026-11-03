@@ -1,0 +1,4 @@
+tracking_cuda_tests, compute-sanitizer --tool initcheck --check-api-memory-access no --print-limit 0 (build-d2, 04912e2)
+========= ERROR SUMMARY: 35841 errors
+35841 Uninitialized __global__ memory read of size 8 bytes tracking.cu:216
+offset within DeviceTrack (DevicePredicted base 0xf0e269000, tracks at +104, sizeof 408): {328: 35841}

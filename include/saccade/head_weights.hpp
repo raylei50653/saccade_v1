@@ -61,6 +61,8 @@ struct HeadConversion {
 // (mamba_args and the shapes it implies), every active tensor's dtype, shape,
 // contiguity and storage range, and that every value is finite. Rejects missing,
 // unknown or duplicate keys; never fills, guesses or substitutes a parameter.
+// HR mixed GT1 schema /1 also accepts absent per_channel_a/detail/strip flags
+// (false); excluded temporal/flow-gate tensors may be absent in either format.
 HeadConversion convert_head_checkpoint(std::string checkpoint, std::string_view expected_sha256);
 
 // Bundle: canonical ASCII header (magic, schema, provenance, one line per tensor

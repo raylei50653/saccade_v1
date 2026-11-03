@@ -107,6 +107,17 @@ struct Fixture {
     std::map<std::string, float> poison;
     std::vector<std::string> drop, duplicate, unknown;
     ZipOptions zip_options;
+    std::string checkpoint_schema;
+
+    void hr_mixed() {
+        checkpoint_schema = "saccade-hr-mixed-gt1-checkpoint/1";
+        for (const auto* key : {"per_channel_a", "use_detail_fusion", "use_strip_detail"}) config_flags.erase(key);
+        config_flags["use_temporal_mamba"] = false;
+        for (const auto& [key, reason] : saccade::head_excluded_keys()) {
+            (void)reason;
+            drop.push_back(key);
+        }
+    }
 
     std::string build() const {
         std::map<std::string, std::pair<std::vector<std::int64_t>, std::vector<float>>> tensors; // checkpoint key -> shape, values
@@ -122,6 +133,7 @@ struct Fixture {
         std::vector<std::pair<std::string, std::string>> records;
         p.out += '}'; p.mark();
         p.text("epoch"); p.integer(15);
+        if (!checkpoint_schema.empty()) { p.text("schema"); p.text(checkpoint_schema); }
         p.text("student"); p.ordered_dict(); p.mark();
         int key = 0;
         const auto put = [&](const std::string& name, const std::vector<std::int64_t>& s0, std::vector<float> values) {
@@ -234,10 +246,33 @@ void conversion() {
         {"compression method 8", [](Fixture& f) { f.zip_options.method = 8; }},
     };
     for (const auto& [needle, mutate] : cases) {
-        Fixture f;
-        mutate(f);
-        const auto bytes = f.build();
-        expect_reject([&] { (void)convert(bytes); }, needle);
+        for (const bool hr : {false, true}) {
+            Fixture f;
+            if (hr) f.hr_mixed();
+            mutate(f);
+            const auto bytes = f.build();
+            expect_reject([&] { (void)convert(bytes); }, needle);
+        }
+    }
+    {
+        Fixture hr;
+        hr.hr_mixed();
+        const auto converted = convert(hr.build());
+        check(converted.weights.schema == saccade::kHeadSchema && converted.weights.tensors.size() == 69, "HR keeps the T=1 bundle schema");
+        for (const auto& [name, tensor] : result.weights.tensors)
+            check(converted.weights.at(name).values == tensor.values, "HR preserves active tensor bytes: " + name);
+        for (const auto* key : {"per_channel_a", "use_detail_fusion", "use_strip_detail"}) {
+            Fixture legacy;
+            legacy.config_flags.erase(key);
+            expect_reject([&] { (void)convert(legacy.build()); }, std::string("mamba_args lacks ") + key);
+            Fixture enabled = hr;
+            enabled.config_flags[key] = true;
+            expect_reject([&] { (void)convert(enabled.build()); }, std::string("mamba_args.") + key);
+            enabled.config_flags[key] = false;
+            check(convert(enabled.build()).weights.tensors.size() == 69, std::string("HR checks supplied false ") + key);
+        }
+        hr.checkpoint_schema = "saccade-hr-mixed-gt1-checkpoint/2";
+        expect_reject([&] { (void)convert(hr.build()); }, "mamba_args lacks per_channel_a");
     }
     // Byte-level damage to the valid archive.
     auto crc = file;

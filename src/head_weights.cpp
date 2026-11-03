@@ -101,7 +101,7 @@ bool flag(const PickleValue& v, const std::string& where) {
 
 // The forward-relevant head configuration; anything else in mamba_args is
 // training metadata and is copied into the mapping report unchecked.
-void check_config(const PickleValue& args, std::ostringstream& report) {
+void check_config(const PickleValue& args, bool hr_mixed, std::ostringstream& report) {
     const auto want_int = [&](const char* key, std::int64_t value) {
         const auto got = integer(need(args, key, "mamba_args"), std::string("mamba_args.") + key);
         if (got != value) reject(std::string("mamba_args.") + key + " = " + std::to_string(got) + ", expected " + std::to_string(value));
@@ -125,12 +125,17 @@ void check_config(const PickleValue& args, std::ostringstream& report) {
     want_int("num_classes", kHeadClasses);
     want_flag("use_cross_scan", true);
     want_flag("use_pixel_shuffle", true);
-    want_flag("per_channel_a", false);
+    const auto absent_false = [&](const char* key) {
+        if (hr_mixed && !args.find(key))
+            report << "config\t" << key << "\tabsent\tHR mixed default: false\n";
+        else want_flag(key, false);
+    };
+    absent_false("per_channel_a");
     want_flag("legacy_n1_scan", false);
     want_flag("use_hybrid_head", false);
     want_flag("use_temporal_attention", false);
-    want_flag("use_detail_fusion", false);
-    want_flag("use_strip_detail", false);
+    absent_false("use_detail_fusion");
+    absent_false("use_strip_detail");
     // Keys added after this checkpoint was written: absent means the shapes
     // decide (reg 4 outputs -> reg_max 1; one 3x3 conv per branch, no BN ->
     // head_depth 1; 4x4 stride-4 conv weights -> reduction_variant conv).
@@ -196,7 +201,7 @@ HeadConversion convert_head_checkpoint(std::string checkpoint, std::string_view 
     for (const auto& [k, v] : *root.dict()) {
         (void)v;
         const auto name = k->kind == PickleValue::Kind::text ? k->text : std::string("<non-text key>");
-        const bool read = name == "epoch" || name == "selection" || name == "mamba_args" || name == "student";
+        const bool read = name == "epoch" || name == "selection" || name == "mamba_args" || name == "student" || name == "schema";
         report << "root_key\t" << name << '\t' << (read ? "read" : "not read: training state or metadata, not part of the T=1 forward") << '\n';
     }
     const auto epoch = integer(need(root, "epoch", "checkpoint"), "epoch");
@@ -204,7 +209,9 @@ HeadConversion convert_head_checkpoint(std::string checkpoint, std::string_view 
     if (const auto* selection = root.find("selection"))
         if (const auto* status = selection->find("status"); status && status->kind == PickleValue::Kind::text)
             report << "selection_status\t" << status->text << "\trecorded only; not a quality verdict\n";
-    check_config(need(root, "mamba_args", "checkpoint"), report);
+    const auto* schema = root.find("schema");
+    const bool hr_mixed = schema && schema->kind == PickleValue::Kind::text && schema->text == "saccade-hr-mixed-gt1-checkpoint/1";
+    check_config(need(root, "mamba_args", "checkpoint"), hr_mixed, report);
 
     const auto& student = need(root, "student", "checkpoint");
     const auto* pairs = student.dict();

@@ -272,20 +272,22 @@ V linear_f(const V& x, const HeadTensor& w, const HeadTensor* b) {
 }
 float silu_f(float x) { return x / (1.0f + std::exp(-x)); }
 
-std::array<V, 6> fp32_head(const saccade::HeadWeights& wt, const std::array<std::vector<float>, 3>& features) {
+std::array<V, 6> fp32_head(const saccade::HeadWeights& wt, const std::array<std::vector<float>, 3>& features, saccade::ModelProfile profile) {
     std::array<V, 6> out;
     for (int level = 0; level < 3; ++level) {
         const std::string p = std::string(saccade::kHeadLevelNames[static_cast<std::size_t>(level)]) + ".";
         const auto W = [&](const char* k) -> const HeadTensor& { return wt.at(p + k); };
-        const auto C = saccade::kHeadInChannels[static_cast<std::size_t>(level)], S = saccade::kHeadSize[static_cast<std::size_t>(level)], s = S / 4, L = s * s;
-        const auto a = conv_f(features[static_cast<std::size_t>(level)], C, S, S, W("input_proj.weight"), W("input_proj.bias"), 1, 0);
-        const auto down = conv_f(a, 128, S, S, W("downsample.weight"), W("downsample.bias"), 4, 0);
+        const auto C = saccade::kHeadInChannels[static_cast<std::size_t>(level)];
+        const auto& spec = saccade::model_profile(profile);
+        const auto H = spec.level_height(level), Wd = spec.level_width(level), sh = H / 4, sw = Wd / 4, L = sh * sw;
+        const auto a = conv_f(features[static_cast<std::size_t>(level)], C, H, Wd, W("input_proj.weight"), W("input_proj.bias"), 1, 0);
+        const auto down = conv_f(a, 128, H, Wd, W("downsample.weight"), W("downsample.bias"), 4, 0);
         V tokens(static_cast<std::size_t>(4 * L * 128));
         for (std::size_t k = 0; k < 4; ++k)
             for (std::int64_t t = 0; t < L; ++t)
                 for (std::int64_t c = 0; c < 128; ++c)
                     tokens[(k * static_cast<std::size_t>(L) + static_cast<std::size_t>(t)) * 128 + static_cast<std::size_t>(c)] =
-                        down[static_cast<std::size_t>(c * L) + saccade::cross_scan_source(k, static_cast<std::size_t>(t), static_cast<std::size_t>(s), static_cast<std::size_t>(s))];
+                        down[static_cast<std::size_t>(c * L) + saccade::cross_scan_source(k, static_cast<std::size_t>(t), static_cast<std::size_t>(sh), static_cast<std::size_t>(sw))];
         const auto xz = linear_f(tokens, W("mamba.in_proj.weight"), nullptr);
         const auto& cw = W("mamba.conv1d.weight");
         const auto& cb = W("mamba.conv1d.bias");
@@ -335,32 +337,32 @@ std::array<V, 6> fp32_head(const saccade::HeadWeights& wt, const std::array<std:
             for (std::int64_t q = 0; q < L; ++q) {
                 float sum = 0;
                 for (std::size_t k = 0; k < 4; ++k)
-                    sum += r[(k * static_cast<std::size_t>(L) + saccade::cross_scan_source(k, static_cast<std::size_t>(q), static_cast<std::size_t>(s), static_cast<std::size_t>(s))) * 128 + static_cast<std::size_t>(c)];
+                    sum += r[(k * static_cast<std::size_t>(L) + saccade::cross_scan_source(k, static_cast<std::size_t>(q), static_cast<std::size_t>(sh), static_cast<std::size_t>(sw))) * 128 + static_cast<std::size_t>(c)];
                 merged[static_cast<std::size_t>(c * L + q)] = sum * 0.25f;
             }
-        const auto up = conv_f(merged, 128, s, s, W("upsample.weight"), W("upsample.bias"), 1, 1);
-        V cat(static_cast<std::size_t>(256 * S * S));
+        const auto up = conv_f(merged, 128, sh, sw, W("upsample.weight"), W("upsample.bias"), 1, 1);
+        V cat(static_cast<std::size_t>(256 * H * Wd));
         std::copy(a.begin(), a.end(), cat.begin());
         for (std::int64_t c = 0; c < 128; ++c)
             for (std::int64_t i = 0; i < 4; ++i)
                 for (std::int64_t j = 0; j < 4; ++j)
-                    for (std::int64_t h = 0; h < s; ++h)
-                        for (std::int64_t w = 0; w < s; ++w)
-                            cat[static_cast<std::size_t>(((128 + c) * S + h * 4 + i) * S + w * 4 + j)] = up[static_cast<std::size_t>(((c * 16 + i * 4 + j) * s + h) * s + w)];
+                    for (std::int64_t h = 0; h < sh; ++h)
+                        for (std::int64_t w = 0; w < sw; ++w)
+                            cat[static_cast<std::size_t>(((128 + c) * H + h * 4 + i) * Wd + w * 4 + j)] = up[static_cast<std::size_t>(((c * 16 + i * 4 + j) * sh + h) * sw + w)];
         for (const bool cls : {true, false}) {
-            auto hidden = conv_f(cat, 256, S, S, W(cls ? "cls.conv0.weight" : "reg.conv0.weight"), W(cls ? "cls.conv0.bias" : "reg.conv0.bias"), 1, 1);
+            auto hidden = conv_f(cat, 256, H, Wd, W(cls ? "cls.conv0.weight" : "reg.conv0.weight"), W(cls ? "cls.conv0.bias" : "reg.conv0.bias"), 1, 1);
             for (auto& v : hidden) v = silu_f(v);
             out[static_cast<std::size_t>(cls ? level : 3 + level)] =
-                conv_f(hidden, 128, S, S, W(cls ? "cls.conv1.weight" : "reg.conv1.weight"), W(cls ? "cls.conv1.bias" : "reg.conv1.bias"), 1, 0);
+                conv_f(hidden, 128, H, Wd, W(cls ? "cls.conv1.weight" : "reg.conv1.weight"), W(cls ? "cls.conv1.bias" : "reg.conv1.bias"), 1, 0);
         }
     }
     return out;
 }
 
-void fp32_head_inside_policy(const saccade::HeadWeights& w, const std::string& label, const std::string& kind) {
-    const auto features = saccade::head_test_features(kind, 1);
-    const auto exact = saccade::head_reference(w, spans(features));
-    const auto f = fp32_head(w, features);
+void fp32_head_inside_policy(const saccade::HeadWeights& w, const std::string& label, const std::string& kind, saccade::ModelProfile profile = saccade::kDefaultModelProfile) {
+    const auto features = saccade::head_test_features(kind, 1, profile);
+    const auto exact = saccade::head_reference(w, spans(features), {}, false, profile);
+    const auto f = fp32_head(w, features, profile);
     for (std::size_t k = 0; k < 6; ++k) {
         double ratio = 0, bound_ratio = 0, max_abs = 0;
         std::size_t worst = 0, outside = 0;
@@ -491,6 +493,7 @@ int main(int argc, char** argv) {
         fp32_inside_bounds();
         const auto synthetic = saccade::synthetic_head_weights(3);
         for (const char* kind : {"asymmetric", "random"}) fp32_head_inside_policy(synthetic, "synthetic", kind);
+        fp32_head_inside_policy(synthetic, "hr-full-shape", "asymmetric", saccade::ModelProfile::Hr1280x768);
         discrimination(synthetic, "synthetic", false); // arbitrary weights: informational
         from_refs(synthetic);
         if (argc == 3) {

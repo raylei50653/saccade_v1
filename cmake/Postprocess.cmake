@@ -19,6 +19,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 add_test(NAME postprocess_cuda COMMAND postprocess_cuda_tests)
 set_tests_properties(postprocess_cuda PROPERTIES LABELS "gpu;postprocess" TIMEOUT 300)
+add_test(NAME postprocess_cuda_hr COMMAND postprocess_cuda_tests --profile hr-1280x768)
+set_tests_properties(postprocess_cuda_hr PROPERTIES LABELS "gpu;postprocess" TIMEOUT 300)
 add_test(NAME postprocess_cuda_lazy_streams COMMAND postprocess_cuda_tests --streams-only)
 set_tests_properties(postprocess_cuda_lazy_streams PROPERTIES LABELS "gpu;postprocess" TIMEOUT 90
   ENVIRONMENT CUDA_MODULE_LOADING=LAZY)

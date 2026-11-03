@@ -5,11 +5,22 @@ target_link_libraries(saccade_detection_session PUBLIC
 target_compile_definitions(saccade_detection_session PRIVATE
   SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
 target_compile_options(saccade_detection_session PRIVATE
-  $<$<COMPILE_LANGUAGE:CUDA>:--ftz=false;--fmad=false;-lineinfo>)
+  $<$<COMPILE_LANGUAGE:CUDA>:--ftz=false;--prec-div=true;--prec-sqrt=true;--fmad=false;-lineinfo>)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(saccade_detection_session PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra;-Wpedantic;-Werror;-ffp-contract=off>)
 endif()
+
+add_executable(model_profile_trt_tests tests/model_profile_trt_tests.cpp)
+target_link_libraries(model_profile_trt_tests PRIVATE saccade_detection_session)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(model_profile_trt_tests PRIVATE ${SACCADE_SCAN_TRT_WARNINGS} -ffp-contract=off)
+endif()
+set_target_properties(model_profile_trt_tests PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+target_link_options(model_profile_trt_tests PRIVATE "LINKER:--disable-new-dtags")
+add_test(NAME model_profile_trt COMMAND model_profile_trt_tests ${CMAKE_CURRENT_BINARY_DIR}/hr-profile
+  ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/preprocess)
+set_tests_properties(model_profile_trt PROPERTIES LABELS "gpu;tensorrt;session;preprocess" TIMEOUT 900)
 add_executable(detection_session_tests tests/detection_session_tests.cpp)
 target_link_libraries(detection_session_tests PRIVATE saccade_detection_session)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")

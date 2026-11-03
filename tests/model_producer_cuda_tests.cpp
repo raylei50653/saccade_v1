@@ -22,6 +22,8 @@
 namespace {
 using namespace saccade;
 unsigned checks = 0;
+ModelProfile selected_profile = kDefaultModelProfile;
+const ModelProfileSpec& spec() { return model_profile(selected_profile); }
 void check(bool value, const std::string& message) {
     ++checks;
     if (!value) throw std::runtime_error(message);
@@ -49,16 +51,16 @@ struct Stream {
     void close(CleanupReport& report) { report.release(value, [](cudaStream_t s) { cu(cudaStreamDestroy(s)); }); }
 };
 struct Fixture {
-    std::vector<float> images = std::vector<float>(kModelProducerInputElements, 0.5f);
+    std::vector<float> images = std::vector<float>(spec().input_elements(), 0.5f);
     std::array<std::vector<float>, 3> cls, reg;
     Fixture() {
         for (unsigned l = 0; l < 3; ++l) {
-            const auto plane = kPostprocessSizes[l] * kPostprocessSizes[l];
+            const auto plane = spec().level_positions(l);
             cls[l].assign(80 * plane, -20.0f);
             reg[l].assign(4 * plane, 0.125f);
         }
         cls[0][0] = 20.0f;
-        cls[2][399] = 20.0f;
+        cls[2][spec().level_positions(2) - 1] = 20.0f;
     }
     PostprocessRawView view() const {
         PostprocessRawView v;
@@ -69,11 +71,11 @@ struct Fixture {
         return v;
     }
 };
-constexpr std::size_t kRawBytes = 8400 * 84 * sizeof(float);
+std::size_t raw_bytes() { return spec().raw_elements() * sizeof(float); }
 constexpr std::size_t kPluginBytes = kModelProducerPlugins * sizeof(ScanStatus);
 struct Harness {
     Stream stream;
-    Device images{kModelProducerInputElements * sizeof(float)}, raw{kRawBytes};
+    Device images{spec().input_elements() * sizeof(float)}, raw{raw_bytes()};
     Device plugins{kPluginBytes}, producer{sizeof(PostprocessProducerStatus)};
     Device workspace{model_producer_workspace_bytes()};
     Device output{sizeof(DetectionCandidates)}, post_workspace{postprocess_workspace_bytes()};
@@ -84,14 +86,14 @@ struct Harness {
         cu(cudaMallocHost(reinterpret_cast<void**>(&staging), kPluginBytes));
         std::size_t offset = 0;
         for (unsigned l = 0; l < 3; ++l) {
-            view.cls_elements[l] = 80 * kPostprocessSizes[l] * kPostprocessSizes[l];
+            view.cls_elements[l] = 80 * spec().level_positions(l);
             view.cls[l] = raw.as<float>() + offset; offset += view.cls_elements[l];
         }
         for (unsigned l = 0; l < 3; ++l) {
-            view.reg_elements[l] = 4 * kPostprocessSizes[l] * kPostprocessSizes[l];
+            view.reg_elements[l] = 4 * spec().level_positions(l);
             view.reg[l] = raw.as<float>() + offset; offset += view.reg_elements[l];
         }
-        check(offset * sizeof(float) == kRawBytes, "raw arena extent");
+        check(offset * sizeof(float) == raw_bytes(), "raw arena extent");
         for (unsigned i = 0; i < status.size(); ++i) status[i] = plugins.as<ScanStatus>() + i;
     }
     ~Harness() { if (staging) (void)cudaFreeHost(staging); }
@@ -109,9 +111,9 @@ struct Harness {
         cu(cudaMemcpyAsync(plugins.pointer, staging, kPluginBytes, cudaMemcpyHostToDevice, stream.value));
     }
     void launch() {
-        model_producer_cuda(images.as<float>(), kModelProducerInputElements, view, status,
+        model_producer_cuda(images.as<float>(), spec().input_elements(), view, status,
                             producer.as<PostprocessProducerStatus>(), workspace.pointer,
-                            model_producer_workspace_bytes(), stream.value);
+                            model_producer_workspace_bytes(), stream.value, selected_profile);
     }
     PostprocessProducerStatus read() {
         PostprocessProducerStatus result{};
@@ -198,7 +200,11 @@ void finite_tests() {
 
 void integration_tests() {
     Fixture f; Harness h; h.upload(f);
-    PostprocessRequest request; request.epoch = 0x200000003ULL; request.frame = 0x100000005ULL;
+    PostprocessRequest request;
+    request.profile = selected_profile;
+    request.mapping = {static_cast<int>(spec().width), static_cast<int>(spec().height),
+                       static_cast<int>(spec().width), static_cast<int>(spec().height), 1.0, 1.0};
+    request.epoch = 0x200000003ULL; request.frame = 0x100000005ULL;
     for (const auto failure : {false, true, false}) {
         h.fresh(); if (failure) h.staging[4].flags = kScanDriveRange;
         h.publish_statuses(); h.launch(); h.postprocess(request);
@@ -241,10 +247,10 @@ void argument_tests() {
     const auto invoke = [&](const float* images, std::size_t n, const PostprocessRawView& raw,
                             const ModelProducerPlugins& plugins, PostprocessProducerStatus* producer,
                             void* workspace, std::size_t bytes, cudaStream_t stream) {
-        reject([&] { model_producer_cuda(images, n, raw, plugins, producer, workspace, bytes, stream); });
+        reject([&] { model_producer_cuda(images, n, raw, plugins, producer, workspace, bytes, stream, selected_profile); });
     };
     auto* images = h.images.as<float>(); auto* producer = h.producer.as<PostprocessProducerStatus>();
-    const auto n = kModelProducerInputElements; auto* w = h.workspace.pointer; auto stream = h.stream.value;
+    const auto n = spec().input_elements(); auto* w = h.workspace.pointer; auto stream = h.stream.value;
     for (auto s : {cudaStream_t{}, cudaStreamLegacy, cudaStreamPerThread}) invoke(images, n, h.view, h.status, producer, w, wb, s);
     invoke(nullptr, n, h.view, h.status, producer, w, wb, stream);
     invoke(f.images.data(), n, h.view, h.status, producer, w, wb, stream);
@@ -379,7 +385,8 @@ int main(int argc, char** argv) {
         bool no_held = false, no_trace = false, streams_only = false;
         for (int i = 1; i < argc; ++i) {
             const std::string argument = argv[i];
-            if (argument == "--no-held-stream") no_held = true;
+            if (argument == "--profile" && i + 1 < argc) selected_profile = parse_model_profile(argv[++i]);
+            else if (argument == "--no-held-stream") no_held = true;
             else if (argument == "--no-api-trace") no_trace = true;
             else if (argument == "--streams-only") streams_only = true;
             else throw std::invalid_argument("unknown argument: " + argument);
@@ -392,6 +399,6 @@ int main(int argc, char** argv) {
             if (!no_trace) api_trace_tests(); else std::cout << "api-trace=UNEXECUTED\n";
         }
         stream_tests(no_held);
-        std::cout << "PASS checks=" << checks << '\n'; return 0;
+        std::cout << "model_producer_cuda_tests: " << checks << " checks passed\n"; return 0;
     } catch (const std::exception& error) { std::cerr << "FAIL: " << error.what() << '\n'; return 1; }
 }

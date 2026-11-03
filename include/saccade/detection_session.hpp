@@ -21,7 +21,8 @@ struct DetectionSessionConfig {
     unsigned candidate_slots = 2; // [1,16], device ready/consumed leases
     unsigned result_slots = 4;    // [1,64], pinned host receive leases
     std::uint32_t output_capacity = kPostprocessCapacity;
-    PreprocessConfig preprocess{}; // output must be 640x640
+    PreprocessConfig preprocess{}; // output size is selected by the model profile
+    ModelProfile profile = kDefaultModelProfile;
 };
 // Bounded detection delivery ABI, not the tracking ResultPacket. Every byte,
 // including reserved and unused candidate rows, is initialized each frame.

@@ -26,8 +26,8 @@ namespace saccade {
 inline constexpr std::array<const char*, 3> kHeadInputNames{"p3", "p4", "p5"};
 // Fixed output order: cls_p3, cls_p4, cls_p5, reg_p3, reg_p4, reg_p5.
 inline constexpr std::array<const char*, 6> kHeadOutputNames{"cls_p3", "cls_p4", "cls_p5", "reg_p3", "reg_p4", "reg_p5"};
-std::vector<std::int64_t> head_input_shape(int level);   // {1, C, H, W}
-std::vector<std::int64_t> head_output_shape(int output); // {1, 80 or 4, H, W}
+std::vector<std::int64_t> head_input_shape(int level, ModelProfile profile = kDefaultModelProfile);   // {1, C, H, W}
+std::vector<std::int64_t> head_output_shape(int output, ModelProfile profile = kDefaultModelProfile); // {1, 80 or 4, H, W}
 
 // Operation model of the FP32 implementation (HEAD_TRT §4.3); fixed with the
 // policy before the first complete-head GPU comparison.
@@ -74,13 +74,15 @@ struct HeadReferenceResult {
 };
 
 HeadReferenceResult head_reference(const HeadWeights& weights, const std::array<std::span<const float>, 3>& features,
-                                   const HeadSemantics& semantics = {}, bool keep_intermediates = false);
+                                   const HeadSemantics& semantics = {}, bool keep_intermediates = false,
+                                   ModelProfile profile = kDefaultModelProfile);
 // The same head on binary64 inputs that carry their own bound and scale (F03,
 // docs/BACKBONE_POLICY.md §7: the backbone reference), propagated by the same
 // rules. head_reference above is this function on head_ref::from_float inputs
 // (bound and scale 0). Each input must have head_input_shape(level).
 HeadReferenceResult head_reference_from_refs(const HeadWeights& weights, const std::array<HeadTensorRef, 3>& inputs,
-                                             const HeadSemantics& semantics = {}, bool keep_intermediates = false);
+                                             const HeadSemantics& semantics = {}, bool keep_intermediates = false,
+                                             ModelProfile profile = kDefaultModelProfile);
 
 // Primitives of the reference, each with its bound and scale propagation;
 // exposed for the independently derivable checks of tests/head_reference_tests.cpp.
@@ -118,7 +120,8 @@ double softplus(double x); // x for x > 20, else log1p(exp(x))
 // Deterministic FP32 head inputs (HEAD_TRT §4.5), fixed before any GPU run:
 //   "asymmetric": 0.5 sin(0.37 c + 0.71 h (1 + c mod 3) - 0.23 w) + 0.002 (h - 0.3 w) + 0.01 (c mod 7)
 //   "random": SiLU of a zero-mean deviate with standard deviation 1.5 (xorshift64*, Irwin-Hall 12), per seed and level
-std::array<std::vector<float>, 3> head_test_features(const std::string& kind, std::uint64_t seed);
+std::array<std::vector<float>, 3> head_test_features(const std::string& kind, std::uint64_t seed,
+                                                      ModelProfile profile = kDefaultModelProfile);
 // Deterministic synthetic parameters with the schema's shapes (structure tests
 // without the checkpoint): uniform +-1/sqrt(fan_in), A_log = ln(1..16), D = 1.
 HeadWeights synthetic_head_weights(std::uint64_t seed);

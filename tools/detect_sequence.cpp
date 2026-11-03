@@ -53,14 +53,16 @@ int main(int argc, char** argv) {
     std::filesystem::path output, temporary;
     try {
         const auto start = std::chrono::steady_clock::now();
-        if (argc != 4 && argc != 6)
-            throw std::invalid_argument("usage: detect_sequence ENGINE SEQ_DIR OUT.scdr [--epoch N]");
+        if (argc < 4 || argc % 2 != 0)
+            throw std::invalid_argument("usage: detect_sequence ENGINE SEQ_DIR OUT.scdr [--epoch N] [--profile NAME]");
         output = argv[3];
         temporary = output.string() + ".tmp";
         saccade::DetectionSessionConfig config;
-        if (argc == 6) {
-            if (std::string_view(argv[4]) != "--epoch") throw std::invalid_argument("expected --epoch N");
-            config.epoch = number<std::uint64_t>(argv[5]);
+        for (int i = 4; i < argc; i += 2) {
+            const std::string_view flag = argv[i];
+            if (flag == "--epoch") config.epoch = number<std::uint64_t>(argv[i + 1]);
+            else if (flag == "--profile") config.profile = saccade::parse_model_profile(argv[i + 1]);
+            else throw std::invalid_argument("unexpected option: " + std::string(flag));
         }
         const std::filesystem::path sequence = argv[2];
         const auto info = read_sequence_info(sequence / "seqinfo.ini");

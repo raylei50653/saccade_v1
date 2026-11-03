@@ -1,5 +1,7 @@
 #pragma once
 
+#include "saccade/model_profile.hpp"
+
 #include <array>
 #include <cstdint>
 #include <functional>
@@ -16,9 +18,9 @@ namespace saccade {
 // reduction 4, Cross-Scan, PixelShuffle 4, cls 80, reg 4 (reg_max 1).
 inline constexpr int kHeadLevels = 3;
 inline constexpr std::array<std::int64_t, 3> kHeadInChannels{256, 512, 512};
-inline constexpr std::array<std::int64_t, 3> kHeadSize{80, 40, 20}; // H = W at 640 input
+inline constexpr std::array<std::int64_t, 3> kHeadSize{kT01ModelProfile.level_height(0), kT01ModelProfile.level_height(1), kT01ModelProfile.level_height(2)}; // legacy default
 inline constexpr std::array<const char*, 3> kHeadLevelNames{"p3", "p4", "p5"};
-inline constexpr std::int64_t kHeadDModel = 128, kHeadDInner = 256, kHeadDState = 16, kHeadCRank = 1, kHeadReduction = 4,
+inline constexpr std::int64_t kHeadDModel = 128, kHeadDInner = 256, kHeadDState = 16, kHeadCRank = 1, kHeadReduction = ModelProfileSpec::reduction,
                               kHeadConvKernel = 4, kHeadClasses = 80, kHeadRegs = 4;
 inline constexpr const char* kHeadSchema = "yolo26m-mamba-fpn-head-t1/1";
 inline constexpr const char* kHeadBundleMagic = "SCWB 1";

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "saccade/image_mapping.hpp"
+#include "saccade/model_profile.hpp"
 
 #include <array>
 #include <cstddef>
@@ -13,10 +14,11 @@ namespace saccade {
 inline constexpr const char* kPostprocessPolicy = "f04-postprocess-fp32/1";
 inline constexpr std::uint32_t kPostprocessSchema = 1;
 inline constexpr std::uint32_t kPostprocessCapacity = 300;
-inline constexpr std::uint32_t kPostprocessPositions = 8400;
+inline constexpr std::uint32_t kPostprocessPositions = kT01ModelProfile.positions();
 inline constexpr std::uint32_t kPostprocessClasses = 80;
-inline constexpr std::array<std::uint32_t, 3> kPostprocessSizes{80, 40, 20};
-inline constexpr std::array<std::uint32_t, 3> kPostprocessStrides{8, 16, 32};
+inline constexpr std::array<std::uint32_t, 3> kPostprocessSizes{static_cast<std::uint32_t>(kT01ModelProfile.level_height(0)),
+    static_cast<std::uint32_t>(kT01ModelProfile.level_height(1)), static_cast<std::uint32_t>(kT01ModelProfile.level_height(2))};
+inline constexpr std::array<std::uint32_t, 3> kPostprocessStrides = ModelProfileSpec::strides;
 inline constexpr float kPostprocessScoreFloor = 0.001f;
 inline constexpr float kPostprocessNmsIou = 0.5f;
 inline constexpr std::uint32_t kPostprocessProducerDone = 0x34525046u; // "FPR4"
@@ -42,7 +44,7 @@ struct PostprocessProducerStatus {
 static_assert(sizeof(PostprocessProducerStatus) == 8);
 
 // NCHW FP32, one pointer/count per level. Counts must match exactly:
-// cls: 80*size*size, reg: 4*size*size. The reference reads host memory; the
+// cls: 80*H*W, reg: 4*H*W, from the request profile. The reference reads host memory; the
 // CUDA entrypoint reads device memory with this same pointer-only descriptor.
 struct PostprocessRawView {
     std::array<const float*, 3> cls{};
@@ -54,6 +56,7 @@ struct PostprocessRequest {
     std::uint64_t epoch = 0, frame = 0;
     ImageMapping mapping{640, 640, 640, 640, 1.0, 1.0};
     std::uint32_t capacity = kPostprocessCapacity;
+    ModelProfile profile = kDefaultModelProfile;
 };
 
 // Internal device ABI, not ResultPacket wire encoding. Explicit fields and
@@ -76,8 +79,8 @@ static_assert(sizeof(DetectionCandidatesHeader) == 64);
 static_assert(sizeof(DetectionCandidates) == 64 + 32 * kPostprocessCapacity);
 static_assert(std::is_trivially_copyable_v<DetectionCandidates>);
 
-// Validates the fixed profile and mappings (dimensions [1,65535], model 640,
-// exact binary64 scales 640/original_dimension). Does not dereference data.
+// Validates profile tensor sizes and mappings (dimensions [1,65535], exact
+// binary64 scales model_dimension/original_dimension). Does not dereference data.
 // Host argument violations throw invalid_argument before work starts.
 void validate_postprocess_arguments(const PostprocessRawView& raw, const PostprocessRequest& request);
 

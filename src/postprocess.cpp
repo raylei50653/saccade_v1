@@ -61,14 +61,15 @@ void validate_postprocess_arguments(const PostprocessRawView& raw, const Postpro
     if (request.capacity > kPostprocessCapacity)
         throw std::invalid_argument("F04 capacity exceeds fixed top-300 profile");
     const auto& mapping = request.mapping;
+    const auto& spec = model_profile(request.profile);
     if (mapping.original_width < 1 || mapping.original_width > 65535 ||
         mapping.original_height < 1 || mapping.original_height > 65535 ||
-        mapping.model_width != 640 || mapping.model_height != 640 ||
-        mapping.scale_x != 640.0 / mapping.original_width ||
-        mapping.scale_y != 640.0 / mapping.original_height)
-        throw std::invalid_argument("F04 requires a finite, exact 640 stretch ImageMapping");
+        mapping.model_width != spec.width || mapping.model_height != spec.height ||
+        mapping.scale_x != static_cast<double>(spec.width) / mapping.original_width ||
+        mapping.scale_y != static_cast<double>(spec.height) / mapping.original_height)
+        throw std::invalid_argument("F04 requires an exact stretch ImageMapping for the selected profile");
     for (std::size_t level = 0; level < kPostprocessSizes.size(); ++level) {
-        const auto spatial = std::size_t{kPostprocessSizes[level]} * kPostprocessSizes[level];
+        const auto spatial = spec.level_positions(level);
         if (raw.cls[level] == nullptr || raw.reg[level] == nullptr ||
             raw.cls_elements[level] != kPostprocessClasses * spatial ||
             raw.reg_elements[level] != 4 * spatial)
@@ -98,11 +99,12 @@ DetectionCandidates postprocess_reference(const PostprocessRawView& raw,
     }
 
     std::vector<Ranked> ranked;
-    ranked.reserve(kPostprocessPositions);
+    const auto& spec = model_profile(request.profile);
+    ranked.reserve(spec.positions());
     std::uint32_t id = 0;
     for (std::size_t level = 0; level < kPostprocessSizes.size(); ++level) {
-        const auto size = kPostprocessSizes[level];
-        const auto spatial = size * size;
+        const auto width = static_cast<std::uint32_t>(spec.level_width(level));
+        const auto spatial = spec.level_positions(level);
         const auto* cls = raw.cls[level];
         const auto* reg = raw.reg[level];
         const auto stride = static_cast<float>(kPostprocessStrides[level]);
@@ -114,8 +116,8 @@ DetectionCandidates postprocess_reference(const PostprocessRawView& raw,
                 if (score > row.score) { row.score = score; row.class_id = c; }
             }
             row.candidate_id = id;
-            const float x = static_cast<float>(location % size) + 0.5f;
-            const float y = static_cast<float>(location / size) + 0.5f;
+            const float x = static_cast<float>(location % width) + 0.5f;
+            const float y = static_cast<float>(location / width) + 0.5f;
             const float left = x - reg[location];
             const float top = y - reg[spatial + location];
             const float right = x + reg[2 * spatial + location];
@@ -130,7 +132,7 @@ DetectionCandidates postprocess_reference(const PostprocessRawView& raw,
     }
 
     DetectionCandidates output = empty_result(request);
-    output.header.low_score = kPostprocessPositions - static_cast<std::uint32_t>(ranked.size());
+    output.header.low_score = spec.positions() - static_cast<std::uint32_t>(ranked.size());
     std::sort(ranked.begin(), ranked.end(), [](const Ranked& a, const Ranked& b) {
         return a.row.score > b.row.score ||
             (a.row.score == b.row.score && a.row.candidate_id < b.row.candidate_id);

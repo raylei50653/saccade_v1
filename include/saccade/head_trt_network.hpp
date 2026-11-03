@@ -25,7 +25,7 @@ inline constexpr int kHeadBuilderOptimizationLevel = 0;
 // kHeadOutputNames order, the nine plugin statuses in creation order (per level:
 // expand, scan, merge) with their producers, and the harness's finite checks of
 // every input and output element.
-FrameIoSpec head_io_spec();
+FrameIoSpec head_io_spec(ModelProfile profile = kDefaultModelProfile);
 
 struct HeadBuildOptions {
     // Also mark the reference's intermediate tensors ("p3.tokens", ...; see
@@ -38,6 +38,7 @@ struct HeadBuildOptions {
     // network inputs. The caller keeps whatever owns those tensors' weights
     // (the ONNX parser) alive until build_head_engine returns.
     std::function<std::array<nvinfer1::ITensor*, 3>(nvinfer1::INetworkDefinition&)> features;
+    ModelProfile profile = kDefaultModelProfile;
 };
 
 struct HeadEngine {

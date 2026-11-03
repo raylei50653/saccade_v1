@@ -26,11 +26,15 @@ struct Fixture {
     std::array<std::vector<float>, 3> cls, reg;
     PostprocessRequest request{};
     PostprocessProducerStatus producer{0, kPostprocessProducerDone};
-    Fixture() {
+    explicit Fixture(ModelProfile profile = kDefaultModelProfile) {
+        request.profile = profile;
+        const auto& spec = model_profile(profile);
+        request.mapping = {static_cast<int>(spec.width), static_cast<int>(spec.height),
+                           static_cast<int>(spec.width), static_cast<int>(spec.height), 1.0, 1.0};
         request.epoch = 0xfedcba9876543210ULL;
         request.frame = 0x123456789abcdef0ULL;
         for (std::size_t level = 0; level < cls.size(); ++level) {
-            const auto spatial = kPostprocessSizes[level] * kPostprocessSizes[level];
+            const auto spatial = model_profile(request.profile).level_positions(level);
             cls[level].assign(kPostprocessClasses * spatial, -100.0f);
             reg[level].assign(4 * spatial, 0.5f);
         }
@@ -43,19 +47,23 @@ struct Fixture {
         }
         return view;
     }
-    static std::pair<std::size_t, std::uint32_t> location(std::uint32_t id) {
-        if (id < 6400) return {0, id};
-        if (id < 8000) return {1, id - 6400};
-        return {2, id - 8000};
+    std::pair<std::size_t, std::uint32_t> location(std::uint32_t id) const {
+        const auto& spec = model_profile(request.profile);
+        for (std::size_t level = 0; level < 3; ++level) {
+            if (id < spec.level_positions(level)) return {level, id};
+            id -= spec.level_positions(level);
+        }
+        throw std::runtime_error("invalid fixture ID");
     }
     void score(std::uint32_t id, float logit, std::uint32_t class_id = 0) {
         const auto [level, pos] = location(id);
-        const auto spatial = kPostprocessSizes[level] * kPostprocessSizes[level];
+        const auto spatial = model_profile(request.profile).level_positions(level);
         cls[level][class_id * spatial + pos] = logit;
     }
     void box(std::uint32_t id, float x1, float y1, float x2, float y2) {
         const auto [level, pos] = location(id);
-        const auto size = kPostprocessSizes[level], spatial = size * size;
+        const auto size = static_cast<std::uint32_t>(model_profile(request.profile).level_width(level));
+        const auto spatial = model_profile(request.profile).level_positions(level);
         const float stride = static_cast<float>(kPostprocessStrides[level]);
         const float x = static_cast<float>(pos % size) + 0.5f;
         const float y = static_cast<float>(pos / size) + 0.5f;
@@ -283,11 +291,44 @@ void arguments() {
         rejected([&] { validate_postprocess_arguments(raw, request); });
     }
 }
+void hr_profile() {
+    Fixture f(ModelProfile::Hr1280x768);
+    check(kHrModelProfile.positions() == 20160 && kHrModelProfile.input_elements() == 2949120, "HR extents");
+    check(kHrModelProfile.scan_length(0) == 960 && kHrModelProfile.scan_length(1) == 240 &&
+          kHrModelProfile.scan_length(2) == 60, "HR scan lengths");
+    rejected([] { (void)parse_model_profile("custom"); });
+    check(parse_model_profile("hr-1280x768") == ModelProfile::Hr1280x768 &&
+          parse_model_profile("t01-640x640") == kDefaultModelProfile, "profile names");
+    constexpr std::array<std::uint32_t, 6> ids{0, 15359, 15360, 19199, 19200, 20159};
+    for (auto id : ids) f.score(id, 0);
+    auto result = f.run();
+    check(result.header.count == 6 && result.header.low_score == 20154, "HR level endpoints");
+    for (std::size_t i = 0; i < ids.size(); ++i) {
+        check(result.rows[i].candidate_id == ids[i] && result.rows[i].score == 0.5f, "HR stable level IDs");
+        const auto stride = static_cast<float>(8u << (i / 2));
+        check(result.rows[i].x1 == (i % 2 ? 1280 - stride : 0) &&
+              result.rows[i].y1 == (i % 2 ? 768 - stride : 0) &&
+              result.rows[i].x2 == (i % 2 ? 1280 : stride) &&
+              result.rows[i].y2 == (i % 2 ? 768 : stride), "HR rectangular anchor coordinates");
+    }
+    auto wrong = f.request;
+    wrong.profile = kDefaultModelProfile;
+    rejected([&] { validate_postprocess_arguments(f.raw(), wrong); });
+    wrong = f.request; wrong.mapping.model_height = 640;
+    rejected([&] { validate_postprocess_arguments(f.raw(), wrong); });
+    Fixture dense(ModelProfile::Hr1280x768);
+    for (std::uint32_t id = 0; id < 20160; ++id) dense.score(id, id >= 19860 ? 1.0f : 0.0f);
+    result = dense.run();
+    check(result.header.count == 300 && result.header.topk_dropped == 19860, "HR dense top300");
+    for (std::uint32_t i = 0; i < 300; ++i)
+        check(result.rows[i].candidate_id == 19860 + i, "HR candidate IDs above 14 bits");
+    padding(result);
+}
 } // namespace
 
 int main() {
     try {
-        basic(); classes_and_order(); topk_before_filters(); nms(); threshold(); failures(); arguments();
+        basic(); classes_and_order(); topk_before_filters(); nms(); threshold(); failures(); arguments(); hr_profile();
         std::cout << "postprocess_reference: " << checks << " checks passed\n";
         return 0;
     } catch (const std::exception& error) {

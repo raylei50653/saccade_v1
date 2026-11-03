@@ -84,15 +84,16 @@ struct Dot {
 
 double head_policy::gamma(double n) { return n * kUnit / (1 - n * kUnit); }
 
-std::vector<std::int64_t> head_input_shape(int level) {
+std::vector<std::int64_t> head_input_shape(int level, ModelProfile profile) {
     const auto i = static_cast<std::size_t>(level);
-    return {1, kHeadInChannels.at(i), kHeadSize.at(i), kHeadSize.at(i)};
+    return {1, kHeadInChannels.at(i), model_profile(profile).level_height(i), model_profile(profile).level_width(i)};
 }
 
-std::vector<std::int64_t> head_output_shape(int output) {
+std::vector<std::int64_t> head_output_shape(int output, ModelProfile profile) {
     if (output < 0 || output >= 6) bad("output index out of range");
-    const auto s = kHeadSize[static_cast<std::size_t>(output % 3)];
-    return {1, output < 3 ? kHeadClasses : kHeadRegs, s, s};
+    const auto& spec = model_profile(profile);
+    const auto level = static_cast<std::size_t>(output % 3);
+    return {1, output < 3 ? kHeadClasses : kHeadRegs, spec.level_height(level), spec.level_width(level)};
 }
 
 namespace head_ref {
@@ -431,20 +432,20 @@ T selective_scan(const T& u, const T& delta, const T& a, const T& b, const T& c,
 } // namespace head_ref
 
 HeadReferenceResult head_reference(const HeadWeights& w, const std::array<std::span<const float>, 3>& features, const HeadSemantics& s,
-                                   bool keep_intermediates) {
+                                   bool keep_intermediates, ModelProfile profile) {
     validate_head_weights(w);
     std::array<T, 3> inputs;
     for (int level = 0; level < kHeadLevels; ++level)
-        inputs[static_cast<std::size_t>(level)] = head_ref::from_float(features[static_cast<std::size_t>(level)], head_input_shape(level));
-    return head_reference_from_refs(w, inputs, s, keep_intermediates);
+        inputs[static_cast<std::size_t>(level)] = head_ref::from_float(features[static_cast<std::size_t>(level)], head_input_shape(level, profile));
+    return head_reference_from_refs(w, inputs, s, keep_intermediates, profile);
 }
 
 HeadReferenceResult head_reference_from_refs(const HeadWeights& w, const std::array<HeadTensorRef, 3>& inputs, const HeadSemantics& s,
-                                             bool keep_intermediates) {
+                                             bool keep_intermediates, ModelProfile profile) {
     validate_head_weights(w);
     for (int level = 0; level < kHeadLevels; ++level) {
         const auto& x = inputs[static_cast<std::size_t>(level)];
-        if (x.shape != head_input_shape(level) || x.value.size() != count(x.shape) || x.bound.size() != x.value.size() ||
+        if (x.shape != head_input_shape(level, profile) || x.value.size() != count(x.shape) || x.bound.size() != x.value.size() ||
             x.sigma.size() != x.value.size())
             bad("input " + std::to_string(level) + " differs from its shape");
     }
@@ -458,7 +459,8 @@ HeadReferenceResult head_reference_from_refs(const HeadWeights& w, const std::ar
         const auto keep = [&](const char* step, const T& t) {
             if (keep_intermediates) result.intermediates.emplace_back(name + "." + step, t);
         };
-        const auto size = kHeadSize[static_cast<std::size_t>(level)], small = size / kHeadReduction;
+        const auto& spec = model_profile(profile);
+        const auto small_h = spec.level_height(level) / kHeadReduction, small_w = spec.level_width(level) / kHeadReduction;
         const auto& x = inputs[static_cast<std::size_t>(level)];
         const auto a = conv2d(x, W("input_proj.weight"), &W("input_proj.bias"), 1, 0);
         keep("input_proj", a);
@@ -491,7 +493,7 @@ HeadReferenceResult head_reference_from_refs(const HeadWeights& w, const std::ar
         keep("out_proj", o);
         const auto r = s.no_residual ? o : add(o, tokens);
         keep("residual", r);
-        const auto merged = cross_merge(r, small, small, s.direction_identity, s.merge_mismatch);
+        const auto merged = cross_merge(r, small_h, small_w, s.direction_identity, s.merge_mismatch);
         keep("merge", merged);
         const auto up = conv2d(merged, W("upsample.weight"), &W("upsample.bias"), 1, 1, s.flipped_kernels);
         keep("upsample", up);
@@ -518,10 +520,10 @@ struct XorShift {
 };
 } // namespace
 
-std::array<std::vector<float>, 3> head_test_features(const std::string& kind, std::uint64_t seed) {
+std::array<std::vector<float>, 3> head_test_features(const std::string& kind, std::uint64_t seed, ModelProfile profile) {
     std::array<std::vector<float>, 3> out;
     for (int level = 0; level < 3; ++level) {
-        const auto shape = head_input_shape(level);
+        const auto shape = head_input_shape(level, profile);
         const auto C = shape[1], H = shape[2], W = shape[3];
         auto& v = out[static_cast<std::size_t>(level)];
         v.resize(count(shape));

@@ -22,6 +22,13 @@
 namespace {
 using namespace saccade;
 unsigned checks = 0;
+ModelProfile selected_profile = kDefaultModelProfile;
+const ModelProfileSpec& spec() { return model_profile(selected_profile); }
+std::vector<unsigned> cross_ids() {
+    if (selected_profile == ModelProfile::Hr1280x768)
+        return {0, 1023, 1024, 2047, 2048, 15359, 15360, 16383, 16384, 19199, 19200, 20159};
+    return {0, 1023, 1024, 2047, 2048, 4095, 4096, 6399, 6400, 7167, 7168, 7999, 8000, 8191, 8192, 8399};
+}
 float worst_score_error = 0.0f;
 void require(bool ok, const std::string& message) {
     ++checks;
@@ -55,7 +62,7 @@ struct Raw {
     std::array<std::vector<float>, 3> cls, reg;
     Raw() {
         for (unsigned l = 0; l < 3; ++l) {
-            const auto n = kPostprocessSizes[l] * kPostprocessSizes[l];
+            const auto n = spec().level_positions(l);
             cls[l].assign(80 * n, -20.0f); reg[l].assign(4 * n, 0.125f);
         }
     }
@@ -69,7 +76,7 @@ struct Raw {
     }
     std::pair<unsigned, unsigned> locate(unsigned id) const {
         for (unsigned l = 0; l < 3; ++l) {
-            const auto n = kPostprocessSizes[l] * kPostprocessSizes[l];
+            const auto n = spec().level_positions(l);
             if (id < n) return {l, id};
             id -= n;
         }
@@ -77,26 +84,29 @@ struct Raw {
     }
     void logit(unsigned id, unsigned c, float x) {
         const auto [l, i] = locate(id);
-        cls[l][c * kPostprocessSizes[l] * kPostprocessSizes[l] + i] = x;
+        cls[l][c * spec().level_positions(l) + i] = x;
     }
     void distances(unsigned id, std::array<float, 4> values) {
         const auto [l, i] = locate(id);
-        const auto n = kPostprocessSizes[l] * kPostprocessSizes[l];
+        const auto n = spec().level_positions(l);
         for (unsigned c = 0; c < 4; ++c) reg[l][c * n + i] = values[c];
     }
     void box(unsigned id, float x1, float y1, float x2, float y2) {
         const auto [l, i] = locate(id);
         const float stride = static_cast<float>(kPostprocessStrides[l]);
-        const float x = static_cast<float>(i % kPostprocessSizes[l]) + 0.5f;
-        const float y = static_cast<float>(i / kPostprocessSizes[l]) + 0.5f;
+        const float x = static_cast<float>(i % spec().level_width(l)) + 0.5f;
+        const float y = static_cast<float>(i / spec().level_width(l)) + 0.5f;
         distances(id, {x - x1 / stride, y - y1 / stride, x2 / stride - x, y2 / stride - y});
     }
 };
-PostprocessRequest request(unsigned width = 640, unsigned height = 640) {
+PostprocessRequest request(unsigned width = 0, unsigned height = 0) {
     PostprocessRequest r;
     r.epoch = 0x123456789ULL; r.frame = 0x200000003ULL;
-    r.mapping = {static_cast<int>(width), static_cast<int>(height), 640, 640,
-                 640.0 / width, 640.0 / height};
+    if (width == 0) width = static_cast<unsigned>(spec().width);
+    if (height == 0) height = static_cast<unsigned>(spec().height);
+    r.profile = selected_profile;
+    r.mapping = {static_cast<int>(width), static_cast<int>(height), static_cast<int>(spec().width), static_cast<int>(spec().height),
+                 static_cast<double>(spec().width) / width, static_cast<double>(spec().height) / height};
     return r;
 }
 const PostprocessProducerStatus success{0, kPostprocessProducerDone};
@@ -108,13 +118,16 @@ Case qualified_case(const char* name, unsigned count) {
     }};
 }
 std::vector<Case> cases() {
-    return {
+    std::vector<Case> result{
         {"empty", [](Raw&, auto&, auto&) {}},
         {"single-asymmetric-map-no-clip", [](Raw& x, auto& r, auto&) {
             x.logit(0, 0, 0); x.distances(0, {1, 2, 3, 4}); r = request(1919, 1079);
         }},
         {"level-first-last-layout", [](Raw& x, auto& r, auto&) {
-            for (unsigned id : {0u, 6399u, 6400u, 7999u, 8000u, 8399u}) x.logit(id, 0, 0);
+            for (unsigned l = 0; l < 3; ++l) {
+                x.logit(spec().level_offset(l), 0, 0);
+                x.logit(spec().level_offset(l + 1) - 1, 0, 0);
+            }
             r = request(65535, 1);
         }},
         {"class-tie-lowest", [](Raw& x, auto&, auto&) { x.logit(3, 0, 1); x.logit(3, 1, 1); }},
@@ -161,7 +174,7 @@ std::vector<Case> cases() {
         }},
         {"finite-extreme-logits", [](Raw& x, auto&, auto&) {
             for (auto& level : x.cls) std::fill(level.begin(), level.end(), -std::numeric_limits<float>::max());
-            x.logit(8399, 0, std::numeric_limits<float>::max());
+            x.logit(spec().positions() - 1, 0, std::numeric_limits<float>::max());
         }},
         {"minimum-anchor-adjacent-valid-box", [](Raw& x, auto&, auto&) {
             x.logit(0, 0, 0);
@@ -172,15 +185,17 @@ std::vector<Case> cases() {
         {"capacity-zero-overflow", [](Raw& x, auto& r, auto&) { x.logit(0, 0, 0); r.capacity = 0; }},
         {"capacity-exact", [](Raw& x, auto& r, auto&) { x.logit(0, 0, 0); x.logit(3, 0, 0); r.capacity = 2; }},
         {"capacity-one-short", [](Raw& x, auto& r, auto&) { x.logit(0, 0, 0); x.logit(3, 0, 0); r.capacity = 1; }},
-        {"nan-low-score-logit", [](Raw& x, auto&, auto&) { x.logit(8399, 79, NAN); }},
-        {"inf-low-score-reg", [](Raw& x, auto&, auto&) { x.distances(8399, {1, INFINITY, 1, 1}); }},
-        {"decode-overflow-low-score", [](Raw& x, auto&, auto&) { x.distances(8399, {1e38f, 1, 1, 1}); }},
+        {"nan-low-score-logit", [](Raw& x, auto&, auto&) { x.logit(spec().positions() - 1, 79, NAN); }},
+        {"inf-low-score-reg", [](Raw& x, auto&, auto&) { x.distances(spec().positions() - 1, {1, INFINITY, 1, 1}); }},
+        {"decode-overflow-low-score", [](Raw& x, auto&, auto&) { x.distances(spec().positions() - 1, {1e38f, 1, 1, 1}); }},
         {"nms-area-overflow", [](Raw& x, auto&, auto&) { x.logit(0, 0, 0); x.box(0, -1e20f, -1e20f, 1e20f, 1e20f); }},
         {"nms-union-overflow", [](Raw& x, auto&, auto&) {
             for (unsigned i = 0; i < 2; ++i) { x.logit(i, 0, 0); x.box(i, 0, 0, 1.4e19f, 1.4e19f); }
         }},
         {"mapping-overflow", [](Raw& x, auto& r, auto&) {
-            x.logit(0, 0, 0); x.box(0, 1e36f, 0, 4e36f, 0.000001f); r = request(65535, 65535);
+            x.logit(0, 0, 0);
+            const float factor = static_cast<float>(spec().width) / 640.0f;
+            x.box(0, factor * 1e36f, 0, factor * 4e36f, 0.000001f); r = request(65535, 65535);
         }},
         {"producer-not-done", [](Raw&, auto&, auto& p) { p.done = 0; }},
         {"producer-upstream-failure", [](Raw&, auto&, auto& p) { p.flags = 0x100; }},
@@ -211,33 +226,40 @@ std::vector<Case> cases() {
         qualified_case("adaptive-count-513", 513),
         qualified_case("adaptive-count-8400", 8400),
         {"adaptive-cross-tile-level-ties", [](Raw& x, auto&, auto&) {
-            for (unsigned id : {0u, 1023u, 1024u, 2047u, 2048u, 4095u, 4096u,
-                                6399u, 6400u, 7167u, 7168u, 7999u, 8000u, 8191u, 8192u, 8399u})
+            for (unsigned id : cross_ids())
                 x.logit(id, 0, 0);
         }},
         {"adaptive-dense-high-id-winners", [](Raw& x, auto&, auto&) {
-            for (unsigned id = 0; id < kPostprocessPositions; ++id)
-                x.logit(id, 0, id < 8100 ? 0.0f : 1.0f);
+            for (unsigned id = 0; id < spec().positions(); ++id)
+                x.logit(id, 0, id < (spec().positions() - 300) ? 0.0f : 1.0f);
         }},
         {"adaptive-dense-nonperson-before-topk", [](Raw& x, auto&, auto&) {
-            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
-            for (unsigned id = 8100; id < kPostprocessPositions; ++id) x.logit(id, 1, 1);
+            for (unsigned id = 0; id < spec().positions(); ++id) x.logit(id, 0, 0);
+            for (unsigned id = (spec().positions() - 300); id < spec().positions(); ++id) x.logit(id, 1, 1);
         }},
         {"adaptive-dense-degenerate-no-refill", [](Raw& x, auto&, auto&) {
-            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
-            for (unsigned id = 8100; id < kPostprocessPositions; ++id) {
+            for (unsigned id = 0; id < spec().positions(); ++id) x.logit(id, 0, 0);
+            for (unsigned id = (spec().positions() - 300); id < spec().positions(); ++id) {
                 x.logit(id, 0, 1); x.distances(id, {0, 0, 0, 0});
             }
         }},
         {"adaptive-dense-capacity-overflow", [](Raw& x, auto& r, auto&) {
-            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
+            for (unsigned id = 0; id < spec().positions(); ++id) x.logit(id, 0, 0);
             r.capacity = 299;
         }},
         {"adaptive-dense-unselected-nan", [](Raw& x, auto&, auto&) {
-            for (unsigned id = 0; id < kPostprocessPositions; ++id) x.logit(id, 0, 0);
-            x.logit(8399, 79, NAN);
+            for (unsigned id = 0; id < spec().positions(); ++id) x.logit(id, 0, 0);
+            x.logit(spec().positions() - 1, 79, NAN);
         }},
     };
+    if (selected_profile == ModelProfile::Hr1280x768) {
+        for (const auto& c : std::vector<Case>{qualified_case("adaptive-count-1023", 1023),
+            qualified_case("adaptive-count-1024", 1024), qualified_case("adaptive-count-1025", 1025),
+            qualified_case("adaptive-count-16383", 16383), qualified_case("adaptive-count-16384", 16384),
+            qualified_case("adaptive-count-16385", 16385), qualified_case("adaptive-count-20159", 20159),
+            qualified_case("adaptive-count-20160", 20160)}) result.push_back(c);
+    }
+    return result;
 }
 void invariant(const DetectionCandidates& output, const std::string& name) {
     const auto& h = output.header;
@@ -266,7 +288,7 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
     if (name.starts_with("adaptive-count-")) {
         const auto m = static_cast<unsigned>(std::stoul(name.substr(std::string("adaptive-count-").size())));
         const auto count = std::min(m, kPostprocessCapacity);
-        require(h.low_score == kPostprocessPositions - m && h.topk_dropped == m - count &&
+        require(h.low_score == spec().positions() - m && h.topk_dropped == m - count &&
                 h.count == count && h.kept == count && h.suppressed == 0 && h.class_dropped == 0 && h.degenerate == 0,
                 name + ": exact qualified count and complete prefix");
         for (unsigned i = 0; i < count; ++i)
@@ -274,23 +296,22 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
                     name + ": original IDs survive compaction and ties");
     }
     if (name == "adaptive-cross-tile-level-ties") {
-        constexpr std::array<unsigned, 16> ids{0, 1023, 1024, 2047, 2048, 4095, 4096,
-                                             6399, 6400, 7167, 7168, 7999, 8000, 8191, 8192, 8399};
-        require(h.count == ids.size() && h.low_score == kPostprocessPositions - ids.size(), name + ": qualified count");
+        const auto ids = cross_ids();
+        require(h.count == ids.size() && h.low_score == spec().positions() - ids.size(), name + ": qualified count");
         for (unsigned i = 0; i < ids.size(); ++i)
             require(output.rows[i].candidate_id == ids[i], name + ": ties retain original cross-level IDs");
     }
     if (name == "adaptive-dense-high-id-winners") {
-        require(h.count == 300 && h.kept == 300 && h.low_score == 0 && h.topk_dropped == 8100,
+        require(h.count == 300 && h.kept == 300 && h.low_score == 0 && h.topk_dropped == (spec().positions() - 300),
                 name + ": full dense qualified count");
         for (unsigned i = 0; i < 300; ++i)
-            require(output.rows[i].candidate_id == 8100 + i, name + ": global highest IDs win");
+            require(output.rows[i].candidate_id == (spec().positions() - 300) + i, name + ": global highest IDs win");
     }
     if (name == "adaptive-dense-nonperson-before-topk")
-        require(h.count == 0 && h.class_dropped == 300 && h.low_score == 0 && h.topk_dropped == 8100,
+        require(h.count == 0 && h.class_dropped == 300 && h.low_score == 0 && h.topk_dropped == (spec().positions() - 300),
                 name + ": all-class dense top-k before person");
     if (name == "adaptive-dense-degenerate-no-refill")
-        require(h.count == 0 && h.degenerate == 300 && h.low_score == 0 && h.topk_dropped == 8100,
+        require(h.count == 0 && h.degenerate == 300 && h.low_score == 0 && h.topk_dropped == (spec().positions() - 300),
                 name + ": dense degenerate pool is not refilled");
 }
 void compare(const DetectionCandidates& actual, const DetectionCandidates& reference, const std::string& name) {
@@ -311,12 +332,12 @@ void compare(const DetectionCandidates& actual, const DetectionCandidates& refer
 }
 struct Harness {
     Stream stream;
-    Device raw{2822400}, producer{sizeof(PostprocessProducerStatus)}, output{sizeof(DetectionCandidates)}, workspace{postprocess_workspace_bytes()};
+    Device raw{spec().raw_elements() * sizeof(float)}, producer{sizeof(PostprocessProducerStatus)}, output{sizeof(DetectionCandidates)}, workspace{postprocess_workspace_bytes()};
     PostprocessRawView device_view() const {
         PostprocessRawView v;
         std::size_t at = 0;
         for (unsigned l = 0; l < 3; ++l) {
-            const auto n = kPostprocessSizes[l] * kPostprocessSizes[l];
+            const auto n = spec().level_positions(l);
             v.cls[l] = raw.as<float>() + at; v.cls_elements[l] = 80 * n; at += 80 * n;
             v.reg[l] = raw.as<float>() + at; v.reg_elements[l] = 4 * n; at += 4 * n;
         }
@@ -378,8 +399,10 @@ void directed_tests(bool graph) {
     // Hand-computed invariants independent of reference sorting/NMS.
     Raw raw; auto r = request(1280, 320); raw.logit(0, 0, 0); raw.distances(0, {1, 2, 3, 4});
     h.upload(raw, success); h.launch(r); const auto single = h.read();
-    require(single.header.count == 1 && single.rows[0].x1 == -8 && single.rows[0].y1 == -6 &&
-        single.rows[0].x2 == 56 && single.rows[0].y2 == 18 && single.rows[0].score == 0.5f, "manual anchor/ltrb/map/no-clip");
+    require(single.header.count == 1 && single.rows[0].x1 == -4.0f / static_cast<float>(r.mapping.scale_x) &&
+        single.rows[0].y1 == -12.0f / static_cast<float>(r.mapping.scale_y) &&
+        single.rows[0].x2 == 28.0f / static_cast<float>(r.mapping.scale_x) &&
+        single.rows[0].y2 == 36.0f / static_cast<float>(r.mapping.scale_y) && single.rows[0].score == 0.5f, "manual anchor/ltrb/map/no-clip");
     for (unsigned i = 0; i < 3; ++i) { raw.logit(i, 0, 3.0f - i); raw.box(i, 4.0f * i, 0, 16.0f + 4.0f * i, 16); }
     h.upload(raw, success); h.launch(request()); const auto chain = h.read();
     require(chain.header.count == 3 && chain.rows[0].flags == kDetectionKept &&
@@ -566,7 +589,8 @@ int main(int argc, char** argv) {
         bool streams_only = false, skip_held = false, list = false, check_cases = false; std::string dumps;
         for (int i = 1; i < argc; ++i) {
             const std::string arg = argv[i];
-            if (arg == "--streams-only") streams_only = true;
+            if (arg == "--profile" && i + 1 < argc) selected_profile = parse_model_profile(argv[++i]);
+            else if (arg == "--streams-only") streams_only = true;
             else if (arg == "--no-held-stream") skip_held = true;
             else if (arg == "--list-cases") list = true;
             else if (arg == "--check-fixtures") check_cases = true;
@@ -583,7 +607,8 @@ int main(int argc, char** argv) {
         if (!streams_only) { directed_tests(true); argument_tests(); }
         stream_tests(skip_held);
         if (!dumps.empty()) replay_tests(dumps);
-        std::cout << "checks=" << checks << " max_score_abs_error=" << worst_score_error << " PASS\n";
+        std::cout << "max_score_abs_error=" << worst_score_error << '\n';
+        std::cout << "postprocess_cuda_tests: " << checks << " checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }
 }

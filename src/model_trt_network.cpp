@@ -26,7 +26,7 @@ bool same_dims(const Dims& dims, const std::vector<std::int64_t>& want) {
 
 // Parses the ONNX into `network` and checks its I/O; returns the three outputs in order.
 std::array<ITensor*, 3> parse_backbone(INetworkDefinition& network, ILogger& logger, std::span<const std::uint8_t> onnx,
-                                       std::unique_ptr<nvonnxparser::IParser>& parser) {
+                                       std::unique_ptr<nvonnxparser::IParser>& parser, ModelProfile profile) {
     parser.reset(nvonnxparser::createParser(network, logger));
     require(parser != nullptr, "createParser failed");
     if (!parser->parse(onnx.data(), onnx.size())) {
@@ -37,14 +37,14 @@ std::array<ITensor*, 3> parse_backbone(INetworkDefinition& network, ILogger& log
     require(network.getNbInputs() == 1, "the ONNX has " + std::to_string(network.getNbInputs()) + " inputs");
     const auto* input = network.getInput(0);
     require(std::string(input->getName()) == kModelInputName && input->getType() == DataType::kFLOAT &&
-                same_dims(input->getDimensions(), model_input_shape()),
-            "the ONNX input is not images FP32 [1,3,640,640]");
+                same_dims(input->getDimensions(), model_input_shape(profile)),
+            "the ONNX input does not match the selected model profile");
     require(network.getNbOutputs() == 3, "the ONNX has " + std::to_string(network.getNbOutputs()) + " outputs");
     std::array<ITensor*, 3> out{};
     for (int k = 0; k < 3; ++k) {
         auto* t = network.getOutput(k);
         require(std::string(t->getName()) == kBackboneOutputNames[static_cast<std::size_t>(k)] && t->getType() == DataType::kFLOAT &&
-                    same_dims(t->getDimensions(), head_input_shape(k)),
+                    same_dims(t->getDimensions(), head_input_shape(k, profile)),
                 std::string("ONNX output ") + std::to_string(k) + " is not " + kBackboneOutputNames[static_cast<std::size_t>(k)] +
                     " FP32 with the head input shape");
         out[static_cast<std::size_t>(k)] = t;
@@ -65,7 +65,10 @@ void require_policy_tactics(ILogger& logger, const std::vector<std::uint8_t>& pl
 
 } // namespace
 
-std::vector<std::int64_t> model_input_shape() { return {1, 3, 640, 640}; }
+std::vector<std::int64_t> model_input_shape(ModelProfile profile) {
+    const auto& spec = model_profile(profile);
+    return {1, 3, spec.height, spec.width};
+}
 
 std::string onnx_parser_identity() {
     std::ostringstream id;
@@ -73,7 +76,7 @@ std::string onnx_parser_identity() {
     return id.str();
 }
 
-HeadEngine build_backbone_engine(ILogger& logger, std::span<const std::uint8_t> onnx) {
+HeadEngine build_backbone_engine(ILogger& logger, std::span<const std::uint8_t> onnx, ModelProfile profile) {
     std::unique_ptr<IBuilder> builder(createInferBuilder(logger));
     require(builder != nullptr, "createInferBuilder failed");
     std::unique_ptr<INetworkDefinition> network(
@@ -89,7 +92,7 @@ HeadEngine build_backbone_engine(ILogger& logger, std::span<const std::uint8_t> 
     HeadEngine engine;
     {
         std::unique_ptr<nvonnxparser::IParser> parser;
-        parse_backbone(*network, logger, onnx, parser);
+        parse_backbone(*network, logger, onnx, parser, profile);
         std::unique_ptr<IHostMemory> plan(builder->buildSerializedNetwork(*network, *config));
         require(plan != nullptr && plan->size() > 0, "buildSerializedNetwork failed");
         const auto* bytes = static_cast<const std::uint8_t*>(plan->data());
@@ -104,12 +107,13 @@ HeadEngine build_backbone_engine(ILogger& logger, std::span<const std::uint8_t> 
     return engine;
 }
 
-HeadEngine build_model_engine(ILogger& logger, std::span<const std::uint8_t> onnx, const HeadWeights& weights) {
+HeadEngine build_model_engine(ILogger& logger, std::span<const std::uint8_t> onnx, const HeadWeights& weights, ModelProfile profile) {
     // Owns the parsed weights until the head's build has serialized the plan.
     std::unique_ptr<nvonnxparser::IParser> parser;
     HeadBuildOptions options;
+    options.profile = profile;
     options.features = [&](INetworkDefinition& network) {
-        auto out = parse_backbone(network, logger, onnx, parser);
+        auto out = parse_backbone(network, logger, onnx, parser, profile);
         for (auto* t : out) network.unmarkOutput(*t);
         return out;
     };
@@ -118,9 +122,9 @@ HeadEngine build_model_engine(ILogger& logger, std::span<const std::uint8_t> onn
     return engine;
 }
 
-FrameIoSpec model_io_spec() {
-    auto spec = head_io_spec();
-    spec.inputs = {{kModelInputName, model_input_shape()}};
+FrameIoSpec model_io_spec(ModelProfile profile) {
+    auto spec = head_io_spec(profile);
+    spec.inputs = {{kModelInputName, model_input_shape(profile)}};
     return spec;
 }
 

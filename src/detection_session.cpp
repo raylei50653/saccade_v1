@@ -87,7 +87,12 @@ struct DetectionSession::Impl {
         require(cfg.candidate_slots >= 1 && cfg.candidate_slots <= 16, "candidate_slots must be in [1,16]");
         require(cfg.result_slots >= 1 && cfg.result_slots <= 64, "result_slots must be in [1,64]");
         require(cfg.output_capacity >= 1 && cfg.output_capacity <= kPostprocessCapacity, "output_capacity must be in [1,300]");
-        require(cfg.preprocess.output_width == 640 && cfg.preprocess.output_height == 640, "F03 requires 640x640 preprocessing");
+        const auto& profile = model_profile(cfg.profile);
+        require((cfg.preprocess.output_width == kT01ModelProfile.width && cfg.preprocess.output_height == kT01ModelProfile.height) ||
+                (cfg.preprocess.output_width == profile.width && cfg.preprocess.output_height == profile.height),
+                "preprocessing dimensions differ from the selected model profile");
+        config.preprocess.output_width = static_cast<int>(profile.width);
+        config.preprocess.output_height = static_cast<int>(profile.height);
         try {
             cu(cudaSetDevice(cfg.device), "session cudaSetDevice");
             cu(cudaStreamCreateWithFlags(&detect, cudaStreamNonBlocking), "create detect stream");
@@ -104,7 +109,7 @@ struct DetectionSession::Impl {
             require(runtime != nullptr, "create session TensorRT runtime");
             engine.reset(runtime->deserializeCudaEngine(plan.data(), plan.size()));
             require(engine != nullptr && engine->getNbAuxStreams() == 0, "session requires model engine with zero auxiliary streams");
-            const auto spec = model_io_spec();
+            const auto spec = model_io_spec(cfg.profile);
             input_name = spec.inputs.at(0).name;
             require(spec.inputs.size() == 1 && spec.outputs.size() == 6 && spec.statuses.size() == 9 &&
                     spec.check_inputs && spec.check_outputs, "unexpected model_io_spec");
@@ -116,8 +121,8 @@ struct DetectionSession::Impl {
             for (int i = 0; i < engine->getNbIOTensors(); ++i) require(names.contains(engine->getIOTensorName(i)), "unexpected session model tensor");
             context.reset(engine->createExecutionContext());
             require(context != nullptr, "create session execution context");
-            preprocess = std::make_unique<NativePreprocessor>(detect, cfg.preprocess);
-            cu(cudaMalloc(&raw, 705600 * sizeof(float)), "allocate raw tensors");
+            preprocess = std::make_unique<NativePreprocessor>(detect, config.preprocess);
+            cu(cudaMalloc(&raw, profile.raw_elements() * sizeof(float)), "allocate raw tensors");
             cu(cudaMalloc(&statuses, 9 * 256), "allocate plugin statuses");
             cu(cudaMalloc(&producer, sizeof(*producer)), "allocate aggregate");
             cu(cudaMalloc(&producer_scratch, model_producer_workspace_bytes()), "allocate aggregate scratch");
@@ -133,7 +138,7 @@ struct DetectionSession::Impl {
                 else { raw_view.reg[i-3] = p; raw_view.reg_elements[i-3] = n; }
                 offset += n;
             }
-            require(offset == 705600, "session raw tensor extent mismatch");
+            require(offset == profile.raw_elements(), "session raw tensor extent mismatch");
             for (unsigned i = 0; i < 9; ++i) {
                 plugins[i] = reinterpret_cast<ScanStatus*>(static_cast<unsigned char*>(statuses) + i*256);
                 require(context->setTensorAddress(spec.statuses[i].name.c_str(), plugins[i]), "bind session plugin output");
@@ -156,8 +161,8 @@ struct DetectionSession::Impl {
             // Exercise the exact context at initialization, before a caller can
             // hold M pending, so frame submissions do not rely on first-use
             // device synchronization. The zero input is warmup scratch only.
-            cu(cudaMalloc(&warmup_images,kModelProducerInputElements*sizeof(float)), "allocate warmup input");
-            cu(cudaMemsetAsync(warmup_images,0,kModelProducerInputElements*sizeof(float),detect), "initialize warmup input");
+            cu(cudaMalloc(&warmup_images,profile.input_elements()*sizeof(float)), "allocate warmup input");
+            cu(cudaMemsetAsync(warmup_images,0,profile.input_elements()*sizeof(float),detect), "initialize warmup input");
             require(context->setTensorAddress(input_name.c_str(),warmup_images), "bind warmup input");
             if (!context->enqueueV3(detect)) throw std::runtime_error("session engine warmup failed");
             cu(cudaStreamSynchronize(detect), "session engine warmup drain");
@@ -171,7 +176,7 @@ struct DetectionSession::Impl {
             std::ostringstream cfg_text;
             cfg_text << "epoch=" << cfg.epoch << "\ndevice=" << cfg.device << "\ncandidate_slots=" << cfg.candidate_slots
                      << "\nresult_slots=" << cfg.result_slots << "\noutput_capacity=" << cfg.output_capacity << '\n'
-                     << preprocess->identity();
+                     << "profile=" << profile.name << '\n' << preprocess->identity();
             configuration = cfg_text.str();
         } catch (...) { release(); throw; }
     }
@@ -262,12 +267,13 @@ void DetectionSession::enqueue_for_test(std::span<const std::uint8_t> jpeg,std::
         if (d_only) throw std::runtime_error("directed D-only tail after preprocessing");
         require(s.context->setTensorAddress(s.input_name.c_str(),input.images), "bind session model input");
         if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
-        model_producer_cuda(input.images,kModelProducerInputElements,s.raw_view,s.plugins,s.producer,s.producer_scratch,
-                            model_producer_workspace_bytes(),s.detect);
+        model_producer_cuda(input.images,model_profile(s.config.profile).input_elements(),s.raw_view,s.plugins,s.producer,s.producer_scratch,
+                            model_producer_workspace_bytes(),s.detect,s.config.profile);
         if (override_flags) detail::detection_session_test_override(s.producer,override_flags,s.detect);
         auto& candidate = s.candidates[frame % s.config.candidate_slots];
         if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect,candidate.consumed,0),"D wait candidate consumed");
         PostprocessRequest request;
+        request.profile=s.config.profile;
         request.epoch=s.config.epoch; request.frame=frame; request.mapping=input.mapping; request.capacity=s.config.output_capacity;
         postprocess_cuda(s.raw_view,request,s.producer,candidate.data,sizeof(*candidate.data),s.postprocess_scratch,
                          postprocess_workspace_bytes(),s.detect);

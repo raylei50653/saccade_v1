@@ -64,14 +64,14 @@ public:
                 const auto* t = external[static_cast<std::size_t>(level)];
                 require(t != nullptr && t->getType() == DataType::kFLOAT, "external feature " + std::to_string(level) + " is not an FP32 tensor");
                 const auto dims = t->getDimensions();
-                const auto want = head_input_shape(level);
+                const auto want = head_input_shape(level, options_.profile);
                 bool same = dims.nbDims == static_cast<std::int32_t>(want.size());
                 for (int k = 0; same && k < dims.nbDims; ++k) same = dims.d[k] == want[static_cast<std::size_t>(k)];
                 require(same, "external feature " + std::to_string(level) + " differs from the head input shape");
             }
         }
         for (int level = 0; level < kHeadLevels; ++level) {
-            const auto shape_in = head_input_shape(level);
+            const auto shape_in = head_input_shape(level, options_.profile);
             auto* x = external[static_cast<std::size_t>(level)];
             if (x == nullptr)
                 x = network_->addInput(kHeadInputNames[static_cast<std::size_t>(level)], DataType::kFLOAT,
@@ -98,6 +98,7 @@ public:
         o << "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\nworkspace_bytes=" << kHeadBuilderWorkspace
           << "\noptimization_level=" << kHeadBuilderOptimizationLevel << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
           << "\ndebug_intermediates=" << (options_.debug_intermediates ? "true" : "false") << '\n';
+        o << "profile=" << model_profile(options_.profile).name << '\n';
         if (options_.features) o << "head_inputs=external\n";
         engine.build_options = o.str();
         return engine;
@@ -156,7 +157,9 @@ private:
 
     std::pair<ITensor*, ITensor*> head_level(int level, ITensor* x) {
         prefix_ = std::string(kHeadLevelNames[static_cast<std::size_t>(level)]) + ".";
-        const auto size = kHeadSize[static_cast<std::size_t>(level)], small = size / kHeadReduction, L = small * small;
+        const auto& spec = model_profile(options_.profile);
+        const auto height = spec.level_height(level), width = spec.level_width(level);
+        const auto small_h = height / kHeadReduction, small_w = width / kHeadReduction, L = small_h * small_w;
         // 1-2: input projection and stride-4 downsample.
         auto* a = keep(conv(x, "input_proj", 1, 1, 0), "input_proj");
         auto* down = keep(conv(a, "downsample", static_cast<int>(kHeadReduction), static_cast<int>(kHeadReduction), 0), "downsample");
@@ -203,15 +206,15 @@ private:
         auto* o = keep(linear(gated, "mamba.out_proj.weight"), "out_proj");
         auto* r = keep(named(network_->addElementWise(*o, *tokens, ElementWiseOperation::kSUM), "mamba.residual")->getOutput(0), "residual");
         // 5: Cross-Scan merge -> (1, 128, Hs, Ws).
-        auto* merged = keep(plugin(create_cross_scan_merge_plugin(static_cast<std::int32_t>(small), static_cast<std::int32_t>(small)), {r}, "merge"),
+        auto* merged = keep(plugin(create_cross_scan_merge_plugin(static_cast<std::int32_t>(small_h), static_cast<std::int32_t>(small_w)), {r}, "merge"),
                             "merge");
         // 6: upsample conv 3x3, PixelShuffle 4 (CRD: channel c*16 + i*4 + j -> (c, h*4+i, w*4+j)).
         auto* up = keep(conv(merged, "upsample", 3, 1, 1), "upsample");
         auto* split = named(network_->addShuffle(*up), "pixel_shuffle.split");
-        split->setReshapeDimensions(shape({1, kHeadDModel, kHeadReduction, kHeadReduction, small, small}));
+        split->setReshapeDimensions(shape({1, kHeadDModel, kHeadReduction, kHeadReduction, small_h, small_w}));
         split->setSecondTranspose(permutation({0, 1, 4, 2, 5, 3}));
         auto* join = named(network_->addShuffle(*split->getOutput(0)), "pixel_shuffle.join");
-        join->setReshapeDimensions(shape({1, kHeadDModel, size, size}));
+        join->setReshapeDimensions(shape({1, kHeadDModel, height, width}));
         auto* shuffled = keep(join->getOutput(0), "pixel_shuffle");
         // 7: concat [input_proj, upsampled], then the cls and reg branches.
         ITensor* parts[] = {a, shuffled};
@@ -237,17 +240,19 @@ private:
 
 } // namespace
 
-FrameIoSpec head_io_spec() {
+FrameIoSpec head_io_spec(ModelProfile profile) {
     FrameIoSpec spec;
     for (int level = 0; level < kHeadLevels; ++level)
-        spec.inputs.push_back({kHeadInputNames[static_cast<std::size_t>(level)], head_input_shape(level)});
-    for (int k = 0; k < 6; ++k) spec.outputs.push_back({kHeadOutputNames[static_cast<std::size_t>(k)], head_output_shape(k)});
+        spec.inputs.push_back({kHeadInputNames[static_cast<std::size_t>(level)], head_input_shape(level, profile)});
+    for (int k = 0; k < 6; ++k) spec.outputs.push_back({kHeadOutputNames[static_cast<std::size_t>(k)], head_output_shape(k, profile)});
     for (int level = 0; level < kHeadLevels; ++level) {
         const std::string p = kHeadLevelNames[static_cast<std::size_t>(level)];
-        const auto small = std::to_string(kHeadSize[static_cast<std::size_t>(level)] / kHeadReduction);
+        const auto& dimensions = model_profile(profile);
+        const auto small_h = std::to_string(dimensions.level_height(level) / kHeadReduction);
+        const auto small_w = std::to_string(dimensions.level_width(level) / kHeadReduction);
         spec.statuses.push_back({p + ".expand_status", status_producer(kCrossScanExpandPluginName, p, "v1")});
         spec.statuses.push_back({p + ".scan_status", status_producer(kSelectiveScanPluginName, p, "v2, has_d=1")});
-        spec.statuses.push_back({p + ".merge_status", status_producer(kCrossScanMergePluginName, p, "v1, " + small + "x" + small)});
+        spec.statuses.push_back({p + ".merge_status", status_producer(kCrossScanMergePluginName, p, "v1, " + small_h + "x" + small_w)});
     }
     spec.check_inputs = spec.check_outputs = true;
     return spec;
@@ -256,7 +261,7 @@ FrameIoSpec head_io_spec() {
 HeadEngine build_head_engine(ILogger& logger, const HeadWeights& weights, const HeadBuildOptions& options) {
     validate_head_weights(weights);
     auto engine = HeadNetwork(logger, weights, options).build();
-    const auto spec = head_io_spec();
+    const auto spec = head_io_spec(options.profile);
     require(engine.statuses.size() == spec.statuses.size(), "the network created " + std::to_string(engine.statuses.size()) + " statuses");
     for (std::size_t i = 0; i < spec.statuses.size(); ++i)
         require(engine.statuses[i] == spec.statuses[i].name, "status " + std::to_string(i) + " is " + engine.statuses[i] + ", expected " + spec.statuses[i].name);

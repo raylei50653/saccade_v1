@@ -1,7 +1,7 @@
 add_library(saccade_model_producer_cuda cuda/model_producer.cu)
 set_target_properties(saccade_model_producer_cuda PROPERTIES CUDA_STANDARD 20 CUDA_STANDARD_REQUIRED ON)
 target_link_libraries(saccade_model_producer_cuda PUBLIC saccade_postprocess CUDA::cudart CUDA::cuda_driver)
-target_compile_options(saccade_model_producer_cuda PRIVATE --ftz=false --fmad=false -lineinfo)
+target_compile_options(saccade_model_producer_cuda PRIVATE --ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo)
 target_compile_definitions(saccade_model_producer_cuda PRIVATE
   SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
 
@@ -16,6 +16,8 @@ if(SACCADE_ENABLE_POSTPROCESS)
   add_test(NAME model_producer_cuda_lazy_streams COMMAND model_producer_cuda_tests --streams-only)
   set_tests_properties(model_producer_cuda model_producer_cuda_lazy_streams PROPERTIES
     LABELS "gpu;model_producer" TIMEOUT 180)
+  add_test(NAME model_producer_cuda_hr COMMAND model_producer_cuda_tests --profile hr-1280x768)
+  set_tests_properties(model_producer_cuda_hr PROPERTIES LABELS "gpu;model_producer" TIMEOUT 180)
   set_tests_properties(model_producer_cuda_lazy_streams PROPERTIES ENVIRONMENT CUDA_MODULE_LOADING=LAZY)
 
   if(SACCADE_ENABLE_MODEL_TRT)

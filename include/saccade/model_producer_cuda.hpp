@@ -10,7 +10,7 @@
 namespace saccade {
 
 inline constexpr const char* kModelProducerPolicy = "f03-producer/1";
-inline constexpr std::size_t kModelProducerInputElements = 3 * 640 * 640;
+inline constexpr std::size_t kModelProducerInputElements = kT01ModelProfile.input_elements();
 inline constexpr unsigned kModelProducerPlugins = 9;
 
 // Exactly model_io_spec()'s nine status outputs: P3, P4, P5, each in
@@ -30,7 +30,7 @@ std::size_t model_producer_workspace_bytes();
 // missing source done or unknown/incorrect-role bits -> Protocol. These can
 // coexist. F04 maps any aggregate flags to Upstream, as before.
 //
-// Fixed batch-one FP32 profile, images [1,3,640,640], six raw tensors in F04
+// Selected fixed batch-one FP32 profile, images [1,3,H,W], six raw tensors in F04
 // layout. All accessed ranges must be disjoint device memory on the current
 // device with queryable allocation extents (cudaMalloc or arena subranges).
 // Host errors throw invalid_argument BEFORE any enqueue; API/launch errors
@@ -53,7 +53,8 @@ std::size_t model_producer_workspace_bytes();
 void model_producer_cuda(const float* images, std::size_t image_elements,
                          const PostprocessRawView& raw, const ModelProducerPlugins& plugins,
                          PostprocessProducerStatus* producer, void* workspace,
-                         std::size_t workspace_bytes, cudaStream_t stream);
+                         std::size_t workspace_bytes, cudaStream_t stream,
+                         ModelProfile profile = kDefaultModelProfile);
 
 std::string model_producer_cuda_load_kernels();
 std::string model_producer_cuda_identity();

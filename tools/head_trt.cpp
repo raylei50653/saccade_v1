@@ -62,11 +62,12 @@ std::string checked_read(const std::string& path, const std::string& sha, const 
 double seconds() { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); }
 
 void build(const std::string& bundle_path, const std::string& bundle_sha, const std::string& engine_path, const std::string& report_path, bool debug,
-           Logger& logger) {
+           Logger& logger, ModelProfile profile) {
     const auto weights = decode_head_bundle(checked_read(bundle_path, bundle_sha, "bundle"));
     const auto t0 = seconds();
     HeadBuildOptions options;
     options.debug_intermediates = debug;
+    options.profile = profile;
     const auto engine = build_head_engine(logger, weights, options);
     const auto build_seconds = seconds() - t0;
     write_binary_file(engine_path, engine.plan);
@@ -91,14 +92,14 @@ void build(const std::string& bundle_path, const std::string& bundle_sha, const 
 }
 
 // Whole P3/P4/P5 frames read from a checked file (HEAD_TRT §10).
-std::vector<std::array<std::vector<float>, 3>> read_feature_frames(const std::string& path, const std::string& sha) {
+std::vector<std::array<std::vector<float>, 3>> read_feature_frames(const std::string& path, const std::string& sha, ModelProfile profile) {
     static_assert(std::endian::native == std::endian::little, "feature files are little-endian FP32");
     const auto data = checked_read(path, sha, "features");
     std::array<std::size_t, 3> counts{};
     std::size_t frame_bytes = 0;
     for (std::size_t level = 0; level < 3; ++level) {
         counts[level] = 1;
-        for (const auto d : head_input_shape(static_cast<int>(level))) counts[level] *= static_cast<std::size_t>(d);
+        for (const auto d : head_input_shape(static_cast<int>(level), profile)) counts[level] *= static_cast<std::size_t>(d);
         frame_bytes += counts[level] * sizeof(float);
     }
     require(!data.empty() && data.size() % frame_bytes == 0, "features: " + std::to_string(data.size()) + " bytes is not a whole number of frames");
@@ -130,6 +131,7 @@ bool same_bits(const std::vector<float>& a, const std::vector<float>& b) {
 }
 
 struct RunOptions {
+    ModelProfile profile = kDefaultModelProfile;
     std::string features, features_sha, dump_dir;
 };
 
@@ -137,18 +139,18 @@ void run(const std::string& engine_path, const std::string& engine_sha, const st
          const std::string& report_path, const RunOptions& options, Logger& logger) {
     const auto plan = checked_read(engine_path, engine_sha, "engine");
     const auto weights = decode_head_bundle(checked_read(bundle_path, bundle_sha, "bundle"));
-    const auto spec = head_io_spec();
+    const auto spec = head_io_spec(options.profile);
     std::ostringstream report;
-    report << "engine_sha256=" << engine_sha << "\nbundle_sha256=" << bundle_sha << "\npolicy=" << kHeadPolicyVersion
+    report << "profile=" << model_profile(options.profile).name << '\n' << "engine_sha256=" << engine_sha << "\nbundle_sha256=" << bundle_sha << "\npolicy=" << kHeadPolicyVersion
            << "\ncuda_module_loading=" << (std::getenv("CUDA_MODULE_LOADING") ? std::getenv("CUDA_MODULE_LOADING") : "default") << '\n';
     std::vector<std::string> labels;
     std::vector<std::array<std::vector<float>, 3>> features;
     for (const auto& [kind, seed] : std::vector<std::pair<std::string, std::uint64_t>>{{"asymmetric", 1}, {"random", 1}, {"random", 2}}) {
         labels.push_back(kind + "/" + std::to_string(seed));
-        features.push_back(head_test_features(kind, seed));
+        features.push_back(head_test_features(kind, seed, options.profile));
     }
     if (!options.features.empty()) {
-        auto frames = read_feature_frames(options.features, options.features_sha);
+        auto frames = read_feature_frames(options.features, options.features_sha, options.profile);
         report << "features_file=" << options.features << "\nfeatures_sha256=" << options.features_sha << "\nfeatures_frames=" << frames.size() << '\n';
         for (std::size_t i = 0; i < frames.size(); ++i) {
             labels.push_back("features/" + std::to_string(i));
@@ -174,7 +176,7 @@ void run(const std::string& engine_path, const std::string& engine_sha, const st
             const auto& label = labels[i];
             const auto result = session.run({frame_inputs(features[i])});
             require(result.published == std::vector<std::int64_t>{0} && result.committed_payload_frame == 0, label + ": frame not accepted");
-            const auto reference = head_reference(weights, {features[i][0], features[i][1], features[i][2]});
+            const auto reference = head_reference(weights, {features[i][0], features[i][1], features[i][2]}, {}, false, options.profile);
             const auto comparison = compare_head_outputs(split(session, result.committed_payload), reference);
             report << comparison.report(label);
             pass = pass && comparison.pass;
@@ -259,10 +261,21 @@ void run_unregistered(const std::string& engine_path, Logger& logger) {
 int main(int argc, char** argv) {
     Logger logger;
     try {
+        ModelProfile profile = kDefaultModelProfile;
+        std::vector<char*> arguments;
+        for (int i = 0; i < argc; ++i) {
+            if (std::string_view(argv[i]) == "--profile") {
+                if (++i == argc) throw std::invalid_argument("--profile requires a name");
+                profile = parse_model_profile(argv[i]);
+            } else arguments.push_back(argv[i]);
+        }
+        argc = static_cast<int>(arguments.size());
+        argv = arguments.data();
         const std::string mode = argc > 1 ? argv[1] : "";
-        if (mode == "build" && (argc == 6 || (argc == 7 && std::string(argv[6]) == "--debug"))) build(argv[2], argv[3], argv[4], argv[5], argc == 7, logger);
+        if (mode == "build" && (argc == 6 || (argc == 7 && std::string(argv[6]) == "--debug"))) build(argv[2], argv[3], argv[4], argv[5], argc == 7, logger, profile);
         else if (mode == "run" && argc >= 7) {
             RunOptions options;
+            options.profile = profile;
             for (int i = 7; i < argc; ++i) {
                 const std::string flag = argv[i];
                 if (flag == "--features" && i + 2 < argc && options.features.empty()) {
@@ -278,7 +291,7 @@ int main(int argc, char** argv) {
         }
         else if (mode == "run-unregistered" && argc == 3) run_unregistered(argv[2], logger);
         else throw std::invalid_argument("usage: head_trt build BUNDLE SHA ENGINE REPORT [--debug] | run ENGINE SHA BUNDLE SHA REPORT "
-                                         "[--features FILE SHA] [--dump DIR] | run-unregistered ENGINE");
+                                         "[--features FILE SHA] [--dump DIR] [--profile NAME] | run-unregistered ENGINE");
         std::cout.flush();
         require(static_cast<bool>(std::cout), "cannot write standard output");
         return 0;

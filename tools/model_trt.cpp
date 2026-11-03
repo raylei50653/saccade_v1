@@ -69,11 +69,11 @@ std::size_t count(const std::vector<std::int64_t>& shape) {
 double seconds() { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); }
 
 void build(const std::string& onnx_path, const std::string& onnx_sha, const std::string& bundle_path, const std::string& bundle_sha,
-           const std::string& engine_path, const std::string& report_path, Logger& logger) {
+           const std::string& engine_path, const std::string& report_path, Logger& logger, ModelProfile profile) {
     const auto onnx = checked_read(onnx_path, onnx_sha, "ONNX");
     const auto weights = decode_head_bundle(checked_read(bundle_path, bundle_sha, "bundle"));
     const auto t0 = seconds();
-    const auto engine = build_model_engine(logger, bytes(onnx), weights);
+    const auto engine = build_model_engine(logger, bytes(onnx), weights, profile);
     const auto build_seconds = seconds() - t0;
     write_binary_file(engine_path, engine.plan);
     const auto readback = read_text_file(engine_path);
@@ -98,17 +98,17 @@ void build(const std::string& onnx_path, const std::string& onnx_sha, const std:
 }
 
 // The backbone reference of one input as the head reference's inputs.
-std::array<HeadTensorRef, 3> backbone_refs(const std::string& data, std::size_t input) {
+std::array<HeadTensorRef, 3> backbone_refs(const std::string& data, std::size_t input, ModelProfile profile) {
     static_assert(std::endian::native == std::endian::little, "reference files are little-endian float64");
     std::size_t per_input = 0;
-    for (int level = 0; level < 3; ++level) per_input += 3 * count(head_input_shape(level));
+    for (int level = 0; level < 3; ++level) per_input += 3 * count(head_input_shape(level, profile));
     require(data.size() % (per_input * sizeof(double)) == 0 && (input + 1) * per_input * sizeof(double) <= data.size(),
             "backbone reference: input " + std::to_string(input) + " missing");
     std::array<HeadTensorRef, 3> out;
     auto at = data.data() + input * per_input * sizeof(double);
     for (int level = 0; level < 3; ++level) {
         auto& t = out[static_cast<std::size_t>(level)];
-        t.shape = head_input_shape(level);
+        t.shape = head_input_shape(level, profile);
         const auto n = count(t.shape);
         for (auto* v : {&t.value, &t.bound, &t.sigma}) {
             v->resize(n);
@@ -133,6 +133,7 @@ bool same_bits(const std::vector<float>& a, const std::vector<float>& b) {
 }
 
 struct RunOptions {
+    ModelProfile profile = kDefaultModelProfile;
     std::vector<std::string> labels;
     std::size_t inputs = 0; // 0: all
     std::string dump_dir;
@@ -145,17 +146,17 @@ void run(const std::vector<std::string>& a, const RunOptions& options, Logger& l
     const auto weights = decode_head_bundle(checked_read(bundle_path, bundle_sha, "bundle"));
     const auto images = checked_read(images_path, images_sha, "images");
     const auto refs = checked_read(ref_path, ref_sha, "backbone reference");
-    const auto frame_values = count(model_input_shape());
-    require(!images.empty() && images.size() % (frame_values * sizeof(float)) == 0, "images: not a whole number of [1,3,640,640] frames");
+    const auto frame_values = count(model_input_shape(options.profile));
+    require(!images.empty() && images.size() % (frame_values * sizeof(float)) == 0, "images: not a whole number of selected-profile frames");
     auto frames = images.size() / (frame_values * sizeof(float));
     require(options.labels.empty() || options.labels.size() == frames, "--labels must name every input");
     if (options.inputs) {
         require(options.inputs <= frames, "--inputs exceeds the inputs in IMAGES");
         frames = options.inputs;
     }
-    const auto spec = model_io_spec();
+    const auto spec = model_io_spec(options.profile);
     std::ostringstream report;
-    report << "engine_sha256=" << engine_sha << "\nbundle_sha256=" << bundle_sha << "\nimages_file=" << images_path << "\nimages_sha256=" << images_sha
+    report << "profile=" << model_profile(options.profile).name << '\n' << "engine_sha256=" << engine_sha << "\nbundle_sha256=" << bundle_sha << "\nimages_file=" << images_path << "\nimages_sha256=" << images_sha
            << "\nbackbone_reference_sha256=" << ref_sha << "\ninputs_compared=" << frames << "\npolicy=t01-f03-fp32/1 (" << kHeadPolicyVersion
            << " comparator)\ncuda_module_loading=" << (std::getenv("CUDA_MODULE_LOADING") ? std::getenv("CUDA_MODULE_LOADING") : "default") << '\n'
            << onnx_parser_identity();
@@ -181,7 +182,7 @@ void run(const std::vector<std::string>& a, const RunOptions& options, Logger& l
                 const auto result = session.run({{inputs[i]}});
                 require(result.published == std::vector<std::int64_t>{0} && result.committed_payload_frame == 0, label + ": frame not accepted");
                 const auto t0 = seconds();
-                const auto reference = head_reference_from_refs(weights, backbone_refs(refs, i));
+                const auto reference = head_reference_from_refs(weights, backbone_refs(refs, i, options.profile), {}, false, options.profile);
                 report << "reference_seconds\t" << label << '\t' << seconds() - t0 << '\n';
                 const auto comparison = compare_head_outputs(split(session, result.committed_payload), reference);
                 report << comparison.report(label);
@@ -257,10 +258,21 @@ std::vector<std::string> split_list(const std::string& text) {
 int main(int argc, char** argv) {
     Logger logger;
     try {
+        ModelProfile profile = kDefaultModelProfile;
+        std::vector<char*> arguments;
+        for (int i = 0; i < argc; ++i) {
+            if (std::string_view(argv[i]) == "--profile") {
+                if (++i == argc) throw std::invalid_argument("--profile requires a name");
+                profile = parse_model_profile(argv[i]);
+            } else arguments.push_back(argv[i]);
+        }
+        argc = static_cast<int>(arguments.size());
+        argv = arguments.data();
         const std::string mode = argc > 1 ? argv[1] : "";
-        if (mode == "build" && argc == 8) build(argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], logger);
+        if (mode == "build" && argc == 8) build(argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], logger, profile);
         else if (mode == "run" && argc >= 11) {
             RunOptions options;
+            options.profile = profile;
             for (int i = 11; i < argc; ++i) {
                 const std::string flag = argv[i];
                 if (flag == "--labels" && i + 1 < argc && options.labels.empty()) options.labels = split_list(argv[++i]);
@@ -271,7 +283,7 @@ int main(int argc, char** argv) {
             run(std::vector<std::string>(argv + 2, argv + 11), options, logger);
         } else {
             throw std::invalid_argument("usage: model_trt build ONNX SHA BUNDLE SHA ENGINE REPORT | run ENGINE SHA BUNDLE SHA IMAGES SHA "
-                                        "BACKBONE_REF SHA REPORT [--labels L,...] [--inputs N] [--dump DIR]");
+                                        "BACKBONE_REF SHA REPORT [--labels L,...] [--inputs N] [--dump DIR] [--profile NAME]");
         }
         std::cout.flush();
         require(static_cast<bool>(std::cout), "cannot write standard output");

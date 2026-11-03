@@ -114,12 +114,17 @@ std::size_t model_producer_workspace_bytes() { return sizeof(Workspace); }
 void model_producer_cuda(const float* images, std::size_t image_elements,
                          const PostprocessRawView& raw, const ModelProducerPlugins& plugins,
                          PostprocessProducerStatus* producer, void* workspace,
-                         std::size_t workspace_bytes, cudaStream_t stream) {
-    if (image_elements != kModelProducerInputElements || workspace_bytes < sizeof(Workspace))
+                         std::size_t workspace_bytes, cudaStream_t stream, ModelProfile profile) {
+    if (image_elements != model_profile(profile).input_elements() || workspace_bytes < sizeof(Workspace))
         throw std::invalid_argument("incorrect model producer input/workspace capacity");
     // Share the fixed six-output profile validation, without introducing an
     // ImageMapping dependency into this adapter's actual device work.
-    validate_postprocess_arguments(raw, PostprocessRequest{});
+    const auto& spec = model_profile(profile);
+    PostprocessRequest request;
+    request.profile = profile;
+    request.mapping = {static_cast<int>(spec.width), static_cast<int>(spec.height),
+                       static_cast<int>(spec.width), static_cast<int>(spec.height), 1.0, 1.0};
+    validate_postprocess_arguments(raw, request);
     if (stream == nullptr || stream == cudaStreamLegacy || stream == cudaStreamPerThread)
         throw std::invalid_argument("model producer requires an explicit non-default stream");
     int device = -1;
@@ -184,7 +189,7 @@ std::string model_producer_cuda_identity() {
     out << "policy=" << kModelProducerPolicy << "\nsource_commit=" << SACCADE_BUILD_COMMIT
         << "\nsource_dirty=" << SACCADE_BUILD_DIRTY
         << "\nnvcc=" << __CUDACC_VER_MAJOR__ << '.' << __CUDACC_VER_MINOR__ << '.' << __CUDACC_VER_BUILD__
-        << "\ncuda_flags=--ftz=false --fmad=false -lineinfo\nruntime=" << runtime << "\ndriver=" << driver
+        << "\ncuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo\nruntime=" << runtime << "\ndriver=" << driver
         << "\ngpu=" << gpu.name << "\nsm=" << gpu.major << gpu.minor
         << "\nworkspace_bytes=" << sizeof(Workspace) << "\nplugin_statuses=" << kModelProducerPlugins << '\n';
     return out.str();

@@ -1,0 +1,372 @@
+diff --git a/cmake/ModelTensorRT.cmake b/cmake/ModelTensorRT.cmake
+index 79ff84a..e9f4616 100644
+--- a/cmake/ModelTensorRT.cmake
++++ b/cmake/ModelTensorRT.cmake
+@@ -47,8 +47,18 @@ foreach(target saccade_model_trt backbone_trt model_trt)
+     target_compile_options(${target} PRIVATE ${SACCADE_SCAN_TRT_WARNINGS})
+   endif()
+ endforeach()
++
+ foreach(target backbone_trt model_trt)
+   # TensorRT dlopens its per-SM builder resource by basename (see TensorRT.cmake).
+   set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+   target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
+ endforeach()
++
++# Disposable precision experiment; complete-model dumps and device-only timing.
++add_executable(precision_probe tools/precision_probe.cpp)
++target_link_libraries(precision_probe PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
++if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
++  target_compile_options(precision_probe PRIVATE ${SACCADE_SCAN_TRT_WARNINGS})
++endif()
++set_target_properties(precision_probe PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
++target_link_options(precision_probe PRIVATE "LINKER:--disable-new-dtags")
+diff --git a/src/head_trt_network.cpp b/src/head_trt_network.cpp
+index 7ebbb94..7752e9d 100644
+--- a/src/head_trt_network.cpp
++++ b/src/head_trt_network.cpp
+@@ -3,6 +3,7 @@
+ #include "saccade/scan_trt_network.hpp"
+ #include "saccade/scan_trt_plugin.hpp"
+ 
++#include <cstdlib>
+ #include <initializer_list>
+ #include <memory>
+ #include <sstream>
+@@ -17,6 +18,52 @@ void require(bool condition, const std::string& why) {
+     if (!condition) throw std::runtime_error("head engine build: " + why);
+ }
+ 
++// Isolated experiment only. The default and explicit fp32 preserve the
++// original strongly typed build, including its FP32 tactic policy.
++enum class ExperimentPrecision { FP32, FP16, BF16 };
++
++ExperimentPrecision experiment_precision() {
++    const char* value = std::getenv("SACCADE_EXPERIMENT_PRECISION");
++    if (value == nullptr || std::string(value) == "fp32") return ExperimentPrecision::FP32;
++    if (std::string(value) == "fp16") return ExperimentPrecision::FP16;
++    if (std::string(value) == "bf16") return ExperimentPrecision::BF16;
++    throw std::invalid_argument("SACCADE_EXPERIMENT_PRECISION must be fp32, fp16 or bf16");
++}
++
++// TensorRT 10.16 keeps these deprecated flags for weakly typed networks.
++// Limit warning suppression to the API compatibility boundary.
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++void allow_experiment_precision(IBuilderConfig& config, ExperimentPrecision precision) {
++    config.clearFlag(BuilderFlag::kFP16);
++    config.clearFlag(BuilderFlag::kBF16);
++    if (precision == ExperimentPrecision::FP16) config.setFlag(BuilderFlag::kFP16);
++    if (precision == ExperimentPrecision::BF16) config.setFlag(BuilderFlag::kBF16);
++}
++
++int experiment_optimization_level(ExperimentPrecision precision) {
++    const char* value = std::getenv("SACCADE_EXPERIMENT_OPT_LEVEL");
++    if (precision == ExperimentPrecision::FP32 || value == nullptr) return kHeadBuilderOptimizationLevel;
++    return std::stoi(value);
++}
++
++void preserve_experiment_output_type(ITensor& tensor) {
++    tensor.setType(DataType::kFLOAT);
++}
++
++void report_experiment_precision(std::ostream& out, const IBuilderConfig& config, ExperimentPrecision precision) {
++    out << "network=weakly_typed_mixed\nexperimental_precision="
++        << (precision == ExperimentPrecision::FP16 ? "fp16" : "bf16")
++        << "\ntf32=" << (config.getFlag(BuilderFlag::kTF32) ? "on" : "off")
++        << "\nfp16=" << (config.getFlag(BuilderFlag::kFP16) ? "on" : "off")
++        << "\nbf16=" << (config.getFlag(BuilderFlag::kBF16) ? "on" : "off")
++        << "\nint8=" << (config.getFlag(BuilderFlag::kINT8) ? "on" : "off")
++        << "\nbuilder_flags_readback=" << config.getFlags()
++        << "\nscan_plugin_precision=fp32\nmodel_io_precision=fp32\n"
++           "fp32_tactic_policy=not_applicable_experimental_mixed_precision\n";
++}
++#pragma GCC diagnostic pop
++
+ Dims shape(std::initializer_list<std::int64_t> d) {
+     Dims out{};
+     out.nbDims = static_cast<std::int32_t>(d.size());
+@@ -40,18 +87,22 @@ std::string status_producer(const char* plugin, const std::string& level, const
+ // reference keeps as an intermediate gets the same name.
+ class HeadNetwork {
+ public:
+-    HeadNetwork(ILogger& logger, const HeadWeights& w, const HeadBuildOptions& o) : w_(w), options_(o) {
++    HeadNetwork(ILogger& logger, const HeadWeights& w, const HeadBuildOptions& o)
++        : w_(w), options_(o), precision_(experiment_precision()) {
+         register_scan_trt_plugins(*getPluginRegistry());
+         builder_.reset(createInferBuilder(logger));
+         require(builder_ != nullptr, "createInferBuilder failed");
+-        network_.reset(builder_->createNetworkV2(1U << static_cast<std::uint32_t>(NetworkDefinitionCreationFlag::kSTRONGLY_TYPED)));
++        const auto network_flags = precision_ == ExperimentPrecision::FP32
++            ? 1U << static_cast<std::uint32_t>(NetworkDefinitionCreationFlag::kSTRONGLY_TYPED) : 0U;
++        network_.reset(builder_->createNetworkV2(network_flags));
+         require(network_ != nullptr, "createNetworkV2 failed");
+         config_.reset(builder_->createBuilderConfig());
+         require(config_ != nullptr, "createBuilderConfig failed");
+         config_->clearFlag(BuilderFlag::kTF32);
++        if (precision_ != ExperimentPrecision::FP32) allow_experiment_precision(*config_, precision_);
+         config_->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE, kHeadBuilderWorkspace);
+         config_->setMaxAuxStreams(0);
+-        config_->setBuilderOptimizationLevel(kHeadBuilderOptimizationLevel);
++        config_->setBuilderOptimizationLevel(experiment_optimization_level(precision_));
+         config_->setProfilingVerbosity(ProfilingVerbosity::kDETAILED);
+     }
+ 
+@@ -84,6 +135,7 @@ public:
+         for (std::size_t k = 0; k < 6; ++k) {
+             outputs[k]->setName(kHeadOutputNames[k]);
+             network_->markOutput(*outputs[k]);
++            if (precision_ != ExperimentPrecision::FP32) preserve_experiment_output_type(*outputs[k]);
+         }
+         for (auto* s : statuses_) network_->markOutput(*s);
+         for (auto* t : debug_) network_->markOutput(*t);
+@@ -95,8 +147,11 @@ public:
+         for (auto* s : statuses_) engine.statuses.emplace_back(s->getName());
+         for (auto* t : debug_) engine.debug_outputs.emplace_back(t->getName());
+         std::ostringstream o;
+-        o << "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\nworkspace_bytes=" << kHeadBuilderWorkspace
+-          << "\noptimization_level=" << kHeadBuilderOptimizationLevel << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
++        if (precision_ == ExperimentPrecision::FP32)
++            o << "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\n";
++        else report_experiment_precision(o, *config_, precision_);
++        o << "workspace_bytes=" << kHeadBuilderWorkspace
++          << "\noptimization_level=" << config_->getBuilderOptimizationLevel() << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
+           << "\ndebug_intermediates=" << (options_.debug_intermediates ? "true" : "false") << '\n';
+         o << "profile=" << model_profile(options_.profile).name << '\n';
+         if (options_.features) o << "head_inputs=external\n";
+@@ -230,6 +285,7 @@ private:
+ 
+     const HeadWeights& w_;
+     HeadBuildOptions options_;
++    ExperimentPrecision precision_;
+     std::unique_ptr<IBuilder> builder_;
+     std::unique_ptr<INetworkDefinition> network_;
+     std::unique_ptr<IBuilderConfig> config_;
+@@ -273,7 +329,8 @@ HeadEngine build_head_engine(ILogger& logger, const HeadWeights& weights, const
+     const auto violations = head_tactic_violations(head_engine_layers(*built));
+     std::string listed;
+     for (const auto& v : violations) listed += (listed.empty() ? "" : ", ") + v;
+-    require(violations.empty(), "tactics outside the FP32 direct-summation model: " + listed);
++    if (engine.build_options.find("experimental_precision=") == std::string::npos)
++        require(violations.empty(), "tactics outside the FP32 direct-summation model: " + listed);
+     return engine;
+ }
+ 
+diff --git a/tools/precision_probe.cpp b/tools/precision_probe.cpp
+new file mode 100644
+index 0000000..03eb884
+--- /dev/null
++++ b/tools/precision_probe.cpp
+@@ -0,0 +1,212 @@
++// Disposable experiment: complete-model output dumps and device-only timing.
++// Not a numerical acceptance gate. No JPEG/preprocess/decode/NMS in timings.
++#include "saccade/file_io.hpp"
++#include "saccade/model_trt_network.hpp"
++#include "saccade/scan_trt_frame.hpp"
++#include "saccade/scan_trt_plugin.hpp"
++#include "saccade/sha256.hpp"
++
++#include <NvInfer.h>
++#include <cuda_runtime_api.h>
++
++#include <algorithm>
++#include <atomic>
++#include <cmath>
++#include <cstring>
++#include <filesystem>
++#include <iomanip>
++#include <iostream>
++#include <numeric>
++#include <stdexcept>
++#include <string>
++#include <vector>
++
++namespace {
++using namespace saccade;
++class Logger final : public nvinfer1::ILogger {
++public:
++    std::atomic<unsigned> errors{0};
++    void log(Severity severity, const char* message) noexcept override {
++        if (severity <= Severity::kERROR) ++errors;
++        if (severity <= Severity::kWARNING) std::cerr << "TensorRT: " << message << '\n';
++    }
++};
++void require(bool condition, const std::string& message) {
++    if (!condition) throw std::runtime_error(message);
++}
++void checked(cudaError_t error, const char* what) {
++    if (error != cudaSuccess) throw std::runtime_error(std::string(what) + ": " + cudaGetErrorString(error));
++}
++std::span<const std::uint8_t> bytes(const std::string& text) {
++    return {reinterpret_cast<const std::uint8_t*>(text.data()), text.size()};
++}
++std::size_t elements(const std::vector<std::int64_t>& shape) {
++    std::size_t count = 1;
++    for (const auto dimension : shape) count *= static_cast<std::size_t>(dimension);
++    return count;
++}
++std::string pack(const ScanFrameSession& session, const std::vector<float>& arena) {
++    std::string result;
++    for (const auto& output : session.outputs()) {
++        const auto data = std::span<const float>(arena).subspan(output.offset, output.count);
++        require(std::all_of(data.begin(), data.end(), [](float x) { return std::isfinite(x); }), "nonfinite raw output");
++        result.append(reinterpret_cast<const char*>(data.data()), data.size_bytes());
++    }
++    return result;
++}
++void accepted(const ScanFrameRun& run) {
++    require(run.published == std::vector<std::int64_t>{0} && run.committed_payload_frame == 0,
++            "frame rejected by plugin statuses or finite checks");
++}
++struct Events {
++    std::vector<cudaEvent_t> starts, ends;
++    explicit Events(int count) : starts(static_cast<std::size_t>(count)), ends(static_cast<std::size_t>(count)) {
++        for (auto& event : starts) checked(cudaEventCreate(&event), "cudaEventCreate start");
++        for (auto& event : ends) checked(cudaEventCreate(&event), "cudaEventCreate end");
++    }
++    ~Events() {
++        for (const auto event : starts) if (event) cudaEventDestroy(event);
++        for (const auto event : ends) if (event) cudaEventDestroy(event);
++    }
++};
++struct Graph {
++    cudaGraph_t graph = nullptr;
++    cudaGraphExec_t executable = nullptr;
++    ~Graph() {
++        if (executable) cudaGraphExecDestroy(executable);
++        if (graph) cudaGraphDestroy(graph);
++    }
++};
++template <typename Launch>
++std::vector<float> measure(cudaStream_t stream, int warmup, int iterations, Launch launch) {
++    Events events(iterations);
++    for (int i = 0; i < warmup; ++i) launch();
++    checked(cudaStreamSynchronize(stream), "warmup synchronize");
++    for (int i = 0; i < iterations; ++i) {
++        const auto k = static_cast<std::size_t>(i);
++        checked(cudaEventRecord(events.starts[k], stream), "record start");
++        launch();
++        checked(cudaEventRecord(events.ends[k], stream), "record end");
++    }
++    checked(cudaStreamSynchronize(stream), "timing synchronize");
++    std::vector<float> result(static_cast<std::size_t>(iterations));
++    for (std::size_t i = 0; i < result.size(); ++i)
++        checked(cudaEventElapsedTime(&result[i], events.starts[i], events.ends[i]), "event elapsed time");
++    return result;
++}
++void statistics(const char* name, const std::vector<float>& values) {
++    auto sorted = values;
++    std::sort(sorted.begin(), sorted.end());
++    const double mean = std::accumulate(values.begin(), values.end(), 0.0) / static_cast<double>(values.size());
++    const auto percentile = [&](double p) { return sorted[static_cast<std::size_t>(std::ceil(p * static_cast<double>(sorted.size()))) - 1]; };
++    std::cout << "\"" << name << "\":{\"mean_ms\":" << mean << ",\"median_ms\":" << percentile(0.5)
++              << ",\"p95_ms\":" << percentile(0.95) << ",\"min_ms\":" << sorted.front()
++              << ",\"max_ms\":" << sorted.back() << ",\"samples_ms\":[";
++    for (std::size_t i = 0; i < values.size(); ++i) std::cout << (i ? "," : "") << values[i];
++    std::cout << "]}";
++}
++void validate_device_result(ScanFrameSession& session, const FrameIoSpec& spec) {
++    const auto slot = session.slot(0);
++    for (std::size_t i = 0; i < spec.statuses.size(); ++i) {
++        ScanStatus status{};
++        checked(cudaMemcpy(&status, slot.statuses[i], sizeof(status), cudaMemcpyDeviceToHost), "status readback");
++        require(status.flags == 0 && status.done == kScanDone, "bad plugin status after benchmark: " + spec.statuses[i].name);
++    }
++    for (std::size_t i = 0; i < session.outputs().size(); ++i) {
++        std::vector<float> output(session.outputs()[i].count);
++        checked(cudaMemcpy(output.data(), slot.outputs[i], output.size() * sizeof(float), cudaMemcpyDeviceToHost), "output readback");
++        require(std::all_of(output.begin(), output.end(), [](float x) { return std::isfinite(x); }), "nonfinite output after benchmark");
++    }
++}
++} // namespace
++
++int main(int argc, char** argv) {
++    try {
++        require(argc == 5 || argc == 7, "usage: precision_probe ENGINE INPUTS DUMP_DIR PROFILE [WARMUP ITERATIONS]");
++        const int warmup = argc == 7 ? std::stoi(argv[5]) : 100;
++        const int iterations = argc == 7 ? std::stoi(argv[6]) : 500;
++        require(warmup >= 1 && iterations >= 1, "warmup and iterations must be positive");
++        const auto profile = parse_model_profile(argv[4]);
++        const auto spec = model_io_spec(profile);
++        const auto plan = read_text_file(argv[1]);
++        const auto images = read_text_file(argv[2]);
++        const auto frame_elements = elements(model_input_shape(profile));
++        const auto frame_bytes = frame_elements * sizeof(float);
++        require(!images.empty() && images.size() % frame_bytes == 0, "input file is not a whole number of selected-profile FP32 frames");
++        const auto frames = images.size() / frame_bytes;
++        require(frames <= 32, "probe accepts at most 32 reference frames");
++        std::filesystem::create_directories(argv[3]);
++        Logger logger;
++        register_scan_trt_plugins(*getPluginRegistry());
++        std::vector<std::vector<float>> inputs(frames, std::vector<float>(frame_elements));
++        for (std::size_t i = 0; i < frames; ++i) std::memcpy(inputs[i].data(), images.data() + i * frame_bytes, frame_bytes);
++        std::vector<std::string> committed;
++        std::vector<float> enqueue_times, graph_times;
++        {
++            ScanFrameConfig config;
++            config.slots = 1;
++            ScanFrameSession session(bytes(plan), config, logger, nullptr, &spec);
++            for (std::size_t i = 0; i < frames; ++i) {
++                const auto result = session.run({{inputs[i]}});
++                accepted(result);
++                committed.push_back(pack(session, result.committed_payload));
++                const auto again = session.run({{inputs[i]}});
++                accepted(again);
++                require(pack(session, again.committed_payload) == committed.back(), "nondeterministic rerun");
++                write_binary_file(std::filesystem::path(argv[3]) / ("input-" + std::to_string(i) + ".f32"), bytes(committed.back()));
++            }
++            // Fix timing input to frame 0; H2D and harness are outside all events.
++            const auto resident = session.run({{inputs[0]}});
++            accepted(resident);
++            const auto stream = session.detect_stream();
++            auto& context = session.context(0);
++            const auto launch = [&] { require(context.enqueueV3(stream), "enqueueV3 failed"); };
++            enqueue_times = measure(stream, warmup, iterations, launch);
++            validate_device_result(session, spec);
++            Graph graph;
++            checked(cudaStreamBeginCapture(stream, cudaStreamCaptureModeGlobal), "begin graph capture");
++            launch();
++            checked(cudaStreamEndCapture(stream, &graph.graph), "end graph capture");
++            checked(cudaGraphInstantiate(&graph.executable, graph.graph, 0), "instantiate graph");
++            graph_times = measure(stream, warmup, iterations, [&] { checked(cudaGraphLaunch(graph.executable, stream), "graph launch"); });
++            validate_device_result(session, spec);
++            session.close();
++        }
++        {
++            ScanFrameConfig config;
++            config.slots = 1;
++            config.graphs = true;
++            ScanFrameSession session(bytes(plan), config, logger, nullptr, &spec);
++            for (std::size_t i = 0; i < frames; ++i) {
++                const auto result = session.run({{inputs[i]}});
++                accepted(result);
++                require(pack(session, result.committed_payload) == committed[i], "CUDA graph replay differs from enqueueV3");
++            }
++            session.close();
++        }
++        require(logger.errors == 0, "TensorRT reported errors");
++        int device = 0, runtime = 0, driver = 0;
++        cudaDeviceProp gpu{};
++        checked(cudaGetDevice(&device), "get device");
++        checked(cudaGetDeviceProperties(&gpu, device), "get GPU properties");
++        checked(cudaRuntimeGetVersion(&runtime), "get runtime version");
++        checked(cudaDriverGetVersion(&driver), "get driver version");
++        std::cout << std::setprecision(9) << "{\"schema\":\"saccade-precision-probe/1\",\"profile\":\"" << model_profile(profile).name
++                  << "\",\"engine_sha256\":\"" << sha256_hex(plan) << "\",\"inputs_sha256\":\"" << sha256_hex(images)
++                  << "\",\"gpu\":\"" << gpu.name << "\",\"sm\":\"" << gpu.major << '.' << gpu.minor
++                  << "\",\"cuda_runtime\":" << runtime << ",\"cuda_driver\":" << driver
++                  << ",\"frames\":" << frames << ",\"warmup\":" << warmup << ",\"iterations\":" << iterations
++                  << ",\"finite\":true,\"plugin_statuses\":\"PASS\",\"determinism\":\"bit_identical\",\"graph_parity\":\"bit_identical\","
++                     "\"timing_scope\":\"GPU complete-model batch1; resident frame0; no H2D/D2H, harness, preprocess, decode or NMS\",";
++        statistics("enqueue", enqueue_times);
++        std::cout << ',';
++        statistics("cuda_graph", graph_times);
++        std::cout << ",\"output_sha256\":[";
++        for (std::size_t i = 0; i < committed.size(); ++i) std::cout << (i ? "," : "") << '"' << sha256_hex(committed[i]) << '"';
++        std::cout << "]}\n";
++        return 0;
++    } catch (const std::exception& error) {
++        std::cerr << "precision_probe: " << error.what() << '\n';
++        return 1;
++    }
++}

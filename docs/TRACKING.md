@@ -314,3 +314,46 @@ M（main stream）：
 | in-domain（04／05／09／11／13），T01 → HR | 75.0 → 69.0 | 78.1 → 73.8 | 72.2 → 64.7 | 81.7 → 77.1 | 85.7 → 83.8 | 243 → 231 |
 
 in-domain 下降是預期的：T01 只在這 5 個序列上訓練而過擬合；HR 另加 MOTSynth。它不是泛化指標。MOT17-02 的 HR 結果已產生但未評估，留給 M4。
+
+## 16. D2：HR 部署改用 FP16（2026-11-03 使用者核准）
+
+**為什麼改**
+- v1 的時間幾乎全花在 FP32 卷積上（nsys：HR 每幀約 21 ms，佔 GPU 時間約 80%）。
+- 完整模型的精度實驗見 [evidence/precision/2026-11-03](../evidence/precision/2026-11-03/README.md)。HR 的 FP16（optimization level 3）結果：
+  - 模型 enqueue 時間：25.7 ms → 6.5 ms。
+  - MOT17-10 AP50：與 FP32 差 −0.025 pp。
+  - 原始輸出 relative L2：約 1%。
+- BF16 在相同條件下較慢，誤差約為 FP16 的 7 倍，因此不採用。
+
+**Build 模式**
+
+`model_trt build` 新增 `--precision fp32|fp16`，預設 `fp32`。
+
+| | fp32（預設，不變） | fp16 |
+| --- | --- | --- |
+| 用途 | 數值參考路徑；BACKBONE／HEAD／F03 的 FP32 比較政策照舊適用 | 部署用 |
+| 網路類型 | strongly typed | weakly typed |
+| Builder flag | — | `kFP16`；BF16、TF32、INT8 皆關閉 |
+| Optimization level | 0 | 3 |
+| Scan plugin | FP32 | 維持 FP32 |
+| 模型輸入與六個原始輸出 | FP32 | FP32 |
+| 其他 builder 設定 | workspace、aux streams、無 timing cache | 同左 |
+| FP32 tactic 檢查（`head_tactic_violations`） | 適用 | 不適用 |
+
+runtime（producer、F04、DetectionSession、TrackingSession）不分精度，照舊讀 FP32 I/O。
+
+**通過標準（在正式 FP16 engine 產生前固定）**
+
+正式 engine 由 `model_trt build --precision fp16 --profile hr-1280x768` 產生，不使用實驗 patch。要通過以下全部項目：
+
+1. **Build report 讀回值**：weakly typed、fp16=on、bf16=off、tf32=off、int8=off、optimization level 3。Engine inspector 顯示：
+   - 每個 scan／expand／merge plugin 的 payload 為 FP32。
+   - 模型 I/O 為 FP32。
+2. **AP50**：用 `detect_sequence --profile hr-1280x768` 錄下 MOT17-10-SDP，以 `training/hr_deploy/eval_scdr.py` 計算。AP50 必須落在 native FP32 的 86.0092% ± 0.1 pp 內。
+3. **重跑一致**：同一 engine 跑兩次 `detect_sequence`，SCDR 的 SHA-256 必須相同。
+4. **有限值**：在 `refs/model-images.f32` 的 4 張 HR 參考輸入上，六個輸出全為有限值，plugin statuses 為 PASS。
+
+**通過後**
+- 以 engine 的 SHA-256 固定部署。之後任何重新 build 都是新候選，要重做 1–4。
+- 重跑 HR tracking（MOT17-10 與 in-domain 5 序列），記錄 HOTA／IDF1／MOTA 與 `track_sequence` 的每幀時間。這只是紀錄，不設品質門檻。
+- MOT17-02 仍留到 M4。

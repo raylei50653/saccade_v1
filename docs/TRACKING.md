@@ -1,6 +1,6 @@
 # Tracking 半段規格（F05–F09）
 
-日期：2026-11-03。狀態：M0 契約與 M1（CPU tracker 端到端）完成；M2 起依 §12 接續。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
+日期：2026-11-03。狀態：M0–M3 完成；M4 的規格見 §17。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
 
 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
 
@@ -226,7 +226,7 @@ rows 是本幀命中（`age == 0`）的 confirmed tracks，依 UID 升序。每�
 | M1 | 三條平行實作（下表），出口是一個 MOT17 序列的端到端 MOT 檔與 HOTA。 |
 | M2 | F04b／F07／F08 的 CUDA 版：單一 thread block 處理一幀（tracks ≤ 512、detections ≤ 300），block 內 barrier 分隔 phase，不使用跨 block atomics；與 CPU reference 逐位元對照。 |
 | M3 | 完整 tracking session：先 serial 再 double-buffer，接 ASYNC_CONTROL §4 的 CTL／commit；serial 與 pipelined 的 ResultPacket 與 MOT 檔逐位元一致（A10／V04）。 |
-| M4 | MOT17 全序列評估與 P01 收尾。 |
+| M4 | MOT17 全序列評估與 P01 收尾（§17）。 |
 
 M1 分工（每條線只改自己擁有的檔案；契約 header 只能做本線範圍內的增補，跨線變更回報給整合者）：
 
@@ -418,3 +418,53 @@ runtime（producer、F04、DetectionSession、TrackingSession）不分精度，�
 FP16 的偵測與 FP32 不完全相同，tracker 會放大這些差異，所以 MOT 檔不同；指標差異都在 1.6 以內。
 
 部署 engine 自此改為 `model-hr-fp16.engine`。MOT17-02 仍留到 M4。
+
+## 17. M4：MOT17 最終評估與 P01 收尾（在開啟 MOT17-02 前固定）
+
+### 17.1 凍結的設定
+
+- 部署路徑：§16 的 HR FP16 engine（`8292cc23…`）、`hr-1280x768`、`v1-motion/1` 與 `v1-tracker/1` 的 §3 預設值、`track_sequence` pipelined。本節提交後不再改任何參數。
+- M1–M3 沒有調過 tracker 參數；§1 允許的 MOT17-10 調參不做，直接進 M4。
+- MOT17-02 的 GT 只在 §17.3 的正式執行中讀一次。之前的開發與測試不得讀 `MOT17-02-SDP/gt/`。正式執行若在產生指標前因基礎設施中斷（當機、逾時），可用同一 commit 重跑；指標一旦產生就是最終結果。之後若再改偵測器、tracker 或參數，MOT17-02 的結果要標為「M4 之後」，不再算獨立 eval。
+
+### 17.2 量測內容（不設品質門檻）
+
+對 7 個 MOT17 SDP 序列，分 val（10）、eval（02）、in-domain（04／05／09／11／13）三組：
+
+- **偵測**：`detect_sequence --profile hr-1280x768` 的 SCDR，以 `training/hr_deploy/eval_scdr.py` 算 AP50（每序列）。T01 的 native AP50 另以 `m1-data` 的 SCDR 算出，作為對照。T01 的 MOT17-02 已在 M1 評估過，不是新開啟。
+- **追蹤**：`scripts/eval_mot17.sh` 的 HOTA／DetA／AssA／IDF1／MOTA／IDSW，三組各一列，另列每序列。
+- **速度**：`track_sequence` 自己回報的 `ms_per_frame`（從第一張 JPEG 讀檔到最後一個封包收回，不含 engine 載入與 MOT 寫檔），每序列一個值，同時記下 GPU 型號與 driver。
+
+### 17.3 正式執行
+
+從同一個乾淨 commit，在 GPU lock 下依序執行：
+
+1. **完整正式驗收**（§11 的「M4 結案時」那一次）：`scripts/run_tracking_session_acceptance.sh`，§14.5 的 1–5 項與預期 hash 全部不變，必須 PASS。
+2. **評估**：`scripts/run_mot17_evaluation.sh`，只使用第 1 步 build 出的 CUDA binaries（先核對它們的 SHA-256 等於第 1 步的 `binaries.sha256`，且第 1 步的 revision 等於目前 HEAD）。以下守門項目都在讀任何 GT 之前完成，任一不符就停止，不讀 GT：
+   - **身分鏈**：student checkpoint、teacher checkpoint、base 權重、backbone ONNX、head bundle 的 SHA-256 等於 `~/.cache/saccade-v1/hr-deploy/manifest.json` 的紀錄；build report（[evidence/precision/2026-11-03-formal/build-report.txt](../evidence/precision/2026-11-03-formal/build-report.txt)）的 `onnx_sha256`／`bundle_sha256`／`engine_sha256` 等於上述 ONNX、bundle 與部署 engine。
+   - **CPU reference 對照**：每個序列的 `track_offline`（HR SCDR＋`m1-data` 的 SCMO）與 `track_sequence` 的 MOT 檔逐位元相同。
+   - **與既有紀錄一致**：MOT17-10 的 SCDR 等於 `98e2554f…`、MOT 等於 `1fb713f3…`；5 個 in-domain 序列的 MOT 等於 [§16 的紀錄](../evidence/precision/2026-11-03-formal/tracking-mot.sha256)。
+   - **Stream 位置**：以 `nsys` 追蹤 HR FP16 `track_sequence` 的 MOT17-10 前 30 幀。從第一幀的 F02 kernel 起，所有 kernel 只出現在兩個 stream：nvJPEG、F02、F05、TensorRT engine、producer 與 F04 的 kernel 在 D；cuFFT、F06、tracking、stage control、commit 與 packet kernel 在 M。這對應 [ASYNC_CONTROL](ASYNC_CONTROL.md) 列入 P01／P05 的兩項。程式本身已保證這兩項：session 拒絕 aux streams ≠ 0 的 engine（`getNbAuxStreams() == 0`），cuFFT plan 每幀以 `cufftSetStream` 綁到 M。這一項是執行期的觀測確認。
+
+   守門通過後才計算 §17.2 的指標。
+3. **Evidence report**：記錄 source、環境、每個命令的 exit 與時間、hash、守門結果與全部指標。
+
+### 17.4 P01 判定標準
+
+P01（[DATAFLOW](DATAFLOW.md) §9.2：模型檔案的來源／版本、engine 精度／shape binding、可 native 載入的權重與 component I/O）以部署中的 HR FP16 模型判定。§17.3 全部通過時，P01 記為 **CLOSED（有範圍）**，各項證據：
+
+| 項目 | 證據 |
+| --- | --- |
+| 來源／版本 | HR deploy manifest（`saccade-hr-deploy/1`）與 §17.3 身分鏈；訓練 split 固定 eval 為 MOT17-02 |
+| 權重 native 交付與 component I/O | D1：head bundle 由 native converter 產生；backbone 匯出特徵與訓練 cache 逐位元相同；native AP50 與訓練記錄差 −0.0001 pp（§15） |
+| Engine 精度與 shape binding | D2 build report 讀回值與 inspector（§16 第 1 項） |
+| Engine 與 runtime 的身分一致 | §17.3 的身分鏈、M3 正式驗收的 SCDR／MOT hash |
+| 函式庫的 stream 行為 | §17.3 的 stream 位置 |
+| 模型品質 | §17.2 的 AP50 與追蹤指標（只記錄） |
+
+**不涵蓋（明列）**
+- TensorRT 內部 kernel 的 racecheck／synccheck：沿用 S04 起的決定，未執行（插樁成本極高，S04 試跑期間發生過原因未判定的 WSL 當機）。v1 自己的 scan plugin、producer、F04 與 tracking kernel 已有四種 sanitizer 的證據；TensorRT kernel 有完整 session 的 memcheck。
+- 完整 session 的 initcheck：nvJPEG 的既知報告（NVIDIA Bug 7021871），依 PREPROCESS_USAGE_POLICY 處理。
+- FP16 engine 是在 761889c 加上未提交的修改（之後提交為 04912e2）下 build 的（`build_dirty=true`）；部署身分以 engine SHA-256 固定，不重新 build。
+- v1 的 native manifest 工具（schema 1–3）不描述 HR profile 或 FP16；HR 的身分紀錄是上述 deploy manifest，不另加 schema。
+- 跨 GPU、driver 或 TensorRT 版本的支援（P07）。

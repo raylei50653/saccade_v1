@@ -1,2 +1,12 @@
-# Line B (docs/TRACKING.md §12): F08a/F04b/F07/F08b CPU reference and
-# TrackerReference session in the default CPU build.
+# F08a/F04b/F07/F08b serial CPU reference (docs/TRACKING.md).
+add_library(saccade_tracking_reference src/tracking_config.cpp src/tracking_reference.cpp)
+target_link_libraries(saccade_tracking_reference PUBLIC saccade_protocol saccade_postprocess)
+target_include_directories(saccade_tracking_reference PUBLIC include)
+add_executable(tracking_reference_tests tests/tracking_reference_tests.cpp)
+target_link_libraries(tracking_reference_tests PRIVATE saccade_tracking_reference saccade_sha256)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_tracking_reference tracking_reference_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+add_test(NAME tracking_reference COMMAND tracking_reference_tests)

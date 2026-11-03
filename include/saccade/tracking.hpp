@@ -124,7 +124,7 @@ struct DetectionBatch {
     Epoch epoch = 0;
     FrameId frame = no_frame;
     std::vector<BatchDetection> rows; // ascending candidate_id
-    Error error = Error::none;        // PROTOCOL/PRODUCER/OVERFLOW from the header check
+    Error error = Error::none;        // Header errors or NUMERIC in candidate/IoU values.
 };
 // docs/TRACKING.md §7. On a header error, rows is empty.
 DetectionBatch assemble_detection_batch(const DetectionCandidates& candidates, const PredictedState& predicted,

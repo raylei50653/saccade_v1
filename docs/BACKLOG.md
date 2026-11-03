@@ -28,6 +28,8 @@
 
 本版沿用單 JPEG staging，尚未實作雙 host staging overlap。正常 detection 資料面每幀交付一次完整固定容量 `DetectionSessionResult` D2H，沒有中間 count／status 讀回；這不是 tracking `ResultPacket`，M consumer 也不是 F04b。
 
+F05–F09 的數值與決策規格、參數、容量、M1–M4 里程碑與分工見 [TRACKING](TRACKING.md)（2026-11-03 M0）。
+
 完整 tracking session 仍須依 [ASYNC_CONTROL](ASYNC_CONTROL.md)、[DATAFLOW](DATAFLOW.md#6-gpu-所有權與同步依賴) 與 [ResultPacket](RESULT_PACKET.md)，實作並接通 F05、main 的 F06→F08a→F04b→F07／F08b 及最後 F09。新增 MotionImage／prior／tracker state 與 ResultPacket 時須擴充 owner／ready／last-use／consumed；候選須活到 F04b 最後消費，F04b 使用本幀 GMC＋predict prior，continuation-only 候選維持 `can_birth=false`。
 
 完整 tracking 完成條件仍含真實影像 serial／queued、跨幀／跨 session 隔離、pending consumer 下的重用、frame／epoch／版本一致性、錯誤／overflow／缺幀／drain／checked close，以及 tracking state／MOT bytes 的獨立對照。既有前處理 usage 或新 bounded detection 驗證皆不能替代這些新增階段的證據。

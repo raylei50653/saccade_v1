@@ -291,3 +291,8 @@ if(SACCADE_ENABLE_DETECTION_SESSION)
 endif()
 
 include(cmake/DetectionSessionModel.cmake)
+
+# Tracking half, F05-F09 (docs/TRACKING.md). Each file belongs to one M1 line.
+include(cmake/Motion.cmake)
+include(cmake/TrackingReference.cmake)
+include(cmake/MotOutput.cmake)

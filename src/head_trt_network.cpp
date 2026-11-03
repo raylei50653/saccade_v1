@@ -17,6 +17,27 @@ void require(bool condition, const std::string& why) {
     if (!condition) throw std::runtime_error("head engine build: " + why);
 }
 
+// kFP16 and ITensor::setType are deprecated for strongly typed networks; they
+// remain the switches of a weakly typed network in TensorRT 10.16.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+void configure_precision(IBuilderConfig& config, ModelPrecision precision) {
+    config.clearFlag(BuilderFlag::kTF32);
+    if (precision == ModelPrecision::Fp16) config.setFlag(BuilderFlag::kFP16);
+}
+
+std::string precision_readback(const IBuilderConfig& config, ModelPrecision precision) {
+    if (precision == ModelPrecision::Fp32) return "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\n";
+    const auto flag = [&](BuilderFlag f) { return config.getFlag(f) ? "on" : "off"; };
+    std::ostringstream o;
+    o << "network=weakly_typed\nprecision=fp16\ntf32=" << flag(BuilderFlag::kTF32) << "\nfp16=" << flag(BuilderFlag::kFP16)
+      << "\nbf16=" << flag(BuilderFlag::kBF16) << "\nint8=" << flag(BuilderFlag::kINT8) << '\n';
+    return o.str();
+}
+// A weakly typed network's raw outputs stay FP32.
+void keep_fp32(ITensor& tensor) { tensor.setType(DataType::kFLOAT); }
+#pragma GCC diagnostic pop
+
 Dims shape(std::initializer_list<std::int64_t> d) {
     Dims out{};
     out.nbDims = static_cast<std::int32_t>(d.size());
@@ -44,14 +65,15 @@ public:
         register_scan_trt_plugins(*getPluginRegistry());
         builder_.reset(createInferBuilder(logger));
         require(builder_ != nullptr, "createInferBuilder failed");
-        network_.reset(builder_->createNetworkV2(1U << static_cast<std::uint32_t>(NetworkDefinitionCreationFlag::kSTRONGLY_TYPED)));
+        const bool fp32 = options_.precision == ModelPrecision::Fp32;
+        network_.reset(builder_->createNetworkV2(fp32 ? 1U << static_cast<std::uint32_t>(NetworkDefinitionCreationFlag::kSTRONGLY_TYPED) : 0U));
         require(network_ != nullptr, "createNetworkV2 failed");
         config_.reset(builder_->createBuilderConfig());
         require(config_ != nullptr, "createBuilderConfig failed");
-        config_->clearFlag(BuilderFlag::kTF32);
+        configure_precision(*config_, options_.precision);
         config_->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE, kHeadBuilderWorkspace);
         config_->setMaxAuxStreams(0);
-        config_->setBuilderOptimizationLevel(kHeadBuilderOptimizationLevel);
+        config_->setBuilderOptimizationLevel(fp32 ? kHeadBuilderOptimizationLevel : kFp16BuilderOptimizationLevel);
         config_->setProfilingVerbosity(ProfilingVerbosity::kDETAILED);
     }
 
@@ -84,6 +106,7 @@ public:
         for (std::size_t k = 0; k < 6; ++k) {
             outputs[k]->setName(kHeadOutputNames[k]);
             network_->markOutput(*outputs[k]);
+            if (options_.precision != ModelPrecision::Fp32) keep_fp32(*outputs[k]);
         }
         for (auto* s : statuses_) network_->markOutput(*s);
         for (auto* t : debug_) network_->markOutput(*t);
@@ -95,8 +118,8 @@ public:
         for (auto* s : statuses_) engine.statuses.emplace_back(s->getName());
         for (auto* t : debug_) engine.debug_outputs.emplace_back(t->getName());
         std::ostringstream o;
-        o << "network=strongly_typed_fp32\ntf32=off\nfp16=off\nint8=off\nworkspace_bytes=" << kHeadBuilderWorkspace
-          << "\noptimization_level=" << kHeadBuilderOptimizationLevel << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
+        o << precision_readback(*config_, options_.precision) << "workspace_bytes=" << kHeadBuilderWorkspace
+          << "\noptimization_level=" << config_->getBuilderOptimizationLevel() << "\naux_streams=0\ntiming_cache=none\nprofiling_verbosity=detailed"
           << "\ndebug_intermediates=" << (options_.debug_intermediates ? "true" : "false") << '\n';
         o << "profile=" << model_profile(options_.profile).name << '\n';
         if (options_.features) o << "head_inputs=external\n";
@@ -265,6 +288,7 @@ HeadEngine build_head_engine(ILogger& logger, const HeadWeights& weights, const 
     require(engine.statuses.size() == spec.statuses.size(), "the network created " + std::to_string(engine.statuses.size()) + " statuses");
     for (std::size_t i = 0; i < spec.statuses.size(); ++i)
         require(engine.statuses[i] == spec.statuses[i].name, "status " + std::to_string(i) + " is " + engine.statuses[i] + ", expected " + spec.statuses[i].name);
+    if (options.precision != ModelPrecision::Fp32) return engine;
     // The built kernels must stay inside the policy's operation model.
     std::unique_ptr<IRuntime> runtime(createInferRuntime(logger));
     require(runtime != nullptr, "createInferRuntime failed");
@@ -276,6 +300,14 @@ HeadEngine build_head_engine(ILogger& logger, const HeadWeights& weights, const 
     require(violations.empty(), "tactics outside the FP32 direct-summation model: " + listed);
     return engine;
 }
+
+ModelPrecision parse_model_precision(std::string_view name) {
+    if (name == "fp32") return ModelPrecision::Fp32;
+    if (name == "fp16") return ModelPrecision::Fp16;
+    throw std::invalid_argument("unknown model precision " + std::string(name) + " (fp32 or fp16)");
+}
+
+const char* model_precision_name(ModelPrecision precision) { return precision == ModelPrecision::Fp16 ? "fp16" : "fp32"; }
 
 std::vector<std::string> head_tactic_violations(const std::string& layers_json) {
     const std::string key = "\"TacticName\"";

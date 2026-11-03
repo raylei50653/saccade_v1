@@ -357,3 +357,32 @@ runtime（producer、F04、DetectionSession、TrackingSession）不分精度，�
 - 以 engine 的 SHA-256 固定部署。之後任何重新 build 都是新候選，要重做 1–4。
 - 重跑 HR tracking（MOT17-10 與 in-domain 5 序列），記錄 HOTA／IDF1／MOTA 與 `track_sequence` 的每幀時間。這只是紀錄，不設品質門檻。
 - MOT17-02 仍留到 M4。
+
+**結果（2026-11-03）**
+
+部署驗收 **PASS**。正式 engine 為 `~/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine`：60,753,004 bytes，SHA-256 `8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876`。證據見 [evidence/precision/2026-11-03-formal](../evidence/precision/2026-11-03-formal/)。
+
+| 項目 | 結果 |
+| --- | --- |
+| 1. 讀回值 | weakly typed、fp16=on、bf16／tf32／int8=off、optimization level 3。inspector：9 個 scan／expand／merge plugin 的 payload 為 Float、status 為 Int32；`images` 與六個輸出為 Float |
+| 2. AP50 | **86.0156%**，比 FP32 的 86.0092% 高 0.0064 pp；recall@0.25 為 83.54%，FP@0.25 為 1,972 |
+| 3. 重跑一致 | 兩次 `detect_sequence` 的 SCDR SHA-256 都是 `98e2554f…` |
+| 4. 有限值 | 4 張參考輸入的輸出全為有限值，plugin statuses 為 PASS。同一 engine 重跑、CUDA graph 重播都逐位元相同 |
+
+- **整幀覆蓋**：`detect_sequence` 的 producer 每幀都檢查所有輸出元素是否有限，並檢查 9 個 plugin status。654 幀全部通過。
+- **FP32 路徑不受影響**：用新程式重新 build HR FP32，engine 位元組與原本不同（TensorRT plan 本來就不逐位元組重現，T01 的兩次 build 也不同）。但它在 4 張參考輸入上的六個輸出，與部署中的 `5120c747…` 逐位元相同，tactic 仍全為 FP32。
+
+**速度**
+- 模型本身：enqueue 6.42 ms，CUDA graph 5.09 ms（FP32 為 25.7／25.3 ms）。
+- `track_sequence` pipelined 端到端：每幀 7.1–8.4 ms（FP32 約 27 ms），約 120–140 FPS。
+
+**Tracking（`track_sequence --profile hr-1280x768`，FP32 → FP16）**
+
+| 組別 | HOTA | DetA | AssA | IDF1 | MOTA | IDSW |
+| --- | --- | --- | --- | --- | --- | --- |
+| val（MOT17-10） | 49.5 → **49.7** | 53.2 → 54.1 | 46.3 → 45.9 | 62.6 → 63.0 | 63.2 → 65.0 | 65 → 66 |
+| in-domain（04／05／09／11／13） | 69.0 → 68.4 | 73.8 → 74.5 | 64.7 → 63.1 | 77.1 → 76.1 | 83.8 → 84.3 | 231 → 231 |
+
+FP16 的偵測與 FP32 不完全相同，tracker 會放大這些差異，所以 MOT 檔不同；指標差異都在 1.6 以內。
+
+部署 engine 自此改為 `model-hr-fp16.engine`。MOT17-02 仍留到 M4。

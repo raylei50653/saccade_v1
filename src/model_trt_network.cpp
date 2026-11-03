@@ -107,11 +107,13 @@ HeadEngine build_backbone_engine(ILogger& logger, std::span<const std::uint8_t> 
     return engine;
 }
 
-HeadEngine build_model_engine(ILogger& logger, std::span<const std::uint8_t> onnx, const HeadWeights& weights, ModelProfile profile) {
+HeadEngine build_model_engine(ILogger& logger, std::span<const std::uint8_t> onnx, const HeadWeights& weights, ModelProfile profile,
+                              ModelPrecision precision) {
     // Owns the parsed weights until the head's build has serialized the plan.
     std::unique_ptr<nvonnxparser::IParser> parser;
     HeadBuildOptions options;
     options.profile = profile;
+    options.precision = precision;
     options.features = [&](INetworkDefinition& network) {
         auto out = parse_backbone(network, logger, onnx, parser, profile);
         for (auto* t : out) network.unmarkOutput(*t);

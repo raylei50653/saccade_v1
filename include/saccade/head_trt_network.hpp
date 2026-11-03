@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <functional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace saccade {
@@ -20,6 +21,15 @@ namespace saccade {
 // Strongly typed FP32 network, TF32 off, no auxiliary streams, no timing cache.
 inline constexpr std::size_t kHeadBuilderWorkspace = std::size_t{256} << 20;
 inline constexpr int kHeadBuilderOptimizationLevel = 0;
+
+// Engine precision (docs/TRACKING.md §16). Fp32: the strongly typed FP32
+// network above, the numerical reference path. Fp16: weakly typed with kFP16
+// at kFp16BuilderOptimizationLevel; the scan plugins, the inputs and the six
+// raw outputs stay FP32, and the FP32 tactic check does not apply.
+enum class ModelPrecision { Fp32, Fp16 };
+inline constexpr int kFp16BuilderOptimizationLevel = 3;
+ModelPrecision parse_model_precision(std::string_view name); // "fp32" or "fp16"
+const char* model_precision_name(ModelPrecision precision);
 
 // The head's engine I/O: inputs p3, p4, p5 (FP32 NCHW), the six raw outputs in
 // kHeadOutputNames order, the nine plugin statuses in creation order (per level:
@@ -39,6 +49,7 @@ struct HeadBuildOptions {
     // (the ONNX parser) alive until build_head_engine returns.
     std::function<std::array<nvinfer1::ITensor*, 3>(nvinfer1::INetworkDefinition&)> features;
     ModelProfile profile = kDefaultModelProfile;
+    ModelPrecision precision = ModelPrecision::Fp32;
 };
 
 struct HeadEngine {
@@ -51,7 +62,7 @@ struct HeadEngine {
 // Throws std::runtime_error when TensorRT rejects a layer or the build, when
 // the statuses created differ from head_io_spec(), or when the built engine
 // runs a tactic outside the comparison policy's operation model
-// (head_tactic_violations).
+// (head_tactic_violations; Fp32 only).
 HeadEngine build_head_engine(nvinfer1::ILogger& logger, const HeadWeights& weights, const HeadBuildOptions& options = {});
 
 // Per-layer engine information (IEngineInspector, JSON, detailed verbosity):

@@ -2,6 +2,7 @@
 //   build ONNX ONNX_SHA256 BUNDLE BUNDLE_SHA256 ENGINE BUILD_REPORT
 //   run   ENGINE ENGINE_SHA256 BUNDLE BUNDLE_SHA256 IMAGES IMAGES_SHA256 BACKBONE_REF BACKBONE_REF_SHA256 REPORT
 //         [--labels L0,L1,...] [--inputs N] [--dump DIR]
+//   both take [--profile NAME] [--precision fp32|fp16] (default fp32).
 // `build` parses the backbone ONNX into the head's network and builds the
 // S04 head on its outputs (one strongly typed FP32 engine), then records the
 // plan like head_trt build. `run` is a new process: plugin registration,
@@ -11,7 +12,11 @@
 // level p3/p4/p5: value, bound, sigma, float64 little-endian), determinism,
 // graph replay, a failure sequence, checked close and a normal exit.
 // `--inputs N` keeps the first N inputs (sanitizer runs); `--dump` writes each
-// input's six committed outputs to DIR/input-<i>.f32.
+// input's six committed outputs to DIR/input-<i>.f32. An fp16 engine
+// (docs/TRACKING.md §16) is outside the FP32 policy: `run --precision fp16`
+// skips the reference comparison and keeps every other check (accepted
+// frames, i.e. finite outputs and PASS statuses, rerun, failure sequence,
+// graph replay).
 #include "saccade/file_io.hpp"
 #include "saccade/head_compare.hpp"
 #include "saccade/head_reference.hpp"
@@ -69,11 +74,12 @@ std::size_t count(const std::vector<std::int64_t>& shape) {
 double seconds() { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); }
 
 void build(const std::string& onnx_path, const std::string& onnx_sha, const std::string& bundle_path, const std::string& bundle_sha,
-           const std::string& engine_path, const std::string& report_path, Logger& logger, ModelProfile profile) {
+           const std::string& engine_path, const std::string& report_path, Logger& logger, ModelProfile profile,
+           ModelPrecision precision) {
     const auto onnx = checked_read(onnx_path, onnx_sha, "ONNX");
     const auto weights = decode_head_bundle(checked_read(bundle_path, bundle_sha, "bundle"));
     const auto t0 = seconds();
-    const auto engine = build_model_engine(logger, bytes(onnx), weights, profile);
+    const auto engine = build_model_engine(logger, bytes(onnx), weights, profile, precision);
     const auto build_seconds = seconds() - t0;
     write_binary_file(engine_path, engine.plan);
     const auto readback = read_text_file(engine_path);
@@ -134,6 +140,7 @@ bool same_bits(const std::vector<float>& a, const std::vector<float>& b) {
 
 struct RunOptions {
     ModelProfile profile = kDefaultModelProfile;
+    ModelPrecision precision = ModelPrecision::Fp32;
     std::vector<std::string> labels;
     std::size_t inputs = 0; // 0: all
     std::string dump_dir;
@@ -157,8 +164,9 @@ void run(const std::vector<std::string>& a, const RunOptions& options, Logger& l
     const auto spec = model_io_spec(options.profile);
     std::ostringstream report;
     report << "profile=" << model_profile(options.profile).name << '\n' << "engine_sha256=" << engine_sha << "\nbundle_sha256=" << bundle_sha << "\nimages_file=" << images_path << "\nimages_sha256=" << images_sha
-           << "\nbackbone_reference_sha256=" << ref_sha << "\ninputs_compared=" << frames << "\npolicy=t01-f03-fp32/1 (" << kHeadPolicyVersion
-           << " comparator)\ncuda_module_loading=" << (std::getenv("CUDA_MODULE_LOADING") ? std::getenv("CUDA_MODULE_LOADING") : "default") << '\n'
+           << "\nbackbone_reference_sha256=" << ref_sha << "\ninputs_compared=" << frames << "\nprecision=" << model_precision_name(options.precision)
+           << "\npolicy=" << (options.precision == ModelPrecision::Fp32 ? std::string("t01-f03-fp32/1 (") + kHeadPolicyVersion + " comparator)" : "none (fp16)")
+           << "\ncuda_module_loading=" << (std::getenv("CUDA_MODULE_LOADING") ? std::getenv("CUDA_MODULE_LOADING") : "default") << '\n'
            << onnx_parser_identity();
     std::vector<std::string> labels;
     std::vector<std::vector<float>> inputs;
@@ -181,12 +189,16 @@ void run(const std::vector<std::string>& a, const RunOptions& options, Logger& l
                 const auto& label = labels[i];
                 const auto result = session.run({{inputs[i]}});
                 require(result.published == std::vector<std::int64_t>{0} && result.committed_payload_frame == 0, label + ": frame not accepted");
-                const auto t0 = seconds();
-                const auto reference = head_reference_from_refs(weights, backbone_refs(refs, i, options.profile), {}, false, options.profile);
-                report << "reference_seconds\t" << label << '\t' << seconds() - t0 << '\n';
-                const auto comparison = compare_head_outputs(split(session, result.committed_payload), reference);
-                report << comparison.report(label);
-                pass = pass && comparison.pass;
+                bool input_pass = true;
+                if (options.precision == ModelPrecision::Fp32) {
+                    const auto t0 = seconds();
+                    const auto reference = head_reference_from_refs(weights, backbone_refs(refs, i, options.profile), {}, false, options.profile);
+                    report << "reference_seconds\t" << label << '\t' << seconds() - t0 << '\n';
+                    const auto comparison = compare_head_outputs(split(session, result.committed_payload), reference);
+                    report << comparison.report(label);
+                    input_pass = comparison.pass;
+                } else report << "accepted\t" << label << "\tfinite_outputs_and_statuses\tPASS\n";
+                pass = pass && input_pass;
                 committed.push_back(result.committed_payload);
                 const auto again = session.run({{inputs[i]}});
                 require(same_bits(again.committed_payload, result.committed_payload), label + ": rerun differs bitwise");
@@ -198,7 +210,7 @@ void run(const std::vector<std::string>& a, const RunOptions& options, Logger& l
                     write_binary_file(path, bytes(blob));
                     report << "dump\t" << label << '\t' << path << "\tsha256=" << sha256_hex(blob) << '\n';
                 }
-                std::cout << "input " << label << (comparison.pass ? " PASS" : " FAIL") << std::endl;
+                std::cout << "input " << label << (input_pass ? " PASS" : " FAIL") << std::endl;
             }
             // Failure sequence: a NaN in images fails the frame; the later valid frame is skipped.
             auto bad = inputs[0];
@@ -259,20 +271,25 @@ int main(int argc, char** argv) {
     Logger logger;
     try {
         ModelProfile profile = kDefaultModelProfile;
+        ModelPrecision precision = ModelPrecision::Fp32;
         std::vector<char*> arguments;
         for (int i = 0; i < argc; ++i) {
             if (std::string_view(argv[i]) == "--profile") {
                 if (++i == argc) throw std::invalid_argument("--profile requires a name");
                 profile = parse_model_profile(argv[i]);
+            } else if (std::string_view(argv[i]) == "--precision") {
+                if (++i == argc) throw std::invalid_argument("--precision requires fp32 or fp16");
+                precision = parse_model_precision(argv[i]);
             } else arguments.push_back(argv[i]);
         }
         argc = static_cast<int>(arguments.size());
         argv = arguments.data();
         const std::string mode = argc > 1 ? argv[1] : "";
-        if (mode == "build" && argc == 8) build(argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], logger, profile);
+        if (mode == "build" && argc == 8) build(argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], logger, profile, precision);
         else if (mode == "run" && argc >= 11) {
             RunOptions options;
             options.profile = profile;
+            options.precision = precision;
             for (int i = 11; i < argc; ++i) {
                 const std::string flag = argv[i];
                 if (flag == "--labels" && i + 1 < argc && options.labels.empty()) options.labels = split_list(argv[++i]);
@@ -283,7 +300,7 @@ int main(int argc, char** argv) {
             run(std::vector<std::string>(argv + 2, argv + 11), options, logger);
         } else {
             throw std::invalid_argument("usage: model_trt build ONNX SHA BUNDLE SHA ENGINE REPORT | run ENGINE SHA BUNDLE SHA IMAGES SHA "
-                                        "BACKBONE_REF SHA REPORT [--labels L,...] [--inputs N] [--dump DIR] [--profile NAME]");
+                                        "BACKBONE_REF SHA REPORT [--labels L,...] [--inputs N] [--dump DIR] [--profile NAME] [--precision fp32|fp16]");
         }
         std::cout.flush();
         require(static_cast<bool>(std::cout), "cannot write standard output");

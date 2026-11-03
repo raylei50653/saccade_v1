@@ -67,6 +67,19 @@ capture 在獨立的 `SACCADE_T01_ROOT` 重新產生六個輸入與 binary64 ref
 
 **本 F03 capture 未涵蓋**：native 前處理（F01／F02）、decode／NMS（F04）、racecheck／synccheck、其他 GPU／版本。前處理與 F04 的獨立驗收現況分別見 [PREPROCESS](PREPROCESS.md)、[POSTPROCESS](POSTPROCESS.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作並有 [有界開發證據](../evidence/f03-producer/2026-10-31/REPORT.md)；完整 native 接續與 P01 仍 OPEN。
 
+## 6. FP16 build 模式（2026-11-03，[TRACKING §16](TRACKING.md#16-d2hr-部署改用-fp162026-11-03-使用者核准)）
+
+`model_trt build|run` 新增 `--precision fp32|fp16`（`HeadBuildOptions::precision`、`build_model_engine(..., precision)`），預設為 `fp32`。
+
+- **fp32**：建圖與本文件前五節完全相同，是數值參考路徑。
+- **fp16**：
+  - weakly typed network，加 `kFP16`，optimization level 3。
+  - scan plugin、`images` 與六個 raw outputs 維持 FP32。
+  - 不做 `head_tactic_violations` 檢查。
+  - build report 記錄 `network=weakly_typed`、`precision=fp16`，以及各 flag 與 optimization level 的讀回值。
+- **`run --precision fp16`**：不做 FP32 policy 比對，其餘檢查照舊（frame 接受、重跑、失敗序列、graph 重播）。
+- **測試**：`head_fp16_trt` 以合成權重 build FP16 head，檢查讀回值、frame 接受、重跑與 graph 重播逐位元相同。另檢查每個輸出對 binary64 reference 的 relative L2 ≤ 0.05；這個界只用來抓接錯（實測約 1e-3）。
+
 ## Native detection session 接續
 
 完整 engine 已由 [`DetectionSession`](DETECTION_SESSION.md) 串接 native F01／F02、producer 聚合器及 F04。session 驗證完整 engine I/O，使用 zero auxiliary streams、同 detect stream 的模型 scratch 與跨 stream 候選 leases，並另行管理首次失敗與 checked drain；新增 session 的證據不回寫本文件原有 F03 數值驗收或模型品質。完整 tracking session／P01 仍 OPEN。

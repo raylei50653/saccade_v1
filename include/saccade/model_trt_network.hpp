@@ -37,7 +37,7 @@ HeadEngine build_backbone_engine(nvinfer1::ILogger& logger, std::span<const std:
 // (HeadBuildOptions::features), its three outputs unmarked and read by the S04
 // head layers; I/O is model_io_spec().
 HeadEngine build_model_engine(nvinfer1::ILogger& logger, std::span<const std::uint8_t> onnx, const HeadWeights& weights,
-                              ModelProfile profile = kDefaultModelProfile);
+                              ModelProfile profile = kDefaultModelProfile, ModelPrecision precision = ModelPrecision::Fp32);
 
 // head_io_spec() with the single input `images` instead of p3/p4/p5.
 FrameIoSpec model_io_spec(ModelProfile profile = kDefaultModelProfile);

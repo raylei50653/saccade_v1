@@ -58,3 +58,13 @@ set_target_properties(head_profile_trt_tests PROPERTIES BUILD_RPATH "${SACCADE_T
 target_link_options(head_profile_trt_tests PRIVATE "LINKER:--disable-new-dtags")
 add_test(NAME head_profile_trt COMMAND head_profile_trt_tests)
 set_tests_properties(head_profile_trt PROPERTIES LABELS "gpu;tensorrt" TIMEOUT 900)
+
+add_executable(head_fp16_trt_tests tests/head_fp16_trt_tests.cpp)
+target_link_libraries(head_fp16_trt_tests PRIVATE saccade_head_trt)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(head_fp16_trt_tests PRIVATE ${SACCADE_SCAN_TRT_WARNINGS})
+endif()
+set_target_properties(head_fp16_trt_tests PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+target_link_options(head_fp16_trt_tests PRIVATE "LINKER:--disable-new-dtags")
+add_test(NAME head_fp16_trt COMMAND head_fp16_trt_tests)
+set_tests_properties(head_fp16_trt PROPERTIES LABELS "gpu;tensorrt" TIMEOUT 900)

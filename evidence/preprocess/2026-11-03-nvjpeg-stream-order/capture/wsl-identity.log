@@ -1,0 +1,47 @@
+date: 2026-11-03T20:21:06+08:00
+saccade_v1 commit: a92d8825768ac204d93bff8db8d5cc5f8bcb7269
+Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 GNU/Linux
+Tue Nov  3 20:21:07 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.78.08              KMD Version: 617.42        CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 5070 ...    On  |   00000000:01:00.0 Off |                  N/A |
+| N/A   48C    P0             17W /  140W |       0MiB /  12227MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+name, driver_version, compute_cap
+NVIDIA GeForce RTX 5070 Ti Laptop GPU, 617.42, 12.0
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Tue_Sep_01_08:45:21_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.92
+Build cuda_13.4.r13.4/compiler.38855100_0
+g++ (GCC) 16.2.1 20260810
+build: nvcc -O2 -std=c++17 -arch=sm_120 repro_order.cu -lnvjpeg -o repro_order
+	linux-vdso.so.1
+	libnvjpeg.so.13 => /opt/cuda/lib64/libnvjpeg.so.13
+	libstdc++.so.6 => /usr/lib/libstdc++.so.6
+	libm.so.6 => /usr/lib/libm.so.6
+	libgcc_s.so.1 => /usr/lib/libgcc_s.so.1
+	libc.so.6 => /usr/lib/libc.so.6
+	/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2
+	librt.so.1 => /usr/lib/librt.so.1
+	libpthread.so.0 => /usr/lib/libpthread.so.0
+	libdl.so.2 => /usr/lib/libdl.so.2
+86f42ef040588642beee0e9ef562a76a7670b34c20671d744141432c44f539cf  repro_order.cu
+ecce7deecd3582afa10a4bbd6c757d799751fe270ef8e3b415c05ab1edfdd832  generate.py
+690d3813a0db124098b0ff4df5fec1109c4b60208aa17fea3388559798f9d81b  a.jpg
+91cdc26ac1e6036572415abe22652c0c487cd325bffe0f4bb70e512c0221ac49  b.jpg
+c8fb7a95fa58f20eeb58c21760ad4017845fd051c6a70672ff25736696404338  libnvjpeg.so.13.2.3.58

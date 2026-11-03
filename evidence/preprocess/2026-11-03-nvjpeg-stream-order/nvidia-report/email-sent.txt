@@ -1,0 +1,30 @@
+To: NVSDKIssues@nvidia.com
+Subject: Attachments for Bug 7038860: nvjpegDecodeBatched with NVJPEG_BACKEND_HARDWARE ignores CUDA stream order for output writes
+Attachment: nvidia-nvjpeg-stream-order.zip
+
+Hello,
+
+These are the attachments for Bug 7038860, which I submitted through the NVIDIA Developer bug form ("nvjpegDecodeBatched with NVJPEG_BACKEND_HARDWARE writes the output buffer before earlier work in the same CUDA stream has completed").
+
+nvidia-nvjpeg-stream-order.zip contains:
+- repro_order.cu: standalone repro using only the CUDA runtime and nvJPEG
+- a.jpg, b.jpg: the two 1920x1080 baseline 4:2:0 inputs
+- generate.py: the script that produced a.jpg and b.jpg
+- wsl2/: logs for each configuration under WSL2, plus identity.log (driver, toolkit, library versions and hashes)
+- windows/: logs for the same source built and run as a native Windows executable on the same GPU
+- README.txt: build and run commands and the expected results
+
+To reproduce:
+  nvcc -O2 -std=c++17 -arch=sm_120 repro_order.cu -lnvjpeg -o repro_order
+  ./repro_order hw default order 20 20 a.jpg b.jpg
+
+Expected result on our system: "result=ORDER_VIOLATED violated=19/20" and exit code 3. The same command with "hybrid" instead of "hw", or with "control" instead of "order", reports 0/20.
+
+The issue reproduces both under WSL2 and as a native Windows 11 executable (WDDM, driver 617.42) on the same GPU, so WSL is not required. We have not tested a native Linux driver.
+
+This is unrelated to Bug 7021871 (initcheck reports in nvjpeg::rgba2rgb), which I filed earlier from the same system.
+
+Please let me know if you need anything else, such as additional logs or a run on a different configuration.
+
+Best regards,
+raylei50653

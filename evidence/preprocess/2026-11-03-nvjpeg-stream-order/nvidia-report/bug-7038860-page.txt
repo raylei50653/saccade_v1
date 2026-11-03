@@ -1,0 +1,54 @@
+Title: Bug 7038860: nvjpegDecodeBatched with NVJPEG_BACKEND_HARDWARE writes the output buffer before earlier work in the same CUDA stream has completed | NVIDIA Developer
+URL: https://developer.nvidia.com/bugs/7038860
+Source element: <main>
+---
+nvjpegDecodeBatched with NVJPEG_BACKEND_HARDWARE writes the output buffer before earlier work in the same CUDA stream has completed
+OPEN
+Last Updated: November 03, 2026
+Summary
+ID
+7038860
+Area
+CUDA
+Description
+
+Summary
+With NVJPEG_BACKEND_HARDWARE, nvjpegDecodeBatched writes the decoded image into the caller's output buffer before kernels queued earlier on the same stream have run. The nvJPEG documentation states that all GPU tasks of nvjpegDecodeBatched are submitted to the provided stream, so we expected the output writes to be ordered behind prior work in that stream. NVJPEG_BACKEND_HYBRID behaves as expected.
+
+Minimal repro (standalone, CUDA + nvJPEG only; source and inputs will be emailed to NVSDKIssues with the bug ID)
+Per trial, on one non-blocking stream S, batch size 1, NVJPEG_OUTPUT_RGB, two 1920x1080 baseline 4:2:0 JPEGs A and B:
+1. nvjpegDecodeBatched(A -> DST, S); record an event; host waits for it
+2. Enqueue on S a 20 ms spin kernel, then a kernel copying DST to SNAP
+3. With no synchronization, call nvjpegDecodeBatched(B -> DST, S)
+4. cudaStreamSynchronize(S), download SNAP and compare
+By stream order, the copy in step 2 must see decode(A).
+
+Observed
+- HARDWARE: SNAP equals decode(B) in 19 of 20 trials. In every violating trial all 6,188,210 bytes that differ between A and B equal B, so B was fully written to DST before the earlier copy kernel ran.
+- HARDWARE + NVJPEG_FLAGS_HW_DECODE_NO_PIPELINE: also 19 of 20.
+- HARDWARE with cudaStreamSynchronize(S) before step 3 (control): 0 of 20, so the comparison itself is sound.
+- HYBRID: 0 of 20. The HYBRID call blocks the host for about 20.5 ms, until the spin finishes; the HARDWARE call returns in under 1 ms.
+- With a 1 ms or 0.2 ms spin instead of 20 ms, no violation was observed.
+- The first trial of every run was ordered; we did not investigate why.
+
+Native Windows result (same GPU, not WSL-specific)
+The same repro_order.cu source (identical bytes) built as a native Windows executable (Windows 11 Pro 10.0.26300, WDDM, driver 617.42, nvcc 13.4.92, nvJPEG 13.2.3.58 redist DLL, MSVC 14.44) gives the same results: HARDWARE 19/20, NO_PIPELINE 19/20, control 0/20, HYBRID 0/20, 1 ms spin 0/20. Not tested on a native Linux driver.
+
+Impact
+An application that reuses an output buffer while earlier work on the same stream still reads it (for example, a kernel consuming the previous frame) gets the new frame's data. We currently work around it by having the host wait for the consumer before the next decode.
+
+Questions
+1. Is the hardware backend meant to order its output writes behind prior work in the provided stream?
+2. If not, could the documentation state that callers must synchronize before reusing an output buffer that earlier stream work still reads, and say which other buffers (input, state) have the same restriction?
+
+This is a different issue from Bug 7021871 (initcheck reports in nvjpeg::rgba2rgb), filed earlier from the same system.
+
+NVIDIA GPU or Systems
+GeForce RTX 5070 Ti Laptop GPU (SM 12.0)
+NVIDIA Software Version
+Driver 617.42 (KMD; nvidia-smi 615.78.08), CUDA 13.4.92, nvJPEG 13.2.3
+Operating System
+Linux, Windows 11
+Operating System Details
+Reproduces on both: (1) native Windows 11 Pro 10.0.26300 x64, WDDM, driver 617.42, Windows-native nvcc 13.4.92 / nvJPEG 13.2.3.58 redist (MSVC 14.44); (2) WSL2 guest kernel Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 on the same host. Same GPU and same Windows KMD in both cases. Not tested on a native Linux driver.
+Comments (0)

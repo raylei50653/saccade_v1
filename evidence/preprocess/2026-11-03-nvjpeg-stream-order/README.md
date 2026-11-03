@@ -5,7 +5,8 @@
 - 這和 nvJPEG 文件不符。文件寫的是「All GPU tasks for this function will be submitted to the provided stream」（§2.3.3.3），沒有提到任何例外。
 - `NVJPEG_BACKEND_HYBRID` 遵守 stream 順序。
 - 這個行為是在 M3 驗收時發現的，見 [TRACKING §14.1](../../../docs/TRACKING.md) 與 [M3 證據](../../tracking-session/2026-11-03-formal-e021bd1/REPORT.md)。本目錄以獨立程式直接證實它。
-- 和 [Bug 7021871](../2026-10-31-f01-investigation/nvidia-report/README.md)（initcheck）是不同的問題。
+- 原生 Windows 執行檔結果相同，不限於 WSL2。
+- 已回報 NVIDIA [Bug 7038860](nvidia-report/README.md)，尚無回覆。和 [Bug 7021871](../2026-10-31-f01-investigation/nvidia-report/README.md)（initcheck）是不同的問題。
 
 ## 重現程式
 
@@ -52,7 +53,22 @@ nvcc -O2 -std=c++17 -arch=sm_120 repro_order.cu -lnvjpeg -o repro_order
 - **`NVJPEG_FLAGS_HW_DECODE_NO_PIPELINE` 沒有幫助。**
 - **前面工作的長度決定會不會發生**：前面只有 1 ms 以下的工作時沒有觀察到違反，因為它在硬體解碼器寫入之前就做完了。這也解釋了平常為什麼看不到：Saccade 的 F05 只要約 0.1 ms。
 - **每次 run 的第一個 trial 都遵守順序**：原因不明，未進一步追查。
-- **測試範圍**：只測過 WSL2，原生 Linux 與 Windows 未測。
+- **測試範圍**：WSL2 與原生 Windows（見下節），原生 Linux 未測。2026-11-03 送出回報前在 WSL2 重新建置執行，HARDWARE 19／20、`control` 0／20、HYBRID 0／20，與上表相同；環境紀錄見 [wsl-identity.log](capture/wsl-identity.log)。
+
+## 原生 Windows
+
+同一份 `repro_order.cu`（SHA-256 相同）以 Windows 原生工具鏈建置：Windows 11 Pro 10.0.26300、WDDM、driver 617.42、nvcc 13.4.92、nvJPEG 13.2.3.58 redist DLL、VS 2022 Build Tools（MSVC 14.44）。工具鏈與 DLL 沿用 [F01 Windows 驗證](../2026-10-31-f01-investigation/windows-native/REPORT.md) 留在 Windows Temp 的副本；建置與執行腳本為 [build.cmd](windows-native/build.cmd)、[run.cmd](windows-native/run.cmd)，exe 與 DLL 的 hash 見 [hashes.log](windows-native/capture/hashes.log)。
+
+| 設定 | 違反順序的 trial | 呼叫 decode B 花的時間 | 紀錄 |
+| --- | ---: | --- | --- |
+| HARDWARE、預設、spin 20 ms | **19／20** | 0.04–0.06 ms | [log](windows-native/capture/win-hw-default-order-20ms.log) |
+| HARDWARE、`NO_PIPELINE`、spin 20 ms | **19／20** | 0.04–0.08 ms | [log](windows-native/capture/win-hw-no-pipeline-order-20ms.log) |
+| HARDWARE、預設、spin 20 ms、`control` | 0／20 | — | [log](windows-native/capture/win-hw-default-control-20ms.log) |
+| HYBRID、預設、spin 20 ms | 0／20 | 20.4–20.6 ms | [log](windows-native/capture/win-hybrid-default-order-20ms.log) |
+| HARDWARE、預設、spin 1 ms | 0／20 | — | [log](windows-native/capture/win-hw-default-order-1ms.log) |
+
+- 結果與 WSL2 一致，違反時 SNAP 同樣整張等於 B，第一個 trial 同樣遵守順序。HARDWARE 呼叫在 Windows 上返回得更快。
+- `build.log` 的 MSVC C4819 警告與 F01 相同（code page 950），由 CP950 轉成 UTF-8 保存。`windows-env.log` 中 OS 名稱的本地化字串無法解碼，已改寫為英文並註明。
 
 ## 對 Saccade 的影響與處理
 
@@ -62,12 +78,6 @@ nvcc -O2 -std=c++17 -arch=sm_120 repro_order.cu -lnvjpeg -o repro_order
 - **`motion_sequence`**：每幀都等 F05 完成，所以 M1 records 不受影響。
 - **文件**：[PREPROCESS.md](../../../docs/PREPROCESS.md) 的 RGB 借用規則已改為 consumer 必須在下一次 `enqueue` 前執行完成。
 
-## 回報 NVIDIA（尚未送出，由使用者決定）
+## 回報 NVIDIA
 
-以下是建議的回報內容草稿，附件為 `repro_order.cu`、`generate.py`、`a.jpg`、`b.jpg`，以及 `capture/` 的 log。
-
-> **nvjpegDecodeBatched with NVJPEG_BACKEND_HARDWARE writes the output before earlier work in the same stream has finished**
->
-> On one non-blocking stream S: decode image A into DST (host waits for completion); enqueue a 20 ms spin kernel and then a kernel copying DST to SNAP; then, with no synchronization, call nvjpegDecodeBatched for image B into DST on S. CUDA stream order requires the copy to observe A, and the documentation states that all GPU tasks of nvjpegDecodeBatched are submitted to the provided stream. With NVJPEG_BACKEND_HARDWARE, SNAP equals B in 19 of 20 trials. In other words, the hardware decoder wrote DST before the spin and copy kernels queued ahead of it had run. NVJPEG_FLAGS_HW_DECODE_NO_PIPELINE does not change this. NVJPEG_BACKEND_HYBRID gives 0/20, and so does adding cudaStreamSynchronize before the second decode. With earlier work shorter than about 1 ms, no violation was observed. Environment: RTX 5070 Ti Laptop GPU (sm_120), driver 617.42, WSL2, CUDA 13.4, nvJPEG 13.2.3. Standalone reproducer attached: CUDA and nvJPEG only, about 140 lines.
->
-> Could you confirm whether the hardware backend is meant to order its output writes behind prior work in the stream? If it is not, could the documentation state that callers must synchronize before reusing output buffers that earlier stream work still reads?
+2026-11-03 已回報為 [Bug 7038860](https://developer.nvidia.com/bugs/7038860)，附件 zip 寄至 NVSDKIssues@nvidia.com。送出的表單文字、email 與附件見 [nvidia-report/](nvidia-report/README.md)。回報附上 WSL2 與原生 Windows 的結果，並請 NVIDIA 確認 HARDWARE backend 是否應遵守 stream 順序；若不應遵守，請文件寫明。

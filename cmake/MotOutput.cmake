@@ -1,2 +1,23 @@
 # Line C (docs/TRACKING.md §12): F09 MOT output and detection records in the
 # default CPU build; tools/detect_sequence needs SACCADE_ENABLE_DETECTION_SESSION.
+add_library(saccade_mot_output src/mot_output.cpp)
+target_include_directories(saccade_mot_output PUBLIC include)
+target_link_libraries(saccade_mot_output PUBLIC saccade_file_io)
+add_executable(mot_output_tests tests/mot_output_tests.cpp)
+target_link_libraries(mot_output_tests PRIVATE saccade_mot_output)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_mot_output mot_output_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+add_test(NAME mot_output COMMAND mot_output_tests)
+
+if(SACCADE_ENABLE_DETECTION_SESSION)
+  add_executable(detect_sequence tools/detect_sequence.cpp)
+  target_link_libraries(detect_sequence PRIVATE saccade_mot_output saccade_detection_session)
+  set_target_properties(detect_sequence PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+  target_link_options(detect_sequence PRIVATE "LINKER:--disable-new-dtags")
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(detect_sequence PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endif()
+endif()

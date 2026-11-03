@@ -42,7 +42,7 @@ struct MotionContext {
 };
 
 // Hanning table of length n: float(0.5 * (1 - cos(2*pi*i/(n-1)))) in binary64.
-// CUDA uploads this same table, so F05 matches bit for bit.
+// CUDA uploads this same table, so F05 matches bit for bit. n must be >= 2.
 std::vector<float> hanning_window(int n);
 
 // F05 CPU reference. planar_rgb holds R, G and B planes of W*H bytes each
@@ -58,12 +58,14 @@ MotionContext phase_correlation_reference(std::span<const float> previous, std::
                                           std::uint64_t epoch, std::int64_t frame);
 
 // Per-sequence MotionContext stream written by tools/motion_sequence. Explicit
-// little-endian encoding: "SCMO", u32 version=1, five i32 key fields, u64 count,
+// little-endian encoding: "SCMO", u32 version=1, five i32 key fields, u64 epoch, u64 count,
 // then per frame i64 frame, i64 reference_frame, u32 status, i32 peak_x,
 // i32 peak_y, f32 pcr, f32 confidence, f32 tx, f32 ty. The reader rejects any
-// other magic/version, truncation, trailing bytes or unknown status.
+// other magic/version, truncation, trailing bytes or unknown status. The record
+// epoch is written once and assigned to every frame on read. Frames are zero-based.
 struct MotionRecords {
     MotionImageKey key;
+    std::uint64_t epoch = 0;
     std::vector<MotionContext> frames;
 };
 void write_motion_records(const std::filesystem::path& path, const MotionRecords& records);

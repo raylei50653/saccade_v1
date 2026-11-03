@@ -1,2 +1,21 @@
-# M2 (docs/TRACKING.md §12): CUDA F08a/F04b/F07/F08b tracker under
-# SACCADE_ENABLE_CUDA, bit-identical to the CPU reference.
+# M2: single-block CUDA tracker, bit-identical to the CPU reference.
+if(NOT SACCADE_ENABLE_CUDA)
+  return()
+endif()
+add_library(saccade_tracking_cuda cuda/tracking.cu)
+set_target_properties(saccade_tracking_cuda PROPERTIES CUDA_STANDARD 20 CUDA_STANDARD_REQUIRED ON)
+target_link_libraries(saccade_tracking_cuda PUBLIC saccade_tracking_reference CUDA::cudart)
+target_compile_options(saccade_tracking_cuda PRIVATE
+  --ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo -Xcompiler=-ffp-contract=off)
+add_executable(tracking_cuda_tests tests/tracking_cuda_tests.cpp)
+target_link_libraries(tracking_cuda_tests PRIVATE saccade_tracking_cuda saccade_mot_output saccade_motion)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(tracking_cuda_tests PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+endif()
+add_test(NAME tracking_cuda COMMAND tracking_cuda_tests)
+set_tests_properties(tracking_cuda PROPERTIES LABELS "gpu" TIMEOUT 300)
+set(SACCADE_TRACKING_RECORDS "" CACHE PATH "Directory containing paired MOT17 SDP SCDR/SCMO records")
+if(SACCADE_TRACKING_RECORDS)
+  add_test(NAME tracking_cuda_mot17 COMMAND tracking_cuda_tests "${SACCADE_TRACKING_RECORDS}")
+  set_tests_properties(tracking_cuda_mot17 PROPERTIES LABELS "gpu" TIMEOUT 900)
+endif()

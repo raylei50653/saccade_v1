@@ -104,6 +104,7 @@ UpdateResult to_host(const DeviceTrackState& next, const DeviceTrackingRows& row
 // All pointers refer to device memory, including frame and config. Inputs,
 // outputs and scratch do not alias and remain alive until stream completion.
 // Config is validated by the caller once. Counts obey the fixed capacities.
+// A null run_stage always executes; a false device flag leaves storage untouched.
 // Enqueue only: no allocation, synchronization or readback. An explicit
 // non-default stream is required (invalid_argument); launch failures throw
 // runtime_error. Outputs follow the CPU reference, including partial predict
@@ -111,13 +112,13 @@ UpdateResult to_host(const DeviceTrackState& next, const DeviceTrackingRows& row
 // An update with rows.error != none must never be committed; next is unspecified.
 void enqueue_predict_tracks(const DeviceTrackState* committed, const DeviceMotionContext* motion,
                             const FrameId* frame, const TrackerConfig* config, DevicePredicted* output,
-                            TrackingCudaScratch* scratch, cudaStream_t stream);
+                            TrackingCudaScratch* scratch, cudaStream_t stream, const bool* run_stage = nullptr);
 void enqueue_assemble_detection_batch(const DetectionCandidates* candidates, const DevicePredicted* predicted,
                                      const TrackerConfig* config, DeviceBatch* output,
-                                     TrackingCudaScratch* scratch, cudaStream_t stream);
+                                     TrackingCudaScratch* scratch, cudaStream_t stream, const bool* run_stage = nullptr);
 void enqueue_associate_and_update(const DevicePredicted* predicted, const DeviceBatch* batch,
                                  const DeviceMotionContext* motion, const TrackerConfig* config,
                                  DeviceTrackState* next, DeviceTrackingRows* rows,
-                                 TrackingCudaScratch* scratch, cudaStream_t stream);
+                                 TrackingCudaScratch* scratch, cudaStream_t stream, const bool* run_stage = nullptr);
 
 } // namespace saccade

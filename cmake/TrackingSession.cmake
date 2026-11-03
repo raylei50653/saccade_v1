@@ -1,2 +1,50 @@
-# M3 (docs/TRACKING.md §14): native F01-F09 tracking session and track_sequence,
-# under SACCADE_ENABLE_DETECTION_SESSION.
+# M3 native tracking session (docs/TRACKING.md section 14).
+if(NOT SACCADE_ENABLE_CUDA)
+  return()
+endif()
+add_library(saccade_tracking_session_kernels cuda/tracking_session.cu)
+set_target_properties(saccade_tracking_session_kernels PROPERTIES CUDA_STANDARD 20 CUDA_STANDARD_REQUIRED ON)
+target_link_libraries(saccade_tracking_session_kernels PUBLIC saccade_tracking_cuda)
+target_compile_options(saccade_tracking_session_kernels PRIVATE
+  --ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo -Xcompiler=-ffp-contract=off)
+add_executable(tracking_packet_tests tests/tracking_packet_tests.cpp)
+target_link_libraries(tracking_packet_tests PRIVATE saccade_tracking_session_kernels)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(tracking_packet_tests PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+endif()
+add_test(NAME tracking_packet COMMAND tracking_packet_tests)
+set_tests_properties(tracking_packet PROPERTIES LABELS "gpu" TIMEOUT 180)
+
+if(NOT SACCADE_ENABLE_DETECTION_SESSION)
+  return()
+endif()
+add_library(saccade_tracking_session src/tracking_session.cpp)
+target_link_libraries(saccade_tracking_session PUBLIC saccade_tracking_session_kernels saccade_motion_cuda
+  saccade_preprocess saccade_model_trt saccade_model_producer_cuda saccade_postprocess_cuda saccade_file_io saccade_sha256)
+target_compile_definitions(saccade_tracking_session PRIVATE
+  SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
+add_executable(track_sequence tools/track_sequence.cpp)
+add_executable(tracking_session_tests tests/tracking_session_tests.cpp)
+foreach(target track_sequence tracking_session_tests)
+  target_link_libraries(${target} PRIVATE saccade_tracking_session saccade_mot_output)
+  set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+  target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
+endforeach()
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  foreach(target saccade_tracking_session track_sequence tracking_session_tests)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+  endforeach()
+endif()
+set(SACCADE_TRACKING_ENGINE "" CACHE FILEPATH "F03 engine for tracking session integration tests")
+set(SACCADE_TRACKING_SEQUENCES "" CACHE PATH "MOT17 train sequences directory")
+set(SACCADE_TRACKING_RECORDS "" CACHE PATH "Directory containing paired MOT17 SDP SCDR/SCMO records")
+if(SACCADE_TRACKING_ENGINE AND SACCADE_TRACKING_SEQUENCES AND SACCADE_TRACKING_RECORDS)
+  foreach(sequence 02 04 05 09 10 11 13)
+    add_test(NAME tracking_session_mot17_${sequence} COMMAND tracking_session_tests
+      "${SACCADE_TRACKING_ENGINE}" "${SACCADE_TRACKING_SEQUENCES}" "${SACCADE_TRACKING_RECORDS}" "MOT17-${sequence}-SDP")
+    set_tests_properties(tracking_session_mot17_${sequence} PROPERTIES LABELS "gpu;session" TIMEOUT 1800)
+  endforeach()
+  add_test(NAME tracking_session_lifecycle COMMAND tracking_session_tests
+    "${SACCADE_TRACKING_ENGINE}" "${SACCADE_TRACKING_SEQUENCES}" "${SACCADE_TRACKING_RECORDS}" MOT17-10-SDP --lifecycle)
+  set_tests_properties(tracking_session_lifecycle PROPERTIES LABELS "gpu;session" TIMEOUT 300)
+endif()

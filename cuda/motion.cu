@@ -24,7 +24,8 @@ void explicit_stream(cudaStream_t stream) {
         throw std::invalid_argument("motion requires an explicit non-default stream");
 }
 constexpr int kThreads = 256;
-__global__ void image_kernel(const std::uint8_t* rgb, float* output, MotionImageKey key, const float* wx, const float* wy) {
+__global__ void image_kernel(const std::uint8_t* rgb, float* output, MotionImageKey key, const float* wx, const float* wy, const bool* run_stage) {
+    if (run_stage && !*run_stage) return;
     const auto i = static_cast<std::size_t>(blockIdx.x) * blockDim.x + threadIdx.x;
     if (i >= static_cast<std::size_t>(key.width) * key.height) return;
     const int x = i % key.width, y = i / key.width, d = key.downscale;
@@ -41,7 +42,10 @@ __global__ void image_kernel(const std::uint8_t* rgb, float* output, MotionImage
     output[i] = (v * wx[x]) * wy[y];
 }
 __global__ void reset_numeric(int* numeric) { *numeric = 0; }
-__global__ void deliver(const cufftComplex* temporary, cufftComplex* working, std::size_t n, int* numeric) {
+__global__ void deliver(const cufftComplex* temporary, cufftComplex* working, std::size_t n, int* numeric,
+                         const bool* run_stage, const Control* control) {
+    if (run_stage && !*run_stage) return;
+    if (control) working += control->working_slot * n;
     const auto i = static_cast<std::size_t>(blockIdx.x) * blockDim.x + threadIdx.x;
     if (i >= n) return;
     const auto v = temporary[i];
@@ -49,7 +53,13 @@ __global__ void deliver(const cufftComplex* temporary, cufftComplex* working, st
     if (!isfinite(v.x) || !isfinite(v.y)) atomicOr(numeric, 1);
 }
 __global__ void cross_power(const cufftComplex* previous, const cufftComplex* current, cufftComplex* cross,
-                            std::size_t n, int* numeric) {
+                            std::size_t n, int* numeric, const bool* run_stage, const Control* control) {
+    if (run_stage && !*run_stage) return;
+    if (control) {
+        if (control->committed_frame < 0) return;
+        previous += control->committed_slot * n;
+        current += control->working_slot * n;
+    }
     const auto i = static_cast<std::size_t>(blockIdx.x) * blockDim.x + threadIdx.x;
     if (i >= n) return;
     const auto a = previous[i], b = current[i];
@@ -74,7 +84,8 @@ __device__ Reduction combine(Reduction a, Reduction b) {
     a.numeric |= b.numeric;
     return a;
 }
-__global__ void reduce_correlation(const float* correlation, std::size_t n, Reduction* partial) {
+__global__ void reduce_correlation(const float* correlation, std::size_t n, Reduction* partial, const bool* run_stage) {
+    if (run_stage && !*run_stage) return;
     __shared__ Reduction values[kThreads];
     const auto i = static_cast<std::size_t>(blockIdx.x) * blockDim.x + threadIdx.x;
     Reduction value{0, -CUDART_INF_F, i, 0};
@@ -92,7 +103,9 @@ __global__ void reduce_correlation(const float* correlation, std::size_t n, Redu
 }
 __global__ void context_kernel(const Reduction* partial, unsigned blocks, const int* numeric, MotionImageKey key,
                                MotionConfig config, std::uint64_t epoch, std::int64_t frame, std::int64_t reference,
-                               MotionContext* output) {
+                               MotionContext* output, const bool* run_stage, const Control* control) {
+    if (run_stage && !*run_stage) return;
+    if (control) reference = control->committed_frame;
     MotionContext result{};
     result.epoch = epoch; result.frame = frame; result.reference_frame = reference;
     if (reference >= 0) {
@@ -121,22 +134,35 @@ __global__ void context_kernel(const Reduction* partial, unsigned blocks, const 
     if (*numeric) result.pcr = CUDART_NAN_F;
     *output = result;
 }
+struct ImageHeader { std::uint64_t epoch; std::int64_t frame; };
+__global__ void image_header(ImageHeader* header, std::uint64_t epoch, std::int64_t frame) {
+    *header = {epoch, frame};
+}
+__global__ void motion_stage(Control* control, const int* numeric, const ImageHeader* header,
+                             std::uint64_t epoch, std::int64_t frame) {
+    if (!control) return;
+    if (header && (header->epoch != epoch || header->frame != frame))
+        control->frame_status = static_cast<Error>(static_cast<unsigned>(control->frame_status) | static_cast<unsigned>(Error::protocol));
+    if (*numeric) control->frame_status = static_cast<Error>(static_cast<unsigned>(control->frame_status) | static_cast<unsigned>(Error::numeric));
+    control->run_stage = control->fail_code == Error::none && control->frame_status == Error::none;
+}
 template<class Kernel> void load(Kernel kernel) {
     cudaFuncAttributes attributes{};
     ck(cudaFuncGetAttributes(&attributes, kernel), "load motion kernel");
 }
 }
 void motion_image_cuda(const std::uint8_t* rgb, float* image, const MotionImageKey& key,
-                       const float* wx, const float* wy, cudaStream_t detect) {
+                       const float* wx, const float* wy, cudaStream_t detect, const bool* run_stage) {
     explicit_stream(detect);
     const auto n = static_cast<std::size_t>(key.width) * key.height;
-    image_kernel<<<(n + kThreads - 1) / kThreads, kThreads, 0, detect>>>(rgb, image, key, wx, wy);
+    image_kernel<<<(n + kThreads - 1) / kThreads, kThreads, 0, detect>>>(rgb, image, key, wx, wy, run_stage);
     ck(cudaGetLastError(), "motion F05");
 }
 
 struct MotionCuda::Impl {
     struct Slot {
         float* image = nullptr;
+        ImageHeader* header = nullptr;
         cudaEvent_t ready = nullptr, consumed = nullptr;
         bool used = false;
     };
@@ -171,9 +197,12 @@ struct MotionCuda::Impl {
         if (count == 0) throw std::invalid_argument("motion needs at least one image slot");
         try {
             ck(cudaStreamCreateWithFlags(&initialization, cudaStreamNonBlocking), "create initialization stream");
-            load(image_kernel); load(reset_numeric); load(deliver); load(cross_power); load(reduce_correlation); load(context_kernel);
+            load(image_header); load(motion_stage); load(image_kernel); load(reset_numeric); load(deliver); load(cross_power); load(reduce_correlation); load(context_kernel);
             for (auto& slot : slots) {
                 allocate(slot.image, n);
+                allocate(slot.header, 1);
+                image_header<<<1, 1, 0, initialization>>>(slot.header, epoch, -1);
+                ck(cudaGetLastError(), "initialize MI header");
                 ck(cudaEventCreateWithFlags(&slot.ready, cudaEventDisableTiming), "create MI ready");
                 ck(cudaEventCreateWithFlags(&slot.consumed, cudaEventDisableTiming), "create MI consumed");
             }
@@ -213,6 +242,7 @@ struct MotionCuda::Impl {
         cleanup.release(inverse, [](auto p) { fft(cufftDestroy(p), "destroy inverse"); });
         cleanup.release(workspace, [](auto p) { ck(cudaFree(p), "free FFT workspace"); });
         for (auto& slot : slots) {
+            cleanup.release(slot.header, [](auto p) { ck(cudaFree(p), "free MI header"); });
             cleanup.release(slot.image, [](auto p) { ck(cudaFree(p), "free MI"); });
             cleanup.release(slot.ready, [](auto p) { ck(cudaEventDestroy(p), "destroy ready"); });
             cleanup.release(slot.consumed, [](auto p) { ck(cudaEventDestroy(p), "destroy consumed"); });
@@ -237,30 +267,42 @@ void MotionCuda::enqueue_image(cudaStream_t detect, const std::uint8_t* rgb, std
     auto& slot = p.slots[static_cast<std::uint64_t>(frame) % p.slots.size()];
     if (slot.used) ck(cudaStreamWaitEvent(detect, slot.consumed, 0), "wait MI consumed");
     motion_image_cuda(rgb, slot.image, p.key, p.wx, p.wy, detect);
+    image_header<<<1, 1, 0, detect>>>(slot.header, p.epoch, frame); ck(cudaGetLastError(), "publish MI header");
     ck(cudaEventRecord(slot.ready, detect), "record MI ready");
 }
-void MotionCuda::enqueue_estimate(cudaStream_t main, std::int64_t frame, MotionContext* output) {
+void MotionCuda::enqueue_estimate(cudaStream_t main, std::int64_t frame, MotionContext* output,
+                                  const bool* run_stage, Control* control) {
     explicit_stream(main);
     auto& p = *impl_; p.main = main;
     auto& slot = p.slots[static_cast<std::uint64_t>(frame) % p.slots.size()];
     ck(cudaStreamWaitEvent(main, slot.ready, 0), "wait MI ready");
     reset_numeric<<<1, 1, 0, main>>>(p.numeric); ck(cudaGetLastError(), "reset numeric");
+    motion_stage<<<1, 1, 0, main>>>(control, p.numeric, slot.header, p.epoch, frame);
+    ck(cudaGetLastError(), "motion pre FFT control");
     fft(cufftSetStream(p.forward, main), "forward main stream");
     fft(cufftExecR2C(p.forward, slot.image, p.temporary), "motion forward");
-    auto* working = p.spectra + p.working_slot() * p.nf;
-    deliver<<<(p.nf + kThreads - 1) / kThreads, kThreads, 0, main>>>(p.temporary, working, p.nf, p.numeric);
+    motion_stage<<<1, 1, 0, main>>>(control, p.numeric, slot.header, p.epoch, frame);
+    ck(cudaGetLastError(), "motion delivery control");
+    auto* working = p.spectra + (control ? 0 : p.working_slot() * p.nf);
+    deliver<<<(p.nf + kThreads - 1) / kThreads, kThreads, 0, main>>>(p.temporary, working, p.nf, p.numeric, run_stage, control);
     ck(cudaGetLastError(), "deliver spectrum");
+    motion_stage<<<1, 1, 0, main>>>(control, p.numeric, slot.header, p.epoch, frame);
+    ck(cudaGetLastError(), "motion cross control");
     ck(cudaEventRecord(slot.consumed, main), "record MI consumed"); slot.used = true;
-    if (p.reference_frame >= 0) {
-        const auto* committed = p.spectra + p.committed_slot * p.nf;
-        cross_power<<<(p.nf + kThreads - 1) / kThreads, kThreads, 0, main>>>(committed, working, p.cross, p.nf, p.numeric);
+    if (control || p.reference_frame >= 0) {
+        const auto* committed = p.spectra + (control ? 0 : p.committed_slot * p.nf);
+        cross_power<<<(p.nf + kThreads - 1) / kThreads, kThreads, 0, main>>>(committed, working, p.cross, p.nf, p.numeric, run_stage, control);
         ck(cudaGetLastError(), "motion cross power");
+        motion_stage<<<1, 1, 0, main>>>(control, p.numeric, nullptr, p.epoch, frame);
+        ck(cudaGetLastError(), "motion inverse control");
         fft(cufftSetStream(p.inverse, main), "inverse main stream");
         fft(cufftExecC2R(p.inverse, p.cross, p.correlation), "motion inverse");
-        reduce_correlation<<<p.blocks, kThreads, 0, main>>>(p.correlation, p.n, p.partial);
+        reduce_correlation<<<p.blocks, kThreads, 0, main>>>(p.correlation, p.n, p.partial, run_stage);
         ck(cudaGetLastError(), "motion reduction");
     }
-    context_kernel<<<1, 1, 0, main>>>(p.partial, p.blocks, p.numeric, p.key, p.config, p.epoch, frame, p.reference_frame, output);
+    motion_stage<<<1, 1, 0, main>>>(control, p.numeric, nullptr, p.epoch, frame);
+    ck(cudaGetLastError(), "motion context control");
+    context_kernel<<<1, 1, 0, main>>>(p.partial, p.blocks, p.numeric, p.key, p.config, p.epoch, frame, p.reference_frame, output, run_stage, control);
     ck(cudaGetLastError(), "motion context");
 }
 void MotionCuda::enqueue_commit(cudaStream_t main, std::int64_t frame) {

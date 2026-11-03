@@ -55,7 +55,8 @@ __device__ void numeric(TrackingCudaScratch* s) {
 }
 __global__ void predict_kernel(const DeviceTrackState* in, const DeviceMotionContext* motion,
                                const FrameId* frame, const TrackerConfig* config, DevicePredicted* out,
-                               TrackingCudaScratch* s) {
+                               TrackingCudaScratch* s, const bool* run_stage) {
+    if (run_stage && !*run_stage) return;
     const auto& c = *config;
     for (unsigned i = threadIdx.x; i < in->count; i += blockDim.x) {
         auto& t = s->tracks[i];
@@ -92,7 +93,8 @@ __device__ DeviceBatchDetection convert(const DetectionCandidate& d, bool birth,
     return {{d.x1, d.y1, d.x2, d.y2}, d.score, association, d.class_id, d.candidate_id, true, birth};
 }
 __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredicted* predicted,
-                             const TrackerConfig* config, DeviceBatch* out, TrackingCudaScratch* s) {
+                             const TrackerConfig* config, DeviceBatch* out, TrackingCudaScratch* s, const bool* run_stage) {
+    if (run_stage && !*run_stage) return;
     const auto& h = input->header;
     const auto* candidate_rows = reinterpret_cast<const DetectionCandidate*>(&input->rows);
     const auto& c = *config;
@@ -196,7 +198,8 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
 
 __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatch* batch,
                               const DeviceMotionContext* motion, const TrackerConfig* config,
-                              DeviceTrackState* next, DeviceTrackingRows* out, TrackingCudaScratch* s) {
+                              DeviceTrackState* next, DeviceTrackingRows* out, TrackingCudaScratch* s, const bool* run_stage) {
+    if (run_stage && !*run_stage) return;
     const auto& c = *config;
     const unsigned n = predicted->count, m = batch->count;
     if (threadIdx.x == 0) {
@@ -380,19 +383,19 @@ void launch_check() {
 } // namespace
 void enqueue_predict_tracks(const DeviceTrackState* committed, const DeviceMotionContext* motion,
                             const FrameId* frame, const TrackerConfig* config, DevicePredicted* output,
-                            TrackingCudaScratch* scratch, cudaStream_t stream) {
-    explicit_stream(stream); predict_kernel<<<1, threads, 0, stream>>>(committed, motion, frame, config, output, scratch); launch_check();
+                            TrackingCudaScratch* scratch, cudaStream_t stream, const bool* run_stage) {
+    explicit_stream(stream); predict_kernel<<<1, threads, 0, stream>>>(committed, motion, frame, config, output, scratch, run_stage); launch_check();
 }
 void enqueue_assemble_detection_batch(const DetectionCandidates* candidates, const DevicePredicted* predicted,
                                      const TrackerConfig* config, DeviceBatch* output,
-                                     TrackingCudaScratch* scratch, cudaStream_t stream) {
-    explicit_stream(stream); batch_kernel<<<1, threads, 0, stream>>>(candidates, predicted, config, output, scratch); launch_check();
+                                     TrackingCudaScratch* scratch, cudaStream_t stream, const bool* run_stage) {
+    explicit_stream(stream); batch_kernel<<<1, threads, 0, stream>>>(candidates, predicted, config, output, scratch, run_stage); launch_check();
 }
 void enqueue_associate_and_update(const DevicePredicted* predicted, const DeviceBatch* batch,
                                  const DeviceMotionContext* motion, const TrackerConfig* config,
                                  DeviceTrackState* next, DeviceTrackingRows* rows,
-                                 TrackingCudaScratch* scratch, cudaStream_t stream) {
-    explicit_stream(stream); update_kernel<<<1, threads, 0, stream>>>(predicted, batch, motion, config, next, rows, scratch); launch_check();
+                                 TrackingCudaScratch* scratch, cudaStream_t stream, const bool* run_stage) {
+    explicit_stream(stream); update_kernel<<<1, threads, 0, stream>>>(predicted, batch, motion, config, next, rows, scratch, run_stage); launch_check();
 }
 
 DeviceTrack to_device(const Track& v) {

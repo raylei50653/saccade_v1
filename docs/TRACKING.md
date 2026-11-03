@@ -258,6 +258,8 @@ M1 以 `detect_sequence`（native F01–F04 detection session）與 `motion_sequ
 
 D（detect stream）：F01／F02 → F05（等 `mi_consumed[m]` 後寫 MI[m]，record `mi_ready[m]`）→ F03 → producer → F04（等 `cs_consumed[c]` 後寫 CS[c]，record `cs_ready[c]`）。
 
+F05 是 F01 RGB buffer 的最後一個讀者。F05 之後 record `rgb_read_done`，下一幀呼叫 F01 前 host 先等它（`cudaEventSynchronize`）：nvJPEG HARDWARE decode 寫 RGB 時不排在 D 上先前的工作之後，只靠 stream 順序會讓下一幀的解碼覆寫 F05 還沒讀的 RGB。
+
 M（main stream）：
 
 | 順序 | 工作 | 類型 |
@@ -285,7 +287,7 @@ M（main stream）：
 - `TrackingSessionConfig`：epoch、device、序列原圖寬高（建立 MotionImageKey）、`candidate_slots`、`motion_slots`、`result_slots`、`PreprocessConfig`、`MotionConfig`、`TrackerConfig`、`mode`（serial／pipelined）、測試用 `perturb_seed`（0 表示關閉）。
 - `enqueue(jpeg, frame)`、`receive()`（回傳 raw `PacketBytes` 與 decode 後的 `ResultPacket`）、`pending()`、`finish()`、`cancel()`、`close()`、`state()`、`identity()`，語義與 DetectionSession 相同（結果 ring 滿時 `length_error`、可恢復）。
 - serial：每次 enqueue 後 host 等 D、M 都完成，作為 V04 的依賴參考。pipelined：只靠 event 與 ring 背壓，detect(k+1) 可與 main(k) 重疊。
-- `perturb_seed ≠ 0`：在 D、M 各 stage 邊界插入長度由 seed 決定的 spin kernel（V03），只供測試。
+- `perturb_seed ≠ 0`：在 D、M 各 stage 邊界插入長度由 seed 決定的 spin kernel（V03），只供測試。另有兩段固定長度的 spin，讓對應的順序錯誤一定會顯現：建構時在 M 的 tracking storage 初始化前一段，以及每幀在 D 的 F05 之前一段（模擬 F05 晚於下一幀解碼）。
 - 工具 `track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--packets OUT.bin] [--epoch N]`：TrackingSession → F09 SequenceOutput → MOT 檔；`--packets` 存下完整 raw packet stream。
 
 ### 14.4 驗收（M3 實作階段）

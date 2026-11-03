@@ -2,6 +2,7 @@
 
 #include "saccade/tracking.hpp"
 #include <cuda_runtime_api.h>
+#include <cstddef>
 #include <type_traits>
 
 namespace saccade {
@@ -22,6 +23,7 @@ struct DeviceTrack {
     float score_sum;
     std::uint32_t class_id;
     float observed_score, association_score;
+    std::uint32_t reserved;
     FrameId birth_frame, last_observed_frame;
     DeviceBridgeSample history[kBridgeHistory];
     std::uint32_t history_count;
@@ -84,6 +86,9 @@ struct TrackingCudaScratch {
 };
 inline constexpr std::size_t kTrackingCudaScratchBytes = sizeof(TrackingCudaScratch);
 static_assert(std::is_trivial_v<DeviceTrack> && std::is_standard_layout_v<DeviceTrack>);
+static_assert(offsetof(DeviceTrack, reserved) == offsetof(DeviceTrack, association_score) + sizeof(float) &&
+              offsetof(DeviceTrack, birth_frame) == offsetof(DeviceTrack, reserved) + sizeof(std::uint32_t));
+static_assert(sizeof(DeviceTrack) == 408);
 static_assert(std::is_trivial_v<DeviceTrackState> && std::is_trivial_v<DevicePredicted>);
 static_assert(std::is_trivial_v<DeviceBatch> && std::is_trivial_v<DeviceTrackingRows>);
 static_assert(std::is_trivial_v<TrackingCudaScratch>);

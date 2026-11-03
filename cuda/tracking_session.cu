@@ -100,7 +100,7 @@ __global__ void packet(const Control* c, const DeviceTrackingRows* rows, std::ui
         put_float(out, offset + 40, row.observed_score); put_float(out, offset + 44, row.association_score);
     }
 }
-__global__ void perturb(unsigned cycles) {
+__global__ void perturb(unsigned long long cycles) {
     const auto start = clock64();
     while (clock64() - start < cycles) {}
 }
@@ -136,6 +136,9 @@ void tracking_session_perturb(std::uint64_t seed, FrameId frame, unsigned bounda
     auto x = seed ^ (static_cast<std::uint64_t>(frame) * 0x9e3779b97f4a7c15ULL) ^ boundary;
     x ^= x >> 30; x *= 0xbf58476d1ce4e5b9ULL; x ^= x >> 27;
     perturb<<<1, 1, 0, stream>>>(1000 + x % 100000); ck(cudaGetLastError());
+}
+void tracking_session_spin(unsigned long long cycles, cudaStream_t stream) {
+    perturb<<<1, 1, 0, stream>>>(cycles); ck(cudaGetLastError());
 }
 void tracking_session_producer_flag(PostprocessProducerStatus* p, std::uint32_t flags, cudaStream_t stream) {
     producer_flag<<<1, 1, 0, stream>>>(p, flags); ck(cudaGetLastError());

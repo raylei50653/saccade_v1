@@ -197,8 +197,10 @@ void real(Streams& streams) {
 }
 #endif
 }
-int main() {
+int main(int argc, char** argv) {
     try {
+        const bool synthetic = argc == 2 && std::strcmp(argv[1], "--synthetic") == 0;
+        if (argc != 1 && !synthetic) throw std::invalid_argument("usage: motion_cuda_tests [--synthetic]");
         Streams streams;
         f05(streams);
         for (unsigned slots : {1u, 2u, 3u}) sequence_case(streams, {}, slots);
@@ -206,7 +208,7 @@ int main() {
         sequence_case(streams, {4, 100, .25f}, 2);
         uncommitted(streams); numeric(streams);
 #ifdef SACCADE_MOTION_TEST_PREPROCESS
-        real(streams);
+        if (!synthetic) real(streams);
 #endif
         std::cout << "motion_cuda_tests: " << checks << " checks passed\n";
         return 0;

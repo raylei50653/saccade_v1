@@ -49,6 +49,7 @@ void tracking_session_candidates(TrackingSessionControl*, const DetectionCandida
 void tracking_session_commit(TrackingSessionControl*, cudaStream_t);
 void tracking_session_packet(const Control*, const DeviceTrackingRows*, std::uint8_t*, cudaStream_t);
 void tracking_session_perturb(std::uint64_t seed, FrameId frame, unsigned boundary, cudaStream_t);
+void tracking_session_spin(unsigned long long cycles, cudaStream_t);
 void tracking_session_producer_flag(PostprocessProducerStatus*, std::uint32_t, cudaStream_t);
 }
 

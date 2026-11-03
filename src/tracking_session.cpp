@@ -65,6 +65,8 @@ struct TrackingSession::Impl {
     bool host_failed = false;
     cudaStream_t detect = nullptr, consumer = nullptr;
     cudaEvent_t terminal_detect = nullptr, terminal_consumer = nullptr;
+    cudaEvent_t rgb_read_done = nullptr;
+    bool rgb_read_done_recorded = false;
     Logger logger;
     std::unique_ptr<nvinfer1::IRuntime> runtime;
     std::unique_ptr<nvinfer1::ICudaEngine> engine;
@@ -108,6 +110,7 @@ struct TrackingSession::Impl {
             cu(cudaStreamCreateWithFlags(&consumer, cudaStreamNonBlocking), "create consumer stream");
             cu(cudaEventCreateWithFlags(&terminal_detect, cudaEventDisableTiming), "create D terminal event");
             cu(cudaEventCreateWithFlags(&terminal_consumer, cudaEventDisableTiming), "create M terminal event");
+            cu(cudaEventCreateWithFlags(&rgb_read_done, cudaEventDisableTiming), "create RGB read done event");
             (void)model_producer_cuda_load_kernels();
             (void)postprocess_cuda_load_kernels();
             detail::tracking_session_load_kernels();
@@ -143,9 +146,11 @@ struct TrackingSession::Impl {
             cu(cudaMemsetAsync(postprocess_scratch, 0, postprocess_workspace_bytes(), detect), "initialize F04 scratch");
             cu(cudaMalloc(&control, sizeof(*control)), "allocate session control");
             cu(cudaMalloc(&device_result, packet_bytes), "allocate device packet");
+            if (cfg.perturb_seed) detail::tracking_session_spin(20000000, consumer);
             allocate(tracks, 2); allocate(predicted); allocate(batch); allocate(rows);
             allocate(tracking_scratch); allocate(tracker_config); allocate(motion_context); allocate(tracker_motion);
-            cu(cudaMemcpy(tracker_config, &cfg.tracker, sizeof(cfg.tracker), cudaMemcpyHostToDevice), "upload tracker config");
+            // cfg.tracker remains alive through the initialization drain below.
+            cu(cudaMemcpyAsync(tracker_config, &cfg.tracker, sizeof(cfg.tracker), cudaMemcpyHostToDevice, consumer), "upload tracker config");
             cu(cudaMemsetAsync(device_result, 0, packet_bytes, consumer), "initialize device packet");
             std::size_t offset = 0;
             for (unsigned i = 0; i < 6; ++i) {
@@ -280,6 +285,7 @@ struct TrackingSession::Impl {
         report.release(tracker_motion,[](auto p) { cu(cudaFree(p),"free tracker motion"); });
         report.release(terminal_detect,[](auto p) { cu(cudaEventDestroy(p),"destroy D terminal"); });
         report.release(terminal_consumer,[](auto p) { cu(cudaEventDestroy(p),"destroy M terminal"); });
+        report.release(rgb_read_done,[](auto p) { cu(cudaEventDestroy(p),"destroy RGB read done"); });
         report.release(detect,[](auto p) { cu(cudaStreamDestroy(p),"destroy D"); });
         report.release(consumer,[](auto p) { cu(cudaStreamDestroy(p),"destroy M"); });
         if (previous >= 0 && previous != config.device) {
@@ -303,13 +309,19 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
     if (s.submitted - s.received == s.config.result_slots) throw std::length_error("session result ring full; receive first");
     try {
         require(frame == s.submitted, "session frame must be contiguous and zero-based");
+        // nvJPEG hardware decode writes RGB without ordering behind earlier work on D.
+        // Wait for F05, the last RGB reader, before reusing the buffer.
+        if (s.rgb_read_done_recorded) cu(cudaEventSynchronize(s.rgb_read_done), "wait RGB read done");
         unsigned boundary = 0;
         const auto d_delay = [&] { detail::tracking_session_perturb(s.config.perturb_seed, frame, boundary++, s.detect); };
         const auto m_delay = [&] { detail::tracking_session_perturb(s.config.perturb_seed, frame, boundary++, s.consumer); };
         d_delay();
         const auto input = s.preprocess->enqueue(jpeg, frame, s.config.original_width, s.config.original_height);
         d_delay();
+        if (s.config.perturb_seed) detail::tracking_session_spin(10000000, s.detect);
         s.motion->enqueue_image(s.detect, input.rgb, frame);
+        cu(cudaEventRecord(s.rgb_read_done, s.detect), "record RGB read done");
+        s.rgb_read_done_recorded = true;
         d_delay();
         if (d_only) throw std::runtime_error("directed D-only tail after F05");
         require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");

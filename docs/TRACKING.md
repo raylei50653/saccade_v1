@@ -258,7 +258,7 @@ M1 以 `detect_sequence`（native F01–F04 detection session）與 `motion_sequ
 
 D（detect stream）：F01／F02 → F05（等 `mi_consumed[m]` 後寫 MI[m]，record `mi_ready[m]`）→ F03 → producer → F04（等 `cs_consumed[c]` 後寫 CS[c]，record `cs_ready[c]`）。
 
-F05 是 F01 RGB buffer 的最後一個讀者。F05 之後 record `rgb_read_done`，下一幀呼叫 F01 前 host 先等它（`cudaEventSynchronize`）：nvJPEG HARDWARE decode 寫 RGB 時不排在 D 上先前的工作之後，只靠 stream 順序會讓下一幀的解碼覆寫 F05 還沒讀的 RGB。
+F05 是 F01 RGB buffer 的最後一個讀者。F05 之後 record `rgb_read_done`，下一幀呼叫 F01 前 host 先等它（`cudaEventSynchronize`）：nvJPEG HARDWARE decode 寫 RGB 時不排在 D 上先前的工作之後，只靠 stream 順序會讓下一幀的解碼覆寫 F05 還沒讀的 RGB。獨立重現見 [evidence/preprocess/2026-11-03-nvjpeg-stream-order](../evidence/preprocess/2026-11-03-nvjpeg-stream-order/README.md)。
 
 M（main stream）：
 

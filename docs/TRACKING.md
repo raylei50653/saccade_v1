@@ -295,3 +295,9 @@ M（main stream）：
 - 與 CPU 對照：TrackingSession 的 packet stream 等於以 `m1-data` 的 SCDR／SCMO 跑 `TrackerReference` 再 `encode_packet` 的結果；`track_sequence` 的 MOT 檔與 `track_offline` 的逐位元相同。前提是 F03 與 cuFFT 在同一裝置與 build 下重跑決定性；若不相同，先定位是哪個輸入不同，不放寬比較。
 - 失敗：producer flag 注入使第 k 幀 FAILED、之後 SKIPPED，committed 狀態凍結；EOF／cancel／D-only tail 都能 drain；close 可重複呼叫。
 - 新 CUDA 程式碼 memcheck（短序列）。完整正式驗收（四種 sanitizer、clean source、evidence report）在 M3 合併後另做。
+
+## 15. D1：HR 偵測器部署（2026-11-03 使用者核准）
+
+部署 `saccade_v1_dev` 的 HR mixed Full25 e10（`hr-input/1`，1280×768 stretch；MOT17-10 val AP50 86.0093%）。runtime 新增固定的 `hr-1280x768` model profile，與既有 `t01-640x640` 並存；不做任意尺寸。產物與工具見 [training/hr_deploy](../training/hr_deploy/README.md)，檔案在 `~/.cache/saccade-v1/hr-deploy/`（含雜湊 manifest）。
+
+**通過標準（在 native HR 結果產生前固定）**：以 native `detect_sequence --profile hr-1280x768` 錄下 MOT17-10-SDP，用 `training/hr_deploy/eval_scdr.py` 計算，AP50 必須落在 86.0093% ± 0.1 pp。參考尺度：T01 的 native 錄製與訓練時記錄只差 +0.0006 pp。MOT17-02 只在 M4 最終評估時開啟。

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "saccade/model_profile.hpp"
+
 #include "saccade/motion_cuda.hpp"
 #include "saccade/preprocess.hpp"
 #include "saccade/tracking_cuda.hpp"
@@ -16,7 +18,8 @@ struct TrackingSessionConfig {
     int device = 0;
     int original_width = 1920, original_height = 1080;
     unsigned candidate_slots = 2, motion_slots = 2, result_slots = 4;
-    PreprocessConfig preprocess{};
+    PreprocessConfig preprocess{}; // output size is selected by the model profile
+    ModelProfile profile = kDefaultModelProfile;
     MotionConfig motion{};
     TrackerConfig tracker{};
     TrackingSessionMode mode = TrackingSessionMode::Pipelined;

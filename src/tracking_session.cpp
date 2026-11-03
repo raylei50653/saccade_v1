@@ -96,7 +96,12 @@ struct TrackingSession::Impl {
         require(cfg.result_slots >= 1, "result_slots must be positive");
         validate_tracker_config(cfg.tracker);
         const auto key = motion_image_key(cfg.original_width, cfg.original_height, cfg.motion);
-        require(cfg.preprocess.output_width == 640 && cfg.preprocess.output_height == 640, "F03 requires 640x640 preprocessing");
+        const auto& profile = model_profile(cfg.profile);
+        require((cfg.preprocess.output_width == kT01ModelProfile.width && cfg.preprocess.output_height == kT01ModelProfile.height) ||
+                (cfg.preprocess.output_width == profile.width && cfg.preprocess.output_height == profile.height),
+                "preprocessing dimensions differ from the selected model profile");
+        config.preprocess.output_width = static_cast<int>(profile.width);
+        config.preprocess.output_height = static_cast<int>(profile.height);
         try {
             cu(cudaSetDevice(cfg.device), "session cudaSetDevice");
             cu(cudaStreamCreateWithFlags(&detect, cudaStreamNonBlocking), "create detect stream");
@@ -113,7 +118,7 @@ struct TrackingSession::Impl {
             require(runtime != nullptr, "create session TensorRT runtime");
             engine.reset(runtime->deserializeCudaEngine(plan.data(), plan.size()));
             require(engine != nullptr && engine->getNbAuxStreams() == 0, "session requires model engine with zero auxiliary streams");
-            const auto spec = model_io_spec();
+            const auto spec = model_io_spec(cfg.profile);
             input_name = spec.inputs.at(0).name;
             require(spec.inputs.size() == 1 && spec.outputs.size() == 6 && spec.statuses.size() == 9 &&
                     spec.check_inputs && spec.check_outputs, "unexpected model_io_spec");
@@ -125,14 +130,14 @@ struct TrackingSession::Impl {
             for (int i = 0; i < engine->getNbIOTensors(); ++i) require(names.contains(engine->getIOTensorName(i)), "unexpected session model tensor");
             context.reset(engine->createExecutionContext());
             require(context != nullptr, "create session execution context");
-            preprocess = std::make_unique<NativePreprocessor>(detect, cfg.preprocess);
+            preprocess = std::make_unique<NativePreprocessor>(detect, config.preprocess);
             motion = std::make_unique<MotionCuda>(key, cfg.motion, cfg.epoch, cfg.motion_slots);
-            cu(cudaMalloc(&raw, 705600 * sizeof(float)), "allocate raw tensors");
+            cu(cudaMalloc(&raw, profile.raw_elements() * sizeof(float)), "allocate raw tensors");
             cu(cudaMalloc(&statuses, 9 * 256), "allocate plugin statuses");
             cu(cudaMalloc(&producer, sizeof(*producer)), "allocate aggregate");
             cu(cudaMalloc(&producer_scratch, model_producer_workspace_bytes()), "allocate aggregate scratch");
             cu(cudaMalloc(&postprocess_scratch, postprocess_workspace_bytes()), "allocate F04 scratch");
-            cu(cudaMemsetAsync(raw, 0, 705600 * sizeof(float), detect), "initialize raw");
+            cu(cudaMemsetAsync(raw, 0, profile.raw_elements() * sizeof(float), detect), "initialize raw");
             cu(cudaMemsetAsync(producer, 0, sizeof(*producer), detect), "initialize producer");
             cu(cudaMemsetAsync(producer_scratch, 0, model_producer_workspace_bytes(), detect), "initialize producer scratch");
             cu(cudaMemsetAsync(postprocess_scratch, 0, postprocess_workspace_bytes(), detect), "initialize F04 scratch");
@@ -151,7 +156,7 @@ struct TrackingSession::Impl {
                 else { raw_view.reg[i-3] = p; raw_view.reg_elements[i-3] = n; }
                 offset += n;
             }
-            require(offset == 705600, "session raw tensor extent mismatch");
+            require(offset == profile.raw_elements(), "session raw tensor extent mismatch");
             for (unsigned i = 0; i < 9; ++i) {
                 plugins[i] = reinterpret_cast<ScanStatus*>(static_cast<unsigned char*>(statuses) + i*256);
                 require(context->setTensorAddress(spec.statuses[i].name.c_str(), plugins[i]), "bind session plugin output");
@@ -173,8 +178,8 @@ struct TrackingSession::Impl {
             }
             cu(cudaMemsetAsync(statuses,0,9*256,detect), "initialize plugin statuses");
             // Load the exact context's kernels before accepting frame 0.
-            cu(cudaMalloc(&warmup_images,kModelProducerInputElements*sizeof(float)), "allocate warmup input");
-            cu(cudaMemsetAsync(warmup_images,0,kModelProducerInputElements*sizeof(float),detect), "initialize warmup input");
+            cu(cudaMalloc(&warmup_images,profile.input_elements()*sizeof(float)), "allocate warmup input");
+            cu(cudaMemsetAsync(warmup_images,0,profile.input_elements()*sizeof(float),detect), "initialize warmup input");
             require(context->setTensorAddress(input_name.c_str(),warmup_images), "bind warmup input");
             if (!context->enqueueV3(detect)) throw std::runtime_error("session engine warmup failed");
             cu(cudaStreamSynchronize(detect), "session engine warmup drain");
@@ -191,7 +196,7 @@ struct TrackingSession::Impl {
                                          tracking_scratch, consumer, &control->value.run_stage);
             cu(cudaDeviceSynchronize(), "tracking session initialization drain");
             std::ostringstream cfg_text;
-            cfg_text << "epoch=" << cfg.epoch << "\ndevice=" << cfg.device << "\ncandidate_slots=" << cfg.candidate_slots
+            cfg_text << "profile=" << profile.name << "\nepoch=" << cfg.epoch << "\ndevice=" << cfg.device << "\ncandidate_slots=" << cfg.candidate_slots
                      << "\nmotion_slots=" << cfg.motion_slots << "\nresult_slots=" << cfg.result_slots
                      << "\noriginal_width=" << cfg.original_width << "\noriginal_height=" << cfg.original_height
                      << "\nmode=" << (cfg.mode == TrackingSessionMode::Serial ? "serial" : "pipelined")
@@ -310,14 +315,14 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
         require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
         if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
         d_delay();
-        model_producer_cuda(input.images, kModelProducerInputElements, s.raw_view, s.plugins, s.producer,
-                            s.producer_scratch, model_producer_workspace_bytes(), s.detect);
+        model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
+                            s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
         if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
         d_delay();
         auto& candidate = s.candidates[frame % s.config.candidate_slots];
         if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
         PostprocessRequest request;
-        request.epoch = s.config.epoch; request.frame = frame; request.mapping = input.mapping;
+        request.epoch = s.config.epoch; request.frame = frame; request.mapping = input.mapping; request.profile = s.config.profile;
         postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
                          postprocess_workspace_bytes(), s.detect);
         d_delay();

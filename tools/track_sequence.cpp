@@ -51,7 +51,7 @@ SequenceInfo read_sequence_info(const std::filesystem::path& path) {
 
 int main(int argc, char** argv) {
     try {
-        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--packets OUT.bin] [--epoch N]");
+        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--packets OUT.bin] [--epoch N] [--profile NAME]");
         saccade::TrackingSessionConfig config;
         std::filesystem::path packets;
         for (int i = 4; i < argc; ++i) {
@@ -59,6 +59,7 @@ int main(int argc, char** argv) {
             if (arg == "--serial") config.mode = saccade::TrackingSessionMode::Serial;
             else if (arg == "--packets" && i + 1 < argc) packets = argv[++i];
             else if (arg == "--epoch" && i + 1 < argc) config.epoch = number<std::uint64_t>(argv[++i]);
+            else if (arg == "--profile" && i + 1 < argc) config.profile = saccade::parse_model_profile(argv[++i]);
             else throw std::invalid_argument("unknown or incomplete argument: " + std::string(arg));
         }
         const std::filesystem::path sequence = argv[2];

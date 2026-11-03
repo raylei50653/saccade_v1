@@ -298,6 +298,31 @@ M（main stream）：
 - 失敗：producer flag 注入使第 k 幀 FAILED、之後 SKIPPED，committed 狀態凍結；EOF／cancel／D-only tail 都能 drain；close 可重複呼叫。
 - 新 CUDA 程式碼 memcheck（短序列）。完整正式驗收（四種 sanitizer、clean source、evidence report）在 M3 合併後另做。
 
+### 14.5 M3 正式驗收（在 capture 前固定）
+
+由 [`scripts/run_tracking_session_acceptance.sh`](../scripts/run_tracking_session_acceptance.sh) 在 GPU lock 下一次跑完，證據存於 `evidence/tracking-session/`。部署設定為 §16 的 HR FP16 engine（`8292cc23…`）；CPU reference 的逐位元對照另用錄製 M1 records 的 T01 engine。capture 前的 sanitizer 探測找到兩個 session 的 cross-stream 順序錯誤與 `DeviceTrack` padding 的 initcheck 報告，已在 1c03e22 修正。要通過以下全部項目：
+
+1. **Clean source**：從乾淨 checkout 的單一 commit 執行。每一步前後核對 HEAD 與 build inputs 的 SHA-256。capture 前後，binaries、兩個 engine、reference corpus、M1 records 與 7 個 MOT17 SDP 序列的影像 hash 都不變。
+2. **Build 與測試**：全新 CPU build 的預設 CTest 全部通過。全新 CUDA build（所有功能開啟）的 CTest 全部通過，包含 7 序列 TrackingSession 對 CPU reference 的 packet 逐位元比較、serial／pipelined／兩個擾動 seed、lifecycle 與 `tracking_cuda_mot17`。
+3. **部署路徑（HR FP16，MOT17-10）**：
+   - `detect_sequence` 的 SCDR SHA-256 等於 §16 的 `98e2554f…`。
+   - `motion_sequence` 的 SCMO 等於 M1 records 的 MOT17-10 SCMO。
+   - `track_offline`（CPU reference）、`track_sequence` pipelined 與 `--serial` 的 MOT 檔逐位元相同，SHA-256 等於 §16 的 `1fb713f3…`。
+   - serial 與 pipelined 的完整 packet stream 逐位元相同。
+4. **Sanitizer**（compute-sanitizer，`--error-exitcode 99`）：
+   - Kernel suites：`tracking_packet_tests`、`tracking_cuda_tests`、`motion_cuda_tests` 各跑 memcheck／initcheck／racecheck／synccheck，0 errors（racecheck 為 0 hazards），測試本身通過。
+     - initcheck 不檢查 host API 複製（`--check-api-memory-access no`）：測試 harness 會把整個固定容量的 device 結構複製回 host，count 之後的部分依契約未定義，host 也不讀。kernel 的讀取照常全部檢查。
+     - `motion_cuda_tests` 的 initcheck 加 `--synthetic`，跳過用 nvJPEG 解的兩張真實影像。nvJPEG 的既知報告（NVIDIA Bug 7021871）每次有數百萬筆，依 [PREPROCESS_USAGE_POLICY](PREPROCESS_USAGE_POLICY.md) §3 是診斷項而非門檻。motion kernels 由合成案例完整覆蓋；另外三種工具照常跑含真實影像的完整測試。
+   - 正控制：`postprocess_sanitizer_control` 在四種工具下各自 exit 99，並出現該工具的預期診斷。
+   - 完整 session memcheck（所有 kernel，含 nvJPEG、TensorRT、cuFFT）：T01 的 MOT17-10 前 30 幀、lifecycle 測試、HR FP16 `track_sequence` 的 MOT17-10 前 30 幀，皆 0 errors。
+   - 完整 session racecheck／synccheck：T01 的 MOT17-10 前 10 幀，只檢查 tracking、motion 與 session control kernels（TensorRT、nvJPEG、cuFFT 不檢查），0 hazards／0 errors。
+5. **Evidence report**：記錄 source、環境、每個命令的 exit 與時間、測試輸出、hash 與以上判定。
+
+**不涵蓋**
+- F03（TensorRT）kernels 的 racecheck／synccheck：沿用 S04 的狀態，仍未執行。
+- 完整 session 的 initcheck：nvJPEG 的既知報告依上述政策處理，不在本驗收執行。
+- 效能與追蹤品質：不設門檻。MOT17-02 的 GT 評估留給 M4。
+
 ## 15. D1：HR 偵測器部署（2026-11-03 使用者核准）
 
 部署 `saccade_v1_dev` 的 HR mixed Full25 e10（`hr-input/1`，1280×768 stretch；MOT17-10 val AP50 86.0093%）。runtime 新增固定的 `hr-1280x768` model profile，與既有 `t01-640x640` 並存；不做任意尺寸。產物與工具見 [training/hr_deploy](../training/hr_deploy/README.md)，檔案在 `~/.cache/saccade-v1/hr-deploy/`（含雜湊 manifest）。

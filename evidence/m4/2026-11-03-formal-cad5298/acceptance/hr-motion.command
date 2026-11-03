@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1-worktrees/m4-formal/build-m4-acceptance/cuda/motion_sequence /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP /home/ray/developer/ai/saccade_v1-worktrees/m4-formal/build-m4-acceptance/hr/MOT17-10-SDP.scmo 

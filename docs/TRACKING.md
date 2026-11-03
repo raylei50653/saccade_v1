@@ -1,6 +1,6 @@
 # Tracking 半段規格（F05–F09）
 
-日期：2026-11-03。狀態：M0–M3 完成；M4 的規格見 §17。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
+日期：2026-11-03。狀態：M0–M4 完成（M4 結果見 §17.5）；P01 CLOSED（有範圍）。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
 
 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
 
@@ -476,3 +476,22 @@ P01（[DATAFLOW](DATAFLOW.md) §9.2：模型檔案的來源／版本、engine �
 - FP16 engine 是在 761889c 加上未提交的修改（之後提交為 04912e2）下 build 的（`build_dirty=true`）；部署身分以 engine SHA-256 固定，不重新 build。
 - v1 的 native manifest 工具（schema 1–3）不描述 HR profile 或 FP16；HR 的身分紀錄是上述 deploy manifest，不另加 schema。
 - 跨 GPU、driver 或 TensorRT 版本的支援（P07）。
+
+### 17.5 結果（2026-11-03）
+
+M4 正式執行 **PASS**（cad5298，乾淨 worktree）。證據見 [evidence/m4/2026-11-03-formal-cad5298](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。
+- 完整正式驗收：CPU CTest 16/16，CUDA CTest 59/59；部署路徑 hash 等於 §16；17 次 sanitizer 執行皆 0 errors／0 hazards，4 個正控制都偵測到。
+- 守門：身分鏈 39 個檔案一致；7 序列的 `track_offline` 與 `track_sequence` 逐位元相同；MOT17-10 與 in-domain 的 hash 等於 §16；stream 位置 PASS。TensorRT（含 scan plugin）、F02／F05／producer／F04 在 D，cuFFT／F06／tracking／session control／packet 在 M，nvJPEG 的 `rgba2rgb` 在它自己的 stream。
+- MOT17-02 的 GT 只在計分時讀了一次。
+
+| 組別 | HR AP50（T01） | HOTA | DetA | AssA | IDF1 | MOTA | IDSW | ms／幀 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| val（MOT17-10） | 86.02%（67.59%） | 49.7 | 54.1 | 45.9 | 63.0 | 65.0 | 66 | 8.46 |
+| **eval（MOT17-02）** | **72.91%**（54.40%） | **40.6** | 40.9 | 40.7 | 49.3 | 46.8 | 103 | 8.51 |
+| in-domain（04／05／09／11／13） | 92.7–97.4%（94.5–98.9%） | 68.4 | 74.5 | 63.1 | 76.1 | 84.3 | 231 | 7.2–8.3 |
+
+- MOT17-02 對 T01（§13）：HOTA 31.6 → 40.6，DetA 23.7 → 40.9，AssA 42.2 → 40.7，IDF1 37.2 → 49.3，MOTA 23.5 → 46.8，IDSW 31 → 103。提升全部來自偵測，關聯沒有改善。
+- val 與 eval 的 AP50 差距：HR 13.1 pp，T01 13.2 pp。
+- 速度：`track_sequence` pipelined 每幀 7.2–8.5 ms，約 118–138 FPS（單一筆電 GPU、WSL2，沒有控制 clock）。
+
+P01 依 §17.4 記為 **CLOSED（有範圍）**，不涵蓋項目照 §17.4 所列。之後若再改偵測器、tracker 或參數，MOT17-02 的結果要標為「M4 之後」。

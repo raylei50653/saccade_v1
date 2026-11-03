@@ -1,0 +1,1 @@
+env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 /home/ray/.cache/saccade-v1/t01/venv/bin/python training/hr_deploy/eval_scdr.py /home/ray/developer/ai/saccade_v1-worktrees/m4-formal/build-m4-evaluation/scdr/MOT17-04-SDP.scdr /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-04-SDP 

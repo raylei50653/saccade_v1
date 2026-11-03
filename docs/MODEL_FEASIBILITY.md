@@ -1,6 +1,6 @@
 # P01 模型 artifact 與 native scan 可行性
 
-P01 保持 OPEN。P01-A 將 manifest 工具、native SDK 路徑、真實 artifact readiness 分別驗收，不能互相替代。P01-A 調查日期：2026-10-28；head 契約查核與 S01：2026-10-29。
+P01 於 2026-11-03 以部署中的 HR FP16 模型 **CLOSED（有範圍）**，見 [TRACKING §17](TRACKING.md) 與 [M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)；以下保留各階段當時的紀錄（當時 P01 保持 OPEN）。P01-A 將 manifest 工具、native SDK 路徑、真實 artifact readiness 分別驗收，不能互相替代。P01-A 調查日期：2026-10-28；head 契約查核與 S01：2026-10-29。
 
 2026-10-29 使用者決策將 v1 模型基線改為 YOLO26m backbone／neck＋原版 m T3→T1 Mamba-FPN head、單幀 T=1。[SCAN_CONTRACT](SCAN_CONTRACT.md) 已由該 head 的實作、checkpoint 容器與部署 ONNX 核實 scan 契約；**S01 PASS，範圍限該文件 §3–§5 的 `SelectiveScan` 算子與 Cross-Scan**（§3 表後說明）。**S02 PASS，範圍限 [SCAN_CUDA](SCAN_CUDA.md) 的 CUDA FP32 forward**（§3 表後說明，[S02 evidence](../evidence/s02/2026-10-29/REPORT.md)）。證據見 [S01 evidence](../evidence/s01/2026-10-29/REPORT.md)；同日稍早的 s／D1 查核（[scan-contract evidence](../evidence/scan-contract/2026-10-29/REPORT.md)）保留為歷史。
 

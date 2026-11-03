@@ -1,6 +1,6 @@
 # Saccade v1 後續工作
 
-日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已完成乾淨 `a9c3d9b` 的 [正式驗收（受測範圍）](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)；[F01–F04 detection session](DETECTION_SESSION.md) 已實作，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 保留 OPEN。
+日期：2026-10-31。T01 實驗與有界 F01／F02 使用結案見 [closeout](history/2026-10-31-t01-closeout.md)。[F04 已獨立結案（受測範圍）](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已完成乾淨 `a9c3d9b` 的 [正式驗收（受測範圍）](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)；[F01–F04 detection session](DETECTION_SESSION.md) 已實作，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 保留 OPEN。2026-11-03：tracking 半段 M0–M4 完成，P01 CLOSED（有範圍），見 §3 與 [TRACKING §17](TRACKING.md)。
 
 ## 1. F04：先固定觀測政策，再實作
 
@@ -38,7 +38,15 @@ F05–F09 的數值與決策規格、參數、容量、M1–M4 里程碑與分�
 
 以 [MODEL_ARTIFACT_READINESS](MODEL_ARTIFACT_READINESS.md)、[MODEL_MANIFEST](MODEL_MANIFEST.md) 與各階段已驗界線為準，F04／容量已有獨立正式證據；F03 producer 聚合器已有乾淨 `a9c3d9b` 正式驗收；正常 native 輸入至完整模型與 F04 已另行實作 bounded detection session，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)；其餘原列缺件仍依各自證據判定。指定 checkpoint／ONNX／bundle／engine 與實際 runtime 的身分須一致，未執行項目維持明列。
 
-P01 保留 **OPEN**。Head／F03 racecheck、synccheck 目前 UNEXECUTED；模型品質、tracker／GMC／MOT writer 與完整 tracking 指標依各自驗收，不能由 detection AP 或有限數值對照推導。T01 不因本項未完成而重開已完成的訓練實驗。
+（2026-10-31 的狀態）P01 保留 **OPEN**。Head／F03 racecheck、synccheck 目前 UNEXECUTED；模型品質、tracker／GMC／MOT writer 與完整 tracking 指標依各自驗收，不能由 detection AP 或有限數值對照推導。T01 不因本項未完成而重開已完成的訓練實驗。
+
+**2026-11-03 更新：P01 CLOSED（有範圍）。** 完整 tracking session 在 M3 完成（[TRACKING §14](TRACKING.md)），部署模型改為 HR FP16（§15–§16）。M4 以部署中的 HR FP16 模型依 [TRACKING §17.4](TRACKING.md) 判定，[正式證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)：
+- 身分鏈：checkpoint、ONNX、bundle、engine 與 runtime 一致。
+- engine 精度與 shape binding。
+- TensorRT 與 cuFFT 的 stream 行為。
+- MOT17 七個序列的偵測與追蹤指標（只記錄）。
+
+Head／F03（TensorRT 內部 kernel）的 racecheck／synccheck 仍為 UNEXECUTED，與其他不涵蓋項目一起明列在 §17.4。
 
 ## nvJPEG／NVJPG 診斷：目前不主動續查
 

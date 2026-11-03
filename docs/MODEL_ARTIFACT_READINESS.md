@@ -8,6 +8,8 @@
 
 2026-10-30 T01 更新見 [§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)：T01 的 matching backbone／neck ONNX 與 head bundle 已 native 交付並建成完整模型 engine，backbone 與 F03 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) PASS（有範圍）；P01 仍 OPEN。
 
+2026-11-03 P01 收尾見 [§14](#14-p01-收尾hr-fp16-部署模型2026-11-03)：P01 以部署中的 HR FP16 模型 **CLOSED（有範圍）**。
+
 2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；F03 producer 的乾淨 `a9c3d9b` 正式驗收見 [§12](#12-f03-producer-聚合器2026-10-31)；新實作的 bounded detection session 見 [§13](#13-f01f04-bounded-detection-session2026-10-31)，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 仍 OPEN。§1–§11 保留各階段當時的狀態。
 
 **完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
@@ -225,3 +227,24 @@ F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與�
 本版保留單 JPEG staging，未實作雙 STAGE overlap。交付的固定容量 `DetectionSessionResult` 包含完整 kept／suppressed candidates，與 tracking `ResultPacket` 不同；正常路徑沒有中間 count／status D2H。原 nvJPEG initcheck FAIL 仍依 [使用政策](PREPROCESS_USAGE_POLICY.md) 分開診斷，不因新 session 改稱原路徑 sanitizer PASS。
 
 **P01 仍 OPEN**：完整 tracking session 的 F05／GMC／F04b／tracker／ResultPacket／MOT writer、原列其他缺件及各階段未執行驗證仍須獨立判定；bounded detection session 的實作與有限驗證不能提升模型品質或 tracking 指標。後續依 [BACKLOG](BACKLOG.md) 接續。
+
+## 14. P01 收尾：HR FP16 部署模型（2026-11-03）
+
+§13 之後的進展：
+- 完整 tracking session 在 M3 完成並通過正式驗收（[TRACKING §14](TRACKING.md)）。
+- 部署模型改為 HR Full25 e10：輸入 1280×768（§15），engine 為 FP16（§16）。
+
+M4 以這個部署模型判定 P01（[TRACKING §17.4](TRACKING.md)，[正式證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)）：
+
+| 缺件 | 最終狀態 |
+| --- | --- |
+| H04 權重 native 交付 | HR head bundle `c6f3416f…` 由 native converter 產生；backbone ONNX `cc1fa6d3…` 來自 teacher primary EMA，特徵與訓練 cache 逐位元相同（[hr_deploy](../training/hr_deploy/README.md)）；student、teacher、base 的 hash 與 deploy manifest 一致 |
+| H05 decode | F04 已正式結案；HR profile 的 native AP50 與訓練紀錄差 −0.0001 pp |
+| H06 engine 身分 | v1 自建的 FP16 engine `8292cc23…`，build report 讀回值見 TRACKING §16。它是在 761889c 加上未提交修改（之後提交為 04912e2）下 build 的，身分以 SHA-256 固定 |
+| H07 manifest | 身分紀錄是 HR deploy manifest（`saccade-hr-deploy/1`）。native manifest 工具的 schema 1–3 不描述 HR profile，不另加 schema |
+| backbone／neck component I/O | P3 `[256,96,160]`、P4 `[512,48,80]`、P5 `[512,24,40]`，與 head 的輸入一致 |
+| engine 與 runtime 的身分一致 | M4 身分鏈；M3、M4 兩次正式驗收的 SCDR 與 MOT hash 相同 |
+| 函式庫 stream 行為 | TensorRT 沒有 aux stream，cuFFT 在 M；nsys 觀測 PASS |
+| 模型品質 | MOT17-10 AP50 86.02%，MOT17-02（首次開啟）72.91%；追蹤指標見 TRACKING §17.5 |
+
+**P01：CLOSED（有範圍）。** TensorRT 內部 kernel 的 racecheck／synccheck 仍未執行。其餘不涵蓋項目見 TRACKING §17.4。

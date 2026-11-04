@@ -1,6 +1,6 @@
 # F04：native 偵測後處理
 
-F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。**乾淨 `995bca5` 的 clean-source 正式驗收 PASS（受測範圍），F04 獨立結案**；source、binary、sanitizer 與六份 replay 身分見 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作，完整 async session 與 P01 仍 OPEN。2026-11-04：finalize 平行化的規格見 [§5](#5-平行-finalize2026-11-04-實作前固定)，尚未實作。
+F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。**乾淨 `995bca5` 的 clean-source 正式驗收 PASS（受測範圍），F04 獨立結案**；source、binary、sanitizer 與六份 replay 身分見 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作，完整 async session 與 P01 仍 OPEN。2026-11-04：finalize 已依 [§5](#5-平行-finalize2026-11-04-實作前固定) 平行化，[驗收 PASS](../evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md)，輸出 bytes 不變。
 
 ## 1. 支援範圍與資料
 
@@ -177,7 +177,7 @@ build/f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 
 ## 5. 平行 finalize（2026-11-04 實作前固定）
 
-狀態：規格已固定，尚未實作。觀測政策仍是 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)。本節只改 finalize 的執行方式，輸出 bytes 不變。
+狀態：**驗收 PASS**（`e4d45de`，[證據](../evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md)），結果見 §5.8。觀測政策仍是 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)。本節只改 finalize 的執行方式，輸出 bytes 不變。
 
 ### 5.1 動機
 
@@ -269,3 +269,21 @@ numeric failure 與 overflow 的輸出，都是 `reset()` 的結果再寫 done�
 7. 證據寫在 `evidence/f04/2026-11-04-parallel-finalize-<commit>/REPORT.md`：source、命令、exit、hash、以上結果、§5.5 cases 在現行 finalize 上的通過紀錄，以及「範圍外」一節。
 
 輸出 bytes 不變，所以 M4 的 MOT17-02 指標不受影響，不需要重新計分。
+
+### 5.8 結果（2026-11-04）
+
+分兩輪完成，兩輪都在乾淨 commit 上跑完整 §5.7：
+
+| 輪次 | 實作 | finalize（HR MOT17-10 trace） | 判定 |
+| --- | --- | ---: | --- |
+| 第一輪 `c050c84` | 256 threads；每個 thread 算一個 64-bit word；greedy 由單一 thread 讀 shared memory 中的 kept words | 116.4 µs | 正確性全過，速度門檻 FAIL（[證據](../evidence/f04/2026-11-04-parallel-finalize-c050c84/REPORT.md)） |
+| 第二輪 `e4d45de` | 1,024 threads；每個 warp 以兩次 ballot 組出一個 word；greedy 的 kept words 放在暫存器 | **50.4 µs** | **全部 PASS**（[證據](../evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md)） |
+
+第二輪的結果：
+
+- F04 驗收 PASS：四種 sanitizer 0 errors／hazards，各 37,077 checks；mutation 15/15 DETECTED；tracking session 驗收 PASS；7 個序列的 21 個 SCDR／MOT 檔與 M4 逐位元相同。
+- finalize 由 M4 的 1,539 µs 降到 50.4 µs；F04 五個 kernels 合計約 1,589 → 105 µs；D stream 每幀 GPU 工作 6.63 → 5.53 ms。
+- `postprocess_benchmark` 真實輸入（237–285 rows）的完整 F04 快 11.2–13.5 倍；只有 3–7 個框的合成輸入慢 0.6–3.6 µs，是 1,024-thread CTA 的固定成本。
+- `track_sequence` pipelined 7 個序列為 6.79–6.96 ms／幀（M4 為 7.24–8.51 ms），沒有控制 clock。
+
+實作中發現兩個加入 HR profile（`96ade04`）後就失效的驗收工具問題，已一併修正：`check_postprocess_mutations.sh` 的三個 needle，以及 `run_postprocess_acceptance.sh` 的 sanitizer 總結格式檢查。

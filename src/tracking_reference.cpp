@@ -56,7 +56,7 @@ TrackState initial_track_state(Epoch epoch) {
 }
 
 PredictedState predict_tracks(const TrackState& committed, const MotionContext& motion, FrameId frame,
-                              const TrackerConfig& c) {
+                              const TrackerConfig& c, const TrackControlHook& hook) {
     PredictedState out;
     out.epoch = committed.epoch;
     out.source_committed_frame = committed.committed_frame;
@@ -66,8 +66,14 @@ PredictedState predict_tracks(const TrackState& committed, const MotionContext& 
     for (auto t : committed.tracks) {
         if (!finite_track(t)) { out.error = Error::numeric; return out; }
         if (motion.status == MotionStatus::valid) {
-            t.x[0] += motion.tx;
-            t.x[1] += motion.ty;
+            if (hook) {
+                const auto control = hook(t);
+                t.x[0] += control[0];
+                t.x[1] += control[1];
+            } else {
+                t.x[0] += motion.tx;
+                t.x[1] += motion.ty;
+            }
         }
         math::kalman_predict(t.x.data(), t.P.data(), c.kalman.std_position, c.kalman.std_velocity);
         ++t.age;
@@ -341,7 +347,7 @@ ResultPacket TrackerReference::step(const DetectionCandidates& candidates, const
         packet.fail_code = fail_code_;
         return packet;
     }
-    const auto predicted = predict_tracks(committed_, motion, packet.frame, config_);
+    const auto predicted = predict_tracks(committed_, motion, packet.frame, config_, control_hook_);
     const auto batch = assemble_detection_batch(candidates, predicted, config_);
     auto update = associate_and_update(predicted, batch, motion, config_);
     if (update.error != Error::none) {
@@ -357,4 +363,5 @@ ResultPacket TrackerReference::step(const DetectionCandidates& candidates, const
     packet.tracks = std::move(update.rows);
     return packet;
 }
+void TrackerReference::set_control_hook(TrackControlHook hook) { control_hook_ = std::move(hook); }
 } // namespace saccade

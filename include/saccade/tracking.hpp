@@ -6,6 +6,7 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -93,6 +94,10 @@ struct TrackState {
 };
 TrackState initial_track_state(Epoch epoch);
 
+// Experiment-only CPU control, evaluated on the committed track before GMC
+// and Kalman prediction. An empty hook preserves the stock control arithmetic.
+using TrackControlHook = std::function<std::array<float, 2>(const Track&)>;
+
 // F08a output: this frame's working version, never committed by itself.
 struct PredictedPrior {
     std::uint64_t uid = 0;
@@ -111,7 +116,7 @@ struct PredictedState {
 // GMC control, one predict, age and removal (docs/TRACKING.md §6). frame is the
 // target frame k; identity consistency is F07's job, not checked here.
 PredictedState predict_tracks(const TrackState& committed, const MotionContext& motion, FrameId frame,
-                              const TrackerConfig& config);
+                              const TrackerConfig& config, const TrackControlHook& hook = {});
 
 // F04b output, owned by M after the candidate slot is consumed.
 struct BatchDetection {
@@ -148,6 +153,7 @@ class TrackerReference {
 public:
     explicit TrackerReference(Epoch epoch, const TrackerConfig& config = {});
     ResultPacket step(const DetectionCandidates& candidates, const MotionContext& motion);
+    void set_control_hook(TrackControlHook hook);
     const TrackState& committed() const { return committed_; }
     bool failed() const { return fail_frame_ != no_frame; }
 
@@ -157,6 +163,7 @@ private:
     FrameId next_frame_ = 0;
     FrameId fail_frame_ = no_frame;
     Error fail_code_ = Error::none;
+    TrackControlHook control_hook_;
 };
 
 } // namespace saccade

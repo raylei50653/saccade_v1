@@ -19,7 +19,7 @@ if(NOT SACCADE_ENABLE_DETECTION_SESSION)
   return()
 endif()
 add_library(saccade_tracking_session src/tracking_session.cpp src/tracking_tail_graph.cpp)
-target_link_libraries(saccade_tracking_session PUBLIC saccade_tracking_session_kernels saccade_motion_cuda
+target_link_libraries(saccade_tracking_session PUBLIC saccade_tracking_session_kernels saccade_flow_motion
   saccade_preprocess saccade_model_trt saccade_model_producer_cuda saccade_postprocess_cuda saccade_file_io saccade_sha256)
 target_compile_definitions(saccade_tracking_session PRIVATE
   SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
@@ -45,7 +45,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 set(SACCADE_TRACKING_ENGINE "" CACHE FILEPATH "F03 engine for tracking session integration tests")
 set(SACCADE_TRACKING_SEQUENCES "" CACHE PATH "MOT17 train sequences directory")
-set(SACCADE_TRACKING_RECORDS "" CACHE PATH "Directory containing paired MOT17 SDP SCDR/SCMO records")
+get_filename_component(SACCADE_MOTION2_RECORDS "${CMAKE_CURRENT_SOURCE_DIR}/../m1-data-v2" ABSOLUTE)
+set(SACCADE_TRACKING_RECORDS "${SACCADE_MOTION2_RECORDS}" CACHE PATH "Directory containing paired T01 SCDR and v1-motion/2 SCMO records")
 if(SACCADE_TRACKING_ENGINE AND SACCADE_TRACKING_SEQUENCES AND SACCADE_TRACKING_RECORDS)
   foreach(sequence 02 04 05 09 10 11 13)
     add_test(NAME tracking_session_mot17_${sequence} COMMAND tracking_session_tests

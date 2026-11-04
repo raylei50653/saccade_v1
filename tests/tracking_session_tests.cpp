@@ -42,7 +42,7 @@ Stream run(const std::string& engine, const std::filesystem::path& sequence, Tra
     TrackingSession session(engine, cfg);
     check(session.identity().find("tracker_config_sha256=" + sha256_hex(canonical_tracker_config(cfg.tracker))) != std::string::npos,
           "tracker identity hash");
-    check(session.identity().find("motion_profile=v1-motion/1\ntracker_profile=v1-tracker/1\npacket_profile=v1") != std::string::npos,
+    check(session.identity().find("motion_profile=v1-motion/2\ntracker_profile=v1-tracker/1\npacket_profile=v1") != std::string::npos,
           "identity profiles");
     Stream out;
     const auto receive = [&] {
@@ -132,7 +132,7 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
         cfg.result_slots = slots == 1 ? 8 : 5;
         compare(prefix, run(engine, sequence, cfg, prefix_count), slots == 1 ? "graph rings 1/1/8" : "graph rings 3/3/5");
     }
-    if (sequence.filename() == "MOT17-10-SDP" || sequence.filename() == "MOT17-05-SDP") {
+    {
         for (const auto seed : {0x12345678ULL, 0xbadc0ffeeULL}) {
             cfg.perturb_seed = seed;
             cfg.motion_slots = 1; cfg.candidate_slots = 1; cfg.result_slots = 8;

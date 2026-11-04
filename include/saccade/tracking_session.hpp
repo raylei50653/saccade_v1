@@ -2,7 +2,7 @@
 
 #include "saccade/model_profile.hpp"
 
-#include "saccade/motion_cuda.hpp"
+#include "saccade/flow_motion_cuda.hpp"
 #include "saccade/preprocess.hpp"
 #include "saccade/tracking_cuda.hpp"
 
@@ -20,7 +20,7 @@ struct TrackingSessionConfig {
     unsigned candidate_slots = 2, motion_slots = 2, result_slots = 4;
     PreprocessConfig preprocess{}; // output size is selected by the model profile
     ModelProfile profile = kDefaultModelProfile;
-    MotionConfig motion{};
+    FlowConfig flow{};
     TrackerConfig tracker{};
     TrackingSessionMode mode = TrackingSessionMode::Pipelined;
     bool cuda_graph = true; // F03/producer/F04 and tracking tail; nvJPEG stays outside
@@ -29,6 +29,7 @@ struct TrackingSessionConfig {
 struct TrackingSessionResult {
     PacketBytes bytes{};
     ResultPacket packet;
+    MotionContext motion;
 };
 namespace detail {
 // Slot guards select TS from device CTL without changing the M2 pointer API.

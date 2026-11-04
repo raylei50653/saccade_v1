@@ -2,6 +2,7 @@
 #include "saccade/cleanup.hpp"
 #include "saccade/flow_config.hpp"
 #include "saccade/detail/flow_gray.cuh"
+#include "saccade/detail/flow_cells.cuh"
 #include "nvOpticalFlowCuda.h"
 
 #include <cuda_runtime.h>
@@ -25,19 +26,11 @@ __global__ void grayscale(const std::uint8_t* rgb, std::uint8_t* dst, std::size_
     if (x >= w/s || y >= h/s) return;
     dst[y*pitch+x] = detail::gray_pixel(rgb,w,h,s,x,y);
 }
-__device__ float median4(int a, int b, int c, int d) {
-    if (a > b) { const int t=a; a=b; b=t; }
-    if (c > d) { const int t=c; c=d; d=t; }
-    const int lo = a > c ? a : c, hi = b < d ? b : d;
-    return float(lo + hi) / 64.f;
-}
 __global__ void cells_kernel(const std::uint8_t* raw, std::size_t pitch, Vector* out, int cols, int rows) {
     const int x=blockIdx.x*blockDim.x+threadIdx.x, y=blockIdx.y*blockDim.y+threadIdx.y;
     if (x>=cols || y>=rows) return;
-    const auto* a=reinterpret_cast<const short2*>(raw + 2*y*pitch) + 2*x;
-    const auto* b=reinterpret_cast<const short2*>(raw + (2*y+1)*pitch) + 2*x;
     // API input=previous, reference=current: raw vectors already point forward.
-    out[y*cols+x] = {median4(a[0].x,a[1].x,b[0].x,b[1].x), median4(a[0].y,a[1].y,b[0].y,b[1].y)};
+    out[y*cols+x] = detail::reduce_cell(raw,pitch,x,y);
 }
 }
 struct Engine::Impl {

@@ -1,4 +1,4 @@
-"""Stream-placement gate of docs/TRACKING.md §17.3 on two nsys sqlite exports.
+"""Stream-placement gate of docs/TRACKING.md §20.8 on two nsys sqlite exports.
 
 NODE is a ``--cuda-graph-trace=node`` capture and GRAPH a
 ``--cuda-graph-trace=graph`` capture of the same binary, input and settings.
@@ -34,11 +34,11 @@ S = r"saccade::detail::<unnamed>::"
 # (category, stream, demangled-name regex); "engine" is the NVTX rule.
 RULES = [
     ("F02", "D", U + r"(horizontal|vertical|tiled_hr)\("),
-    ("F05", "D", U + r"(image_kernel|image_header)\("),
+    ("F05", "D", U + r"flow_gray\("),
     ("producer", "D", U + r"(initialize\(saccade::PostprocessProducerStatus \*|finite\(|aggregate\()"),
     ("F04", "D", U + r"(initialize\(const saccade::PostprocessProducerStatus \*|decode\(|adaptive_prefix\(|dense_merge\(|finalize\(saccade::DetectionCandidates \*)"),
-    ("cuFFT", "M", r"void regular_fft(_r2c|_c2r)?<"),
-    ("F06", "M", U + r"(reset_numeric|motion_stage|deliver|cross_power|reduce_correlation|context_kernel)\("),
+    ("F06", "M", U + r"flow_(mask|input|output|cells|count|keys|context)\("),
+    ("flow median sort", "M", r"void cub::"),
     ("tracking", "M", U + r"(predict_kernel|batch_kernel|update_kernel)\("),
     ("session control", "M", S + r"(initialize|begin|stage|candidates|commit)\("),
     ("packet", "M", S + r"packet\("),

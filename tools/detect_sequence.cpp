@@ -3,6 +3,7 @@
 #include "saccade/mot_output.hpp"
 
 #include <charconv>
+#include <algorithm>
 #include <chrono>
 #include <exception>
 #include <filesystem>
@@ -66,6 +67,8 @@ int main(int argc, char** argv) {
         }
         const std::filesystem::path sequence = argv[2];
         const auto info = read_sequence_info(sequence / "seqinfo.ini");
+        config.preprocess.max_width = std::max(1920, info.width);
+        config.preprocess.max_height = std::max(1080, info.height);
         saccade::DetectionRecords records{config.epoch, {}};
         std::uint64_t kept = 0, suppressed = 0;
         saccade::DetectionSession session(argv[1], config);

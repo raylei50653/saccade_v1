@@ -11,6 +11,7 @@
 
 #include <NvInfer.h>
 #include <cuda_runtime.h>
+#include <algorithm>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -63,6 +64,7 @@ struct TrackingSession::Impl {
     };
     struct HostSlot {
         PacketBytes* data = nullptr;
+        MotionContext* motion = nullptr;
         cudaEvent_t done = nullptr;
     };
     TrackingSessionConfig config;
@@ -79,7 +81,7 @@ struct TrackingSession::Impl {
     std::unique_ptr<nvinfer1::ICudaEngine> engine;
     std::unique_ptr<nvinfer1::IExecutionContext> context;
     std::unique_ptr<NativePreprocessor> preprocess;
-    std::unique_ptr<MotionCuda> motion;
+    std::unique_ptr<FlowMotionCuda> motion;
     std::vector<CandidateSlot> candidates;
     std::vector<HostSlot> results;
     std::vector<DetectGraph> detect_graphs;
@@ -108,13 +110,15 @@ struct TrackingSession::Impl {
         require(cfg.candidate_slots >= 1 && cfg.motion_slots >= 1, "candidate and motion slots must be positive");
         require(cfg.result_slots >= 1, "result_slots must be positive");
         validate_tracker_config(cfg.tracker);
-        const auto key = motion_image_key(cfg.original_width, cfg.original_height, cfg.motion);
+        const auto key = flow_image_key(cfg.original_width, cfg.original_height);
         const auto& profile = model_profile(cfg.profile);
         require((cfg.preprocess.output_width == kT01ModelProfile.width && cfg.preprocess.output_height == kT01ModelProfile.height) ||
                 (cfg.preprocess.output_width == profile.width && cfg.preprocess.output_height == profile.height),
                 "preprocessing dimensions differ from the selected model profile");
         config.preprocess.output_width = static_cast<int>(profile.width);
         config.preprocess.output_height = static_cast<int>(profile.height);
+        config.preprocess.max_width = std::max(1920, cfg.original_width);
+        config.preprocess.max_height = std::max(1080, cfg.original_height);
         try {
             cu(cudaSetDevice(cfg.device), "session cudaSetDevice");
             cu(cudaStreamCreateWithFlags(&detect, cudaStreamNonBlocking), "create detect stream");
@@ -145,7 +149,7 @@ struct TrackingSession::Impl {
             context.reset(engine->createExecutionContext());
             require(context != nullptr, "create session execution context");
             preprocess = std::make_unique<NativePreprocessor>(detect, config.preprocess);
-            motion = std::make_unique<MotionCuda>(key, cfg.motion, cfg.epoch, cfg.motion_slots);
+            motion = std::make_unique<FlowMotionCuda>(key, cfg.epoch, cfg.motion_slots, consumer);
             cu(cudaMalloc(&raw, profile.raw_elements() * sizeof(float)), "allocate raw tensors");
             cu(cudaMalloc(&statuses, 9 * 256), "allocate plugin statuses");
             cu(cudaMalloc(&producer, sizeof(*producer)), "allocate aggregate");
@@ -189,6 +193,7 @@ struct TrackingSession::Impl {
             results.resize(cfg.result_slots);
             for (auto& slot : results) {
                 cu(cudaMallocHost(&slot.data,sizeof(*slot.data)), "allocate pinned result slot");
+                cu(cudaMallocHost(&slot.motion,sizeof(*slot.motion)), "allocate pinned motion result");
                 *slot.data = {};
                 cu(cudaEventCreateWithFlags(&slot.done,cudaEventDisableTiming), "create result event");
             }
@@ -222,9 +227,13 @@ struct TrackingSession::Impl {
                      << "\noriginal_width=" << cfg.original_width << "\noriginal_height=" << cfg.original_height
                      << "\nmode=" << (cfg.mode == TrackingSessionMode::Serial ? "serial" : "pipelined")
                      << "\ncuda_graph=" << (cfg.cuda_graph ? "true" : "false")
-                     << "\nperturb_seed=" << cfg.perturb_seed << "\nmotion.downscale=" << cfg.motion.downscale
-                     << "\nmotion.pcr_threshold=" << std::hexfloat << cfg.motion.pcr_threshold
-                     << "\nmotion.max_shift_fraction=" << cfg.motion.max_shift_fraction << std::defaultfloat << '\n'
+                     << "\nperturb_seed=" << cfg.perturb_seed << "\nflow.reference_width=" << FlowConfig::reference_width
+                     << "\nflow.reference_height=" << FlowConfig::reference_height << "\nflow.grid=" << FlowConfig::grid
+                     << "\nflow.perf=" << FlowConfig::perf << "\nflow.cell=" << FlowConfig::cell
+                     << "\nflow.mask_score=" << std::hexfloat << FlowConfig::mask_score << std::defaultfloat
+                     << "\nflow.min_cells=" << FlowConfig::min_cells << "\nflow.scale=" << key.downscale
+                     << "\nflow.width=" << key.width << "\nflow.height=" << key.height
+                     << "\nnvof_library=" << motion->library_path() << '\n'
                      << canonical_tracker_config(cfg.tracker) << preprocess->identity();
             configuration = cfg_text.str();
         } catch (...) { release(); throw; }
@@ -321,7 +330,7 @@ struct TrackingSession::Impl {
             report.release(p,[](auto* h) { std::unique_ptr<NativePreprocessor> hold(h); h->close(); });
         }
         if (auto* p = motion.release()) {
-            report.release(p, [](auto* h) { std::unique_ptr<MotionCuda> hold(h); h->close(); });
+            report.release(p, [](auto* h) { std::unique_ptr<FlowMotionCuda> hold(h); h->close(); });
         }
         context.reset(); engine.reset(); runtime.reset();
         for (auto& slot : candidates) {
@@ -332,6 +341,7 @@ struct TrackingSession::Impl {
         for (auto& slot : results) {
             report.release(slot.done,[](auto p) { cu(cudaEventDestroy(p),"destroy result event"); });
             report.release(slot.data,[](auto p) { cu(cudaFreeHost(p),"free pinned result"); });
+            report.release(slot.motion,[](auto p) { cu(cudaFreeHost(p),"free pinned motion result"); });
         }
         report.release(warmup_images,[](auto p) { cu(cudaFree(p),"free warmup input"); });
         report.release(raw,[](auto p) { cu(cudaFree(p),"free raw"); });
@@ -417,8 +427,9 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
         d_delay();
         cu(cudaEventRecord(candidate.ready, s.detect), "record CS ready");
         detail::tracking_session_begin(s.control, s.config.epoch, frame, s.consumer);
+        detail::tracking_session_stage(s.control, nullptr, nullptr, nullptr, s.consumer);
         m_delay();
-        s.motion->enqueue_estimate(s.consumer, frame, s.motion_context, &s.control->value.run_stage, &s.control->value);
+        s.motion->enqueue_estimate(s.consumer, frame, s.motion_context, &s.control->value);
         m_delay();
         detail::tracking_session_stage(s.control, nullptr, s.motion_context, s.tracker_motion, s.consumer);
         for (unsigned i = 0; i < 2; ++i)
@@ -427,6 +438,8 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
         m_delay();
         detail::tracking_session_stage(s.control, &s.predicted->error, nullptr, nullptr, s.consumer);
         cu(cudaStreamWaitEvent(s.consumer, candidate.ready, 0), "M wait CS ready");
+        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+        s.motion->enqueue_mask(s.consumer, candidate.data, &s.control->value);
         if (s.config.cuda_graph && !s.config.perturb_seed) {
             s.tracking_graph->launch(frame % s.config.candidate_slots, s.consumer);
             // A later release still protects every CS read, including graph work.
@@ -449,6 +462,7 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
             detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
         }
         auto& host = s.results[frame % s.config.result_slots];
+        cu(cudaMemcpyAsync(host.motion, s.motion_context, sizeof(*host.motion), cudaMemcpyDeviceToHost, s.consumer), "copy motion context");
         cu(cudaMemcpyAsync(host.data, s.device_result, packet_bytes, cudaMemcpyDeviceToHost, s.consumer), "copy packet");
         cu(cudaEventRecord(host.done, s.consumer), "record packet ready");
         candidate.recorded = true;
@@ -466,6 +480,7 @@ TrackingSessionResult TrackingSession::receive() {
         TrackingSessionResult result;
         result.bytes = *slot.data;
         result.packet = decode_packet(result.bytes);
+        result.motion = *slot.motion;
         require(result.packet.epoch == s.config.epoch && result.packet.frame == s.received, "tracking packet identity mismatch");
         ++s.received;
         if (result.packet.status != ResultStatus::ok) s.lifecycle = TrackingSessionState::Failed;
@@ -497,7 +512,7 @@ TrackingSessionState TrackingSession::state() const { return impl_->lifecycle; }
 std::string TrackingSession::identity() const {
     const auto& s=*impl_;
     std::ostringstream out;
-    out << "contract=f01-f09-session/1\nmotion_profile=" << kMotionProfile << "\ntracker_profile=" << kTrackerProfile
+    out << "contract=f01-f09-session/1\nmotion_profile=" << kFlowMotionProfile << "\ntracker_profile=" << kTrackerProfile
         << "\npacket_profile=v1\nengine_sha256=" << s.engine_hash
         << "\ntracker_config_sha256=" << sha256_hex(canonical_tracker_config(s.config.tracker))
         << "\nsource_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY << '\n'

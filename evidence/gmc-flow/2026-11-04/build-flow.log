@@ -1,0 +1,16 @@
+[1/14] Building CXX object CMakeFiles/saccade_preprocess.dir/src/preprocess.cpp.o
+[2/14] Building CXX object CMakeFiles/saccade_flow_records.dir/src/flow_records.cpp.o
+[3/14] Linking CXX static library libsaccade_flow_records.a
+[4/14] Building CXX object CMakeFiles/flow_records_tests.dir/tests/flow_records_tests.cpp.o
+[5/14] Building CXX object CMakeFiles/flow_sequence.dir/tools/flow_sequence.cpp.o
+[6/14] Building CXX object CMakeFiles/flow_cuda_tests.dir/tests/flow_cuda_tests.cpp.o
+FAILED: [code=1] CMakeFiles/flow_cuda_tests.dir/tests/flow_cuda_tests.cpp.o
+/usr/sbin/c++  -I/home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/include -isystem /opt/cuda/targets/x86_64-linux/include -isystem /opt/cuda/targets/x86_64-linux/include/cccl -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -MD -MT CMakeFiles/flow_cuda_tests.dir/tests/flow_cuda_tests.cpp.o -MF CMakeFiles/flow_cuda_tests.dir/tests/flow_cuda_tests.cpp.o.d -o CMakeFiles/flow_cuda_tests.dir/tests/flow_cuda_tests.cpp.o -c /home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/tests/flow_cuda_tests.cpp
+/home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/tests/flow_cuda_tests.cpp: In function ‘int main(int, char**)’:
+/home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/tests/flow_cuda_tests.cpp:48:23: error: inconsistent deduction for ‘auto’: ‘const saccade::flow::Vector’ and then ‘const std::vector<unsigned char>’
+   48 |                 const auto truth=shifts[j], b=shift(a,w,h,truth.dx,truth.dy);
+      |                       ^~~~
+[7/14] Linking CXX executable flow_records_tests
+[8/14] Building CUDA object CMakeFiles/saccade_resize_cuda.dir/cuda/resize.cu.o
+[9/14] Building CUDA object CMakeFiles/saccade_flow_cuda.dir/cuda/flow.cu.o
+ninja: build stopped: subcommand failed.

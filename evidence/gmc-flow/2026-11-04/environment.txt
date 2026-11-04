@@ -1,0 +1,24 @@
+Source start: 0e46d9ce04de4a8702ab46db65f1f3062ea54745
+NVOF tool commit: 3d489b7
+Hook/harness commit: b3874ba
+Build: Release, C++20, CUDA20, sm_120, CUDA/PREPROCESS/FLOW=ON, TensorRT=OFF
+NVOF: API 2.0, primary context, one non-default IO stream, grid4, grayscale8, no hints/cost/ROI
+NVOF loaded path: /usr/lib/wsl/lib/libnvidia-opticalflow.so.1
+GPU: NVIDIA GeForce RTX 5070 Ti Laptop GPU, 617.42, 00000000:01:00.0
+$ uname -a
+Linux DESKTOP-0FLA6SQ 6.18.33.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Fri Jun  5 01:12:21 UTC 2026 x86_64 GNU/Linux
+$ cmake --version
+cmake version 4.4.5
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+$ c++ --version
+c++ (GCC) 16.2.1 20260810
+Copyright (C) 2026 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+$ nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Tue_Sep_01_08:45:21_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.92
+Build cuda_13.4.r13.4/compiler.38855100_0

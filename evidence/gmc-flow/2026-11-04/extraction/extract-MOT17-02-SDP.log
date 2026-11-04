@@ -1,0 +1,6 @@
+$ flock /home/ray/.cache/saccade-v1/gpu.lock timeout 300 /home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow/flow_sequence /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-02-SDP /home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow/flow/MOT17-02-SDP.scfl --perf slow
+NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=1920 height=1080 grid=4 perf=5
+NvOFInit NV_OF_STATUS=0
+flow_sequence frames=600 cells=240x135 perf=5
+
+exit=0

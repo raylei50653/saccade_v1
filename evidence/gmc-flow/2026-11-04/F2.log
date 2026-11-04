@@ -1,0 +1,51 @@
+UpdateCTestConfiguration  from :/home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow/DartConfiguration.tcl
+Test project /home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 29
+    Start 29: flow_synthetic_shift
+
+29: Test command: /home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow/flow_cuda_tests "--f2"
+29: Working Directory: /home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow
+29: Test timeout computed to be: 180
+29: NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=1920 height=1080 grid=4 perf=5
+29: NvOFInit NV_OF_STATUS=0
+29: NvOFExecute NV_OF_STATUS=0 1920x1080
+29: F2 1920x1080 truth=(8.000000,4.000000) all_cells=32400 median=(8.000000,4.000000) PASS
+29: NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=1920 height=1080 grid=4 perf=5
+29: NvOFInit NV_OF_STATUS=0
+29: NvOFExecute NV_OF_STATUS=0 1920x1080
+29: F2 1920x1080 truth=(-5.000000,3.000000) all_cells=32400 median=(-5.000000,3.000000) PASS
+29: NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=1920 height=1080 grid=4 perf=5
+29: NvOFInit NV_OF_STATUS=0
+29: NvOFExecute NV_OF_STATUS=0 1920x1080
+29: F2 1920x1080 truth=(2.500000,-1.500000) all_cells=32400 median=(2.500000,-1.515625) PASS
+29: NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=640 height=480 grid=4 perf=5
+29: NvOFInit NV_OF_STATUS=0
+29: NvOFExecute NV_OF_STATUS=0 640x480
+29: F2 640x480 truth=(8.000000,4.000000) all_cells=4800 median=(8.000000,4.000000) PASS
+29: NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=640 height=480 grid=4 perf=5
+29: NvOFInit NV_OF_STATUS=0
+29: NvOFExecute NV_OF_STATUS=0 640x480
+29: F2 640x480 truth=(-5.000000,3.000000) all_cells=4800 median=(-5.000000,3.000000) PASS
+29: NVOF library=/usr/lib/wsl/lib/libnvidia-opticalflow.so.1 API=2.0 width=640 height=480 grid=4 perf=5
+29: NvOFInit NV_OF_STATUS=0
+29: NvOFExecute NV_OF_STATUS=0 640x480
+29: F2 640x480 truth=(2.500000,-1.500000) all_cells=4800 median=(2.500000,-1.531250) PASS
+29: F2 PASS
+1/1 Test #29: flow_synthetic_shift .............   Passed    1.33 sec
+
+The following tests passed:
+	flow_synthetic_shift
+
+100% tests passed out of 1
+
+Label Time Summary:
+flow    =   1.33 sec*proc (1 test)
+gpu     =   1.33 sec*proc (1 test)
+
+Total Test time (real) =   1.33 sec

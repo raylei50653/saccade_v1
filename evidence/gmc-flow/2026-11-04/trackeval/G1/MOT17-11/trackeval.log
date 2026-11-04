@@ -1,0 +1,31 @@
+
+CLEAR Config:
+THRESHOLD            : 0.5
+PRINT_CONFIG         : True
+
+Identity Config:
+THRESHOLD            : 0.5
+PRINT_CONFIG         : True
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating v1
+
+
+HOTA: v1-pedestrian                HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-11-SDP                       65.608    69.971    61.616    74.15     88.21     68.124    82.666    90.165    67.593    73.528    88.617    65.158
+COMBINED                           65.608    69.971    61.616    74.15     88.21     68.124    82.666    90.165    67.593    73.528    88.617    65.158
+
+CLEAR: v1-pedestrian               MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag
+MOT17-11-SDP                       77.904    89.268    78.105    81.083    96.457    48        29.333    22.667    69.202    7651      1785      281       19        36        22        17        24
+COMBINED                           77.904    89.268    78.105    81.083    96.457    48        29.333    22.667    69.202    7651      1785      281       19        36        22        17        24
+
+Identity: v1-pedestrian            IDF1      IDR       IDP       IDTP      IDFN      IDFP
+MOT17-11-SDP                       74.424    68.493    81.48     6463      2973      1469
+COMBINED                           74.424    68.493    81.48     6463      2973      1469
+
+Count: v1-pedestrian               Dets      GT_Dets   IDs       GT_IDs
+MOT17-11-SDP                       7932      9436      70        75
+COMBINED                           7932      9436      70        75
+RESULT HOTA=65.608 DetA=69.971 AssA=61.616 IDF1=74.424 MOTA=77.904 IDSW=19

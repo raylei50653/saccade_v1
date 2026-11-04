@@ -1,0 +1,1 @@
+flock /home/ray/.cache/saccade-v1/gpu.lock bash -c cmake\ -S\ .\ -B\ build/f04-dev\ -DCMAKE_BUILD_TYPE=Release\ -DSACCADE_ENABLE_CUDA=ON\ -DSACCADE_ENABLE_POSTPROCESS=ON\ -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc\ -DCMAKE_CUDA_ARCHITECTURES=120\ \&\&\ cmake\ --build\ build/f04-dev\ --parallel\ 3\ --target\ postprocess_cuda_tests\ postprocess_tests 

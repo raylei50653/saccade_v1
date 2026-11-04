@@ -1,0 +1,56 @@
+Binding spec at commit B:
+### 5.2 不變的部分
+
+- 觀測政策、CPU reference（`src/postprocess.cpp`）、`DetectionCandidates` ABI（9,664 bytes）、`postprocess_cuda` 介面與 host 驗參。
+- `initialize`、`decode`、`adaptive_prefix`、`dense_merge` 四個 kernels。
+- 每次 enqueue 仍是五個 kernels，launch shape 固定；不配置、不同步、不讀回；可 graph capture／replay。
+- `postprocess_workspace_bytes()` 仍為 295,712 bytes。新 finalize 的暫存放在 shared memory。
+
+Unchanged baseline identity:
+source_commit=e14c94c49a7240efa428a62d299c33f78a0b72ec
+source_dirty=false
+workspace_bytes=698432
+
+Final implementation development identity:
+source_commit=18eb1c4832129d0fe4d636dbfc7f646571da7de7
+source_dirty=true
+workspace_bytes=698432
+finalize_strategy=cta-bitmask-greedy-v1
+
+Workspace constants at e14c94c:
+namespace {
+constexpr unsigned kThreads = 128;
+constexpr unsigned kSortThreads = 256;
+constexpr unsigned kRankThreshold = 100;
+constexpr unsigned kRadixThreshold = 512;
+constexpr unsigned kDenseTileItems = 1024;
+constexpr unsigned kMaxPositions = kHrModelProfile.positions();
+constexpr unsigned kDenseTiles = (kMaxPositions + kDenseTileItems - 1) / kDenseTileItems;
+constexpr unsigned kCandidateIdBits = 15;
+constexpr unsigned kSortKeyBits = 32 + kCandidateIdBits;
+constexpr std::uint64_t kInvalidKey = ~std::uint64_t{0};
+constexpr std::uint64_t kCandidateIdMask = (std::uint64_t{1} << kCandidateIdBits) - 1;
+static_assert(kMaxPositions <= (1u << kCandidateIdBits));
+
+// Positions are indexed by the original model ID; top_ids is the stable,
+// class-independent score order. No atomically assigned output row exists.
+struct Decoded {
+    float x1, y1, x2, y2, score;
+    std::uint32_t class_id;
+};
+struct Workspace {
+    std::uint32_t run_stage, numeric, qualified;
+    Decoded positions[kMaxPositions];
+    std::uint32_t top_ids[kPostprocessCapacity];
+    std::uint64_t full_keys[kMaxPositions];
+    std::uint64_t compact_keys[kRadixThreshold];
+    std::uint64_t partial_keys[kDenseTiles * kPostprocessCapacity];
+};
+struct KernelInputs {
+    const float* cls[3]; const float* reg[3];
+    unsigned widths[3], planes[3], positions, tiles;
+
+Existing acceptance summary mismatch (static inspection only):
+tests/postprocess_cuda_tests.cpp:671:        std::cout << "max_score_abs_error=" << worst_score_error << '\n';
+tests/postprocess_cuda_tests.cpp:672:        std::cout << "postprocess_cuda_tests: " << checks << " checks passed\n";
+scripts/run_postprocess_acceptance.sh:102:  rg -q '^checks=[0-9]+ max_score_abs_error=[0-9.e+-]+ PASS$' "$cap/sanitizer-$tool.log"

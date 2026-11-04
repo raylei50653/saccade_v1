@@ -34,7 +34,7 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
                       cudaStream_t stream);
 ```
 
-每個 host submitter thread 須在 frame 工作開始前呼叫 `cudaSetDevice(device)`，在該 thread 建立／啟用正確的 CUDA primary context；不能只依另一個 thread 已初始化 device。呼叫者建立 explicit non-default stream、配置 raw tensors、producer status、output slot 與 workspace，並對每個 context 在 frame 工作開始前呼叫一次 `postprocess_cuda_load_kernels()` 完成 eager loading。F04 enqueue 不代 caller 初始化 thread context。`postprocess_workspace_bytes()` 在本版回報 **295,712 bytes** 的固定 scratch；workspace 需至少 **8-byte alignment**，`cudaMalloc` 滿足需求。輸出 ABI 維持 9,664 bytes。`postprocess_cuda_identity()` 回報編譯 source／dirty、nvcc／flags／架構、CUDA runtime／driver、GPU、CUB 版本、排序分界與 workspace 身分。
+每個 host submitter thread 須在 frame 工作開始前呼叫 `cudaSetDevice(device)`，在該 thread 建立／啟用正確的 CUDA primary context；不能只依另一個 thread 已初始化 device。呼叫者建立 explicit non-default stream、配置 raw tensors、producer status、output slot 與 workspace，並對每個 context 在 frame 工作開始前呼叫一次 `postprocess_cuda_load_kernels()` 完成 eager loading。F04 enqueue 不代 caller 初始化 thread context。`postprocess_workspace_bytes()` 在本版回報 **698,432 bytes** 的固定 scratch（加入 HR profile 前為 295,712 bytes）；workspace 需至少 **8-byte alignment**，`cudaMalloc` 滿足需求。輸出 ABI 維持 9,664 bytes。`postprocess_cuda_identity()` 回報編譯 source／dirty、nvcc／flags／架構、CUDA runtime／driver、GPU、CUB 版本、排序分界與 workspace 身分。
 
 所有存取範圍必須位於 current device、互不重疊且有足夠實際 allocation 範圍。可使用 `cudaMalloc` allocation 或同一 arena 的互不重疊 subranges；以 `cuMemGetAddressRange` 查不到 extent 的 allocation 類型在 enqueue 前拒絕，不假定支援 memory pool／virtual allocation。output 與 workspace 的傳入 bytes 亦須足夠，所有 host argument 拒絕都發生在第一個 kernel 前。
 
@@ -193,7 +193,7 @@ M4 的 nsys trace（[`track.nsys-rep`](../evidence/m4/2026-11-03-formal-cad5298/
 - 觀測政策、CPU reference（`src/postprocess.cpp`）、`DetectionCandidates` ABI（9,664 bytes）、`postprocess_cuda` 介面與 host 驗參。
 - `initialize`、`decode`、`adaptive_prefix`、`dense_merge` 四個 kernels。
 - 每次 enqueue 仍是五個 kernels，launch shape 固定；不配置、不同步、不讀回；可 graph capture／replay。
-- `postprocess_workspace_bytes()` 仍為 295,712 bytes。新 finalize 的暫存放在 shared memory。
+- `postprocess_workspace_bytes()` 不變，仍為 698,432 bytes。新 finalize 的暫存放在 shared memory。（本項原寫 295,712 bytes，那是加入 HR profile 前的值；Codex 據此停下，2026-11-04 更正。）
 - **對任何輸入，新 finalize 的完整輸出 bytes 都與現行 finalize 相同**，包括 numeric failure、overflow、空結果與未用 rows。
 
 ### 5.3 現行 finalize 的等價定義
@@ -253,6 +253,8 @@ numeric failure 與 overflow 的輸出，都是 `reset()` 的結果再寫 done�
 ### 5.7 驗收
 
 全部在同一個乾淨 commit 上執行；GPU 工作以 `flock ~/.cache/saccade-v1/gpu.lock` 依序進行。
+
+先修補驗收工具：`96ade04` 起，`postprocess_cuda_tests` 的總結改為分兩行輸出（`max_score_abs_error=…` 與 `postprocess_cuda_tests: N checks passed`），但 `run_postprocess_acceptance.sh` 仍比對舊的單行 `checks=N max_score_abs_error=… PASS`，sanitizer 步驟因此必定失敗。改為比對這兩行，其他檢查不變。
 
 1. CPU：`build/cpu` 的全部 CTest 通過。
 2. `scripts/run_postprocess_acceptance.sh build/<新目錄>` PASS：含 §5.5 的新 cases、六份 F03 replay、四種 sanitizer 0 errors／hazards，以及四個正控制。

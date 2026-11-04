@@ -99,7 +99,8 @@ for tool in memcheck initcheck racecheck synccheck; do
   [[ $(rg -Fxc -- "$summary" "$cap/sanitizer-$tool.log") == 1 ]] || {
     echo "missing or ambiguous zero-error $tool summary" >&2; exit 2;
   }
-  rg -q '^checks=[0-9]+ max_score_abs_error=[0-9.e+-]+ PASS$' "$cap/sanitizer-$tool.log"
+  rg -q '^max_score_abs_error=[0-9.e+-]+$' "$cap/sanitizer-$tool.log"
+  rg -q '^postprocess_cuda_tests: [0-9]+ checks passed$' "$cap/sanitizer-$tool.log"
   case $tool in
     memcheck) diagnostic='Invalid __global__ write';;
     initcheck) diagnostic='Uninitialized __global__ memory read';;

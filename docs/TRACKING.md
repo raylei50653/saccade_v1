@@ -510,3 +510,113 @@ F04b 在 device 驗證完整 pool 的 score/ID 順序；已有序時穩定壓實
 [Clean-source 正式報告](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) 已補完 Graph、tracking 排序與相關資源排程修改的驗收：步驟 1–3 使用乾淨 `4329ed7`，步驟 4–5 使用乾淨 `d21a144`。CPU 16/16、F04 5/5、mutations 15/15、完整 CUDA CTest 59/59 與報告所列 sanitizer／正控制全部通過；七序列的 T01 CPU／ordinary serial／graph pipelined 完整 packets 相同，HR 路徑與 §17.3 更新後的 stream 守門亦通過。
 
 HR FP16 七序列的 7 個 SCDR、7 個 MOT、7 個 offline MOT 與 M4 **21/21 逐位元相同**；未讀 GT、未重新計分。原 [CUDA Graph 測時](../evidence/cuda-graph/2026-11-04/REPORT.md)、§18 排序測時與 [資源排程報告](../evidence/resource-schedule/2026-11-04/REPORT.md) 保留開發來源身分；本次不改寫其失敗嘗試，也不將有限 sanitizer 結果延伸為完整 HR／TensorRT 內部驗收。仍未涵蓋項目見 §17.4 與 [STATUS](STATUS.md#未涵蓋與未完成邊界)。
+
+## 20. v1-motion/2：OFA 全域光流 GMC 整合（2026-11-04 規格，實作前固定）
+
+### 20.1 決定與依據
+
+TrackingSession 的 F05／F06 由 `v1-motion/1`（§4–§5 的 PCR）改為 `v1-motion/2`，也就是光流實驗的 G1 臂：NVOFA 密集光流，取未遮罩 cells 的全域中位數。輸出仍是單一 `(tx, ty)`，所以 F07、F08a、F08b、CUDA tracker 與 ResultPacket wire format 都不變。
+
+依據是兩輪預先登記的實驗，見 [PLAN](../evidence/gmc-flow/PLAN.md)、[REVIEW](../evidence/gmc-flow/REVIEW.md)、[PLAN-2](../evidence/gmc-flow/PLAN-2.md)、[REVIEW-2](../evidence/gmc-flow/REVIEW-2.md)。G1 相對 PCR 的 HOTA：MOT17-10 +1.19、in-domain +0.51、PersonPath22 移動 +0.62、固定 +0.07、MOT17-02 −0.06。局部光流臂不採用。
+
+本節取代 §4–§5，以及 DATAFLOW／ASYNC_CONTROL 中 MI／SPEC／MotionState 的相關列；那些文件的改寫留到文件整理階段。PCR 程式（`MotionCuda`、CPU reference、`motion_sequence` 及其測試）保留為獨立工具，TrackingSession 不再使用。§17.3 的 M4 腳本屬於 `v1-motion/1` 時期的紀錄。
+
+### 20.2 參數（`v1-motion/2`，全部固定）
+
+| 欄位 | 值 | 意義 |
+| --- | --- | --- |
+| `flow.reference_width`／`_height` | 1920／1080 | 決定縮小倍率 s |
+| `flow.grid` | 4 | NVOF output grid |
+| `flow.perf` | SLOW | NVOF perf level |
+| `flow.cell` | 8 | cell 邊長（OFA 解析度的像素） |
+| `flow.mask_score` | 0.45 | 遮罩用候選的最低 score（kept、class 0） |
+| `flow.min_cells` | 8 | 未遮罩 cells 少於此數即 rejected |
+
+- 倍率：`s = max(1, ceil(W/1920), ceil(H/1080))`，OFA 影像為 `w = floor(W/s)`、`h = floor(H/s)`。w 或 h < 32 時，session 建立時拒絕。
+- MOT17、PersonPath22 的 1080p 與 1280×718 序列都是 s = 1，與實驗完全相同；3840×2160 為 s = 2。
+- 選 SLOW 的理由：OFA 是獨立引擎，F06 在 M 上與同一幀 D 的 F03（約 5 ms）重疊，SLOW 的 2.0 ms 預期能藏在其中。§20.8 第 8 項驗證這一點；不成立時停下回報，不自行改 perf。
+
+### 20.3 F05（D stream）
+
+輸入為 F01 的 planar RGB8，輸出灰階 MotionImage，寫入 MI slot（NVOF 可用的 buffer）。
+
+- s = 1：與 `flow_sequence` 相同的算式、運算順序與編譯選項（`--fmad=false` 等），共用同一個 device 函式。輸出須與實驗的灰階逐位元相同。
+- s > 1：對 s×s 區塊內每個像素的 `0.299R + 0.587G + 0.114B` 依列優先累加（dy 外層、dx 內層），除以 s²，再做 `uint8(min(255, floor(v + 0.5)))`。
+- 發布 `mi_ready(k)` 的規則照舊；nvJPEG 前 host 等 `rgb_read_done` 的規則照舊。
+
+### 20.4 MotionState 與遮罩擷取
+
+- **MotionState**：每來源／epoch 一組，由 CTL 的 `committed_slot` 選擇，與 TS 由同一次 commit 發布。內容只有兩樣：
+  - `gray[2]`：上一個 committed 幀的 OFA 解析度灰階；
+  - `mask[2]`：該幀的 cell 遮罩（每 cell 一個 byte）。
+- **遮罩擷取（M，第 k 幀）**：在 `M wait CS ready` 之後、F04b／tracking graph 之前，由 run_stage 守護的 kernel 讀第 k 幀候選，寫入 working slot 的 mask。
+  - 取 `kDetectionKept`、class 0、`score ≥ 0.45` 的 rows。
+  - cell (c, r) 的中心換回原圖座標為 `(s·(8c+4), s·(8r+4))`；落在任一框的 `[x1, x2) × [y1, y2)` 內就標記。
+  - 這一步必須在 `candidate.consumed(k)` 之前完成。
+- 第 k 幀 commit 後，`gray[committed]` 與 `mask[committed]` 就是第 k+1 幀 F06 的參考。
+
+### 20.5 F06（M stream），第 k 幀
+
+1. **首幀**（`committed_frame = −1`）：不呼叫 OFA。`status = uninitialized`，t = 0。
+2. **輸入搬移**：守護的 kernel 把 `gray[committed]` 複製到固定的 OFA input buffer。OFA 只讀固定 buffer 與 MI(k)，不需要 host 知道 committed_slot。
+3. **OFA**：`NvOFExecute(input = 第 k−1 幀灰階, reference = MI(k))`。設定依 §20.2，不用 hints、cost 或 ROI；IO streams 都設為 M。OFA 只寫自己固定的 output buffer，所以和 cuFFT 一樣不受 run_stage 守護也無害。
+4. **Cells**：沿用實驗的 `reduce_cell`（2×2 個 grid-4 向量的逐分量中位數，單位 OFA 像素）。
+5. **全域中位數**：只計 `mask[committed]` 未標記的 cells，逐分量取中位數（偶數取中間兩個的平均）。
+   - 值都是 1/64 的整數倍，GPU 實作須與 CPU reference 逐位元相同。
+   - 少於 8 個 cells：`status = rejected`，t = 0。
+   - 否則 `status = valid`，`tx = s·median_x`、`ty = s·median_y`。
+6. **MotionContext**：`peak_x = peak_y = 0`、`pcr = 0`；valid 時 `confidence = 1`，其他狀態為 0。
+7. **輸出搬移與釋放**：守護的 kernel 把 MI(k) 複製到 `gray[working]`，然後記錄 `mi_consumed(k)`。
+
+CPU reference 為實驗的 `gmc_flow::FrameControl`（G1），輸入是 OFA 原始 grid 輸出或 SCFL cells 加上候選。
+
+### 20.6 OFA 的前置審查（整合前，未通過即停）
+
+比照 Bug 7038860 的 [nvJPEG 重現方法](../evidence/preprocess/2026-11-03-nvjpeg-stream-order/README.md)，以獨立程式在 IO stream = 同一個非預設 stream 的條件下檢查以下各項。每項 20 次，前置 spin 0.2 ms 與 20 ms 各做一組，另加一組先同步的對照：
+
+- **A1 讀取順序**：前方排 spin，再排「覆寫 input buffer」的 kernel，然後 Execute。若輸出的光流對應覆寫前的內容，就是違規。
+- **A2 寫後讀**：Execute 後立刻排「覆寫 input buffer」的 kernel。若輸出受到覆寫內容影響，就是違規。
+- **A3 輸出完成**：Execute 後立刻排 kernel 複製 output。若與同步後讀到的不同，就是違規。
+- **A4 決定性**：同一對影像重跑，output 逐位元相同；`flow_sequence` 重跑 MOT17-10，SCFL 與實驗的檔案逐位元相同。
+- **A5 host 阻塞**：量測 `NvOFExecute` 呼叫在 host 上的耗時（中位數／p95）。
+
+A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路，由審閱者另訂處置。A5 只記錄，影響由 §20.8 第 8 項判定。
+
+### 20.7 4K 輸入與工具
+
+- **4K 解碼容量**：`TrackingSession`、`detect_sequence`、`track_sequence` 的 `PreprocessConfig` 容量改為 `max(1920, W) × max(1080, H)`，W、H 為序列的宣告尺寸。1080p 以下的序列容量不變。
+- **`flow_sequence`**：支援 §20.2 的 s。s = 1 的輸出不變。
+- **`gmc_records SCDR SCFL OUT.scmo`**：新工具，以 CPU reference 產生 `v1-motion/2` 的 MotionContext 串流。沿用 SCMO 格式，key 欄位為 `(W, H, s, w, h)`。
+- **新 records**：
+  - `../saccade_v1-worktrees/m1-data-v2/`：T01 SCDR（與 `m1-data` 相同）＋ `v1-motion/2` SCMO。CTest 的 `SACCADE_TRACKING_RECORDS` 改指此處。
+  - HR：M4 SCDR 搭配實驗的 SCFL 產生的 SCMO。
+
+### 20.8 驗收（capture 前固定）
+
+`scripts/run_tracking_session_acceptance.sh` 更新為本節版本，在 GPU lock 下一次跑完，證據放在 `evidence/tracking-session/<日期>-v1-motion-2/`。任一項不過即停止，不放寬比較。
+
+1. **Clean source**：同 §14.5 第 1 項。另外核對 NVOF 載入路徑與 headers 的 SHA-256。
+2. **Build 與測試**：全新 CPU build 與全新 CUDA build（所有功能開啟）的 CTest 全部通過。CUDA 部分至少包含：
+   - 7 序列 T01 的 session packet 與 CPU reference（`m1-data-v2`）逐位元相同，serial、pipelined、兩個擾動 seed 都比；
+   - F05 灰階（s = 1 對 `flow_sequence`；s = 2 對 CPU 算式）、cells、遮罩、中位數的 CUDA 對 CPU 逐位元比較；
+   - §20.6 的 A1–A4；
+   - lifecycle。
+3. **MOT17 HR 部署路徑（7 序列）**：
+   - SCDR 與 M4 逐位元相同；
+   - session 的 MotionContext 串流與 `gmc_records`（M4 SCDR＋實驗 SCFL）相同；
+   - `track_sequence` pipelined、`--serial` 與 `track_offline` 的 MOT 三者逐位元相同，而且等於實驗 G1 臂的 MOT（`../saccade_v1-worktrees/gmc-flow/build/gmc-flow/arms/G1/`）。
+4. **PersonPath22 回歸**：
+   - 實驗納入的 69 個序列，`track_sequence` 的 MOT 等於第二輪 G1 臂的 MOT（`../saccade_v1-worktrees/gmc-flow/build/gmc-flow2/pp22/arms/G1/`）；
+   - 5 個 4K 序列須能完整跑完，計分只記錄。
+5. **計分**：MOT17 val／in-domain／MOT17-02 與 PP-moving／PP-static／PP-all 重新計分。數值須等於實驗的 G1（由第 3、4 項的 bytes 推得，此處確認）。4K 另列。
+6. **Sanitizer**：沿用 §14.5 第 4 項，motion suite 換成新的 F05／遮罩／cells／中位數／搬移 kernels。
+   - 完整 session memcheck：HR MOT17-10 前 30 幀與 lifecycle。
+   - racecheck／synccheck：T01 MOT17-10 前 10 幀，只檢查 v1 kernels（OFA、TensorRT、nvJPEG 內部不檢查）。
+   - 正控制照舊。
+7. **Stream 位置**：
+   - `check_stream_placement.py` 更新：F05 kernels 在 D；遮罩、輸入／輸出搬移、OFA、cells、中位數在 M。
+   - nsys 顯示 OFA 執行與同一幀 D 的 F03 時間重疊。
+8. **吞吐**：無 profiler 的 HR pipelined `track_sequence`，7 序列各跑 3 次。以總幀數÷總時間計算 ms/frame，與同一次執行中 main `23ade53` 的同樣量測比較：增加不得超過 3%。serial 單幀延遲只記錄。
+9. **Evidence report**：同 §14.5 第 5 項，另附 §20.6 的結果。
+
+**不涵蓋**：OFA 內部的 sanitizer、MEDIUM／FAST 的品質、局部光流臂。

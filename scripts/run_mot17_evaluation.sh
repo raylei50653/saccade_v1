@@ -152,8 +152,14 @@ ln -s "$seq10/img1" "$prefix/img1"
 run nsys-profile "$nsys" profile --trace=cuda,nvtx --cuda-graph-trace=node --sample=none --cpuctxsw=none \
   --output "$out/nsys/track" "$bin/track_sequence" "$engine" "$prefix" "$out/nsys/prefix.txt" --profile hr-1280x768
 run nsys-export "$nsys" export --type sqlite --output "$out/nsys/track.sqlite" "$out/nsys/track.nsys-rep"
-run stream-placement python3 -I scripts/check_stream_placement.py "$out/nsys/track.sqlite" "$cap/stream-placement.txt" ||
-  fail 'stream placement'
+# Node tracing puts graph kernels on synthetic streams; a graph-level capture of
+# the same run records the stream of each cudaGraphLaunch.
+run nsys-graph-profile "$nsys" profile --trace=cuda,nvtx --cuda-graph-trace=graph --sample=none --cpuctxsw=none \
+  --output "$out/nsys/track-graph" "$bin/track_sequence" "$engine" "$prefix" "$out/nsys/prefix-graph.txt" --profile hr-1280x768
+run nsys-graph-export "$nsys" export --type sqlite --output "$out/nsys/track-graph.sqlite" "$out/nsys/track-graph.nsys-rep"
+cmp "$out/nsys/prefix.txt" "$out/nsys/prefix-graph.txt" || fail 'node and graph captures produced different MOT files'
+run stream-placement python3 -I scripts/check_stream_placement.py "$out/nsys/track.sqlite" "$out/nsys/track-graph.sqlite" \
+  "$cap/stream-placement.txt" || fail 'stream placement'
 gate 'stream placement: PASS'
 
 binaries > "$cap/binaries-after.sha256"

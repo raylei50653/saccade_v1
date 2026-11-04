@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/model_benchmark_block128 /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine /home/ray/.cache/saccade-v1/hr-deploy/refs/model-images.f32 /home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/read-shuffle-model-0-baseline --profile hr-1280x768 --iterations 100 --warmup 30 --rounds 1

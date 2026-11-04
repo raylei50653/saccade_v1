@@ -1,0 +1,1 @@
+flock -w 60 /home/ray/.cache/saccade-v1/gpu.lock timeout 120 env CUDA_MODULE_LOADING=LAZY build/f03-scan-20261104/candidate/selective_scan_cuda_tests --group streams build/f03-scan-20261104/trial2-lazy-streams.tsv

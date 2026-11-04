@@ -1,0 +1,90 @@
+diff --git a/cmake/ModelTensorRT.cmake b/cmake/ModelTensorRT.cmake
+index 79ff84a..a602e70 100644
+--- a/cmake/ModelTensorRT.cmake
++++ b/cmake/ModelTensorRT.cmake
+@@ -41,13 +41,15 @@ add_executable(backbone_trt tools/backbone_trt.cpp)
+ target_link_libraries(backbone_trt PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
+ add_executable(model_trt tools/model_trt.cpp)
+ target_link_libraries(model_trt PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
++add_executable(model_benchmark tools/model_benchmark.cpp)
++target_link_libraries(model_benchmark PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
+ 
+-foreach(target saccade_model_trt backbone_trt model_trt)
++foreach(target saccade_model_trt backbone_trt model_trt model_benchmark)
+   if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+     target_compile_options(${target} PRIVATE ${SACCADE_SCAN_TRT_WARNINGS})
+   endif()
+ endforeach()
+-foreach(target backbone_trt model_trt)
++foreach(target backbone_trt model_trt model_benchmark)
+   # TensorRT dlopens its per-SM builder resource by basename (see TensorRT.cmake).
+   set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+   target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
+diff --git a/cuda/selective_scan.cu b/cuda/selective_scan.cu
+index 5975d4e..3e97926 100644
+--- a/cuda/selective_scan.cu
++++ b/cuda/selective_scan.cu
+@@ -75,11 +75,14 @@ struct ScanParams {
+ 
+ // One thread per (batch, channel, state); the N threads of a lane are
+ // consecutive within a warp, so every early exit below is group-uniform.
++template<bool FixedState16 = false>
+ __global__ void scan_kernel(ScanParams p, ScanStatus* status) {
+     const unsigned long long thread = static_cast<unsigned long long>(blockIdx.x) * blockDim.x + threadIdx.x;
+-    const unsigned long long lane = thread >> p.log2_state;
++    const unsigned log2_state = FixedState16 ? 4u : p.log2_state;
++    const unsigned long long lane = thread >> log2_state;
+     if (lane >= p.lanes) return;
+-    const unsigned N = p.state, n = static_cast<unsigned>(thread & (N - 1));
++    const unsigned N = FixedState16 ? 16u : p.state;
++    const unsigned n = static_cast<unsigned>(thread & (N - 1));
+     const unsigned mask = N == 32 ? 0xffffffffu : ((1u << N) - 1) << ((threadIdx.x & 31u) & ~(N - 1));
+     const unsigned long long Dc = p.channels, L = p.length, b = lane / Dc, d = lane % Dc;
+     const float a = p.a[(p.a_shared ? 0 : d * N) + n];
+@@ -89,6 +92,8 @@ __global__ void scan_kernel(ScanParams p, ScanStatus* status) {
+         const unsigned long long token = b * L + t, at = token * Dc + d;
+         const float u = p.u[at], bv = p.b[token * N + n];
+         const float cv = p.c[p.c_full ? token * N + n : token];
++        // N=16 is a compile-time specialization only: retain every original
++        // FP32 operation and butterfly stage, without a leader/broadcast path.
+         const Scaled delta = softplus_scaled(p.delta[at]), sb = split(bv), su = split(u);
+         const float decay = expf(ldexpf(__fmul_rn(delta.m, a), delta.e));
+         const float drive = ldexpf(__fmul_rn(__fmul_rn(delta.m, sb.m), su.m), delta.e + sb.e + su.e);
+@@ -243,7 +248,9 @@ std::size_t cross_scan_total(const char* api, const CrossScanShape& s) {
+ 
+ std::string selective_scan_cuda_load_kernels() {
+     const std::pair<const char*, const void*> kernels[] = {
+-        {"check_finite", reinterpret_cast<const void*>(check_finite)}, {"scan_kernel", reinterpret_cast<const void*>(scan_kernel)},
++        {"check_finite", reinterpret_cast<const void*>(check_finite)},
++        {"scan_kernel", reinterpret_cast<const void*>(scan_kernel<false>)},
++        {"scan_kernel_n16", reinterpret_cast<const void*>(scan_kernel<true>)},
+         {"finalize", reinterpret_cast<const void*>(finalize)}, {"expand_kernel", reinterpret_cast<const void*>(expand_kernel)},
+         {"merge_kernel", reinterpret_cast<const void*>(merge_kernel)}};
+     std::ostringstream report;
+@@ -288,7 +295,8 @@ void selective_scan_cuda(const SelectiveScanShape& s, const SelectiveScanDeviceI
+                                 static_cast<unsigned>(s.state), log2_state, s.a_rows == 1, s.c_width != 1, s.has_d};
+         // lanes <= INT32_MAX and N <= 32, so the block count fits gridDim.x.
+         const unsigned blocks = static_cast<unsigned>(((s.batch * s.channels << log2_state) + kBlock - 1) / kBlock);
+-        scan_kernel<<<blocks, kBlock, 0, stream>>>(params, status);
++        if (s.state == 16) scan_kernel<true><<<blocks, kBlock, 0, stream>>>(params, status);
++        else scan_kernel<false><<<blocks, kBlock, 0, stream>>>(params, status);
+         launched("scan_kernel");
+     }
+     finalize<<<grid_stride_blocks(ud), kBlock, 0, stream>>>(y, ud, status);
+diff --git a/tests/selective_scan_cuda_tests.cpp b/tests/selective_scan_cuda_tests.cpp
+index 74a51f5..3c47065 100644
+--- a/tests/selective_scan_cuda_tests.cpp
++++ b/tests/selective_scan_cuda_tests.cpp
+@@ -97,8 +97,10 @@ void streams(cudaStream_t s) {
+     //    after release. Device inputs start as NaN so a scan placed on any other
+     //    stream reads them and cannot produce the expected result.
+     if (!held_stream_test) report << "skipped\tstream_gate\t--no-held-stream\n";
+-    else {
+-        const Case k = random_case({2, 9, 33, 8, 1, 8, true}, 0x5eed0300);
++    else for (const std::size_t state : {8u, 16u}) {
++        // Exercise both the generic kernel and the N=16 specialized path
++        // before any scan is launched in the streams-only lazy-loading test.
++        const Case k = random_case({2, 9, 33, state, 1, state, true}, 0x5eed0300 + state);
+         ScanBuffers buffers(k.shape);
+         for (const auto* t : {&buffers.u, &buffers.delta, &buffers.a, &buffers.b, &buffers.c, &buffers.d})
+             if (t->size()) CUDA(cudaMemsetAsync(t->get(), 0xFF, t->bytes(), s));

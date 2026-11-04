@@ -1,0 +1,3332 @@
+{
+  "status": "PASS",
+  "capture_kind": "development-optimization",
+  "formal_acceptance": false,
+  "metric": "CUDA Graph replay processing intervals and summed GPU kernel busy; not end-to-end frame latency",
+  "model": {
+    "scope": "full F03 backbone-neck plus P3/P4/P5 head; input0 held fixed",
+    "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+    "images_sha256": "0d2ad63d8d74b02858099d48b100887667d0b6040cca2bfd39d1faf7edec5611",
+    "profile": "hr-1280x768",
+    "tensor_precision": "FP16 tactics; FP32 scan and model I/O",
+    "plugin_build_commit": "f03-llama-block128",
+    "timing_input": 0
+  },
+  "sources": {
+    "sqlite": "/home/ray/developer/ai/saccade_v1/build/f03-backbone-head-20261104/f03-graph.sqlite",
+    "sqlite_sha256": "8d54732127eccd76344fbf1720505f9134542e6c5925512c8be4190886e9ad1d",
+    "engine_inspector": "/home/ray/developer/ai/saccade_v1/build/f03-backbone-head-20261104/graph-layer-profile/engine-layers.json",
+    "engine_inspector_sha256": "2543602162536b9f1d41e66ce43f04b71274acf16e01bdf0974b360b5ab1fc42"
+  },
+  "graph_launches": 20,
+  "inspector_layers": 286,
+  "kernel_nodes": 302,
+  "kernel_calls": 6040,
+  "single_stream": true,
+  "stream_ids": [
+    22
+  ],
+  "graph_ids": [
+    2
+  ],
+  "adjacent_recorded_interval_overlaps": {
+    "count": 218,
+    "max_ns": 128,
+    "sum_ns": 14624
+  },
+  "all_nodes_have_20_calls": true,
+  "all_kernel_nodes_aligned_to_inspector": true,
+  "all_kernel_nodes_consumed": true,
+  "unknown_count": 0,
+  "unknown": [],
+  "kernel_free_layers": [
+    {
+      "inspector_index": 0,
+      "layer": "__mye52666_myl0_0",
+      "reason": "L2 policy control; no GPU kernel"
+    },
+    {
+      "inspector_index": 285,
+      "layer": "__mye52668_myl0_285",
+      "reason": "L2 policy control; no GPU kernel"
+    }
+  ],
+  "sum_kernel_busy_us_per_replay": 4606.04265,
+  "trace_span_us_per_replay": 4730.2362,
+  "mean_within_graph_envelope_us": 4722.82155,
+  "sum_kernel_busy_us_per_frame": 4606.04265,
+  "trace_span_us_per_frame": 4730.2362,
+  "by_region_kind": [
+    {
+      "region": "backbone-neck",
+      "kind": "conv-gemm",
+      "us": 2378.7443
+    },
+    {
+      "region": "backbone-neck",
+      "kind": "layout-pointwise",
+      "us": 666.8483500000001
+    },
+    {
+      "region": "p3",
+      "kind": "conv-gemm",
+      "us": 366.04925
+    },
+    {
+      "region": "p3",
+      "kind": "cross-scan",
+      "us": 30.570850000000004
+    },
+    {
+      "region": "p3",
+      "kind": "layout-pointwise",
+      "us": 141.6668
+    },
+    {
+      "region": "p3",
+      "kind": "scan-checks",
+      "us": 19.10955
+    },
+    {
+      "region": "p3",
+      "kind": "scan-core",
+      "us": 546.99855
+    },
+    {
+      "region": "p4",
+      "kind": "conv-gemm",
+      "us": 126.13235000000002
+    },
+    {
+      "region": "p4",
+      "kind": "cross-scan",
+      "us": 10.5092
+    },
+    {
+      "region": "p4",
+      "kind": "layout-pointwise",
+      "us": 53.260850000000005
+    },
+    {
+      "region": "p4",
+      "kind": "scan-checks",
+      "us": 5.84015
+    },
+    {
+      "region": "p4",
+      "kind": "scan-core",
+      "us": 137.64005
+    },
+    {
+      "region": "p5",
+      "kind": "conv-gemm",
+      "us": 64.4879
+    },
+    {
+      "region": "p5",
+      "kind": "cross-scan",
+      "us": 5.5505
+    },
+    {
+      "region": "p5",
+      "kind": "layout-pointwise",
+      "us": 14.637400000000001
+    },
+    {
+      "region": "p5",
+      "kind": "scan-checks",
+      "us": 2.79685
+    },
+    {
+      "region": "p5",
+      "kind": "scan-core",
+      "us": 35.19975
+    }
+  ],
+  "by_region": [
+    {
+      "region": "backbone-neck",
+      "us": 3045.5926500000005,
+      "percent_gpu_busy": 66.12167714078811
+    },
+    {
+      "region": "p3",
+      "us": 1104.3950000000004,
+      "percent_gpu_busy": 23.977090181742028
+    },
+    {
+      "region": "p4",
+      "us": 333.3825999999999,
+      "percent_gpu_busy": 7.237939926587521
+    },
+    {
+      "region": "p5",
+      "us": 122.6724,
+      "percent_gpu_busy": 2.663292750882365
+    }
+  ],
+  "by_kind": [
+    {
+      "kind": "conv-gemm",
+      "us": 2935.4138,
+      "percent_gpu_busy": 63.72962699335839
+    },
+    {
+      "kind": "cross-scan",
+      "us": 46.63054999999999,
+      "percent_gpu_busy": 1.0123777295027867
+    },
+    {
+      "kind": "layout-pointwise",
+      "us": 876.4134,
+      "percent_gpu_busy": 19.027470360049747
+    },
+    {
+      "kind": "scan-checks",
+      "us": 27.74655,
+      "percent_gpu_busy": 0.6023945522953418
+    },
+    {
+      "kind": "scan-core",
+      "us": 719.83835,
+      "percent_gpu_busy": 15.628130364793732
+    }
+  ],
+  "top_layers": [
+    {
+      "inspector_index": 268,
+      "layer": "p3.scan_U240_myl0_268",
+      "region": "p3",
+      "kinds": [
+        "scan-checks",
+        "scan-core"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 566.1081,
+      "percent_gpu_busy": 12.290552715572446
+    },
+    {
+      "inspector_index": 23,
+      "layer": "/layers.3/conv/Conv_myl0_23",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 220.91985,
+      "percent_gpu_busy": 4.796304914805772
+    },
+    {
+      "inspector_index": 278,
+      "layer": "p3.reg.conv0+p3.cls.conv0_myl0_278",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 209.46845000000002,
+      "percent_gpu_busy": 4.5476880245561775
+    },
+    {
+      "inspector_index": 42,
+      "layer": "/layers.5/conv/Conv_myl0_42",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 208.06005,
+      "percent_gpu_busy": 4.5171108000921345
+    },
+    {
+      "inspector_index": 248,
+      "layer": "p4.scan_U232_myl0_248",
+      "region": "p4",
+      "kinds": [
+        "scan-checks",
+        "scan-core"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 143.4802,
+      "percent_gpu_busy": 3.1150428014382365
+    },
+    {
+      "inspector_index": 4,
+      "layer": "/layers.1/conv/Conv_myl0_4",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 133.64615,
+      "percent_gpu_busy": 2.9015395678109925
+    },
+    {
+      "inspector_index": 21,
+      "layer": "/layers.2/cv2/conv/Conv_myl0_21",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 120.52255000000001,
+      "percent_gpu_busy": 2.616618193928361
+    },
+    {
+      "inspector_index": 129,
+      "layer": "/layers.16/cv1/conv/Conv_myl0_129",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 98.26735000000001,
+      "percent_gpu_busy": 2.1334442050813403
+    },
+    {
+      "inspector_index": 22,
+      "layer": "__myl_Silu_myl0_22",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 91.08165,
+      "percent_gpu_busy": 1.9774382679674054
+    },
+    {
+      "inspector_index": 40,
+      "layer": "/layers.4/cv2/conv/Conv_myl0_40",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 85.23185000000001,
+      "percent_gpu_busy": 1.8504355360235323
+    },
+    {
+      "inspector_index": 3,
+      "layer": "__myl_Silu_myl0_3",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 85.21265,
+      "percent_gpu_busy": 1.8500186922932638
+    },
+    {
+      "inspector_index": 61,
+      "layer": "/layers.7/conv/Conv_myl0_61",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 65.61189999999999,
+      "percent_gpu_busy": 1.4244744346863567
+    },
+    {
+      "inspector_index": 2,
+      "layer": "/layers.0/conv/Conv_myl0_2",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 64.52715,
+      "percent_gpu_busy": 1.4009238494567564
+    },
+    {
+      "inspector_index": 189,
+      "layer": "/layers.20/conv/Conv_myl0_189",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 62.42145,
+      "percent_gpu_busy": 1.3552078159762588
+    },
+    {
+      "inspector_index": 258,
+      "layer": "p4.reg.conv0+p4.cls.conv0_myl0_258",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 60.65985,
+      "percent_gpu_busy": 1.3169624037241598
+    },
+    {
+      "inspector_index": 275,
+      "layer": "p3.upsample_U242_myl0_275",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 59.2421,
+      "percent_gpu_busy": 1.286182185047722
+    },
+    {
+      "inspector_index": 158,
+      "layer": "/layers.17/conv/Conv_myl0_158",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 58.336400000000005,
+      "percent_gpu_busy": 1.2665188847089812
+    },
+    {
+      "inspector_index": 111,
+      "layer": "/layers.13/cv1/conv/Conv_myl0_111",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 51.6835,
+      "percent_gpu_busy": 1.1220803611099868
+    },
+    {
+      "inspector_index": 152,
+      "layer": "__myl_TranReshSlicTran_myl0_152",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 50.40345,
+      "percent_gpu_busy": 1.0942896935615651
+    },
+    {
+      "inspector_index": 6,
+      "layer": "/layers.2/cv1/conv/Conv_myl0_6",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 45.17595,
+      "percent_gpu_busy": 0.9807974748127875
+    },
+    {
+      "inspector_index": 144,
+      "layer": "/layers.16/cv2/conv/Conv_myl0_144",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 42.84955,
+      "percent_gpu_busy": 0.9302899094953017
+    },
+    {
+      "inspector_index": 175,
+      "layer": "/layers.19/cv2/conv/Conv_myl0_175",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 39.80785,
+      "percent_gpu_busy": 0.8642527441642339
+    },
+    {
+      "inspector_index": 160,
+      "layer": "/layers.19/cv1/conv/Conv_myl0_160",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 39.79505,
+      "percent_gpu_busy": 0.8639748483440551
+    },
+    {
+      "inspector_index": 126,
+      "layer": "/layers.13/cv2/conv/Conv_myl0_126",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 39.5946,
+      "percent_gpu_busy": 0.8596229563788341
+    },
+    {
+      "inspector_index": 59,
+      "layer": "/layers.6/cv2/conv/Conv_myl0_59",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 39.5519,
+      "percent_gpu_busy": 0.8586959132912068
+    },
+    {
+      "inspector_index": 230,
+      "layer": "p5.scan_U223_myl0_230",
+      "region": "p5",
+      "kinds": [
+        "scan-checks",
+        "scan-core"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 37.9966,
+      "percent_gpu_busy": 0.8249294000783948
+    },
+    {
+      "inspector_index": 25,
+      "layer": "/layers.4/cv1/conv/Conv_myl0_25",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 33.5851,
+      "percent_gpu_busy": 0.7291530398660115
+    },
+    {
+      "inspector_index": 277,
+      "layer": "__myl_ReshTranResh_myl0_277",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 33.06665,
+      "percent_gpu_busy": 0.7178971736182252
+    },
+    {
+      "inspector_index": 44,
+      "layer": "/layers.6/cv1/conv/Conv_myl0_44",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 29.4027,
+      "percent_gpu_busy": 0.6383505806226089
+    },
+    {
+      "inspector_index": 11,
+      "layer": "/layers.2/m.0/m/m.0/cv1/conv/Conv_myl0_11",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 23.24895,
+      "percent_gpu_busy": 0.5047489084800376
+    },
+    {
+      "inspector_index": 1,
+      "layer": "__myl_Cast_myl0_1",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 21.384700000000002,
+      "percent_gpu_busy": 0.464274902013771
+    },
+    {
+      "inspector_index": 13,
+      "layer": "/layers.2/m.0/m/m.0/cv2/conv/Conv_myl0_13",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 21.30965,
+      "percent_gpu_busy": 0.4626455206618636
+    },
+    {
+      "inspector_index": 15,
+      "layer": "/layers.2/m.0/m/m.1/cv1/conv/Conv_myl0_15",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 21.296950000000002,
+      "percent_gpu_busy": 0.46236979590278005
+    },
+    {
+      "inspector_index": 8,
+      "layer": "/layers.2/m.0/cv2/conv/Conv+/layers.2/m.0/cv1/conv/Conv_myl0_8",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 21.16725,
+      "percent_gpu_busy": 0.45955392966237507
+    },
+    {
+      "inspector_index": 17,
+      "layer": "/layers.2/m.0/m/m.1/cv2/conv/Conv_myl0_17",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 21.077650000000002,
+      "percent_gpu_busy": 0.457608658921124
+    },
+    {
+      "inspector_index": 255,
+      "layer": "p4.upsample_U234_myl0_255",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 20.759,
+      "percent_gpu_busy": 0.45069057274144
+    },
+    {
+      "inspector_index": 30,
+      "layer": "/layers.4/m.0/m/m.0/cv1/conv/Conv_myl0_30",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 20.197650000000003,
+      "percent_gpu_busy": 0.43850332128383573
+    },
+    {
+      "inspector_index": 36,
+      "layer": "/layers.4/m.0/m/m.1/cv2/conv/Conv_myl0_36",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 20.1205,
+      "percent_gpu_busy": 0.4368283476489302
+    },
+    {
+      "inspector_index": 32,
+      "layer": "/layers.4/m.0/m/m.0/cv2/conv/Conv_myl0_32",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 20.0089,
+      "percent_gpu_busy": 0.43440544346674687
+    },
+    {
+      "inspector_index": 203,
+      "layer": "__myl_DivMulTran_myl0_203",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.973599999999998,
+      "percent_gpu_busy": 0.4336390589001601
+    },
+    {
+      "inspector_index": 34,
+      "layer": "/layers.4/m.0/m/m.1/cv1/conv/Conv_myl0_34",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.971799999999998,
+      "percent_gpu_busy": 0.4335999798004475
+    },
+    {
+      "inspector_index": 98,
+      "layer": "__myl_DivMulTran_myl0_98",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.8645,
+      "percent_gpu_busy": 0.43127043124535547
+    },
+    {
+      "inspector_index": 138,
+      "layer": "/layers.16/m.0/m/m.1/cv1/conv/Conv_myl0_138",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.82625,
+      "percent_gpu_busy": 0.430440000376462
+    },
+    {
+      "inspector_index": 136,
+      "layer": "/layers.16/m.0/m/m.0/cv2/conv/Conv_myl0_136",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.812,
+      "percent_gpu_busy": 0.4301306241704036
+    },
+    {
+      "inspector_index": 140,
+      "layer": "/layers.16/m.0/m/m.1/cv2/conv/Conv_myl0_140",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.773400000000002,
+      "percent_gpu_busy": 0.4292925945876771
+    },
+    {
+      "inspector_index": 134,
+      "layer": "/layers.16/m.0/m/m.0/cv1/conv/Conv_myl0_134",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.71285,
+      "percent_gpu_busy": 0.4279780170945659
+    },
+    {
+      "inspector_index": 146,
+      "layer": "p3.input_proj_U156_myl0_146",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 19.386200000000002,
+      "percent_gpu_busy": 0.4208862460272703
+    },
+    {
+      "inspector_index": 238,
+      "layer": "p5.reg.conv0+p5.cls.conv0_myl0_238",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.85505,
+      "percent_gpu_busy": 0.40935465502040014
+    },
+    {
+      "inspector_index": 116,
+      "layer": "/layers.13/m.0/m/m.0/cv1/conv/Conv_myl0_116",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.77985,
+      "percent_gpu_busy": 0.4077220170768501
+    },
+    {
+      "inspector_index": 122,
+      "layer": "/layers.13/m.0/m/m.1/cv2/conv/Conv_myl0_122",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.68695,
+      "percent_gpu_busy": 0.4057051013194591
+    },
+    {
+      "inspector_index": 120,
+      "layer": "/layers.13/m.0/m/m.1/cv1/conv/Conv_myl0_120",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.648799999999998,
+      "percent_gpu_busy": 0.4048768415116607
+    },
+    {
+      "inspector_index": 118,
+      "layer": "/layers.13/m.0/m/m.0/cv2/conv/Conv_myl0_118",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.50795,
+      "percent_gpu_busy": 0.40181890195914705
+    },
+    {
+      "inspector_index": 165,
+      "layer": "/layers.19/m.0/m/m.0/cv1/conv/Conv_myl0_165",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.503049999999998,
+      "percent_gpu_busy": 0.40171251996548485
+    },
+    {
+      "inspector_index": 55,
+      "layer": "/layers.6/m.0/m/m.1/cv2/conv/Conv_myl0_55",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.40055,
+      "percent_gpu_busy": 0.39948718234295977
+    },
+    {
+      "inspector_index": 171,
+      "layer": "/layers.19/m.0/m/m.1/cv2/conv/Conv_myl0_171",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.35425,
+      "percent_gpu_busy": 0.39848198105590704
+    },
+    {
+      "inspector_index": 53,
+      "layer": "/layers.6/m.0/m/m.1/cv1/conv/Conv_myl0_53",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.333599999999997,
+      "percent_gpu_busy": 0.39803365693975923
+    },
+    {
+      "inspector_index": 49,
+      "layer": "/layers.6/m.0/m/m.0/cv1/conv/Conv_myl0_49",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.267799999999998,
+      "percent_gpu_busy": 0.39660509873915295
+    },
+    {
+      "inspector_index": 51,
+      "layer": "/layers.6/m.0/m/m.0/cv2/conv/Conv_myl0_51",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.2295,
+      "percent_gpu_busy": 0.395773582339712
+    },
+    {
+      "inspector_index": 169,
+      "layer": "/layers.19/m.0/m/m.1/cv1/conv/Conv_myl0_169",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.2007,
+      "percent_gpu_busy": 0.3951483167443098
+    },
+    {
+      "inspector_index": 167,
+      "layer": "/layers.19/m.0/m/m.0/cv2/conv/Conv_myl0_167",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 18.08865,
+      "percent_gpu_busy": 0.3927156427871983
+    },
+    {
+      "inspector_index": 191,
+      "layer": "/layers.22/cv1/conv/Conv_myl0_191",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 17.74935,
+      "percent_gpu_busy": 0.3853492324913665
+    },
+    {
+      "inspector_index": 273,
+      "layer": "p3.merge_U241_myl0_273",
+      "region": "p3",
+      "kinds": [
+        "cross-scan"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 17.70315,
+      "percent_gpu_busy": 0.3843462022654089
+    },
+    {
+      "inspector_index": 88,
+      "layer": "/layers.9/cv2/conv/Conv_myl0_88",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 16.71565,
+      "percent_gpu_busy": 0.36290697395083826
+    },
+    {
+      "inspector_index": 19,
+      "layer": "/layers.2/m.0/cv3/conv/Conv_myl0_19",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 16.6775,
+      "percent_gpu_busy": 0.3620787141430398
+    },
+    {
+      "inspector_index": 5,
+      "layer": "__myl_Silu_myl0_5",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 16.46,
+      "percent_gpu_busy": 0.3573566562610965
+    },
+    {
+      "inspector_index": 41,
+      "layer": "__myl_Silu_myl0_41",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 15.98465,
+      "percent_gpu_busy": 0.3470365173453181
+    },
+    {
+      "inspector_index": 7,
+      "layer": "__myl_SiluSpli_myl0_7",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 15.0964,
+      "percent_gpu_busy": 0.32775206716768024
+    },
+    {
+      "inspector_index": 128,
+      "layer": "__myl_MoveResi_myl0_128",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 14.7045,
+      "percent_gpu_busy": 0.3192436787358015
+    },
+    {
+      "inspector_index": 198,
+      "layer": "__myl_ReshTranSlic_myl0_198",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 14.6022,
+      "percent_gpu_busy": 0.3170226832354668
+    },
+    {
+      "inspector_index": 93,
+      "layer": "__myl_ReshTranSlic_myl0_93",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 14.3829,
+      "percent_gpu_busy": 0.3122615462538107
+    },
+    {
+      "inspector_index": 27,
+      "layer": "/layers.4/m.0/cv2/conv/Conv+/layers.4/m.0/cv1/conv/Conv_myl0_27",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 14.20975,
+      "percent_gpu_busy": 0.3085023539675647
+    },
+    {
+      "inspector_index": 155,
+      "layer": "p3.mamba.x_proj.weight.matmul_myl0_155",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 14.0677,
+      "percent_gpu_busy": 0.3054183616819093
+    },
+    {
+      "inspector_index": 201,
+      "layer": "/layers.22/m.0/m.0.1/attn/MatMul_myl0_201",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.89655,
+      "percent_gpu_busy": 0.3017025906175662
+    },
+    {
+      "inspector_index": 213,
+      "layer": "/layers.22/cv2/conv/Conv_myl0_213",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.867700000000001,
+      "percent_gpu_busy": 0.30107623949161655
+    },
+    {
+      "inspector_index": 131,
+      "layer": "/layers.16/m.0/cv2/conv/Conv+/layers.16/m.0/cv1/conv/Conv_myl0_131",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.8448,
+      "percent_gpu_busy": 0.300579066500828
+    },
+    {
+      "inspector_index": 78,
+      "layer": "/layers.8/cv2/conv/Conv_myl0_78",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.778,
+      "percent_gpu_busy": 0.2991287976892702
+    },
+    {
+      "inspector_index": 96,
+      "layer": "/layers.10/m/m.0/attn/MatMul_myl0_96",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.76475,
+      "percent_gpu_busy": 0.29884113209416324
+    },
+    {
+      "inspector_index": 153,
+      "layer": "p3.mamba.conv1d_myl0_153",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.66595,
+      "percent_gpu_busy": 0.29669612373215865
+    },
+    {
+      "inspector_index": 202,
+      "layer": "__myl_MulMaxrSubExpSum_myl0_202",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 13.12035,
+      "percent_gpu_busy": 0.28485081439703996
+    },
+    {
+      "inspector_index": 97,
+      "layer": "__myl_MulMaxrSubExpSum_myl0_97",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 12.93025,
+      "percent_gpu_busy": 0.2807236272551666
+    },
+    {
+      "inspector_index": 142,
+      "layer": "/layers.16/m.0/cv3/conv/Conv_myl0_142",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 12.869299999999999,
+      "percent_gpu_busy": 0.2794003655176749
+    },
+    {
+      "inspector_index": 149,
+      "layer": "p3.expand_myl0_149",
+      "region": "p3",
+      "kinds": [
+        "cross-scan"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 12.8677,
+      "percent_gpu_busy": 0.27936562854015257
+    },
+    {
+      "inspector_index": 38,
+      "layer": "/layers.4/m.0/cv3/conv/Conv_myl0_38",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 12.86135,
+      "percent_gpu_busy": 0.27922776616061074
+    },
+    {
+      "inspector_index": 151,
+      "layer": "p3.mamba.in_proj.weight.matmul_myl0_151",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 12.429200000000002,
+      "percent_gpu_busy": 0.2698455256379356
+    },
+    {
+      "inspector_index": 257,
+      "layer": "__myl_ReshTranResh_myl0_257",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.798549999999999,
+      "percent_gpu_busy": 0.2561537288413948
+    },
+    {
+      "inspector_index": 162,
+      "layer": "/layers.19/m.0/cv2/conv/Conv+/layers.19/m.0/cv1/conv/Conv_myl0_162",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.77635,
+      "percent_gpu_busy": 0.2556717532782724
+    },
+    {
+      "inspector_index": 113,
+      "layer": "/layers.13/m.0/cv2/conv/Conv+/layers.13/m.0/cv1/conv/Conv_myl0_113",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.598600000000001,
+      "percent_gpu_busy": 0.2518126921816497
+    },
+    {
+      "inspector_index": 124,
+      "layer": "/layers.13/m.0/cv3/conv/Conv_myl0_124",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.5124,
+      "percent_gpu_busy": 0.24994123751763347
+    },
+    {
+      "inspector_index": 57,
+      "layer": "/layers.6/m.0/cv3/conv/Conv_myl0_57",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.4147,
+      "percent_gpu_busy": 0.24782011082767547
+    },
+    {
+      "inspector_index": 46,
+      "layer": "/layers.6/m.0/cv2/conv/Conv+/layers.6/m.0/cv1/conv/Conv_myl0_46",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.2835,
+      "percent_gpu_busy": 0.24497167867084335
+    },
+    {
+      "inspector_index": 173,
+      "layer": "/layers.19/m.0/cv3/conv/Conv_myl0_173",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.2548,
+      "percent_gpu_busy": 0.24434858413653637
+    },
+    {
+      "inspector_index": 183,
+      "layer": "__myl_TranReshSlicTran_myl0_183",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.2085,
+      "percent_gpu_busy": 0.24334338284948362
+    },
+    {
+      "inspector_index": 193,
+      "layer": "/layers.22/m.0/m.0.0/cv1/conv/Conv_myl0_193",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 11.061350000000001,
+      "percent_gpu_busy": 0.24014866644797567
+    },
+    {
+      "inspector_index": 283,
+      "layer": "p3.cls.conv1_myl0_283",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 10.897950000000002,
+      "percent_gpu_busy": 0.23660115261850648
+    },
+    {
+      "inspector_index": 195,
+      "layer": "/layers.22/m.0/m.0.0/cv2/conv/Conv_myl0_195",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 10.60835,
+      "percent_gpu_busy": 0.23031375968696252
+    },
+    {
+      "inspector_index": 90,
+      "layer": "/layers.10/cv1/conv/Conv_myl0_90",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 10.5413,
+      "percent_gpu_busy": 0.22885806322266683
+    },
+    {
+      "inspector_index": 177,
+      "layer": "p4.input_proj_U185_myl0_177",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 10.307450000000001,
+      "percent_gpu_busy": 0.22378103685166703
+    },
+    {
+      "inspector_index": 147,
+      "layer": "p3.downsample_U157_myl0_147",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 10.089450000000001,
+      "percent_gpu_busy": 0.2190481236642479
+    },
+    {
+      "inspector_index": 63,
+      "layer": "/layers.8/cv1/conv/Conv_myl0_63",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 9.8676,
+      "percent_gpu_busy": 0.21423162462466558
+    },
+    {
+      "inspector_index": 108,
+      "layer": "/layers.10/cv2/conv/Conv_myl0_108",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 9.79095,
+      "percent_gpu_busy": 0.21256750629523588
+    },
+    {
+      "inspector_index": 236,
+      "layer": "p5.upsample_U225_myl0_236",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 9.6723,
+      "percent_gpu_busy": 0.2099915423058447
+    },
+    {
+      "inspector_index": 100,
+      "layer": "/layers.10/m/m.0/attn/MatMul_1_myl0_100",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.9475,
+      "percent_gpu_busy": 0.1942556914882236
+    },
+    {
+      "inspector_index": 205,
+      "layer": "/layers.22/m.0/m.0.1/attn/MatMul_1_myl0_205",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.9411,
+      "percent_gpu_busy": 0.19411674357813424
+    },
+    {
+      "inspector_index": 207,
+      "layer": "/layers.22/m.0/m.0.1/attn/pe/conv/Conv_myl0_207",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.47235,
+      "percent_gpu_busy": 0.18393989469463554
+    },
+    {
+      "inspector_index": 178,
+      "layer": "p4.downsample_U186_myl0_178",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.28675,
+      "percent_gpu_busy": 0.1799104053020438
+    },
+    {
+      "inspector_index": 102,
+      "layer": "/layers.10/m/m.0/attn/pe/conv/Conv_myl0_102",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.2786,
+      "percent_gpu_busy": 0.1797334638227894
+    },
+    {
+      "inspector_index": 269,
+      "layer": "__myl_TranSlic_myl0_269",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.13935,
+      "percent_gpu_busy": 0.17671026124779804
+    },
+    {
+      "inspector_index": 20,
+      "layer": "__myl_Silu_myl0_20",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 8.0659,
+      "percent_gpu_busy": 0.17511561687341298
+    },
+    {
+      "inspector_index": 130,
+      "layer": "__myl_SiluSpli_myl0_130",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.84845,
+      "percent_gpu_busy": 0.17039464452201716
+    },
+    {
+      "inspector_index": 68,
+      "layer": "/layers.8/m.0/m/m.0/cv1/conv/Conv_myl0_68",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.8051,
+      "percent_gpu_busy": 0.1694534895372712
+    },
+    {
+      "inspector_index": 26,
+      "layer": "__myl_SiluSpli_myl0_26",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.6707,
+      "percent_gpu_busy": 0.16653558342539446
+    },
+    {
+      "inspector_index": 216,
+      "layer": "p5.downsample_U216_myl0_216",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.553850000000001,
+      "percent_gpu_busy": 0.16399869853571591
+    },
+    {
+      "inspector_index": 145,
+      "layer": "__myl_Silu_myl0_145",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.419449999999999,
+      "percent_gpu_busy": 0.16108079242383913
+    },
+    {
+      "inspector_index": 72,
+      "layer": "/layers.8/m.0/m/m.1/cv1/conv/Conv_myl0_72",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.349,
+      "percent_gpu_busy": 0.1595512798823085
+    },
+    {
+      "inspector_index": 197,
+      "layer": "/layers.22/m.0/m.0.1/attn/qkv/conv/Conv_myl0_197",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.3395,
+      "percent_gpu_busy": 0.1593450290782696
+    },
+    {
+      "inspector_index": 24,
+      "layer": "__myl_Silu_myl0_24",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.32815,
+      "percent_gpu_busy": 0.15909861364397046
+    },
+    {
+      "inspector_index": 74,
+      "layer": "/layers.8/m.0/m/m.1/cv2/conv/Conv_myl0_74",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.32675,
+      "percent_gpu_busy": 0.15906821878863842
+    },
+    {
+      "inspector_index": 70,
+      "layer": "/layers.8/m.0/m/m.0/cv2/conv/Conv_myl0_70",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.3075,
+      "percent_gpu_busy": 0.15865028952782276
+    },
+    {
+      "inspector_index": 284,
+      "layer": "__myl_Cast_myl0_284",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.26115,
+      "percent_gpu_busy": 0.1576440027102224
+    },
+    {
+      "inspector_index": 271,
+      "layer": "p3.mamba.out_proj.weight.matmul_myl0_271",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 7.1204,
+      "percent_gpu_busy": 0.15458823421880383
+    },
+    {
+      "inspector_index": 209,
+      "layer": "/layers.22/m.0/m.0.1/ffn/ffn.0/conv/Conv_myl0_209",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.662649999999999,
+      "percent_gpu_busy": 0.1446502020557712
+    },
+    {
+      "inspector_index": 104,
+      "layer": "/layers.10/m/m.0/ffn/ffn.0/conv/Conv_myl0_104",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.48015,
+      "percent_gpu_busy": 0.14068801555712906
+    },
+    {
+      "inspector_index": 211,
+      "layer": "/layers.22/m.0/m.0.1/ffn/ffn.1/conv/Conv_myl0_211",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.461,
+      "percent_gpu_busy": 0.14027225735740853
+    },
+    {
+      "inspector_index": 204,
+      "layer": "__myl_MoveResh_myl0_204",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.4146,
+      "percent_gpu_busy": 0.1392648850092606
+    },
+    {
+      "inspector_index": 92,
+      "layer": "/layers.10/m/m.0/attn/qkv/conv/Conv_myl0_92",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.3711,
+      "percent_gpu_busy": 0.13832047343287193
+    },
+    {
+      "inspector_index": 106,
+      "layer": "/layers.10/m/m.0/ffn/ffn.1/conv/Conv_myl0_106",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.3537,
+      "percent_gpu_busy": 0.13794270880231643
+    },
+    {
+      "inspector_index": 99,
+      "layer": "__myl_MoveResh_myl0_99",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.3428,
+      "percent_gpu_busy": 0.1377060631429455
+    },
+    {
+      "inspector_index": 206,
+      "layer": "__myl_TranResh_myl0_206",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.229100000000001,
+      "percent_gpu_busy": 0.13523756667776404
+    },
+    {
+      "inspector_index": 80,
+      "layer": "/layers.9/cv1/conv/Conv_myl0_80",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.1362,
+      "percent_gpu_busy": 0.13322065092037302
+    },
+    {
+      "inspector_index": 101,
+      "layer": "__myl_TranResh_myl0_101",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 6.12645,
+      "percent_gpu_busy": 0.13300897246359625
+    },
+    {
+      "inspector_index": 253,
+      "layer": "p4.merge_U233_myl0_253",
+      "region": "p4",
+      "kinds": [
+        "cross-scan"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 5.90895,
+      "percent_gpu_busy": 0.12828691458165284
+    },
+    {
+      "inspector_index": 215,
+      "layer": "p5.input_proj_U215_myl0_215",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.7635,
+      "percent_gpu_busy": 0.12512910621876241
+    },
+    {
+      "inspector_index": 86,
+      "layer": "/layers.9/m_2/MaxPool_myl0_86",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.7363,
+      "percent_gpu_busy": 0.1245385776008826
+    },
+    {
+      "inspector_index": 276,
+      "layer": "__myl_Tran_myl0_276",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.7296499999999995,
+      "percent_gpu_busy": 0.12439420203805535
+    },
+    {
+      "inspector_index": 84,
+      "layer": "/layers.9/m_1/MaxPool_myl0_84",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.6513,
+      "percent_gpu_busy": 0.12269317567000818
+    },
+    {
+      "inspector_index": 82,
+      "layer": "/layers.9/m/MaxPool_myl0_82",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.5938,
+      "percent_gpu_busy": 0.121444815540299
+    },
+    {
+      "inspector_index": 10,
+      "layer": "__myl_Silu_myl0_10",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.497649999999999,
+      "percent_gpu_busy": 0.1193573402973157
+    },
+    {
+      "inspector_index": 186,
+      "layer": "p4.mamba.x_proj.weight.matmul_myl0_186",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.4354499999999994,
+      "percent_gpu_busy": 0.11800694029613468
+    },
+    {
+      "inspector_index": 154,
+      "layer": "__myl_SlicReshTranSiluCast_myl0_154",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.4018500000000005,
+      "percent_gpu_busy": 0.1172774637681655
+    },
+    {
+      "inspector_index": 272,
+      "layer": "__myl_AddCast_myl0_272",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.3681,
+      "percent_gpu_busy": 0.1165447306485536
+    },
+    {
+      "inspector_index": 103,
+      "layer": "/layers.10/m/m.0/attn/proj/conv/Conv_myl0_103",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.32685,
+      "percent_gpu_busy": 0.11564916794680571
+    },
+    {
+      "inspector_index": 9,
+      "layer": "__myl_Silu_myl0_9",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.3168999999999995,
+      "percent_gpu_busy": 0.11543314736783862
+    },
+    {
+      "inspector_index": 208,
+      "layer": "/layers.22/m.0/m.0.1/attn/proj/conv/Conv_myl0_208",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.28965,
+      "percent_gpu_busy": 0.11484153321941125
+    },
+    {
+      "inspector_index": 157,
+      "layer": "p3.mamba.dt_proj.weight.matmul_myl0_157",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 5.0161999999999995,
+      "percent_gpu_busy": 0.1089047666547334
+    },
+    {
+      "inspector_index": 76,
+      "layer": "/layers.8/m.0/cv3/conv/Conv_myl0_76",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.98105,
+      "percent_gpu_busy": 0.10814163867978946
+    },
+    {
+      "inspector_index": 267,
+      "layer": "__myl_Cast_myl0_267",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.952100000000001,
+      "percent_gpu_busy": 0.10751311649274459
+    },
+    {
+      "inspector_index": 182,
+      "layer": "p4.mamba.in_proj.weight.matmul_myl0_182",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.88645,
+      "percent_gpu_busy": 0.10608781488378097
+    },
+    {
+      "inspector_index": 280,
+      "layer": "__myl_CorrCast_myl0_280",
+      "region": "p3",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.665649999999999,
+      "percent_gpu_busy": 0.10129411198569772
+    },
+    {
+      "inspector_index": 18,
+      "layer": "__myl_SiluAdd_myl0_18",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.6481,
+      "percent_gpu_busy": 0.10091309076349955
+    },
+    {
+      "inspector_index": 14,
+      "layer": "__myl_SiluAdd_myl0_14",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.61125,
+      "percent_gpu_busy": 0.1001130547499381
+    },
+    {
+      "inspector_index": 180,
+      "layer": "p4.expand_myl0_180",
+      "region": "p4",
+      "kinds": [
+        "cross-scan"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 4.600249999999999,
+      "percent_gpu_busy": 0.09987423802947198
+    },
+    {
+      "inspector_index": 232,
+      "layer": "p5.mamba.out_proj.weight.matmul_myl0_232",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.556850000000001,
+      "percent_gpu_busy": 0.09893199751417847
+    },
+    {
+      "inspector_index": 65,
+      "layer": "/layers.8/m.0/cv2/conv/Conv+/layers.8/m.0/cv1/conv/Conv_myl0_65",
+      "region": "backbone-neck",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.453600000000001,
+      "percent_gpu_busy": 0.09669037693343982
+    },
+    {
+      "inspector_index": 12,
+      "layer": "__myl_Silu_myl0_12",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.4353,
+      "percent_gpu_busy": 0.09629307275302801
+    },
+    {
+      "inspector_index": 161,
+      "layer": "__myl_SiluSpli_myl0_161",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.325,
+      "percent_gpu_busy": 0.09389839236508155
+    },
+    {
+      "inspector_index": 127,
+      "layer": "__myl_Silu_myl0_127",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.3233500000000005,
+      "percent_gpu_busy": 0.09386256985701164
+    },
+    {
+      "inspector_index": 45,
+      "layer": "__myl_SiluSpli_myl0_45",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.3184499999999995,
+      "percent_gpu_busy": 0.09375618786334945
+    },
+    {
+      "inspector_index": 112,
+      "layer": "__myl_SiluSpli_myl0_112",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.2737,
+      "percent_gpu_busy": 0.09278463802327144
+    },
+    {
+      "inspector_index": 224,
+      "layer": "p5.mamba.x_proj.weight.matmul_myl0_224",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.2641,
+      "percent_gpu_busy": 0.0925762161581374
+    },
+    {
+      "inspector_index": 16,
+      "layer": "__myl_Silu_myl0_16",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.254449999999999,
+      "percent_gpu_busy": 0.09236670876245576
+    },
+    {
+      "inspector_index": 39,
+      "layer": "__myl_Silu_myl0_39",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.2241,
+      "percent_gpu_busy": 0.09170779172007883
+    },
+    {
+      "inspector_index": 60,
+      "layer": "__myl_Silu_myl0_60",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.17455,
+      "percent_gpu_busy": 0.09063203094743379
+    },
+    {
+      "inspector_index": 143,
+      "layer": "__myl_Silu_myl0_143",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.1617,
+      "percent_gpu_busy": 0.09035304959670748
+    },
+    {
+      "inspector_index": 279,
+      "layer": "__myl_Silu_myl0_279",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.14895,
+      "percent_gpu_busy": 0.09007623930707633
+    },
+    {
+      "inspector_index": 282,
+      "layer": "__myl_Silu_myl0_282",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.11855,
+      "percent_gpu_busy": 0.08941623673415182
+    },
+    {
+      "inspector_index": 43,
+      "layer": "__myl_Silu_myl0_43",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.10915,
+      "percent_gpu_busy": 0.08921215699120805
+    },
+    {
+      "inspector_index": 176,
+      "layer": "__myl_Silu_myl0_176",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 4.09455,
+      "percent_gpu_busy": 0.08889518207131668
+    },
+    {
+      "inspector_index": 110,
+      "layer": "__myl_MoveResi_myl0_110",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.9473499999999997,
+      "percent_gpu_busy": 0.08569938013926118
+    },
+    {
+      "inspector_index": 184,
+      "layer": "p4.mamba.conv1d_myl0_184",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.792,
+      "percent_gpu_busy": 0.08232663672795126
+    },
+    {
+      "inspector_index": 263,
+      "layer": "p4.cls.conv1_myl0_263",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.78015,
+      "percent_gpu_busy": 0.08206936598817642
+    },
+    {
+      "inspector_index": 114,
+      "layer": "__myl_Silu_myl0_114",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.44495,
+      "percent_gpu_busy": 0.0747919691972457
+    },
+    {
+      "inspector_index": 240,
+      "layer": "__myl_CorrCast_myl0_240",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.4371,
+      "percent_gpu_busy": 0.0746215409012767
+    },
+    {
+      "inspector_index": 163,
+      "layer": "__myl_Silu_myl0_163",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.36015,
+      "percent_gpu_busy": 0.07295090938856155
+    },
+    {
+      "inspector_index": 262,
+      "layer": "__myl_Silu_myl0_262",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.3425,
+      "percent_gpu_busy": 0.07256771710526823
+    },
+    {
+      "inspector_index": 47,
+      "layer": "__myl_Silu_myl0_47",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.31685,
+      "percent_gpu_busy": 0.07201083993436318
+    },
+    {
+      "inspector_index": 123,
+      "layer": "__myl_SiluAdd_myl0_123",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.29615,
+      "percent_gpu_busy": 0.07156143028766787
+    },
+    {
+      "inspector_index": 119,
+      "layer": "__myl_SiluAdd_myl0_119",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.27695,
+      "percent_gpu_busy": 0.07114458655739976
+    },
+    {
+      "inspector_index": 89,
+      "layer": "__myl_SiluAdd_myl0_89",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.27375,
+      "percent_gpu_busy": 0.07107511260235508
+    },
+    {
+      "inspector_index": 190,
+      "layer": "__myl_Silu_myl0_190",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.2737,
+      "percent_gpu_busy": 0.0710740270718075
+    },
+    {
+      "inspector_index": 172,
+      "layer": "__myl_SiluAdd_myl0_172",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.25925,
+      "percent_gpu_busy": 0.07076030874355885
+    },
+    {
+      "inspector_index": 52,
+      "layer": "__myl_SiluAdd_myl0_52",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.2561,
+      "percent_gpu_busy": 0.07069192031906174
+    },
+    {
+      "inspector_index": 56,
+      "layer": "__myl_SiluAdd_myl0_56",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.24825,
+      "percent_gpu_busy": 0.07052149202309274
+    },
+    {
+      "inspector_index": 168,
+      "layer": "__myl_SiluAdd_myl0_168",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.24005,
+      "percent_gpu_busy": 0.07034346501329074
+    },
+    {
+      "inspector_index": 109,
+      "layer": "__myl_Silu_myl0_109",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.2289,
+      "percent_gpu_busy": 0.07010139170118192
+    },
+    {
+      "inspector_index": 259,
+      "layer": "__myl_Silu_myl0_259",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1825,
+      "percent_gpu_busy": 0.069094019353034
+    },
+    {
+      "inspector_index": 256,
+      "layer": "__myl_Tran_myl0_256",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1761,
+      "percent_gpu_busy": 0.06895507144294463
+    },
+    {
+      "inspector_index": 48,
+      "layer": "__myl_Silu_myl0_48",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1569499999999997,
+      "percent_gpu_busy": 0.06853931324322408
+    },
+    {
+      "inspector_index": 117,
+      "layer": "__myl_Silu_myl0_117",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.15525,
+      "percent_gpu_busy": 0.06850240520460661
+    },
+    {
+      "inspector_index": 115,
+      "layer": "__myl_Silu_myl0_115",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1521,
+      "percent_gpu_busy": 0.06843401678010949
+    },
+    {
+      "inspector_index": 164,
+      "layer": "__myl_Silu_myl0_164",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1344499999999997,
+      "percent_gpu_busy": 0.06805082449681615
+    },
+    {
+      "inspector_index": 50,
+      "layer": "__myl_Silu_myl0_50",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1073000000000004,
+      "percent_gpu_busy": 0.0674613814094839
+    },
+    {
+      "inspector_index": 166,
+      "layer": "__myl_Silu_myl0_166",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.1056999999999997,
+      "percent_gpu_busy": 0.06742664443196156
+    },
+    {
+      "inspector_index": 170,
+      "layer": "__myl_Silu_myl0_170",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.10415,
+      "percent_gpu_busy": 0.0673929929849868
+    },
+    {
+      "inspector_index": 121,
+      "layer": "__myl_Silu_myl0_121",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.0991999999999997,
+      "percent_gpu_busy": 0.06728552546077704
+    },
+    {
+      "inspector_index": 62,
+      "layer": "__myl_Silu_myl0_62",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.09125,
+      "percent_gpu_busy": 0.0671129261037129
+    },
+    {
+      "inspector_index": 214,
+      "layer": "__myl_Silu_myl0_214",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.08485,
+      "percent_gpu_busy": 0.06697397819362354
+    },
+    {
+      "inspector_index": 54,
+      "layer": "__myl_Silu_myl0_54",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.0800500000000004,
+      "percent_gpu_busy": 0.06686976726105652
+    },
+    {
+      "inspector_index": 210,
+      "layer": "__myl_Silu_myl0_210",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.07375,
+      "percent_gpu_busy": 0.06673299041206229
+    },
+    {
+      "inspector_index": 79,
+      "layer": "__myl_Silu_myl0_79",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.07225,
+      "percent_gpu_busy": 0.06670042449563508
+    },
+    {
+      "inspector_index": 220,
+      "layer": "p5.mamba.in_proj.weight.matmul_myl0_220",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 3.0145,
+      "percent_gpu_busy": 0.06544663671318805
+    },
+    {
+      "inspector_index": 105,
+      "layer": "__myl_Silu_myl0_105",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.9969,
+      "percent_gpu_busy": 0.06506452996044229
+    },
+    {
+      "inspector_index": 249,
+      "layer": "__myl_TranSlic_myl0_249",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.9937,
+      "percent_gpu_busy": 0.06499505600539761
+    },
+    {
+      "inspector_index": 107,
+      "layer": "__myl_Conc_myl0_107",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.95845,
+      "percent_gpu_busy": 0.06422975696935851
+    },
+    {
+      "inspector_index": 270,
+      "layer": "__myl_SiluCastMul_myl0_270",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.95365,
+      "percent_gpu_busy": 0.06412554603679148
+    },
+    {
+      "inspector_index": 218,
+      "layer": "p5.expand_myl0_218",
+      "region": "p5",
+      "kinds": [
+        "cross-scan"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 2.9073,
+      "percent_gpu_busy": 0.06311925921919112
+    },
+    {
+      "inspector_index": 33,
+      "layer": "__myl_SiluAdd_myl0_33",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.89445,
+      "percent_gpu_busy": 0.0628402778684648
+    },
+    {
+      "inspector_index": 137,
+      "layer": "__myl_SiluAdd_myl0_137",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.8913,
+      "percent_gpu_busy": 0.0627718894439677
+    },
+    {
+      "inspector_index": 141,
+      "layer": "__myl_SiluAdd_myl0_141",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.88005,
+      "percent_gpu_busy": 0.06252764507076372
+    },
+    {
+      "inspector_index": 37,
+      "layer": "__myl_SiluAdd_myl0_37",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.8593,
+      "percent_gpu_busy": 0.062077149893520846
+    },
+    {
+      "inspector_index": 260,
+      "layer": "p4.reg.conv1_myl0_260",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.8322,
+      "percent_gpu_busy": 0.06148879233673617
+    },
+    {
+      "inspector_index": 28,
+      "layer": "__myl_Silu_myl0_28",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.78885,
+      "percent_gpu_busy": 0.06054763735199021
+    },
+    {
+      "inspector_index": 247,
+      "layer": "__myl_Cast_myl0_247",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.7649,
+      "percent_gpu_busy": 0.06002766821970265
+    },
+    {
+      "inspector_index": 243,
+      "layer": "p5.cls.conv1_myl0_243",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.7544,
+      "percent_gpu_busy": 0.05979970680471228
+    },
+    {
+      "inspector_index": 35,
+      "layer": "__myl_Silu_myl0_35",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.7441999999999998,
+      "percent_gpu_busy": 0.05957825857300734
+    },
+    {
+      "inspector_index": 188,
+      "layer": "p4.mamba.dt_proj.weight.matmul_myl0_188",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.73765,
+      "percent_gpu_busy": 0.05943605407127526
+    },
+    {
+      "inspector_index": 150,
+      "layer": "__myl_Cast_myl0_150",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.7361500000000003,
+      "percent_gpu_busy": 0.05940348815484806
+    },
+    {
+      "inspector_index": 132,
+      "layer": "__myl_Silu_myl0_132",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.73445,
+      "percent_gpu_busy": 0.059366580116230576
+    },
+    {
+      "inspector_index": 31,
+      "layer": "__myl_Silu_myl0_31",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.71525,
+      "percent_gpu_busy": 0.05894973638596247
+    },
+    {
+      "inspector_index": 139,
+      "layer": "__myl_Silu_myl0_139",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.71375,
+      "percent_gpu_busy": 0.05891717046953527
+    },
+    {
+      "inspector_index": 226,
+      "layer": "p5.mamba.dt_proj.weight.matmul_myl0_226",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.6849499999999997,
+      "percent_gpu_busy": 0.0582919048741331
+    },
+    {
+      "inspector_index": 135,
+      "layer": "__myl_Silu_myl0_135",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.65925,
+      "percent_gpu_busy": 0.05773394217268049
+    },
+    {
+      "inspector_index": 251,
+      "layer": "p4.mamba.out_proj.weight.matmul_myl0_251",
+      "region": "p4",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.6554,
+      "percent_gpu_busy": 0.057650356320517356
+    },
+    {
+      "inspector_index": 234,
+      "layer": "p5.merge_U224_myl0_234",
+      "region": "p5",
+      "kinds": [
+        "cross-scan"
+      ],
+      "kernel_nodes": 3,
+      "mean_us": 2.6432,
+      "percent_gpu_busy": 0.0573854868669095
+    },
+    {
+      "inspector_index": 29,
+      "layer": "__myl_Silu_myl0_29",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.60325,
+      "percent_gpu_busy": 0.0565181479593985
+    },
+    {
+      "inspector_index": 133,
+      "layer": "__myl_Silu_myl0_133",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.5471999999999997,
+      "percent_gpu_busy": 0.055301268215568945
+    },
+    {
+      "inspector_index": 125,
+      "layer": "__myl_Silu_myl0_125",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.5265,
+      "percent_gpu_busy": 0.054851858568873646
+    },
+    {
+      "inspector_index": 264,
+      "layer": "__myl_Cast_myl0_264",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.52,
+      "percent_gpu_busy": 0.05471073959768913
+    },
+    {
+      "inspector_index": 174,
+      "layer": "__myl_Silu_myl0_174",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.5057,
+      "percent_gpu_busy": 0.054400277861083195
+    },
+    {
+      "inspector_index": 58,
+      "layer": "__myl_Silu_myl0_58",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.4960999999999998,
+      "percent_gpu_busy": 0.05419185599594914
+    },
+    {
+      "inspector_index": 159,
+      "layer": "__myl_Silu_myl0_159",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.4720999999999997,
+      "percent_gpu_busy": 0.053670801333114006
+    },
+    {
+      "inspector_index": 212,
+      "layer": "__myl_Conc_myl0_212",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 2.36965,
+      "percent_gpu_busy": 0.05144654924113653
+    },
+    {
+      "inspector_index": 192,
+      "layer": "__myl_SiluSlicSlic_myl0_192",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.96325,
+      "percent_gpu_busy": 0.04262335695046158
+    },
+    {
+      "inspector_index": 185,
+      "layer": "__myl_SlicReshTranSiluCast_myl0_185",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.94895,
+      "percent_gpu_busy": 0.042312895213855645
+    },
+    {
+      "inspector_index": 222,
+      "layer": "p5.mamba.conv1d_myl0_222",
+      "region": "p5",
+      "kinds": [
+        "conv-gemm"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.9313,
+      "percent_gpu_busy": 0.04192970293056231
+    },
+    {
+      "inspector_index": 200,
+      "layer": "__myl_SlicTran_myl0_200",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.8832,
+      "percent_gpu_busy": 0.040885422543796894
+    },
+    {
+      "inspector_index": 95,
+      "layer": "__myl_SlicTran_myl0_95",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.86085,
+      "percent_gpu_busy": 0.04040019038903167
+    },
+    {
+      "inspector_index": 64,
+      "layer": "__myl_SiluSpli_myl0_64",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.8497000000000001,
+      "percent_gpu_busy": 0.04015811707692285
+    },
+    {
+      "inspector_index": 91,
+      "layer": "__myl_SiluSlicSlic_myl0_91",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.8433,
+      "percent_gpu_busy": 0.04001916916683348
+    },
+    {
+      "inspector_index": 196,
+      "layer": "__myl_SiluAdd_myl0_196",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.8416,
+      "percent_gpu_busy": 0.03998226112821599
+    },
+    {
+      "inspector_index": 77,
+      "layer": "__myl_Silu_myl0_77",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.76005,
+      "percent_gpu_busy": 0.03821176080512411
+    },
+    {
+      "inspector_index": 179,
+      "layer": "__myl_Cast_myl0_179",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.71525,
+      "percent_gpu_busy": 0.037239125434498525
+    },
+    {
+      "inspector_index": 85,
+      "layer": "__myl_MoveMove_myl0_85",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.7136500000000001,
+      "percent_gpu_busy": 0.037204388456976184
+    },
+    {
+      "inspector_index": 252,
+      "layer": "__myl_AddCast_myl0_252",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.7136500000000001,
+      "percent_gpu_busy": 0.037204388456976184
+    },
+    {
+      "inspector_index": 250,
+      "layer": "__myl_SiluCastMul_myl0_250",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.68165,
+      "percent_gpu_busy": 0.03650964890652934
+    },
+    {
+      "inspector_index": 148,
+      "layer": "__myl_Cast_myl0_148",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.672,
+      "percent_gpu_busy": 0.036300141510847705
+    },
+    {
+      "inspector_index": 81,
+      "layer": "__myl_Move_myl0_81",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.6673,
+      "percent_gpu_busy": 0.036198101639375826
+    },
+    {
+      "inspector_index": 87,
+      "layer": "__myl_Move_myl0_87",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.6465,
+      "percent_gpu_busy": 0.03574652093158538
+    },
+    {
+      "inspector_index": 83,
+      "layer": "__myl_MoveMove_myl0_83",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.6464,
+      "percent_gpu_busy": 0.03574434987049024
+    },
+    {
+      "inspector_index": 244,
+      "layer": "__myl_Cast_myl0_244",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.51535,
+      "percent_gpu_busy": 0.032899174305300885
+    },
+    {
+      "inspector_index": 274,
+      "layer": "__myl_Cast_myl0_274",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.4352,
+      "percent_gpu_busy": 0.031159068837541052
+    },
+    {
+      "inspector_index": 237,
+      "layer": "__myl_TranReshTranResh_myl0_237",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.43045,
+      "percent_gpu_busy": 0.031055943435521594
+    },
+    {
+      "inspector_index": 66,
+      "layer": "__myl_Silu_myl0_66",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.28,
+      "percent_gpu_busy": 0.027789582017873845
+    },
+    {
+      "inspector_index": 265,
+      "layer": "__myl_SlicCast_myl0_265",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.2368,
+      "percent_gpu_busy": 0.0268516836247706
+    },
+    {
+      "inspector_index": 281,
+      "layer": "__myl_TranSlic_myl0_281",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.1952,
+      "percent_gpu_busy": 0.025948522209189705
+    },
+    {
+      "inspector_index": 199,
+      "layer": "__myl_Slic_myl0_199",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.1488,
+      "percent_gpu_busy": 0.02494114986104178
+    },
+    {
+      "inspector_index": 266,
+      "layer": "__myl_SlicCast_myl0_266",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.136,
+      "percent_gpu_busy": 0.024663254040863034
+    },
+    {
+      "inspector_index": 242,
+      "layer": "__myl_Silu_myl0_242",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.1312,
+      "percent_gpu_busy": 0.02455904310829601
+    },
+    {
+      "inspector_index": 94,
+      "layer": "__myl_Slic_myl0_94",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.1137000000000001,
+      "percent_gpu_busy": 0.024179107416645397
+    },
+    {
+      "inspector_index": 239,
+      "layer": "__myl_Silu_myl0_239",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.1056,
+      "percent_gpu_busy": 0.02400325146793853
+    },
+    {
+      "inspector_index": 194,
+      "layer": "__myl_Silu_myl0_194",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.096,
+      "percent_gpu_busy": 0.02379482960280448
+    },
+    {
+      "inspector_index": 75,
+      "layer": "__myl_SiluAdd_myl0_75",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.0912,
+      "percent_gpu_busy": 0.02369061867023745
+    },
+    {
+      "inspector_index": 67,
+      "layer": "__myl_Silu_myl0_67",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.08805,
+      "percent_gpu_busy": 0.02362223024574034
+    },
+    {
+      "inspector_index": 71,
+      "layer": "__myl_SiluAdd_myl0_71",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.0784500000000001,
+      "percent_gpu_busy": 0.02341380838060629
+    },
+    {
+      "inspector_index": 69,
+      "layer": "__myl_Silu_myl0_69",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.05445,
+      "percent_gpu_busy": 0.022892753717771153
+    },
+    {
+      "inspector_index": 73,
+      "layer": "__myl_Silu_myl0_73",
+      "region": "backbone-neck",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.032,
+      "percent_gpu_busy": 0.022405350501910788
+    },
+    {
+      "inspector_index": 229,
+      "layer": "__myl_Cast_myl0_229",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 1.032,
+      "percent_gpu_busy": 0.022405350501910788
+    },
+    {
+      "inspector_index": 254,
+      "layer": "__myl_Cast_myl0_254",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.9984500000000001,
+      "percent_gpu_busy": 0.021676959504489172
+    },
+    {
+      "inspector_index": 181,
+      "layer": "__myl_Cast_myl0_181",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.95845,
+      "percent_gpu_busy": 0.020808535066430614
+    },
+    {
+      "inspector_index": 245,
+      "layer": "__myl_SlicCast_myl0_245",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.92645,
+      "percent_gpu_busy": 0.020113795515983766
+    },
+    {
+      "inspector_index": 261,
+      "layer": "__myl_CastTranSlic_myl0_261",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.9024,
+      "percent_gpu_busy": 0.01959165532260106
+    },
+    {
+      "inspector_index": 223,
+      "layer": "__myl_SlicReshTranSiluCast_myl0_223",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.8992,
+      "percent_gpu_busy": 0.019522181367556377
+    },
+    {
+      "inspector_index": 217,
+      "layer": "__myl_Cast_myl0_217",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.8927999999999999,
+      "percent_gpu_busy": 0.019383233457467005
+    },
+    {
+      "inspector_index": 241,
+      "layer": "__myl_TranSlic_myl0_241",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.864,
+      "percent_gpu_busy": 0.018757967862064847
+    },
+    {
+      "inspector_index": 233,
+      "layer": "__myl_AddCast_myl0_233",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.86245,
+      "percent_gpu_busy": 0.018724316415090078
+    },
+    {
+      "inspector_index": 246,
+      "layer": "__myl_SlicCast_myl0_246",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.85605,
+      "percent_gpu_busy": 0.01858536850500071
+    },
+    {
+      "inspector_index": 227,
+      "layer": "__myl_SlicCast_myl0_227",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.8224,
+      "percent_gpu_busy": 0.017854806446483948
+    },
+    {
+      "inspector_index": 221,
+      "layer": "__myl_TranReshTranSlicSlicTran_myl0_221",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.8032999999999999,
+      "percent_gpu_busy": 0.01744013377731098
+    },
+    {
+      "inspector_index": 231,
+      "layer": "__myl_SiluCastMul_myl0_231",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.7441,
+      "percent_gpu_busy": 0.01615486560898432
+    },
+    {
+      "inspector_index": 228,
+      "layer": "__myl_SlicCast_myl0_228",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.7263999999999999,
+      "percent_gpu_busy": 0.015770587795143405
+    },
+    {
+      "inspector_index": 156,
+      "layer": "__myl_Slic_myl0_156",
+      "region": "p3",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.712,
+      "percent_gpu_busy": 0.015457954997442326
+    },
+    {
+      "inspector_index": 235,
+      "layer": "__myl_Cast_myl0_235",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.6864,
+      "percent_gpu_busy": 0.014902163357084849
+    },
+    {
+      "inspector_index": 187,
+      "layer": "__myl_Slic_myl0_187",
+      "region": "p4",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.5728,
+      "percent_gpu_busy": 0.012435837952998546
+    },
+    {
+      "inspector_index": 219,
+      "layer": "__myl_Cast_myl0_219",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.5712999999999999,
+      "percent_gpu_busy": 0.012403272036571348
+    },
+    {
+      "inspector_index": 225,
+      "layer": "__myl_Slic_myl0_225",
+      "region": "p5",
+      "kinds": [
+        "layout-pointwise"
+      ],
+      "kernel_nodes": 1,
+      "mean_us": 0.55045,
+      "percent_gpu_busy": 0.011950605798233326
+    }
+  ],
+  "limitations": [
+    "Twenty instrumented fixed-input replays on one stream; no performance distribution or production single/queued session claim.",
+    "Summed kernel duration is GPU busy; trace span divided by twenty includes inter-replay gaps and is a processing interval, not latency.",
+    "Recorded adjacent kernel intervals have small timestamp overlaps; summed durations are reported as recorded, without inferring physical concurrent execution.",
+    "layout-pointwise includes pooling, softmax/reductions, activations, casts and permutations; it is not all memory copying.",
+    "p3/p4/p5 regions are the three head scales. The model-input cast belongs to backbone-neck.",
+    "No GPU work, model evaluation, GT access or quality scoring occurs during this SQLite analysis."
+  ]
+}

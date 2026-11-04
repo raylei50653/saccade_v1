@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/scan_benchmark_block64 /home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/block64-benchmark --benchmark-only --rounds 3 --iterations 100 --warmup 20

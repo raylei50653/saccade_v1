@@ -1,0 +1,19 @@
+==WARNING== Note: Running with uncontrolled GPU caches. Profiling results may be inconsistent.
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 59390 (/home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/scan_benchmark_read-shuffle)
+==PROF== Disconnected from process 59390
+==PROF== Connected to process 59408 (/home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/scan_benchmark_read-shuffle)
+==PROF== Disconnected from process 59408
+==PROF== Connected to process 59427 (/home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/scan_benchmark_read-shuffle)
+==PROF== Disconnected from process 59427
+==PROF== Creating report from application replay data: 0%.....100%
+"ID","Process ID","Process Name","Host Name","Kernel Name","Context","Stream","Block Size","Grid Size","Device","CC","Section Name","Metric Name","Metric Unit","Metric Value"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","dram__bytes_read.sum","","n/a"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","dram__bytes_write.sum","","n/a"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","gpu__time_duration.sum","ns","537888"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum","","1967104"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sector_hit_rate.pct","%","78.65"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum","sector","2459136"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sector_hit_rate.pct","%","100.90"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sectors_op_read.sum","sector","508718"
+"0","59390","scan_benchmark_read-shuffle","127.0.0.1","void unnamed>::scan_kernel<1, 1>(unnamed>::ScanParams, ScanStatus *)","1","13","(128, 1, 1)","(128, 1, 1)","0","12.0","Command line profiler metrics","sm__warps_active.avg.pct_of_peak_sustained_active","%","23.26"

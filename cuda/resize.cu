@@ -101,6 +101,57 @@ __global__ void vertical(const float* scratch, float* output,
     }
 }
 
+// The deployed HR shape has short antialias supports. Keep the horizontal
+// FP32 rounding boundary in shared memory instead of materializing the entire
+// 15.82 MiB image. Adjacent tiles recompute only their row halos. All threads,
+// including those with no horizontal row in the last iteration, reach the
+// barrier before any vertical reader runs.
+constexpr int kTileWidth = 32;
+constexpr int kTileHeight = 8;
+__global__ void tiled_hr(const std::uint8_t* input, float* output) {
+    constexpr int width = 1920, height = 1080;
+    constexpr int output_width = 1280, output_height = 768;
+    static_assert(output_width % kTileWidth == 0 && output_height % kTileHeight == 0);
+    constexpr float sx = float(width) / output_width;
+    constexpr float sy = float(height) / output_height;
+    __shared__ float horizontal_tile[16][kTileWidth];
+    const int x = static_cast<int>(blockIdx.x) * kTileWidth + threadIdx.x;
+    const int y0 = static_cast<int>(blockIdx.y) * kTileHeight;
+    const int channel = blockIdx.z;
+    const Span first = span(y0, height, sy);
+    const Span last = span(y0 + kTileHeight - 1, height, sy);
+    const int rows = last.begin + last.size - first.begin;
+    const Span xs = span(x, width, sx);
+    const float xtotal = weight_total(xs);
+    // At sx=1.5 there are at most three horizontal taps (two at the
+    // clipped image edges). Reuse their rounded weights for every source row.
+    float xweights[3];
+    #pragma unroll
+    for (int j = 0; j < 3; ++j) xweights[j] = __fdiv_rn(weight(xs, j), xtotal);
+    for (int row = threadIdx.y; row < rows; row += kTileHeight) {
+        float sum = 0.0f;
+        const std::size_t source = (std::size_t(channel) * height + first.begin + row) * width;
+        #pragma unroll
+        for (int j = 0; j < 3; ++j) if (j < xs.size) {
+            const float value = __fmul_rn(static_cast<float>(input[source + xs.begin + j]), 1.0f / 255.0f);
+            const float w = xweights[j];
+            sum = j == 0 ? __fmul_rn(value, w) : __fmaf_rn(value, w, sum);
+        }
+        horizontal_tile[row][threadIdx.x] = sum;
+    }
+    __syncthreads();
+    const int y = y0 + threadIdx.y;
+    const Span ys = span(y, height, sy);
+    const float ytotal = weight_total(ys);
+    float sum = 0.0f;
+    for (int j = 0; j < ys.size; ++j) {
+        const float value = horizontal_tile[ys.begin + j - first.begin][threadIdx.x];
+        const float w = __fdiv_rn(weight(ys, j), ytotal);
+        sum = j == 0 ? __fmul_rn(value, w) : __fmaf_rn(value, w, sum);
+    }
+    output[(std::size_t(channel) * output_height + y) * output_width + x] = sum;
+}
+
 void device_pointer(const void* p, int device, const char* name) {
     if (p == nullptr) throw std::invalid_argument(std::string("null resize ") + name);
     cudaPointerAttributes attributes{};
@@ -159,6 +210,13 @@ void resize_rgb_chw_cuda(const ResizeShape& shape,
     int stream_device = -1; ck(cudaStreamGetDevice(stream, &stream_device), "cudaStreamGetDevice");
     if (stream_device != device)
         throw std::invalid_argument("resize stream belongs to another device");
+    if (shape.input_width == 1920 && shape.input_height == 1080 &&
+        shape.output_width == 1280 && shape.output_height == 768) {
+        tiled_hr<<<dim3(1280 / kTileWidth, 768 / kTileHeight, 3),
+                   dim3(kTileWidth, kTileHeight), 0, stream>>>(input, output);
+        ck(cudaGetLastError(), "resize tiled HR launch");
+        return;
+    }
     const float sx = static_cast<float>(shape.input_width) / shape.output_width;
     const float sy = static_cast<float>(shape.input_height) / shape.output_height;
     horizontal<<<blocks(nw), kThreads, 0, stream>>>(input, workspace, shape.input_width,
@@ -171,7 +229,8 @@ void resize_rgb_chw_cuda(const ResizeShape& shape,
 
 std::string resize_cuda_load_kernels() {
     std::ostringstream text;
-    for (const auto kernel : {reinterpret_cast<const void*>(horizontal), reinterpret_cast<const void*>(vertical)}) {
+    for (const auto kernel : {reinterpret_cast<const void*>(horizontal), reinterpret_cast<const void*>(vertical),
+                             reinterpret_cast<const void*>(tiled_hr)}) {
         cudaFuncAttributes attributes{};
         ck(cudaFuncGetAttributes(&attributes, kernel), "cudaFuncGetAttributes(resize)");
         text << "registers=" << attributes.numRegs << " local_bytes=" << attributes.localSizeBytes
@@ -184,7 +243,8 @@ std::string resize_cuda_identity() {
     text << "contract=t01-input/1\nresize=fp32-antialiased-bilinear-half-pixel\n"
          << "source_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY
          << "\nnvcc=" << __CUDACC_VER_MAJOR__ << '.' << __CUDACC_VER_MINOR__ << '.' << __CUDACC_VER_BUILD__
-         << "\nnormalize=fp32-reciprocal-255-before-resize\n";
+         << "\nnormalize=fp32-reciprocal-255-before-resize\n"
+         << "hr_resize=shared-tile-32x8-1920x1080-to-1280x768\n";
     return text.str();
 }
 } // namespace saccade

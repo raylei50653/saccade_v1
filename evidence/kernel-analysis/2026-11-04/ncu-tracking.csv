@@ -1,0 +1,18 @@
+==WARNING== Note: Running with uncontrolled GPU caches. Profiling results may be inconsistent.
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 441550 (/home/ray/developer/ai/saccade_v1/build/kernel-analysis-20261104-probe/tracking_probe)
+==PROF== Disconnected from process 441550
+==PROF== Connected to process 441572 (/home/ray/developer/ai/saccade_v1/build/kernel-analysis-20261104-probe/tracking_probe)
+==PROF== Disconnected from process 441572
+==PROF== Connected to process 441592 (/home/ray/developer/ai/saccade_v1/build/kernel-analysis-20261104-probe/tracking_probe)
+==PROF== Disconnected from process 441592
+==PROF== Creating report from application replay data: 0%........100%
+"ID","Process ID","Process Name","Host Name","Kernel Name","Context","Stream","Block Size","Grid Size","Device","CC","Section Name","Metric Name","Metric Unit","Metric Value"
+"0","441550","tracking_probe","127.0.0.1","unnamed>::batch_kernel(const DetectionCandidates *, const DevicePredicted *, const TrackerConfig *, DeviceBatch *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","gpu__time_duration.sum","ns","109056"
+"0","441550","tracking_probe","127.0.0.1","unnamed>::batch_kernel(const DetectionCandidates *, const DevicePredicted *, const TrackerConfig *, DeviceBatch *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sector_hit_rate.pct","%","95.72"
+"0","441550","tracking_probe","127.0.0.1","unnamed>::batch_kernel(const DetectionCandidates *, const DevicePredicted *, const TrackerConfig *, DeviceBatch *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sector_hit_rate.pct","%","100"
+"0","441550","tracking_probe","127.0.0.1","unnamed>::batch_kernel(const DetectionCandidates *, const DevicePredicted *, const TrackerConfig *, DeviceBatch *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","sm__warps_active.avg.pct_of_peak_sustained_active","%","16.66"
+"1","441550","tracking_probe","127.0.0.1","unnamed>::update_kernel(const DevicePredicted *, const DeviceBatch *, const DeviceMotionContext *, const TrackerConfig *, DeviceTrackState *, DeviceTrackingRows *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","gpu__time_duration.sum","ns","90624"
+"1","441550","tracking_probe","127.0.0.1","unnamed>::update_kernel(const DevicePredicted *, const DeviceBatch *, const DeviceMotionContext *, const TrackerConfig *, DeviceTrackState *, DeviceTrackingRows *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sector_hit_rate.pct","%","96.30"
+"1","441550","tracking_probe","127.0.0.1","unnamed>::update_kernel(const DevicePredicted *, const DeviceBatch *, const DeviceMotionContext *, const TrackerConfig *, DeviceTrackState *, DeviceTrackingRows *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sector_hit_rate.pct","%","100"
+"1","441550","tracking_probe","127.0.0.1","unnamed>::update_kernel(const DevicePredicted *, const DeviceBatch *, const DeviceMotionContext *, const TrackerConfig *, DeviceTrackState *, DeviceTrackingRows *, TrackingCudaScratch *, const bool *)","1","13","(256, 1, 1)","(1, 1, 1)","0","12.0","Command line profiler metrics","sm__warps_active.avg.pct_of_peak_sustained_active","%","14.08"

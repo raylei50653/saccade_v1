@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/full-baseline/model_benchmark /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine /home/ray/.cache/saccade-v1/hr-deploy/refs/model-images.f32 /home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/block128-model-0-baseline --profile hr-1280x768 --iterations 100 --warmup 30 --rounds 1

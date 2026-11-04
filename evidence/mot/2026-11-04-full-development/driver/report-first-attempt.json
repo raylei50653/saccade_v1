@@ -1,0 +1,21 @@
+{
+  "stage": "report_generation",
+  "exit": 1,
+  "status": "REFUSED",
+  "reason": "The report parser expected the older CTest summary containing ', 0 tests failed'; current CMake prints '100% tests passed out of 16' and '100% tests passed out of 59'.",
+  "initial_stdout": {
+    "report_inputs_refreshed": true,
+    "frames": 5316,
+    "m4_rows": 8,
+    "comparison_status": "PASS"
+  },
+  "stderr_prefix": "REFUSED: CTest summary missing:",
+  "test_failure": false,
+  "gpu_capture_failure": false,
+  "resolution": "Accept both CTest summary formats and verify the individual Passed result-line counts against the summary totals, then regenerate the report without rerunning tests or scoring.",
+  "verification": {
+    "cpu_passed_result_lines": 16,
+    "cuda_passed_result_lines": 59
+  },
+  "provenance": "Recorded from the first report invocation reported by the parent agent; no separate GPU run was attempted."
+}

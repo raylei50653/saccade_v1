@@ -1,0 +1,306 @@
+{
+  "matched_backbone_conv_layers": 81,
+  "changed_backbone_tactics": 60,
+  "changes": [
+    {
+      "metadata": "[ONNX Layer: /layers.0/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8",
+      "causal": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna4_alignc4"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.10/m/m.0/attn/proj/conv/Conv]\u001f[ONNX Layer: /layers.10/m/m.0/Add]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.10/m/m.0/attn/qkv/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.10/m/m.0/ffn/ffn.0/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.10/m/m.0/ffn/ffn.1/conv/Conv]\u001f[ONNX Layer: /layers.10/m/m.0/Add_1]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/m.0/cv2/conv/Conv]\u001f[ONNX Layer: /layers.13/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x128x32_stage3_warpsize4x2x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/m.0/m/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/m.0/m/m.0/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/m.0/m/m.1/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.13/m.0/m/m.1/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x128x32_stage3_warpsize4x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x256x32_stage3_warpsize2x4x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize256x128x32_stage3_warpsize4x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x256x32_stage3_warpsize2x4x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/m.0/cv2/conv/Conv]\u001f[ONNX Layer: /layers.16/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/m.0/m/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/m.0/m/m.0/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/m.0/m/m.1/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.16/m.0/m/m.1/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.19/m.0/cv2/conv/Conv]\u001f[ONNX Layer: /layers.19/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x128x32_stage3_warpsize4x2x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.19/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.19/m.0/m/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.19/m.0/m/m.0/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.19/m.0/m/m.1/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.19/m.0/m/m.1/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.2/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x128x32_stage3_warpsize4x2x1_g1_tensor16x8x16_simple_t1r1s1",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.2/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.2/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x16_alignc8",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x64x32_stage3_warpsize4x1x1_g1_tensor16x8x16_simple_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/m.0/m.0.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/m.0/m.0.1/attn/proj/conv/Conv]\u001f[ONNX Layer: /layers.22/m.0/m.0.1/Add]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/m.0/m.0.1/attn/qkv/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/m.0/m.0.1/ffn/ffn.0/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.22/m.0/m.0.1/ffn/ffn.1/conv/Conv]\u001f[ONNX Layer: /layers.22/m.0/m.0.1/Add_1]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16_simple_t1r1s1",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x256x32_stage3_warpsize2x4x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/m.0/cv2/conv/Conv]\u001f[ONNX Layer: /layers.4/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/m.0/m/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/m.0/m/m.0/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/m.0/m/m.1/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.4/m.0/m/m.1/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/m.0/cv2/conv/Conv]\u001f[ONNX Layer: /layers.6/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x128x32_stage3_warpsize4x2x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/m.0/m/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/m.0/m/m.0/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/m.0/m/m.1/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.6/m.0/m/m.1/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.7/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x64_stage3_warpsize2x2x1_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/m.0/cv2/conv/Conv]\u001f[ONNX Layer: /layers.8/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f32_f32_nn_n_tilesize96x64x32_stage4_warpsize2x2x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x128x32_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r1s1"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/m.0/cv3/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage4_warpsize2x1x2_g1_tensor16x8x16"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/m.0/m/m.0/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/m.0/m/m.0/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/m.0/m/m.1/cv1/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.8/m.0/m/m.1/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS"
+    },
+    {
+      "metadata": "[ONNX Layer: /layers.9/cv2/conv/Conv]",
+      "baseline": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16",
+      "causal": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16"
+    }
+  ]
+}

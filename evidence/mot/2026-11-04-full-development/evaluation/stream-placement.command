@@ -1,0 +1,1 @@
+python3 -I scripts/check_stream_placement.py /home/ray/developer/ai/saccade_v1/build/mot-full-20261104-evaluation/nsys/track.sqlite /home/ray/developer/ai/saccade_v1/build/mot-full-20261104-evaluation/nsys/track-graph.sqlite /home/ray/developer/ai/saccade_v1/build/mot-full-20261104-evaluation/capture/stream-placement.txt 

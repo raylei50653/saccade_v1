@@ -1,0 +1,38 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking_session.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking_session.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb9720913producer_flagEPNS_25PostprocessProducerStatusEj:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:908 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972097perturbEy:
+  REG:4 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972096packetEPKNS_7ControlEPKNS_18DeviceTrackingRowsEPh:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972096commitEPNS0_22TrackingSessionControlE:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb9720910candidatesEPNS0_22TrackingSessionControlEPKNS_19DetectionCandidatesE:
+  REG:12 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:912 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972095stageEPNS0_22TrackingSessionControlEPKNS_5ErrorEPKNS_13MotionContextEPNS_19DeviceMotionContextE:
+  REG:22 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:928 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972095beginEPNS0_22TrackingSessionControlEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb9720910initializeEPNS0_22TrackingSessionControlEPNS_16DeviceTrackStateEm:
+  REG:16 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0

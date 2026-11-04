@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/f03-scan-20261104/candidate/tracking_benchmark /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP /home/ray/developer/ai/saccade_v1/build/f03-scan-20261104/tracking-trial2-1-candidate --profile hr-1280x768 --frames 120 --warmup 20 --rounds 1 --only graph

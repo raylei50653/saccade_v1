@@ -1,0 +1,202 @@
+diff --git a/README.md b/README.md
+index 7d9a2ed..a40be55 100644
+--- a/README.md
++++ b/README.md
+@@ -85,6 +85,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
+ | [CUDA Graph 開發量測](evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms；保留開發來源與首幀成本，不混作正式驗收測時 |
+ | [Tracking 排序開發量測](evidence/tracking-sort/2026-11-04/REPORT.md) | F04b replay 143.57→102.81 µs；完整吞吐幾乎不變，不宣稱穩定端到端收益 |
+ | [硬體資源與階段延遲](evidence/resource-schedule/2026-11-04/REPORT.md)／[排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md) | 單幀平均 6.988 ms、queued 吞吐約 184.8 FPS；2 格 ring 的單次交付延遲 10.740 ms；完整 HR racecheck 曾 OOM／timeout，限制保留 |
++| [Kernel 資料格式與 cache 分析](evidence/kernel-analysis/2026-11-04/REPORT.md) | 現行 source 的 buffer 大小／strides、47 個函式編譯資源、隔離 cache counters，以及後續 fusion／shared／L2 復用候選；尚未修改 runtime |
+ 
+ ## 建置與驗證
+ 
+diff --git a/cuda/resize.cu b/cuda/resize.cu
+index 5cc2571..097facb 100644
+--- a/cuda/resize.cu
++++ b/cuda/resize.cu
+@@ -101,6 +101,57 @@ __global__ void vertical(const float* scratch, float* output,
+     }
+ }
+ 
++// The deployed HR shape has short antialias supports. Keep the horizontal
++// FP32 rounding boundary in shared memory instead of materializing the entire
++// 15.82 MiB image. Adjacent tiles recompute only their row halos. All threads,
++// including those with no horizontal row in the last iteration, reach the
++// barrier before any vertical reader runs.
++constexpr int kTileWidth = 32;
++constexpr int kTileHeight = 8;
++__global__ void tiled_hr(const std::uint8_t* input, float* output) {
++    constexpr int width = 1920, height = 1080;
++    constexpr int output_width = 1280, output_height = 768;
++    static_assert(output_width % kTileWidth == 0 && output_height % kTileHeight == 0);
++    constexpr float sx = float(width) / output_width;
++    constexpr float sy = float(height) / output_height;
++    __shared__ float horizontal_tile[16][kTileWidth];
++    const int x = static_cast<int>(blockIdx.x) * kTileWidth + threadIdx.x;
++    const int y0 = static_cast<int>(blockIdx.y) * kTileHeight;
++    const int channel = blockIdx.z;
++    const Span first = span(y0, height, sy);
++    const Span last = span(y0 + kTileHeight - 1, height, sy);
++    const int rows = last.begin + last.size - first.begin;
++    const Span xs = span(x, width, sx);
++    const float xtotal = weight_total(xs);
++    // At sx=1.5 there are at most three horizontal taps (two at the
++    // clipped image edges). Reuse their rounded weights for every source row.
++    float xweights[3];
++    #pragma unroll
++    for (int j = 0; j < 3; ++j) xweights[j] = __fdiv_rn(weight(xs, j), xtotal);
++    for (int row = threadIdx.y; row < rows; row += kTileHeight) {
++        float sum = 0.0f;
++        const std::size_t source = (std::size_t(channel) * height + first.begin + row) * width;
++        #pragma unroll
++        for (int j = 0; j < 3; ++j) if (j < xs.size) {
++            const float value = __fmul_rn(static_cast<float>(input[source + xs.begin + j]), 1.0f / 255.0f);
++            const float w = xweights[j];
++            sum = j == 0 ? __fmul_rn(value, w) : __fmaf_rn(value, w, sum);
++        }
++        horizontal_tile[row][threadIdx.x] = sum;
++    }
++    __syncthreads();
++    const int y = y0 + threadIdx.y;
++    const Span ys = span(y, height, sy);
++    const float ytotal = weight_total(ys);
++    float sum = 0.0f;
++    for (int j = 0; j < ys.size; ++j) {
++        const float value = horizontal_tile[ys.begin + j - first.begin][threadIdx.x];
++        const float w = __fdiv_rn(weight(ys, j), ytotal);
++        sum = j == 0 ? __fmul_rn(value, w) : __fmaf_rn(value, w, sum);
++    }
++    output[(std::size_t(channel) * output_height + y) * output_width + x] = sum;
++}
++
+ void device_pointer(const void* p, int device, const char* name) {
+     if (p == nullptr) throw std::invalid_argument(std::string("null resize ") + name);
+     cudaPointerAttributes attributes{};
+@@ -159,6 +210,13 @@ void resize_rgb_chw_cuda(const ResizeShape& shape,
+     int stream_device = -1; ck(cudaStreamGetDevice(stream, &stream_device), "cudaStreamGetDevice");
+     if (stream_device != device)
+         throw std::invalid_argument("resize stream belongs to another device");
++    if (shape.input_width == 1920 && shape.input_height == 1080 &&
++        shape.output_width == 1280 && shape.output_height == 768) {
++        tiled_hr<<<dim3(1280 / kTileWidth, 768 / kTileHeight, 3),
++                   dim3(kTileWidth, kTileHeight), 0, stream>>>(input, output);
++        ck(cudaGetLastError(), "resize tiled HR launch");
++        return;
++    }
+     const float sx = static_cast<float>(shape.input_width) / shape.output_width;
+     const float sy = static_cast<float>(shape.input_height) / shape.output_height;
+     horizontal<<<blocks(nw), kThreads, 0, stream>>>(input, workspace, shape.input_width,
+@@ -171,7 +229,8 @@ void resize_rgb_chw_cuda(const ResizeShape& shape,
+ 
+ std::string resize_cuda_load_kernels() {
+     std::ostringstream text;
+-    for (const auto kernel : {reinterpret_cast<const void*>(horizontal), reinterpret_cast<const void*>(vertical)}) {
++    for (const auto kernel : {reinterpret_cast<const void*>(horizontal), reinterpret_cast<const void*>(vertical),
++                             reinterpret_cast<const void*>(tiled_hr)}) {
+         cudaFuncAttributes attributes{};
+         ck(cudaFuncGetAttributes(&attributes, kernel), "cudaFuncGetAttributes(resize)");
+         text << "registers=" << attributes.numRegs << " local_bytes=" << attributes.localSizeBytes
+@@ -184,7 +243,8 @@ std::string resize_cuda_identity() {
+     text << "contract=t01-input/1\nresize=fp32-antialiased-bilinear-half-pixel\n"
+          << "source_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY
+          << "\nnvcc=" << __CUDACC_VER_MAJOR__ << '.' << __CUDACC_VER_MINOR__ << '.' << __CUDACC_VER_BUILD__
+-         << "\nnormalize=fp32-reciprocal-255-before-resize\n";
++         << "\nnormalize=fp32-reciprocal-255-before-resize\n"
++         << "hr_resize=shared-tile-32x8-1920x1080-to-1280x768\n";
+     return text.str();
+ }
+ } // namespace saccade
+diff --git a/include/saccade/resize_cuda.hpp b/include/saccade/resize_cuda.hpp
+index 6c29a7b..699f42e 100644
+--- a/include/saccade/resize_cuda.hpp
++++ b/include/saccade/resize_cuda.hpp
+@@ -18,7 +18,9 @@ struct ResizeShape {
+ 
+ std::size_t resize_input_bytes(const ResizeShape& shape);
+ std::size_t resize_output_elements(const ResizeShape& shape);
+-// Horizontal intermediate in CHW order: 3 * input_height * output_width.
++// Horizontal intermediate capacity in CHW order: 3 * input_height * output_width.
++// The deployed 1920x1080 -> 1280x768 shared-tile path leaves it untouched;
++// capacity and disjoint-buffer validation still apply for a stable caller API.
+ std::size_t resize_workspace_elements(const ResizeShape& shape);
+ 
+ // Caller owns all allocations and keeps them alive through completion on stream.
+diff --git a/tests/resize_cuda_tests.cpp b/tests/resize_cuda_tests.cpp
+index 0078737..bb871ba 100644
+--- a/tests/resize_cuda_tests.cpp
++++ b/tests/resize_cuda_tests.cpp
+@@ -96,6 +96,12 @@ std::vector<float> run(const saccade::ResizeShape& s, const std::vector<std::uin
+         cu(cudaMemcpyAsync(repeat.data(), dout.p, no * sizeof(float), cudaMemcpyDeviceToHost, stream.value));
+         cu(cudaStreamSynchronize(stream.value));
+         check(std::memcmp(out.data(), repeat.data(), no * sizeof(float)) == 0, "resize CUDA graph differs");
++        cu(cudaMemsetAsync(di.p, 0, ni, stream.value));
++        cu(cudaGraphLaunch(executable, stream.value));
++        cu(cudaMemcpyAsync(repeat.data(), dout.p, no * sizeof(float), cudaMemcpyDeviceToHost, stream.value));
++        cu(cudaStreamSynchronize(stream.value));
++        check(std::all_of(repeat.begin(), repeat.end(), [](float value) { return value == 0.0f; }),
++              "resize CUDA graph did not read changed input");
+         cu(cudaGraphExecDestroy(executable)); cu(cudaGraphDestroy(capture));
+     }
+     return out;
+@@ -131,21 +137,26 @@ void held_callback(void* payload) {
+     auto& release = *static_cast<std::atomic<bool>*>(payload);
+     while (!release.load(std::memory_order_acquire)) std::this_thread::yield();
+ }
+-void held_stream_test() {
+-    const saccade::ResizeShape s{8, 8, 4, 4};
++void held_stream_test(const saccade::ResizeShape& s) {
+     const auto ni = saccade::resize_input_bytes(s), no = saccade::resize_output_elements(s), nw = saccade::resize_workspace_elements(s);
+     Device di(ni), dout(no*sizeof(float)), dw(nw*sizeof(float)); Stream stream;
+-    cu(cudaMemsetAsync(di.p, 127, ni, stream.value)); cu(cudaStreamSynchronize(stream.value));
++    cu(cudaMemsetAsync(di.p, 0, ni, stream.value)); cu(cudaStreamSynchronize(stream.value));
+     cudaEvent_t done = nullptr; cu(cudaEventCreateWithFlags(&done, cudaEventDisableTiming));
+     std::atomic<bool> release{false};
+     cu(cudaLaunchHostFunc(stream.value, held_callback, &release));
+     try {
++        cu(cudaMemsetAsync(di.p, 127, ni, stream.value));
+         saccade::resize_rgb_chw_cuda(s, di.as<std::uint8_t>(), ni, dout.as<float>(), no, dw.as<float>(), nw, stream.value);
+         cu(cudaEventRecord(done, stream.value));
+         const auto state = cudaEventQuery(done);
+         release.store(true, std::memory_order_release);
+         check(state == cudaErrorNotReady, "resize did not remain ordered behind supplied stream");
+         cu(cudaStreamSynchronize(stream.value));
++        std::vector<float> output(no);
++        cu(cudaMemcpy(output.data(), dout.p, no*sizeof(float), cudaMemcpyDeviceToHost));
++        check(std::all_of(output.begin(), output.end(), [](float value) {
++            return std::abs(value - 127.0f/255.0f) < 1e-6f;
++        }), "resize ran before the supplied stream's input update");
+         cu(cudaEventDestroy(done));
+     } catch (...) {
+         release.store(true, std::memory_order_release);
+@@ -193,7 +204,8 @@ int main(int argc, char** argv) {
+             {1,1,1,1}, {1,1,11,13}, {1,17,7,3}, {19,1,3,7}, {2,2,7,9},
+             {4,1,2,1}, {2,1,4,1}, {31,17,31,17}, {31,17,31,5}, {31,17,9,17},
+             {193,257,37,41}, {101,77,19,13}, {5,7,23,3}, {65535,1,1,1},
+-            {1920,1080,640,640}, {720,576,640,640}, {37,29,640,640}};
++            {1920,1080,640,640}, {720,576,640,640}, {37,29,640,640},
++            {1920,1080,1280,768}};
+         for (const auto& shape : shapes) for (int pattern = 0; pattern < 4; ++pattern) {
+             std::vector<std::uint8_t> input(saccade::resize_input_bytes(shape));
+             std::uint32_t random = 0xcafef00d;
+@@ -204,7 +216,8 @@ int main(int argc, char** argv) {
+                 if (pattern == 2) input[i] = i % 17 == 0 ? 255 : 0;
+                 if (pattern == 3) input[i] = static_cast<std::uint8_t>(random >> 24);
+             }
+-            const auto actual = run(shape, input, pattern == 3 && shape.input_width == 193);
++            const auto actual = run(shape, input, pattern == 3 &&
++                (shape.input_width == 193 || shape.output_width == 1280));
+             const auto expected = reference(shape, input);
+             double max_error = 0.0;
+             for (std::size_t i = 0; i < actual.size(); ++i) {
+@@ -227,7 +240,10 @@ int main(int argc, char** argv) {
+         const auto up = run({2,1,4,1}, {0,255,0,255,0,255});
+         for (int i = 0; i < 4; ++i) check(std::abs(up[i] - std::vector<double>{0,0.25,0.75,1}[i]) < 1e-7, "upsample half-pixel hand case");
+         coordinate_contraction_regression();
+-        if (!skip_held) held_stream_test();
++        if (!skip_held) {
++            held_stream_test({8,8,4,4});
++            held_stream_test({1920,1080,1280,768});
++        }
+         std::cout << "resize_cuda_tests PASS cases=" << cases << " max_abs_binary64=" << worst
+                   << " held_stream=" << (skip_held ? "UNEXECUTED" : "PASS") << '\n';
+         return 0;

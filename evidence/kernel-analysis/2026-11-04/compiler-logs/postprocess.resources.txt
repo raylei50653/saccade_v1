@@ -1,0 +1,32 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/postprocess.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/postprocess.cu
+
+Resource usage:
+ Common:
+  GLOBAL:26 CONSTANT[4]:208
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f8finalizeEPNS_19DetectionCandidatesEPNS0_9WorkspaceENS_18PostprocessRequestEj:
+  REG:56 STACK:0 SHARED:40096 LOCAL:0 CONSTANT[0]:972 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f11dense_mergeEPNS0_9WorkspaceEj:
+  REG:18 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:908 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f15adaptive_prefixEPNS0_9WorkspaceENS0_12KernelInputsE:
+  REG:40 STACK:0 SHARED:10304 LOCAL:0 CONSTANT[0]:984 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f6decodeENS0_12KernelInputsEPNS0_9WorkspaceE:
+  REG:31 STACK:80 SHARED:0 LOCAL:0 CONSTANT[0]:984 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f10initializeEPKNS_25PostprocessProducerStatusEPNS_19DetectionCandidatesEPNS0_9WorkspaceENS_18PostprocessRequestE:
+  REG:20 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:976 TEXTURE:0 SURFACE:0 SAMPLER:0

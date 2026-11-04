@@ -1,0 +1,49 @@
+========= COMPUTE-SANITIZER
+========= Invalid __global__ write of size 4 bytes
+=========     at invalid_write(float *)+0x40 in postprocess_sanitizer_control.cu:7
+=========     by thread (0,0,0) in block (0,0,0)
+=========     Access to 0xf0fc00004 is out of bounds
+=========     and is 1 bytes after the nearest allocation at 0xf0fc00000 of size 4 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: main [0x27ab] in postprocess_sanitizer_control
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamSynchronize.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: main [0x25ab] in postprocess_sanitizer_control
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x3750a9] in libcuda.so.1.1
+=========         Host Frame:  [0x168f2] in libcudart.so.13
+=========         Host Frame: cudaFree [0x5d8a2] in libcudart.so.13
+=========         Host Frame: main [0x25b8] in postprocess_sanitizer_control
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: main [0x25b8] in postprocess_sanitizer_control
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuMemFree_v2 [0x3750a9] in libcuda.so.1.1
+=========         Host Frame:  [0x168f2] in libcudart.so.13
+=========         Host Frame: cudaFree [0x5d8a2] in libcudart.so.13
+=========         Host Frame: main [0x25c5] in postprocess_sanitizer_control
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaFree.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: main [0x25c5] in postprocess_sanitizer_control
+========= 
+========= CUDA API Error: Sticky error detected
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuStreamDestroy_v2 [0x3783c9] in libcuda.so.1.1
+=========         Host Frame:  [0x13982] in libcudart.so.13
+=========         Host Frame: cudaStreamDestroy [0x5628f] in libcudart.so.13
+=========         Host Frame: main [0x25d1] in postprocess_sanitizer_control
+========= 
+========= Program hit cudaErrorUnknown (error 999) due to "unknown error" on CUDA API call to cudaStreamDestroy.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: main [0x25d1] in postprocess_sanitizer_control
+========= 
+control=memcheck launch=0 completion=999
+========= Target application returned an error
+========= ERROR SUMMARY: 8 errors

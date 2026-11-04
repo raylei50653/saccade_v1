@@ -33,7 +33,7 @@ U = r"saccade::<unnamed>::"
 S = r"saccade::detail::<unnamed>::"
 # (category, stream, demangled-name regex); "engine" is the NVTX rule.
 RULES = [
-    ("F02", "D", U + r"(horizontal|vertical)\("),
+    ("F02", "D", U + r"(horizontal|vertical|tiled_hr)\("),
     ("F05", "D", U + r"(image_kernel|image_header)\("),
     ("producer", "D", U + r"(initialize\(saccade::PostprocessProducerStatus \*|finite\(|aggregate\()"),
     ("F04", "D", U + r"(initialize\(const saccade::PostprocessProducerStatus \*|decode\(|adaptive_prefix\(|dense_merge\(|finalize\(saccade::DetectionCandidates \*)"),

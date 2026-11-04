@@ -48,7 +48,7 @@ reference 只回報 (b,d,t,n) 迴圈中的第一個失敗；GPU 回報聯集。�
 | 輸出 | term＝C·h；同一 (b,d) 的 N 個 thread 以 `__shfl_xor_sync` butterfly 求和（深度 log₂N，次序固定，各 thread 結果逐位元相同）；有 D 時再加 D·u。若所有 term 有限但部分和超出 FP32 範圍，改以 2⁻⁸ 精確縮放重算，再乘回 2⁸。 | 與 reference 的 n 遞增次序不同，誤差界見 §5。縮放重算讓 reference 有限的結果不因 FP32 部分和溢位而失敗。 |
 | Cross-Scan | 展開為純搬移；合併為 ((y0+y1)+y2)+y3 再乘 0.25，和溢位時改為先各乘 0.25 再相加。 | 展開與 reference 逐位元相同。 |
 
-thread 配置：每個 (b,d) lane 用 N 個連續 threads（N 整除 32），256 threads／block，所有索引 64-bit。int32 容量是契約上限，不是 kernel 的索引上限。
+thread 配置：每個 (b,d) lane 用 N 個連續 threads（N 整除 32），N16 scan 使用128 threads／block，其餘scan為256；finite／finalize／Cross-Scan維持256。所有索引64-bit。int32容量是契約上限，不是kernel的索引上限。原S02來源的scan為256 threads／block；後續效能修改見§8–§9。
 
 ## 4. 支援範圍與限制
 
@@ -109,3 +109,17 @@ Mutation 以私有副本修改一處 CUDA 實作，未修改的測試必須失�
 **S02 PASS（2026-10-29，受測 source `7f7bfa73d53d5ee5d41b416e8abf0b20b1d8e434`）**，範圍與數值見 [S02 證據](../evidence/s02/2026-10-29/REPORT.md)。§3–§5 自政策 commit `7ab618f` 起未修改；之後的文件變更只有 §2 新增初始化列（lazy loading 的隱式同步）與 §6 的 sanitizer 說明（initcheck 略過一項、synccheck 不檢查 shuffle mask），理由見證據報告「開發過程的發現與處理」。
 
 S03 將同一 S02 library 接成 TensorRT plugins，status 以 INT32[2] execution output 交給 frame-end gate。其 identity／序列化／context 初始化／封包交接與獨立驗收見 [SCAN_TRT](SCAN_TRT.md)；S02 的 PASS 不自動代表 S03 通過。
+
+## 8. N16 kernel 特化（2026-11-04，開發來源）
+
+N16特化引入 `state==16` 分派編譯期固定 N=16／log2(N)=4 的 kernel；其他 N 維持 generic 路徑，初始化時預載各路徑。FP32 算術、state 遞推、butterfly 次序、status／失敗處理與零 workspace 契約不變。
+
+[開發試驗](../evidence/f03-scan/2026-11-04/REPORT.md) 中，先測的 leader broadcast 較慢而未採用；N16 特化的 HR scan API Graph interval 1083.52→770.103 µs，完整 F03 Graph 5.051→4.762 ms，完整 tracking 單幀平均 7.013→6.647 ms。252 cases 的新舊 bits／statuses、四張 HR 完整模型輸出與 16 sessions 的 140 幀完整 packets 相同；此 build 的 CTest 49/49 及 scan 四種 sanitizer 通過。這是未提交開發來源的受測結果，不改寫 §7 原 S02 正式來源與證書，也不擴大為完整 HR／TensorRT 的 sanitizer 驗收。
+
+## 9. llama.cpp 啟發的部署特化與讀取試驗（2026-11-04，開發來源）
+
+在§8的N16起點上，`channels=256, A_rows=1, C_width=1, has_D=true`進一步用編譯期常數建構deployment kernel；N16 scan改用128 threads/block，初始化新增該kernel預載。L與batch仍動態，其他shape保留fallback；浮點運算、butterfly與失敗處理保持原式。
+
+[完整報告](../evidence/f03-llama/2026-11-04/REPORT.md)的兩輪完整F03 Graph ABBA為4.810→4.754 ms、4.900→4.819 ms（−1.15%／−1.64%）；四張輸入的六outputs與九statuses逐位元相同。採用版scan suite 368 checks、lazy streams及四種sanitizer通過，範圍限scan，沒有新正式gate或tracking重評。
+
+共用讀取另以採用版為baseline：n0讀u／原始delta／C再shuffle，global load requests／sectors不變且完整F03慢1.28%；B／C shared copy降低約37.5%的L1 global requests，但L2 read sectors幾乎不變，完整F03慢2.18%。兩者均未採用。現行u／delta／B／C仍直接讀global memory，A／D在迴圈前讀入，h保持register，不新增shared copy。

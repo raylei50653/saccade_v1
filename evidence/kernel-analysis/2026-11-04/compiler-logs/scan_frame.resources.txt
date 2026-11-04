@@ -1,0 +1,40 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/scan_frame.cu
+ptxasOptions =  --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/scan_frame.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a5delayEj:
+  REG:4 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:900 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a10check_doneEPNS_10ScanStatusE:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a12check_finiteEPKfyPNS_10ScanStatusEj:
+  REG:12 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:924 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a6packetEPKNS_16ScanFrameControlEPh:
+  REG:24 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:912 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a6commitEPNS_16ScanFrameControlE:
+  REG:14 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a7publishEPNS_16ScanFrameControlEPKfyPfPlPNS_15ScanFrameRecordEl:
+  REG:28 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a4gateEPNS_16ScanFrameControlENS_14ScanStatusListEPNS_15ScanFrameRecordEl:
+  REG:30 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1056 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a5beginEPNS_16ScanFrameControlEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade46_GLOBAL__N__e80afe0a_13_scan_frame_cu_5fec854a10initializeEPNS_16ScanFrameControlEmPl:
+  REG:14 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0

@@ -2,7 +2,7 @@
 
 Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC → geometry-first／ReID-free tracking → MOT 輸出。runtime 不依賴 Python；模型訓練與匯出使用 PyTorch／Python。專案從零重寫，以舊架構作設計基線，不復用舊 runtime 程式或遷移舊實驗數據。
 
-文件狀態更新：**2026-11-04**。目前部署為 **HR 1280×768 FP16**，M0–M4 完成，**P01 CLOSED（有範圍）**。CUDA Graph 預設啟用；最新 [clean-source 正式驗收 PASS](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)，HR 七個 MOT17 序列的 21 份輸出與 M4 逐位元相同，沒有重新計分或讀取 GT。完整判定、來源版本與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
+文件狀態更新：**2026-11-04**。目前部署為 **HR 1280×768 FP16**，M0–M4 完成，**P01 CLOSED（有範圍）**。CUDA Graph 預設啟用；[最新 clean-source 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)保留原受測來源。後續 F02／F03 加速已完成[七序列完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)：5,316 幀、21/21 份輸出與 M4 相同，重新計分的品質指標不變，吞吐 195.85 FPS；本次為 M4 之後的開發來源重測。完整判定、來源版本與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
 
 ## 文件分組
 
@@ -77,6 +77,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
 | 證據 | 狀態與閱讀重點 |
 | --- | --- |
 | [最新 CUDA Graph 分支正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) | 乾淨 `4329ed7`／`d21a144`；F04、tracking、stream 守門與 M4 21/21 輸出比對 PASS |
+| [加速後完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md) | F02 fusion／F03 特化；CPU 16/16、CUDA 59/59、有範圍 sanitizer 及七序列守門 PASS；5,316 幀、M4 輸出 21/21 相同、品質不變，吞吐 195.85 FPS；非 clean-source 正式證書 |
 | [M4 正式評估與 P01](evidence/m4/2026-11-03-formal-cad5298/REPORT.md) | `cad5298`；P01 CLOSED（有範圍），MOT17-02 HOTA 40.6／AP50 72.91%；品質只作記錄 |
 | [M3 TrackingSession 正式驗收](evidence/tracking-session/2026-11-03-formal-e021bd1/REPORT.md) | `e021bd1`；完整 tracking 接續、packet／MOT 與 CPU reference 比對 |
 | [F04 平行 finalize 正式驗收](evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md) | `e4d45de`；HR finalize 約 1,539→50 µs，輸出 bytes 不變；各輪結果見 POSTPROCESS §5 |
@@ -85,6 +86,11 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
 | [CUDA Graph 開發量測](evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms；保留開發來源與首幀成本，不混作正式驗收測時 |
 | [Tracking 排序開發量測](evidence/tracking-sort/2026-11-04/REPORT.md) | F04b replay 143.57→102.81 µs；完整吞吐幾乎不變，不宣稱穩定端到端收益 |
 | [硬體資源與階段延遲](evidence/resource-schedule/2026-11-04/REPORT.md)／[排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md) | 單幀平均 6.988 ms、queued 吞吐約 184.8 FPS；2 格 ring 的單次交付延遲 10.740 ms；完整 HR racecheck 曾 OOM／timeout，限制保留 |
+| [Kernel 資料格式與 cache 分析](evidence/kernel-analysis/2026-11-04/REPORT.md) | 現行 source 的 buffer 大小／strides、47 個函式編譯資源、隔離 cache counters，以及後續 fusion／shared／L2 復用候選；尚未修改 runtime |
+| [HR F02 tile fusion 開發量測](evidence/f02-fusion/2026-11-04/REPORT.md) | 固定 1920×1080→1280×768 的 F02 interval 149.06→89.76 µs；queued 5.367→5.312 ms/frame。128 組 bitwise、60/60 CTest 與有範圍 sanitizer 通過；workspace 容量仍保留，尚非 clean-source 正式驗收 |
+| [F03 N16 特化開發量測](evidence/f03-scan/2026-11-04/REPORT.md) | scan API Graph interval 1083.52→770.103 µs，完整 F03 Graph 5.051→4.762 ms；新舊 bits、四張模型輸出與固定 140 幀 packets 相同；保留較慢的 broadcast 試驗 |
+| [llama.cpp 啟發的 F03 加速與讀取試驗](evidence/f03-llama/2026-11-04/REPORT.md) | 在既有N16之上，部署shape特化＋128-thread block使完整F03兩輪改善1.15%／1.64%；輸出bits相同，scan四種sanitizer通過。共用load／shared copy另有負控制與NCU counters；開發證據 |
+| [F03 backbone／head 瓶頸分析](evidence/f03-backbone-head/2026-11-04/REPORT.md) | 正常Graph的6040個kernel calls完整對回layers，backbone／neck占kernel duration加總66.12%；cache、builder及causal改寫均未帶來可採用的新收益，部署engine保持原版 |
 
 ## 建置與驗證
 

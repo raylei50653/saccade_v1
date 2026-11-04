@@ -1,0 +1,412 @@
+diff --git a/README.md b/README.md
+index 7d9a2ed..8960ca5 100644
+--- a/README.md
++++ b/README.md
+@@ -85,6 +85,9 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
+ | [CUDA Graph 開發量測](evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms；保留開發來源與首幀成本，不混作正式驗收測時 |
+ | [Tracking 排序開發量測](evidence/tracking-sort/2026-11-04/REPORT.md) | F04b replay 143.57→102.81 µs；完整吞吐幾乎不變，不宣稱穩定端到端收益 |
+ | [硬體資源與階段延遲](evidence/resource-schedule/2026-11-04/REPORT.md)／[排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md) | 單幀平均 6.988 ms、queued 吞吐約 184.8 FPS；2 格 ring 的單次交付延遲 10.740 ms；完整 HR racecheck 曾 OOM／timeout，限制保留 |
++| [Kernel 資料格式與 cache 分析](evidence/kernel-analysis/2026-11-04/REPORT.md) | 現行 source 的 buffer 大小／strides、47 個函式編譯資源、隔離 cache counters，以及後續 fusion／shared／L2 復用候選；尚未修改 runtime |
++| [HR F02 tile fusion 開發量測](evidence/f02-fusion/2026-11-04/REPORT.md) | 固定 1920×1080→1280×768 的 F02 interval 149.06→89.76 µs；queued 5.367→5.312 ms/frame。128 組 bitwise、60/60 CTest 與有範圍 sanitizer 通過；workspace 容量仍保留，尚非 clean-source 正式驗收 |
++| [llama.cpp 啟發的 F03 加速與讀取試驗](evidence/f03-llama/2026-11-04/REPORT.md) | 在既有N16之上，部署shape特化＋128-thread block使完整F03兩輪改善1.15%／1.64%；輸出bits相同，scan四種sanitizer通過。共用load／shared copy另有負控制與NCU counters；開發證據 |
+ 
+ ## 建置與驗證
+ 
+diff --git a/cmake/ModelTensorRT.cmake b/cmake/ModelTensorRT.cmake
+index 79ff84a..a602e70 100644
+--- a/cmake/ModelTensorRT.cmake
++++ b/cmake/ModelTensorRT.cmake
+@@ -41,13 +41,15 @@ add_executable(backbone_trt tools/backbone_trt.cpp)
+ target_link_libraries(backbone_trt PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
+ add_executable(model_trt tools/model_trt.cpp)
+ target_link_libraries(model_trt PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
++add_executable(model_benchmark tools/model_benchmark.cpp)
++target_link_libraries(model_benchmark PRIVATE saccade_model_trt saccade_file_io saccade_sha256)
+ 
+-foreach(target saccade_model_trt backbone_trt model_trt)
++foreach(target saccade_model_trt backbone_trt model_trt model_benchmark)
+   if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+     target_compile_options(${target} PRIVATE ${SACCADE_SCAN_TRT_WARNINGS})
+   endif()
+ endforeach()
+-foreach(target backbone_trt model_trt)
++foreach(target backbone_trt model_trt model_benchmark)
+   # TensorRT dlopens its per-SM builder resource by basename (see TensorRT.cmake).
+   set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+   target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
+diff --git a/cuda/resize.cu b/cuda/resize.cu
+index 5cc2571..097facb 100644
+--- a/cuda/resize.cu
++++ b/cuda/resize.cu
+@@ -101,6 +101,57 @@ __global__ void vertical(const float* scratch, float* output,
+     }
+ }
+ 
++// The deployed HR shape has short antialias supports. Keep the horizontal
++// FP32 rounding boundary in shared memory instead of materializing the entire
++// 15.82 MiB image. Adjacent tiles recompute only their row halos. All threads,
++// including those with no horizontal row in the last iteration, reach the
++// barrier before any vertical reader runs.
++constexpr int kTileWidth = 32;
++constexpr int kTileHeight = 8;
++__global__ void tiled_hr(const std::uint8_t* input, float* output) {
++    constexpr int width = 1920, height = 1080;
++    constexpr int output_width = 1280, output_height = 768;
++    static_assert(output_width % kTileWidth == 0 && output_height % kTileHeight == 0);
++    constexpr float sx = float(width) / output_width;
++    constexpr float sy = float(height) / output_height;
++    __shared__ float horizontal_tile[16][kTileWidth];
++    const int x = static_cast<int>(blockIdx.x) * kTileWidth + threadIdx.x;
++    const int y0 = static_cast<int>(blockIdx.y) * kTileHeight;
++    const int channel = blockIdx.z;
++    const Span first = span(y0, height, sy);
++    const Span last = span(y0 + kTileHeight - 1, height, sy);
++    const int rows = last.begin + last.size - first.begin;
++    const Span xs = span(x, width, sx);
++    const float xtotal = weight_total(xs);
++    // At sx=1.5 there are at most three horizontal taps (two at the
++    // clipped image edges). Reuse their rounded weights for every source row.
++    float xweights[3];
++    #pragma unroll
++    for (int j = 0; j < 3; ++j) xweights[j] = __fdiv_rn(weight(xs, j), xtotal);
++    for (int row = threadIdx.y; row < rows; row += kTileHeight) {
++        float sum = 0.0f;
++        const std::size_t source = (std::size_t(channel) * height + first.begin + row) * width;
++        #pragma unroll
++        for (int j = 0; j < 3; ++j) if (j < xs.size) {
++            const float value = __fmul_rn(static_cast<float>(input[source + xs.begin + j]), 1.0f / 255.0f);
++            const float w = xweights[j];
++            sum = j == 0 ? __fmul_rn(value, w) : __fmaf_rn(value, w, sum);
++        }
++        horizontal_tile[row][threadIdx.x] = sum;
++    }
++    __syncthreads();
++    const int y = y0 + threadIdx.y;
++    const Span ys = span(y, height, sy);
++    const float ytotal = weight_total(ys);
++    float sum = 0.0f;
++    for (int j = 0; j < ys.size; ++j) {
++        const float value = horizontal_tile[ys.begin + j - first.begin][threadIdx.x];
++        const float w = __fdiv_rn(weight(ys, j), ytotal);
++        sum = j == 0 ? __fmul_rn(value, w) : __fmaf_rn(value, w, sum);
++    }
++    output[(std::size_t(channel) * output_height + y) * output_width + x] = sum;
++}
++
+ void device_pointer(const void* p, int device, const char* name) {
+     if (p == nullptr) throw std::invalid_argument(std::string("null resize ") + name);
+     cudaPointerAttributes attributes{};
+@@ -159,6 +210,13 @@ void resize_rgb_chw_cuda(const ResizeShape& shape,
+     int stream_device = -1; ck(cudaStreamGetDevice(stream, &stream_device), "cudaStreamGetDevice");
+     if (stream_device != device)
+         throw std::invalid_argument("resize stream belongs to another device");
++    if (shape.input_width == 1920 && shape.input_height == 1080 &&
++        shape.output_width == 1280 && shape.output_height == 768) {
++        tiled_hr<<<dim3(1280 / kTileWidth, 768 / kTileHeight, 3),
++                   dim3(kTileWidth, kTileHeight), 0, stream>>>(input, output);
++        ck(cudaGetLastError(), "resize tiled HR launch");
++        return;
++    }
+     const float sx = static_cast<float>(shape.input_width) / shape.output_width;
+     const float sy = static_cast<float>(shape.input_height) / shape.output_height;
+     horizontal<<<blocks(nw), kThreads, 0, stream>>>(input, workspace, shape.input_width,
+@@ -171,7 +229,8 @@ void resize_rgb_chw_cuda(const ResizeShape& shape,
+ 
+ std::string resize_cuda_load_kernels() {
+     std::ostringstream text;
+-    for (const auto kernel : {reinterpret_cast<const void*>(horizontal), reinterpret_cast<const void*>(vertical)}) {
++    for (const auto kernel : {reinterpret_cast<const void*>(horizontal), reinterpret_cast<const void*>(vertical),
++                             reinterpret_cast<const void*>(tiled_hr)}) {
+         cudaFuncAttributes attributes{};
+         ck(cudaFuncGetAttributes(&attributes, kernel), "cudaFuncGetAttributes(resize)");
+         text << "registers=" << attributes.numRegs << " local_bytes=" << attributes.localSizeBytes
+@@ -184,7 +243,8 @@ std::string resize_cuda_identity() {
+     text << "contract=t01-input/1\nresize=fp32-antialiased-bilinear-half-pixel\n"
+          << "source_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY
+          << "\nnvcc=" << __CUDACC_VER_MAJOR__ << '.' << __CUDACC_VER_MINOR__ << '.' << __CUDACC_VER_BUILD__
+-         << "\nnormalize=fp32-reciprocal-255-before-resize\n";
++         << "\nnormalize=fp32-reciprocal-255-before-resize\n"
++         << "hr_resize=shared-tile-32x8-1920x1080-to-1280x768\n";
+     return text.str();
+ }
+ } // namespace saccade
+diff --git a/cuda/selective_scan.cu b/cuda/selective_scan.cu
+index 5975d4e..939f8a8 100644
+--- a/cuda/selective_scan.cu
++++ b/cuda/selective_scan.cu
+@@ -75,20 +75,28 @@ struct ScanParams {
+ 
+ // One thread per (batch, channel, state); the N threads of a lane are
+ // consecutive within a warp, so every early exit below is group-uniform.
++template<bool FixedState16 = false, bool FixedDeploy = false>
+ __global__ void scan_kernel(ScanParams p, ScanStatus* status) {
+     const unsigned long long thread = static_cast<unsigned long long>(blockIdx.x) * blockDim.x + threadIdx.x;
+-    const unsigned long long lane = thread >> p.log2_state;
++    const unsigned log2_state = (FixedState16 || FixedDeploy) ? 4u : p.log2_state;
++    const unsigned long long lane = thread >> log2_state;
+     if (lane >= p.lanes) return;
+-    const unsigned N = p.state, n = static_cast<unsigned>(thread & (N - 1));
++    const unsigned N = (FixedState16 || FixedDeploy) ? 16u : p.state;
++    const unsigned n = static_cast<unsigned>(thread & (N - 1));
+     const unsigned mask = N == 32 ? 0xffffffffu : ((1u << N) - 1) << ((threadIdx.x & 31u) & ~(N - 1));
+-    const unsigned long long Dc = p.channels, L = p.length, b = lane / Dc, d = lane % Dc;
+-    const float a = p.a[(p.a_shared ? 0 : d * N) + n];
+-    const float skip_d = p.has_d ? p.d[d] : 0.0f;
++    const unsigned long long Dc = FixedDeploy ? 256ull : p.channels, L = p.length, b = lane / Dc, d = lane % Dc;
++    const bool a_shared = FixedDeploy ? true : p.a_shared;
++    const bool c_full = FixedDeploy ? false : p.c_full;
++    const bool has_d = FixedDeploy ? true : p.has_d;
++    const float a = p.a[(a_shared ? 0 : d * N) + n];
++    const float skip_d = has_d ? p.d[d] : 0.0f;
+     float h = 0.0f;
+     for (unsigned long long t = 0; t < L; ++t) {
+         const unsigned long long token = b * L + t, at = token * Dc + d;
+         const float u = p.u[at], bv = p.b[token * N + n];
+-        const float cv = p.c[p.c_full ? token * N + n : token];
++        const float cv = p.c[c_full ? token * N + n : token];
++        // N=16 is a compile-time specialization only: retain every original
++        // FP32 operation and butterfly stage, without a leader/broadcast path.
+         const Scaled delta = softplus_scaled(p.delta[at]), sb = split(bv), su = split(u);
+         const float decay = expf(ldexpf(__fmul_rn(delta.m, a), delta.e));
+         const float drive = ldexpf(__fmul_rn(__fmul_rn(delta.m, sb.m), su.m), delta.e + sb.e + su.e);
+@@ -101,15 +109,15 @@ __global__ void scan_kernel(ScanParams p, ScanStatus* status) {
+         if (!fail) {
+             const float sum = group_sum(term, mask, N);
+             const float skip = __fmul_rn(skip_d, u);
+-            if (p.has_d && !finite_fp32(skip)) {
++            if (has_d && !finite_fp32(skip)) {
+                 fail = kScanSkipRange;
+             } else {
+-                y = p.has_d ? __fadd_rn(sum, skip) : sum;
++                y = has_d ? __fadd_rn(sum, skip) : sum;
+                 if (!finite_fp32(y)) {
+                     // Every term is finite but a partial sum left the FP32 range:
+                     // repeat with exact power-of-two scaling.
+                     const float scaled = group_sum(__fmul_rn(term, 0x1p-8f), mask, N);
+-                    y = p.has_d ? __fadd_rn(scaled, __fmul_rn(skip, 0x1p-8f)) : scaled;
++                    y = has_d ? __fadd_rn(scaled, __fmul_rn(skip, 0x1p-8f)) : scaled;
+                     if (fabsf(y) <= FLT_MAX * 0x1p-8f) y = __fmul_rn(y, 0x1p8f);
+                     else fail = kScanOutputRange;
+                 }
+@@ -243,7 +251,10 @@ std::size_t cross_scan_total(const char* api, const CrossScanShape& s) {
+ 
+ std::string selective_scan_cuda_load_kernels() {
+     const std::pair<const char*, const void*> kernels[] = {
+-        {"check_finite", reinterpret_cast<const void*>(check_finite)}, {"scan_kernel", reinterpret_cast<const void*>(scan_kernel)},
++        {"check_finite", reinterpret_cast<const void*>(check_finite)},
++        {"scan_kernel", reinterpret_cast<const void*>(scan_kernel<false>)},
++        {"scan_kernel_n16", reinterpret_cast<const void*>(scan_kernel<true>)},
++        {"scan_kernel_deploy", reinterpret_cast<const void*>(scan_kernel<true, true>)},
+         {"finalize", reinterpret_cast<const void*>(finalize)}, {"expand_kernel", reinterpret_cast<const void*>(expand_kernel)},
+         {"merge_kernel", reinterpret_cast<const void*>(merge_kernel)}};
+     std::ostringstream report;
+@@ -287,8 +298,12 @@ void selective_scan_cuda(const SelectiveScanShape& s, const SelectiveScanDeviceI
+         const ScanParams params{in.u, in.delta, in.a, in.b, in.c, in.d, y, s.length, s.channels, s.batch * s.channels,
+                                 static_cast<unsigned>(s.state), log2_state, s.a_rows == 1, s.c_width != 1, s.has_d};
+         // lanes <= INT32_MAX and N <= 32, so the block count fits gridDim.x.
+-        const unsigned blocks = static_cast<unsigned>(((s.batch * s.channels << log2_state) + kBlock - 1) / kBlock);
+-        scan_kernel<<<blocks, kBlock, 0, stream>>>(params, status);
++        const unsigned scan_block = s.state == 16 ? 128u : kBlock;
++        const unsigned blocks = static_cast<unsigned>(((s.batch * s.channels << log2_state) + scan_block - 1) / scan_block);
++        if (s.state == 16 && s.channels == 256 && s.a_rows == 1 && s.c_width == 1 && s.has_d)
++            scan_kernel<true, true><<<blocks, scan_block, 0, stream>>>(params, status);
++        else if (s.state == 16) scan_kernel<true><<<blocks, scan_block, 0, stream>>>(params, status);
++        else scan_kernel<false><<<blocks, scan_block, 0, stream>>>(params, status);
+         launched("scan_kernel");
+     }
+     finalize<<<grid_stride_blocks(ud), kBlock, 0, stream>>>(y, ud, status);
+diff --git a/docs/PREPROCESS.md b/docs/PREPROCESS.md
+index 7117cb8..025bd0a 100644
+--- a/docs/PREPROCESS.md
++++ b/docs/PREPROCESS.md
+@@ -109,6 +109,20 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
+ 
+ 此使用結案不包含全量 5,316 張、其他 GPU／SDK、完整 F01→F03／F05 async session、F04、tracker 或 P01。原始 sanitizer FAIL 與後續逆向證據繼續作獨立診斷紀錄；不為了讓工具零報告改變解碼／數值路徑。
+ 
++## 8. HR F02 tile fusion（2026-11-04 開發改版）
++
++原圖恰為 1920×1080、輸出恰為 1280×768 時，F02 改用單一 `32×8` tile kernel。每 block 先將垂直 taps 所需的水平 FP32 結果放入 2 KiB shared memory，全部 writer 經 barrier 後才計算垂直輸出。每 tile 需要 12 或 13 個來源列；水平 halo 重算約增加 10.9%，換取消除整張 15.82 MiB intermediate 的 global write／tap-read。水平三個正規化權重由 registers 重用。
++
++FP32 `/255`、原 `span()`／權重建構、水平捨入及每軸第一項 multiply／後續 FMA 順序保留；模型 input 仍為 FP32。其他尺寸繼續使用原兩 pass。workspace query、容量、非重疊與 device／stream 驗證維持原合約，所以 HR 分支雖不讀寫 workspace，caller 仍配置原容量；本輪沒有宣稱減少 device allocation。
++
++開發來源的數值、資源、ABBA 測時、pipeline 輸出與 sanitizer 範圍見 [F02 fusion 報告](../evidence/f02-fusion/2026-11-04/REPORT.md)。重跑入口：
++
++```sh
++bash scripts/run_resize_optimization.sh build/NEW-F02-REPLAY
++```
++
++腳本凍結舊版與目前來源，以相同算術旗標分別編譯，逐位元比較 ordinary／repeat／graph 輸出，再量隔離 resize 的 ABBA 平均 processing interval。完整 pipeline 的 single latency／queued throughput 另量，不將 primitive interval 當作整幀延遲。此開發證據不改寫先前 clean-source 驗收或 nvJPEG initcheck 診斷。
++
+ ## Native F01–F04 session 接續
+ 
+ [`DetectionSession`](DETECTION_SESSION.md) 管理這個前處理器的 detect stream 與生命週期，將其輸入直接交給完整 F03 engine、producer aggregate 及 F04；跨 stream 候選 ready／consumed、host 接收 ring 與 session 首次失敗由 session 負責。該 detection session 的驗收範圍不含 tracking ResultPacket／GMC／tracker；這些已由 [TrackingSession](TRACKING.md) 接通並獨立驗收。原單 staging／同 stream borrowed-buffer 合約仍須遵守，雙 STAGE host overlap 尚未實作，後續項目見 [BACKLOG](BACKLOG.md)。
+diff --git a/docs/SCAN_CUDA.md b/docs/SCAN_CUDA.md
+index 65681db..8420803 100644
+--- a/docs/SCAN_CUDA.md
++++ b/docs/SCAN_CUDA.md
+@@ -48,7 +48,7 @@ reference 只回報 (b,d,t,n) 迴圈中的第一個失敗；GPU 回報聯集。
+ | 輸出 | term＝C·h；同一 (b,d) 的 N 個 thread 以 `__shfl_xor_sync` butterfly 求和（深度 log₂N，次序固定，各 thread 結果逐位元相同）；有 D 時再加 D·u。若所有 term 有限但部分和超出 FP32 範圍，改以 2⁻⁸ 精確縮放重算，再乘回 2⁸。 | 與 reference 的 n 遞增次序不同，誤差界見 §5。縮放重算讓 reference 有限的結果不因 FP32 部分和溢位而失敗。 |
+ | Cross-Scan | 展開為純搬移；合併為 ((y0+y1)+y2)+y3 再乘 0.25，和溢位時改為先各乘 0.25 再相加。 | 展開與 reference 逐位元相同。 |
+ 
+-thread 配置：每個 (b,d) lane 用 N 個連續 threads（N 整除 32），256 threads／block，所有索引 64-bit。int32 容量是契約上限，不是 kernel 的索引上限。
++thread 配置：每個 (b,d) lane 用 N 個連續 threads（N 整除 32），N16 scan 使用128 threads／block，其餘scan為256；finite／finalize／Cross-Scan維持256。所有索引64-bit。int32容量是契約上限，不是kernel的索引上限。原S02來源的scan為256 threads／block；後續效能修改見§8–§9。
+ 
+ ## 4. 支援範圍與限制
+ 
+@@ -109,3 +109,17 @@ Mutation 以私有副本修改一處 CUDA 實作，未修改的測試必須失
+ **S02 PASS（2026-10-29，受測 source `7f7bfa73d53d5ee5d41b416e8abf0b20b1d8e434`）**，範圍與數值見 [S02 證據](../evidence/s02/2026-10-29/REPORT.md)。§3–§5 自政策 commit `7ab618f` 起未修改；之後的文件變更只有 §2 新增初始化列（lazy loading 的隱式同步）與 §6 的 sanitizer 說明（initcheck 略過一項、synccheck 不檢查 shuffle mask），理由見證據報告「開發過程的發現與處理」。
+ 
+ S03 將同一 S02 library 接成 TensorRT plugins，status 以 INT32[2] execution output 交給 frame-end gate。其 identity／序列化／context 初始化／封包交接與獨立驗收見 [SCAN_TRT](SCAN_TRT.md)；S02 的 PASS 不自動代表 S03 通過。
++
++## 8. N16 kernel 特化（2026-11-04，開發來源）
++
++N16特化引入 `state==16` 分派編譯期固定 N=16／log2(N)=4 的 kernel；其他 N 維持 generic 路徑，初始化時預載各路徑。FP32 算術、state 遞推、butterfly 次序、status／失敗處理與零 workspace 契約不變。
++
++[開發試驗](../evidence/f03-scan/2026-11-04/REPORT.md) 中，先測的 leader broadcast 較慢而未採用；N16 特化的 HR scan API Graph interval 1083.52→770.103 µs，完整 F03 Graph 5.051→4.762 ms，完整 tracking 單幀平均 7.013→6.647 ms。252 cases 的新舊 bits／statuses、四張 HR 完整模型輸出與 16 sessions 的 140 幀完整 packets 相同；此 build 的 CTest 49/49 及 scan 四種 sanitizer 通過。這是未提交開發來源的受測結果，不改寫 §7 原 S02 正式來源與證書，也不擴大為完整 HR／TensorRT 的 sanitizer 驗收。
++
++## 9. llama.cpp 啟發的部署特化與讀取試驗（2026-11-04，開發來源）
++
++在§8的N16起點上，`channels=256, A_rows=1, C_width=1, has_D=true`進一步用編譯期常數建構deployment kernel；N16 scan改用128 threads/block，初始化新增該kernel預載。L與batch仍動態，其他shape保留fallback；浮點運算、butterfly與失敗處理保持原式。
++
++[完整報告](../evidence/f03-llama/2026-11-04/REPORT.md)的兩輪完整F03 Graph ABBA為4.810→4.754 ms、4.900→4.819 ms（−1.15%／−1.64%）；四張輸入的六outputs與九statuses逐位元相同。採用版scan suite 368 checks、lazy streams及四種sanitizer通過，範圍限scan，沒有新正式gate或tracking重評。
++
++共用讀取另以採用版為baseline：n0讀u／原始delta／C再shuffle，global load requests／sectors不變且完整F03慢1.28%；B／C shared copy降低約37.5%的L1 global requests，但L2 read sectors幾乎不變，完整F03慢2.18%。兩者均未採用。現行u／delta／B／C仍直接讀global memory，A／D在迴圈前讀入，h保持register，不新增shared copy。
+diff --git a/docs/STATUS.md b/docs/STATUS.md
+index 5d60b8f..9ed8b0c 100644
+--- a/docs/STATUS.md
++++ b/docs/STATUS.md
+@@ -19,6 +19,10 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含
+ 
+ 各步的受測 source 分開記錄；不將此次整理後的工作樹稱作已重新驗收。
+ 
++後續 [HR F02 tile fusion](../evidence/f02-fusion/2026-11-04/REPORT.md) 為開發來源改版，僅分派 1920×1080→1280×768；128 組舊／新 bits、4 張 HR Python references、60/60 CTest 與新 kernel 的有範圍 sanitizer 通過。這份工作樹尚未執行新的 clean-source 正式 gate，不改寫上表的證書來源。
++
++再後續的 [F03 N16 特化](../evidence/f03-scan/2026-11-04/REPORT.md) 保留既有 Graph；scan 精確比較、四張完整模型輸出、16 sessions 的 140 幀完整 packets、此 build 的 49/49 CTest 與 scan 四種 sanitizer 通過。同為開發來源，沒有新的 clean-source 正式 gate 或品質重評。
++
+ ## 各階段狀態
+ 
+ | 階段 | 狀態與依據 | 範圍與接續 |
+@@ -41,8 +45,11 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含
+ | [CUDA Graph 開發量測](../evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms，p95 9.08→7.44 ms | 開發來源的 ABBA 量測；首幀 setup 與 steady-state 分列 |
+ | [Tracking 排序量測](../evidence/tracking-sort/2026-11-04/REPORT.md) | 固定 F04b replay 143.57→102.81 µs；完整 tracking 7.037→6.978 ms | 吞吐幾乎不變，不宣稱穩定端到端加速 |
+ | [硬體資源／排程](../evidence/resource-schedule/2026-11-04/REPORT.md) | Graph 單幀平均 6.988 ms；queued wall time/frame 5.412 ms，約 184.8 FPS | 後者是吞吐換算；預設 4 格 ring 的另次交付延遲平均 21.217 ms。2 格 ring 的單次觀測為 10.740 ms，不能混作同一量測 |
++| [HR F02 tile fusion](../evidence/f02-fusion/2026-11-04/REPORT.md) | 隔離 F02 interval 149.06→89.76 µs（−39.8%）；queued 5.367→5.312 ms/frame | 同起點兩輪 ABBA、32 sessions／140 幀完整 packets 相同；single p50 7.010→6.905 ms，mean 受一筆 102.958 ms baseline 長尾影響。workspace 配置仍保留 |
++| [F03 N16 kernel 特化](../evidence/f03-scan/2026-11-04/REPORT.md) | scan API Graph 1083.52→770.103 µs（−28.9%）；完整 F03 Graph 5.051→4.762 ms；tracking 單幀平均 7.013→6.647 ms，queued 5.361→5.068 ms/frame | 同起點 ABBA，原部署 engine；四張模型輸出與 16 sessions／140 幀完整 packets 相同。先測的 broadcast 較慢未採用，正式 gate／品質重評未執行 |
++| [llama.cpp 啟發的 F03 部署特化](../evidence/f03-llama/2026-11-04/REPORT.md) | 在既有N16之上，shape＋block128使完整F03 Graph兩輪改善1.15%／1.64%；四張輸出與statuses相同 | 開發來源；scan suite與四種sanitizer通過，未跑新正式gate／tracking重評。raw load＋shuffle與B／C shared copy使完整模型變慢，保留負控制及NCU counters |
+ 
+-這三份報告保留各自的開發來源身分、樣本與失敗嘗試。後續 clean-source gate 補上正確性與七序列回歸，不改寫原測時身分或取代其量測條件。
++這些報告保留各自的開發來源身分、樣本與失敗嘗試。先前 Graph／排序的 clean-source gate 補上對應來源的正確性與七序列回歸，不改寫原測時身分或取代其量測條件；F02 fusion 的新開發來源另依上列範圍判定。
+ 
+ ## 未涵蓋與未完成邊界
+ 
+diff --git a/include/saccade/resize_cuda.hpp b/include/saccade/resize_cuda.hpp
+index 6c29a7b..699f42e 100644
+--- a/include/saccade/resize_cuda.hpp
++++ b/include/saccade/resize_cuda.hpp
+@@ -18,7 +18,9 @@ struct ResizeShape {
+ 
+ std::size_t resize_input_bytes(const ResizeShape& shape);
+ std::size_t resize_output_elements(const ResizeShape& shape);
+-// Horizontal intermediate in CHW order: 3 * input_height * output_width.
++// Horizontal intermediate capacity in CHW order: 3 * input_height * output_width.
++// The deployed 1920x1080 -> 1280x768 shared-tile path leaves it untouched;
++// capacity and disjoint-buffer validation still apply for a stable caller API.
+ std::size_t resize_workspace_elements(const ResizeShape& shape);
+ 
+ // Caller owns all allocations and keeps them alive through completion on stream.
+diff --git a/tests/resize_cuda_tests.cpp b/tests/resize_cuda_tests.cpp
+index 0078737..bb871ba 100644
+--- a/tests/resize_cuda_tests.cpp
++++ b/tests/resize_cuda_tests.cpp
+@@ -96,6 +96,12 @@ std::vector<float> run(const saccade::ResizeShape& s, const std::vector<std::uin
+         cu(cudaMemcpyAsync(repeat.data(), dout.p, no * sizeof(float), cudaMemcpyDeviceToHost, stream.value));
+         cu(cudaStreamSynchronize(stream.value));
+         check(std::memcmp(out.data(), repeat.data(), no * sizeof(float)) == 0, "resize CUDA graph differs");
++        cu(cudaMemsetAsync(di.p, 0, ni, stream.value));
++        cu(cudaGraphLaunch(executable, stream.value));
++        cu(cudaMemcpyAsync(repeat.data(), dout.p, no * sizeof(float), cudaMemcpyDeviceToHost, stream.value));
++        cu(cudaStreamSynchronize(stream.value));
++        check(std::all_of(repeat.begin(), repeat.end(), [](float value) { return value == 0.0f; }),
++              "resize CUDA graph did not read changed input");
+         cu(cudaGraphExecDestroy(executable)); cu(cudaGraphDestroy(capture));
+     }
+     return out;
+@@ -131,21 +137,26 @@ void held_callback(void* payload) {
+     auto& release = *static_cast<std::atomic<bool>*>(payload);
+     while (!release.load(std::memory_order_acquire)) std::this_thread::yield();
+ }
+-void held_stream_test() {
+-    const saccade::ResizeShape s{8, 8, 4, 4};
++void held_stream_test(const saccade::ResizeShape& s) {
+     const auto ni = saccade::resize_input_bytes(s), no = saccade::resize_output_elements(s), nw = saccade::resize_workspace_elements(s);
+     Device di(ni), dout(no*sizeof(float)), dw(nw*sizeof(float)); Stream stream;
+-    cu(cudaMemsetAsync(di.p, 127, ni, stream.value)); cu(cudaStreamSynchronize(stream.value));
++    cu(cudaMemsetAsync(di.p, 0, ni, stream.value)); cu(cudaStreamSynchronize(stream.value));
+     cudaEvent_t done = nullptr; cu(cudaEventCreateWithFlags(&done, cudaEventDisableTiming));
+     std::atomic<bool> release{false};
+     cu(cudaLaunchHostFunc(stream.value, held_callback, &release));
+     try {
++        cu(cudaMemsetAsync(di.p, 127, ni, stream.value));
+         saccade::resize_rgb_chw_cuda(s, di.as<std::uint8_t>(), ni, dout.as<float>(), no, dw.as<float>(), nw, stream.value);
+         cu(cudaEventRecord(done, stream.value));
+         const auto state = cudaEventQuery(done);
+         release.store(true, std::memory_order_release);
+         check(state == cudaErrorNotReady, "resize did not remain ordered behind supplied stream");
+         cu(cudaStreamSynchronize(stream.value));
++        std::vector<float> output(no);
++        cu(cudaMemcpy(output.data(), dout.p, no*sizeof(float), cudaMemcpyDeviceToHost));
++        check(std::all_of(output.begin(), output.end(), [](float value) {
++            return std::abs(value - 127.0f/255.0f) < 1e-6f;
++        }), "resize ran before the supplied stream's input update");
+         cu(cudaEventDestroy(done));
+     } catch (...) {
+         release.store(true, std::memory_order_release);
+@@ -193,7 +204,8 @@ int main(int argc, char** argv) {
+             {1,1,1,1}, {1,1,11,13}, {1,17,7,3}, {19,1,3,7}, {2,2,7,9},
+             {4,1,2,1}, {2,1,4,1}, {31,17,31,17}, {31,17,31,5}, {31,17,9,17},
+             {193,257,37,41}, {101,77,19,13}, {5,7,23,3}, {65535,1,1,1},
+-            {1920,1080,640,640}, {720,576,640,640}, {37,29,640,640}};
++            {1920,1080,640,640}, {720,576,640,640}, {37,29,640,640},
++            {1920,1080,1280,768}};
+         for (const auto& shape : shapes) for (int pattern = 0; pattern < 4; ++pattern) {
+             std::vector<std::uint8_t> input(saccade::resize_input_bytes(shape));
+             std::uint32_t random = 0xcafef00d;
+@@ -204,7 +216,8 @@ int main(int argc, char** argv) {
+                 if (pattern == 2) input[i] = i % 17 == 0 ? 255 : 0;
+                 if (pattern == 3) input[i] = static_cast<std::uint8_t>(random >> 24);
+             }
+-            const auto actual = run(shape, input, pattern == 3 && shape.input_width == 193);
++            const auto actual = run(shape, input, pattern == 3 &&
++                (shape.input_width == 193 || shape.output_width == 1280));
+             const auto expected = reference(shape, input);
+             double max_error = 0.0;
+             for (std::size_t i = 0; i < actual.size(); ++i) {
+@@ -227,7 +240,10 @@ int main(int argc, char** argv) {
+         const auto up = run({2,1,4,1}, {0,255,0,255,0,255});
+         for (int i = 0; i < 4; ++i) check(std::abs(up[i] - std::vector<double>{0,0.25,0.75,1}[i]) < 1e-7, "upsample half-pixel hand case");
+         coordinate_contraction_regression();
+-        if (!skip_held) held_stream_test();
++        if (!skip_held) {
++            held_stream_test({8,8,4,4});
++            held_stream_test({1920,1080,1280,768});
++        }
+         std::cout << "resize_cuda_tests PASS cases=" << cases << " max_abs_binary64=" << worst
+                   << " held_stream=" << (skip_held ? "UNEXECUTED" : "PASS") << '\n';
+         return 0;
+diff --git a/tests/selective_scan_cuda_tests.cpp b/tests/selective_scan_cuda_tests.cpp
+index 74a51f5..3c47065 100644
+--- a/tests/selective_scan_cuda_tests.cpp
++++ b/tests/selective_scan_cuda_tests.cpp
+@@ -97,8 +97,10 @@ void streams(cudaStream_t s) {
+     //    after release. Device inputs start as NaN so a scan placed on any other
+     //    stream reads them and cannot produce the expected result.
+     if (!held_stream_test) report << "skipped\tstream_gate\t--no-held-stream\n";
+-    else {
+-        const Case k = random_case({2, 9, 33, 8, 1, 8, true}, 0x5eed0300);
++    else for (const std::size_t state : {8u, 16u}) {
++        // Exercise both the generic kernel and the N=16 specialized path
++        // before any scan is launched in the streams-only lazy-loading test.
++        const Case k = random_case({2, 9, 33, state, 1, state, true}, 0x5eed0300 + state);
+         ScanBuffers buffers(k.shape);
+         for (const auto* t : {&buffers.u, &buffers.delta, &buffers.a, &buffers.b, &buffers.c, &buffers.d})
+             if (t->size()) CUDA(cudaMemsetAsync(t->get(), 0xFF, t->bytes(), s));

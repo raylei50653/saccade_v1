@@ -1,0 +1,13 @@
+build_commit=f03-llama-candidate3
+build_dirty=true
+nvcc=13.4.92
+scan_cuda_flags=unknown
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810
+kernel=check_finite registers=20 local_bytes=0 shared_bytes=0 max_threads=1024
+kernel=scan_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024
+kernel=scan_kernel_n16 registers=32 local_bytes=0 shared_bytes=0 max_threads=1024
+kernel=scan_kernel_deploy registers=32 local_bytes=0 shared_bytes=0 max_threads=1024
+kernel=finalize registers=16 local_bytes=0 shared_bytes=0 max_threads=1024
+kernel=expand_kernel registers=28 local_bytes=0 shared_bytes=0 max_threads=1024
+kernel=merge_kernel registers=34 local_bytes=0 shared_bytes=0 max_threads=1024

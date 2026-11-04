@@ -1,0 +1,1 @@
+/opt/cuda/bin/nvcc -O3 -DNDEBUG -std=c++20 -arch=sm_120 -ccbin c++ -I/home/ray/developer/ai/saccade_v1/build/f02-fusion-replay-20261104/source/candidate/include -c /home/ray/developer/ai/saccade_v1/build/f02-fusion-replay-20261104/source/candidate/tools/resize_benchmark.cpp -o /home/ray/developer/ai/saccade_v1/build/f02-fusion-replay-20261104/objects/harness.o 

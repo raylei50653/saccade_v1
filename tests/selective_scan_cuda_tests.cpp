@@ -97,8 +97,10 @@ void streams(cudaStream_t s) {
     //    after release. Device inputs start as NaN so a scan placed on any other
     //    stream reads them and cannot produce the expected result.
     if (!held_stream_test) report << "skipped\tstream_gate\t--no-held-stream\n";
-    else {
-        const Case k = random_case({2, 9, 33, 8, 1, 8, true}, 0x5eed0300);
+    else for (const std::size_t state : {8u, 16u}) {
+        // Exercise both the generic kernel and the N=16 specialized path
+        // before any scan is launched in the streams-only lazy-loading test.
+        const Case k = random_case({2, 9, 33, state, 1, state, true}, 0x5eed0300 + state);
         ScanBuffers buffers(k.shape);
         for (const auto* t : {&buffers.u, &buffers.delta, &buffers.a, &buffers.b, &buffers.c, &buffers.d})
             if (t->size()) CUDA(cudaMemsetAsync(t->get(), 0xFF, t->bytes(), s));

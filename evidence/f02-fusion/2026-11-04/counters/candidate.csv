@@ -1,0 +1,16 @@
+==WARNING== Note: Running with uncontrolled GPU caches. Profiling results may be inconsistent.
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 492293 (/home/ray/developer/ai/saccade_v1/build/f02-opt/final-resize-probe)
+==PROF== Disconnected from process 492293
+==PROF== Connected to process 492317 (/home/ray/developer/ai/saccade_v1/build/f02-opt/final-resize-probe)
+==PROF== Disconnected from process 492317
+==PROF== Connected to process 492334 (/home/ray/developer/ai/saccade_v1/build/f02-opt/final-resize-probe)
+==PROF== Disconnected from process 492334
+==PROF== Creating report from application replay data: 0%.....100%
+"ID","Process ID","Process Name","Host Name","Kernel Name","Context","Stream","Block Size","Grid Size","Device","CC","Section Name","Metric Name","Metric Unit","Metric Value"
+"0","492293","final-resize-probe","127.0.0.1","unnamed>::tiled_hr(const unsigned char *, float *)","1","13","(32, 8, 1)","(40, 96, 3)","0","12.0","Command line profiler metrics","gpu__time_duration.sum","ns","98432"
+"0","492293","final-resize-probe","127.0.0.1","unnamed>::tiled_hr(const unsigned char *, float *)","1","13","(32, 8, 1)","(40, 96, 3)","0","12.0","Command line profiler metrics","l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum","sector","999132"
+"0","492293","final-resize-probe","127.0.0.1","unnamed>::tiled_hr(const unsigned char *, float *)","1","13","(32, 8, 1)","(40, 96, 3)","0","12.0","Command line profiler metrics","l1tex__t_sectors_pipe_lsu_mem_global_op_st.sum","sector","368640"
+"0","492293","final-resize-probe","127.0.0.1","unnamed>::tiled_hr(const unsigned char *, float *)","1","13","(32, 8, 1)","(40, 96, 3)","0","12.0","Command line profiler metrics","lts__t_sector_hit_rate.pct","%","99.64"
+"0","492293","final-resize-probe","127.0.0.1","unnamed>::tiled_hr(const unsigned char *, float *)","1","13","(32, 8, 1)","(40, 96, 3)","0","12.0","Command line profiler metrics","lts__t_sectors_op_read.sum","sector","426345"
+"0","492293","final-resize-probe","127.0.0.1","unnamed>::tiled_hr(const unsigned char *, float *)","1","13","(32, 8, 1)","(40, 96, 3)","0","12.0","Command line profiler metrics","lts__t_sectors_op_write.sum","sector","368972"

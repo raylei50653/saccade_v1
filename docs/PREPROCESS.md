@@ -109,6 +109,20 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 
 此使用結案不包含全量 5,316 張、其他 GPU／SDK、完整 F01→F03／F05 async session、F04、tracker 或 P01。原始 sanitizer FAIL 與後續逆向證據繼續作獨立診斷紀錄；不為了讓工具零報告改變解碼／數值路徑。
 
+## 8. HR F02 tile fusion（2026-11-04 開發改版）
+
+原圖恰為 1920×1080、輸出恰為 1280×768 時，F02 改用單一 `32×8` tile kernel。每 block 先將垂直 taps 所需的水平 FP32 結果放入 2 KiB shared memory，全部 writer 經 barrier 後才計算垂直輸出。每 tile 需要 12 或 13 個來源列；水平 halo 重算約增加 10.9%，換取消除整張 15.82 MiB intermediate 的 global write／tap-read。水平三個正規化權重由 registers 重用。
+
+FP32 `/255`、原 `span()`／權重建構、水平捨入及每軸第一項 multiply／後續 FMA 順序保留；模型 input 仍為 FP32。其他尺寸繼續使用原兩 pass。workspace query、容量、非重疊與 device／stream 驗證維持原合約，所以 HR 分支雖不讀寫 workspace，caller 仍配置原容量；本輪沒有宣稱減少 device allocation。
+
+開發來源的數值、資源、ABBA 測時、pipeline 輸出與 sanitizer 範圍見 [F02 fusion 報告](../evidence/f02-fusion/2026-11-04/REPORT.md)。重跑入口：
+
+```sh
+bash scripts/run_resize_optimization.sh build/NEW-F02-REPLAY
+```
+
+腳本凍結舊版與目前來源，以相同算術旗標分別編譯，逐位元比較 ordinary／repeat／graph 輸出，再量隔離 resize 的 ABBA 平均 processing interval。完整 pipeline 的 single latency／queued throughput 另量，不將 primitive interval 當作整幀延遲。此開發證據不改寫先前 clean-source 驗收或 nvJPEG initcheck 診斷。
+
 ## Native F01–F04 session 接續
 
 [`DetectionSession`](DETECTION_SESSION.md) 管理這個前處理器的 detect stream 與生命週期，將其輸入直接交給完整 F03 engine、producer aggregate 及 F04；跨 stream 候選 ready／consumed、host 接收 ring 與 session 首次失敗由 session 負責。該 detection session 的驗收範圍不含 tracking ResultPacket／GMC／tracker；這些已由 [TrackingSession](TRACKING.md) 接通並獨立驗收。原單 staging／同 stream borrowed-buffer 合約仍須遵守，雙 STAGE host overlap 尚未實作，後續項目見 [BACKLOG](BACKLOG.md)。

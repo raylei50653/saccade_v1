@@ -1,0 +1,55 @@
+{
+  "capture_kind": "development-optimization",
+  "frames_per_session": 140,
+  "warmup_frames": 20,
+  "measured_frames": 120,
+  "outer_abba_rounds": 2,
+  "sessions": 32,
+  "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+  "packet_hashes_all_equal": true,
+  "input_manifest_sha256": "119a759c2f7e579dd9ba3dd7be9577a2cd99684ff96a71298c4d9b4f93ffe501",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "elapsed_seconds": 56.049068450927734,
+  "measurements": {
+    "baseline": {
+      "single_mean_us": 7151.735114583334,
+      "single_p50_us": 7010.304,
+      "single_p95_us": 7442.117,
+      "single_p99_us": 7653.497,
+      "latency_samples": 960,
+      "queued_mean_us_per_frame": 5366.908432375,
+      "queued_runs_us_per_frame": [
+        5337.3932,
+        5353.28875,
+        5363.281142,
+        5369.718817,
+        5373.3093,
+        5362.9828,
+        5390.103983,
+        5385.189467
+      ]
+    },
+    "candidate": {
+      "single_mean_us": 6954.581978125,
+      "single_p50_us": 6905.291,
+      "single_p95_us": 7386.566,
+      "single_p99_us": 7655.475,
+      "latency_samples": 960,
+      "queued_mean_us_per_frame": 5312.259582125,
+      "queued_runs_us_per_frame": [
+        5297.215817,
+        5286.308158,
+        5305.856783,
+        5308.865725,
+        5330.278258,
+        5332.031408,
+        5310.316125,
+        5327.204383
+      ]
+    }
+  },
+  "comparison": {
+    "single_mean_reduction_percent": 2.7567175419614176,
+    "queued_interval_reduction_percent": 1.018255685532854
+  }
+}

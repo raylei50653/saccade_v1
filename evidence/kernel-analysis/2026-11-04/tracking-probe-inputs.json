@@ -1,0 +1,156 @@
+{
+  "schema": "saccade-selected-tracking-kernel-cache-probe/1",
+  "created_utc": "2026-11-04T08:40:51.867467+00:00",
+  "frame": 20,
+  "iterations": 21,
+  "scope": "Isolated fixed immutable real-derived primitive inputs after 20 batch/update warmup pairs; no F03, JPEG, concurrency or tracker state advancement; no GT read; not a representative performance benchmark.",
+  "source": "Previously saved HR FP16 MOT17-10-SDP detection/motion primitive replay; CPU reference-generated predicted and batch inputs.",
+  "original_records_manifest": "98e2554f1b1db179bfd756fb1dbd37ee694e912d6debb2c7a11c3a610a433a6f  /home/ray/developer/ai/saccade_v1-worktrees/f04-parallel/build/f04-eval2/scdr/MOT17-10-SDP.scdr\n015ee1a1684c4b479dd273b4083722cf8721c14ff3c87d99c4a44ae2bcacb5e2  /home/ray/developer/ai/saccade_v1-worktrees/m1-data/MOT17-10-SDP.scmo\n",
+  "input_files": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/tracking-sort-evidence/final-replay-2-optimized/predicted.bin",
+      "file_bytes": 31553760,
+      "record_bytes_current_abi": 225384,
+      "records": 140,
+      "file_sha256": "df15ae20df9de03521874a8180bb24f5e301a090f36345fdef0307d1e3f3a580",
+      "selected_frame20_offset": 4507680,
+      "selected_record_sha256": "18ba0beb06d105e5d85731c4f84edf538c38e906c03feba86644930f6786898e"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/tracking-sort-evidence/final-replay-2-optimized/candidates.bin",
+      "file_bytes": 1352960,
+      "record_bytes_current_abi": 9664,
+      "records": 140,
+      "file_sha256": "ab1004e3d8eefc80f6ef1f4057db7d891a480782fb6b3aca7b297fff4b2dae4b",
+      "selected_frame20_offset": 193280,
+      "selected_record_sha256": "c018162d4cb5f45b3501cb9a3723a554b87dbf5bc412ae30770c686d0b53092b"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/tracking-sort-evidence/final-replay-2-optimized/batch.bin",
+      "file_bytes": 1515360,
+      "record_bytes_current_abi": 10824,
+      "records": 140,
+      "file_sha256": "ad5e01538f7aaf1a1cc9cb9ef2001cd38667267175b7b0b3f2b55f39dcaae891",
+      "selected_frame20_offset": 216480,
+      "selected_record_sha256": "05eb8564f700cf6f633bd7f1814a2f8a41b5ed2f62de9d269122d9b3d89c7286"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/tracking-sort-evidence/final-replay-2-optimized/motion.bin",
+      "file_bytes": 7840,
+      "record_bytes_current_abi": 56,
+      "records": 140,
+      "file_sha256": "6852fab3c63c8a1a0d14c9a08ec01bc70b566348e2836fec17a381d8194198c4",
+      "selected_frame20_offset": 1120,
+      "selected_record_sha256": "0c6b946cb459d2aec7915d7c30dd9f38faea4a3e0474aa186897b4581e6bdedd"
+    }
+  ],
+  "counts": {
+    "predicted_tracks": 19,
+    "priors": 17,
+    "candidates": 300,
+    "suppressed": 268,
+    "batch_rows": 25,
+    "next_tracks": 21,
+    "output_rows": 15
+  },
+  "checks": {
+    "batch_reference_semantic_bits_equal": true,
+    "output_errors": 0,
+    "full_update_reference_comparison_in_this_probe": false,
+    "replay_input_identity_and_capacity_checked": true
+  },
+  "config": "TrackerConfig{} defaults, identical to prior primitive replay generator; native ABI current headers.",
+  "input_mode": "Update uses immutable saved reference batch; batch kernel writes separate output. All repeated iterations use the same saved predicted/candidates/batch/motion.",
+  "compile_argv": [
+    "/opt/cuda/bin/nvcc",
+    "-std=c++20",
+    "-O3",
+    "-Iinclude",
+    "evidence/kernel-analysis/2026-11-04/tracking_probe.cpp",
+    "build/kernel-analysis-20261104-static/tracking.o",
+    "-o",
+    "build/kernel-analysis-20261104-probe/tracking_probe"
+  ],
+  "profile_argv": [
+    "flock",
+    "-x",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "ncu",
+    "--target-processes",
+    "all",
+    "--kernel-name",
+    "regex:(batch_kernel|update_kernel)",
+    "--launch-skip",
+    "40",
+    "--launch-count",
+    "2",
+    "--replay-mode",
+    "application",
+    "--cache-control",
+    "none",
+    "--clock-control",
+    "none",
+    "--metrics",
+    "gpu__time_duration.sum,l1tex__t_sector_hit_rate.pct,lts__t_sector_hit_rate.pct,sm__warps_active.avg.pct_of_peak_sustained_active",
+    "--csv",
+    "--log-file",
+    "build/kernel-analysis-20261104-probe/ncu-tracking.csv",
+    "build/kernel-analysis-20261104-probe/tracking_probe",
+    "build/tracking-sort-evidence/final-replay-2-optimized"
+  ],
+  "profile_exit_code": 0,
+  "profile_metrics": [
+    {
+      "kernel": "batch_kernel",
+      "duration_us": 109.056,
+      "l1_sector_hit_pct": 95.72,
+      "l2_sector_hit_pct": 100,
+      "sm_warps_active_pct": 16.66
+    },
+    {
+      "kernel": "update_kernel",
+      "duration_us": 90.624,
+      "l1_sector_hit_pct": 96.3,
+      "l2_sector_hit_pct": 100,
+      "sm_warps_active_pct": 14.08
+    }
+  ],
+  "profile_replay_mode": "application",
+  "profile_cache_control": "none",
+  "profile_clock_control": "none",
+  "ncu_version": "2026.3.1.0 build 38829034",
+  "files": {
+    "evidence/kernel-analysis/2026-11-04/tracking_probe.cpp": {
+      "bytes": 6141,
+      "sha256": "4c205b4dc2bf31ebb776d00687fd32939b79f2fd4adf4bcce362f47da2024583"
+    },
+    "build/kernel-analysis-20261104-static/tracking.o": {
+      "bytes": 1065136,
+      "sha256": "b244520f8a47a8160777c11ecc14acc07ab6bda652d26aa2c4f3c98ca1b31037"
+    },
+    "build/kernel-analysis-20261104-probe/tracking_probe": {
+      "bytes": 2045512,
+      "sha256": "704c86a1a85fec5a11a60d26719177071c82d5f2bf2001ebe8d0fc20e98fab47"
+    },
+    "cuda/tracking.cu": {
+      "bytes": 32536,
+      "sha256": "5ecc84298bd41dda8fe46a0631865014e8220480f37f991c8bbb375ab0731348"
+    },
+    "include/saccade/tracking_cuda.hpp": {
+      "bytes": 5512,
+      "sha256": "aebf38ae3da2252290f3c1abc538b28263ebbb9914ba755549737ed1db07b435"
+    },
+    "include/saccade/tracking.hpp": {
+      "bytes": 6618,
+      "sha256": "99f9368c7122b7eb60210f76295bcb4db940f1bcd1f6717ede23345dc8532926"
+    }
+  },
+  "capture_file": "ncu-tracking.csv",
+  "capture_sha256": "cefdda86eaa4505b640819f49889b5179a8bd31d7df41c56d9d743a54420bb58",
+  "custody_note": "Full saved replay inputs remain in ignored build directory and are not newly duplicated here; hashes, byte offsets, ABI strides and original source-record hashes are preserved.",
+  "selected_record_custody": {
+    "bundle": "tracking-selected-records.json",
+    "restore_helper": "restore_tracking_replay.py",
+    "scope": "Selected record bytes preserved losslessly; full original 140-frame files remain in ignored build. Earlier restored records are zero placeholders."
+  }
+}

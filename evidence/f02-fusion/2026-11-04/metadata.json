@@ -1,0 +1,19 @@
+{
+  "kind": "development-optimization",
+  "base_commit": "f4865cdb27f0e624b8cc26219e78f4aa938690df",
+  "source_dirty": true,
+  "source_files_hashed": 170,
+  "baseline_runtime": "frozen git kernel at base_commit",
+  "candidate_runtime": "current cuda/resize.cu; frozen primitive snapshot matches current source",
+  "formal_acceptance": false,
+  "pipeline_packet_files_byte_compared": 32,
+  "single_latency_samples_per_backend": 960,
+  "full_ctest_passed": 60,
+  "sanitizer_scope": "tiled_hr first three matching launches per tool, no session/library instrumentation",
+  "unexecuted": [
+    "new clean-source formal gate",
+    "full HR seven-sequence detector/MOT regression",
+    "full session sanitizer suite",
+    "new sanitizer positive controls and semantic mutations"
+  ]
+}

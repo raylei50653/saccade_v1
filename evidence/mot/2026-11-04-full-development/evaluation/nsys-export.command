@@ -1,0 +1,1 @@
+nsys export --type sqlite --output /home/ray/developer/ai/saccade_v1/build/mot-full-20261104-evaluation/nsys/track.sqlite /home/ray/developer/ai/saccade_v1/build/mot-full-20261104-evaluation/nsys/track.nsys-rep 

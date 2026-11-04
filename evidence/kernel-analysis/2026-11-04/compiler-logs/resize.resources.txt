@@ -1,0 +1,26 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/resize.cu
+ptxasOptions =  --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/resize.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade41_GLOBAL__N__185ab3f3_9_resize_cu_51f0b64b8verticalEPKfPfiiifm:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:936 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__185ab3f3_9_resize_cu_51f0b64b10horizontalEPKhPfiiifm:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:936 TEXTURE:0 SURFACE:0 SAMPLER:0

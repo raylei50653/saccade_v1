@@ -1,0 +1,28 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking.cu
+
+Resource usage:
+ Common:
+  GLOBAL:26 CONSTANT[4]:208
+ Function _ZN7saccade44_GLOBAL__N__7dbd9899_11_tracking_cu_e2ac41f613update_kernelEPKNS_15DevicePredictedEPKNS_11DeviceBatchEPKNS_19DeviceMotionContextEPKNS_13TrackerConfigEPNS_16DeviceTrackStateEPNS_18DeviceTrackingRowsEPNS_19TrackingCudaScratchEPKb:
+  REG:128 STACK:0 SHARED:1028 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade44_GLOBAL__N__7dbd9899_11_tracking_cu_e2ac41f612batch_kernelEPKNS_19DetectionCandidatesEPKNS_15DevicePredictedEPKNS_13TrackerConfigEPNS_11DeviceBatchEPNS_19TrackingCudaScratchEPKb:
+  REG:40 STACK:0 SHARED:10308 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade44_GLOBAL__N__7dbd9899_11_tracking_cu_e2ac41f614predict_kernelEPKNS_16DeviceTrackStateEPKNS_19DeviceMotionContextEPKlPKNS_13TrackerConfigEPNS_15DevicePredictedEPNS_19TrackingCudaScratchEPKb:
+  REG:122 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0

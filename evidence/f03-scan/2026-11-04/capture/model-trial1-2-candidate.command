@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/f03-scan-20261104/candidate/model_benchmark /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine /home/ray/.cache/saccade-v1/hr-deploy/refs/model-images.f32 /home/ray/developer/ai/saccade_v1/build/f03-scan-20261104/model-trial1-2-candidate --profile hr-1280x768 --iterations 80 --warmup 20 --rounds 1

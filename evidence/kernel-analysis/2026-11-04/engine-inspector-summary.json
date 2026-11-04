@@ -1,0 +1,2032 @@
+{
+  "source_file": "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.build.txt",
+  "source_sha256": "3bcedce374f7dcb212960a1eb62ec8ecee844c8b4bdbebf07314317df6e0a18d",
+  "engine_sha256_verified": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "header": {
+    "onnx_sha256": "cc1fa6d35f45f5d23b6a0d350ff7f0101d4a4593debe6a5b590fc89a63151cf7",
+    "bundle_sha256": "c6f3416f261d1eab26751c9a8ee63144f43620cdd2e77cec079be8e9cc1ffdea",
+    "engine_bytes": "60753004",
+    "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+    "build_seconds": "53.6207",
+    "network": "weakly_typed",
+    "precision": "fp16",
+    "tf32": "off",
+    "fp16": "on",
+    "bf16": "off",
+    "int8": "off",
+    "workspace_bytes": "268435456",
+    "optimization_level": "3",
+    "aux_streams": "0",
+    "timing_cache": "none",
+    "profiling_verbosity": "detailed",
+    "debug_intermediates": "false",
+    "profile": "hr-1280x768",
+    "head_inputs": "external",
+    "import": "nvonnxparser (backbone), network API (head)",
+    "onnx_parser_library": "100",
+    "onnx_parser_header_api": "100",
+    "tensorrt_headers": "10.16.1.11",
+    "tensorrt_library": "101601.11",
+    "plugin_api": "IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One",
+    "plugin_namespace": "saccade",
+    "plugins": "SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1",
+    "build_commit": "761889cf43c9d06ed7346610dbe1002c6d958255",
+    "build_dirty": "true",
+    "nvcc": "13.4.92",
+    "scan_cuda_flags": "--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo",
+    "cuda_arch_list": "1200",
+    "host_compiler": "15.3.0",
+    "tensor": "p5.merge_status mode=output dtype=INT32 format=linear location=device shape=(2) shape_inference_io=false",
+    "profiles": "1",
+    "device_memory_bytes": "135170048",
+    "status_output": "p5.merge_status"
+  },
+  "layer_count": 286,
+  "format_occurrence_counts": {
+    "UInt8": 218,
+    "UInt64": 4,
+    "Float": 65,
+    "Half": 572,
+    "Int32": 9
+  },
+  "top_logical_activation_payloads": [
+    {
+      "layer_index": 2,
+      "layer": "/layers.0/conv/Conv_myl0_2",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_3_myl0",
+      "Dimensions": [
+        1,
+        64,
+        384,
+        640
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 31457280
+    },
+    {
+      "layer_index": 3,
+      "layer": "__myl_Silu_myl0_3",
+      "io": "Outputs",
+      "Name": "/layers.1/bn/BatchNormalization_shift.1_4_myl0",
+      "Dimensions": [
+        1,
+        64,
+        384,
+        640
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 31457280
+    },
+    {
+      "layer_index": 21,
+      "layer": "/layers.2/cv2/conv/Conv_myl0_21",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_23_myl0",
+      "Dimensions": [
+        1,
+        256,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 31457280
+    },
+    {
+      "layer_index": 22,
+      "layer": "__myl_Silu_myl0_22",
+      "io": "Outputs",
+      "Name": "/layers.3/bn/BatchNormalization_shift.1_24_myl0",
+      "Dimensions": [
+        1,
+        256,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 31457280
+    },
+    {
+      "layer_index": 129,
+      "layer": "/layers.16/cv1/conv/Conv_myl0_129",
+      "io": "Inputs",
+      "Name": "/layers.15/Concat_output_0.1_myl0",
+      "Dimensions": [
+        1,
+        1024,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 31457280
+    },
+    {
+      "layer_index": 21,
+      "layer": "/layers.2/cv2/conv/Conv_myl0_21",
+      "io": "Inputs",
+      "Name": "__mye46415_concat_myl0",
+      "Dimensions": [
+        1,
+        192,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 23592960
+    },
+    {
+      "layer_index": 4,
+      "layer": "/layers.1/conv/Conv_myl0_4",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_5_myl0",
+      "Dimensions": [
+        1,
+        128,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 15728640
+    },
+    {
+      "layer_index": 5,
+      "layer": "__myl_Silu_myl0_5",
+      "io": "Outputs",
+      "Name": "/layers.2/cv1/bn/BatchNormalization_shift.1_6_myl0",
+      "Dimensions": [
+        1,
+        128,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 15728640
+    },
+    {
+      "layer_index": 6,
+      "layer": "/layers.2/cv1/conv/Conv_myl0_6",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_7_myl0",
+      "Dimensions": [
+        1,
+        128,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 15728640
+    },
+    {
+      "layer_index": 40,
+      "layer": "/layers.4/cv2/conv/Conv_myl0_40",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_43_myl0",
+      "Dimensions": [
+        1,
+        512,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 15728640
+    },
+    {
+      "layer_index": 41,
+      "layer": "__myl_Silu_myl0_41",
+      "io": "Outputs",
+      "Name": "/layers.15/Concat_output_0.1_myl0",
+      "Dimensions": [
+        1,
+        512,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 15728640
+    },
+    {
+      "layer_index": 1,
+      "layer": "__myl_Cast_myl0_1",
+      "io": "Inputs",
+      "Name": "images",
+      "Dimensions": [
+        1,
+        3,
+        768,
+        1280
+      ],
+      "Format/Datatype": "Float",
+      "logical_payload_bytes": 11796480
+    },
+    {
+      "layer_index": 40,
+      "layer": "/layers.4/cv2/conv/Conv_myl0_40",
+      "io": "Inputs",
+      "Name": "__mye46395_concat_myl0",
+      "Dimensions": [
+        1,
+        384,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 11796480
+    },
+    {
+      "layer_index": 144,
+      "layer": "/layers.16/cv2/conv/Conv_myl0_144",
+      "io": "Inputs",
+      "Name": "__mye46283_concat_myl0",
+      "Dimensions": [
+        1,
+        384,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 11796480
+    },
+    {
+      "layer_index": 7,
+      "layer": "__myl_SiluSpli_myl0_7",
+      "io": "Outputs",
+      "Name": "__mye46415_concat_myl0",
+      "Dimensions": [
+        1,
+        64,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 8,
+      "layer": "/layers.2/m.0/cv2/conv/Conv+/layers.2/m.0/cv1/conv/Conv_myl0_8",
+      "io": "Outputs",
+      "Name": "__mye46208_myl0",
+      "Dimensions": [
+        1,
+        64,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 19,
+      "layer": "/layers.2/m.0/cv3/conv/Conv_myl0_19",
+      "io": "Inputs",
+      "Name": "/layers.2/m.0/Concat_output_0.1_myl0",
+      "Dimensions": [
+        1,
+        64,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 19,
+      "layer": "/layers.2/m.0/cv3/conv/Conv_myl0_19",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_21_myl0",
+      "Dimensions": [
+        1,
+        64,
+        192,
+        320
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 23,
+      "layer": "/layers.3/conv/Conv_myl0_23",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_25_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 24,
+      "layer": "__myl_Silu_myl0_24",
+      "io": "Outputs",
+      "Name": "/layers.4/cv1/bn/BatchNormalization_shift.1_26_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 25,
+      "layer": "/layers.4/cv1/conv/Conv_myl0_25",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_27_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 111,
+      "layer": "/layers.13/cv1/conv/Conv_myl0_111",
+      "io": "Inputs",
+      "Name": "/layers.12/Concat_output_0.1_myl0",
+      "Dimensions": [
+        1,
+        1024,
+        48,
+        80
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 129,
+      "layer": "/layers.16/cv1/conv/Conv_myl0_129",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_141_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 144,
+      "layer": "/layers.16/cv2/conv/Conv_myl0_144",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_157_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 145,
+      "layer": "__myl_Silu_myl0_145",
+      "io": "Outputs",
+      "Name": "/layers.17/bn/BatchNormalization_shift.1_158_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 278,
+      "layer": "p3.reg.conv0+p3.cls.conv0_myl0_278",
+      "io": "Inputs",
+      "Name": "p3.concat_output.1_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 278,
+      "layer": "p3.reg.conv0+p3.cls.conv0_myl0_278",
+      "io": "Outputs",
+      "Name": "__mye46019_myl0",
+      "Dimensions": [
+        1,
+        256,
+        96,
+        160
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7864320
+    },
+    {
+      "layer_index": 96,
+      "layer": "/layers.10/m/m.0/attn/MatMul_myl0_96",
+      "io": "Outputs",
+      "Name": "__mye40718_myl0",
+      "Dimensions": [
+        4,
+        960,
+        960
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7372800
+    },
+    {
+      "layer_index": 97,
+      "layer": "__myl_MulMaxrSubExpSum_myl0_97",
+      "io": "Inputs",
+      "Name": "__mye40718_myl0",
+      "Dimensions": [
+        1,
+        4,
+        960,
+        960
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7372800
+    },
+    {
+      "layer_index": 97,
+      "layer": "__myl_MulMaxrSubExpSum_myl0_97",
+      "io": "Outputs",
+      "Name": "__myln_k_arg__bb1_108_myl0",
+      "Dimensions": [
+        1,
+        4,
+        960,
+        960
+      ],
+      "Format/Datatype": "Half",
+      "logical_payload_bytes": 7372800
+    }
+  ],
+  "dtype_changing_layers": [
+    {
+      "index": 1,
+      "Name": "__myl_Cast_myl0_1",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "images",
+          "Dimensions": [
+            1,
+            3,
+            768,
+            1280
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "/layers.0/bn/BatchNormalization_shift.1_2_myl0",
+          "Dimensions": [
+            1,
+            3,
+            768,
+            1280
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x925cd64808fe2248be2b3d9b6ed9e6b3",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 148,
+      "Name": "__myl_Cast_myl0_148",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_160_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.tokens.1_161_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x892437a306d7deb84db20a589b23e9dc",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 150,
+      "Name": "__myl_Cast_myl0_150",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_163_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.tokens_casted.1_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x589f4cca6ff8a9b8d0abc2d4a6f26932",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 154,
+      "Name": "__myl_SlicReshTranSiluCast_myl0_154",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_168_myl0",
+          "Dimensions": [
+            4,
+            256,
+            1,
+            963
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.scan.1_170_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.u.1_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_SlicReshTranSiluCast_0x8850560b9ec1732abd1caa3e9c44129d",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 179,
+      "Name": "__myl_Cast_myl0_179",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_195_myl0",
+          "Dimensions": [
+            1,
+            128,
+            12,
+            20
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.tokens.1_196_myl0",
+          "Dimensions": [
+            1,
+            128,
+            12,
+            20
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0xac20362768fc1cf2506fb5863e6d0572",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 181,
+      "Name": "__myl_Cast_myl0_181",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_198_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.tokens_casted.1_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0xbe0b28659b0c0eb7767e57a60e407062",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 185,
+      "Name": "__myl_SlicReshTranSiluCast_myl0_185",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_203_myl0",
+          "Dimensions": [
+            4,
+            256,
+            1,
+            243
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.scan.1_205_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.u.1_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_SlicReshTranSiluCast_0xcd6b744154d353f5492dab7521961757",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 217,
+      "Name": "__myl_Cast_myl0_217",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_240_myl0",
+          "Dimensions": [
+            1,
+            128,
+            6,
+            10
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.tokens.1_241_myl0",
+          "Dimensions": [
+            1,
+            128,
+            6,
+            10
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x24c1c9a7895c5c838ce2023ce6d0313e",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 219,
+      "Name": "__myl_Cast_myl0_219",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_243_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.tokens_casted.1_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0xa4c965c139863d8407898b39fee99751",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 223,
+      "Name": "__myl_SlicReshTranSiluCast_myl0_223",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_248_myl0",
+          "Dimensions": [
+            4,
+            256,
+            1,
+            63
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.scan.1_250_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.u.1_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_SlicReshTranSiluCast_0x00d94f3271298b0f0a85605fb04ec8d9",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 227,
+      "Name": "__myl_SlicCast_myl0_227",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye41021_myl0",
+          "Dimensions": [
+            4,
+            60,
+            33
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.scan.1_254_myl0",
+          "Dimensions": [
+            4,
+            60,
+            1
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_SlicCast_0x57a383b7b232fcf6117b1b0ca83144ac",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 228,
+      "Name": "__myl_SlicCast_myl0_228",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye41021_myl0",
+          "Dimensions": [
+            4,
+            60,
+            33
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.scan.1_255_myl0",
+          "Dimensions": [
+            4,
+            60,
+            16
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_SlicCast_0x375e94549227a7dcc4d256f3a536aa3e",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 229,
+      "Name": "__myl_Cast_myl0_229",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "p5.delta.1_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.scan.1_256_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0xf931b3804aa1e2eab57913212a8fa137",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 231,
+      "Name": "__myl_SiluCastMul_myl0_231",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_258_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "__myln_k_arg__bb1_247_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.gate.1_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_SiluCastMul_0x903417ed25ea35b915434903d1cc80f8",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 233,
+      "Name": "__myl_AddCast_myl0_233",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye41081_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Half"
+        },
+        {
+          "Name": "p5.tokens_casted.1_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.merge.1_261_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_AddCast_0xfdb76ac2bce72ed5c628dbb1ef95b4c7",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 235,
+      "Name": "__myl_Cast_myl0_235",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_263_myl0",
+          "Dimensions": [
+            1,
+            128,
+            6,
+            10
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p5.upsample.1_264_myl0",
+          "Dimensions": [
+            1,
+            128,
+            6,
+            10
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0xb37ae8392f78c92795f6a21fb8a1e789",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 240,
+      "Name": "__myl_CorrCast_myl0_240",
+      "LayerType": "fusion",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_268_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_269_myl0",
+          "Dimensions": [
+            1,
+            8,
+            24,
+            40
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1_by_fusion_tactic",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 244,
+      "Name": "__myl_Cast_myl0_244",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_272_myl0",
+          "Dimensions": [
+            1,
+            80,
+            24,
+            40
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "cls_p5",
+          "Dimensions": [
+            1,
+            80,
+            24,
+            40
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x53d9c38835dd0edef53dd92baf0b27af",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 245,
+      "Name": "__myl_SlicCast_myl0_245",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye40889_myl0",
+          "Dimensions": [
+            4,
+            240,
+            33
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.scan.1_274_myl0",
+          "Dimensions": [
+            4,
+            240,
+            1
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_SlicCast_0x9fedfda9820aa74e87b0a0edf4aca7ce",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 246,
+      "Name": "__myl_SlicCast_myl0_246",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye40889_myl0",
+          "Dimensions": [
+            4,
+            240,
+            33
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.scan.1_275_myl0",
+          "Dimensions": [
+            4,
+            240,
+            16
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_SlicCast_0x4f5b737cbba0e9a600772e1254a11055",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 247,
+      "Name": "__myl_Cast_myl0_247",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "p4.delta.1_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.scan.1_276_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x7c6fc33293c9ff7a8d3ab0512d1ebefa",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 250,
+      "Name": "__myl_SiluCastMul_myl0_250",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_278_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "__myln_k_arg__bb1_279_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.gate.1_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_SiluCastMul_0xfa744684d945df07826a24291da48781",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 252,
+      "Name": "__myl_AddCast_myl0_252",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye41111_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Half"
+        },
+        {
+          "Name": "p4.tokens_casted.1_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.merge.1_282_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_AddCast_0xc7bd02ce00645779729d842ff5a9e6ec",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 254,
+      "Name": "__myl_Cast_myl0_254",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_284_myl0",
+          "Dimensions": [
+            1,
+            128,
+            12,
+            20
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p4.upsample.1_285_myl0",
+          "Dimensions": [
+            1,
+            128,
+            12,
+            20
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x34e7a6c02c85208653331eabdad35261",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 261,
+      "Name": "__myl_CastTranSlic_myl0_261",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_291_myl0",
+          "Dimensions": [
+            1,
+            8,
+            48,
+            80
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "reg_p4",
+          "Dimensions": [
+            1,
+            4,
+            48,
+            80
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_CastTranSlic_0x3117d52b0159bab421092f0183106f8c",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 264,
+      "Name": "__myl_Cast_myl0_264",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_294_myl0",
+          "Dimensions": [
+            1,
+            80,
+            48,
+            80
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "cls_p4",
+          "Dimensions": [
+            1,
+            80,
+            48,
+            80
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x8b4e4e2e896c42e6b63ab5c3ff1d6969",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 265,
+      "Name": "__myl_SlicCast_myl0_265",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye40799_myl0",
+          "Dimensions": [
+            4,
+            960,
+            33
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.scan.1_296_myl0",
+          "Dimensions": [
+            4,
+            960,
+            1
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_SlicCast_0x605739b248c58454ae3581776aa0e931",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 266,
+      "Name": "__myl_SlicCast_myl0_266",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye40799_myl0",
+          "Dimensions": [
+            4,
+            960,
+            33
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.scan.1_297_myl0",
+          "Dimensions": [
+            4,
+            960,
+            16
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_SlicCast_0xf87fbbfdf95d70687525f5cda56e9625",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 267,
+      "Name": "__myl_Cast_myl0_267",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "p3.delta.1_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.scan.1_298_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x220bf71c107fe7fae0e0edeeb5796874",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 270,
+      "Name": "__myl_SiluCastMul_myl0_270",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_300_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "__myln_k_arg__bb1_301_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.gate.1_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_SiluCastMul_0x111d7b04f83ce59b3fd52055dc3b17df",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 272,
+      "Name": "__myl_AddCast_myl0_272",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__mye41141_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Half"
+        },
+        {
+          "Name": "p3.tokens_casted.1_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.merge.1_304_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_AddCast_0x270bce6f2a54dd771f2d7d763871feed",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 274,
+      "Name": "__myl_Cast_myl0_274",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_306_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "p3.upsample.1_307_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "TacticName": "__myl_Cast_0x83a1138afa34d7f819cad0a8cb52e050",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 280,
+      "Name": "__myl_CorrCast_myl0_280",
+      "LayerType": "fusion",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_312_myl0",
+          "Dimensions": [
+            1,
+            128,
+            96,
+            160
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_313_myl0",
+          "Dimensions": [
+            1,
+            8,
+            96,
+            160
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r1s1_by_fusion_tactic",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 284,
+      "Name": "__myl_Cast_myl0_284",
+      "LayerType": "kgen",
+      "Inputs": [
+        {
+          "Name": "__myln_k_arg__bb1_316_myl0",
+          "Dimensions": [
+            1,
+            80,
+            96,
+            160
+          ],
+          "Format/Datatype": "Half"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "cls_p3",
+          "Dimensions": [
+            1,
+            80,
+            96,
+            160
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticName": "__myl_Cast_0xbb75defc13a942177d9382825237fb1d",
+      "StreamId": 0,
+      "Metadata": ""
+    }
+  ],
+  "plugin_layers": [
+    {
+      "index": 149,
+      "Name": "p3.expand_myl0_149",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p3.tokens.1_161_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_163_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.expand_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 180,
+      "Name": "p4.expand_myl0_180",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p4.tokens.1_196_myl0",
+          "Dimensions": [
+            1,
+            128,
+            12,
+            20
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_198_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.expand_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 218,
+      "Name": "p5.expand_myl0_218",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p5.tokens.1_241_myl0",
+          "Dimensions": [
+            1,
+            128,
+            6,
+            10
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_243_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.expand_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 230,
+      "Name": "p5.scan_U223_myl0_230",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p5.scan.1_250_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.scan.1_256_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.scan.1_255_myl0",
+          "Dimensions": [
+            4,
+            60,
+            16
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.scan.1_254_myl0",
+          "Dimensions": [
+            4,
+            60,
+            1
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_258_myl0",
+          "Dimensions": [
+            4,
+            60,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.scan_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 234,
+      "Name": "p5.merge_U224_myl0_234",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p5.merge.1_261_myl0",
+          "Dimensions": [
+            4,
+            60,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_263_myl0",
+          "Dimensions": [
+            1,
+            128,
+            6,
+            10
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p5.merge_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 248,
+      "Name": "p4.scan_U232_myl0_248",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p4.scan.1_205_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.scan.1_276_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.scan.1_275_myl0",
+          "Dimensions": [
+            4,
+            240,
+            16
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.scan.1_274_myl0",
+          "Dimensions": [
+            4,
+            240,
+            1
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_278_myl0",
+          "Dimensions": [
+            4,
+            240,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.scan_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 253,
+      "Name": "p4.merge_U233_myl0_253",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p4.merge.1_282_myl0",
+          "Dimensions": [
+            4,
+            240,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_284_myl0",
+          "Dimensions": [
+            1,
+            128,
+            12,
+            20
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p4.merge_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 268,
+      "Name": "p3.scan_U240_myl0_268",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p3.scan.1_170_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.scan.1_298_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.scan.1_297_myl0",
+          "Dimensions": [
+            4,
+            960,
+            16
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.scan.1_296_myl0",
+          "Dimensions": [
+            4,
+            960,
+            1
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_300_myl0",
+          "Dimensions": [
+            4,
+            960,
+            256
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.scan_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    },
+    {
+      "index": 273,
+      "Name": "p3.merge_U241_myl0_273",
+      "LayerType": "custom_layer",
+      "Inputs": [
+        {
+          "Name": "p3.merge.1_304_myl0",
+          "Dimensions": [
+            4,
+            960,
+            128
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "__myln_k_arg__bb1_306_myl0",
+          "Dimensions": [
+            1,
+            128,
+            24,
+            40
+          ],
+          "Format/Datatype": "Float"
+        },
+        {
+          "Name": "p3.merge_status",
+          "Dimensions": [
+            2
+          ],
+          "Format/Datatype": "Int32"
+        }
+      ],
+      "TacticName": "",
+      "StreamId": 0,
+      "Metadata": ""
+    }
+  ],
+  "limitations": [
+    "Inspector formats are Half/Float without byte strides or vector padding metadata. Logical tensor bytes are not an allocation/lifetime/peak estimate.",
+    "Engine also contains UInt8 l2_cache_policy_inputs and UInt64 custom control tensors; they must not be counted as regular activation tensors.",
+    "workspace_bytes=268435456 is builder workspace limit; device_memory_bytes=135170048 is reported execution-context device memory; engine_bytes=60753004 is serialized plan bytes."
+  ]
+}

@@ -96,6 +96,12 @@ std::vector<float> run(const saccade::ResizeShape& s, const std::vector<std::uin
         cu(cudaMemcpyAsync(repeat.data(), dout.p, no * sizeof(float), cudaMemcpyDeviceToHost, stream.value));
         cu(cudaStreamSynchronize(stream.value));
         check(std::memcmp(out.data(), repeat.data(), no * sizeof(float)) == 0, "resize CUDA graph differs");
+        cu(cudaMemsetAsync(di.p, 0, ni, stream.value));
+        cu(cudaGraphLaunch(executable, stream.value));
+        cu(cudaMemcpyAsync(repeat.data(), dout.p, no * sizeof(float), cudaMemcpyDeviceToHost, stream.value));
+        cu(cudaStreamSynchronize(stream.value));
+        check(std::all_of(repeat.begin(), repeat.end(), [](float value) { return value == 0.0f; }),
+              "resize CUDA graph did not read changed input");
         cu(cudaGraphExecDestroy(executable)); cu(cudaGraphDestroy(capture));
     }
     return out;
@@ -131,21 +137,26 @@ void held_callback(void* payload) {
     auto& release = *static_cast<std::atomic<bool>*>(payload);
     while (!release.load(std::memory_order_acquire)) std::this_thread::yield();
 }
-void held_stream_test() {
-    const saccade::ResizeShape s{8, 8, 4, 4};
+void held_stream_test(const saccade::ResizeShape& s) {
     const auto ni = saccade::resize_input_bytes(s), no = saccade::resize_output_elements(s), nw = saccade::resize_workspace_elements(s);
     Device di(ni), dout(no*sizeof(float)), dw(nw*sizeof(float)); Stream stream;
-    cu(cudaMemsetAsync(di.p, 127, ni, stream.value)); cu(cudaStreamSynchronize(stream.value));
+    cu(cudaMemsetAsync(di.p, 0, ni, stream.value)); cu(cudaStreamSynchronize(stream.value));
     cudaEvent_t done = nullptr; cu(cudaEventCreateWithFlags(&done, cudaEventDisableTiming));
     std::atomic<bool> release{false};
     cu(cudaLaunchHostFunc(stream.value, held_callback, &release));
     try {
+        cu(cudaMemsetAsync(di.p, 127, ni, stream.value));
         saccade::resize_rgb_chw_cuda(s, di.as<std::uint8_t>(), ni, dout.as<float>(), no, dw.as<float>(), nw, stream.value);
         cu(cudaEventRecord(done, stream.value));
         const auto state = cudaEventQuery(done);
         release.store(true, std::memory_order_release);
         check(state == cudaErrorNotReady, "resize did not remain ordered behind supplied stream");
         cu(cudaStreamSynchronize(stream.value));
+        std::vector<float> output(no);
+        cu(cudaMemcpy(output.data(), dout.p, no*sizeof(float), cudaMemcpyDeviceToHost));
+        check(std::all_of(output.begin(), output.end(), [](float value) {
+            return std::abs(value - 127.0f/255.0f) < 1e-6f;
+        }), "resize ran before the supplied stream's input update");
         cu(cudaEventDestroy(done));
     } catch (...) {
         release.store(true, std::memory_order_release);
@@ -193,7 +204,8 @@ int main(int argc, char** argv) {
             {1,1,1,1}, {1,1,11,13}, {1,17,7,3}, {19,1,3,7}, {2,2,7,9},
             {4,1,2,1}, {2,1,4,1}, {31,17,31,17}, {31,17,31,5}, {31,17,9,17},
             {193,257,37,41}, {101,77,19,13}, {5,7,23,3}, {65535,1,1,1},
-            {1920,1080,640,640}, {720,576,640,640}, {37,29,640,640}};
+            {1920,1080,640,640}, {720,576,640,640}, {37,29,640,640},
+            {1920,1080,1280,768}};
         for (const auto& shape : shapes) for (int pattern = 0; pattern < 4; ++pattern) {
             std::vector<std::uint8_t> input(saccade::resize_input_bytes(shape));
             std::uint32_t random = 0xcafef00d;
@@ -204,7 +216,8 @@ int main(int argc, char** argv) {
                 if (pattern == 2) input[i] = i % 17 == 0 ? 255 : 0;
                 if (pattern == 3) input[i] = static_cast<std::uint8_t>(random >> 24);
             }
-            const auto actual = run(shape, input, pattern == 3 && shape.input_width == 193);
+            const auto actual = run(shape, input, pattern == 3 &&
+                (shape.input_width == 193 || shape.output_width == 1280));
             const auto expected = reference(shape, input);
             double max_error = 0.0;
             for (std::size_t i = 0; i < actual.size(); ++i) {
@@ -227,7 +240,10 @@ int main(int argc, char** argv) {
         const auto up = run({2,1,4,1}, {0,255,0,255,0,255});
         for (int i = 0; i < 4; ++i) check(std::abs(up[i] - std::vector<double>{0,0.25,0.75,1}[i]) < 1e-7, "upsample half-pixel hand case");
         coordinate_contraction_regression();
-        if (!skip_held) held_stream_test();
+        if (!skip_held) {
+            held_stream_test({8,8,4,4});
+            held_stream_test({1920,1080,1280,768});
+        }
         std::cout << "resize_cuda_tests PASS cases=" << cases << " max_abs_binary64=" << worst
                   << " held_stream=" << (skip_held ? "UNEXECUTED" : "PASS") << '\n';
         return 0;

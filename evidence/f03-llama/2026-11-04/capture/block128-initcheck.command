@@ -1,0 +1,1 @@
+compute-sanitizer --tool initcheck --error-exitcode 99 --report-api-errors explicit /home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/selective_scan_cuda_tests_block128 --no-held-stream /home/ray/developer/ai/saccade_v1/build/f03-llama-20261104/block128-initcheck.tsv

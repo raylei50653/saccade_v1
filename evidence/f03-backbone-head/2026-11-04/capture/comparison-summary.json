@@ -1,0 +1,110 @@
+{
+  "formal_acceptance": false,
+  "comparisons": [
+    {
+      "case": "nvtx-none",
+      "baseline_graph_ms": 4.8068124999999995,
+      "candidate_graph_ms": 4.8176205,
+      "time_change_pct": 0.22484754710112576,
+      "baseline_ordinary_ms": 6.175713,
+      "candidate_ordinary_ms": 6.1606695,
+      "graph_run_means_ms": [
+        4.784704,
+        4.820525,
+        4.814716,
+        4.828921
+      ],
+      "iterations_per_entry": 80
+    },
+    {
+      "case": "cache4m",
+      "baseline_graph_ms": 4.828119,
+      "candidate_graph_ms": 4.7914785,
+      "time_change_pct": -0.7588980304752191,
+      "baseline_ordinary_ms": 6.2006575,
+      "candidate_ordinary_ms": 6.2395510000000005,
+      "graph_run_means_ms": [
+        4.788479,
+        4.779033,
+        4.803924,
+        4.867759
+      ],
+      "iterations_per_entry": 80
+    },
+    {
+      "case": "cache8m",
+      "baseline_graph_ms": 4.82868,
+      "candidate_graph_ms": 4.792954999999999,
+      "time_change_pct": -0.7398502282197406,
+      "baseline_ordinary_ms": 6.1766570000000005,
+      "candidate_ordinary_ms": 6.1878625,
+      "graph_run_means_ms": [
+        4.785478,
+        4.783719,
+        4.802191,
+        4.871882
+      ],
+      "iterations_per_entry": 80
+    },
+    {
+      "case": "cache4m-confirm",
+      "baseline_graph_ms": 4.7976325,
+      "candidate_graph_ms": 4.8550335,
+      "time_change_pct": 1.196444287885745,
+      "baseline_ordinary_ms": 6.170248,
+      "candidate_ordinary_ms": 6.1524005,
+      "graph_run_means_ms": [
+        4.774024,
+        4.890734,
+        4.819333,
+        4.821241
+      ],
+      "iterations_per_entry": 200
+    },
+    {
+      "case": "rebuild-control",
+      "baseline_graph_ms": 4.829399,
+      "candidate_graph_ms": 4.852168499999999,
+      "time_change_pct": 0.4714768856331597,
+      "baseline_ordinary_ms": 6.240034,
+      "candidate_ordinary_ms": 6.2858955000000005,
+      "graph_run_means_ms": [
+        4.78576,
+        4.846241,
+        4.858096,
+        4.873038
+      ],
+      "iterations_per_entry": 160
+    },
+    {
+      "case": "causal-vs-rebuild",
+      "baseline_graph_ms": 4.9060015,
+      "candidate_graph_ms": 4.832027999999999,
+      "time_change_pct": -1.507816497813974,
+      "baseline_ordinary_ms": 6.2985855,
+      "candidate_ordinary_ms": 6.184343,
+      "graph_run_means_ms": [
+        4.907471,
+        4.822671,
+        4.841385,
+        4.904532
+      ],
+      "iterations_per_entry": 160
+    },
+    {
+      "case": "causal-vs-current",
+      "baseline_graph_ms": 4.7725475,
+      "candidate_graph_ms": 4.7718855,
+      "time_change_pct": -0.01387099866476671,
+      "baseline_ordinary_ms": 6.1366344999999995,
+      "candidate_ordinary_ms": 6.2325735,
+      "graph_run_means_ms": [
+        4.758217,
+        4.765027,
+        4.778744,
+        4.786878
+      ],
+      "iterations_per_entry": 160
+    }
+  ]
+}

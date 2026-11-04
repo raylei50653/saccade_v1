@@ -1,0 +1,111 @@
+Test project /home/ray/developer/ai/saccade_v1/build/f03-scan-20261104/candidate
+      Start  1: protocol_happens_before
+ 1/49 Test  #1: protocol_happens_before ............   Passed    0.35 sec
+      Start  2: protocol_state_and_packet
+ 2/49 Test  #2: protocol_state_and_packet ..........   Passed    0.00 sec
+      Start  3: packet_compare_cli
+ 3/49 Test  #3: packet_compare_cli .................   Passed    0.02 sec
+      Start  4: synthetic_resolved_config
+ 4/49 Test  #4: synthetic_resolved_config ..........   Passed    0.00 sec
+      Start  5: checked_file_io
+ 5/49 Test  #5: checked_file_io ....................   Passed    0.00 sec
+      Start  6: checked_resource_cleanup
+ 6/49 Test  #6: checked_resource_cleanup ...........   Passed    0.00 sec
+      Start  7: model_manifest_contract
+ 7/49 Test  #7: model_manifest_contract ............   Passed    0.01 sec
+      Start  8: model_manifest_cli
+ 8/49 Test  #8: model_manifest_cli .................   Passed    0.04 sec
+      Start  9: selective_scan_reference
+ 9/49 Test  #9: selective_scan_reference ...........   Passed    0.06 sec
+      Start 10: head_weight_delivery
+10/49 Test #10: head_weight_delivery ...............   Passed   27.74 sec
+      Start 11: head_reference
+11/49 Test #11: head_reference .....................   Passed   21.00 sec
+      Start 12: native_tensorrt_roundtrip
+12/49 Test #12: native_tensorrt_roundtrip ..........   Passed    3.54 sec
+      Start 13: native_tensorrt_cli_io
+13/49 Test #13: native_tensorrt_cli_io .............   Passed    4.18 sec
+      Start 14: postprocess_reference
+14/49 Test #14: postprocess_reference ..............   Passed    0.26 sec
+      Start 15: selective_scan_cuda
+15/49 Test #15: selective_scan_cuda ................   Passed    0.72 sec
+      Start 16: selective_scan_cuda_lazy_streams
+16/49 Test #16: selective_scan_cuda_lazy_streams ...   Passed    0.31 sec
+      Start 17: cuda_synthetic_protocol
+17/49 Test #17: cuda_synthetic_protocol ............   Passed    1.14 sec
+      Start 18: cuda_synthetic_cli_io
+18/49 Test #18: cuda_synthetic_cli_io ..............   Passed    0.54 sec
+      Start 19: cuda_checked_cleanup
+19/49 Test #19: cuda_checked_cleanup ...............   Passed    0.27 sec
+      Start 20: scan_trt
+20/49 Test #20: scan_trt ...........................   Passed    7.47 sec
+      Start 21: scan_trt_api_trace
+21/49 Test #21: scan_trt_api_trace .................   Passed    0.97 sec
+      Start 22: scan_trt_async_fault
+22/49 Test #22: scan_trt_async_fault ...............   Passed    1.04 sec
+      Start 23: scan_trt_engine_build
+23/49 Test #23: scan_trt_engine_build ..............   Passed    1.00 sec
+      Start 24: scan_trt_engine_run
+24/49 Test #24: scan_trt_engine_run ................   Passed    0.32 sec
+      Start 25: scan_trt_engine_unregistered
+25/49 Test #25: scan_trt_engine_unregistered .......   Passed    0.30 sec
+      Start 26: head_trt_engine_build
+26/49 Test #26: head_trt_engine_build ..............   Passed   27.22 sec
+      Start 27: head_trt_engine_run
+27/49 Test #27: head_trt_engine_run ................   Passed    4.74 sec
+      Start 28: head_trt_engine_unregistered
+28/49 Test #28: head_trt_engine_unregistered .......   Passed    0.55 sec
+      Start 29: head_trt
+29/49 Test #29: head_trt ...........................   Passed   30.52 sec
+      Start 30: head_trt_api_trace
+30/49 Test #30: head_trt_api_trace .................   Passed    4.77 sec
+      Start 31: head_profile_trt
+31/49 Test #31: head_profile_trt ...................   Passed   25.34 sec
+      Start 32: head_fp16_trt
+32/49 Test #32: head_fp16_trt ......................   Passed   35.96 sec
+      Start 33: resize_cuda
+33/49 Test #33: resize_cuda ........................   Passed    0.81 sec
+      Start 34: native_preprocess
+34/49 Test #34: native_preprocess ..................   Passed    1.63 sec
+      Start 35: postprocess_cuda
+35/49 Test #35: postprocess_cuda ...................   Passed    0.46 sec
+      Start 36: postprocess_cuda_hr
+36/49 Test #36: postprocess_cuda_hr ................   Passed    0.76 sec
+      Start 37: postprocess_cuda_lazy_streams
+37/49 Test #37: postprocess_cuda_lazy_streams ......   Passed    0.36 sec
+      Start 38: model_producer_cuda
+38/49 Test #38: model_producer_cuda ................   Passed    0.34 sec
+      Start 39: model_producer_cuda_lazy_streams
+39/49 Test #39: model_producer_cuda_lazy_streams ...   Passed    0.20 sec
+      Start 40: model_producer_cuda_hr
+40/49 Test #40: model_producer_cuda_hr .............   Passed    0.34 sec
+      Start 41: model_profile_trt
+41/49 Test #41: model_profile_trt ..................   Passed   26.15 sec
+      Start 42: detection_session_cuda
+42/49 Test #42: detection_session_cuda .............   Passed    0.33 sec
+      Start 43: detection_session_happens_before
+43/49 Test #43: detection_session_happens_before ...   Passed    0.04 sec
+      Start 44: motion_reference
+44/49 Test #44: motion_reference ...................   Passed    0.04 sec
+      Start 45: motion_cuda
+45/49 Test #45: motion_cuda ........................   Passed    0.96 sec
+      Start 46: tracking_reference
+46/49 Test #46: tracking_reference .................   Passed    0.24 sec
+      Start 47: mot_output
+47/49 Test #47: mot_output .........................   Passed    0.00 sec
+      Start 48: tracking_cuda
+48/49 Test #48: tracking_cuda ......................   Passed    0.86 sec
+      Start 49: tracking_packet
+49/49 Test #49: tracking_packet ....................   Passed    0.30 sec
+
+100% tests passed out of 49
+
+Label Time Summary:
+gpu               = 184.39 sec*proc (33 tests)
+model_producer    =   0.88 sec*proc (3 tests)
+postprocess       =   1.58 sec*proc (3 tests)
+preprocess        =  28.59 sec*proc (3 tests)
+session           =  26.48 sec*proc (2 tests)
+tensorrt          = 174.06 sec*proc (16 tests)
+
+Total Test time (real) = 234.22 sec

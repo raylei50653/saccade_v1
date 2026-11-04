@@ -1,0 +1,30 @@
+==WARNING== Note: Running with uncontrolled GPU caches. Profiling results may be inconsistent.
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 441429 (/home/ray/developer/ai/saccade_v1/build/kernel-analysis-20261104-probe/resize_probe)
+==PROF== Disconnected from process 441429
+==PROF== Connected to process 441498 (/home/ray/developer/ai/saccade_v1/build/kernel-analysis-20261104-probe/resize_probe)
+==PROF== Disconnected from process 441498
+==PROF== Connected to process 441524 (/home/ray/developer/ai/saccade_v1/build/kernel-analysis-20261104-probe/resize_probe)
+==PROF== Disconnected from process 441524
+==PROF== Creating report from application replay data: 0%........100%
+"ID","Process ID","Process Name","Host Name","Kernel Name","Context","Stream","Block Size","Grid Size","Device","CC","Section Name","Metric Name","Metric Unit","Metric Value"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","dram__bytes_read.sum","","n/a"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","dram__bytes_write.sum","","n/a"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","gpu__time_duration.sum","ns","84608"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum","","388800"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sector_hit_rate.pct","%","47.95"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum","sector","900720"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sector_hit_rate.pct","%","93.72"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sectors_op_read.sum","sector","224323"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sectors_op_write.sum","sector","518412"
+"0","441429","resize_probe","127.0.0.1","unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","sm__warps_active.avg.pct_of_peak_sustained_active","%","90.48"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","dram__bytes_read.sum","","n/a"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","dram__bytes_write.sum","","n/a"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","gpu__time_duration.sum","ns","90720"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum","","258960"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sector_hit_rate.pct","%","0.02"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum","sector","1035840"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sector_hit_rate.pct","%","97.12"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sectors_op_read.sum","sector","1040388"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","lts__t_sectors_op_write.sum","sector","368652"
+"1","441429","resize_probe","127.0.0.1","unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)","1","13","(256, 1, 1)","(4096, 1, 1)","0","12.0","Command line profiler metrics","sm__warps_active.avg.pct_of_peak_sustained_active","%","94.27"

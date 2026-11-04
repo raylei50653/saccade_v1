@@ -1,0 +1,1 @@
+flock -w 60 /home/ray/.cache/saccade-v1/gpu.lock timeout --signal=TERM --kill-after=10s 180 /opt/cuda/bin/compute-sanitizer --tool initcheck --report-api-errors explicit --error-exitcode 99 build/f03-scan-20261104/candidate/selective_scan_cuda_tests --no-held-stream build/f03-scan-20261104/trial2-initcheck.tsv

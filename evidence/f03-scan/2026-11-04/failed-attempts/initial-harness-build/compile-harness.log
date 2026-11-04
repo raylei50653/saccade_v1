@@ -1,0 +1,10 @@
+/home/ray/developer/ai/saccade_v1/build/scan-probe-build-20261104/source/candidate/tools/scan_benchmark.cpp: In function ‘void {anonymous}::verify(const std::filesystem::__cxx11::path&, cudaStream_t)’:
+/home/ray/developer/ai/saccade_v1/build/scan-probe-build-20261104/source/candidate/tools/scan_benchmark.cpp:192:45: error: operation on ‘seed’ may be undefined [-Werror=sequence-point]
+  192 |                 verify_case(random_case(sh, ++seed), "matrix-" + std::to_string(seed), log, s);
+      |                                             ^~~~~~
+/home/ray/developer/ai/saccade_v1/build/scan-probe-build-20261104/source/candidate/tools/scan_benchmark.cpp:192:45: error: operation on ‘seed’ may be undefined [-Werror=sequence-point]
+/home/ray/developer/ai/saccade_v1/build/scan-probe-build-20261104/source/candidate/tools/scan_benchmark.cpp:195:67: error: operation on ‘seed’ may be undefined [-Werror=sequence-point]
+  195 |         verify_case(random_case({4, length, 256, 16, 1, 1, true}, ++seed),
+      |                                                                   ^~~~~~
+/home/ray/developer/ai/saccade_v1/build/scan-probe-build-20261104/source/candidate/tools/scan_benchmark.cpp:195:67: error: operation on ‘seed’ may be undefined [-Werror=sequence-point]
+cc1plus: all warnings being treated as errors

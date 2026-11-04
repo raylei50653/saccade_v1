@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "formal_acceptance": false,
+  "packets_exact": true,
+  "frames_per_session": 140,
+  "sessions": 16,
+  "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+  "runs": [
+    {
+      "name": "tracking-trial2-0-baseline",
+      "implementation": "baseline",
+      "summary": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 6928.009179,
+            "latency_p50_us": 6897.149,
+            "latency_p95_us": 7234.831,
+            "latency_p99_us": 7456.241,
+            "queued_us_per_frame_mean": 5370.808654,
+            "queued_us_per_frame_min": 5369.448308,
+            "queued_us_per_frame_max": 5372.169,
+            "init_us_mean": 686129.075,
+            "first_frame_us_mean": 18454.77075,
+            "warmup_us_mean": 147816.18625
+          }
+        ]
+      }
+    },
+    {
+      "name": "tracking-trial2-1-candidate",
+      "implementation": "candidate",
+      "summary": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 6644.927921,
+            "latency_p50_us": 6608.867,
+            "latency_p95_us": 6942.817,
+            "latency_p99_us": 7159.186,
+            "queued_us_per_frame_mean": 5059.20265,
+            "queued_us_per_frame_min": 5057.325808,
+            "queued_us_per_frame_max": 5061.079492,
+            "init_us_mean": 645308.3355,
+            "first_frame_us_mean": 17495.2265,
+            "warmup_us_mean": 143802.97625
+          }
+        ]
+      }
+    },
+    {
+      "name": "tracking-trial2-2-candidate",
+      "implementation": "candidate",
+      "summary": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 6648.913233,
+            "latency_p50_us": 6610.541,
+            "latency_p95_us": 6932.667,
+            "latency_p99_us": 7255.716,
+            "queued_us_per_frame_mean": 5077.011683,
+            "queued_us_per_frame_min": 5076.770483,
+            "queued_us_per_frame_max": 5077.252883,
+            "init_us_mean": 643849.82125,
+            "first_frame_us_mean": 17498.81325,
+            "warmup_us_mean": 142800.777
+          }
+        ]
+      }
+    },
+    {
+      "name": "tracking-trial2-3-baseline",
+      "implementation": "baseline",
+      "summary": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 7097.734779,
+            "latency_p50_us": 7067.373,
+            "latency_p95_us": 7523.279,
+            "latency_p99_us": 7786.048,
+            "queued_us_per_frame_mean": 5350.407029,
+            "queued_us_per_frame_min": 5345.237408,
+            "queued_us_per_frame_max": 5355.57665,
+            "init_us_mean": 649120.83475,
+            "first_frame_us_mean": 18788.4005,
+            "warmup_us_mean": 152384.12575
+          }
+        ]
+      }
+    }
+  ],
+  "baseline": {
+    "single_samples": 480,
+    "single_mean_us": 7012.871979166666,
+    "single_p50_us": 6968.079,
+    "single_p95_us": 7432.971,
+    "queued_us_per_frame_mean": 5360.6078415
+  },
+  "candidate": {
+    "single_samples": 480,
+    "single_mean_us": 6646.920577083333,
+    "single_p50_us": 6610.496,
+    "single_p95_us": 6942.817,
+    "queued_us_per_frame_mean": 5068.1071665
+  },
+  "change_percent": {
+    "single_mean_us": -5.218281513914347,
+    "single_p50_us": -5.131729993302314,
+    "single_p95_us": -6.59432143620633,
+    "queued_us_per_frame_mean": -5.456483362494069
+  }
+}

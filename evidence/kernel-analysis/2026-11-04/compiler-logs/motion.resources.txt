@@ -1,0 +1,38 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/motion.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/motion.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b12motion_stageEPNS_7ControlEPKiPKNS0_11ImageHeaderEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:936 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b12image_headerEPNS0_11ImageHeaderEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b14context_kernelEPKNS0_9ReductionEjPKiNS_14MotionImageKeyENS_12MotionConfigEmllPNS_13MotionContextEPKbPKNS_7ControlE:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1000 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b18reduce_correlationEPKfmPNS0_9ReductionEPKb:
+  REG:20 STACK:0 SHARED:9216 LOCAL:0 CONSTANT[0]:928 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b11cross_powerEPK6float2S3_PS1_mPiPKbPKNS_7ControlE:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b7deliverEPK6float2PS1_mPiPKbPKNS_7ControlE:
+  REG:18 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b13reset_numericEPi:
+  REG:6 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b12image_kernelEPKhPfNS_14MotionImageKeyEPKfS6_PKb:
+  REG:39 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0

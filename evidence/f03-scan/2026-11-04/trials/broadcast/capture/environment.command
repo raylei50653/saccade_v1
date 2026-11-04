@@ -1,0 +1,1 @@
+bash -c $'set -e\n  date -Is\n  uname -srmo\n  "$1" --version\n  "$2" --version\n  nvidia-smi --query-gpu=name,driver_version,uuid,pci.bus_id,compute_cap --format=csv\n  nvidia-smi --query-gpu=clocks.current.graphics,clocks.current.memory,pstate,temperature.gpu,power.draw --format=csv\n' _ /opt/cuda/bin/nvcc c++ 

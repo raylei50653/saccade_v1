@@ -1,0 +1,20 @@
+boundary (first F02 kernel start) = None
+kernels from boundary = 0 (0 outside graphs, 0 in graphs); ExecutionContext::enqueueV3 ranges = 4
+D = stream None; M = stream None
+
+outside graphs
+category	required	stream	kernels	distinct names
+
+graph content (node capture)
+graph	role	category	kernels	distinct names
+
+graph launches (graph capture): D = stream 13; M = stream 14; 60 node / 60 graph launches
+node graph	graph-capture graph	role	launch stream	launches
+
+FAIL: no F02 kernel
+FAIL: node: F02 kernels outside graphs on 0 streams
+FAIL: node: tracking kernels outside graphs on 0 streams
+FAIL: launch of node graph 8 has no role
+FAIL: launch of node graph 2 has no role
+FAIL: launch of node graph 11 has no role
+FAIL: launch of node graph 5 has no role

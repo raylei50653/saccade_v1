@@ -1,0 +1,17 @@
+{
+  "schema":"tracking-latency/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+  "frames_per_session":120,
+  "warmup_frames":20,
+  "abba_rounds":1,
+  "input_io":"JPEGs preloaded; excludes disk I/O and file output",
+  "warmup_scope":"constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+  "latency_scope":"one enqueue through blocking receive, no frames in flight at start",
+  "queued_scope":"wall time per frame is throughput, not individual frame latency",
+  "packet_comparison":"selected mode repeats and single/queued, including warmup",
+  "packet_sha256":"35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+  "groups":[
+    {"mode":"graph","latency_samples":240,"latency_mean_us":7092.825771,"latency_p50_us":7036.430000,"latency_p95_us":7428.727000,"latency_p99_us":7684.561000,"queued_us_per_frame_mean":5401.051025,"queued_us_per_frame_min":5398.431917,"queued_us_per_frame_max":5403.670133,"init_us_mean":678542.930500,"first_frame_us_mean":18024.083500,"warmup_us_mean":150402.474250}
+  ]
+}

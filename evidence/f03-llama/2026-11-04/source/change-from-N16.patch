@@ -1,0 +1,79 @@
+--- a/cuda/selective_scan.cu
++++ b/cuda/selective_scan.cu
+@@ -75,23 +75,26 @@
+ 
+ // One thread per (batch, channel, state); the N threads of a lane are
+ // consecutive within a warp, so every early exit below is group-uniform.
+-template<bool FixedState16 = false>
++template<bool FixedState16 = false, bool FixedDeploy = false>
+ __global__ void scan_kernel(ScanParams p, ScanStatus* status) {
+     const unsigned long long thread = static_cast<unsigned long long>(blockIdx.x) * blockDim.x + threadIdx.x;
+-    const unsigned log2_state = FixedState16 ? 4u : p.log2_state;
++    const unsigned log2_state = (FixedState16 || FixedDeploy) ? 4u : p.log2_state;
+     const unsigned long long lane = thread >> log2_state;
+     if (lane >= p.lanes) return;
+-    const unsigned N = FixedState16 ? 16u : p.state;
++    const unsigned N = (FixedState16 || FixedDeploy) ? 16u : p.state;
+     const unsigned n = static_cast<unsigned>(thread & (N - 1));
+     const unsigned mask = N == 32 ? 0xffffffffu : ((1u << N) - 1) << ((threadIdx.x & 31u) & ~(N - 1));
+-    const unsigned long long Dc = p.channels, L = p.length, b = lane / Dc, d = lane % Dc;
+-    const float a = p.a[(p.a_shared ? 0 : d * N) + n];
+-    const float skip_d = p.has_d ? p.d[d] : 0.0f;
++    const unsigned long long Dc = FixedDeploy ? 256ull : p.channels, L = p.length, b = lane / Dc, d = lane % Dc;
++    const bool a_shared = FixedDeploy ? true : p.a_shared;
++    const bool c_full = FixedDeploy ? false : p.c_full;
++    const bool has_d = FixedDeploy ? true : p.has_d;
++    const float a = p.a[(a_shared ? 0 : d * N) + n];
++    const float skip_d = has_d ? p.d[d] : 0.0f;
+     float h = 0.0f;
+     for (unsigned long long t = 0; t < L; ++t) {
+         const unsigned long long token = b * L + t, at = token * Dc + d;
+         const float u = p.u[at], bv = p.b[token * N + n];
+-        const float cv = p.c[p.c_full ? token * N + n : token];
++        const float cv = p.c[c_full ? token * N + n : token];
+         // N=16 is a compile-time specialization only: retain every original
+         // FP32 operation and butterfly stage, without a leader/broadcast path.
+         const Scaled delta = softplus_scaled(p.delta[at]), sb = split(bv), su = split(u);
+@@ -106,15 +109,15 @@
+         if (!fail) {
+             const float sum = group_sum(term, mask, N);
+             const float skip = __fmul_rn(skip_d, u);
+-            if (p.has_d && !finite_fp32(skip)) {
++            if (has_d && !finite_fp32(skip)) {
+                 fail = kScanSkipRange;
+             } else {
+-                y = p.has_d ? __fadd_rn(sum, skip) : sum;
++                y = has_d ? __fadd_rn(sum, skip) : sum;
+                 if (!finite_fp32(y)) {
+                     // Every term is finite but a partial sum left the FP32 range:
+                     // repeat with exact power-of-two scaling.
+                     const float scaled = group_sum(__fmul_rn(term, 0x1p-8f), mask, N);
+-                    y = p.has_d ? __fadd_rn(scaled, __fmul_rn(skip, 0x1p-8f)) : scaled;
++                    y = has_d ? __fadd_rn(scaled, __fmul_rn(skip, 0x1p-8f)) : scaled;
+                     if (fabsf(y) <= FLT_MAX * 0x1p-8f) y = __fmul_rn(y, 0x1p8f);
+                     else fail = kScanOutputRange;
+                 }
+@@ -251,6 +254,7 @@
+         {"check_finite", reinterpret_cast<const void*>(check_finite)},
+         {"scan_kernel", reinterpret_cast<const void*>(scan_kernel<false>)},
+         {"scan_kernel_n16", reinterpret_cast<const void*>(scan_kernel<true>)},
++        {"scan_kernel_deploy", reinterpret_cast<const void*>(scan_kernel<true, true>)},
+         {"finalize", reinterpret_cast<const void*>(finalize)}, {"expand_kernel", reinterpret_cast<const void*>(expand_kernel)},
+         {"merge_kernel", reinterpret_cast<const void*>(merge_kernel)}};
+     std::ostringstream report;
+@@ -294,9 +298,12 @@
+         const ScanParams params{in.u, in.delta, in.a, in.b, in.c, in.d, y, s.length, s.channels, s.batch * s.channels,
+                                 static_cast<unsigned>(s.state), log2_state, s.a_rows == 1, s.c_width != 1, s.has_d};
+         // lanes <= INT32_MAX and N <= 32, so the block count fits gridDim.x.
+-        const unsigned blocks = static_cast<unsigned>(((s.batch * s.channels << log2_state) + kBlock - 1) / kBlock);
+-        if (s.state == 16) scan_kernel<true><<<blocks, kBlock, 0, stream>>>(params, status);
+-        else scan_kernel<false><<<blocks, kBlock, 0, stream>>>(params, status);
++        const unsigned scan_block = s.state == 16 ? 128u : kBlock;
++        const unsigned blocks = static_cast<unsigned>(((s.batch * s.channels << log2_state) + scan_block - 1) / scan_block);
++        if (s.state == 16 && s.channels == 256 && s.a_rows == 1 && s.c_width == 1 && s.has_d)
++            scan_kernel<true, true><<<blocks, scan_block, 0, stream>>>(params, status);
++        else if (s.state == 16) scan_kernel<true><<<blocks, scan_block, 0, stream>>>(params, status);
++        else scan_kernel<false><<<blocks, scan_block, 0, stream>>>(params, status);
+         launched("scan_kernel");
+     }
+     finalize<<<grid_stride_blocks(ud), kBlock, 0, stream>>>(y, ud, status);

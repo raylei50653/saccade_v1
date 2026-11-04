@@ -1,0 +1,30 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/detection_session.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/detection_session.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade6detail53_GLOBAL__N__ef888b83_20_detection_session_cu_2136444712test_corruptEPNS_19DetectionCandidatesE:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail53_GLOBAL__N__ef888b83_20_detection_session_cu_2136444713test_overrideEPNS_25PostprocessProducerStatusEj:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:908 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail53_GLOBAL__N__ef888b83_20_detection_session_cu_213644478finalizeEPKNS_19DetectionCandidatesEPNS_22DetectionSessionResultEPNS0_23DetectionSessionControlEmmj:
+  REG:24 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:940 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail53_GLOBAL__N__ef888b83_20_detection_session_cu_2136444710initializeEPNS0_23DetectionSessionControlE:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0

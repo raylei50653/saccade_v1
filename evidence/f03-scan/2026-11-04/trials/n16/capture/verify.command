@@ -1,0 +1,1 @@
+flock -w 600 /home/ray/.cache/saccade-v1/gpu.lock timeout --signal=TERM --kill-after=15s 300s /home/ray/developer/ai/saccade_v1/build/scan-specialize-trial2-20261104/scan_benchmark /home/ray/developer/ai/saccade_v1/build/scan-specialize-trial2-20261104/verify --verify-only 

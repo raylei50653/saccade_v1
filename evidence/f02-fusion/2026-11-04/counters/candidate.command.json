@@ -1,0 +1,23 @@
+[
+  "ncu",
+  "--kernel-name-base",
+  "demangled",
+  "--kernel-name",
+  "regex:saccade::.*(tiled_hr)",
+  "--launch-skip",
+  "20",
+  "--launch-count",
+  "1",
+  "--replay-mode",
+  "application",
+  "--cache-control",
+  "none",
+  "--clock-control",
+  "none",
+  "--metrics",
+  "gpu__time_duration.sum,l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum,l1tex__t_sectors_pipe_lsu_mem_global_op_st.sum,lts__t_sectors_op_read.sum,lts__t_sectors_op_write.sum,lts__t_sector_hit_rate.pct",
+  "--csv",
+  "--log-file",
+  "/home/ray/developer/ai/saccade_v1/build/f02-opt/counters/candidate.csv",
+  "/home/ray/developer/ai/saccade_v1/build/f02-opt/final-resize-probe"
+]

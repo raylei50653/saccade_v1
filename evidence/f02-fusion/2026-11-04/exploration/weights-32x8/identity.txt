@@ -1,0 +1,29 @@
+baseline:
+contract=t01-input/1
+resize=fp32-antialiased-bilinear-half-pixel
+source_commit=unknown
+source_dirty=unknown
+nvcc=13.4.92
+normalize=fp32-reciprocal-255-before-resize
+registers=36 local_bytes=0 shared_bytes=0
+registers=36 local_bytes=0 shared_bytes=0
+candidate:
+contract=t01-input/1
+resize=fp32-antialiased-bilinear-half-pixel
+source_commit=unknown
+source_dirty=unknown
+nvcc=13.4.92
+normalize=fp32-reciprocal-255-before-resize
+hr_resize=shared-tile-32x8-1920x1080-to-1280x768
+registers=36 local_bytes=0 shared_bytes=0
+registers=36 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=0 shared_bytes=2048
+device=NVIDIA GeForce RTX 5070 Ti Laptop GPU
+compute_capability=12.0
+cuda_runtime=13040
+cuda_driver=13040
+shape=1920x1080-1280x768
+rounds=4
+iterations=200
+warmup=40
+benchmark_scope=isolated-resize-batch-average-processing-interval

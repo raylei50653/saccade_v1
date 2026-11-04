@@ -18,7 +18,9 @@ struct ResizeShape {
 
 std::size_t resize_input_bytes(const ResizeShape& shape);
 std::size_t resize_output_elements(const ResizeShape& shape);
-// Horizontal intermediate in CHW order: 3 * input_height * output_width.
+// Horizontal intermediate capacity in CHW order: 3 * input_height * output_width.
+// The deployed 1920x1080 -> 1280x768 shared-tile path leaves it untouched;
+// capacity and disjoint-buffer validation still apply for a stable caller API.
 std::size_t resize_workspace_elements(const ResizeShape& shape);
 
 // Caller owns all allocations and keeps them alive through completion on stream.

@@ -83,3 +83,9 @@ capture 在獨立的 `SACCADE_T01_ROOT` 重新產生六個輸入與 binary64 ref
 ## Native detection session 接續
 
 完整 engine 已由 [`DetectionSession`](DETECTION_SESSION.md) 串接 native F01／F02、producer 聚合器及 F04。session 驗證完整 engine I/O，使用 zero auxiliary streams、同 detect stream 的模型 scratch 與跨 stream 候選 leases，並另行管理首次失敗與 checked drain；新增 session 的證據不回寫本文件原有 F03 數值驗收或模型品質。完整 tracking session 後續已完成 [M3 正式驗收](../evidence/tracking-session/2026-11-03-formal-e021bd1/REPORT.md)，P01 依 M4 **CLOSED（有範圍）**。2026-11-04 的 CUDA Graph／tracking 排序改版另有 [clean-source 驗收](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)，與原 FP32 數值驗收分開。
+
+## Backbone 與 head 的效能分析（2026-11-04，開發來源）
+
+在[前輪scan特化](../evidence/f03-llama/2026-11-04/REPORT.md)之後，[完整F03分析](../evidence/f03-backbone-head/2026-11-04/REPORT.md)以20次正常Graph重播、6040個kernel calls完整對回engine layers：backbone／neck占kernel duration加總的66.12%，head占33.88%；按工作類型，conv／GEMM占63.73%，scan core占15.63%。kernel duration加總4.606 ms及trace span÷20的4.730 ms均不作端到端frame延遲。
+
+同engine的persistent cache初輪小幅改善未在確認輪重現；opt5、1GiB workspace、tiling FAST及causal padding重建候選未提供可套用的新收益。Causal相對重建control快1.51%，直接對現行engine僅差0.014%，且新FP16 engines的raw bits均有差異。本輪保留部署engine及runtime設定，只擴充`model_benchmark`的cache／NVTX、獨立layer profiling與Nsight trace入口；沒有新品質評估或正式gate。

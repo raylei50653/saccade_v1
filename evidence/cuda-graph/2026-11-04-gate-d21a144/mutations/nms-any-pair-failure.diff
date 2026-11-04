@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ nms-any-pair-failure/cuda/postprocess.cu
+@@ -377,7 +377,7 @@
+                 const auto decisive2 = (failures2 | shared.over[i][2]) & kept2;
+                 const auto decisive3 = (failures3 | shared.over[i][3]) & kept3;
+                 const auto decisive4 = (failures4 | shared.over[i][4]) & kept4;
+-                const auto decisive = decisive0 != 0 ? decisive0 : decisive1 != 0 ? decisive1
++                if ((failures0 | failures1 | failures2 | failures3 | failures4) != 0) { shared.bad = 1; break; } const auto decisive = decisive0 != 0 ? decisive0 : decisive1 != 0 ? decisive1
+                                     : decisive2 != 0 ? decisive2 : decisive3 != 0 ? decisive3 : decisive4;
+                 const auto failures = decisive0 != 0 ? failures0 : decisive1 != 0 ? failures1
+                                     : decisive2 != 0 ? failures2 : decisive3 != 0 ? failures3 : failures4;

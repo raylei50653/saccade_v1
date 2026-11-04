@@ -1,0 +1,10 @@
+case	exit	first verdict line
+d-graph-on-M	1	FAIL: D graph 11/10 launched on stream 14, required D = 13
+m-graph-on-D	1	FAIL: M graph 5/4 launched on stream 13, required M = 14
+trt-in-M-graph	1	FAIL: graph 2 (M): unclassified kernel sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8_execute_kernel_trt
+tracking-in-D-graph	1	FAIL: graph 8: categories from sides ['D', 'M']
+launch-order-swap	1	FAIL: node graph 8 matches graph-capture graphs 10 and 7
+missing-launch	1	FAIL: 60 graph launches in the node capture, 59 in the graph capture
+F02-on-M	1	FAIL: node: F02 kernels outside graphs on 2 streams
+predict-on-D	1	FAIL: node: tracking kernels outside graphs on 2 streams
+unchanged	0	stream placement: PASS

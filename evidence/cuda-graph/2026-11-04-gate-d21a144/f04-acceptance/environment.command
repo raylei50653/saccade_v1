@@ -1,0 +1,1 @@
+bash -c $'set -e\n  date -Is\n  uname -srmo\n  cmake --version\n  c++ --version\n  "$1" --version\n  "$2" --version\n  nvidia-smi --query-gpu=name,uuid,driver_version,compute_cap,memory.total --format=csv\n  free -m' _ /opt/cuda/bin/nvcc /opt/cuda/bin/compute-sanitizer 

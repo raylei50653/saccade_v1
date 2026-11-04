@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ wrong-p3-stride/cuda/postprocess.cu
+@@ -107,7 +107,7 @@
+     if (id >= input.positions || work->run_stage == 0) return;
+     unsigned level = 0, local = id;
+     while (local >= input.planes[level]) { local -= input.planes[level]; ++level; }
+-    const unsigned width = input.widths[level], plane = input.planes[level], stride = 8u << level;
++    const unsigned width = input.widths[level], plane = input.planes[level], stride = level == 0 ? 16u : 8u << level;
+     bool bad = false;
+     float best_score = -1.0f;
+     unsigned best_class = 0;

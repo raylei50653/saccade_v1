@@ -1,0 +1,23 @@
+========= COMPUTE-SANITIZER
+========= CUDA API Warning: Selective device code recompilation in progress.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: cuModuleLoadData [0x3744e9] in libcuda.so.1.1
+=========         Host Frame:  [0x71c0092] in libnvinfer.so.10
+=========         Host Frame:  [0x7160bad] in libnvinfer.so.10
+=========         Host Frame:  [0x70f10a2] in libnvinfer.so.10
+=========         Host Frame:  [0x7187e67] in libnvinfer.so.10
+=========         Host Frame:  [0x203c648] in libnvinfer.so.10
+=========         Host Frame:  [0x205c533] in libnvinfer.so.10
+=========         Host Frame:  [0x1f24112] in libnvinfer.so.10
+=========         Host Frame:  [0x1f255f6] in libnvinfer.so.10
+=========         Host Frame:  [0x1eef38a] in libnvinfer.so.10
+=========         Host Frame:  [0x1eef3ff] in libnvinfer.so.10
+=========         Host Frame: saccade::TrackingSession::Impl::Impl(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, saccade::TrackingSessionConfig const&) [0x31a4b] in tracking_session_tests
+=========         Host Frame: saccade::TrackingSession::TrackingSession(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, saccade::TrackingSessionConfig const&) [0x2e54f] in tracking_session_tests
+=========         Host Frame: (anonymous namespace)::run(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path const&, saccade::TrackingSessionConfig, unsigned long, saccade::detail::TrackingSessionDiagnostic*) [0x276b3] in tracking_session_tests
+=========         Host Frame: (anonymous namespace)::sequence_test(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path const&, saccade::DetectionRecords const&, saccade::MotionRecords const&, unsigned long) [0x29076] in tracking_session_tests
+=========         Host Frame: main [0x23c70] in tracking_session_tests
+========= 
+MOT17-10-SDP frames=30 CPU/ordinary serial/graph pipelined packet bytes identical; graph ring controls=30 frames
+tracking_session_tests: 602 checks passed
+========= ERROR SUMMARY: 1 error

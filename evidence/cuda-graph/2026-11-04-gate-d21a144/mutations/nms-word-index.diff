@@ -1,0 +1,26 @@
+--- baseline/cuda/postprocess.cu
++++ nms-word-index/cuda/postprocess.cu
+@@ -368,15 +368,15 @@
+             const unsigned count = shared.count;
+             for (unsigned i = 0; i < count; ++i) {
+                 const auto failures0 = shared.fail[i][0];
+-                const auto failures1 = shared.fail[i][1];
+-                const auto failures2 = shared.fail[i][2];
+-                const auto failures3 = shared.fail[i][3];
+-                const auto failures4 = shared.fail[i][4];
++                const auto failures1 = shared.fail[i][0];
++                const auto failures2 = shared.fail[i][0];
++                const auto failures3 = shared.fail[i][0];
++                const auto failures4 = shared.fail[i][0];
+                 const auto decisive0 = (failures0 | shared.over[i][0]) & kept0;
+-                const auto decisive1 = (failures1 | shared.over[i][1]) & kept1;
+-                const auto decisive2 = (failures2 | shared.over[i][2]) & kept2;
+-                const auto decisive3 = (failures3 | shared.over[i][3]) & kept3;
+-                const auto decisive4 = (failures4 | shared.over[i][4]) & kept4;
++                const auto decisive1 = (failures1 | shared.over[i][0]) & kept0;
++                const auto decisive2 = (failures2 | shared.over[i][0]) & kept0;
++                const auto decisive3 = (failures3 | shared.over[i][0]) & kept0;
++                const auto decisive4 = (failures4 | shared.over[i][0]) & kept0;
+                 const auto decisive = decisive0 != 0 ? decisive0 : decisive1 != 0 ? decisive1
+                                     : decisive2 != 0 ? decisive2 : decisive3 != 0 ? decisive3 : decisive4;
+                 const auto failures = decisive0 != 0 ? failures0 : decisive1 != 0 ? failures1

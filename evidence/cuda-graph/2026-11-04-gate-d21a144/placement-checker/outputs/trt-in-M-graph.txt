@@ -1,0 +1,43 @@
+boundary (first F02 kernel start) = 1917968899
+kernels from boundary = 10591 (1021 outside graphs, 9570 in graphs); ExecutionContext::enqueueV3 ranges = 4
+D = stream 13; M = stream 14
+
+outside graphs
+category	required	stream	kernels	distinct names
+F02	D	13	60	2
+F05	D	13	60	2
+TensorRT engine	D	13	302	153
+F06	M	14	300	6
+cuFFT	M	14	120	3
+session control	M	14	90	2
+tracking	M	14	60	1
+nvJPEG	-	25	29	1
+
+graph content (node capture)
+graph	role	category	kernels	distinct names
+2	M	packet	15	1
+2	M	session control	75	3
+2	M	tracking	45	2
+5	M	packet	15	1
+5	M	session control	75	3
+5	M	tracking	45	2
+8	D	F04	75	5
+8	D	TensorRT engine	4529	153
+8	D	producer	45	3
+11	D	F04	75	5
+11	D	TensorRT engine	4530	153
+11	D	producer	45	3
+
+graph launches (graph capture): D = stream 13; M = stream 14; 59 node / 60 graph launches
+node graph	graph-capture graph	role	launch stream	launches
+2	7	M	13	15
+5	10	M	13	15
+8	4	D	14	14
+11	1	D	14	15
+
+FAIL: graph 2 (M): unclassified kernel sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8_execute_kernel_trt
+FAIL: 59 graph launches in the node capture, 60 in the graph capture
+FAIL: M graph 2/7 launched on stream 13, required M = 14
+FAIL: D graph 11/1 launched on stream 14, required D = 13
+FAIL: M graph 5/10 launched on stream 13, required M = 14
+FAIL: D graph 8/4 launched on stream 14, required D = 13

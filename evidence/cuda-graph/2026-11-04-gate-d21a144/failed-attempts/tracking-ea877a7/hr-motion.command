@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/cg-tracking2/cuda/motion_sequence /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP /home/ray/developer/ai/saccade_v1/build/cg-tracking2/hr/MOT17-10-SDP.scmo 

@@ -1,0 +1,31 @@
+Running as unit: saccade-cg-accept.scope; invocation ID: ca845bbc546a4613b62866fd965725e2
+== 1-cpu started 2026-11-04T14:26:01+08:00
+== 1-cpu exit=0 2026-11-04T14:26:52+08:00
+16/16 Test #16: mot_output .........................   Passed    0.01 sec
+
+100% tests passed out of 16
+
+Total Test time (real) =  49.57 sec
+== 2-f04-acceptance started 2026-11-04T14:26:52+08:00
+== 2-f04-acceptance exit=0 2026-11-04T14:28:22+08:00
+control-racecheck: exit=99
+sanitizer-synccheck: started
+sanitizer-synccheck: exit=0
+control-synccheck: started
+control-synccheck: exit=99
+== 3-mutations started 2026-11-04T14:28:22+08:00
+== 3-mutations exit=0 2026-11-04T14:30:17+08:00
+mutation=dense-drop-last-tile DETECTED
+mutation=dense-first512-only DETECTED
+mutation=nms-any-pair-failure DETECTED
+mutation=nms-word-index DETECTED
+mutations_detected=15 capture=/home/ray/developer/ai/saccade_v1/build/cg-f04-mutations/capture
+== 4-tracking-acceptance started 2026-11-04T14:30:17+08:00
+== 4-tracking-acceptance exit=1 2026-11-04T14:40:28+08:00
+build: exit=0
+ctest-list: started
+ctest-list: exit=0
+ctest: started
+ctest: exit=0
+STOP at 4-tracking-acceptance
+exit=1

@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1/build/cg-tracking4/cuda/track_offline /home/ray/developer/ai/saccade_v1/build/cg-tracking4/hr/MOT17-10-SDP.scdr /home/ray/developer/ai/saccade_v1/build/cg-tracking4/hr/MOT17-10-SDP.scmo /home/ray/developer/ai/saccade_v1/build/cg-tracking4/hr/offline.txt 

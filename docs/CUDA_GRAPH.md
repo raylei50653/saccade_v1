@@ -3,6 +3,8 @@
 2026-11-04。`TrackingSessionConfig::cuda_graph` 預設為 `true`；
 `track_sequence --no-cuda-graph` 可選原有逐次 enqueue 路徑。
 
+文件狀態：實作與 [clean-source 正式驗收](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) 均已完成（受測範圍）。本頁的執行契約與重跑方法配合 [TRACKING](TRACKING.md)；目前部署與未涵蓋項目見 [STATUS](STATUS.md)。
+
 ## 執行範圍
 
 - D stream：TensorRT F03 → producer finite/status checks → F04，依 candidate slot 各建立一張 graph。HR 部署 engine 的每張 graph 有 319 個 nodes。
@@ -34,4 +36,6 @@ flock ~/.cache/saccade-v1/gpu.lock build/cuda-graph/tracking_benchmark \
 
 所有 sessions 的完整固定容量 packet bytes（含 warmup）必須相同。輸出包含逐幀 CSV、run CSV、JSON 摘要、來源影像/engine hashes、session identities、packet bins 與 PASS/FAIL status。`--only ordinary|graph` 可供獨立診斷，但單一模式結果不能宣稱跨模式等價。
 
-本次結果、kernel 審查、測試與限制見 [量測報告](../evidence/cuda-graph/2026-11-04/REPORT.md)。這是未提交開發來源的效能與回歸驗證，不取代既有 clean-source 正式驗收或模型品質結論。
+原始效能數字、kernel 審查、測試與限制見 [開發量測報告](../evidence/cuda-graph/2026-11-04/REPORT.md)；該次為未提交開發來源，保留原身分，不改作正式驗收測時。
+
+後續 [clean-source 正式驗收](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) 已補完：步驟 1–3 為乾淨 `4329ed7`，步驟 4–5 為乾淨 `d21a144`，CPU／F04／mutations／tracking 與 stream 守門全部 PASS；HR 七序列的 21 份輸出與 M4 逐位元相同，未讀 GT、未重新計分。Graph 的實際 launch stream 以 node／graph 雙 capture 配對檢查，規則與前提見 [TRACKING §17.3](TRACKING.md#173-正式執行)。完整 TensorRT 內部 racecheck／synccheck、完整 session initcheck 與完整 HR racecheck 等限制仍依 [STATUS](STATUS.md#未涵蓋與未完成邊界) 保留。

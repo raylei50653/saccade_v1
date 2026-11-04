@@ -2,6 +2,8 @@
 
 [`model_producer_cuda`](../include/saccade/model_producer_cuda.hpp) 在 caller 的 detect stream 上，將完整 F03 engine 的九個 plugin statuses 與 input／output finite checks 轉為 F04 已有的八位元組 `PostprocessProducerStatus`。不改 engine、raw tensors、F04 數值政策或候選 ABI。
 
+文件狀態（2026-11-04）：以下固定輸入與 `a9c3d9b` 驗收描述原 T01 640×640 profile。現行部署為 HR 1280×768 FP16，完整 tracking 與 P01 已在 M4 **CLOSED（有範圍）**，見 [TRACKING §17](TRACKING.md)、[M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md) 與[目前狀態](STATUS.md)；不將後續 session 驗收回寫成原 primitive 的受測範圍。
+
 ## 固定輸入與判定
 
 輸入為 FP32 batch-one `images [1,3,640,640]`、六個 raw outputs（`cls_p3, cls_p4, cls_p5, reg_p3, reg_p4, reg_p5`），以及 [`model_io_spec()`](../src/model_trt_network.cpp) 的九個 caller-owned `ScanStatus*`，順序固定為 P3／P4／P5 各 expand→scan→merge。caller 綁定 engine 時仍須核對名稱、mode、dtype、shape；指標排列本身無法辨識全成功 statuses 被交換。
@@ -43,4 +45,4 @@ ctest --test-dir build/f03-producer -R '^model_producer_cuda' --output-on-failur
 
 額外開啟既有 `SACCADE_ENABLE_MODEL_TRT`／`SACCADE_ENABLE_TENSORRT` 並提供 pinned SDK root 後，可建立 `model_producer_trt_tests`。設定 `SACCADE_MODEL_PRODUCER_ENGINE` 與 `SACCADE_MODEL_PRODUCER_INPUTS` 可將 actual F03 engine 接續測試加入 CTest。**乾淨 `a9c3d9b` 正式驗收 PASS（受測範圍）**：[正式證據](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md) 保存 clean source／實際 binary 身分、CPU 12/12、CUDA／live 6/6、四種獨立 adapter sanitizers 及正控制、第一個固定 live 輸入的 memcheck／initcheck。原 [dirty-source 開發報告](../evidence/f03-producer/2026-10-31/REPORT.md) 保留。Sanitizer host callback gates／CUPTI 與 head／F03 racecheck／synccheck 的未執行界線以正式報告為準。
 
-本項正式驗收僅涵蓋 producer 聚合與有界 engine→F04 接續。另行實作的 [F01–F04 detection session](DETECTION_SESSION.md) 已接通 native JPEG→F03→F04、候選 ready／consumed ring、session first-error latch 與雙 stream drain／checked close；其[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)，不列入 `a9c3d9b` 正式 source 範圍。雙 staging overlap、F04b／GMC／tracker／ResultPacket／MOT writer 與 P01 仍依 [BACKLOG](BACKLOG.md) 接續。歷史 head／F03 racecheck／synccheck 與模型品質判定不因本 primitive 測試而改寫。
+本項正式驗收僅涵蓋 producer 聚合與有界 engine→F04 接續。另行實作的 [F01–F04 detection session](DETECTION_SESSION.md) 已接通 native JPEG→F03→F04、候選 ready／consumed ring、session first-error latch 與雙 stream drain／checked close；其[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)，不列入 `a9c3d9b` 正式 source 範圍。F04b／GMC／tracker／ResultPacket／MOT writer 已由 [TrackingSession](TRACKING.md) 接通，M3／M4 與後續 CUDA Graph 驗收依各自證據判定，見[目前狀態](STATUS.md)。雙 staging overlap 與其他後續工作見 [BACKLOG](BACKLOG.md)。歷史 head／F03 racecheck／synccheck 與模型品質判定不因本 primitive 測試而改寫。

@@ -1,18 +1,23 @@
-# P01-A 新模型 artifact 查核
+# 模型 artifact readiness 與查核歷史
 
-查核日期：2026-10-28。來源、檔案與內容分別記錄。此次下載新上游檔案，沒有使用舊專案的程式、權重或數值結論，也沒有執行 Python。
+<a id="p01-a-新模型-artifact-查核"></a>
 
-2026-10-29 追加來源查核見 [§6](#6-2026-10-29-追加來源查核與解除阻塞)；前五節保留 P01-A 原始觀察，未重新下載既有 YOLO26s 或把工具 fixtures 升格為模型證據。同日使用者決策將 v1 目標改為 YOLO26m＋原版 m head：§1–§6 是 s 時期紀錄，m 的 artifact 對應見 [§7](#7-2026-10-29-原版-m-head-的-artifact-對應)。§7 保留 2026-10-29 的查核狀態；H04／H06／H07 與 backbone I/O 的最新狀態以 §8 為準。
+更新日期：2026-11-04。現行部署為 YOLO26m＋原版 m T1 Mamba-FPN head，HR 1280×768、FP16 engine；**P01 CLOSED（有範圍）**，判定與完整身分鏈見 [§14](#14-p01-收尾hr-fp16-部署模型2026-11-03) 及 [M4 正式證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。CUDA Graph／排序改版已完成 clean-source 驗收，七個 HR 序列共 21 個輸出與 M4 逐位元相同，見 [§15](#15-cuda-graph-與排序改版後的狀態2026-11-04)。
 
-2026-10-30 S04 更新見 [§8](#8-2026-10-30-s04head-權重的-native-交付與完整-head)：候選 T1 checkpoint 的 head 權重已 native 交付、head engine 由 v1 自建、manifest schema 2 完成，指定候選的 S04 有範圍 PASS 見 [正式證據](../evidence/s04/2026-10-30/REPORT.md)；backbone／neck 只完成舊 ONNX 的 ordered I/O 結構查核，P01 仍 OPEN。
+本文件按日期保存模型選擇、缺件與驗收歷史。**§1–§13 的 OPEN／PARTIAL 是各節當時的狀態**；現行模型與 H04–H07 以 §14 為準，後續 runtime 重驗以 §15 為準。TensorRT 內部 racecheck／synccheck、完整 session initcheck 等界線仍保留，不能由 P01 結案推導全部工具或所有環境通過。
 
-2026-10-30 T01 更新見 [§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)：T01 的 matching backbone／neck ONNX 與 head bundle 已 native 交付並建成完整模型 engine，backbone 與 F03 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) PASS（有範圍）；P01 仍 OPEN。
+| 日期與階段 | 閱讀入口與當時結果 |
+| --- | --- |
+| 2026-10-28–29，s 時期來源查核 | §1–§6；官方一般 YOLO26s ONNX 已查核，目標 Mamba-FPN artifact 當時 OPEN，之後改採 m 模型 |
+| 2026-10-29，原版 m head | [§7](#7-2026-10-29-原版-m-head-的-artifact-對應)；scan 契約核實，權重、engine 與 manifest 缺件分列 |
+| 2026-10-30，S04／T01 | [§8](#8-2026-10-30-s04head-權重的-native-交付與完整-head)、[§9](#9-2026-10-30-t01matching-backboneneck-與完整模型)；head／backbone／完整模型按階段 PASS（有範圍），當時 P01 OPEN |
+| 2026-10-31，native 前處理至 F04 | §10–§13；F01／F02 使用驗收與 F04／producer 正式驗收，bounded detection 為開發來源驗證 |
+| 2026-11-03，HR FP16／M3／M4 | [§14](#14-p01-收尾hr-fp16-部署模型2026-11-03)；完整 tracking 正式驗收、M4 指標及 P01 CLOSED（有範圍） |
+| 2026-11-04，CUDA Graph／排序 | [§15](#15-cuda-graph-與排序改版後的狀態2026-11-04)；clean-source runtime 重驗 PASS；資源報告仍保留原開發量測身分 |
 
-2026-11-03 P01 收尾見 [§14](#14-p01-收尾hr-fp16-部署模型2026-11-03)：P01 以部署中的 HR FP16 模型 **CLOSED（有範圍）**。
+以下 §1–§5 為 2026-10-28 P01-A 原始查核：來源、檔案與內容分別記錄。當次下載新上游檔案，沒有使用舊專案的程式、權重或數值結論，也沒有執行 Python；這段敘述僅適用該次查核。
 
-2026-10-31 F04 更新見 [§11](#11-f04-正式驗收後的狀態2026-10-31)：乾淨 `995bca5` 的獨立 F04 驗收 PASS（受測範圍）；F03 producer 的乾淨 `a9c3d9b` 正式驗收見 [§12](#12-f03-producer-聚合器2026-10-31)；新實作的 bounded detection session 見 [§13](#13-f01f04-bounded-detection-session2026-10-31)，[開發來源驗證 PASS（受測範圍）](../evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 仍 OPEN。§1–§11 保留各階段當時的狀態。
-
-**完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN。** 已取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
+**2026-10-28 的完整 YOLO26s backbone／neck＋Mamba-FPN head readiness：OPEN（歷史目標）。** 當時取得並查核官方一般 YOLO26s ONNX；其內含一般 detection head，不能代表目標 Mamba-FPN head 已交付。
 
 ## 1. 來源與完整性
 
@@ -77,7 +82,7 @@ Inspector 解析成功並列出 graph I/O、所有 `value_info`、所有 node �
 4. 與實際 head 逐節對上的 scan 身分及完整 attributes、輸入 shape／stride／broadcast、方向、空間展平順序、A／B／C／D 角色、delta bias／softplus 次序、離散化精確公式、gate、initial state、final state 輸出與每幀 reset；規格需有不可變來源與精確 locator。
 5. 計算及累加精度、TF32／FP16／INT8 build 選項、獨立對照來源、誤差 metric 與預先固定的 atol／rtol。正式 engine／plugin／tactic 身分於產生後記錄 build evidence。
 
-**S01 保持 OPEN。** 目前沒有已核實、屬於新 head 的 scan 精確契約，因此尚不能實作有模型依據的獨立 scalar reference 或數值 fixtures。收到第 4／5 項與對應 tensor 邊界後，再依 [MODEL_FEASIBILITY §3](MODEL_FEASIBILITY.md#3-s01s04-的接續條件) 開始；不自行選通用 Mamba recurrence。
+**2026-10-28 當時 S01 保持 OPEN。** 當時沒有已核實、屬於新 head 的 scan 精確契約，因此尚不能實作有模型依據的獨立 scalar reference 或數值 fixtures。原定收到第 4／5 項與對應 tensor 邊界後，再依 [MODEL_FEASIBILITY §3](MODEL_FEASIBILITY.md#3-s01s04-的接續條件) 開始；不自行選通用 Mamba recurrence。後續改採 m head 並解除契約缺件的紀錄見 §7。
 
 ## 5. 重跑
 
@@ -196,7 +201,7 @@ T01 重新訓練（[T01_TRAINING](T01_TRAINING.md)）取代 S04 的工程驗證�
 | backbone／neck component I/O 與推論 | **已驗**：ordered `p3_feat`／`p4_feat`／`p5_feat`；backbone engine 與 F03 engine 依 [BACKBONE_POLICY](BACKBONE_POLICY.md) 逐元素 PASS（[MODEL_TRT](MODEL_TRT.md)） |
 | H05 decode | 未變：仍屬 F04 |
 
-**目標真實 artifact readiness（P01）：仍 OPEN。** 此 engine 驗收不涵蓋 native 影像前處理（F01／F02，現況見 §10）、decode／NMS 與候選容量（F04），以及 P01 原列的其他缺件；head 與 F03 的 racecheck／synccheck 未執行。
+**2026-10-30 T01 當時的目標真實 artifact readiness（P01）：仍 OPEN。** 此 engine 驗收不涵蓋 native 影像前處理（F01／F02，該階段紀錄見 §10）、decode／NMS 與候選容量（F04），以及 P01 原列的其他缺件；head 與 F03 的 racecheck／synccheck 未執行。
 
 ## 10. Native F01／F02 後的狀態（2026-10-31）
 
@@ -206,13 +211,13 @@ Native 前處理已實作，詳見 [PREPROCESS](PREPROCESS.md) 與 [證據](../e
 
 **F01／F02 使用驗收 PASS（受測範圍）**：[正常使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)沿用原 public runtime，以 7 張固定真實 JPEG、4 個 sessions 共 208 幀驗證串行、尺寸切換、延後 consumer、ring 重用與獨立雙 instance；全部 RGB／FP32 輸出逐位元符合固定 reference，重跑、mapping 與 checked close 通過。結果限受測硬體／SDK、固定輸入與呼叫合約。
 
-F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與容量仍待實作；P01 仍 OPEN。
+在此階段，F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與容量仍待實作；當時 P01 仍 OPEN。後續 F04／producer／detection session 見 §11–§13，完整 tracking 與 P01 結案見 §14。
 
 ## 11. F04 正式驗收後的狀態（2026-10-31）
 
 **F04 clean-source 正式驗收 PASS（受測範圍），獨立結案**。乾淨 `995bca5` 的 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md) 固定 source、實際執行 binary、sanitizer 與六份 F03 replay bytes；完整 `DetectionCandidates`、容量／失敗輸出、穩定順序、重跑／重用及獨立 API stream 契約依 [POSTPROCESS_POLICY](POSTPROCESS_POLICY.md) 驗證。四種 sanitizer 的 callback gates 使用 `--no-held-stream`，為 UNEXECUTED；正常 gates 已驗。
 
-**P01 仍 OPEN**：完整 F03 producer 聚合器尚須彙整全部 plugin statuses 與 input／output finite checks；native F01／F02→F03→F04 的完整 session、CS ready／consumed、first-error latch、drain／checked close 仍待整合證據。Head／F03 racecheck、synccheck 的 UNEXECUTED 邊界不因 F04 通過而改變；模型品質與完整 tracking 亦不在本項範圍。後續依 [BACKLOG](BACKLOG.md) 接續。
+**2026-10-31 F04 結案當時 P01 仍 OPEN**：完整 F03 producer 聚合器尚須彙整全部 plugin statuses 與 input／output finite checks；native F01／F02→F03→F04 的完整 session、CS ready／consumed、first-error latch、drain／checked close 仍待整合證據。Head／F03 racecheck、synccheck 的 UNEXECUTED 邊界不因 F04 通過而改變；模型品質與完整 tracking 亦不在本項範圍。後續完成紀錄見 §12–§15；現行剩餘界線見 [BACKLOG](BACKLOG.md)。
 
 ## 12. F03 producer 聚合器（2026-10-31）
 
@@ -226,7 +231,7 @@ F01／F02 尚未接入 F05／F03 的完整 async session，F04 decode／NMS 與�
 
 本版保留單 JPEG staging，未實作雙 STAGE overlap。交付的固定容量 `DetectionSessionResult` 包含完整 kept／suppressed candidates，與 tracking `ResultPacket` 不同；正常路徑沒有中間 count／status D2H。原 nvJPEG initcheck FAIL 仍依 [使用政策](PREPROCESS_USAGE_POLICY.md) 分開診斷，不因新 session 改稱原路徑 sanitizer PASS。
 
-**P01 仍 OPEN**：完整 tracking session 的 F05／GMC／F04b／tracker／ResultPacket／MOT writer、原列其他缺件及各階段未執行驗證仍須獨立判定；bounded detection session 的實作與有限驗證不能提升模型品質或 tracking 指標。後續依 [BACKLOG](BACKLOG.md) 接續。
+**2026-10-31 bounded detection 階段 P01 仍 OPEN**：完整 tracking session 的 F05／GMC／F04b／tracker／ResultPacket／MOT writer、原列其他缺件及各階段未執行驗證當時仍須獨立判定；bounded detection session 的實作與有限驗證不能提升模型品質或 tracking 指標。後續 tracking 正式證據與 P01 結案見 §14。
 
 ## 14. P01 收尾：HR FP16 部署模型（2026-11-03）
 
@@ -248,3 +253,17 @@ M4 以這個部署模型判定 P01（[TRACKING §17.4](TRACKING.md)，[正式證
 | 模型品質 | MOT17-10 AP50 86.02%，MOT17-02（首次開啟）72.91%；追蹤指標見 TRACKING §17.5 |
 
 **P01：CLOSED（有範圍）。** TensorRT 內部 kernel 的 racecheck／synccheck 仍未執行。其餘不涵蓋項目見 TRACKING §17.4。
+
+## 15. CUDA Graph 與排序改版後的狀態（2026-11-04）
+
+[CUDA Graph](CUDA_GRAPH.md) 的 F03→producer→F04 與 M tracking tail 已預設啟用，tracking 排序亦已優化；其 clean-source 重驗見 [正式證據](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)。步驟 1–3 受測 source 為乾淨 `4329ed7`，步驟 4–5 為乾淨 `d21a144`，兩者的差異只在驗收與 stream 位置檢查腳本。
+
+| 項目 | 結果與界線 |
+| --- | --- |
+| Build／primitive | CPU CTest 16/16、CUDA CTest 59/59；F04 CTest 5/5、37,094 checks、四種 sanitizer 與 15/15 mutations PASS |
+| Tracking session | 七序列 CPU／ordinary serial／graph pipelined packet bytes 相同；HR 路徑、完整 session memcheck 與 scoped session racecheck／synccheck PASS |
+| HR 部署輸出 | 七個 MOT17 SDP 序列的 SCDR、MOT、offline MOT 共 21 個輸出與 M4 hashes 相同；未重新計分、未讀 `gt/`，不重新選模型 |
+| Stream 位置 | Graph 內外分別判定，node／graph 兩次 capture 的 MOT 檔相同，D／M launch stream 對應與八項負控制通過；前提與方法見正式報告 |
+| 資源與延遲 | [資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md) 與 [排程表](../evidence/resource-schedule/2026-11-04/SCHEDULE.md) 保留原 dirty-source 量測身分。後續正式驗收不把原開發測時或 OOM／timeout 嘗試回寫成 clean-source capture |
+
+P01 維持 **CLOSED（有範圍）**；M4 的模型品質與身分結論不變。TensorRT 內部 racecheck／synccheck、完整 session initcheck、完整 HR 自訂路徑 racecheck 與跨 GPU／driver／TensorRT 支援仍未由此驗收涵蓋。資源報告中未完成的開發 session racecheck 與後續通過的 scoped 正式驗收分開保管；現行待辦與診斷觸發條件見 [BACKLOG](BACKLOG.md)。

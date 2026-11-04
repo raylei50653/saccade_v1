@@ -1,6 +1,6 @@
 # Saccade v1 C++ GPU 資料流與架構規劃
 
-狀態：設計草案。日期：2026-10-28。
+狀態：架構與資料契約；原設計日期：2026-10-28，實作狀態更新：2026-11-04。現行 HR FP16／M0–M4、P01 有範圍結案與最新正式驗收見 [STATUS](STATUS.md)；具體 tracking 實作見 [TRACKING](TRACKING.md)。
 
 這份規劃以舊 Saccade 的 C++／GPU 架構為依據，重新整理影像、觀測、軌跡與輸出的資料流。既有架構作為 v1 設計基線；後續實作應能逐項對應資料、狀態、依賴與完成條件。
 
@@ -10,7 +10,7 @@
 | --- | --- |
 | 已確定 | 從零重寫，不復用舊程式；實作採 C++／CUDA GPU 路徑，不使用 Python。 |
 | 已確定 | 舊實驗數據不遷移，不要求保證舊實驗成績。 |
-| 目前交付 | 資料流／架構規劃與第一批 C++ 協定模型、失敗狀態模型及封包編碼／比較工具；GPU pipeline 尚未實作。 |
+| 目前交付 | C++ 協定模型、失敗狀態／封包工具及 native JPEG→完整模型→GMC／tracking→MOT pipeline 已實作；[TRACKING](TRACKING.md) 記錄 M0–M4 與 HR FP16 部署，[CUDA_GRAPH](CUDA_GRAPH.md) 記錄已啟用的 graph 路徑。各項驗收範圍見 [STATUS](STATUS.md)。 |
 | 沿用架構基線 | §1.1 列明的模型家族、觀測／GMC／追蹤主線、native sequence 輸入輸出與排程方向，作為重寫起點。 |
 | 重抽象設計 | 顯式資料契約、狀態 owner、續追資格、完成條件與錯誤語義；差異集中列於 §9。 |
 | OPEN | §9 的具體差異與工程規格；不重開 §1.1 已有依據的整體架構選型。 |
@@ -400,7 +400,7 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 
 ### 9.2 真正待補齊的工程規格
 
-這些 OPEN 項目細化已選定的基線；相關實作前需補齊，不要求重新選擇模型家族、GMC 類型或整套 tracker。
+下表保留原設計追蹤項目；不能將每一列都解讀為目前尚未實作。P01 已有範圍結案，P02–P06 的偵測政策、tracking 參數／容量、graph 與 MOT 實作分別見 [POSTPROCESS_POLICY](POSTPROCESS_POLICY.md)、[TRACKING](TRACKING.md)、[CUDA_GRAPH](CUDA_GRAPH.md)；實際剩餘邊界見 [BACKLOG](BACKLOG.md)。表中其餘一般化工具與支援需求仍逐項判定，不要求重新選擇模型家族、GMC 類型或整套 tracker。
 
 | 編號 | OPEN 規格 | 已有基線 |
 | --- | --- | --- |

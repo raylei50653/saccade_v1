@@ -1,41 +1,96 @@
 # Saccade v1
 
-2026-11-04 各階段延遲、硬體與記憶體、重疊與無競態使用條件見 [資源報告](evidence/resource-schedule/2026-11-04/REPORT.md) 與 [排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md)。本機 HR FP16 Graph 單幀平均 6.988 ms；2 幀在途的單次觀測約 185 FPS、交付平均 10.740 ms。完整 session racecheck 仍有未完成項，結果與條件詳列報告。
+Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC → geometry-first／ReID-free tracking → MOT 輸出。runtime 不依賴 Python；模型訓練與匯出使用 PyTorch／Python。專案從零重寫，以舊架構作設計基線，不復用舊 runtime 程式或遷移舊實驗數據。
 
-排序優化：F04b 重用已驗證的 score/ID 順序、必要時用 stable radix，birth 跳過重複排序。固定 replay 的 F04b 143.57→102.81 µs（−28.39%）；完整 tracking 7.037→6.978 ms，吞吐幾乎不變，不宣稱穩定端到端收益。契約與測試見 [排序報告](evidence/tracking-sort/2026-11-04/REPORT.md)。
+文件狀態更新：**2026-11-04**。目前部署為 **HR 1280×768 FP16**，M0–M4 完成，**P01 CLOSED（有範圍）**。CUDA Graph 預設啟用；最新 [clean-source 正式驗收 PASS](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)，HR 七個 MOT17 序列的 21 份輸出與 M4 逐位元相同，沒有重新計分或讀取 GT。完整判定、來源版本與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
 
-2026-11-04：tracking 的 F03→F04 與 M stream tracking tail 已接上 CUDA Graph，預設啟用；相同 HR FP16/JPEG 的單幀平均延遲由 8.59 ms 降到 7.06 ms（−17.8%），p95 由 9.08 ms 降到 7.44 ms，完整 packet bytes 不變。量測條件、首幀成本與保留在 graph 外的階段見 [CUDA Graph](docs/CUDA_GRAPH.md) 及 [開發驗證報告](evidence/cuda-graph/2026-11-04/REPORT.md)。
+## 文件分組
 
-目前里程碑為 **Saccade v1 — T01 Experimental Closeout**。原始實驗固定於 [`t01-experiment-final-2026-10-31`](https://github.com/raylei50653/saccade_v1/tree/t01-experiment-final-2026-10-31)（`a47fb16`），由 PR #1 以 merge commit 整合到 main；封存與恢復入口見 [結案報告](docs/history/2026-10-31-t01-closeout.md)。實驗完成不代表產品部署完成；[F04 已獨立結案（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)，[F03 producer 聚合器](docs/MODEL_PRODUCER.md) 已以乾淨 `a9c3d9b` 完成 [正式驗收（受測範圍）](evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)；[F01–F04 detection session](docs/DETECTION_SESSION.md) 已實作，[開發來源驗證 PASS（受測範圍）](evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 依 [後續工作](docs/BACKLOG.md) 接續。2026-11-03：tracking 半段 M0–M4 完成，部署模型為 HR 1280×768 FP16。MOT17-02（eval）HOTA 40.6、AP50 72.91%，每幀約 8 ms；P01 **CLOSED（有範圍）**，見 [TRACKING §17](docs/TRACKING.md) 與 [M4 證據](evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。
+### 狀態與交付
 
-Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。[F04 decode／篩選／NMS](docs/POSTPROCESS.md) 已改為 decode 融合壓實、依 device 合格數分級排序；**F04 clean-source 正式驗收 PASS（受測範圍）**，結果來自乾淨 `995bca5` 的 [正式證據](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；原始 rank 與 adaptive 開發報告保留。[F01–F04 bounded async detection session](docs/DETECTION_SESSION.md) 已接通 native JPEG→完整模型→F04，包含候選 ready／consumed ring、首次失敗鎖定及 checked drain／close；[開發來源驗證 PASS（受測範圍）](evidence/detection-session/2026-10-31/REPORT.md)。雙 host staging／完整 overlap、GMC、tracker 與 MOT writer 依後續工作接續。
+| 文件 | 用途與狀態 |
+| --- | --- |
+| [目前狀態](docs/STATUS.md) | 現行部署、各階段驗收、文件狀態與未完成邊界的總入口 |
+| [後續工作](docs/BACKLOG.md) | 已結案工作的接續關係與仍待處理項目 |
+| [T01 實驗結案與恢復](docs/history/2026-10-31-t01-closeout.md) | 歷史封存；固定 tag `t01-experiment-final-2026-10-31`（`a47fb16`），含 PR #1 合併與 archive custody |
 
-以舊架構的 YOLO26＋Mamba-FPN、GPU GMC、geometry-first／ReID-free tracker 與 MOT 輸出作為設計基線；重新抽象資料與責任邊界，全部重新實作。
+### 架構與同步協定
 
-已確定的範圍：從零實作、不復用舊程式、不使用 Python、不遷移舊實驗數據，也不要求保證舊實驗成績。唯一例外是模型訓練（[T01](docs/T01_TRAINING.md)）：訓練以 PyTorch 執行舊庫固定 revision 的訓練程式加上記錄的 patch，產物交給 C++／CUDA／TensorRT 推論，runtime 不依賴 Python。
+| 文件 | 用途與範圍 |
+| --- | --- |
+| [資料流與架構](docs/DATAFLOW.md) | 邏輯階段、資料契約、GPU 所有權、設定治理與行為驗證 |
+| [非同步流程控制](docs/ASYNC_CONTROL.md) | streams／events、ready／consumed、首次失敗與 drain／close |
+| [ResultPacket](docs/RESULT_PACKET.md) | 固定容量封包、穩定編碼、失敗狀態與完整 bytes 比較 |
+| [C++ 協定模型](docs/PROTOCOL_MODEL.md) | 216 組有限 happens-before 檢查與同步邊變異測試 |
+| [合成 CUDA 骨架](docs/CUDA_SYNTHETIC.md) | streams／events／cuFFT 的獨立有限驗證；保留原始與 closeout 證據 |
 
-- [資料流與架構規劃](docs/DATAFLOW.md)：邏輯資料流、資料契約、跨幀狀態、GPU 所有權、同步依賴、結束流程及待定設計；§4.4 規定設定治理，§8.1 規定行為驗證。
-- [非同步狀態流程控制](docs/ASYNC_CONTROL.md)：跨 stream 與 host↔device 的 event 協定、device 端提交、失敗收尾與競態驗證。
-- [ResultPacket 與失敗狀態模型](docs/RESULT_PACKET.md)：固定容量布局、穩定編碼、初始化與完整封包比較工具。
-- [可重跑的協定模型](docs/PROTOCOL_MODEL.md)：216 組 happens-before 檢查與同步邊變異測試。
-- [合成資料 CUDA 執行骨架](docs/CUDA_SYNTHETIC.md)：可選建置、typed resolved 設定、真實 streams／events／cuFFT、原始 ResultPacket 輸出、重跑命令與實機證據。
-- [模型 artifact／native scan 可行性](docs/MODEL_FEASIBILITY.md)：P01-A 的三項獨立驗收與 S01–S04 的接續條件與判定。
-- [模型 manifest schema 與 C++ CLI](docs/MODEL_MANIFEST.md)：嚴格 JSON、穩定序列化／hash、artifact 檔案完整性及 fixtures；schema 2 表達 S04 的 head-only 邊界、ordered P3／P4／P5、六個 raw outputs、plugin statuses 與比較政策；schema 3 表達 T01 的完整模型（backbone ONNX＋head bundle、影像輸入 profile、兩份政策）。
-- [Native TensorRT SDK 最小驗證](docs/NATIVE_TENSORRT.md)：獨立可選 SDK 目標、版本 pin、固定小網路與重跑命令。
-- [模型來源與缺件](docs/MODEL_ARTIFACT_READINESS.md)：s 時期的官方一般 YOLO26s native 查核；§7 為原版 m head 的 checkpoint／ONNX／engine 對應與剩餘缺件；§8 為 S04 後的狀態；§9 為 T01（matching backbone 與完整模型）後的狀態；§10 為 native F01／F02 的使用驗收與診斷界線；§11 為 F04 正式驗收後的狀態；§12 為 producer 乾淨 `a9c3d9b` 正式驗收；§13 為 bounded detection session 的實作及驗證界線。
-- [原版 YOLO26m head 的 scan 契約](docs/SCAN_CONTRACT.md)：v1 模型基線（YOLO26m＋原版 m T3→T1 head、T=1）的 module map、`saccade::SelectiveScan`／Cross-Scan 契約、比較政策與剩餘缺件；S01 scalar reference 依此實作。
-- [S02 CUDA FP32 scan](docs/SCAN_CUDA.md)：`selective_scan_cuda` 與 Cross-Scan 展開／合併的 stream／status 契約、FP32 算法（穩定 softplus、精確指數的 drive、部分和縮放重算）、支援限制，以及首次 GPU 執行前固定的逐元素 running error bound 比較政策。
-- [S03 TensorRT FP32 scan](docs/SCAN_TRT.md)：SelectiveScan v2／Cross-Scan plugins、INT32[2] status output、CUDA context 初始化、最小 engine 與 frame-end gate／publish／commit／ResultPacket 交接；驗收範圍與證據見該文件。
-- [S04 完整 head（TensorRT FP32）](docs/HEAD_TRT.md)：指定 T1 checkpoint 的 native 轉換與 `SCWB 1` bundle、native network API 建圖、六個 raw cls／reg 輸出與 9 個 plugin status＋輸入／輸出有限值檢查共同決定 frame 發布、生命週期與重跑命令；數值政策在首次 GPU 比較前固定於 [HEAD_POLICY](docs/HEAD_POLICY.md)。**S04 PASS**，限指定候選、固定介面與受測 FP32 head 範圍；正式結果見 [S04 證據](evidence/s04/2026-10-30/REPORT.md)。head racecheck／synccheck 未執行；該 head 驗收不涵蓋 backbone／neck、前處理、decode 或模型品質，各自依所屬階段判定；P01 仍 OPEN。
-- [舊版 m 模型訓練規格與流程](docs/TRAINING_WORKFLOW.md)：以 preset 原版 YOLO26m T3→T1 為主，整理 teacher／cache／distill／GT 交接、微調設定與缺件；僅整理文件，未搬移訓練實作或模型產物。
-- [T01 backbone engine 與 F03](docs/MODEL_TRT.md)：T01 backbone ONNX 經 pinned SDK 的 ONNX parser 建成 FP32 engine，與 S04 head 組成完整模型 engine；政策在首次 GPU 比較前固定於 [BACKBONE_POLICY](docs/BACKBONE_POLICY.md)。**backbone PASS、F03 PASS**，限六個固定輸入與受測環境；該 engine 驗收不涵蓋 native 前處理或 decode／NMS；P01 仍 OPEN。
-- [F03 producer 聚合器](docs/MODEL_PRODUCER.md)：完整 input／六個 raw outputs 的 finite checks、9 個 plugin statuses 的角色檢查與退休，於 detect stream 發布既有 F04 aggregate ABI；**乾淨 `a9c3d9b` 正式驗收 PASS（受測範圍）**，有界 engine→F04 接續、測試與 sanitizer 範圍見 [正式證據](evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)，原開發報告保留；該驗收不涵蓋新 session 或 P01。
-- [Native 影像前處理 F01／F02](docs/PREPROCESS.md)：獨立於 TensorRT 的 nvJPEG hardware batch-1 planar RGB decode、FP32 正規化與 antialiased stretch、ImageMapping、同 stream 重用與 checked drain；使用 `SACCADE_ENABLE_PREPROCESS` 可選建置。數值仍依 [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md)，既有 17 組對照逐位元相同、19/19 CTest；依 [PREPROCESS_USAGE_POLICY](docs/PREPROCESS_USAGE_POLICY.md) 的正常使用驗收亦 **PASS（受測範圍）**：7 張固定真實 JPEG、4 個 sessions 共 208 幀，全部 RGB／FP32 輸出逐位元對齊，涵蓋尺寸切換、延後 consumer、ring 重用與雙 instance（[使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)）。既知 nvJPEG initcheck FAIL 保留為診斷項，原始 [證據](evidence/preprocess/2026-10-31/REPORT.md)不改寫；[detection session](docs/DETECTION_SESSION.md) 沿用單 staging 保守同步，雙 STAGE overlap 尚未實作。
-- [F04 native 偵測後處理](docs/POSTPROCESS.md)：政策仍為 [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md)，保留全類別 Top-300、穩定原始 candidate ID、完整 kept／suppressed pool 與原輸出 ABI。CUDA 使用 decode 融合壓實與 device 分級排序，中途 counts 留 device。**乾淨 `995bca5` 的 [正式驗收 PASS（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)**：49 cases、10-phase reuse、六份 replay、F04 CTest 4/4、四種 sanitizer 與控制案例通過；sanitizer callback gates 為 UNEXECUTED，正常 gates 已驗。先前 [dirty adaptive 開發測時](evidence/f04/2026-10-31-adaptive/REPORT.md) 的三份真實輸入為 1.77–1.97× 加速，本次正式驗收未重測效能；該數字不代表完整模型或 tracking 端到端速度。既有開發證據保持原樣。[F03 producer 聚合器](docs/MODEL_PRODUCER.md) 已正式驗收；native 前處理接續見 [detection session](docs/DETECTION_SESSION.md)，完整 tracking session 與 P01 仍 OPEN。 2026-11-04：finalize 改為單一 CTA 的平行 NMS（[§5](docs/POSTPROCESS.md#5-平行-finalize2026-11-04-實作前固定)），HR 每幀由 1,539 µs 降到 50 µs，輸出 bytes 不變，[驗收 PASS](evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md)。
-- [F01–F04 async detection session](docs/DETECTION_SESSION.md)：D 執行 native 前處理／F03／producer／F04，M 消費完整候選，透過 CS ready／consumed 與 pinned result ring 管理所有權；包含 epoch／frame identity、首次失敗與後續 skip、EOF／cancel／D-only tail drain、checked close 及新 session 隔離。已實作，[開發來源驗證 PASS（受測範圍）](evidence/detection-session/2026-10-31/REPORT.md)；不包含完整 tracking 或 P01。
-- [T01 重新訓練](docs/T01_TRAINING.md)：YOLO26m＋Mamba-FPN 全鏈重訓的事前規格（來源與 patch、sequence-level split、nvJPEG GPU decode＋float antialiased stretch 的輸入契約、配方、val AP50 選模政策、預算）與執行紀錄；重跑入口在 [training/t01](training/t01/)。
+### 前處理、偵測與追蹤
+
+| 文件 | 用途與狀態 |
+| --- | --- |
+| [F01／F02 native 前處理](docs/PREPROCESS.md) | nvJPEG hardware decode、FP32 antialiased resize；使用驗收 PASS，initcheck 診斷保留 |
+| [F03 producer 聚合器](docs/MODEL_PRODUCER.md) | input／raw finite checks、九個 plugin statuses 與 F04 aggregate；獨立正式驗收 PASS |
+| [F04 decode／篩選／NMS](docs/POSTPROCESS.md) | 全類別 Top-300、kept／suppressed pool、device 分級排序與平行 finalize；正式驗收 PASS |
+| [F01–F04 detection session](docs/DETECTION_SESSION.md) | 獨立 bounded detection API；原開發來源驗證 PASS，不等同 TrackingSession |
+| [F05–F09 tracking](docs/TRACKING.md) | GMC、prior、F04b、關聯更新、ResultPacket／MOT、M0–M4；正式驗收及 P01 有範圍結案 |
+| [CUDA Graph 與延遲量測](docs/CUDA_GRAPH.md) | D 的 F03→F04 與 M tracking tail；預設啟用，另有最新 clean-source 驗收 |
+
+### 模型來源與 native 推論
+
+| 文件 | 用途與範圍 |
+| --- | --- |
+| [模型／scan 可行性](docs/MODEL_FEASIBILITY.md) | P01-A 與 S01–S04 的分階段契約及歷史判定 |
+| [Artifact readiness](docs/MODEL_ARTIFACT_READINESS.md) | 候選來源、缺件演進與現行 HR／P01 證據入口 |
+| [Model manifest](docs/MODEL_MANIFEST.md) | schemas 1–3、C++ CLI、完整性與 fixtures；HR FP16 使用獨立 deploy manifest |
+| [Native TensorRT SDK](docs/NATIVE_TENSORRT.md) | pinned SDK、可選建置及固定小網路驗證 |
+| [原版 YOLO26m scan 契約](docs/SCAN_CONTRACT.md) | T=1 SelectiveScan／Cross-Scan、module map、tensor 與狀態邊界 |
+| [S02 CUDA FP32 scan](docs/SCAN_CUDA.md) | FP32 forward、stream／status、數值與 sanitizer 證據 |
+| [S03 TensorRT scan](docs/SCAN_TRT.md) | plugins、最小 engine、frame-end gate／publish／commit |
+| [S04 完整 FP32 head](docs/HEAD_TRT.md) | native 權重 bundle、建圖、六個 raw outputs、生命週期；歷史階段 PASS |
+| [T01 backbone／完整 F03](docs/MODEL_TRT.md) | backbone ONNX＋head、原 FP32 驗收與後續 FP16 build 模式 |
+
+### 數值與使用政策
+
+以下政策保留各自固定的版本、比較方法與驗收範圍；新部署與效能改版的結果另由對應報告判定。
+
+| 文件 | 固定內容 |
+| --- | --- |
+| [HEAD_POLICY](docs/HEAD_POLICY.md) | S04 FP32 head reference 與逐元素比較 |
+| [BACKBONE_POLICY](docs/BACKBONE_POLICY.md) | T01 backbone／完整 F03 FP32 比較 |
+| [PREPROCESS_POLICY](docs/PREPROCESS_POLICY.md) | F01 RGB／F02 FP32 輸出與固定 cases |
+| [PREPROCESS_USAGE_POLICY](docs/PREPROCESS_USAGE_POLICY.md) | 正常使用、重跑與資源重用驗收；既知 initcheck 診斷的處置 |
+| [POSTPROCESS_POLICY](docs/POSTPROCESS_POLICY.md) | 全類別 Top-300、ties、FP32 算術、閾值、capacity 與完整候選輸出 |
+
+### 訓練與部署操作
+
+| 文件 | 用途與狀態 |
+| --- | --- |
+| [T01 重新訓練](docs/T01_TRAINING.md) | 事前規格、split／選模政策、執行與最終結果；2026-10-31 已封存結案 |
+| [舊版訓練流程](docs/TRAINING_WORKFLOW.md) | 舊庫 teacher／cache／distill／GT／T3→T1 的來源參考 |
+| [T01 重跑程式與配方](training/t01/) | pinned source、patch、lockfiles 與原實驗入口 |
+| [HR 部署操作](training/hr_deploy/README.md) | HR checkpoint、匯出、reference corpus 與 manifest；目前部署身分見 TRACKING §15–§17 |
+
+### 驗收與效能證據
+
+報告的判定只適用於各自記錄的來源、環境與受測範圍。較新的正式驗收不改寫早期開發、FAIL 或未完成紀錄。
+
+| 證據 | 狀態與閱讀重點 |
+| --- | --- |
+| [最新 CUDA Graph 分支正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) | 乾淨 `4329ed7`／`d21a144`；F04、tracking、stream 守門與 M4 21/21 輸出比對 PASS |
+| [M4 正式評估與 P01](evidence/m4/2026-11-03-formal-cad5298/REPORT.md) | `cad5298`；P01 CLOSED（有範圍），MOT17-02 HOTA 40.6／AP50 72.91%；品質只作記錄 |
+| [M3 TrackingSession 正式驗收](evidence/tracking-session/2026-11-03-formal-e021bd1/REPORT.md) | `e021bd1`；完整 tracking 接續、packet／MOT 與 CPU reference 比對 |
+| [F04 平行 finalize 正式驗收](evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md) | `e4d45de`；HR finalize 約 1,539→50 µs，輸出 bytes 不變；各輪結果見 POSTPROCESS §5 |
+| [F03 producer 正式驗收](evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)／[F04 原 adaptive 正式驗收](evidence/f04/2026-10-31-formal-995bca5/REPORT.md) | 各自的 640 FP32 primitive 範圍與歷史來源 |
+| [F01／F02 使用驗收](evidence/preprocess/2026-10-31-usage/REPORT.md)／[detection session 開發驗證](evidence/detection-session/2026-10-31/REPORT.md) | 各自固定輸入、輸出等價與資源重用範圍 |
+| [CUDA Graph 開發量測](evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms；保留開發來源與首幀成本，不混作正式驗收測時 |
+| [Tracking 排序開發量測](evidence/tracking-sort/2026-11-04/REPORT.md) | F04b replay 143.57→102.81 µs；完整吞吐幾乎不變，不宣稱穩定端到端收益 |
+| [硬體資源與階段延遲](evidence/resource-schedule/2026-11-04/REPORT.md)／[排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md) | 單幀平均 6.988 ms、queued 吞吐約 184.8 FPS；2 格 ring 的單次交付延遲 10.740 ms；完整 HR racecheck 曾 OOM／timeout，限制保留 |
+
+## 建置與驗證
 
 所有建置與驗收輸出都放在 `build/<名稱>/`，整個 `build/` 不入 Git：日常建置用 `build/cpu`、`build/cuda`，驗收腳本只接受新的 `build/<名稱>` 輸出目錄。根目錄不放其他建置資料夾；根目錄的 `build-*` 不再被忽略，誤建會出現在 `git status`，要求乾淨工作樹的驗收腳本也會拒絕執行。
+
+### CPU 協定與 reference
 
 使用 CMake ≥ 3.20 與支援 C++20 的 compiler，不需要 CUDA、TensorRT 或 Python：
 
@@ -56,6 +111,8 @@ build/cpu/model_manifest verify fixtures/model-manifest/contract.json build/cpu/
 
 這份 fixture 只驗證工具；CLI 將宣告、檔案完整性、模型內容分開回報，不能用 fixture 或檔案 hash 通過推導真實模型已就緒。
 
+### 合成 CUDA 骨架
+
 CUDA 骨架採可選建置，預設關閉；需 CUDA Toolkit、cuFFT 及可執行的 NVIDIA GPU：
 
 ```sh
@@ -67,6 +124,6 @@ build/cuda/cuda_synthetic config.txt output-directory
 
 CPU 模型與合成 GPU 測試各驗證明列的有限範圍。真實模型推論、phase correlation／GMC、tracker、MOT 輸出及模型 artifact P01 不在本骨架驗收範圍；實際 GPU 與工具身分、已執行及未驗證項目見 [CUDA_SYNTHETIC](docs/CUDA_SYNTHETIC.md)。
 
-CUDA 建置另含 `selective_scan_cuda_tests`：以相同 FP32 輸入對照 S01 reference，並驗證失敗 status、每次呼叫重設、指定 stream、graph capture、host 拒絕與 Cross-Scan；`--no-held-stream` 只供 initcheck 略過 host callback 擋住 stream 的那一項（[SCAN_CUDA §6](docs/SCAN_CUDA.md#6-測試矩陣與-mutation)）。結果與 sanitizer、mutation 證據見 [S02 證據](evidence/s02/2026-10-29/REPORT.md)；PASS 限 SCAN_CUDA 所列範圍。plugin 與最小 engine 的 S03 契約見 [SCAN_TRT](docs/SCAN_TRT.md)。完整 head 與候選權重見 [HEAD_TRT](docs/HEAD_TRT.md)：預設 CPU 建置含 `head_weights_tests`（checkpoint／bundle 拒絕條件）與 `head_reference_tests`（binary64 reference、primitive、語義變體）；給 `-DSACCADE_HEAD_CHECKPOINT` 時另轉換真實候選。CUDA＋TensorRT 建置另含 `head_trt` 生命週期工具與 `head_trt_tests`。FP16 與效能不在範圍內。
+CUDA 建置另含 `selective_scan_cuda_tests`：以相同 FP32 輸入對照 S01 reference，並驗證失敗 status、每次呼叫重設、指定 stream、graph capture、host 拒絕與 Cross-Scan；`--no-held-stream` 只供 initcheck 略過 host callback 擋住 stream 的那一項（[SCAN_CUDA §6](docs/SCAN_CUDA.md#6-測試矩陣與-mutation)）。結果與 sanitizer、mutation 證據見 [S02 證據](evidence/s02/2026-10-29/REPORT.md)；PASS 限 SCAN_CUDA 所列範圍。plugin 與最小 engine 的 S03 契約見 [SCAN_TRT](docs/SCAN_TRT.md)。完整 head 與候選權重見 [HEAD_TRT](docs/HEAD_TRT.md)：預設 CPU 建置含 `head_weights_tests`（checkpoint／bundle 拒絕條件）與 `head_reference_tests`（binary64 reference、primitive、語義變體）；給 `-DSACCADE_HEAD_CHECKPOINT` 時另轉換真實候選。CUDA＋TensorRT 建置另含 `head_trt` 生命週期工具與 `head_trt_tests`。此處原 S04 FP32 head 驗收不涵蓋 FP16 與效能；現行 HR FP16 部署見 [TRACKING §16](docs/TRACKING.md#16-d2hr-部署改用-fp162026-11-03-使用者核准)。
 
 CUDA suite 保留原有 72 個 sessions，另加 8 個 terminal observation 開關對照；CLI／證據檔案寫入會明確 close 並檢查結果，正常 session close 亦檢查所有資源釋放結果。這些檢查不承諾 `fsync` 耐久性；CPU cleanup fake 不代表實際 GPU API 錯誤注入已驗證。[原始 GPU 證據](evidence/cuda-synthetic/2026-10-28/REPORT.md) 保留不變，後續收尾與 I/O 驗證見 [closeout 證據](evidence/cuda-synthetic/2026-10-28-closeout/REPORT.md)；sanitizer 結論以該報告為準。

@@ -2,7 +2,7 @@
 
 把 T01 選定的模型接成完整的 F03：**模型輸入 `images` → YOLO26m backbone／neck（teacher e12，ONNX）→ P3／P4／P5 → S04 head（T1 epoch 1）→ 六個 raw outputs**，FP32，batch 1，T=1。數值政策固定在 [BACKBONE_POLICY](BACKBONE_POLICY.md)（`t01-backbone-fp32/1`、`t01-f03-fp32/1`，於 `fb10377` 先於任何 GPU 比較提交）；head 的比較器與規則仍是 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`）。不含 native 前處理（F01／F02：engine 輸入是訓練側產生的 FP32 tensor）、decode／NMS（F04）、tracker 與效能。
 
-結果見 [§5](#5-結果2026-10-30)。
+文件狀態（2026-11-04）：§1–§5 保留 T01 FP32 完整模型的契約與驗收紀錄，FP16 build 見 §6。目前部署為 HR 1280×768 FP16，完整 tracking 已完成 M0–M4，P01 **CLOSED（有範圍）**，見 [TRACKING §17.4](TRACKING.md#174-p01-判定標準) 與 [M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。原 FP32 結果見 [§5](#5-結果2026-10-30)。
 
 ## 1. Artifacts
 
@@ -65,7 +65,7 @@ capture 在獨立的 `SACCADE_T01_ROOT` 重新產生六個輸入與 binary64 ref
 
 開發中的觀察：ONNX Runtime CPU 的 Sigmoid 在 x < −8 相對誤差很大（政策 §5 的預檢）；TensorRT 的 FP32 SiLU 沒有這個問題（backbone 最大比值 0.030）。開發建置與 capture 的 engine hash 不同，輸出卻逐位元相同。
 
-**本 F03 capture 未涵蓋**：native 前處理（F01／F02）、decode／NMS（F04）、racecheck／synccheck、其他 GPU／版本。前處理與 F04 的獨立驗收現況分別見 [PREPROCESS](PREPROCESS.md)、[POSTPROCESS](POSTPROCESS.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作並有 [有界開發證據](../evidence/f03-producer/2026-10-31/REPORT.md)；完整 native 接續與 P01 仍 OPEN。
+**本 F03 capture 未涵蓋**：native 前處理（F01／F02）、decode／NMS（F04）、racecheck／synccheck、其他 GPU／版本。前處理與 F04 的獨立驗收現況分別見 [PREPROCESS](PREPROCESS.md)、[POSTPROCESS](POSTPROCESS.md)；[F03 producer 聚合器](MODEL_PRODUCER.md) 後續已完成乾淨 `a9c3d9b` 的 [正式驗收（受測範圍）](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)。完整 native tracking 與 P01 的後續結案見本文件頂端，不擴大本次 F03 capture 的涵蓋範圍。
 
 ## 6. FP16 build 模式（2026-11-03，[TRACKING §16](TRACKING.md#16-d2hr-部署改用-fp162026-11-03-使用者核准)）
 
@@ -82,4 +82,4 @@ capture 在獨立的 `SACCADE_T01_ROOT` 重新產生六個輸入與 binary64 ref
 
 ## Native detection session 接續
 
-完整 engine 已由 [`DetectionSession`](DETECTION_SESSION.md) 串接 native F01／F02、producer 聚合器及 F04。session 驗證完整 engine I/O，使用 zero auxiliary streams、同 detect stream 的模型 scratch 與跨 stream 候選 leases，並另行管理首次失敗與 checked drain；新增 session 的證據不回寫本文件原有 F03 數值驗收或模型品質。完整 tracking session／P01 仍 OPEN。
+完整 engine 已由 [`DetectionSession`](DETECTION_SESSION.md) 串接 native F01／F02、producer 聚合器及 F04。session 驗證完整 engine I/O，使用 zero auxiliary streams、同 detect stream 的模型 scratch 與跨 stream 候選 leases，並另行管理首次失敗與 checked drain；新增 session 的證據不回寫本文件原有 F03 數值驗收或模型品質。完整 tracking session 後續已完成 [M3 正式驗收](../evidence/tracking-session/2026-11-03-formal-e021bd1/REPORT.md)，P01 依 M4 **CLOSED（有範圍）**。2026-11-04 的 CUDA Graph／tracking 排序改版另有 [clean-source 驗收](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)，與原 FP32 數值驗收分開。

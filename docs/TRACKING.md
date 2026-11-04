@@ -1,6 +1,6 @@
 # Tracking 半段規格（F05–F09）
 
-日期：2026-11-03。狀態：M0–M4 完成（M4 結果見 §17.5）；P01 CLOSED（有範圍）。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)。
+規格日期：2026-11-03；文件狀態更新：2026-11-04。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序改版已完成最新 clean-source 驗收（§19）。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
 
 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
 
@@ -444,15 +444,18 @@ FP16 的偵測與 FP32 不完全相同，tracker 會放大這些差異，所以 
    - **身分鏈**：student checkpoint、teacher checkpoint、base 權重、backbone ONNX、head bundle 的 SHA-256 等於 `~/.cache/saccade-v1/hr-deploy/manifest.json` 的紀錄；build report（[evidence/precision/2026-11-03-formal/build-report.txt](../evidence/precision/2026-11-03-formal/build-report.txt)）的 `onnx_sha256`／`bundle_sha256`／`engine_sha256` 等於上述 ONNX、bundle 與部署 engine。
    - **CPU reference 對照**：每個序列的 `track_offline`（HR SCDR＋`m1-data` 的 SCMO）與 `track_sequence` 的 MOT 檔逐位元相同。
    - **與既有紀錄一致**：MOT17-10 的 SCDR 等於 `98e2554f…`、MOT 等於 `1fb713f3…`；5 個 in-domain 序列的 MOT 等於 [§16 的紀錄](../evidence/precision/2026-11-03-formal/tracking-mot.sha256)。
-   - **Stream 位置**：以 `nsys` 追蹤 HR FP16 `track_sequence` 的 MOT17-10 前 30 幀，由 [`scripts/check_stream_placement.py`](../scripts/check_stream_placement.py) 判定。從第一幀的 F02 kernel 起，每個 kernel 都要歸入恰好一類：
-     - D：TensorRT engine（launch 呼叫落在 `ExecutionContext::enqueueV3` 的 NVTX range 內，含 scan plugin）、F02、F05、producer、F04。
-     - M：cuFFT、F06、tracking、stage control、commit、packet。
-     - D 是 F02 kernel 的 stream，M 是 tracking kernel 的 stream，兩者不同。
-     - nvJPEG HARDWARE backend 的 `rgba2rgb` 跑在 nvJPEG 自己的 stream 上，不在 D。這就是 §14.1 那個順序問題的來源，session 以 host 等待 `rgb_read_done` 處理；這裡只記錄它的 stream。除了 nvJPEG，不得有 kernel 在 D、M 之外。
+   - **Stream 位置**：以 `nsys` 追蹤 HR FP16 `track_sequence` 的 MOT17-10 前 30 幀，由 [`scripts/check_stream_placement.py`](../scripts/check_stream_placement.py) 判定。2026-11-03 M4 原驗收採單次 capture；**2026-11-04 CUDA Graph 改版後**，同一 binary、輸入與設定須分別執行 `--cuda-graph-trace=node` 與 `--cuda-graph-trace=graph` 兩次 capture，兩次輸出的 MOT 檔必須相同。從第一幀的 F02 kernel 起：
+     - graph 外每個 kernel 歸入恰好一類。D：TensorRT engine（launch 在 `ExecutionContext::enqueueV3` NVTX range 內，含 scan plugin）、F02、F05、producer、F04；M：cuFFT、F06、tracking、stage control、commit、packet。
+     - D 是 graph 外 F02 kernel 的 stream，M 是 graph 外 tracking kernel（predict）的 stream，兩者不同。兩次 capture 各自辨識 D／M，不假定兩次的 stream IDs 相同。
+     - node capture 的 graph kernels 位於 profiler 合成 streams，且 replay 的 engine kernels 不在 `enqueueV3` NVTX range 內，故 graph 內改按內容分類：每張 graph 只能含 D 類或 M 類；D graph 內無法由名稱歸類的 kernel 才視為 engine，M graph 的所有 kernels 均須符合 M 名稱規則。
+     - graph capture 記錄 `cudaGraphLaunch` 的實際 stream。兩次 capture 的 launches 依 host 呼叫順序逐一配對，數量相同、graph IDs 一對一；D graph 每次均須 launch 於該 capture 的 D，M graph 均須 launch 於 M。這依賴兩次執行 launch 順序相同，由相同 binary／輸入／設定與相同 MOT 輸出支持。
+     - nvJPEG HARDWARE backend 的 `rgba2rgb` 跑在 nvJPEG 自己的 stream 上，不在 D。這就是 §14.1 那個順序問題的來源，session 以 host 等待 `rgb_read_done` 處理；這裡只記錄它的 stream。除了 nvJPEG，不得有 graph 外 kernel 在 D、M 之外；graph 內則核對其實際 launch stream。
 
      這對應 [ASYNC_CONTROL](ASYNC_CONTROL.md) 列入 P01／P05 的兩項。程式本身已保證這兩項：session 拒絕 aux streams ≠ 0 的 engine（`getNbAuxStreams() == 0`），cuFFT plan 每幀以 `cufftSetStream` 綁到 M。這一項是執行期的觀測確認。
 
      （修訂：本項原寫「nvJPEG 在 D」。開發 trace 顯示 `rgba2rgb` 在另一個 stream，因此在正式執行前改為只記錄 nvJPEG。這不影響 MOT17-02 的封存。）
+
+     CUDA Graph 規則的受測結果與 8 個負控制見 [clean-source 報告](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) 及 [placement-checker](../evidence/cuda-graph/2026-11-04-gate-d21a144/placement-checker/results.tsv)。這是 stream 守門的後續修訂，不改寫 §17.5 的 M4 原始 capture 或重新計分。
 
    守門通過後才計算 §17.2 的指標。
 3. **Evidence report**：記錄 source、環境、每個命令的 exit 與時間、hash、守門結果與全部指標。
@@ -501,3 +504,9 @@ P01 依 §17.4 記為 **CLOSED（有範圍）**，不涵蓋項目照 §17.4 所�
 F04b 在 device 驗證完整 pool 的 score/ID 順序；已有序時穩定壓實 suppressed，否則用完整 64-bit score/ID key 做 stable block radix。batch ID 排序對 2..32 rows 保留 rank，大於 32 用 stable radix；birth 對已排序 batch 直接遍歷，public 未排序輸入仍排序 index permutation。FP32 signed zero、完整 uint32 ID、原 index tie、finite checks 與 deferred error gates 均保持原語義。ABI、scratch allocation 及 tracker profile 不變。
 
 固定 HR replay 的 F04b 組裝 kernel 平均 143.57→102.81 µs（−28.39%），但完整路徑單幀平均僅 7.037→6.978 ms，p95 7.383→7.369 ms，吞吐幾乎不變；不宣稱穩定端到端收益。詳細範圍、控制案例、CPU bit 比較與 sanitizer 結果見 [排序開發報告](../evidence/tracking-sort/2026-11-04/REPORT.md)。這些是開發來源證據，不改寫 §17 的正式驗收與品質結果。
+
+## 19. CUDA Graph／排序改版正式驗收（2026-11-04）
+
+[Clean-source 正式報告](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) 已補完 Graph、tracking 排序與相關資源排程修改的驗收：步驟 1–3 使用乾淨 `4329ed7`，步驟 4–5 使用乾淨 `d21a144`。CPU 16/16、F04 5/5、mutations 15/15、完整 CUDA CTest 59/59 與報告所列 sanitizer／正控制全部通過；七序列的 T01 CPU／ordinary serial／graph pipelined 完整 packets 相同，HR 路徑與 §17.3 更新後的 stream 守門亦通過。
+
+HR FP16 七序列的 7 個 SCDR、7 個 MOT、7 個 offline MOT 與 M4 **21/21 逐位元相同**；未讀 GT、未重新計分。原 [CUDA Graph 測時](../evidence/cuda-graph/2026-11-04/REPORT.md)、§18 排序測時與 [資源排程報告](../evidence/resource-schedule/2026-11-04/REPORT.md) 保留開發來源身分；本次不改寫其失敗嘗試，也不將有限 sanitizer 結果延伸為完整 HR／TensorRT 內部驗收。仍未涵蓋項目見 §17.4 與 [STATUS](STATUS.md#未涵蓋與未完成邊界)。

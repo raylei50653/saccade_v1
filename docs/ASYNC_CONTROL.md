@@ -1,6 +1,6 @@
 # Saccade v1 非同步狀態流程控制
 
-狀態：同步協定與合成 CUDA 執行骨架。日期：2026-10-28。上層文件：[DATAFLOW.md](DATAFLOW.md)；實作資源、設定及實機驗證紀錄見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。模型推論、完整 GMC、tracker 與 MOT 仍依各自任務接續。
+狀態：同步協定；原規格日期：2026-10-28，實作狀態更新：2026-11-04。上層文件：[DATAFLOW.md](DATAFLOW.md)；合成骨架的獨立驗證見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。完整 GMC／tracker／MOT 已接通，現行所有權與正式驗收見 [TRACKING §14](TRACKING.md#14-m3tracking-session-規格)、[CUDA_GRAPH](CUDA_GRAPH.md) 與 [STATUS](STATUS.md)。
 
 本文件把 DATAFLOW §5–§7 的所有權、提交與結束語義落成可實作的執行協定，要求如下：
 
@@ -15,7 +15,7 @@
 | 執行者 | 內容 |
 | --- | --- |
 | H | 單一 host 提交執行緒：讀 JPEG、執行 nvJPEG host phase、依 k 遞增提交工作，並依序消費 ResultPacket。 |
-| D | detect stream：H2D、nvJPEG decode、F05、F02、F03、F04。 |
+| D | detect stream：F01／F02 → F05 → F03 → producer → F04；nvJPEG 的私有 stream 與 RGB 回收例外見 [TRACKING §14.1](TRACKING.md#141-每幀提交順序)。 |
 | M | main stream：F06、F08a、F04b、F07、F08b、commit、packet、D2H。 |
 
 D 與 M 都以 `cudaStreamNonBlocking` 建立。協定只依賴以下語義，依據見 [CUDA Runtime API：Stream Management](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__STREAM.html) 與 [Event Management](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__EVENT.html)：
@@ -201,7 +201,7 @@ DATAFLOW §3.1 規定失敗即終止序列。已排入的後續幀仍有 begin�
 | V05 compute-sanitizer | memcheck、initcheck、synccheck、racecheck。racecheck 只檢查 shared memory hazard，不涵蓋跨 stream 的 global memory，因此不能取代 V01–V04。 | kernel 內越界、未初始化讀取（例如首幀頻譜）、block 內同步錯誤。 |
 | V06 審查清單 | 每個新 buffer 或 kernel 都標明：A01 類別、寫入者與讀取者、ready／consumed edge、最後讀取 event，以及失敗時的 guard 行為。幀路徑出現 A06 禁用的 API 即不通過審查。 | 新程式碼偏離協定。 |
 
-設定治理與行為驗證的規則由 [DATAFLOW §4.4、§8.1](DATAFLOW.md) 定義。[C++ 狀態／封包模型](RESULT_PACKET.md) 覆蓋 begin／固定階段旗標／commit／packet、錯誤注入及穩定編碼；`packet_compare` 比較完整固定容量封包串流。合成資料的最小 typed resolved 設定、穩定序列化／hash、GPU packet writer、serial／pipelined 執行與驗證入口見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。此設定只涵蓋本骨架；完整模型與 tracker 的 P08 設定、lifecycle／bridge 事件模型及 MOT 比較仍待各自模組實作。行為 hash 與閾值距離不縮減 A10／V04 的逐位元比較範圍，也不取代 V01–V06。
+設定治理與行為驗證的規則由 [DATAFLOW §4.4、§8.1](DATAFLOW.md) 定義。[C++ 狀態／封包模型](RESULT_PACKET.md) 覆蓋 begin／固定階段旗標／commit／packet、錯誤注入及穩定編碼；`packet_compare` 比較完整固定容量封包串流。合成資料的最小 typed resolved 設定、穩定序列化／hash、GPU packet writer、serial／pipelined 執行與驗證入口見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。此設定只涵蓋本骨架；完整 tracking 的 lifecycle、CPU／GPU packets 與 MOT 比較已有 [TRACKING §14.5](TRACKING.md#145-m3-正式驗收在-capture-前固定) 的獨立證據，完整 P08 resolved schema／設定治理與 bridge 事件模型等其餘工具仍依 [DATAFLOW §9.2](DATAFLOW.md#92-真正待補齊的工程規格) 判定。行為 hash 與閾值距離不縮減 A10／V04 的逐位元比較範圍，也不取代 V01–V06。
 
 V01 的早期外部腳本紀錄沒有隨 `e08a1da` 入庫，不作可重跑證據。2026-10-28 已從本規格重新建立 repo 內的 C++ 模型，以下數字由 `build/protocol_model --self-test` 重跑得到：
 
@@ -225,4 +225,4 @@ V01 的早期外部腳本紀錄沒有隨 `e08a1da` 入庫，不作可重跑證�
 
 ## Native detection session 的已實作子集
 
-[`DetectionSession`](DETECTION_SESSION.md) 已將 F01／F02→F03→producer aggregate→F04 接成 bounded async detection session，實作 CS ready／consumed、pinned host result ring、device 首次失敗鎖定、完整候選交付及 D／M 終端 drain。它沿用單 staging 的 `NativePreprocessor`；M 目前只做候選 consumer／session commit，不包含 MI、GMC、F04b、tracker 或 tracking ResultPacket。新增有限 happens-before 模型檢查 18 組設定及六種缺邊／錯綁變體；實機覆蓋以 session 證據為準，不沿用合成骨架的 GPU 結論。完整 §4 tracking 流程及雙 STAGE overlap 仍待接續。
+[`DetectionSession`](DETECTION_SESSION.md) 已將 F01／F02→F03→producer aggregate→F04 接成 bounded async detection session，實作 CS ready／consumed、pinned host result ring、device 首次失敗鎖定、完整候選交付及 D／M 終端 drain。它沿用單 staging 的 `NativePreprocessor`；此獨立 API 的 M 只做候選 consumer／session commit，不包含 MI、GMC、F04b、tracker 或 tracking ResultPacket。新增有限 happens-before 模型檢查 18 組設定及六種缺邊／錯綁變體；實機覆蓋以 detection session 證據為準，不沿用合成骨架的 GPU 結論。完整 §4 tracking 流程已由獨立的 [TrackingSession](TRACKING.md#14-m3tracking-session-規格) 接通，含 F05 最後讀取 RGB 後的 host wait；雙 STAGE host overlap 尚未實作。當前各資源 lease 與 graph 重播條件見 [owner 表](../evidence/resource-schedule/2026-11-04/ownership.csv) 與 [安全審查](../evidence/resource-schedule/2026-11-04/safety-review.md)。

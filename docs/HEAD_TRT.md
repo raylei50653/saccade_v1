@@ -2,7 +2,9 @@
 
 S04 把 [S01](SCAN_CONTRACT.md)／[S02](SCAN_CUDA.md)／[S03](SCAN_TRT.md) 接成完整的原版 m head：**固定權重身分 → native 權重 bundle → native TensorRT 建圖 → 獨立 binary64 reference 對照全部 raw cls／reg → 既有 frame 完成與失敗流程**。邊界是 **P3／P4／P5 features 輸入到六個 raw outputs**；FP32，batch 1，T=1，不保留跨 frame 狀態。不含新訓練、FP16、效能最佳化、decode／NMS、tracker、GMC、MOT writer，也不含 backbone／neck 推論。
 
-本文件描述契約與重跑方式；數值政策固定在 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`，於 `4d38bcc` 先於任何 GPU 比較提交）。**S04 PASS**，正式結果來自 clean-source archive 的 [S04 證據](../evidence/s04/2026-10-30/REPORT.md)，範圍限指定候選權重、固定介面與受測 FP32 head 的數值、執行與失敗傳遞。head racecheck／synccheck 未執行；P01 仍 OPEN。開發紀錄、失敗 attempt 與未完成事項見 [§9](#9-執行紀錄與待完成事項)。
+本文件描述契約與重跑方式；數值政策固定在 [HEAD_POLICY](HEAD_POLICY.md)（`s04-head-fp32/1`，於 `4d38bcc` 先於任何 GPU 比較提交）。**S04 PASS**，正式結果來自 clean-source archive 的 [S04 證據](../evidence/s04/2026-10-30/REPORT.md)，範圍限指定候選權重、固定介面與受測 FP32 head 的數值、執行與失敗傳遞。head racecheck／synccheck 未執行；S04 驗收當時（2026-10-30）P01 保持 OPEN。開發紀錄、失敗 attempt 與未完成事項見 [§9](#9-執行紀錄與待完成事項)。
+
+文件狀態（2026-11-04）：本文件保留 S04 FP32 head 的契約與驗收紀錄；後續 HR FP16 完整模型與 tracking 已完成 M0–M4，P01 **CLOSED（有範圍）**，依 [TRACKING §17.4](TRACKING.md#174-p01-判定標準) 與 [M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md) 判定。
 
 ## 1. 固定範圍
 
@@ -129,8 +131,8 @@ build/s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--
 ## 8. 支援範圍與未完成事項
 
 - S04 head PASS 的意思是：**指定權重、固定介面與受測範圍內**，完整 FP32 head 的數值、執行與失敗傳遞已驗證。它不代表 detector、模型品質或 P01 通過。head suite 的 memcheck／initcheck、native ownership／graph／streams 與 S03 四種 sanitizer 有正式證據；**完整 head 的 racecheck／synccheck 未執行**，不能列為 sanitizer PASS。
-- **P01 仍 OPEN**：matching YOLO26m backbone／neck 只完成舊 `yolo26m_backbone_640.onnx` 的 ordered I/O 結構查核（`images [b,3,640,640]` → `p3_feat`／`p4_feat`／`p5_feat`，形狀符合 head 輸入）；其權重歸屬、native engine、與 T1 head 的配對與推論未驗；影像前處理（RGB、/255、640 stretch、decode 後端）的 native 實作未完成，訓練側契約已由 T01 固定為 nvJPEG GPU decode＋float antialiased stretch（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）；decode／NMS 與候選容量（F04）未定；候選 checkpoint 以 training loss 選取、無 holdout，品質未驗收。
-- 不支援：FP16／INT8、batch≠1、動態 shape、T>1 temporal 路徑、Winograd／FFT tactics（建置時拒絕）。S02 的範圍灰區與次正常數限制照常適用。
+- **S04 驗收時的缺件（2026-10-30，P01 當時 OPEN）**：matching YOLO26m backbone／neck 只完成舊 `yolo26m_backbone_640.onnx` 的 ordered I/O 結構查核（`images [b,3,640,640]` → `p3_feat`／`p4_feat`／`p5_feat`，形狀符合 head 輸入）；其權重歸屬、native engine、與 T1 head 的配對與推論未驗；影像前處理（RGB、/255、640 stretch、decode 後端）的 native 實作未完成，訓練側契約已由 T01 固定為 nvJPEG GPU decode＋float antialiased stretch（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）；decode／NMS 與候選容量（F04）未定；候選 checkpoint 以 training loss 選取、無 holdout，品質未驗收。
+- 本節 S04 FP32 head 範圍不支援：FP16／INT8、batch≠1、動態 shape、T>1 temporal 路徑、Winograd／FFT tactics（建置時拒絕）。S02 的範圍灰區與次正常數限制照常適用。
 - 舊 `mamba_head_26m.engine`／`.onnx` 未作執行基線；本輪 engine 由 v1 source 自建，身分記於 build evidence。
 
 ## 9. 執行紀錄與待完成事項
@@ -162,7 +164,7 @@ build/s04/head_trt_tests head.engine ENGINE_SHA BUNDLE BUNDLE_SHA report.tsv [--
 
 [capture.sh](../evidence/s04/2026-10-30/capture.sh) 在每一步前後拒絕 HEAD／工作樹變動，核對報告中的受測 SHA 與 `build_dirty=false`；同一 source 兩次 engine 建置必須逐 byte 相同。mutation 只接受 exit 1 與指定的 test／tactic guard 拒絕診斷，timeout、crash 或無關 I/O 失敗不算 detection。全程 `free -m` 取樣連同三次失敗 attempt 的 source／archive hash、exit codes、memcheck raw log 或 mutation 分類結果保留於 evidence；三次失敗分別存於 `capture/failed-attempt/`、`capture/failed-attempt2/`、`capture/failed-attempt3/`，第四次正式結果來自本機 `build-s04-evidence4/`。
 
-**後續缺件。** [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md) 記錄 S04 判定；本輪 source 與後續 evidence／docs commit 的推送、遠端 SHA 與 CPU CI 於交付回報分開記錄。本輪不關閉 P01：matching backbone／neck、影像前處理、decode／NMS 與模型品質仍需各自驗收。
+**當時的後續缺件（2026-10-30）。** [MODEL_FEASIBILITY](MODEL_FEASIBILITY.md) 記錄 S04 判定；本輪 source 與後續 evidence／docs commit 的推送、遠端 SHA 與 CPU CI 於交付回報分開記錄。本輪不關閉 P01：matching backbone／neck、影像前處理、decode／NMS 與模型品質仍需各自驗收。
 
 ## 10. T01 候選的延續驗證（2026-10-30）
 
@@ -191,7 +193,7 @@ capture：[evidence/t01/2026-10-30/native-head/capture.sh](../evidence/t01/2026-
 | Engine | `5b6d30fa…`，兩次建置逐 byte 相同 |
 | 診斷：PyTorch T1 head vs native | 相對 L2 ≤ 6.5e-7；decode 後偵測數與次序相同 |
 
-這是 head 範圍內的 PASS；backbone／neck native engine、native 前處理、decode／NMS 仍未完成，P01 仍 OPEN。
+這是 head 範圍內的 PASS；在本輪 head capture 當時（2026-10-30），backbone／neck native engine、native 前處理、decode／NMS 尚未完成，P01 保持 OPEN。後續 F03 接入見 §11；目前部署與 P01 狀態見本文件頂端。
 
 ## 11. F03 的 head 接入（2026-10-30）
 

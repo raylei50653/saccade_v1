@@ -1,6 +1,6 @@
 # S03 TensorRT FP32 scan plugin 與 frame-end harness
 
-S03 將 [S02 CUDA FP32 forward](SCAN_CUDA.md) 接到 TensorRT 10.16.1.11 的 `IPluginV3One`，並用最小 engine 驗證 status 到 frame 結尾的交接。scan／Cross-Scan 直接連結 S02 library；FP32 算法、支援限制與逐元素誤差界維持 [SCAN_CUDA §3–§5](SCAN_CUDA.md#3-fp32-算法s02-基準)。這不是完整 YOLO26m head、真實權重、FP16、效能或 P01 模型驗收；這些留在 S04／P01 OPEN。
+S03 將 [S02 CUDA FP32 forward](SCAN_CUDA.md) 接到 TensorRT 10.16.1.11 的 `IPluginV3One`，並用最小 engine 驗證 status 到 frame 結尾的交接。scan／Cross-Scan 直接連結 S02 library；FP32 算法、支援限制與逐元素誤差界維持 [SCAN_CUDA §3–§5](SCAN_CUDA.md#3-fp32-算法s02-基準)。本 S03 驗收範圍不含完整 YOLO26m head、真實權重、FP16、效能或 P01 模型判定。文件狀態（2026-11-04）：後續 S04 已 PASS，見 [HEAD_TRT](HEAD_TRT.md)；現行 HR FP16／P01 有範圍結案見 [STATUS](STATUS.md)，不擴大原 S03 範圍。
 
 本文件描述實作契約。S03 是否通過，以對應 source commit 的 [S03 證據](../evidence/s03/2026-10-29/REPORT.md) 為準；沒有完整 capture／sanitizer／mutation 證據時不得宣告 PASS。
 

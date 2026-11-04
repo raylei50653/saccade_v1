@@ -2,6 +2,8 @@
 
 [`NativePreprocessor`](../include/saccade/preprocess.hpp) 實作 `t01-input/1`：C++ 讀壓縮 JPEG，nvJPEG hardware backend 解碼成原尺寸 planar RGB uint8，再以 CUDA FP32 `/255` 與 antialiased bilinear、`align_corners=False` stretch 產生 `[1,3,640,640]`。不取整、不 clamp，沒有 mean／std、letterbox 或額外色彩轉換。數值比較政策為 [`t01-preprocess-fp32/1`](PREPROCESS_POLICY.md)，訓練側來源見 [T01 §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。**F01／F02 使用驗收在受測範圍 PASS**：依 [`t01-preprocess-usage/1`](PREPROCESS_USAGE_POLICY.md)，[正常使用補驗](../evidence/preprocess/2026-10-31-usage/REPORT.md)的 208 幀 RGB／FP32 全部與固定 reference 逐位元相同；[既有 17 組對照](../evidence/preprocess/2026-10-31/REPORT.md)亦保留。nvJPEG initcheck FAIL／原因 OPEN 另列診斷，不再作為目前使用結案的門檻。
 
+文件狀態（2026-11-04）：本頁保留原 T01 640×640 數值與使用驗收範圍。現行 TrackingSession 使用 HR 1280×768 模型輸入，完整 tracking 與 P01 已在 M4 **CLOSED（有範圍）**，見 [TRACKING §14–§17](TRACKING.md)、[M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md) 與[目前狀態](STATUS.md)。此更新不改判 nvJPEG initcheck 診斷。
+
 ## 1. 支援範圍與 API
 
 F01 使用 `nvjpegCreateEx(NVJPEG_BACKEND_HARDWARE)`、batch size 1 的 `nvjpegDecodeBatched` 與 `NVJPEG_OUTPUT_RGB`；只接受 baseline DCT、8-bit、三 component YCbCr 4:2:0 JPEG，並逐張核對 `nvjpegDecodeBatchedSupported`。沒有 hardware backend、progressive／gray／CMYK／4:4:4、錯誤或截斷 JPEG、超容量與 metadata 尺寸不符均明確失敗，不轉用其他 decoder。
@@ -26,7 +28,7 @@ F02 的獨立低階介面 [`resize_rgb_chw_cuda`](../include/saccade/resize_cuda
 
 目前採一份 host staging 與一份 decode state。下一次 `enqueue` 在改寫 staging 前，host 等待前一幀 **F02 完成**的 event。下游 RAW／RGB 讀取還須由 caller 等待最後 reader 完成；nvJPEG HARDWARE 的內部 stream 不受較早 D 工作的順序保護。TrackingSession 在 F05 後 record `rgb_read_done`，並在下次 decode 前由 host 等待。模型輸入的 F03 讀取先排入 D，則由 D 順序保護下一次 F02 覆寫。
 
-這是 F01／F02 的獨立串流實作；[ASYNC_CONTROL §3–4](ASYNC_CONTROL.md#3-資源分類與數量) 的雙 STAGE、decoupled host／transfer／device API 與跨幀 host phase 重疊仍屬完整 session 的接續整合。此版本不把單 staging 的 host 等待冒稱為雙 slot pipeline，也未接入 F05、F03、ResultPacket 或 tracker。
+這是 F01／F02 的獨立串流實作；[ASYNC_CONTROL §3–4](ASYNC_CONTROL.md#3-資源分類與數量) 的雙 STAGE、decoupled host／transfer／device API 與跨幀 host phase 重疊仍待實作。現行 [TrackingSession](TRACKING.md) 已由 caller 接通 F05、F03、ResultPacket 與 tracker，仍沿用單 staging 的 host 等待，不能冒稱雙 STAGE overlap。
 
 任一 `enqueue`／`wait` 失敗即 latch 序列失敗，後續呼叫拒絕繼續；下一序列建立新 instance。呼叫者須明確 `close()`，其 checked drain 等待 borrowed stream 已排入的工作，再釋放所有 nvJPEG／CUDA 資源並回報釋放錯誤；destructor 僅作 best effort。檔案讀取錯誤由 checked file I/O 回報；此工具沒有 sequence iterator，因此也不以 decode 錯誤表示正常 EOF。
 
@@ -89,7 +91,7 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 
 [後續邊界證據](../evidence/preprocess/2026-10-31-f01-boundary/REPORT.md)已將同一 nvJPEG binary 的 `rgba2rgb<3> +0x170` 還原為 32-bit load，只有低三 bytes 寫入 RGB planes；動態 driver callbacks 亦確認當次 source、512-byte pitch、16 KiB allocation 與獨立 destination。三種正常配置、共六次 decode 都記錄到 converter private stream → event record → caller stream wait 的成功提交鏈，RGB 與固定 reference 全 bytes 相同。這說明 nvJPEG 的內部 kernel 可以在 private stream 執行，再把依賴接回呼叫者的 detect stream；caller 仍依原 API 契約排序下游工作。
 
-16 KiB 是 allocation 大小，不是已確認的物理 page；initcheck 報告涵蓋有效 RGB bytes，不能解讀成只有頁尾／padding 未初始化。CPU debugger 另確認實際 `NVJPGV2BatchedDecoder` 與 `libnvcuvid` 私有 provider 路徑；hardware producer → converter 的完成／可見性語義、工具 shadow 行為及一般同步正確性仍有未完成的證明義務。這些是獨立診斷，不提升為新的 application acceptance，F01 initcheck FAIL／原因 OPEN 與 P01 OPEN 保留。
+16 KiB 是 allocation 大小，不是已確認的物理 page；initcheck 報告涵蓋有效 RGB bytes，不能解讀成只有頁尾／padding 未初始化。CPU debugger 另確認實際 `NVJPGV2BatchedDecoder` 與 `libnvcuvid` 私有 provider 路徑；hardware producer → converter 的完成／可見性語義、工具 shadow 行為及一般同步正確性仍有未完成的證明義務。這些是獨立診斷，不提升為新的 application acceptance，F01 initcheck FAIL／原因 OPEN 保留；本輪診斷不判定 P01，現行 P01 的有範圍結案見 [TRACKING §17.4](TRACKING.md)。
 
 [不改像素的 NVTX 對照](../evidence/preprocess/2026-10-31-f01-boundary/annotation/REPORT.md)另在同一診斷 binary、五個獨立 process 執行 A→B→A：只標記私有 surface 的有效 RGB bytes，後兩輪新增報告由 1,890 降到 0；alpha-only、caller-output 或 NVTX 關閉的控制均仍新增 1,890，全部 RGB 與各自獨立 reference exact。每組首輪 945 errors 與 exit 99 保留；標記前後另有明示的診斷同步。這支持有效 RGB bytes 的追蹤狀態是本機報告的關鍵，但 annotation 本身刻意排除檢查，不是原 runtime 修正或一般硬體同步證明。
 
@@ -109,4 +111,4 @@ Native `run` 產生 `case-000.rgb`／`.f32` 等檔案，真實 JPEG 各有 `case
 
 ## Native F01–F04 session 接續
 
-[`DetectionSession`](DETECTION_SESSION.md) 現在管理這個前處理器的 detect stream 與生命週期，將其輸入直接交給完整 F03 engine、producer aggregate 及 F04；跨 stream 候選 ready／consumed、host 接收 ring 與 session 首次失敗由 session 負責。原單 staging／同 stream borrowed-buffer 合約不變，完整 tracking ResultPacket／GMC／tracker 與雙 STAGE host overlap 仍未涵蓋。
+[`DetectionSession`](DETECTION_SESSION.md) 管理這個前處理器的 detect stream 與生命週期，將其輸入直接交給完整 F03 engine、producer aggregate 及 F04；跨 stream 候選 ready／consumed、host 接收 ring 與 session 首次失敗由 session 負責。該 detection session 的驗收範圍不含 tracking ResultPacket／GMC／tracker；這些已由 [TrackingSession](TRACKING.md) 接通並獨立驗收。原單 staging／同 stream borrowed-buffer 合約仍須遵守，雙 STAGE host overlap 尚未實作，後續項目見 [BACKLOG](BACKLOG.md)。

@@ -2,6 +2,8 @@
 
 [`DetectionSession`](../include/saccade/detection_session.hpp) 將 HARDWARE nvJPEG F01、原有 antialiased stretch F02、完整 TensorRT F03、[`f03-producer/1`](MODEL_PRODUCER.md) 及 [`F04`](POSTPROCESS.md) 接成一個 bounded async detection session。這裡的 M stream 是候選 consumer／session commit；不包含 F05、GMC、F04b、tracker、tracking ResultPacket 或 MOT writer。其驗證不能作為完整 tracking session 或 P01 的結案。
 
+文件狀態（2026-11-04）：本 API 的 [2026-10-31 開發來源驗證](../evidence/detection-session/2026-10-31/REPORT.md) PASS（受測範圍）。後續完整 pipeline 使用獨立的 [TrackingSession](TRACKING.md)，已完成 M3／M4 與 CUDA Graph 正式驗收、P01 CLOSED（有範圍）；兩個 API 的驗收身分分開，現況見 [STATUS](STATUS.md)。
+
 ## 所有權與同步
 
 一個 instance 對應一個 host submitter、一個 epoch 及一個連續零起始 frame 序列。session 擁有兩條 explicit non-default streams D／M、TensorRT runtime／engine／context、前處理器及所有 buffers。固定模型介面由 `model_io_spec()` 核對名稱、mode、dtype、shape、linear device layout 及完整 I/O 集合；本版要求 engine auxiliary streams 為零。建構時配置並初始化資源，載入 kernels，在任何 frame 前完成 D／M 初始化同步。建構時以零 input 在相同 TensorRT context 執行一次 warmup，只寫初始化 scratch，不算 accepted frame；完成後將 plugin statuses 重設為 invalid，避免首次模型載入混入正常 frame 的時序。

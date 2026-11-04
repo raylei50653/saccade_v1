@@ -2,7 +2,9 @@
 
 查核日期：2026-10-29。v1 模型基線依使用者決策改為 **YOLO26m backbone／neck＋原版 m T3→T1 對應的 Mamba-FPN head**，640×640、單幀 T=1。本文件固定該 head 的 scan 算子與 Cross-Scan 契約，作為 S01 scalar reference 的依據；重跑命令與原始 captures 見 [本輪證據](../evidence/s01/2026-10-29/REPORT.md)。
 
-**狀態：** `saccade::SelectiveScan` 與四方向 Cross-Scan 的數學、tensor 邊界、狀態生命週期已由實作核實；S01 reference 與 fixtures 依 §5 驗收（結果見 [MODEL_FEASIBILITY §3](MODEL_FEASIBILITY.md#3-s01s04-的接續條件)）。S02／S03 已接上 CUDA 與 TensorRT plugin；**2026-10-30 S04 PASS**，以指定的 T1 候選 checkpoint 完成 head 權重 native 交付與完整 FP32 TensorRT head 的數值、執行及失敗傳遞驗證；正式 clean-source 結果與範圍見 [S04 證據](../evidence/s04/2026-10-30/REPORT.md)。完整 head 的 racecheck／synccheck 未執行，限制見 [HEAD_TRT §9](HEAD_TRT.md#9-執行紀錄與待完成事項)。P01 仍 OPEN：matching backbone／neck、前處理與 decode 未交付（§7、[readiness §8](MODEL_ARTIFACT_READINESS.md#8-2026-10-30-s04head-權重的-native-交付與完整-head)）。前一版的 s／D1 調查保留為歷史，見 §8。
+**狀態：** `saccade::SelectiveScan` 與四方向 Cross-Scan 的數學、tensor 邊界、狀態生命週期已由實作核實；S01 reference 與 fixtures 依 §5 驗收（結果見 [MODEL_FEASIBILITY §3](MODEL_FEASIBILITY.md#3-s01s04-的接續條件)）。S02／S03 已接上 CUDA 與 TensorRT plugin；**2026-10-30 S04 PASS**，以指定的 T1 候選 checkpoint 完成 head 權重 native 交付與完整 FP32 TensorRT head 的數值、執行及失敗傳遞驗證；正式 clean-source 結果與範圍見 [S04 證據](../evidence/s04/2026-10-30/REPORT.md)。完整 head 的 racecheck／synccheck 未執行，限制見 [HEAD_TRT §9](HEAD_TRT.md#9-執行紀錄與待完成事項)。S04 驗收當時（2026-10-30）P01 保持 OPEN，缺件快照見 §7 與 [readiness §8](MODEL_ARTIFACT_READINESS.md#8-2026-10-30-s04head-權重的-native-交付與完整-head)。前一版的 s／D1 調查保留為歷史，見 §8。
+
+文件狀態（2026-11-04）：scan 契約持續適用；本文件的 640×640 tensor／anchor 數與舊 artifact 缺件表保留原查核範圍。現行部署已為 HR 1280×768 FP16，P01 **CLOSED（有範圍）**，見 [TRACKING §17.4](TRACKING.md#174-p01-判定標準) 與 [M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。
 
 狀態用語：**已核實**＝下列來源的實作或實際檔案如此記載；**v1 決策**＝來源未規定或互不一致，v1 依來源可支援的交集訂定；**缺件**＝本輪無法核實。
 
@@ -87,11 +89,11 @@ T 另含 `temporal_blocks`／`flow_gate_conv`，T=1 時繞過，O 中沒有對�
 | 輸出順序 | `cls_p3`, `cls_p4`, `cls_p5`, `reg_p3`, `reg_p4`, `reg_p5`；FP32 NCHW `[batch,80,H,W]`／`[batch,4,H,W]`，raw logits 與 raw distances（圖內無 sigmoid）。 | 已核實：O outputs、[X 229–258][export-onnx] |
 | 類別 | 80 類（COCO 定義由 teacher／base 繼承）；訓練時 MOT17 pedestrian 映射 class 0。 | 已核實：T `num_classes=80`、TRAINING_WORKFLOW §3；類別名單本身未由 head 交付 |
 | box 編碼 | reg_max=1、無 DFL；ltrb 以 cell 為單位，anchor＝(x+0.5, y+0.5)，xywh 後乘 stride 8／16／32；score＝sigmoid 後取 max class。三層依 P3→P5、row-major 展平串接，共 8400 raw anchors。 | 已核實：[mamba_gated_detector.py 117–195][decode]（同 revision）。屬舊庫 Python 後處理，不是 head 圖的一部分 |
-| decode 責任與容量 | head 圖不含 decode／NMS。v1 由 F04 負責；候選上限、padding、invalid mask、class tie 規則未定。 | 缺件：P02／F04；S04 的驗收邊界止於六個 raw outputs，不含 decode |
+| decode 責任與容量 | head 圖不含 decode／NMS。v1 由 F04 負責；S01 查核時候選上限、padding、invalid mask、class tie 規則未定，後續已固定於 [POSTPROCESS_POLICY](POSTPROCESS_POLICY.md)。 | S04 的驗收邊界止於六個 raw outputs，不含 decode；F04 實作與證據見 [POSTPROCESS](POSTPROCESS.md) |
 
 ## 7. 來源差異、衝突與缺件
 
-下表的舊 engine 與 checkpoint 調查保留 S01 查核時的來源事實。S04 已交付指定 T1 候選的 native head bundle 與 v1 自建 head engine；matching backbone／neck 仍未驗收，更新狀態見 [readiness §8](MODEL_ARTIFACT_READINESS.md#8-2026-10-30-s04head-權重的-native-交付與完整-head)。
+下表的舊 engine 與 checkpoint 調查保留 S01／S04 查核時（2026-10-29–30）的來源事實與缺件；S04 當時已交付指定 T1 候選的 native head bundle 與 v1 自建 head engine，matching backbone／neck 尚未驗收（[readiness §8](MODEL_ARTIFACT_READINESS.md#8-2026-10-30-s04head-權重的-native-交付與完整-head)）。後續 T01 matching backbone 與 F03 驗收見 [MODEL_TRT](MODEL_TRT.md)，現行部署與 P01 狀態見本文件頂端；舊 engine 的歸屬不由新模型驗收補證。
 
 | 項目 | 具體內容與處理 | 影響階段 |
 | --- | --- | --- |
@@ -100,10 +102,10 @@ T 另含 `temporal_blocks`／`flow_gate_conv`，T=1 時繞過，O 中沒有對�
 | A rows 判定 | H：`rows == Dc` 才 per-channel，否則讀第 0 列；P：`rows > 1` 即 per-channel，rows<Dc 會越界。合法值 {1,Dc} 下一致，非法值 v1 拒絕。 | 已處理（v1 決策） |
 | C width | H：`expand` 只允許 1；P：只有 1 才 broadcast，其他值會讀越界。合法 {1,N}，其餘拒絕。 | 已處理（v1 決策） |
 | D skip 時點 | 訓練期 K（R）在第二個迴圈對已存的 y 加 D·u；H 版同一迴圈。FP32 相同、FP16 會多一次 half 捨入。 | S02 為同一迴圈（FP32）；FP16 屬 S03 |
-| 部署精度 | 現行 `build_mamba_head_trt.py` 預設開 FP16 與 TF32，且 plugin 接受 HALF；7 月 engine 的實際 build revision 與 flags 未記錄。 | 缺件：P01／S03 |
+| 部署精度 | 查核時的舊庫 `build_mamba_head_trt.py` 預設開 FP16 與 TF32，且 plugin 接受 HALF；7 月 engine 的實際 build revision 與 flags 未記錄。 | 缺件：P01／S03 |
 | checkpoint ↔ 部署 | preset 指定 T1 主線 T，但 head engine 的 sibling ONNX O 來自 `…_gpu_decode/best_recall.ckpt`（X 的預設值，65/65 initializer 相符）。engine `c0c0e3e1…` bytes 本身仍未歸屬。 | 缺件：P01 |
 | 訓練 source 身分 | checkpoint 未記錄 source revision；T 的 args 鍵指向 ≥ R 或含相同變更的 dirty tree。scan 定義在 R 與 H 間語義相同，但這不是逐位元 provenance。 | 記錄於 evidence；不阻塞 S01 |
-| native 權重 | S01 查核時 T1 主線只有 pickle checkpoint，O 屬另一個 checkpoint。S04 已 native 讀取指定 T1 候選並交付 C++ bundle；matching backbone／neck 僅查舊 ONNX ordered I/O，其權重歸屬、engine 與推論未驗。新 run 尚未啟動。 | head 工程候選已交付；P01 仍 OPEN（[readiness §8](MODEL_ARTIFACT_READINESS.md#8-2026-10-30-s04head-權重的-native-交付與完整-head)） |
+| native 權重 | S01 查核時 T1 主線只有 pickle checkpoint，O 屬另一個 checkpoint。S04 已 native 讀取指定 T1 候選並交付 C++ bundle；matching backbone／neck 僅查舊 ONNX ordered I/O，其權重歸屬、engine 與推論未驗。當時新 run 尚未啟動。 | head 工程候選已交付；當時 P01 保持 OPEN（[readiness §8](MODEL_ARTIFACT_READINESS.md#8-2026-10-30-s04head-權重的-native-交付與完整-head)） |
 
 ## 8. 歷史：s／D1 查核（2026-10-29 先前一輪）
 

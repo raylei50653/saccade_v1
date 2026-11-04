@@ -1,6 +1,8 @@
 # F04：native 偵測後處理
 
-F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。**乾淨 `995bca5` 的 clean-source 正式驗收 PASS（受測範圍），F04 獨立結案**；source、binary、sanitizer 與六份 replay 身分見 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作，完整 async session 與 P01 仍 OPEN。2026-11-04：finalize 已依 [§5](#5-平行-finalize2026-11-04-實作前固定) 平行化，[驗收 PASS](../evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md)，輸出 bytes 不變。
+F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。原 adaptive 版本在乾淨 `995bca5` 的 **clean-source 正式驗收 PASS（受測範圍）**；source、binary、sanitizer 與六份 replay 身分見 [2026-10-31 正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分。2026-11-04：finalize 已依 [§5](#5-平行-finalize2026-11-04-實作前固定) 平行化，[正式驗收 PASS](../evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md)，輸出 bytes 不變；§5.8 保留第一輪速度門檻 FAIL 與第二輪 PASS。
+
+文件狀態（2026-11-04）：完整 tracking 與 P01 已在 M4 **CLOSED（有範圍）**，見 [TRACKING §17](TRACKING.md) 與 [M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。後續 CUDA Graph／tracking 排序版本已完成 [clean-source 正式驗收](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)：步驟 1–3 受測 `4329ed7`，步驟 4–5 受測 `d21a144`，7 序列的 21 個輸出與 M4 逐位元相同，未重新計分。這些後續證據不改寫原版 F04 的 source 或未執行項目；現行部署與剩餘限制見[目前狀態](STATUS.md)。本頁 640×640 shape／counts 保留原 T01 profile，現行 HR profile 見 [TRACKING §15–§16](TRACKING.md)，平行 finalize 見 §5。
 
 ## 1. 支援範圍與資料
 
@@ -58,7 +60,7 @@ M 是全部 8,400 個位置中 `score >= float(0.001)` 的數量，**在 class 0
 
 producer 是 caller-owned **唯讀**狀態。caller 必須在同 stream 排入本幀 raw／status producer，或以 producer-ready event 建立跨 stream 依賴；不能沿用前幀成功 marker。F04 不退休 producer、不鎖定整個 session 的首次失敗，也不代管下游 slot lease。raw、producer、output 與 workspace 必須活到其工作完成；交付 main stream 後，直到 F04b 最後讀取並發出 consumed，detect 才可覆寫該候選 slot。
 
-[F03 producer 聚合器](MODEL_PRODUCER.md) 已實作：檢查該 engine 的全部 9 個 plugin statuses 與完整 input／output finite checks，退休來源，再寫 aggregate flags／done。有界 live engine→F04 接續見 [開發證據](../evidence/f03-producer/2026-10-31/REPORT.md)。F04 replay 測試由 caller 提供明確 status，不能視為已完成此聚合器或 native F01→F03→F04 接續。完整 ready／consumed、session failure latch、drain／checked close 仍依 [ASYNC_CONTROL](ASYNC_CONTROL.md) 接續實作；CUDA API／launch error 直接拋 runtime error，不保證輸出完成 marker。
+[F03 producer 聚合器](MODEL_PRODUCER.md) 已實作：檢查該 engine 的全部 9 個 plugin statuses 與完整 input／output finite checks，退休來源，再寫 aggregate flags／done。有界 live engine→F04 接續已有乾淨 `a9c3d9b` 的 [正式證據](../evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)，原 [開發證據](../evidence/f03-producer/2026-10-31/REPORT.md) 保留。F04 replay 測試由 caller 提供明確 status，不能單憑此測試判定聚合器或 native F01→F03→F04 接續。ready／consumed、session failure latch、drain／checked close 已分別由 [DetectionSession](DETECTION_SESSION.md) 與 [TrackingSession](TRACKING.md) 接通，依各自證據判定；CUDA API／launch error 直接拋 runtime error，不保證輸出完成 marker。
 
 ## 3. 建置與重跑
 
@@ -123,7 +125,7 @@ build/f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 | Sanitizers／正控制 | memcheck／initcheck／racecheck／synccheck 各 **34,610 checks**，0 errors／hazards；四個正控制均以預期診斷及 exit 99 偵測。`--no-held-stream` 下的 callback gates 為 **UNEXECUTED**。 |
 | 語義變體 | **13/13 DETECTED**，各為預期完整診斷及 exit 1；還原 staged source 後 baseline **34,610 checks PASS**。變體 binary 屬獨立控制證據。 |
 
-結果限 raw predictions→`DetectionCandidates`、固定 inputs 與受測 GPU／toolchain。完整 F03 producer 聚合器、native F01→F03→F04 接續及完整 async session 尚未完成，P01 保留 OPEN。本次未重測效能。
+結果限 raw predictions→`DetectionCandidates`、固定 inputs 與受測 GPU／toolchain。在該次 2026-10-31 驗收時，完整 F03 producer 聚合器、native F01→F03→F04 接續及完整 async session 尚未完成，當時 P01 保留 OPEN；後續進展見[目前狀態](STATUS.md)。本次未重測效能。
 
 ### 4.2 保留的 adaptive 開發結果
 
@@ -169,7 +171,7 @@ build/f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 
 上述驗證限本機受測 GPU／CUDA 與固定 inputs，不繼承為其他環境的結果。F04 CPU ASan／UBSan 單項 1/1 通過；額外全 CPU Debug suite 中途停止，未列全套 ASan PASS。前處理 header 相容性 rebuild 與指定測試 2/2 通過，不重分類既知 nvJPEG initcheck 診斷。實際執行與開發失敗紀錄以原始報告為準。
 
-此實作的範圍是 raw predictions→`DetectionCandidates`；不包含 F03 producer 聚合器、native 前處理與模型接續、F04b 續追、GMC、tracker、ResultPacket 或 MOT writer。**完整 async session 與 P01 仍 OPEN**；T01 實驗不因此重開，也不由 F04 數值或執行驗證推導新的模型品質成績。
+原始 rank 版本的驗收範圍是 raw predictions→`DetectionCandidates`；不包含 F03 producer 聚合器、native 前處理與模型接續、F04b 續追、GMC、tracker、ResultPacket 或 MOT writer。**2026-10-31 當時完整 async session 與 P01 仍 OPEN**，後續已有獨立結案，見[目前狀態](STATUS.md)；T01 實驗不因此重開，也不由 F04 數值或執行驗證推導新的模型品質成績。
 
 ## 候選的 session owner
 

@@ -168,6 +168,41 @@ std::vector<Case> cases() {
         {"nms-greedy-chain", [](Raw& x, auto&, auto&) {
             for (unsigned i = 0; i < 3; ++i) { x.logit(i, 0, 3.0f - i); x.box(i, 4.0f * i, 0, 16.0f + 4.0f * i, 16); }
         }},
+        {"nms-uncompared-suppressed-pair", [](Raw& x, auto&, auto&) {
+            const float w = std::ldexp(1.0f, 62), h = std::ldexp(1.0f, 63);
+            x.logit(0, 0, 100); x.logit(1, 0, 0); x.logit(2, 0, 0);
+            // Areas 3, 4, 4.5 times 2^125; A/B IoU=3/4, C/A IoU=0.
+            x.box(0, 0, 0, 3 * w, h); x.box(1, 0, 0, 4 * w, h);
+            x.box(2, 8 * w, 0, 12.5f * w, h);
+        }},
+        {"nms-uncompared-after-decision", [](Raw& x, auto&, auto&) {
+            const float w = std::ldexp(1.0f, 62), h = std::ldexp(1.0f, 63);
+            x.logit(0, 0, 100); x.logit(1, 0, 0); x.logit(2, 0, 0);
+            // j1/j2 area sum=7.5 units; i/j1 IoU=5/7 decides before i/j2 sum=8.5.
+            x.box(0, 0, 0, 2.5f * w, h); x.box(1, 8 * w, 0, 13 * w, h);
+            x.box(2, 0, 0, 3.5f * w, h);
+        }},
+        {"nms-compared-failure-before-over", [](Raw& x, auto&, auto&) {
+            const float w = std::ldexp(1.0f, 62), h = std::ldexp(1.0f, 63);
+            x.logit(0, 0, 100); x.logit(1, 0, 0); x.logit(2, 0, 0);
+            x.box(0, 8 * w, 0, 12.5f * w, h); x.box(1, 0, 0, 3 * w, h);
+            x.box(2, 0, 0, 4 * w, h);
+        }},
+        {"nms-compared-over-before-failure", [](Raw& x, auto&, auto&) {
+            const float w = std::ldexp(1.0f, 62), h = std::ldexp(1.0f, 63);
+            x.logit(0, 0, 100); x.logit(1, 0, 0); x.logit(2, 0, 0);
+            x.box(0, 0, 0, 3 * w, h); x.box(1, 8 * w, 0, 12.5f * w, h);
+            x.box(2, 0, 0, 4 * w, h);
+        }},
+        {"nms-word-boundaries", [](Raw& x, auto&, auto&) {
+            for (unsigned i = 0; i < 300; ++i) {
+                x.logit(i, 0, 0); x.box(i, 64.0f * i, 0, 64.0f * i + 16, 16);
+            }
+            x.box(64, 4036, 0, 4052, 16); x.box(65, 4040, 0, 4056, 16);
+            for (unsigned j : {127u, 191u, 255u, 257u})
+                x.box(j + 1, 64.0f * j, 0, 64.0f * j + 16, 16);
+            x.box(299, 0, 0, 16, 16);
+        }},
         {"negative-ltrb-valid-and-degenerate", [](Raw& x, auto&, auto&) {
             x.logit(0, 0, 1); x.distances(0, {-1, -1, 2, 2});
             x.logit(1, 0, 0); x.distances(1, {-2, 1, 1, 1});
@@ -265,7 +300,8 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
     const auto& h = output.header;
     std::uint32_t flags = 0;
     if (name == "nan-low-score-logit" || name == "inf-low-score-reg" || name == "decode-overflow-low-score" ||
-        name == "nms-area-overflow" || name == "nms-union-overflow" || name == "mapping-overflow") flags = kPostprocessNumeric;
+        name == "nms-area-overflow" || name == "nms-union-overflow" || name == "mapping-overflow" ||
+        name == "nms-compared-failure-before-over") flags = kPostprocessNumeric;
     if (name == "capacity-zero-overflow" || name == "capacity-one-short") flags = kPostprocessOverflow;
     if (name == "adaptive-dense-capacity-overflow") flags = kPostprocessOverflow;
     if (name == "adaptive-dense-unselected-nan") flags = kPostprocessNumeric;
@@ -285,6 +321,26 @@ void invariant(const DetectionCandidates& output, const std::string& name) {
     if (name == "nms-iou-above-half") require(h.count == 2 && h.kept == 1 && h.suppressed == 1, name + ": IoU strict above");
     if (name == "nms-equal-score-id-suppressed-pool") require(h.count == 3 && h.kept == 1 && h.suppressed == 2 && output.rows[0].candidate_id == 2, name + ": complete stable pool");
     if (name == "nms-greedy-chain") require(h.count == 3 && h.kept == 2 && output.rows[1].flags == kDetectionSuppressed && output.rows[2].flags == kDetectionKept, name + ": kept-only suppression");
+    if (name == "nms-uncompared-suppressed-pair" || name == "nms-uncompared-after-decision" ||
+        name == "nms-compared-over-before-failure") {
+        require(h.count == 3 && h.kept == 2 && h.suppressed == 1 && h.low_score == spec().positions() - 3 &&
+                h.topk_dropped == 0 && h.class_dropped == 0 && h.degenerate == 0, name + ": hand-computed counts");
+        const unsigned suppressed = name == "nms-uncompared-suppressed-pair" ? 1 : 2;
+        for (unsigned i = 0; i < 3; ++i)
+            require(output.rows[i].candidate_id == i && output.rows[i].score == (i == 0 ? 1.0f : 0.5f) &&
+                    output.rows[i].flags == (i == suppressed ? kDetectionSuppressed : kDetectionKept),
+                    name + ": hand-computed flags and order");
+    }
+    if (name == "nms-word-boundaries") {
+        require(h.count == 300 && h.kept == 294 && h.suppressed == 6 && h.low_score == spec().positions() - 300 &&
+                h.topk_dropped == 0 && h.class_dropped == 0 && h.degenerate == 0, name + ": complete pool");
+        for (unsigned i = 0; i < 300; ++i) {
+            const bool suppressed = i == 64 || i == 128 || i == 192 || i == 256 || i == 258 || i == 299;
+            require(output.rows[i].candidate_id == i && output.rows[i].score == 0.5f &&
+                    output.rows[i].flags == (suppressed ? kDetectionSuppressed : kDetectionKept),
+                    name + ": hand-computed flags and order");
+        }
+    }
     if (name.starts_with("adaptive-count-")) {
         const auto m = static_cast<unsigned>(std::stoul(name.substr(std::string("adaptive-count-").size())));
         const auto count = std::min(m, kPostprocessCapacity);
@@ -382,6 +438,11 @@ void directed_tests(bool graph) {
         const bool adaptive_case = std::string(item.name).starts_with("adaptive-");
         if (adaptive_case) invariant(result, item.name);
         compare(result, expected, item.name);
+        const std::string name = item.name;
+        if (name == "nms-uncompared-suppressed-pair" || name == "nms-uncompared-after-decision" ||
+            name == "nms-compared-failure-before-over" || name == "nms-compared-over-before-failure" ||
+            name == "nms-word-boundaries")
+            require(std::memcmp(&result, &expected, sizeof(result)) == 0, name + ": full output bytes differ");
         if (!adaptive_case) invariant(result, item.name);
         h.launch(r); const auto repeat = h.read();
         require(std::memcmp(&result, &repeat, sizeof(result)) == 0, std::string(item.name) + ": repeat differs");

@@ -191,6 +191,80 @@ void nms() {
     check(boundary.run().rows[1].flags == kDetectionKept, "F04 IoU<0.5 must survive");
 }
 
+void nms_parallel_cases() {
+    // W*H = 2^125: sums below 8 units are finite, sums above 8 overflow.
+    // Power-of-two coordinates survive raw ltrb encoding and decoding exactly.
+    const float w = std::ldexp(1.0f, 62), h = std::ldexp(1.0f, 63);
+    const auto near = [&](Fixture& f, unsigned id, float width) {
+        f.box(id, 0, 0, width * w, h);
+    };
+    const auto far = [&](Fixture& f, unsigned id, float width) {
+        f.box(id, 8 * w, 0, (8 + width) * w, h);
+    };
+    const auto three = [] {
+        Fixture f;
+        f.score(0, 100); f.score(1, 0); f.score(2, 0);
+        return f;
+    };
+    const auto success = [](const Fixture& f, const char* name, unsigned suppressed) {
+        const auto out = f.run();
+        check(out.header.flags == 0 && out.header.done == kPostprocessDone &&
+              out.header.count == 3 && out.header.kept == 2 && out.header.suppressed == 1 &&
+              out.header.low_score == 8397 && out.header.topk_dropped == 0 &&
+              out.header.class_dropped == 0 && out.header.degenerate == 0, name);
+        for (unsigned i = 0; i < 3; ++i)
+            check(out.rows[i].candidate_id == i && out.rows[i].class_id == 0 &&
+                  out.rows[i].score == (i == 0 ? 1.0f : 0.5f) &&
+                  out.rows[i].flags == (i == suppressed ? kDetectionSuppressed : kDetectionKept), name);
+        padding(out);
+        std::cout << "case=" << name << " PASS\n";
+    };
+    auto f = three();
+    near(f, 0, 3); near(f, 1, 4); far(f, 2, 4.5f);
+    // A/B IoU=3/4, C/A IoU=0; only the unvisited C/B sum (8.5 units) overflows.
+    success(f, "nms-uncompared-suppressed-pair", 1);
+
+    f = three();
+    near(f, 0, 2.5f); far(f, 1, 5); near(f, 2, 3.5f);
+    // j1/j2 sum=7.5; i/j1 IoU=5/7 decides i before the i/j2 sum=8.5.
+    success(f, "nms-uncompared-after-decision", 2);
+
+    f = three();
+    far(f, 0, 4.5f); near(f, 1, 3); near(f, 2, 4);
+    // Both earlier rows survive (sum=7.5, IoU=0); i/j1 fails before i/j2 IoU=3/4.
+    failed(f.run(), f.request, kPostprocessNumeric);
+    std::cout << "case=nms-compared-failure-before-over PASS\n";
+
+    f = three();
+    near(f, 0, 3); far(f, 1, 4.5f); near(f, 2, 4);
+    success(f, "nms-compared-over-before-failure", 2);
+
+    Fixture words;
+    for (unsigned i = 0; i < 300; ++i) {
+        words.score(i, 0);
+        words.box(i, 64.0f * i, 0, 64.0f * i + 16, 16);
+    }
+    // 63 -> 64 -> 65 is a chain: 64 is suppressed, so 65 survives (IoU=1/3 with 63).
+    words.box(64, 4036, 0, 4052, 16);
+    words.box(65, 4040, 0, 4056, 16);
+    for (unsigned j : {127u, 191u, 255u, 257u})
+        words.box(j + 1, 64.0f * j, 0, 64.0f * j + 16, 16);
+    words.box(299, 0, 0, 16, 16);
+    const auto out = words.run();
+    check(out.header.flags == 0 && out.header.done == kPostprocessDone && out.header.count == 300 &&
+          out.header.kept == 294 && out.header.suppressed == 6 && out.header.low_score == 8100 &&
+          out.header.topk_dropped == 0 && out.header.class_dropped == 0 && out.header.degenerate == 0,
+          "nms-word-boundaries: complete pool");
+    for (unsigned i = 0; i < 300; ++i) {
+        const bool suppressed = i == 64 || i == 128 || i == 192 || i == 256 || i == 258 || i == 299;
+        check(out.rows[i].candidate_id == i && out.rows[i].score == 0.5f && out.rows[i].class_id == 0 &&
+              out.rows[i].flags == (suppressed ? kDetectionSuppressed : kDetectionKept),
+              "nms-word-boundaries: hand-computed flags and order");
+    }
+    padding(out);
+    std::cout << "case=nms-word-boundaries PASS\n";
+}
+
 void threshold() {
     // Identify neighboring FP32 logits spanning the FP32 score floor. This is
     // independent of the reference's candidate selection and tests >= exactly.
@@ -328,7 +402,7 @@ void hr_profile() {
 
 int main() {
     try {
-        basic(); classes_and_order(); topk_before_filters(); nms(); threshold(); failures(); arguments(); hr_profile();
+        basic(); classes_and_order(); topk_before_filters(); nms(); nms_parallel_cases(); threshold(); failures(); arguments(); hr_profile();
         std::cout << "postprocess_reference: " << checks << " checks passed\n";
         return 0;
     } catch (const std::exception& error) {

@@ -1,0 +1,35 @@
+[  9%] Building CXX object CMakeFiles/saccade_flow_records.dir/src/flow_records.cpp.o
+[ 18%] Building CXX object CMakeFiles/saccade_file_io.dir/src/file_io.cpp.o
+[ 27%] Building CXX object CMakeFiles/saccade_protocol.dir/src/protocol.cpp.o
+[ 36%] Building CXX object CMakeFiles/saccade_motion.dir/src/motion_reference.cpp.o
+[ 45%] Building CXX object CMakeFiles/saccade_postprocess.dir/src/postprocess.cpp.o
+[ 45%] Linking CXX static library libsaccade_file_io.a
+[ 45%] Linking CXX static library libsaccade_postprocess.a
+[ 45%] Built target saccade_postprocess
+[ 45%] Built target saccade_file_io
+[ 54%] Building CXX object CMakeFiles/saccade_mot_output.dir/src/mot_output.cpp.o
+[ 54%] Linking CXX static library libsaccade_flow_records.a
+[ 54%] Built target saccade_flow_records
+[ 54%] Linking CXX static library libsaccade_protocol.a
+[ 54%] Built target saccade_protocol
+[ 63%] Building CXX object CMakeFiles/saccade_tracking_reference.dir/src/tracking_reference.cpp.o
+[ 63%] Building CXX object CMakeFiles/saccade_tracking_reference.dir/src/tracking_config.cpp.o
+[ 63%] Linking CXX static library libsaccade_motion.a
+[ 63%] Built target saccade_motion
+[ 63%] Linking CXX static library libsaccade_mot_output.a
+[ 63%] Built target saccade_mot_output
+[ 72%] Linking CXX static library libsaccade_tracking_reference.a
+[ 72%] Built target saccade_tracking_reference
+[ 81%] Building CXX object CMakeFiles/saccade_gmc_flow.dir/src/gmc_flow.cpp.o
+[ 81%] Linking CXX static library libsaccade_gmc_flow.a
+[ 81%] Built target saccade_gmc_flow
+[ 90%] Building CUDA object CMakeFiles/saccade_flow_motion.dir/cuda/flow_motion.cu.o
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/cuda/flow_motion.cu(31): error: calling a constexpr __host__ function("operator[]") from a __global__ function("flow_mask") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this (note: for a __tile__/__tile_global__ caller, the flag guarantees support only for calls that are required by language rules to be evaluated at compile time).
+          const auto& d=source->rows[j];
+                                    ^
+
+1 error detected in the compilation of "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/cuda/flow_motion.cu".
+make[3]: *** [CMakeFiles/saccade_flow_motion.dir/build.make:80: CMakeFiles/saccade_flow_motion.dir/cuda/flow_motion.cu.o] Error 1
+make[2]: *** [CMakeFiles/Makefile2:3620: CMakeFiles/saccade_flow_motion.dir/all] Error 2
+make[1]: *** [CMakeFiles/Makefile2:3667: CMakeFiles/flow_motion_cuda_tests.dir/rule] Error 2
+make: *** [Makefile:1291: flow_motion_cuda_tests] Error 2

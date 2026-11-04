@@ -1,0 +1,8 @@
+phase	exit	timing_record	command
+A1-A5 audit	0	audit/audit.time	flock /home/ray/.cache/saccade-v1/gpu.lock timeout 180 /usr/bin/time -v -o build/ofa-audit/audit.time build/ofa-audit/ofa_audit build/ofa-audit/raw
+A4 sequence replay	0	audit/flow-sequence.time	flock /home/ray/.cache/saccade-v1/gpu.lock timeout 180 /usr/bin/time -v -o build/ofa-audit/flow-sequence.time build/ofa-audit/flow_sequence /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP build/ofa-audit/MOT17-10-SDP.scfl --perf slow
+s=1 scaled replay	0	audit/flow-scaled-s1.time	flock /home/ray/.cache/saccade-v1/gpu.lock timeout 180 /usr/bin/time -v -o build/ofa-audit/flow-scaled-s1.time build/ofa-audit/flow_sequence /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP build/ofa-audit/MOT17-10-SDP-scaled-s1.scfl --perf slow
+development parity gate	1	not captured	flock /home/ray/.cache/saccade-v1/gpu.lock timeout 180 build/development/flow_motion_cuda_tests
+first-difference diagnosis	1	development/flow-cell-diagnostic.time	flock /home/ray/.cache/saccade-v1/gpu.lock timeout 180 /usr/bin/time -v -o build/development/flow-cell-diagnostic.time build/development/flow_motion_cuda_tests
+records CPU tests	0	not captured	ctest --test-dir build/ofa-audit -R '^(flow_records|gmc_flow_controls)$' --output-on-failure
+records generation and comparison	0	not captured	gmc_records SCDR SCFL OUT.scmo; track_offline HR_SCDR OUT.scmo OUT.txt; exact comparison against experiment G1 (each of 7 sequences)

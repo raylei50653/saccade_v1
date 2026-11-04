@@ -1,0 +1,78 @@
+[ 36%] Built target saccade_file_io
+[ 36%] Built target saccade_flow_records
+[ 36%] Built target saccade_motion
+[ 36%] Built target saccade_postprocess
+[ 45%] Built target saccade_protocol
+[ 63%] Built target saccade_mot_output
+[ 72%] Built target saccade_tracking_reference
+[ 81%] Built target saccade_gmc_flow
+[ 90%] Building CUDA object CMakeFiles/saccade_flow_motion.dir/cuda/flow_motion.cu.o
+[ 90%] Linking CXX static library libsaccade_flow_motion.a
+[ 90%] Built target saccade_flow_motion
+[ 90%] Building CXX object CMakeFiles/flow_motion_cuda_tests.dir/tests/flow_motion_cuda_tests.cpp.o
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp: In instantiation of ‘{anonymous}::Device<T>::Device(std::size_t) [with T = unsigned char; std::size_t = long unsigned int]’:
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:32:42:   required from here
+   32 |     Device<std::uint8_t> d_rgb(rgb.size()),gray(pitch*h),state(2*pixels),masks(2*n);
+      |                                          ^
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:20:52: error: invalid conversion from ‘unsigned char**’ to ‘void**’ [-fpermissive]
+   20 |     explicit Device(std::size_t n) { ck(cudaMalloc(&p,n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); }
+      |                                                    ^~
+      |                                                    |
+      |                                                    unsigned char**
+In file included from /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/include/saccade/flow_motion_cuda.hpp:6,
+                 from /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:1:
+/opt/cuda/targets/x86_64-linux/include/cuda_runtime_api.h:4759:76: note: initializing argument 1 of ‘cudaError_t cudaMalloc(void**, size_t)’
+ 4759 | extern __host__ __cudart_builtin__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size);
+      |                                                                     ~~~~~~~^~~~~~
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp: In instantiation of ‘{anonymous}::Device<T>::Device(std::size_t) [with T = saccade::Control; std::size_t = long unsigned int]’:
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:47:26:   required from here
+   47 |     Device<Control> ctl(1);
+      |                          ^
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:20:52: error: invalid conversion from ‘saccade::Control**’ to ‘void**’ [-fpermissive]
+   20 |     explicit Device(std::size_t n) { ck(cudaMalloc(&p,n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); }
+      |                                                    ^~
+      |                                                    |
+      |                                                    saccade::Control**
+/opt/cuda/targets/x86_64-linux/include/cuda_runtime_api.h:4759:76: note: initializing argument 1 of ‘cudaError_t cudaMalloc(void**, size_t)’
+ 4759 | extern __host__ __cudart_builtin__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size);
+      |                                                                     ~~~~~~~^~~~~~
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp: In instantiation of ‘{anonymous}::Device<T>::Device(std::size_t) [with T = saccade::flow::Vector; std::size_t = long unsigned int]’:
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:74:33:   required from here
+   74 |     Device<flow::Vector> cells(n);
+      |                                 ^
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:20:52: error: invalid conversion from ‘saccade::flow::Vector**’ to ‘void**’ [-fpermissive]
+   20 |     explicit Device(std::size_t n) { ck(cudaMalloc(&p,n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); }
+      |                                                    ^~
+      |                                                    |
+      |                                                    saccade::flow::Vector**
+/opt/cuda/targets/x86_64-linux/include/cuda_runtime_api.h:4759:76: note: initializing argument 1 of ‘cudaError_t cudaMalloc(void**, size_t)’
+ 4759 | extern __host__ __cudart_builtin__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size);
+      |                                                                     ~~~~~~~^~~~~~
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp: In instantiation of ‘{anonymous}::Device<T>::Device(std::size_t) [with T = saccade::DetectionCandidates; std::size_t = long unsigned int]’:
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:90:45:   required from here
+   90 |     Device<DetectionCandidates> candidates(1); candidates.put(&detections,1);
+      |                                             ^
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:20:52: error: invalid conversion from ‘saccade::DetectionCandidates**’ to ‘void**’ [-fpermissive]
+   20 |     explicit Device(std::size_t n) { ck(cudaMalloc(&p,n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); }
+      |                                                    ^~
+      |                                                    |
+      |                                                    saccade::DetectionCandidates**
+/opt/cuda/targets/x86_64-linux/include/cuda_runtime_api.h:4759:76: note: initializing argument 1 of ‘cudaError_t cudaMalloc(void**, size_t)’
+ 4759 | extern __host__ __cudart_builtin__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size);
+      |                                                                     ~~~~~~~^~~~~~
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp: In instantiation of ‘{anonymous}::Device<T>::Device(std::size_t) [with T = saccade::MotionContext; std::size_t = long unsigned int]’:
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:100:36:   required from here
+  100 |     Device<MotionContext> context(1);
+      |                                    ^
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/tests/flow_motion_cuda_tests.cpp:20:52: error: invalid conversion from ‘saccade::MotionContext**’ to ‘void**’ [-fpermissive]
+   20 |     explicit Device(std::size_t n) { ck(cudaMalloc(&p,n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); }
+      |                                                    ^~
+      |                                                    |
+      |                                                    saccade::MotionContext**
+/opt/cuda/targets/x86_64-linux/include/cuda_runtime_api.h:4759:76: note: initializing argument 1 of ‘cudaError_t cudaMalloc(void**, size_t)’
+ 4759 | extern __host__ __cudart_builtin__ cudaError_t CUDARTAPI cudaMalloc(void **devPtr, size_t size);
+      |                                                                     ~~~~~~~^~~~~~
+make[3]: *** [CMakeFiles/flow_motion_cuda_tests.dir/build.make:79: CMakeFiles/flow_motion_cuda_tests.dir/tests/flow_motion_cuda_tests.cpp.o] Error 1
+make[2]: *** [CMakeFiles/Makefile2:3660: CMakeFiles/flow_motion_cuda_tests.dir/all] Error 2
+make[1]: *** [CMakeFiles/Makefile2:3667: CMakeFiles/flow_motion_cuda_tests.dir/rule] Error 2
+make: *** [Makefile:1291: flow_motion_cuda_tests] Error 2

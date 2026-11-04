@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ iou-greater-or-equal/cuda/postprocess.cu
+@@ -342,7 +342,7 @@
+                 const auto bit = std::uint64_t{1} << (j % 64);
+                 if (!iou(shared.pool[i], shared.pool[j], shared.areas[i], shared.areas[j], overlap))
+                     failures |= bit;
+-                else if (overlap > kPostprocessNmsIou) overlaps |= bit;
++                else if (overlap >= kPostprocessNmsIou) overlaps |= bit;
+             }
+             shared.fail[i][word] = failures;
+             shared.over[i][word] = overlaps;

@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ suppressed-can-suppress/cuda/postprocess.cu
+@@ -362,7 +362,7 @@
+                     break;
+                 }
+                 if (shared.bad != 0) break;
+-                if (shared.pool[i].flags == kDetectionKept)
++                if (shared.pool[i].flags != 0)
+                     shared.kept[i / 64] |= std::uint64_t{1} << (i % 64);
+             }
+         }

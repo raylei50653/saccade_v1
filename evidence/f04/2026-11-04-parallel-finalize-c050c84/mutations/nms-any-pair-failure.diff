@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ nms-any-pair-failure/cuda/postprocess.cu
+@@ -349,7 +349,7 @@
+         }
+         __syncthreads();
+         if (threadIdx.x == 0) {
+-            for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;
++            for (unsigned i = 0; i < shared.count; ++i) for (unsigned word = 0; word < kNmsWords; ++word) if (shared.fail[i][word] != 0) shared.bad = 1; for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;
+             for (unsigned i = 0; i < shared.count; ++i) {
+                 shared.pool[i].flags = kDetectionKept;
+                 for (unsigned word = 0; word < kNmsWords; ++word) {

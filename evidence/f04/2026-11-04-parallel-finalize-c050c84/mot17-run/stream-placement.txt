@@ -1,0 +1,18 @@
+boundary (first F02 kernel start) = 1744837755
+kernels from boundary = 10289; ExecutionContext::enqueueV3 ranges = 31
+D = stream 13; M = stream 14
+
+category	required	stream	kernels	distinct names
+F02	D	13	60	2
+F04	D	13	150	5
+F05	D	13	60	2
+TensorRT engine	D	13	9060	153
+producer	D	13	90	3
+F06	M	14	300	6
+cuFFT	M	14	120	3
+packet	M	14	30	1
+session control	M	14	240	4
+tracking	M	14	150	3
+nvJPEG	-	25	29	1
+
+stream placement: PASS

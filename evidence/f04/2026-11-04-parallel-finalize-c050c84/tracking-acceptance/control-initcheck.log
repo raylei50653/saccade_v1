@@ -1,0 +1,10 @@
+========= COMPUTE-SANITIZER
+========= Uninitialized __global__ memory read of size 4 bytes
+=========     at uninitialized_read(const float *, float *)+0x30 in postprocess_sanitizer_control.cu:8
+=========     by thread (0,0,0) in block (0,0,0)
+=========     Address 0xf0e200000
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: main [0x2834] in postprocess_sanitizer_control
+========= 
+control=initcheck launch=0 completion=0
+========= ERROR SUMMARY: 1 error

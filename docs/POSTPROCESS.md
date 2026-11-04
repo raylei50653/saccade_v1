@@ -1,6 +1,6 @@
 # F04：native 偵測後處理
 
-F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。**乾淨 `995bca5` 的 clean-source 正式驗收 PASS（受測範圍），F04 獨立結案**；source、binary、sanitizer 與六份 replay 身分見 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作，完整 async session 與 P01 仍 OPEN。
+F04 將六個 raw cls／ltrb outputs 與 `ImageMapping` 轉成完整 `DetectionCandidates`，使用 **decode 融合壓實＋依合格數 M 分級排序**。**乾淨 `995bca5` 的 clean-source 正式驗收 PASS（受測範圍），F04 獨立結案**；source、binary、sanitizer 與六份 replay 身分見 [正式證據](../evidence/f04/2026-10-31-formal-995bca5/REPORT.md)。觀測政策仍為 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)，CPU reference 與其固定測例不變。既有 [adaptive 開發驗證](../evidence/f04/2026-10-31-adaptive/REPORT.md) 與 [原始 rank 版本](../evidence/f04/2026-10-31/REPORT.md) 保留其 dirty development 身分；[F03 producer 聚合器](MODEL_PRODUCER.md) 已接續實作，完整 async session 與 P01 仍 OPEN。2026-11-04：finalize 平行化的規格見 [§5](#5-平行-finalize2026-11-04-實作前固定)，尚未實作。
 
 ## 1. 支援範圍與資料
 
@@ -174,3 +174,96 @@ build/f04/postprocess_benchmark /absolute/path/to/model-dump 32 7
 ## 候選的 session owner
 
 [`DetectionSession`](DETECTION_SESSION.md) 現在是 native F01／F02→F03→producer→F04 的 bounded caller：D 在覆寫候選 slot 前 wait M consumed，F04 後 record ready，M 在 wait ready 後讀完整 kept／suppressed pool、鎖定首次失敗，再歸還 slot。原 F04 政策、aggregate／candidate ABI 與獨立正式驗收不變。這個 M consumer 尚不是 F04b，也不提供 GMC／tracker／tracking ResultPacket。
+
+## 5. 平行 finalize（2026-11-04 實作前固定）
+
+狀態：規格已固定，尚未實作。觀測政策仍是 [`f04-postprocess-fp32/1`](POSTPROCESS_POLICY.md)。本節只改 finalize 的執行方式，輸出 bytes 不變。
+
+### 5.1 動機
+
+M4 的 nsys trace（[`track.nsys-rep`](../evidence/m4/2026-11-03-formal-cad5298/evaluation/nsys/track.nsys-rep)，SHA-256 `71df521b…`；HR FP16、MOT17-10 前 30 幀）：
+
+- F04 的 `finalize<<<1, 1>>>` 平均 1,539 µs（1,418–1,716 µs）。其他四個 F04 kernels 合計約 50 µs。
+- D stream 每幀約 6.6 ms 的 GPU 工作中，finalize 約佔 23%。
+
+原因是單一 thread 依序完成 person 篩選、最多 300 個框兩兩比較的 greedy NMS，以及座標映射。
+
+### 5.2 不變的部分
+
+- 觀測政策、CPU reference（`src/postprocess.cpp`）、`DetectionCandidates` ABI（9,664 bytes）、`postprocess_cuda` 介面與 host 驗參。
+- `initialize`、`decode`、`adaptive_prefix`、`dense_merge` 四個 kernels。
+- 每次 enqueue 仍是五個 kernels，launch shape 固定；不配置、不同步、不讀回；可 graph capture／replay。
+- `postprocess_workspace_bytes()` 仍為 295,712 bytes。新 finalize 的暫存放在 shared memory。
+- **對任何輸入，新 finalize 的完整輸出 bytes 都與現行 finalize 相同**，包括 numeric failure、overflow、空結果與未用 rows。
+
+### 5.3 現行 finalize 的等價定義
+
+設 `selected = min(qualified, 300)`，`top_ids[0..selected)` 是已排序的候選。現行 finalize 的輸出完全由下列步驟決定，新實作必須與之一致：
+
+1. **篩選。** 依序看 `top_ids[i]`：class ≠ 0 計入 `class_dropped`；否則 `x2<=x1 || y2<=y1` 計入 `degenerate`；否則成為 person pool 的下一列，保持原順序。`count` 是 pool 大小。`low_score`、`topk_dropped` 沿用現行公式。
+2. **容量。** `count > request.capacity` 時 overflow：`reset()` 後寫 done，不做後續步驟。
+3. **面積。** 每列以現行 `box_area()` 計算，任一列失敗即 numeric failure。現行程式在第一個失敗列停止，但任何失敗都產生同一個 `reset()` 輸出，所以兩者等價。
+4. **配對。** 對每對 `j < i < count`，以現行 `iou(row_i, row_j, area_i, area_j, value)` 計算；參數次序不變，`a` 是較後的 i，`b` 是較前的 j。定義 `fail(i,j) = !ok`、`over(i,j) = ok && value > kPostprocessNmsIou`，兩者互斥。
+5. **Greedy 判定。** i 由小到大。在「`j < i` 且 j 為 kept」的集合裡，找最小的 j 使 `fail(i,j) || over(i,j)`：
+   - 找不到：i 為 kept。
+   - 該 j 的 `fail` 為真：整幀 numeric failure。
+   - 否則（`over`）：i 為 suppressed。
+
+   這就是現行內層迴圈的行為：只依序比較當下 kept 的 j，遇到第一個計算失敗就 numeric，遇到第一個 IoU > 0.5 就 suppressed 並停止。**j 已被 suppressed，或 j 排在決定 i 結果的那個 j 之後時，即使 `fail(i,j)` 為真也不影響結果**；這對應政策 §2.1「未實際比較的 pair 不額外計算 IoU」。
+6. **映射。** 每列的 x 座標以 `__fdiv_rn` 除以 `float(scale_x)`，y 座標除以 `float(scale_y)`。任一座標非有限即 numeric failure；否則寫 rows、`kept`／`suppressed`、`count`，最後寫 done。
+
+numeric failure 與 overflow 的輸出，都是 `reset()` 的結果再寫 done，與現行相同。
+
+### 5.4 實作要求
+
+- finalize 改為單一 CTA、固定 blockDim（例如 256），launch shape 不隨資料改變。
+- 步驟 1、3、4、6 平行執行；步驟 1 用 block scan 保持原順序。步驟 5 可由單一 thread 或一個 warp 依序執行，但只能讀步驟 4 事先算好的 `fail`／`over` bitmask（300 列 × 5 個 64-bit words），不重算 IoU，也不改變順序。
+- `box_area`、`iou`、`finite32`、`reset`、`rows` 原樣沿用；不改寫成 fused、近似或重新結合的算術。
+- shared memory 靜態配置，不超過 48 KiB。
+- `run_stage == 0`、`numeric != 0`、overflow 與 failure 等分支在 CTA 內一致。done 由單一 thread 在 `__syncthreads()` 之後最後寫入。failure 時 `reset()` 可維持單一 thread，但決策之後其他 thread 不得再寫輸出。
+- `postprocess_cuda_identity()` 加一行 `finalize_strategy=cta-bitmask-greedy-v1`，其他行不變（`kernels_per_enqueue=5`）。
+- 不新增驗參、fallback、環境變數或替代路徑；不改其他 F04 kernels、tracking 或 session。發現的範圍外問題寫進證據報告的「範圍外」一節，不在本任務修正。
+
+### 5.5 實作前新增的固定測例
+
+以下 cases 在改 finalize **之前**加入 `tests/postprocess_tests.cpp`（CPU 手算與 reference）和 `tests/postprocess_cuda_tests.cpp`（CUDA 對 reference 比完整 bytes）。先以**現行** finalize 跑過且全部通過，這次執行保存為開發證據。request 的 mapping 不得讓座標除法溢位。
+
+| Case | 構造與期望 |
+| --- | --- |
+| `nms-uncompared-suppressed-pair` | A（最高分）抑制 B（IoU > 0.5）；C 與 A 的 IoU 有限且 ≤ 0.5；`iou(C,B)` 的 area sum 溢位。B 已被抑制，不與 C 比較：成功，A、C kept，B suppressed。 |
+| `nms-uncompared-after-decision` | i 先被較前的 kept j1 抑制；i 與較後的 kept j2（j1 < j2 < i）IoU 溢位。成功，i suppressed。 |
+| `nms-compared-failure-before-over` | i 與 kept j1 的 IoU 溢位；i 與較後的 kept j2 的 IoU > 0.5。numeric failure。 |
+| `nms-compared-over-before-failure` | 同上，但順序相反（j1 為 over，j2 溢位）。成功，i suppressed。 |
+| `nms-word-boundaries` | person pool 恰為 300 列。抑制關係跨 64-bit word 邊界，例如 j=63→i=64、j=127→i=128、j=255→i=256、j=0→i=299，並含「被抑制的框不得再抑制後面的框」的 chain。完整 bytes 對 reference。 |
+
+溢位的構造可參考既有的 `nms-union-overflow`：兩個大框各自面積有限，相加後溢位。
+
+### 5.6 變體（mutation）
+
+`scripts/check_postprocess_mutations.sh` 必須能在新 source 上執行：
+
+- 三個 NMS 相關變體（`>` 改為 `>=`、suppressed 繼續抑制、`count` 改為 `kept`）改指向新程式碼，語義與期望診斷不變。
+- 自 HR profile 起已有三個 needle 對不到現行 source（stride、dense merge 的 tile 迴圈、dense prefix 的位置上限）。依原本的語義意圖改寫，並在報告中註明它們先前已失效。
+- 新增兩個變體，各自要被 §5.5 的 case 偵測：
+  - `nms-any-pair-failure`：只要任一 `fail(i,j)` 為真就 numeric，不管 j 是否 kept、也不管 i 是否已有結果。
+  - `nms-word-index`：判定時忽略 word index，一律查 word 0。
+
+共 15 個變體，全部須為 DETECTED。
+
+### 5.7 驗收
+
+全部在同一個乾淨 commit 上執行；GPU 工作以 `flock ~/.cache/saccade-v1/gpu.lock` 依序進行。
+
+1. CPU：`build/cpu` 的全部 CTest 通過。
+2. `scripts/run_postprocess_acceptance.sh build/<新目錄>` PASS：含 §5.5 的新 cases、六份 F03 replay、四種 sanitizer 0 errors／hazards，以及四個正控制。
+3. `scripts/check_postprocess_mutations.sh <步驟 2 目錄>/cuda build/<新目錄>`：15/15 DETECTED。
+4. `scripts/run_tracking_session_acceptance.sh build/<新目錄>` PASS，[TRACKING §14.5](TRACKING.md) 的預期 hash 不變。
+5. `scripts/run_mot17_evaluation.sh <步驟 4 目錄> build/<新目錄>` 的守門全部通過。之後在其輸出目錄以 `sha256sum -c` 核對 [M4 的 outputs.sha256](../evidence/m4/2026-11-03-formal-cad5298/evaluation/outputs.sha256)：7 個序列的 SCDR、MOT 與 offline MOT **全部相同**。不執行 `score_mot17_evaluation.sh`，不讀任何 `gt/`。
+6. 速度。第一項是門檻，其餘只記錄：
+   - 步驟 5 產生的 nsys trace 中，F04 finalize 平均 **≤ 100 µs**（M4 為 1,539 µs）。
+   - 同一份 trace 中 F04 五個 kernels 的合計，以及 D stream 每幀的 GPU 工作時間。
+   - `postprocess_benchmark` 以六份 dumps 執行（32 × 7），改動前與改動後的 commit 各一次，在同一台機器上先後執行。
+   - 步驟 5 的 `timing.tsv`（7 個序列的 ms／幀），與 M4 並列。
+7. 證據寫在 `evidence/f04/2026-11-04-parallel-finalize-<commit>/REPORT.md`：source、命令、exit、hash、以上結果、§5.5 cases 在現行 finalize 上的通過紀錄，以及「範圍外」一節。
+
+輸出 bytes 不變，所以 M4 的 MOT17-02 指標不受影響，不需要重新計分。

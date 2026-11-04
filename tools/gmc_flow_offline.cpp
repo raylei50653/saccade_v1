@@ -27,7 +27,7 @@ struct Inputs {
             throw std::runtime_error("input frame counts differ");
     }
     FrameControl control(std::size_t k) const {
-        return {flow.frames[k],flow.cols,flow.rows,k?&detections.frames[k-1]:nullptr,motion.frames[k]};
+        return {flow.frames[k],flow.cols,flow.rows,flow.width,k?&detections.frames[k-1]:nullptr,motion.frames[k]};
     }
 };
 void track(const Inputs& in,Arm arm,const char* mot_path,const char* diag_path,const char* equivalent) {
@@ -36,7 +36,7 @@ void track(const Inputs& in,Arm arm,const char* mot_path,const char* diag_path,c
     MotionRecords scm{in.motion.key,in.motion.epoch,{}};
     std::ofstream diag(diag_path);
     if(!diag) throw std::runtime_error("cannot open tracking diagnostics");
-    diag << "frame,uid,x1,y1,x2,y2,dx,dy,local_cells,fallback,global_cells\n" << std::setprecision(9);
+    diag << "frame,uid,x1,y1,x2,y2,dx,dy,local_cells,fallback,global_cells,r_fallback,row_offset,alpha,density,delta_l2,delta_r\n" << std::setprecision(9);
     std::ostringstream motion;
     motion << "frame,g0_dx,g0_dy,g0_rejected,g1_dx,g1_dy,g1_valid,background_cells,delta_norm\n" << std::setprecision(9);
     for(std::size_t k=0;k<in.detections.frames.size();++k) {
@@ -53,7 +53,15 @@ void track(const Inputs& in,Arm arm,const char* mot_path,const char* diag_path,c
             const auto c=control.evaluate(arm,box);
             diag << k << ',' << t.uid;
             for(auto v:box) diag << ',' << v;
-            diag << ',' << c.value.dx << ',' << c.value.dy << ',' << c.local_cells << ',' << c.fallback << ',' << control.available() << '\n';
+            diag << ',' << c.value.dx << ',' << c.value.dy << ',' << c.local_cells << ',' << c.fallback << ',' << control.available()
+                 << ',' << c.r_fallback << ',' << c.row_offset << ',' << c.alpha << ',' << c.density;
+            double delta_l2=0,delta_r=0;
+            if(arm==Arm::rc) {
+                const auto l2=control.evaluate(Arm::l2,box).value, r=control.evaluate(Arm::r,box).value;
+                delta_l2=std::hypot(double(c.value.dx)-l2.dx,double(c.value.dy)-l2.dy);
+                delta_r=std::hypot(double(c.value.dx)-r.dx,double(c.value.dy)-r.dy);
+            }
+            diag << ',' << delta_l2 << ',' << delta_r << '\n';
             return std::array{c.value.dx,c.value.dy};
         });
         const auto packet=tracker.step(in.detections.frames[k],m);
@@ -84,6 +92,24 @@ double quantile(std::vector<double> v,double p) {
     const auto lo=static_cast<std::size_t>(std::floor(pos)), hi=static_cast<std::size_t>(std::ceil(pos));
     return v[lo]+(v[hi]-v[lo])*(pos-double(lo));
 }
+void stratify(const Inputs& in,const char* path) {
+    std::ofstream csv(path);
+    csv << "frame,m_k\n" << std::setprecision(17);
+    std::vector<double> scores;
+    for(std::size_t k=1;k<in.flow.frames.size();++k) {
+        const auto control=in.control(k);
+        std::vector<double> magnitudes;
+        for(int r=0;r<in.flow.rows;++r) for(int c=0;c<in.flow.cols;++c) if(!control.masked(c,r)) {
+            const auto v=in.flow.frames[k].cells[static_cast<std::size_t>(r)*in.flow.cols+c];
+            magnitudes.push_back(std::hypot(double(v.dx),double(v.dy)));
+        }
+        const double m=quantile(std::move(magnitudes),0.5)*1920.0/in.flow.width;
+        scores.push_back(m); csv << k << ',' << m << '\n';
+    }
+    csv.close();
+    if(!csv) throw std::runtime_error("cannot write stratification CSV");
+    std::cout << std::setprecision(17) << "camera_motion_score=" << quantile(std::move(scores),0.5) << '\n';
+}
 void residual(const Inputs& in,const char* gt_path,const char* output) {
     // The only GT reader in this experiment, implementing PLAN §5.3.
     std::ifstream gt(gt_path); if(!gt) throw std::runtime_error("cannot open residual GT");
@@ -99,7 +125,7 @@ void residual(const Inputs& in,const char* gt_path,const char* output) {
     std::vector<FrameControl> controls; controls.reserve(in.flow.frames.size());
     for(std::size_t k=0;k<in.flow.frames.size();++k) controls.push_back(in.control(k));
     struct Samples { std::vector<double> e1,e2; std::size_t fallback=0; };
-    std::array<Samples,6> samples;
+    std::array<Samples,arms.size()> samples;
     auto center=[](const Box& b) {return std::array<double,2>{(double(b[0])+b[2])*0.5,(double(b[1])+b[3])*0.5};};
     for(std::size_t k=2;k<in.flow.frames.size();++k) {
         const auto f=static_cast<std::int64_t>(k);
@@ -138,9 +164,12 @@ int main(int argc,char** argv) {
         const std::string mode=argv[1];
         if(mode=="track" && (argc==8 || argc==9)) {
             const Inputs in(argv); track(in,parse_arm(argv[5]),argv[6],argv[7],argc==9?argv[8]:nullptr);
+        } else if(mode=="stratify" && argc==6) {
+            const Inputs in(argv); stratify(in,argv[5]);
         } else if(mode=="residual" && argc==7) {
             const Inputs in(argv); residual(in,argv[5],argv[6]);
         } else throw std::runtime_error("usage: gmc_flow_offline track SCDR SCMO SCFL ARM OUT.txt DIAG.csv [EQUIV.scmo]\n"
+                                         "       gmc_flow_offline stratify SCDR SCMO SCFL OUT.csv\n"
                                          "       gmc_flow_offline residual SCDR SCMO SCFL GT.txt OUT.csv");
         return 0;
     } catch(const std::exception& e) { std::cerr << "gmc_flow_offline: " << e.what() << '\n'; return 1; }

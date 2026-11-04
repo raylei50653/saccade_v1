@@ -156,17 +156,21 @@ for tool in memcheck initcheck racecheck synccheck; do
   [[ $status == 99 ]] && rg -Fq "$diagnostic" "$cap/control-$tool.log"
 done
 # 3b. Full sessions under memcheck: every kernel, including nvJPEG, TensorRT and cuFFT.
+# Explicit API reporting, as in S04 (evidence/s04/2026-10-30 REPORT, third
+# capture): the default extended mode counts the driver note "Selective device
+# code recompilation in progress", logged when TensorRT loads its kernel
+# modules under the tool, as an error. Memory errors are reported either way.
 prefix=$out/prefix/MOT17-10-SDP
 mkdir -p "$prefix"
 sed 's/^seqLength=.*/seqLength=30/' "$seq10/seqinfo.ini" > "$prefix/seqinfo.ini"
 ln -s "$seq10/img1" "$prefix/img1"
-run session-memcheck timeout -k 10 "$limit" "$sanitizer" --tool memcheck --error-exitcode 99 \
+run session-memcheck timeout -k 10 "$limit" "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 \
   "$out/cuda/tracking_session_tests" "$t01_engine" "$sequences" "$records" MOT17-10-SDP --limit 30
 clean memcheck session-memcheck
-run lifecycle-memcheck timeout -k 10 "$limit" "$sanitizer" --tool memcheck --error-exitcode 99 \
+run lifecycle-memcheck timeout -k 10 "$limit" "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 \
   "$out/cuda/tracking_session_tests" "$t01_engine" "$sequences" "$records" MOT17-10-SDP --lifecycle
 clean memcheck lifecycle-memcheck
-run hr-memcheck timeout -k 10 "$limit" "$sanitizer" --tool memcheck --error-exitcode 99 \
+run hr-memcheck timeout -k 10 "$limit" "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 \
   "$out/cuda/track_sequence" "$hr_engine" "$prefix" "$hr/prefix.txt" --profile hr-1280x768
 [[ $(rg -Fxc '========= ERROR SUMMARY: 0 errors' "$cap/hr-memcheck.log") == 1 ]]
 # 3c. Full session, racecheck and synccheck on the tracking, motion and

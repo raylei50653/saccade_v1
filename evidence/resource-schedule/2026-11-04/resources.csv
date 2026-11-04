@@ -1,0 +1,33 @@
+row_type,memory_kind,resource,owner,count,unit_bytes,total_bytes,mib,basis,source
+allocation,device,RGB8 planar,D/nvJPEG,1,6220800,6220800,5.932617188,3*1920*1080,src/preprocess.cpp:64-73
+allocation,device,HR FP32 model input,D,1,11796480,11796480,11.250000000,3*1280*768*4,src/preprocess.cpp:64-73
+allocation,device,Resize horizontal intermediate,D,1,16588800,16588800,15.820312500,3*1080*1280*4,src/preprocess.cpp:64-73
+allocation,device,F03 raw cls/reg,D,1,6773760,6773760,6.459960938,84*20160*4,src/tracking_session.cpp:149
+allocation,device,F03 plugin status regions,D,9,256,2304,0.002197266,9 aligned status regions; sizeof ScanStatus=8,src/tracking_session.cpp:150
+allocation,device,Producer status,D,1,8,8,0.000007629,measured sizeof,src/tracking_session.cpp:151
+allocation,device,Producer scratch,D,1,16,16,0.000015259,measured model_producer_workspace_bytes,src/tracking_session.cpp:152
+allocation,device,F04 scratch,D,1,698432,698432,0.666076660,measured postprocess_workspace_bytes,src/tracking_session.cpp:153
+allocation,device,Candidate slots,D to M,2,9664,19328,0.018432617,measured sizeof; default slots=2,src/tracking_session.cpp:180-188
+allocation,device,MotionImage slots with headers,D to M,2,518416,1036832,0.988800049,480*270*4+16,cuda/motion.cu:196-208
+allocation,device,Motion Hanning tables,M/D read-only,1,3000,3000,0.002861023,(480+270)*4,cuda/motion.cu:209
+allocation,device,Motion correlation,M,1,518400,518400,0.494384766,480*270*4,cuda/motion.cu:210
+allocation,device,FFT_TMP,M,1,520560,520560,0.496444702,241*270*8,cuda/motion.cu:210
+allocation,device,Committed/working SPEC,M,2,520560,1041120,0.992889404,2*241*270*8,cuda/motion.cu:210
+allocation,device,Cross-power spectrum,M,1,520560,520560,0.496444702,241*270*8,cuda/motion.cu:210
+allocation,device,Motion reduction partials,M,507,32,16224,0.015472412,ceil(129600/256)*sizeof Reduction,cuda/motion.cu:211
+allocation,device,Motion numeric flag,M,1,4,4,0.000003815,sizeof int,cuda/motion.cu:211
+allocation,device,Committed/working TrackState,M,2,208928,417856,0.398498535,measured sizeof,src/tracking_session.cpp:161
+allocation,device,Predicted state and priors,M,1,225384,225384,0.214942932,measured sizeof,src/tracking_session.cpp:161
+allocation,device,DetectionBatch,M,1,10824,10824,0.010322571,measured sizeof,src/tracking_session.cpp:161
+allocation,device,Tracking output rows,M,1,12296,12296,0.011726379,measured sizeof,src/tracking_session.cpp:161
+allocation,device,Tracking scratch,M,1,234000,234000,0.223159790,measured sizeof,src/tracking_session.cpp:162
+allocation,device,TrackerConfig,M,1,120,120,0.000114441,measured sizeof,src/tracking_session.cpp:162
+allocation,device,TrackingSessionControl,M,1,64,64,0.000061035,measured sizeof,src/tracking_session.cpp:158
+allocation,device,MotionContext,M,1,56,56,0.000053406,measured sizeof,src/tracking_session.cpp:162
+allocation,device,DeviceMotionContext,M,1,56,56,0.000053406,measured sizeof,src/tracking_session.cpp:162
+allocation,device,Device ResultPacket,M,1,12368,12368,0.011795044,measured sizeof,src/tracking_session.cpp:159
+allocation,pinned_host,JPEG staging,H to nvJPEG,1,16777216,16777216,16.000000000,PreprocessConfig maximum=16MiB,src/preprocess.cpp:70
+allocation,pinned_host,Result packet ring,M to H,4,12368,49472,0.047180176,measured sizeof; default result_slots=4,src/tracking_session.cpp:189-193
+subtotal,device,Explicit persistent subtotal,session,1,46669652,46669652,44.507648468,sum allocation rows; excludes library private allocations,jpeg/resources.json
+subtotal,pinned_host,Explicit persistent subtotal,session,1,16826688,16826688,16.047180176,sum allocation rows; excludes library private allocations,jpeg/resources.json
+transient,device,Constructor warmup input,D,1,11796480,11796480,11.250000000,transient; freed before frame 0; not added to persistent subtotal,src/tracking_session.cpp:197-204

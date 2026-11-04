@@ -1,0 +1,17 @@
+PASS baseline 216/216 configurations; 10 frames each; conflicts, producer identity, event binding, DAG
+PASS mutation remove-init-sync rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered initialize all session storage / F04 header frame=0
+PASS mutation remove-mi-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: MI.header[0]: unordered F05 header frame=0 / MI pre-header frame=0
+PASS mutation remove-mi-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-mi-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: MI.header[0]: unordered MI pre-header frame=0 / F05 header frame=1
+PASS mutation remove-mi-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-ready-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: CS.header[0]: unordered F04 header frame=0 / CS pre-header frame=0
+PASS mutation remove-cs-ready-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_ready[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-cs-consumed-wait rejected 84/216; witness MI=1,CS=1,H=1,RP=2,normal: CS.header[0]: unordered CS pre-header frame=0 / F04 header frame=1
+PASS mutation remove-cs-consumed-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: cs_consumed[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-staged-host-wait rejected 108/216; witness MI=1,CS=1,H=1,RP=2,normal: STAGE[0]: unordered H2D and nvJPEG transfer frame=0 / fill STAGE frame=1
+PASS mutation remove-staged-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: staged[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-packet-host-wait rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: HP[0]: unordered D2H frame=0 / consume packet frame=0
+PASS mutation remove-packet-record rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: pkt[0]: wait bound to unrecorded event, expected 0
+PASS mutation remove-terminal-waits rejected 108/216; witness MI=1,CS=1,H=1,RP=1,D-only-tail: CS.header[0]: unordered F04 header frame=9 / release or reset session storage
+PASS mutation enqueue-main-before-detect rejected 216/216; witness MI=1,CS=1,H=1,RP=1,normal: mi_ready[0]: wait bound to unrecorded event, expected 0
+PASS 15 mutation families detected

@@ -23,6 +23,7 @@ struct TrackingSessionConfig {
     MotionConfig motion{};
     TrackerConfig tracker{};
     TrackingSessionMode mode = TrackingSessionMode::Pipelined;
+    bool cuda_graph = true; // F03/producer/F04 and tracking tail; nvJPEG stays outside
     std::uint64_t perturb_seed = 0;
 };
 struct TrackingSessionResult {

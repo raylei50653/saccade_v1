@@ -24,7 +24,7 @@ F02 的獨立低階介面 [`resize_rgb_chw_cuda`](../include/saccade/resize_cuda
 
 ## 2. Stream、重用與失敗收尾
 
-目前採一份 host staging 與一份 decode state。下一次 `enqueue` 在改寫 staging 前，host 等待前一幀 **F02 完成**的 event；之後在同一 detect stream 排入下一幀 decode 與 resize。RAW 與模型輸入的下游讀取，即使排在該 event 之後，也由 stream 順序保護，不會被下一幀提前覆寫。
+目前採一份 host staging 與一份 decode state。下一次 `enqueue` 在改寫 staging 前，host 等待前一幀 **F02 完成**的 event。下游 RAW／RGB 讀取還須由 caller 等待最後 reader 完成；nvJPEG HARDWARE 的內部 stream 不受較早 D 工作的順序保護。TrackingSession 在 F05 後 record `rgb_read_done`，並在下次 decode 前由 host 等待。模型輸入的 F03 讀取先排入 D，則由 D 順序保護下一次 F02 覆寫。
 
 這是 F01／F02 的獨立串流實作；[ASYNC_CONTROL §3–4](ASYNC_CONTROL.md#3-資源分類與數量) 的雙 STAGE、decoupled host／transfer／device API 與跨幀 host phase 重疊仍屬完整 session 的接續整合。此版本不把單 staging 的 host 等待冒稱為雙 slot pipeline，也未接入 F05、F03、ResultPacket 或 tracker。
 

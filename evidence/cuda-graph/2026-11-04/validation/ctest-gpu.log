@@ -1,0 +1,56 @@
+Test project /home/ray/developer/ai/saccade_v1/build/cuda-graph
+      Start 14: postprocess_reference
+ 1/22 Test #14: postprocess_reference ..............   Passed    0.26 sec
+      Start 33: resize_cuda
+ 2/22 Test #33: resize_cuda ........................   Passed    2.18 sec
+      Start 34: native_preprocess
+ 3/22 Test #34: native_preprocess ..................   Passed    1.64 sec
+      Start 35: postprocess_cuda
+ 4/22 Test #35: postprocess_cuda ...................   Passed    0.43 sec
+      Start 36: postprocess_cuda_hr
+ 5/22 Test #36: postprocess_cuda_hr ................   Passed    0.76 sec
+      Start 37: postprocess_cuda_lazy_streams
+ 6/22 Test #37: postprocess_cuda_lazy_streams ......   Passed    0.24 sec
+      Start 38: model_producer_cuda
+ 7/22 Test #38: model_producer_cuda ................   Passed    0.34 sec
+      Start 39: model_producer_cuda_lazy_streams
+ 8/22 Test #39: model_producer_cuda_lazy_streams ...   Passed    0.18 sec
+      Start 40: model_producer_cuda_hr
+ 9/22 Test #40: model_producer_cuda_hr .............   Passed    0.34 sec
+      Start 46: motion_cuda
+10/22 Test #46: motion_cuda ........................   Passed    0.80 sec
+      Start 47: tracking_reference
+11/22 Test #47: tracking_reference .................   Passed    0.24 sec
+      Start 49: tracking_cuda
+12/22 Test #49: tracking_cuda ......................   Passed    1.68 sec
+      Start 50: tracking_cuda_mot17
+13/22 Test #50: tracking_cuda_mot17 ................   Passed    3.10 sec
+      Start 51: tracking_packet
+14/22 Test #51: tracking_packet ....................   Passed    0.32 sec
+      Start 52: tracking_session_mot17_02
+15/22 Test #52: tracking_session_mot17_02 ..........   Passed   21.03 sec
+      Start 53: tracking_session_mot17_04
+16/22 Test #53: tracking_session_mot17_04 ..........   Passed   36.27 sec
+      Start 54: tracking_session_mot17_05
+17/22 Test #54: tracking_session_mot17_05 ..........   Passed   53.02 sec
+      Start 55: tracking_session_mot17_09
+18/22 Test #55: tracking_session_mot17_09 ..........   Passed   18.03 sec
+      Start 56: tracking_session_mot17_10
+19/22 Test #56: tracking_session_mot17_10 ..........   Passed   43.74 sec
+      Start 57: tracking_session_mot17_11
+20/22 Test #57: tracking_session_mot17_11 ..........   Passed   28.16 sec
+      Start 58: tracking_session_mot17_13
+21/22 Test #58: tracking_session_mot17_13 ..........   Passed   24.44 sec
+      Start 59: tracking_session_lifecycle
+22/22 Test #59: tracking_session_lifecycle .........   Passed    9.16 sec
+
+100% tests passed out of 22
+
+Label Time Summary:
+gpu               = 245.86 sec*proc (20 tests)
+model_producer    =   0.86 sec*proc (3 tests)
+postprocess       =   1.43 sec*proc (3 tests)
+preprocess        =   3.82 sec*proc (2 tests)
+session           = 233.85 sec*proc (8 tests)
+
+Total Test time (real) = 246.37 sec

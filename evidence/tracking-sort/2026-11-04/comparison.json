@@ -1,0 +1,258 @@
+{
+  "schema": "tracking-sort-comparison/1",
+  "scope": "final binaries, CUDA Graph enabled in both versions",
+  "groups": {
+    "baseline": {
+      "F04b_graph_us": 143.5671335,
+      "update_graph_us": 77.9541905,
+      "latency_samples": 480,
+      "mean_latency_us": 7037.227412499998,
+      "p50_us": 6992.248,
+      "p95_us": 7383.487,
+      "p99_us": 7723.982,
+      "queued_us_per_frame": 5324.9866105
+    },
+    "optimized": {
+      "F04b_graph_us": 102.811481,
+      "update_graph_us": 74.5777765,
+      "latency_samples": 480,
+      "mean_latency_us": 6977.637704166662,
+      "p50_us": 6937.144,
+      "p95_us": 7369.05,
+      "p99_us": 7541.588,
+      "queued_us_per_frame": 5323.319675
+    }
+  },
+  "runs": [
+    {
+      "run": "1-baseline",
+      "kernel": {
+        "schema": "tracking-batch-replay/1",
+        "status": "PASS",
+        "frames": 140,
+        "iterations": 8,
+        "rounds": 3,
+        "timing": "CUDA event batch means; excludes upload, capture, instantiate, CPU comparison; no single-frame p95",
+        "comparison": "all logical batch/state/row fields preserve CPU bits on every frame, mode and round; padding and unused capacity excluded",
+        "max_priors": 24,
+        "max_candidates": 300,
+        "max_suppressed": 274,
+        "predicted_sha256": "df15ae20df9de03521874a8180bb24f5e301a090f36345fdef0307d1e3f3a580",
+        "candidates_sha256": "ab1004e3d8eefc80f6ef1f4057db7d891a480782fb6b3aca7b297fff4b2dae4b",
+        "expected_semantic_sha256": "ecba335ccfe6ea8a03f48c94a51b07806d885ce4bf634fb80561fefefcdf9c2c",
+        "batch_graph_nodes": 8,
+        "update_graph_nodes": 8,
+        "prefix_means_us": {
+          "F04b_ordinary": 147.944143,
+          "F04b_graph": 145.786905,
+          "update_ordinary": 81.400848,
+          "update_graph": 79.073067
+        }
+      },
+      "latency": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 7030.410242,
+            "latency_p50_us": 6983.479,
+            "latency_p95_us": 7387.995,
+            "latency_p99_us": 7723.982,
+            "queued_us_per_frame_mean": 5310.273346,
+            "queued_us_per_frame_min": 5308.761358,
+            "queued_us_per_frame_max": 5311.785333,
+            "init_us_mean": 657718.553,
+            "first_frame_us_mean": 17569.94925,
+            "warmup_us_mean": 151126.5745
+          }
+        ]
+      }
+    },
+    {
+      "run": "2-optimized",
+      "kernel": {
+        "schema": "tracking-batch-replay/1",
+        "status": "PASS",
+        "frames": 140,
+        "iterations": 8,
+        "rounds": 3,
+        "timing": "CUDA event batch means; excludes upload, capture, instantiate, CPU comparison; no single-frame p95",
+        "comparison": "all logical batch/state/row fields preserve CPU bits on every frame, mode and round; padding and unused capacity excluded",
+        "max_priors": 24,
+        "max_candidates": 300,
+        "max_suppressed": 274,
+        "predicted_sha256": "df15ae20df9de03521874a8180bb24f5e301a090f36345fdef0307d1e3f3a580",
+        "candidates_sha256": "ab1004e3d8eefc80f6ef1f4057db7d891a480782fb6b3aca7b297fff4b2dae4b",
+        "expected_semantic_sha256": "ecba335ccfe6ea8a03f48c94a51b07806d885ce4bf634fb80561fefefcdf9c2c",
+        "batch_graph_nodes": 8,
+        "update_graph_nodes": 8,
+        "prefix_means_us": {
+          "F04b_ordinary": 104.776333,
+          "F04b_graph": 102.818476,
+          "update_ordinary": 76.661286,
+          "update_graph": 74.556991
+        }
+      },
+      "latency": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 6980.291367,
+            "latency_p50_us": 6941.02,
+            "latency_p95_us": 7326.761,
+            "latency_p99_us": 7459.671,
+            "queued_us_per_frame_mean": 5321.267371,
+            "queued_us_per_frame_min": 5316.184208,
+            "queued_us_per_frame_max": 5326.350533,
+            "init_us_mean": 680894.345,
+            "first_frame_us_mean": 17472.30775,
+            "warmup_us_mean": 150096.19925
+          }
+        ]
+      }
+    },
+    {
+      "run": "3-optimized",
+      "kernel": {
+        "schema": "tracking-batch-replay/1",
+        "status": "PASS",
+        "frames": 140,
+        "iterations": 8,
+        "rounds": 3,
+        "timing": "CUDA event batch means; excludes upload, capture, instantiate, CPU comparison; no single-frame p95",
+        "comparison": "all logical batch/state/row fields preserve CPU bits on every frame, mode and round; padding and unused capacity excluded",
+        "max_priors": 24,
+        "max_candidates": 300,
+        "max_suppressed": 274,
+        "predicted_sha256": "df15ae20df9de03521874a8180bb24f5e301a090f36345fdef0307d1e3f3a580",
+        "candidates_sha256": "ab1004e3d8eefc80f6ef1f4057db7d891a480782fb6b3aca7b297fff4b2dae4b",
+        "expected_semantic_sha256": "ecba335ccfe6ea8a03f48c94a51b07806d885ce4bf634fb80561fefefcdf9c2c",
+        "batch_graph_nodes": 8,
+        "update_graph_nodes": 8,
+        "prefix_means_us": {
+          "F04b_ordinary": 104.839019,
+          "F04b_graph": 102.804486,
+          "update_ordinary": 76.754152,
+          "update_graph": 74.598562
+        }
+      },
+      "latency": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 6974.984042,
+            "latency_p50_us": 6925.812,
+            "latency_p95_us": 7383.589,
+            "latency_p99_us": 7634.814,
+            "queued_us_per_frame_mean": 5325.371979,
+            "queued_us_per_frame_min": 5321.082283,
+            "queued_us_per_frame_max": 5329.661675,
+            "init_us_mean": 686891.4345,
+            "first_frame_us_mean": 17646.6365,
+            "warmup_us_mean": 149876.59725
+          }
+        ]
+      }
+    },
+    {
+      "run": "4-baseline",
+      "kernel": {
+        "schema": "tracking-batch-replay/1",
+        "status": "PASS",
+        "frames": 140,
+        "iterations": 8,
+        "rounds": 3,
+        "timing": "CUDA event batch means; excludes upload, capture, instantiate, CPU comparison; no single-frame p95",
+        "comparison": "all logical batch/state/row fields preserve CPU bits on every frame, mode and round; padding and unused capacity excluded",
+        "max_priors": 24,
+        "max_candidates": 300,
+        "max_suppressed": 274,
+        "predicted_sha256": "df15ae20df9de03521874a8180bb24f5e301a090f36345fdef0307d1e3f3a580",
+        "candidates_sha256": "ab1004e3d8eefc80f6ef1f4057db7d891a480782fb6b3aca7b297fff4b2dae4b",
+        "expected_semantic_sha256": "ecba335ccfe6ea8a03f48c94a51b07806d885ce4bf634fb80561fefefcdf9c2c",
+        "batch_graph_nodes": 8,
+        "update_graph_nodes": 8,
+        "prefix_means_us": {
+          "F04b_ordinary": 143.420943,
+          "F04b_graph": 141.347362,
+          "update_ordinary": 78.857743,
+          "update_graph": 76.835314
+        }
+      },
+      "latency": {
+        "schema": "tracking-latency/1",
+        "status": "PASS",
+        "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+        "frames_per_session": 120,
+        "warmup_frames": 20,
+        "abba_rounds": 1,
+        "input_io": "JPEGs preloaded; excludes disk I/O and file output",
+        "warmup_scope": "constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+        "latency_scope": "one enqueue through blocking receive, no frames in flight at start",
+        "queued_scope": "wall time per frame is throughput, not individual frame latency",
+        "packet_comparison": "selected mode repeats and single/queued, including warmup",
+        "packet_sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+        "groups": [
+          {
+            "mode": "graph",
+            "latency_samples": 240,
+            "latency_mean_us": 7044.044583,
+            "latency_p50_us": 7000.864,
+            "latency_p95_us": 7358.23,
+            "latency_p99_us": 7566.864,
+            "queued_us_per_frame_mean": 5339.699875,
+            "queued_us_per_frame_min": 5338.439367,
+            "queued_us_per_frame_max": 5340.960383,
+            "init_us_mean": 487838.4725,
+            "first_frame_us_mean": 17593.00475,
+            "warmup_us_mean": 149431.7045
+          }
+        ]
+      }
+    }
+  ],
+  "comparison": {
+    "F04b_speedup": 1.396411491241917,
+    "F04b_reduction_percent": 28.387870891076894,
+    "mean_latency_reduction_percent": 0.8467782102293375,
+    "queued_throughput_speedup": 1.00031313834257
+  }
+}

@@ -1,0 +1,639 @@
+diff --git a/cmake/TrackingSession.cmake b/cmake/TrackingSession.cmake
+index 993e57c..d486566 100644
+--- a/cmake/TrackingSession.cmake
++++ b/cmake/TrackingSession.cmake
+@@ -18,20 +18,21 @@ set_tests_properties(tracking_packet PROPERTIES LABELS "gpu" TIMEOUT 180)
+ if(NOT SACCADE_ENABLE_DETECTION_SESSION)
+   return()
+ endif()
+-add_library(saccade_tracking_session src/tracking_session.cpp)
++add_library(saccade_tracking_session src/tracking_session.cpp src/tracking_tail_graph.cpp)
+ target_link_libraries(saccade_tracking_session PUBLIC saccade_tracking_session_kernels saccade_motion_cuda
+   saccade_preprocess saccade_model_trt saccade_model_producer_cuda saccade_postprocess_cuda saccade_file_io saccade_sha256)
+ target_compile_definitions(saccade_tracking_session PRIVATE
+   SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
+ add_executable(track_sequence tools/track_sequence.cpp)
++add_executable(tracking_benchmark tools/tracking_benchmark.cpp)
+ add_executable(tracking_session_tests tests/tracking_session_tests.cpp)
+-foreach(target track_sequence tracking_session_tests)
++foreach(target track_sequence tracking_benchmark tracking_session_tests)
+   target_link_libraries(${target} PRIVATE saccade_tracking_session saccade_mot_output)
+   set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+   target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
+ endforeach()
+ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+-  foreach(target saccade_tracking_session track_sequence tracking_session_tests)
++  foreach(target saccade_tracking_session track_sequence tracking_benchmark tracking_session_tests)
+     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+   endforeach()
+ endif()
+diff --git a/cuda/postprocess.cu b/cuda/postprocess.cu
+index 2f213b2..a4e4351 100644
+--- a/cuda/postprocess.cu
++++ b/cuda/postprocess.cu
+@@ -1,4 +1,5 @@
+ #include "saccade/postprocess_cuda.hpp"
++#include "saccade/detail/postprocess_graph.hpp"
+ 
+ #include <cuda.h>
+ #include <cuda_runtime.h>
+@@ -10,6 +11,7 @@
+ #include <limits>
+ #include <sstream>
+ #include <stdexcept>
++#include <vector>
+ 
+ #ifndef SACCADE_BUILD_COMMIT
+ #define SACCADE_BUILD_COMMIT "unknown"
+@@ -537,6 +539,61 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
+     ck(cudaGetLastError(), "postprocess finalize launch");
+ }
+ 
++namespace detail {
++PostprocessGraphNodes postprocess_graph_nodes(cudaGraph_t graph) {
++    std::size_t count = 0;
++    ck(cudaGraphGetNodes(graph, nullptr, &count), "F04 graph node count");
++    std::vector<cudaGraphNode_t> nodes(count);
++    ck(cudaGraphGetNodes(graph, nodes.data(), &count), "F04 graph nodes");
++    PostprocessGraphNodes found;
++    // TensorRT can add driver-API kernel nodes whose CUfunction has no CUDA
++    // runtime registration. Querying their runtime kernel parameters fails.
++    // F04 is the captured tail: walk its five-node chain from the sole sink
++    // and query only the two kernels owned by this translation unit.
++    for (const auto node : nodes) {
++        std::size_t dependents = 0;
++        ck(cudaGraphNodeGetDependentNodes(node, nullptr, nullptr, &dependents), "F04 graph dependents");
++        if (dependents == 0) {
++            if (found.finalize) throw std::invalid_argument("F04 graph requires one terminal node");
++            found.finalize = node;
++        }
++    }
++    if (!found.finalize) throw std::invalid_argument("missing F04 terminal node");
++    auto node = found.finalize;
++    for (unsigned i = 0; i < 4; ++i) {
++        std::size_t dependencies = 0;
++        ck(cudaGraphNodeGetDependencies(node, nullptr, nullptr, &dependencies), "F04 graph dependency count");
++        if (dependencies != 1) throw std::invalid_argument("F04 graph requires a five-node tail");
++        cudaGraphNode_t previous = nullptr;
++        ck(cudaGraphNodeGetDependencies(node, &previous, nullptr, &dependencies), "F04 graph dependency");
++        node = previous;
++    }
++    found.initialize = node;
++    cudaKernelNodeParams params{};
++    ck(cudaGraphKernelNodeGetParams(found.initialize, &params), "F04 initialize graph params");
++    if (params.func != reinterpret_cast<void*>(initialize)) throw std::invalid_argument("incorrect F04 initialize node");
++    ck(cudaGraphKernelNodeGetParams(found.finalize, &params), "F04 finalize graph params");
++    if (params.func != reinterpret_cast<void*>(finalize)) throw std::invalid_argument("incorrect F04 finalize node");
++    return found;
++}
++void postprocess_graph_set_request(cudaGraphExec_t executable, const PostprocessGraphNodes& nodes,
++                                  const PostprocessProducerStatus* producer, DetectionCandidates* output,
++                                  void* workspace, const PostprocessRequest& request) {
++    auto* work = static_cast<Workspace*>(workspace);
++    auto metadata = request;
++    unsigned positions = model_profile(request.profile).positions();
++    void* init_args[]{&producer, &output, &work, &metadata};
++    cudaKernelNodeParams params{};
++    params.func = reinterpret_cast<void*>(initialize);
++    params.gridDim = dim3(1); params.blockDim = dim3(1); params.kernelParams = init_args;
++    ck(cudaGraphExecKernelNodeSetParams(executable, nodes.initialize, &params), "update F04 initialize metadata");
++    void* final_args[]{&output, &work, &metadata, &positions};
++    params.func = reinterpret_cast<void*>(finalize);
++    params.blockDim = dim3(kFinalizeThreads); params.kernelParams = final_args;
++    ck(cudaGraphExecKernelNodeSetParams(executable, nodes.finalize, &params), "update F04 finalize metadata");
++}
++} // namespace detail
++
+ std::string postprocess_cuda_load_kernels() {
+     std::ostringstream text;
+     const void* kernels[]{reinterpret_cast<const void*>(initialize), reinterpret_cast<const void*>(decode),
+diff --git a/include/saccade/tracking_session.hpp b/include/saccade/tracking_session.hpp
+index 72381a2..f719ff8 100644
+--- a/include/saccade/tracking_session.hpp
++++ b/include/saccade/tracking_session.hpp
+@@ -23,6 +23,7 @@ struct TrackingSessionConfig {
+     MotionConfig motion{};
+     TrackerConfig tracker{};
+     TrackingSessionMode mode = TrackingSessionMode::Pipelined;
++    bool cuda_graph = true; // F03/producer/F04 and tracking tail; nvJPEG stays outside
+     std::uint64_t perturb_seed = 0;
+ };
+ struct TrackingSessionResult {
+diff --git a/src/tracking_session.cpp b/src/tracking_session.cpp
+index e4f54a1..900c6be 100644
+--- a/src/tracking_session.cpp
++++ b/src/tracking_session.cpp
+@@ -1,5 +1,7 @@
+ #include "saccade/tracking_session.hpp"
+ #include "saccade/cleanup.hpp"
++#include "saccade/detail/postprocess_graph.hpp"
++#include "saccade/detail/tracking_tail_graph.hpp"
+ #include "saccade/file_io.hpp"
+ #include "saccade/model_producer_cuda.hpp"
+ #include "saccade/model_trt_network.hpp"
+@@ -49,6 +51,11 @@ public:
+ }
+ 
+ struct TrackingSession::Impl {
++    struct DetectGraph {
++        cudaGraph_t graph = nullptr;
++        cudaGraphExec_t executable = nullptr;
++        detail::PostprocessGraphNodes metadata;
++    };
+     struct CandidateSlot {
+         DetectionCandidates* data = nullptr;
+         cudaEvent_t ready = nullptr, consumed = nullptr;
+@@ -75,6 +82,10 @@ struct TrackingSession::Impl {
+     std::unique_ptr<MotionCuda> motion;
+     std::vector<CandidateSlot> candidates;
+     std::vector<HostSlot> results;
++    std::vector<DetectGraph> detect_graphs;
++    std::unique_ptr<detail::TrackingTailGraph> tracking_graph;
++    float* graph_images = nullptr;
++    std::size_t detect_graph_nodes = 0;
+     void *raw = nullptr, *statuses = nullptr, *producer_scratch = nullptr, *postprocess_scratch = nullptr;
+     float* warmup_images = nullptr;
+     PostprocessProducerStatus* producer = nullptr;
+@@ -200,11 +211,17 @@ struct TrackingSession::Impl {
+             enqueue_associate_and_update(predicted, batch, tracker_motion, tracker_config, tracks, rows,
+                                          tracking_scratch, consumer, &control->value.run_stage);
+             cu(cudaDeviceSynchronize(), "tracking session initialization drain");
++            if (cfg.cuda_graph) {
++                std::vector<DetectionCandidates*> slots;
++                for (auto& slot : candidates) slots.push_back(slot.data);
++                tracking_graph = std::make_unique<detail::TrackingTailGraph>(tail_pointers(), slots, consumer);
++            }
+             std::ostringstream cfg_text;
+             cfg_text << "profile=" << profile.name << "\nepoch=" << cfg.epoch << "\ndevice=" << cfg.device << "\ncandidate_slots=" << cfg.candidate_slots
+                      << "\nmotion_slots=" << cfg.motion_slots << "\nresult_slots=" << cfg.result_slots
+                      << "\noriginal_width=" << cfg.original_width << "\noriginal_height=" << cfg.original_height
+                      << "\nmode=" << (cfg.mode == TrackingSessionMode::Serial ? "serial" : "pipelined")
++                     << "\ncuda_graph=" << (cfg.cuda_graph ? "true" : "false")
+                      << "\nperturb_seed=" << cfg.perturb_seed << "\nmotion.downscale=" << cfg.motion.downscale
+                      << "\nmotion.pcr_threshold=" << std::hexfloat << cfg.motion.pcr_threshold
+                      << "\nmotion.max_shift_fraction=" << cfg.motion.max_shift_fraction << std::defaultfloat << '\n'
+@@ -212,6 +229,48 @@ struct TrackingSession::Impl {
+             configuration = cfg_text.str();
+         } catch (...) { release(); throw; }
+     }
++    detail::TrackingTailPointers tail_pointers() const {
++        return {control, tracks, predicted, batch, rows, tracking_scratch, tracker_config, tracker_motion, device_result};
++    }
++    void capture_detect(const PreprocessedFrame& input, const PostprocessRequest& request) {
++        if (!detect_graphs.empty()) {
++            require(input.images == graph_images, "graph model input address changed");
++            return;
++        }
++        // The actual preprocessor address is known after its first enqueue.
++        // Warm this exact binding before capture; setup is outside steady state.
++        require(context->setTensorAddress(input_name.c_str(), input.images), "bind graph model input");
++        if (!context->enqueueV3(detect)) throw std::runtime_error("graph binding warmup failed");
++        cu(cudaStreamSynchronize(detect), "graph binding warmup drain");
++        graph_images = input.images;
++        detect_graphs.resize(candidates.size());
++        for (std::size_t i = 0; i < candidates.size(); ++i) {
++            auto& graph = detect_graphs[i];
++            bool capturing = false;
++            try {
++                cu(cudaStreamBeginCapture(detect, cudaStreamCaptureModeThreadLocal), "capture detect graph");
++                capturing = true;
++                if (!context->enqueueV3(detect)) throw std::runtime_error("capture F03 failed");
++                model_producer_cuda(input.images, model_profile(config.profile).input_elements(), raw_view, plugins,
++                                    producer, producer_scratch, model_producer_workspace_bytes(), detect, config.profile);
++                postprocess_cuda(raw_view, request, producer, candidates[i].data, sizeof(DetectionCandidates),
++                                 postprocess_scratch, postprocess_workspace_bytes(), detect);
++                const auto ended = cudaStreamEndCapture(detect, &graph.graph);
++                capturing = false;
++                cu(ended, "end detect capture");
++                graph.metadata = detail::postprocess_graph_nodes(graph.graph);
++                cu(cudaGraphInstantiate(&graph.executable, graph.graph, 0), "instantiate detect graph");
++                if (i == 0) cu(cudaGraphGetNodes(graph.graph, nullptr, &detect_graph_nodes), "count detect graph nodes");
++            } catch (...) {
++                if (capturing) {
++                    cudaGraph_t abandoned = nullptr;
++                    (void)cudaStreamEndCapture(detect, &abandoned);
++                    if (abandoned) (void)cudaGraphDestroy(abandoned);
++                }
++                throw;
++            }
++        }
++    }
+     template<class T> void allocate(T*& p, std::size_t count = 1) {
+         cu(cudaMalloc(reinterpret_cast<void**>(&p), count * sizeof(T)), "allocate tracking storage");
+         cu(cudaMemsetAsync(p, 0, count * sizeof(T), consumer), "initialize tracking storage");
+@@ -251,6 +310,13 @@ struct TrackingSession::Impl {
+         // Drain both streams independently, including a D-only tail.
+         if (detect) { token=1; report.release(token,[&](int) { cu(cudaStreamSynchronize(detect),"cleanup D drain"); }); }
+         if (consumer) { token=1; report.release(token,[&](int) { cu(cudaStreamSynchronize(consumer),"cleanup M drain"); }); }
++        if (auto* p = tracking_graph.release()) {
++            report.release(p, [](auto* h) { std::unique_ptr<detail::TrackingTailGraph> hold(h); h->close(); });
++        }
++        for (auto& graph : detect_graphs) {
++            report.release(graph.executable, [](auto p) { cu(cudaGraphExecDestroy(p), "destroy detect graph executable"); });
++            report.release(graph.graph, [](auto p) { cu(cudaGraphDestroy(p), "destroy detect capture"); });
++        }
+         if (auto* p = preprocess.release()) {
+             report.release(p,[](auto* h) { std::unique_ptr<NativePreprocessor> hold(h); h->close(); });
+         }
+@@ -324,19 +390,30 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
+         s.rgb_read_done_recorded = true;
+         d_delay();
+         if (d_only) throw std::runtime_error("directed D-only tail after F05");
+-        require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
+-        if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
+-        d_delay();
+-        model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
+-                            s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
+-        if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
+-        d_delay();
+         auto& candidate = s.candidates[frame % s.config.candidate_slots];
+-        if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
+         PostprocessRequest request;
+         request.epoch = s.config.epoch; request.frame = frame; request.mapping = input.mapping; request.profile = s.config.profile;
+-        postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
+-                         postprocess_workspace_bytes(), s.detect);
++        // Directed perturbation/injection retains the original individual boundaries.
++        const bool graph_detect = s.config.cuda_graph && !s.config.perturb_seed && !override_flags;
++        if (graph_detect) {
++            s.capture_detect(input, request);
++            auto& graph = s.detect_graphs[frame % s.config.candidate_slots];
++            detail::postprocess_graph_set_request(graph.executable, graph.metadata, s.producer, candidate.data,
++                                                  s.postprocess_scratch, request);
++            if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D graph wait CS consumed");
++            cu(cudaGraphLaunch(graph.executable, s.detect), "launch detect graph");
++        } else {
++            require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
++            if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
++            d_delay();
++            model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
++                                s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
++            if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
++            d_delay();
++            if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
++            postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
++                             postprocess_workspace_bytes(), s.detect);
++        }
+         d_delay();
+         cu(cudaEventRecord(candidate.ready, s.detect), "record CS ready");
+         detail::tracking_session_begin(s.control, s.config.epoch, frame, s.consumer);
+@@ -350,21 +427,27 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
+         m_delay();
+         detail::tracking_session_stage(s.control, &s.predicted->error, nullptr, nullptr, s.consumer);
+         cu(cudaStreamWaitEvent(s.consumer, candidate.ready, 0), "M wait CS ready");
+-        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+-        enqueue_assemble_detection_batch(candidate.data, s.predicted, s.tracker_config, s.batch,
+-                                         s.tracking_scratch, s.consumer, &s.control->value.run_stage);
+-        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+-        cu(cudaEventRecord(candidate.consumed, s.consumer), "record CS consumed");
+-        m_delay();
+-        detail::tracking_session_stage(s.control, &s.batch->error, nullptr, nullptr, s.consumer);
+-        for (unsigned i = 0; i < 2; ++i)
+-            enqueue_associate_and_update(s.predicted, s.batch, s.tracker_motion, s.tracker_config, s.tracks + i,
+-                                         s.rows, s.tracking_scratch, s.consumer, &s.control->slot_run[i]);
+-        m_delay();
+-        detail::tracking_session_stage(s.control, &s.rows->error, nullptr, nullptr, s.consumer);
+-        detail::tracking_session_commit(s.control, s.consumer);
+-        m_delay();
+-        detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
++        if (s.config.cuda_graph && !s.config.perturb_seed) {
++            s.tracking_graph->launch(frame % s.config.candidate_slots, s.consumer);
++            // A later release still protects every CS read, including graph work.
++            cu(cudaEventRecord(candidate.consumed, s.consumer), "record graph CS consumed");
++        } else {
++            detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
++            enqueue_assemble_detection_batch(candidate.data, s.predicted, s.tracker_config, s.batch,
++                                             s.tracking_scratch, s.consumer, &s.control->value.run_stage);
++            detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
++            cu(cudaEventRecord(candidate.consumed, s.consumer), "record CS consumed");
++            m_delay();
++            detail::tracking_session_stage(s.control, &s.batch->error, nullptr, nullptr, s.consumer);
++            for (unsigned i = 0; i < 2; ++i)
++                enqueue_associate_and_update(s.predicted, s.batch, s.tracker_motion, s.tracker_config, s.tracks + i,
++                                             s.rows, s.tracking_scratch, s.consumer, &s.control->slot_run[i]);
++            m_delay();
++            detail::tracking_session_stage(s.control, &s.rows->error, nullptr, nullptr, s.consumer);
++            detail::tracking_session_commit(s.control, s.consumer);
++            m_delay();
++            detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
++        }
+         auto& host = s.results[frame % s.config.result_slots];
+         cu(cudaMemcpyAsync(host.data, s.device_result, packet_bytes, cudaMemcpyDeviceToHost, s.consumer), "copy packet");
+         cu(cudaEventRecord(host.done, s.consumer), "record packet ready");
+@@ -418,6 +501,8 @@ std::string TrackingSession::identity() const {
+         << "\npacket_profile=v1\nengine_sha256=" << s.engine_hash
+         << "\ntracker_config_sha256=" << sha256_hex(canonical_tracker_config(s.config.tracker))
+         << "\nsource_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY << '\n'
++        << "detect_graph_nodes=" << s.detect_graph_nodes
++        << "\ntracking_graph_kernel_nodes=" << (s.tracking_graph ? s.tracking_graph->kernel_nodes() : 0) << '\n'
+         << s.configuration << "session_config_sha256=" << sha256_hex(s.configuration) << '\n';
+     return out.str();
+ }
+diff --git a/tests/postprocess_cuda_tests.cpp b/tests/postprocess_cuda_tests.cpp
+index 08d239c..3330381 100644
+--- a/tests/postprocess_cuda_tests.cpp
++++ b/tests/postprocess_cuda_tests.cpp
+@@ -1,4 +1,5 @@
+ #include "saccade/postprocess_cuda.hpp"
++#include "saccade/detail/postprocess_graph.hpp"
+ #include "saccade/cleanup.hpp"
+ #include "saccade/file_io.hpp"
+ #include "saccade/sha256.hpp"
+@@ -424,6 +425,61 @@ struct Harness {
+         report.throw_if_failed();
+     }
+ };
++void graph_request_tests() {
++    Harness h;
++    const auto captured_request = request();
++    cudaGraph_t capture = nullptr;
++    cudaGraphExec_t executable = nullptr;
++    cu(cudaStreamBeginCapture(h.stream.value, cudaStreamCaptureModeThreadLocal));
++    h.launch(captured_request);
++    cu(cudaStreamEndCapture(h.stream.value, &capture));
++    try {
++        const auto nodes = detail::postprocess_graph_nodes(capture);
++        require(nodes.initialize != nullptr && nodes.finalize != nullptr && nodes.initialize != nodes.finalize,
++                "graph metadata identifies distinct initialize/finalize nodes");
++        cu(cudaGraphInstantiate(&executable, capture, 0));
++        constexpr std::array<unsigned, 8> widths{1919, 1280, 31, 65535, 640, 1920, 17, 1079};
++        constexpr std::array<unsigned, 8> heights{1079, 320, 991, 1, 1080, 1080, 29, 1919};
++        constexpr std::array<std::uint32_t, 8> capacities{300, 2, 1, 300, 300, 0, 300, 300};
++        constexpr std::array<std::uint32_t, 8> flags{0, 0, kPostprocessOverflow, kPostprocessNumeric,
++                                                   kPostprocessUpstream, kPostprocessProtocol, 0, 0};
++        for (unsigned phase = 0; phase < widths.size(); ++phase) {
++            Raw raw;
++            // A zero logit has exactly representable score 0.5 in both
++            // implementations, permitting comparison of every output byte.
++            if (phase != 6) {
++                raw.logit(0, 0, 0); raw.logit(1, 0, 0);
++                raw.box(0, -8, -16, 16, 16); raw.box(1, 32, 48, 48, 80);
++            }
++            auto r = request(widths[phase], heights[phase]);
++            r.epoch = 0xface000000000000ULL + phase;
++            r.frame = 0x30000000bULL + phase * 7;
++            r.capacity = capacities[phase];
++            auto producer = success;
++            if (phase == 3) raw.logit(spec().positions() - 1, 79, std::numeric_limits<float>::quiet_NaN());
++            if (phase == 4) producer.flags = kPostprocessNumeric;
++            if (phase == 5) producer.done = 0;
++            const auto expected = postprocess_reference(raw.view(), r, producer);
++            require(expected.header.flags == flags[phase] && expected.header.count == (phase < 2 || phase == 7 ? 2U : 0U),
++                    "graph metadata fixture phase=" + std::to_string(phase));
++            h.upload(raw, producer);
++            detail::postprocess_graph_set_request(executable, nodes, h.producer.as<PostprocessProducerStatus>(),
++                h.output.as<DetectionCandidates>(), h.workspace.p, r);
++            cu(cudaGraphLaunch(executable, h.stream.value));
++            const auto actual = h.read();
++            require(std::memcmp(&actual, &expected, sizeof(actual)) == 0,
++                    "graph metadata/reuse phase=" + std::to_string(phase) + ": full output bytes differ");
++        }
++        cu(cudaGraphExecDestroy(executable)); executable = nullptr;
++        cu(cudaGraphDestroy(capture)); capture = nullptr;
++    } catch (...) {
++        if (executable) (void)cudaGraphExecDestroy(executable);
++        if (capture) (void)cudaGraphDestroy(capture);
++        throw;
++    }
++    h.close();
++    std::cout << "graph-request-update=PASS phases=8 full-output-bytes=identical\n";
++}
+ void directed_tests(bool graph) {
+     Harness h;
+     for (const auto& item : cases()) {
+@@ -665,7 +721,7 @@ int main(int argc, char** argv) {
+             std::cout << "CPU fixture invariants=" << checks << " PASS\n"; return 0;
+         }
+         cu(cudaSetDevice(0)); std::cout << postprocess_cuda_load_kernels() << postprocess_cuda_identity();
+-        if (!streams_only) { directed_tests(true); argument_tests(); }
++        if (!streams_only) { directed_tests(true); graph_request_tests(); argument_tests(); }
+         stream_tests(skip_held);
+         if (!dumps.empty()) replay_tests(dumps);
+         std::cout << "max_score_abs_error=" << worst_score_error << '\n';
+diff --git a/tests/tracking_session_tests.cpp b/tests/tracking_session_tests.cpp
+index 2bda4a2..bd81690 100644
+--- a/tests/tracking_session_tests.cpp
++++ b/tests/tracking_session_tests.cpp
+@@ -104,6 +104,7 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
+     cfg.epoch = detections.epoch;
+     cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
+     cfg.mode = TrackingSessionMode::Serial;
++    cfg.cuda_graph = false;
+     Stream expected;
+     TrackerReference reference(cfg.epoch);
+     for (std::size_t k = 0; k < count; ++k) expected.push_back(encode_packet(reference.step(detections.frames[k], motion.frames[k])));
+@@ -118,8 +119,19 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
+         check(true, "CPU serial packet bytes");
+     }
+     cfg.mode = TrackingSessionMode::Pipelined;
++    cfg.cuda_graph = true;
+     const auto pipelined = run(engine, sequence, cfg, count);
+-    compare(expected, pipelined, "CPU/pipelined"); compare(serial, pipelined, "serial/pipelined");
++    compare(expected, pipelined, "CPU/graph pipelined"); compare(serial, pipelined, "ordinary serial/graph pipelined");
++    // Unequal ring periods expose captures that accidentally retain another
++    // slot's address or the first captured frame identity. Keep these controls
++    // bounded independently of the full-sequence comparison above.
++    const std::size_t prefix_count = std::min<std::size_t>(count, 30);
++    const Stream prefix(serial.begin(), serial.begin() + prefix_count);
++    for (const unsigned slots : {1U, 3U}) {
++        cfg.candidate_slots = slots; cfg.motion_slots = slots;
++        cfg.result_slots = slots == 1 ? 8 : 5;
++        compare(prefix, run(engine, sequence, cfg, prefix_count), slots == 1 ? "graph rings 1/1/8" : "graph rings 3/3/5");
++    }
+     if (sequence.filename() == "MOT17-10-SDP" || sequence.filename() == "MOT17-05-SDP") {
+         for (const auto seed : {0x12345678ULL, 0xbadc0ffeeULL}) {
+             cfg.perturb_seed = seed;
+@@ -130,92 +142,100 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
+     SequenceOutput cpu, gpu;
+     for (std::size_t k = 0; k < count; ++k) { cpu.add(decode_packet(expected[k])); gpu.add(decode_packet(pipelined[k])); }
+     check(format_mot_rows(cpu.finish()) == format_mot_rows(gpu.finish()), "F09 MOT bytes");
+-    std::cout << sequence.filename().string() << " frames=" << count << " CPU/serial/pipelined packet bytes identical\n";
++    std::cout << sequence.filename().string() << " frames=" << count
++              << " CPU/ordinary serial/graph pipelined packet bytes identical; graph ring controls=" << prefix_count << " frames\n";
+ }
+ void lifecycle_test(const std::string& engine, const std::filesystem::path& sequence,
+                     const DetectionRecords& detections, const MotionRecords& motion) {
+     TrackingSessionConfig cfg;
+     cfg.epoch = detections.epoch; cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
+-    cfg.result_slots = 8; cfg.motion_slots = 1; cfg.candidate_slots = 1; cfg.perturb_seed = 123;
++    cfg.motion_slots = 1; cfg.candidate_slots = 1;
+     Stream previous;
+-    for (const auto mode : {TrackingSessionMode::Serial, TrackingSessionMode::Pipelined}) {
+-        cfg.mode = mode;
+-        TrackingSession session(engine, cfg);
+-        detail::TrackingSessionDiagnostic baseline;
+-        for (FrameId k = 0; k < 8; ++k) {
+-            if (k == 3) baseline = TrackingSessionTestAccess::diagnostic(session);
+-            const auto bytes = jpeg(sequence, k);
+-            TrackingSessionTestAccess::enqueue(session, span(bytes), k, k == 3 ? static_cast<std::uint32_t>(kPostprocessUpstream) : k == 6 ? static_cast<std::uint32_t>(kPostprocessOverflow) : 0U);
++    // Perturbation intentionally exercises the ordinary boundary schedule.
++    // The graph branch must run without it to test actual graph execution,
++    // including sticky failure, frozen committed state and resource cleanup.
++    for (const bool use_graph : {false, true}) {
++        cfg.cuda_graph = use_graph;
++        cfg.result_slots = 8; cfg.perturb_seed = use_graph ? 0 : 123;
++        for (const auto mode : {TrackingSessionMode::Serial, TrackingSessionMode::Pipelined}) {
++            cfg.mode = mode;
++            TrackingSession session(engine, cfg);
++            detail::TrackingSessionDiagnostic baseline;
++            for (FrameId k = 0; k < 8; ++k) {
++                if (k == 3) baseline = TrackingSessionTestAccess::diagnostic(session);
++                const auto bytes = jpeg(sequence, k);
++                TrackingSessionTestAccess::enqueue(session, span(bytes), k, k == 3 ? static_cast<std::uint32_t>(kPostprocessUpstream) : k == 6 ? static_cast<std::uint32_t>(kPostprocessOverflow) : 0U);
++            }
++            bool full = false;
++            try { session.enqueue({}, 8); } catch (const std::length_error&) { full = true; }
++            check(full && session.pending() == 8, "ring backpressure before submission");
++            session.finish();
++            check(session.state() == TrackingSessionState::Failed, "failure observed on finish");
++            Stream current;
++            for (FrameId k = 0; k < 8; ++k) {
++                const auto r = session.receive(); current.push_back(r.bytes);
++                check(r.packet.status == (k < 3 ? ResultStatus::ok : k == 3 ? ResultStatus::failed : ResultStatus::skipped_after_failure), "failure status");
++                check(r.packet.committed_frame == (k < 3 ? k : 2), "frozen committed frame");
++                if (k >= 3) {
++                    check(r.packet.fail_frame == 3 && r.packet.fail_code == Error::producer, "first failure sticky");
++                    check(r.packet.tracks.empty() && r.packet.frame_error == (k == 3 ? Error::producer : Error::none), "failed/skipped rows and frame_error");
++                }
++            }
++            const auto d = TrackingSessionTestAccess::diagnostic(session);
++            check(d.control.committed_slot == baseline.control.committed_slot && d.control.committed_frame == 2, "CTL version frozen");
++            const auto* actual = reinterpret_cast<const unsigned char*>(&d.tracks[d.control.committed_slot]);
++            const auto* before = reinterpret_cast<const unsigned char*>(&baseline.tracks[baseline.control.committed_slot]);
++            const auto byte = static_cast<std::size_t>(std::mismatch(actual, actual + sizeof(DeviceTrackState), before).first - actual);
++            if (byte != sizeof(DeviceTrackState))
++                std::cerr << "TS snapshot first byte=" << byte << " live=" << unsigned(actual[byte]) << " baseline=" << unsigned(before[byte])
++                          << " track_base=" << offsetof(DeviceTrackState, tracks) << " track_size=" << sizeof(DeviceTrack)
++                          << " h_ema_offset=" << offsetof(DeviceTrack, h_ema) << '\n';
++            check(byte == sizeof(DeviceTrackState), "complete committed TS frozen");
++            if (!previous.empty()) compare(previous, current, "failure ordinary/graph serial/pipelined");
++            previous = current;
++            session.cancel(); session.close(); session.close();
+         }
+-        bool full = false;
+-        try { session.enqueue({}, 8); } catch (const std::length_error&) { full = true; }
+-        check(full && session.pending() == 8, "ring backpressure before submission");
+-        session.finish();
+-        check(session.state() == TrackingSessionState::Failed, "failure observed on finish");
+-        Stream current;
+-        for (FrameId k = 0; k < 8; ++k) {
+-            const auto r = session.receive(); current.push_back(r.bytes);
+-            check(r.packet.status == (k < 3 ? ResultStatus::ok : k == 3 ? ResultStatus::failed : ResultStatus::skipped_after_failure), "failure status");
+-            check(r.packet.committed_frame == (k < 3 ? k : 2), "frozen committed frame");
+-            if (k >= 3) {
+-                check(r.packet.fail_frame == 3 && r.packet.fail_code == Error::producer, "first failure sticky");
+-                check(r.packet.tracks.empty() && r.packet.frame_error == (k == 3 ? Error::producer : Error::none), "failed/skipped rows and frame_error");
++        cfg.mode = TrackingSessionMode::Pipelined; cfg.perturb_seed = use_graph ? 0 : 456;
++        {
++            cfg.result_slots = 1;
++            TrackingSession session(engine, cfg);
++            for (FrameId k = 0; k < 3; ++k) {
++                const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k);
++                bool full = false;
++                try { session.enqueue(span(bytes), k + 1); } catch (const std::length_error&) { full = true; }
++                check(full, "recoverable full ring"); check(session.receive().packet.status == ResultStatus::ok, "receive releases HP");
+             }
++            session.cancel();
++            check(session.state() == TrackingSessionState::Cancelled, "cancel distinct from EOF");
++            session.cancel(); session.close(); session.close();
+         }
+-        const auto d = TrackingSessionTestAccess::diagnostic(session);
+-        check(d.control.committed_slot == baseline.control.committed_slot && d.control.committed_frame == 2, "CTL version frozen");
+-        const auto* actual = reinterpret_cast<const unsigned char*>(&d.tracks[d.control.committed_slot]);
+-        const auto* before = reinterpret_cast<const unsigned char*>(&baseline.tracks[baseline.control.committed_slot]);
+-        const auto byte = static_cast<std::size_t>(std::mismatch(actual, actual + sizeof(DeviceTrackState), before).first - actual);
+-        if (byte != sizeof(DeviceTrackState))
+-            std::cerr << "TS snapshot first byte=" << byte << " live=" << unsigned(actual[byte]) << " baseline=" << unsigned(before[byte])
+-                      << " track_base=" << offsetof(DeviceTrackState, tracks) << " track_size=" << sizeof(DeviceTrack)
+-                      << " h_ema_offset=" << offsetof(DeviceTrack, h_ema) << '\n';
+-        check(byte == sizeof(DeviceTrackState), "complete committed TS frozen");
+-        if (!previous.empty()) compare(previous, current, "failure serial/pipelined");
+-        previous = current;
+-        session.cancel(); session.close(); session.close();
+-    }
+-    cfg.mode = TrackingSessionMode::Pipelined; cfg.perturb_seed = 456;
+-    {
+-        cfg.result_slots = 1;
+-        TrackingSession session(engine, cfg);
+-        for (FrameId k = 0; k < 3; ++k) {
+-            const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k);
+-            bool full = false;
+-            try { session.enqueue(span(bytes), k + 1); } catch (const std::length_error&) { full = true; }
+-            check(full, "recoverable full ring"); check(session.receive().packet.status == ResultStatus::ok, "receive releases HP");
++        {
++            cfg.result_slots = 4;
++            TrackingSession session(engine, cfg);
++            for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
++            session.cancel();
++            check(session.state() == TrackingSessionState::Cancelled, "cancel with pending packets");
++            while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "cancel drains pending packets");
++            session.close();
+         }
+-        session.cancel();
+-        check(session.state() == TrackingSessionState::Cancelled, "cancel distinct from EOF");
+-        session.cancel(); session.close(); session.close();
+-    }
+-    {
+-        cfg.result_slots = 4;
+-        TrackingSession session(engine, cfg);
+-        for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
+-        session.cancel();
+-        check(session.state() == TrackingSessionState::Cancelled, "cancel with pending packets");
+-        while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "cancel drains pending packets");
+-        session.close();
+-    }
+-    {
+-        TrackingSession session(engine, cfg);
+-        for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
+-        const auto bytes = jpeg(sequence, 3);
+-        bool threw = false;
+-        try { TrackingSessionTestAccess::enqueue(session, span(bytes), 3, 0, true); } catch (const std::runtime_error&) { threw = true; }
+-        check(threw && session.state() == TrackingSessionState::Failed, "D-only host failure");
+-        session.cancel();
+-        while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "D-only tail retains prior packets");
+-        session.close(); session.close();
+-    }
+-    {
+-        TrackingSession session(engine, cfg);
+-        const auto bytes = jpeg(sequence, 0); session.enqueue(span(bytes), 0);
+-        // Destructor drains an unread packet and both stream tails.
++        {
++            TrackingSession session(engine, cfg);
++            for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
++            const auto bytes = jpeg(sequence, 3);
++            bool threw = false;
++            try { TrackingSessionTestAccess::enqueue(session, span(bytes), 3, 0, true); } catch (const std::runtime_error&) { threw = true; }
++            check(threw && session.state() == TrackingSessionState::Failed, "D-only host failure");
++            session.cancel();
++            while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "D-only tail retains prior packets");
++            session.close(); session.close();
++        }
++        {
++            TrackingSession session(engine, cfg);
++            const auto bytes = jpeg(sequence, 0); session.enqueue(span(bytes), 0);
++            // Destructor drains an unread packet and both stream tails.
++        }
++        check(true, "destructor drain");
+     }
+-    check(true, "destructor drain");
+ }
+ }
+ int main(int argc, char** argv) {
+diff --git a/tools/track_sequence.cpp b/tools/track_sequence.cpp
+index cc9d098..8f034ec 100644
+--- a/tools/track_sequence.cpp
++++ b/tools/track_sequence.cpp
+@@ -51,12 +51,13 @@ SequenceInfo read_sequence_info(const std::filesystem::path& path) {
+ 
+ int main(int argc, char** argv) {
+     try {
+-        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--packets OUT.bin] [--epoch N] [--profile NAME]");
++        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--no-cuda-graph] [--packets OUT.bin] [--epoch N] [--profile NAME]");
+         saccade::TrackingSessionConfig config;
+         std::filesystem::path packets;
+         for (int i = 4; i < argc; ++i) {
+             const std::string_view arg = argv[i];
+             if (arg == "--serial") config.mode = saccade::TrackingSessionMode::Serial;
++            else if (arg == "--no-cuda-graph") config.cuda_graph = false;
+             else if (arg == "--packets" && i + 1 < argc) packets = argv[++i];
+             else if (arg == "--epoch" && i + 1 < argc) config.epoch = number<std::uint64_t>(argv[++i]);
+             else if (arg == "--profile" && i + 1 < argc) config.profile = saccade::parse_model_profile(argv[++i]);

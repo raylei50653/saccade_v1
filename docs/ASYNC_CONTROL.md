@@ -60,14 +60,14 @@ D 與 M 都以 `cudaStreamNonBlocking` 建立。協定只依賴以下語義，�
 | RP：device 端 ResultPacket | M 專用 | packet | D2H | 1 | M 順序 |
 | HP[r]：host 接收區 | M→H | D2H | H | N_RP | H 等待 `pkt[r]`，消費完才重新提交 |
 
-- **原圖只需一份。** 原圖只在 D 內使用，D 串行執行已保證 decode(k+1) 在 F02(k) 讀完後才覆寫 RAW。真正需要兩份的是 STAGE：nvJPEG decoupled API 的 host phase 寫入 pinned buffer，transfer 以 DMA 讀取它；兩幀要重疊，就得各用一組 state 與 pinned buffer。這取代 DATAFLOW 早期寫的「兩組原圖」。
+- **現行原圖只用一份，重用前需等待最後讀者。** nvJPEG HARDWARE backend 使用內部 stream，不能只靠 D 的順序保護 RAW。TrackingSession 在下一次 decode 前由 host 等待 D 的 F05 `rgb_read_done`；F02 模型輸入的後續 F03 讀取仍受同一 D 順序保護。若採 nvJPEG decoupled API 讓兩幀 host／transfer 重疊，每 slot 須獨立 state、pinned buffer 與 RGB 輸出 lease。這取代 DATAFLOW 早期寫的「兩組原圖」。
 - **DB 的複製是必要的。** F04b 把 kept 與補回的候選壓實到 M 擁有的 DB，CS slot 因此在 F04b 後就能歸還，不必保留到 F08b。
 - **slot 數與驗證範圍。** 各 ring 的任意 N ≥ 1 都應符合相同所有權與進度協定，這是設計要求。§7 V01 僅檢查明列的 216 組有限 CPU 模型；合成 CUDA 實機的 ring 組合與重用次數見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)，兩者均不證明任意 N。雙緩衝基線取 N_MI = N_CS = N_H = 2、N_RP ≥ 2，完整模組的具體容量仍屬 P04。
 - **函式庫的 stream 行為須驗證。** TensorRT 若使用 auxiliary streams，enqueue 對外仍須表現為 D 上的有序工作。cuFFT plan 以 `cufftSetStream` 綁定 M，每個 session 各有一份 plan 與 work area。這兩點列入 P01／P05 驗證。
 
 目前合成 CUDA profile 只落地上述協定所需的子集：STAGE 為 pinned 合成 metadata；D 以它生成獨立 MI 與最多兩筆 CS，M 將 CS 複製至獨立 DB。MI／CS 各 slot 有 ready／consumed event，STAGE 與 HP 各 slot 有 host lease event，所有 event 都記錄成功 record 的 frame generation。CTL、TS[2]、SPEC[2]、FFT_TMP、固定 RP、cuFFT plan／workspace 及終端診斷的 pinned 區均預先配置。此 profile 沒有 nvJPEG、RAW、模型、PRIOR 或 tracker 資料結構；詳細對應與生命週期見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。
 
-[native F01／F02](PREPROCESS.md) 現在提供獨立的 `NativePreprocessor`：一個 host submitter、一條 explicit non-default D、單份 pinned JPEG staging／nvJPEG state、RAW 與模型輸入。下一次 enqueue 改寫 staging 前，host 等前幀 F02 event；下游 F05／F03 的 RAW／模型輸入讀取必須先排入同一 D，再呼叫下一次 enqueue，靠 stream 順序避免覆寫。這比上表的雙 STAGE decoupled 設計保守，尚未實作 host phase 跨幀重疊，也未接入本節的完整 session／ResultPacket；合成 CUDA profile 本身仍不含 nvJPEG。`enqueue`／`wait` 錯誤 latch 序列失敗，明確 `close()` 會 checked drain borrowed stream 並釋放資源；既有 17 組數值對照逐位元相同，結果見 [前處理證據](../evidence/preprocess/2026-10-31/REPORT.md)。正常輸出、重跑與資源重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)判定；既知 nvJPEG initcheck FAIL 保留為診斷項，不再阻擋使用結案，也不豁免 API 錯誤或上述生命週期合約。
+[native F01／F02](PREPROCESS.md) 提供獨立的 `NativePreprocessor`：一個 host submitter、一條 explicit non-default D、單份 pinned JPEG staging／nvJPEG state、RAW 與模型輸入。下一次 enqueue 改寫 staging 前，host 等前幀 F02 event；caller 另須等待最後 RAW／RGB reader 完成，不能只把 F05 排入 D 就開始下一次硬體 decode。下游 F03 的模型輸入讀取先排入同一 D，由 D 順序保護下一次 F02 覆寫。現行 TrackingSession 已在 F05 後 record `rgb_read_done`，並在下次 enqueue 前由 host 等待；詳見 [TRACKING §14.1](TRACKING.md)。單份 staging 尚未實作 host phase 跨幀重疊；合成 CUDA profile 本身仍不含 nvJPEG。`enqueue`／`wait` 錯誤 latch 序列失敗，明確 `close()` 會 checked drain borrowed stream 並釋放資源；既有 17 組數值對照逐位元相同，結果見 [前處理證據](../evidence/preprocess/2026-10-31/REPORT.md)。正常輸出、重跑與資源重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)判定；既知 nvJPEG initcheck FAIL 保留為診斷項，不再阻擋使用結案，也不豁免 API 錯誤或上述生命週期合約。
 
 **F01／F02 使用驗收 PASS（受測範圍）**：[正常使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)在原 public API／未修改 runtime 上，以 7 張固定真實 JPEG、4 個 sessions 共 208 幀驗證尺寸切換、延後 consumer、ring 重用與獨立雙 instance，全部 RGB／FP32 輸出逐位元對齊。部分下一次 enqueue 開始時已觀察到前幀 consumer 仍未完成；這是有限測試中的重用證據，不代表每幀都有 pending consumer，亦不關閉完整 async session 整合。
 

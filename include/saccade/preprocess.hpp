@@ -32,9 +32,12 @@ struct PreprocessedFrame {
 //
 // enqueue owns a copy of the compressed bytes. Before reusing host staging it
 // waits for the previous F02 event. RAW/images are borrowed until the next
-// enqueue; downstream F05/F03 must be queued on the same stream before that
-// call. Stream ordering protects downstream reads, including those queued
-// after the event. The stream must outlive this object. Any enqueue/wait error
+// enqueue. Before that call, the caller must wait for completion of its last
+// RAW/RGB reader (F05): hardware decode uses private streams and can overwrite
+// RAW before earlier work on detect_stream completes. Queue downstream F03
+// reads of images on detect_stream before the next enqueue; stream ordering
+// protects images against the next F02 write. The stream must outlive this
+// object. Any enqueue/wait error
 // latches failure; create a fresh session to start another sequence.
 class NativePreprocessor {
 public:

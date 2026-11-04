@@ -1,4 +1,5 @@
 #include "saccade/postprocess_cuda.hpp"
+#include "saccade/detail/postprocess_graph.hpp"
 #include "saccade/cleanup.hpp"
 #include "saccade/file_io.hpp"
 #include "saccade/sha256.hpp"
@@ -424,6 +425,61 @@ struct Harness {
         report.throw_if_failed();
     }
 };
+void graph_request_tests() {
+    Harness h;
+    const auto captured_request = request();
+    cudaGraph_t capture = nullptr;
+    cudaGraphExec_t executable = nullptr;
+    cu(cudaStreamBeginCapture(h.stream.value, cudaStreamCaptureModeThreadLocal));
+    h.launch(captured_request);
+    cu(cudaStreamEndCapture(h.stream.value, &capture));
+    try {
+        const auto nodes = detail::postprocess_graph_nodes(capture);
+        require(nodes.initialize != nullptr && nodes.finalize != nullptr && nodes.initialize != nodes.finalize,
+                "graph metadata identifies distinct initialize/finalize nodes");
+        cu(cudaGraphInstantiate(&executable, capture, 0));
+        constexpr std::array<unsigned, 8> widths{1919, 1280, 31, 65535, 640, 1920, 17, 1079};
+        constexpr std::array<unsigned, 8> heights{1079, 320, 991, 1, 1080, 1080, 29, 1919};
+        constexpr std::array<std::uint32_t, 8> capacities{300, 2, 1, 300, 300, 0, 300, 300};
+        constexpr std::array<std::uint32_t, 8> flags{0, 0, kPostprocessOverflow, kPostprocessNumeric,
+                                                   kPostprocessUpstream, kPostprocessProtocol, 0, 0};
+        for (unsigned phase = 0; phase < widths.size(); ++phase) {
+            Raw raw;
+            // A zero logit has exactly representable score 0.5 in both
+            // implementations, permitting comparison of every output byte.
+            if (phase != 6) {
+                raw.logit(0, 0, 0); raw.logit(1, 0, 0);
+                raw.box(0, -8, -16, 16, 16); raw.box(1, 32, 48, 48, 80);
+            }
+            auto r = request(widths[phase], heights[phase]);
+            r.epoch = 0xface000000000000ULL + phase;
+            r.frame = 0x30000000bULL + phase * 7;
+            r.capacity = capacities[phase];
+            auto producer = success;
+            if (phase == 3) raw.logit(spec().positions() - 1, 79, std::numeric_limits<float>::quiet_NaN());
+            if (phase == 4) producer.flags = kPostprocessNumeric;
+            if (phase == 5) producer.done = 0;
+            const auto expected = postprocess_reference(raw.view(), r, producer);
+            require(expected.header.flags == flags[phase] && expected.header.count == (phase < 2 || phase == 7 ? 2U : 0U),
+                    "graph metadata fixture phase=" + std::to_string(phase));
+            h.upload(raw, producer);
+            detail::postprocess_graph_set_request(executable, nodes, h.producer.as<PostprocessProducerStatus>(),
+                h.output.as<DetectionCandidates>(), h.workspace.p, r);
+            cu(cudaGraphLaunch(executable, h.stream.value));
+            const auto actual = h.read();
+            require(std::memcmp(&actual, &expected, sizeof(actual)) == 0,
+                    "graph metadata/reuse phase=" + std::to_string(phase) + ": full output bytes differ");
+        }
+        cu(cudaGraphExecDestroy(executable)); executable = nullptr;
+        cu(cudaGraphDestroy(capture)); capture = nullptr;
+    } catch (...) {
+        if (executable) (void)cudaGraphExecDestroy(executable);
+        if (capture) (void)cudaGraphDestroy(capture);
+        throw;
+    }
+    h.close();
+    std::cout << "graph-request-update=PASS phases=8 full-output-bytes=identical\n";
+}
 void directed_tests(bool graph) {
     Harness h;
     for (const auto& item : cases()) {
@@ -665,7 +721,7 @@ int main(int argc, char** argv) {
             std::cout << "CPU fixture invariants=" << checks << " PASS\n"; return 0;
         }
         cu(cudaSetDevice(0)); std::cout << postprocess_cuda_load_kernels() << postprocess_cuda_identity();
-        if (!streams_only) { directed_tests(true); argument_tests(); }
+        if (!streams_only) { directed_tests(true); graph_request_tests(); argument_tests(); }
         stream_tests(skip_held);
         if (!dumps.empty()) replay_tests(dumps);
         std::cout << "max_score_abs_error=" << worst_score_error << '\n';

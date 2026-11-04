@@ -1,0 +1,1151 @@
+diff --git a/README.md b/README.md
+index dcddc5d..268c7f0 100644
+--- a/README.md
++++ b/README.md
+@@ -1,5 +1,11 @@
+ # Saccade v1
+ 
++2026-11-04 各階段延遲、硬體與記憶體、重疊與無競態使用條件見 [資源報告](evidence/resource-schedule/2026-11-04/REPORT.md) 與 [排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md)。本機 HR FP16 Graph 單幀平均 6.988 ms；2 幀在途的單次觀測約 185 FPS、交付平均 10.740 ms。完整 session racecheck 仍有未完成項，結果與條件詳列報告。
++
++排序優化：F04b 重用已驗證的 score/ID 順序、必要時用 stable radix，birth 跳過重複排序。固定 replay 的 F04b 143.57→102.81 µs（−28.39%）；完整 tracking 7.037→6.978 ms，吞吐幾乎不變，不宣稱穩定端到端收益。契約與測試見 [排序報告](evidence/tracking-sort/2026-11-04/REPORT.md)。
++
++2026-11-04：tracking 的 F03→F04 與 M stream tracking tail 已接上 CUDA Graph，預設啟用；相同 HR FP16/JPEG 的單幀平均延遲由 8.59 ms 降到 7.06 ms（−17.8%），p95 由 9.08 ms 降到 7.44 ms，完整 packet bytes 不變。量測條件、首幀成本與保留在 graph 外的階段見 [CUDA Graph](docs/CUDA_GRAPH.md) 及 [開發驗證報告](evidence/cuda-graph/2026-11-04/REPORT.md)。
++
+ 目前里程碑為 **Saccade v1 — T01 Experimental Closeout**。原始實驗固定於 [`t01-experiment-final-2026-10-31`](https://github.com/raylei50653/saccade_v1/tree/t01-experiment-final-2026-10-31)（`a47fb16`），由 PR #1 以 merge commit 整合到 main；封存與恢復入口見 [結案報告](docs/history/2026-10-31-t01-closeout.md)。實驗完成不代表產品部署完成；[F04 已獨立結案（受測範圍）](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)，[F03 producer 聚合器](docs/MODEL_PRODUCER.md) 已以乾淨 `a9c3d9b` 完成 [正式驗收（受測範圍）](evidence/f03-producer/2026-10-31-formal-a9c3d9b/REPORT.md)；[F01–F04 detection session](docs/DETECTION_SESSION.md) 已實作，[開發來源驗證 PASS（受測範圍）](evidence/detection-session/2026-10-31/REPORT.md)。完整 tracking session 與 P01 依 [後續工作](docs/BACKLOG.md) 接續。2026-11-03：tracking 半段 M0–M4 完成，部署模型為 HR 1280×768 FP16。MOT17-02（eval）HOTA 40.6、AP50 72.91%，每幀約 8 ms；P01 **CLOSED（有範圍）**，見 [TRACKING §17](docs/TRACKING.md) 與 [M4 證據](evidence/m4/2026-11-03-formal-cad5298/REPORT.md)。
+ 
+ Saccade v1 以 C++／CUDA 重新設計 GPU 追蹤資料流。目前包含架構、可重跑的 C++ 協定驗證、合成資料的 CUDA serial／pipelined 執行骨架，以及原版 YOLO26m head scan 的 CPU scalar reference（S01）、CUDA FP32 forward（S02）、TensorRT plugins／frame-end harness（S03）、完整 T=1 head（S04）、T01 backbone／neck 與完整模型推論（F03）。native 影像前處理（F01／F02：nvJPEG hardware decode＋CUDA antialiased resize）已實作；依 [使用驗收增補](docs/PREPROCESS_USAGE_POLICY.md)，**F01／F02 使用驗收 PASS（受測範圍）**，正常輸出、重跑與資源重用結果見 [使用證據](evidence/preprocess/2026-10-31-usage/REPORT.md)。既知 nvJPEG initcheck FAIL 保留為診斷項，不再作為使用結案門檻。[F04 decode／篩選／NMS](docs/POSTPROCESS.md) 已改為 decode 融合壓實、依 device 合格數分級排序；**F04 clean-source 正式驗收 PASS（受測範圍）**，結果來自乾淨 `995bca5` 的 [正式證據](evidence/f04/2026-10-31-formal-995bca5/REPORT.md)；原始 rank 與 adaptive 開發報告保留。[F01–F04 bounded async detection session](docs/DETECTION_SESSION.md) 已接通 native JPEG→完整模型→F04，包含候選 ready／consumed ring、首次失敗鎖定及 checked drain／close；[開發來源驗證 PASS（受測範圍）](evidence/detection-session/2026-10-31/REPORT.md)。雙 host staging／完整 overlap、GMC、tracker 與 MOT writer 依後續工作接續。
+diff --git a/cmake/TrackingCuda.cmake b/cmake/TrackingCuda.cmake
+index ef4f664..47ac01e 100644
+--- a/cmake/TrackingCuda.cmake
++++ b/cmake/TrackingCuda.cmake
+@@ -9,8 +9,11 @@ target_compile_options(saccade_tracking_cuda PRIVATE
+   --ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo -Xcompiler=-ffp-contract=off)
+ add_executable(tracking_cuda_tests tests/tracking_cuda_tests.cpp)
+ target_link_libraries(tracking_cuda_tests PRIVATE saccade_tracking_cuda saccade_mot_output saccade_motion)
++add_executable(tracking_batch_benchmark tools/tracking_batch_benchmark.cpp)
++target_link_libraries(tracking_batch_benchmark PRIVATE saccade_tracking_cuda saccade_mot_output saccade_motion saccade_file_io saccade_sha256)
+ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+   target_compile_options(tracking_cuda_tests PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
++  target_compile_options(tracking_batch_benchmark PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+ endif()
+ add_test(NAME tracking_cuda COMMAND tracking_cuda_tests)
+ set_tests_properties(tracking_cuda PROPERTIES LABELS "gpu" TIMEOUT 300)
+diff --git a/cmake/TrackingSession.cmake b/cmake/TrackingSession.cmake
+index 993e57c..0fb3340 100644
+--- a/cmake/TrackingSession.cmake
++++ b/cmake/TrackingSession.cmake
+@@ -18,20 +18,28 @@ set_tests_properties(tracking_packet PROPERTIES LABELS "gpu" TIMEOUT 180)
+ if(NOT SACCADE_ENABLE_DETECTION_SESSION)
+   return()
+ endif()
+-add_library(saccade_tracking_session src/tracking_session.cpp)
++add_library(saccade_tracking_session src/tracking_session.cpp src/tracking_tail_graph.cpp)
+ target_link_libraries(saccade_tracking_session PUBLIC saccade_tracking_session_kernels saccade_motion_cuda
+   saccade_preprocess saccade_model_trt saccade_model_producer_cuda saccade_postprocess_cuda saccade_file_io saccade_sha256)
+ target_compile_definitions(saccade_tracking_session PRIVATE
+   SACCADE_BUILD_COMMIT="${SACCADE_BUILD_COMMIT}" SACCADE_BUILD_DIRTY="${SACCADE_BUILD_DIRTY}")
+ add_executable(track_sequence tools/track_sequence.cpp)
++add_executable(tracking_benchmark tools/tracking_benchmark.cpp)
++add_executable(resource_schedule_probe tools/resource_schedule_probe.cpp)
++add_executable(jpeg_stage_probe tools/jpeg_stage_probe.cpp)
++target_link_libraries(jpeg_stage_probe PRIVATE saccade_resize_cuda saccade_postprocess_cuda
++  saccade_model_producer_cuda CUDA::nvjpeg saccade_file_io saccade_sha256)
++if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
++  target_compile_options(jpeg_stage_probe PRIVATE -Wall -Wextra -Wpedantic -Werror)
++endif()
+ add_executable(tracking_session_tests tests/tracking_session_tests.cpp)
+-foreach(target track_sequence tracking_session_tests)
++foreach(target track_sequence tracking_benchmark resource_schedule_probe tracking_session_tests)
+   target_link_libraries(${target} PRIVATE saccade_tracking_session saccade_mot_output)
+   set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
+   target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
+ endforeach()
+ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+-  foreach(target saccade_tracking_session track_sequence tracking_session_tests)
++  foreach(target saccade_tracking_session track_sequence tracking_benchmark resource_schedule_probe tracking_session_tests)
+     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+   endforeach()
+ endif()
+diff --git a/cuda/postprocess.cu b/cuda/postprocess.cu
+index 2f213b2..a4e4351 100644
+--- a/cuda/postprocess.cu
++++ b/cuda/postprocess.cu
+@@ -1,4 +1,5 @@
+ #include "saccade/postprocess_cuda.hpp"
++#include "saccade/detail/postprocess_graph.hpp"
+ 
+ #include <cuda.h>
+ #include <cuda_runtime.h>
+@@ -10,6 +11,7 @@
+ #include <limits>
+ #include <sstream>
+ #include <stdexcept>
++#include <vector>
+ 
+ #ifndef SACCADE_BUILD_COMMIT
+ #define SACCADE_BUILD_COMMIT "unknown"
+@@ -537,6 +539,61 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
+     ck(cudaGetLastError(), "postprocess finalize launch");
+ }
+ 
++namespace detail {
++PostprocessGraphNodes postprocess_graph_nodes(cudaGraph_t graph) {
++    std::size_t count = 0;
++    ck(cudaGraphGetNodes(graph, nullptr, &count), "F04 graph node count");
++    std::vector<cudaGraphNode_t> nodes(count);
++    ck(cudaGraphGetNodes(graph, nodes.data(), &count), "F04 graph nodes");
++    PostprocessGraphNodes found;
++    // TensorRT can add driver-API kernel nodes whose CUfunction has no CUDA
++    // runtime registration. Querying their runtime kernel parameters fails.
++    // F04 is the captured tail: walk its five-node chain from the sole sink
++    // and query only the two kernels owned by this translation unit.
++    for (const auto node : nodes) {
++        std::size_t dependents = 0;
++        ck(cudaGraphNodeGetDependentNodes(node, nullptr, nullptr, &dependents), "F04 graph dependents");
++        if (dependents == 0) {
++            if (found.finalize) throw std::invalid_argument("F04 graph requires one terminal node");
++            found.finalize = node;
++        }
++    }
++    if (!found.finalize) throw std::invalid_argument("missing F04 terminal node");
++    auto node = found.finalize;
++    for (unsigned i = 0; i < 4; ++i) {
++        std::size_t dependencies = 0;
++        ck(cudaGraphNodeGetDependencies(node, nullptr, nullptr, &dependencies), "F04 graph dependency count");
++        if (dependencies != 1) throw std::invalid_argument("F04 graph requires a five-node tail");
++        cudaGraphNode_t previous = nullptr;
++        ck(cudaGraphNodeGetDependencies(node, &previous, nullptr, &dependencies), "F04 graph dependency");
++        node = previous;
++    }
++    found.initialize = node;
++    cudaKernelNodeParams params{};
++    ck(cudaGraphKernelNodeGetParams(found.initialize, &params), "F04 initialize graph params");
++    if (params.func != reinterpret_cast<void*>(initialize)) throw std::invalid_argument("incorrect F04 initialize node");
++    ck(cudaGraphKernelNodeGetParams(found.finalize, &params), "F04 finalize graph params");
++    if (params.func != reinterpret_cast<void*>(finalize)) throw std::invalid_argument("incorrect F04 finalize node");
++    return found;
++}
++void postprocess_graph_set_request(cudaGraphExec_t executable, const PostprocessGraphNodes& nodes,
++                                  const PostprocessProducerStatus* producer, DetectionCandidates* output,
++                                  void* workspace, const PostprocessRequest& request) {
++    auto* work = static_cast<Workspace*>(workspace);
++    auto metadata = request;
++    unsigned positions = model_profile(request.profile).positions();
++    void* init_args[]{&producer, &output, &work, &metadata};
++    cudaKernelNodeParams params{};
++    params.func = reinterpret_cast<void*>(initialize);
++    params.gridDim = dim3(1); params.blockDim = dim3(1); params.kernelParams = init_args;
++    ck(cudaGraphExecKernelNodeSetParams(executable, nodes.initialize, &params), "update F04 initialize metadata");
++    void* final_args[]{&output, &work, &metadata, &positions};
++    params.func = reinterpret_cast<void*>(finalize);
++    params.blockDim = dim3(kFinalizeThreads); params.kernelParams = final_args;
++    ck(cudaGraphExecKernelNodeSetParams(executable, nodes.finalize, &params), "update F04 finalize metadata");
++}
++} // namespace detail
++
+ std::string postprocess_cuda_load_kernels() {
+     std::ostringstream text;
+     const void* kernels[]{reinterpret_cast<const void*>(initialize), reinterpret_cast<const void*>(decode),
+diff --git a/cuda/tracking.cu b/cuda/tracking.cu
+index 50a57a7..1b142ee 100644
+--- a/cuda/tracking.cu
++++ b/cuda/tracking.cu
+@@ -2,6 +2,8 @@
+ #include "saccade/tracking_math.hpp"
+ 
+ #include <cuda_runtime.h>
++#include <cub/block/block_radix_sort.cuh>
++#include <cub/block/block_scan.cuh>
+ #include <algorithm>
+ #include <stdexcept>
+ #include <string>
+@@ -10,6 +12,22 @@ namespace saccade {
+ namespace {
+ namespace math = tracking_math;
+ constexpr int threads = 256;
++constexpr int sort_items = 2; // 512 blocked items cover the complete 300-row pool.
++using SuppressedSort = cub::BlockRadixSort<std::uint64_t, threads, sort_items, int>;
++using CandidateIdSort = cub::BlockRadixSort<std::uint32_t, threads, sort_items, int>;
++using SuppressedScan = cub::BlockScan<unsigned, threads>;
++union BatchSortStorage {
++    SuppressedSort::TempStorage suppressed;
++    CandidateIdSort::TempStorage ids;
++    SuppressedScan::TempStorage compact;
++};
++// All finite FP32 scores are valid inputs here, including negative values.
++// Canonicalize signed zero because the reference compares -0 == +0.
++__device__ std::uint64_t suppressed_key(const DetectionCandidate& candidate) {
++    const auto bits = __float_as_uint(candidate.score == 0.0f ? 0.0f : candidate.score);
++    const auto ascending = bits ^ ((bits & 0x80000000u) ? 0xffffffffu : 0x80000000u);
++    return (std::uint64_t(~ascending) << 32) | candidate.candidate_id;
++}
+ __device__ bool finite_box(const float* box) {
+     for (int i = 0; i < 4; ++i) if (!math::finite(box[i])) return false;
+     return true;
+@@ -95,10 +113,13 @@ __device__ DeviceBatchDetection convert(const DetectionCandidate& d, bool birth,
+ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredicted* predicted,
+                              const TrackerConfig* config, DeviceBatch* out, TrackingCudaScratch* s, const bool* run_stage) {
+     if (run_stage && !*run_stage) return;
++    __shared__ BatchSortStorage sort_storage;
++    __shared__ unsigned input_unsorted;
+     const auto& h = input->header;
+     const auto* candidate_rows = reinterpret_cast<const DetectionCandidate*>(&input->rows);
+     const auto& c = *config;
+     if (threadIdx.x == 0) {
++        input_unsorted = 0;
+         out->epoch = h.epoch; out->frame = static_cast<FrameId>(h.frame); out->count = 0;
+         unsigned error = 0;
+         if (h.epoch != predicted->epoch || out->frame != predicted->frame || h.done != kPostprocessDone ||
+@@ -113,6 +134,7 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
+         const auto& d = candidate_rows[i];
+         s->status[i] = math::finite(d.score) && math::finite(d.x1) && math::finite(d.y1) &&
+                        math::finite(d.x2) && math::finite(d.y2);
++        if (i && suppressed_key(candidate_rows[i - 1]) > suppressed_key(d)) atomicOr(&input_unsorted, 1u);
+     }
+     __syncthreads();
+     if (threadIdx.x == 0) for (unsigned i = 0; i < h.count; ++i)
+@@ -120,17 +142,43 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
+     __syncthreads();
+     if (out->error != Error::none) return;
+     if (c.continuation.enabled && predicted->prior_count && c.continuation.max_candidates) {
++        if (!input_unsorted) {
++            unsigned selected[sort_items], ranks[sort_items];
++            for (unsigned item = 0; item < sort_items; ++item) {
++                const unsigned i = threadIdx.x * sort_items + item;
++                selected[item] = i < h.count && !(candidate_rows[i].flags & kDetectionKept) &&
++                                 (candidate_rows[i].flags & kDetectionSuppressed);
++            }
++            // Native F04 already delivers score/ID order. Verify that order
++            // on device, then compact its suppressed subsequence without
++            // sorting it again. General callers still use the radix path.
++            SuppressedScan(sort_storage.compact).ExclusiveSum(selected, ranks);
++            for (unsigned item = 0; item < sort_items; ++item)
++                if (selected[item]) s->order[ranks[item]] = static_cast<int>(threadIdx.x * sort_items + item);
++        } else {
++            std::uint64_t keys[sort_items];
++            int indices[sort_items];
++            for (unsigned item = 0; item < sort_items; ++item) {
++                const unsigned i = threadIdx.x * sort_items + item;
++                keys[item] = ~std::uint64_t{0}; indices[item] = -1;
++                if (i < h.count) {
++                    const auto& d = candidate_rows[i];
++                    if (!(d.flags & kDetectionKept) && (d.flags & kDetectionSuppressed)) {
++                        keys[item] = suppressed_key(d); indices[item] = static_cast<int>(i);
++                    }
++                }
++            }
++            // Stable blocked input preserves original row order for equal
++            // score/ID keys. Striped output makes the order stores coalesced.
++            SuppressedSort(sort_storage.suppressed).SortBlockedToStriped(keys, indices);
++            for (unsigned item = 0; item < sort_items; ++item) {
++                const unsigned rank = threadIdx.x + item * threads;
++                if (rank < h.count) s->order[rank] = indices[item];
++            }
++        }
+         for (unsigned i = threadIdx.x; i < h.count; i += blockDim.x) {
+             const auto& d = candidate_rows[i];
+             if ((d.flags & kDetectionKept) || !(d.flags & kDetectionSuppressed)) continue;
+-            unsigned rank = 0;
+-            for (unsigned j = 0; j < h.count; ++j) {
+-                const auto& other = candidate_rows[j];
+-                if ((other.flags & kDetectionKept) || !(other.flags & kDetectionSuppressed)) continue;
+-                if (other.score > d.score || (other.score == d.score &&
+-                    (other.candidate_id < d.candidate_id || (other.candidate_id == d.candidate_id && j < i)))) ++rank;
+-            }
+-            s->order[rank] = i;
+             s->matched[i] = 0; s->claims[i] = 1;
+             if (d.score < c.continuation.min_score) continue;
+             const float box[4] = {d.x1, d.y1, d.x2, d.y2};
+@@ -185,12 +233,36 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
+         if (out->error != Error::none) out->count = 0;
+     }
+     __syncthreads();
+-    for (unsigned i = threadIdx.x; i < out->count; i += blockDim.x) {
+-        const auto d = out->rows[i]; unsigned rank = 0;
+-        for (unsigned j = 0; j < out->count; ++j)
+-            if (out->rows[j].candidate_id < d.candidate_id ||
+-                (out->rows[j].candidate_id == d.candidate_id && j < i)) ++rank;
+-        s->batch_rows[rank] = d;
++    if (out->count <= 1) return;
++    // Small batches avoid the fixed 512-item radix cost. At most 32 rows
++    // participate here; larger batches use the stable block radix below.
++    if (out->count <= 32) {
++        if (threadIdx.x < out->count) {
++            const unsigned i = threadIdx.x;
++            const auto d = out->rows[i];
++            unsigned rank = 0;
++            for (unsigned j = 0; j < out->count; ++j)
++                if (out->rows[j].candidate_id < d.candidate_id ||
++                    (out->rows[j].candidate_id == d.candidate_id && j < i)) ++rank;
++            s->batch_rows[rank] = d;
++        }
++        __syncthreads();
++        if (threadIdx.x < out->count) out->rows[threadIdx.x] = s->batch_rows[threadIdx.x];
++        return;
++    }
++    std::uint32_t ids[sort_items];
++    int indices[sort_items];
++    for (unsigned item = 0; item < sort_items; ++item) {
++        const unsigned i = threadIdx.x * sort_items + item;
++        ids[item] = i < out->count ? out->rows[i].candidate_id : ~std::uint32_t{0};
++        indices[item] = static_cast<int>(i);
++    }
++    // A valid UINT32_MAX ID precedes padding because the radix sort is stable
++    // and every valid row precedes padding in the blocked input sequence.
++    CandidateIdSort(sort_storage.ids).SortBlockedToStriped(ids, indices);
++    for (unsigned item = 0; item < sort_items; ++item) {
++        const unsigned rank = threadIdx.x + item * threads;
++        if (rank < out->count) s->batch_rows[rank] = out->rows[indices[item]];
+     }
+     __syncthreads();
+     for (unsigned i = threadIdx.x; i < out->count; i += blockDim.x) out->rows[i] = s->batch_rows[i];
+@@ -200,9 +272,11 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
+                               const DeviceMotionContext* motion, const TrackerConfig* config,
+                               DeviceTrackState* next, DeviceTrackingRows* out, TrackingCudaScratch* s, const bool* run_stage) {
+     if (run_stage && !*run_stage) return;
++    __shared__ unsigned birth_unsorted;
+     const auto& c = *config;
+     const unsigned n = predicted->count, m = batch->count;
+     if (threadIdx.x == 0) {
++        birth_unsorted = 0;
+         unsigned error = static_cast<unsigned>(predicted->error) | static_cast<unsigned>(batch->error);
+         if (batch->epoch != predicted->epoch || motion->epoch != predicted->epoch ||
+             predicted->motion.epoch != predicted->epoch || batch->frame != predicted->frame ||
+@@ -218,6 +292,8 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
+     }
+     for (unsigned j = threadIdx.x; j < m; j += blockDim.x) {
+         s->used[j] = false;
++        if (j && batch->rows[j - 1].candidate_id > batch->rows[j].candidate_id)
++            atomicOr(&birth_unsorted, 1u);
+         if (!finite_detection(batch->rows[j])) numeric(s);
+     }
+     __syncthreads();
+@@ -337,16 +413,21 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
+     next->epoch = predicted->epoch; next->committed_frame = predicted->frame;
+     next->next_uid = predicted->next_uid; next->count = 0;
+     for (unsigned i = 0; i < n; ++i) if (!s->removed[i]) next->tracks[next->count++] = s->tracks[i];
+-    for (unsigned j = 0; j < m; ++j) s->order[j] = j;
+-    for (unsigned j = 1; j < m; ++j) {
+-        const int v = s->order[j]; unsigned k = j;
+-        while (k > 0 && batch->rows[v].candidate_id < batch->rows[s->order[k - 1]].candidate_id) {
+-            s->order[k] = s->order[k - 1]; --k;
++    // The session batch is already sorted. Keep the original stable insertion
++    // fallback for arbitrary public inputs, without reserving radix shared
++    // storage on every hot-path update merely for this uncommon branch.
++    if (birth_unsorted) {
++        for (unsigned j = 0; j < m; ++j) s->order[j] = j;
++        for (unsigned j = 1; j < m; ++j) {
++            const int v = s->order[j]; unsigned k = j;
++            while (k > 0 && batch->rows[v].candidate_id < batch->rows[s->order[k - 1]].candidate_id) {
++                s->order[k] = s->order[k - 1]; --k;
++            }
++            s->order[k] = v;
+         }
+-        s->order[k] = v;
+     }
+     for (unsigned k = 0; k < m; ++k) {
+-        const int j = s->order[k]; const auto& d = batch->rows[j];
++        const int j = birth_unsorted ? s->order[k] : static_cast<int>(k); const auto& d = batch->rows[j];
+         if (s->used[j] || !d.can_birth || d.observed_score < c.life.new_track_thresh) continue;
+         if (next->count == kTrackCapacity) { out->error = Error::overflow; return; }
+         DeviceTrack t{}; t.lifecycle = TrackLifecycle::tentative;
+diff --git a/docs/ASYNC_CONTROL.md b/docs/ASYNC_CONTROL.md
+index 6fc307b..ddd0ea4 100644
+--- a/docs/ASYNC_CONTROL.md
++++ b/docs/ASYNC_CONTROL.md
+@@ -60,14 +60,14 @@ D 與 M 都以 `cudaStreamNonBlocking` 建立。協定只依賴以下語義，
+ | RP：device 端 ResultPacket | M 專用 | packet | D2H | 1 | M 順序 |
+ | HP[r]：host 接收區 | M→H | D2H | H | N_RP | H 等待 `pkt[r]`，消費完才重新提交 |
+ 
+-- **原圖只需一份。** 原圖只在 D 內使用，D 串行執行已保證 decode(k+1) 在 F02(k) 讀完後才覆寫 RAW。真正需要兩份的是 STAGE：nvJPEG decoupled API 的 host phase 寫入 pinned buffer，transfer 以 DMA 讀取它；兩幀要重疊，就得各用一組 state 與 pinned buffer。這取代 DATAFLOW 早期寫的「兩組原圖」。
++- **現行原圖只用一份，重用前需等待最後讀者。** nvJPEG HARDWARE backend 使用內部 stream，不能只靠 D 的順序保護 RAW。TrackingSession 在下一次 decode 前由 host 等待 D 的 F05 `rgb_read_done`；F02 模型輸入的後續 F03 讀取仍受同一 D 順序保護。若採 nvJPEG decoupled API 讓兩幀 host／transfer 重疊，每 slot 須獨立 state、pinned buffer 與 RGB 輸出 lease。這取代 DATAFLOW 早期寫的「兩組原圖」。
+ - **DB 的複製是必要的。** F04b 把 kept 與補回的候選壓實到 M 擁有的 DB，CS slot 因此在 F04b 後就能歸還，不必保留到 F08b。
+ - **slot 數與驗證範圍。** 各 ring 的任意 N ≥ 1 都應符合相同所有權與進度協定，這是設計要求。§7 V01 僅檢查明列的 216 組有限 CPU 模型；合成 CUDA 實機的 ring 組合與重用次數見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)，兩者均不證明任意 N。雙緩衝基線取 N_MI = N_CS = N_H = 2、N_RP ≥ 2，完整模組的具體容量仍屬 P04。
+ - **函式庫的 stream 行為須驗證。** TensorRT 若使用 auxiliary streams，enqueue 對外仍須表現為 D 上的有序工作。cuFFT plan 以 `cufftSetStream` 綁定 M，每個 session 各有一份 plan 與 work area。這兩點列入 P01／P05 驗證。
+ 
+ 目前合成 CUDA profile 只落地上述協定所需的子集：STAGE 為 pinned 合成 metadata；D 以它生成獨立 MI 與最多兩筆 CS，M 將 CS 複製至獨立 DB。MI／CS 各 slot 有 ready／consumed event，STAGE 與 HP 各 slot 有 host lease event，所有 event 都記錄成功 record 的 frame generation。CTL、TS[2]、SPEC[2]、FFT_TMP、固定 RP、cuFFT plan／workspace 及終端診斷的 pinned 區均預先配置。此 profile 沒有 nvJPEG、RAW、模型、PRIOR 或 tracker 資料結構；詳細對應與生命週期見 [CUDA_SYNTHETIC](CUDA_SYNTHETIC.md)。
+ 
+-[native F01／F02](PREPROCESS.md) 現在提供獨立的 `NativePreprocessor`：一個 host submitter、一條 explicit non-default D、單份 pinned JPEG staging／nvJPEG state、RAW 與模型輸入。下一次 enqueue 改寫 staging 前，host 等前幀 F02 event；下游 F05／F03 的 RAW／模型輸入讀取必須先排入同一 D，再呼叫下一次 enqueue，靠 stream 順序避免覆寫。這比上表的雙 STAGE decoupled 設計保守，尚未實作 host phase 跨幀重疊，也未接入本節的完整 session／ResultPacket；合成 CUDA profile 本身仍不含 nvJPEG。`enqueue`／`wait` 錯誤 latch 序列失敗，明確 `close()` 會 checked drain borrowed stream 並釋放資源；既有 17 組數值對照逐位元相同，結果見 [前處理證據](../evidence/preprocess/2026-10-31/REPORT.md)。正常輸出、重跑與資源重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)判定；既知 nvJPEG initcheck FAIL 保留為診斷項，不再阻擋使用結案，也不豁免 API 錯誤或上述生命週期合約。
++[native F01／F02](PREPROCESS.md) 提供獨立的 `NativePreprocessor`：一個 host submitter、一條 explicit non-default D、單份 pinned JPEG staging／nvJPEG state、RAW 與模型輸入。下一次 enqueue 改寫 staging 前，host 等前幀 F02 event；caller 另須等待最後 RAW／RGB reader 完成，不能只把 F05 排入 D 就開始下一次硬體 decode。下游 F03 的模型輸入讀取先排入同一 D，由 D 順序保護下一次 F02 覆寫。現行 TrackingSession 已在 F05 後 record `rgb_read_done`，並在下次 enqueue 前由 host 等待；詳見 [TRACKING §14.1](TRACKING.md)。單份 staging 尚未實作 host phase 跨幀重疊；合成 CUDA profile 本身仍不含 nvJPEG。`enqueue`／`wait` 錯誤 latch 序列失敗，明確 `close()` 會 checked drain borrowed stream 並釋放資源；既有 17 組數值對照逐位元相同，結果見 [前處理證據](../evidence/preprocess/2026-10-31/REPORT.md)。正常輸出、重跑與資源重用依 [使用驗收增補](PREPROCESS_USAGE_POLICY.md)判定；既知 nvJPEG initcheck FAIL 保留為診斷項，不再阻擋使用結案，也不豁免 API 錯誤或上述生命週期合約。
+ 
+ **F01／F02 使用驗收 PASS（受測範圍）**：[正常使用證據](../evidence/preprocess/2026-10-31-usage/REPORT.md)在原 public API／未修改 runtime 上，以 7 張固定真實 JPEG、4 個 sessions 共 208 幀驗證尺寸切換、延後 consumer、ring 重用與獨立雙 instance，全部 RGB／FP32 輸出逐位元對齊。部分下一次 enqueue 開始時已觀察到前幀 consumer 仍未完成；這是有限測試中的重用證據，不代表每幀都有 pending consumer，亦不關閉完整 async session 整合。
+ 
+diff --git a/docs/DATAFLOW.md b/docs/DATAFLOW.md
+index 4dc2ea2..40d20ef 100644
+--- a/docs/DATAFLOW.md
++++ b/docs/DATAFLOW.md
+@@ -48,9 +48,9 @@ flowchart TD
+         ING[F01 nvJPEG] --> FRAME[GpuFrame]
+         FRAME --> MP[F05 grayscale downsample Hanning]
+         MP --> SMALL[獨立 MotionImage]
+-        MP -. 同 stream 排序 .-> PRE[F02 正規化與 640 stretch]
++        PRE[F02 正規化與 profile stretch] -. 現行 D 順序 .-> MP
+         FRAME --> PRE
+-        PRE --> MODEL[F03 YOLO26 與 Mamba-FPN]
++        MP -. 同 stream 排序 .-> MODEL[F03 YOLO26 與 Mamba-FPN]
+         MODEL --> POST[F04 Decode 篩選 NMS 與座標還原]
+         PRE --> MAP[ImageMapping]
+         MAP --> POST
+@@ -82,7 +82,7 @@ flowchart TD
+     OUT --> SINK[每序列 MOT 結果與 completion]
+ ```
+ 
+-原圖只在 detect stream 上被 F05 與 F02 讀取。F05 先生成獨立小型 MotionImage，再發布 ready；main stream 不接觸原圖，可在模型推論仍執行時開始 F06。
++原圖只在 detect stream 上被 F02 與 F05 讀取。現行 native TrackingSession 的 D 順序是 F01／F02 → F05 → F03／F04；F05 生成獨立小型 MotionImage 後發布 ready，main stream 不接觸原圖，可在模型推論仍執行時開始 F06。下一次 nvJPEG 硬體 decode 前，host 等 F05 的 `rgb_read_done`，不能只靠 D 排序保護 RGB；見 [ASYNC_CONTROL](ASYNC_CONTROL.md)。
+ 
+ main 的必要順序是 F06 GMC(k) → F08a GMC control＋predict(k) → PredictedPrior(k) → F04b(k) → F07 → F08b 關聯／更新。F04b 依賴本幀 GMC 與 predict，使用本幀原圖座標的 predicted boxes；偵測候選尚未 ready 時只延後 F04b，不阻止已滿足依賴的 F06／F08a。
+ 
+@@ -254,10 +254,10 @@ sequenceDiagram
+     participant D as detect stream
+     participant M as 有序 main stream
+     D->>D: F01 decode(k)
++    D->>D: F02 模型輸入轉換
+     D->>D: F05 產生獨立 MotionImage(k)
+     D-->>M: motion-input-ready(k)
+-    D->>D: F02 模型輸入轉換
+-    Note over D: 原圖最後使用完成，只在本 stream 重用
++    Note over C,D: 下次 decode 前 host 等 F05 的 rgb_read_done
+     par 模型推論與觀測整理
+         D->>D: F03 與 F04
+         D-->>M: candidates-ready(k)
+@@ -280,7 +280,7 @@ sequenceDiagram
+ serial 路徑先完整處理一幀，作為同一套新 C++／GPU 邏輯的依賴參考；同樣使用本幀 predicted prior。運行目標採 detect stream 與有序 main stream。原圖是 detect stream 內的單一 buffer，候選與小影像 slots 依 frame 序號輪替，另有 host 端 JPEG staging 與 main 頻譜資源；同來源的 GMC／預測／關聯串行。
+ 
+ ```text
+-detect：decode(k) → F05(k) → F02／F03／F04(k) → 下一幀偵測
++detect：decode(k) → F02(k) → F05(k) → F03／F04(k) → 下一幀偵測
+ main：      F06(k) → F08a(k) → F04b(k) → F07／F08b(k) → packet(k)
+             ↑等小影像↑         ↑也等候選↑
+ 
+@@ -289,8 +289,8 @@ detect(k+1) 可與 main(k) 重疊；main(k+1) 不越過 main(k) 的狀態提交
+ 
+ 這張示意圖只標出依賴，不表示等長時間或保證實際並行。每次提交均遵守以下條件：
+ 
+-1. 原圖只由 detect stream 的 F05／F02 使用，這兩者最後讀取完成後即可重用 decode buffer；不等待 main，也不存在 MotionState 借用原圖的分支。模型輸入另等 F03 最後讀取完成。
+-2. F05 在 decode 後先做 grayscale／downsample／Hanning，輸出獨立 MotionImage 並立即發布 motion-input-ready。每個小影像 slot 在覆寫前須等 main 的 motion-input-consumed；slot 重用不牽連原圖生命週期。MotionState 只保存獨立頻譜，不延長小影像借用。
++1. 原圖只由 detect stream 的 F02／F05 使用；下一次硬體 decode 前，host 等最後 F05 reader 完成後才可重用 decode buffer。不等待 main，也不存在 MotionState 借用原圖的分支。模型輸入由同一 D 的 F03 → 下一次 F02 順序保護。
++2. 現行 F05 在 F02 後做 grayscale／downsample／Hanning，輸出獨立 MotionImage 並立即發布 motion-input-ready。每個小影像 slot 在覆寫前須等 main 的 motion-input-consumed；slot 重用不牽連原圖生命週期。MotionState 只保存獨立頻譜，不延長小影像借用。
+ 3. 偵測提交串行，最多一個 detection 在執行。graph 固定輸出交到受保護候選 slot，再發布 candidates-ready；下一次覆寫此 slot 前等 F04b 的 candidates-consumed，不能把 replay 靜態輸出直接借給 main 後立即重用。
+ 4. main 按 `GMC(k) → GMC control／predict(k) → predicted prior(k) → F04b(k) → association／update(k)` 執行。F06／F08a 可以先於 detection-ready 執行；F04b 同時等待本幀候選與本幀預測，F08b 不重複 predict。
+ 5. 所有中途 count／status 留在 device。F08b 寫完整固定容量 ResultPacket，packet-ready 後在 main／有序輸出邊界作每幀唯一一次 D2H；copy 完成後 host 讀 count、status 與前 count 筆結果。不得先讀 count 再複製變長 rows，也不得為 postprocess／prior／gating 另插 D2H。
+diff --git a/docs/PREPROCESS.md b/docs/PREPROCESS.md
+index 7a13857..61804cf 100644
+--- a/docs/PREPROCESS.md
++++ b/docs/PREPROCESS.md
+@@ -24,7 +24,7 @@ F02 的獨立低階介面 [`resize_rgb_chw_cuda`](../include/saccade/resize_cuda
+ 
+ ## 2. Stream、重用與失敗收尾
+ 
+-目前採一份 host staging 與一份 decode state。下一次 `enqueue` 在改寫 staging 前，host 等待前一幀 **F02 完成**的 event；之後在同一 detect stream 排入下一幀 decode 與 resize。RAW 與模型輸入的下游讀取，即使排在該 event 之後，也由 stream 順序保護，不會被下一幀提前覆寫。
++目前採一份 host staging 與一份 decode state。下一次 `enqueue` 在改寫 staging 前，host 等待前一幀 **F02 完成**的 event。下游 RAW／RGB 讀取還須由 caller 等待最後 reader 完成；nvJPEG HARDWARE 的內部 stream 不受較早 D 工作的順序保護。TrackingSession 在 F05 後 record `rgb_read_done`，並在下次 decode 前由 host 等待。模型輸入的 F03 讀取先排入 D，則由 D 順序保護下一次 F02 覆寫。
+ 
+ 這是 F01／F02 的獨立串流實作；[ASYNC_CONTROL §3–4](ASYNC_CONTROL.md#3-資源分類與數量) 的雙 STAGE、decoupled host／transfer／device API 與跨幀 host phase 重疊仍屬完整 session 的接續整合。此版本不把單 staging 的 host 等待冒稱為雙 slot pipeline，也未接入 F05、F03、ResultPacket 或 tracker。
+ 
+diff --git a/docs/TRACKING.md b/docs/TRACKING.md
+index 3bffe87..b169405 100644
+--- a/docs/TRACKING.md
++++ b/docs/TRACKING.md
+@@ -495,3 +495,9 @@ M4 正式執行 **PASS**（cad5298，乾淨 worktree）。證據見 [evidence/m4
+ - 速度：`track_sequence` pipelined 每幀 7.2–8.5 ms，約 118–138 FPS（單一筆電 GPU、WSL2，沒有控制 clock）。
+ 
+ P01 依 §17.4 記為 **CLOSED（有範圍）**，不涵蓋項目照 §17.4 所列。之後若再改偵測器、tracker 或參數，MOT17-02 的結果要標為「M4 之後」。
++
++## 18. 排序優化（2026-11-04）
++
++F04b 在 device 驗證完整 pool 的 score/ID 順序；已有序時穩定壓實 suppressed，否則用完整 64-bit score/ID key 做 stable block radix。batch ID 排序對 2..32 rows 保留 rank，大於 32 用 stable radix；birth 對已排序 batch 直接遍歷，public 未排序輸入仍排序 index permutation。FP32 signed zero、完整 uint32 ID、原 index tie、finite checks 與 deferred error gates 均保持原語義。ABI、scratch allocation 及 tracker profile 不變。
++
++固定 HR replay 的 F04b 組裝 kernel 平均 143.57→102.81 µs（−28.39%），但完整路徑單幀平均僅 7.037→6.978 ms，p95 7.383→7.369 ms，吞吐幾乎不變；不宣稱穩定端到端收益。詳細範圍、控制案例、CPU bit 比較與 sanitizer 結果見 [排序開發報告](../evidence/tracking-sort/2026-11-04/REPORT.md)。這些是開發來源證據，不改寫 §17 的正式驗收與品質結果。
+diff --git a/include/saccade/preprocess.hpp b/include/saccade/preprocess.hpp
+index 7fcb507..26bcf01 100644
+--- a/include/saccade/preprocess.hpp
++++ b/include/saccade/preprocess.hpp
+@@ -32,9 +32,12 @@ struct PreprocessedFrame {
+ //
+ // enqueue owns a copy of the compressed bytes. Before reusing host staging it
+ // waits for the previous F02 event. RAW/images are borrowed until the next
+-// enqueue; downstream F05/F03 must be queued on the same stream before that
+-// call. Stream ordering protects downstream reads, including those queued
+-// after the event. The stream must outlive this object. Any enqueue/wait error
++// enqueue. Before that call, the caller must wait for completion of its last
++// RAW/RGB reader (F05): hardware decode uses private streams and can overwrite
++// RAW before earlier work on detect_stream completes. Queue downstream F03
++// reads of images on detect_stream before the next enqueue; stream ordering
++// protects images against the next F02 write. The stream must outlive this
++// object. Any enqueue/wait error
+ // latches failure; create a fresh session to start another sequence.
+ class NativePreprocessor {
+ public:
+diff --git a/include/saccade/tracking_session.hpp b/include/saccade/tracking_session.hpp
+index 72381a2..f719ff8 100644
+--- a/include/saccade/tracking_session.hpp
++++ b/include/saccade/tracking_session.hpp
+@@ -23,6 +23,7 @@ struct TrackingSessionConfig {
+     MotionConfig motion{};
+     TrackerConfig tracker{};
+     TrackingSessionMode mode = TrackingSessionMode::Pipelined;
++    bool cuda_graph = true; // F03/producer/F04 and tracking tail; nvJPEG stays outside
+     std::uint64_t perturb_seed = 0;
+ };
+ struct TrackingSessionResult {
+diff --git a/src/tracking_session.cpp b/src/tracking_session.cpp
+index e4f54a1..900c6be 100644
+--- a/src/tracking_session.cpp
++++ b/src/tracking_session.cpp
+@@ -1,5 +1,7 @@
+ #include "saccade/tracking_session.hpp"
+ #include "saccade/cleanup.hpp"
++#include "saccade/detail/postprocess_graph.hpp"
++#include "saccade/detail/tracking_tail_graph.hpp"
+ #include "saccade/file_io.hpp"
+ #include "saccade/model_producer_cuda.hpp"
+ #include "saccade/model_trt_network.hpp"
+@@ -49,6 +51,11 @@ public:
+ }
+ 
+ struct TrackingSession::Impl {
++    struct DetectGraph {
++        cudaGraph_t graph = nullptr;
++        cudaGraphExec_t executable = nullptr;
++        detail::PostprocessGraphNodes metadata;
++    };
+     struct CandidateSlot {
+         DetectionCandidates* data = nullptr;
+         cudaEvent_t ready = nullptr, consumed = nullptr;
+@@ -75,6 +82,10 @@ struct TrackingSession::Impl {
+     std::unique_ptr<MotionCuda> motion;
+     std::vector<CandidateSlot> candidates;
+     std::vector<HostSlot> results;
++    std::vector<DetectGraph> detect_graphs;
++    std::unique_ptr<detail::TrackingTailGraph> tracking_graph;
++    float* graph_images = nullptr;
++    std::size_t detect_graph_nodes = 0;
+     void *raw = nullptr, *statuses = nullptr, *producer_scratch = nullptr, *postprocess_scratch = nullptr;
+     float* warmup_images = nullptr;
+     PostprocessProducerStatus* producer = nullptr;
+@@ -200,11 +211,17 @@ struct TrackingSession::Impl {
+             enqueue_associate_and_update(predicted, batch, tracker_motion, tracker_config, tracks, rows,
+                                          tracking_scratch, consumer, &control->value.run_stage);
+             cu(cudaDeviceSynchronize(), "tracking session initialization drain");
++            if (cfg.cuda_graph) {
++                std::vector<DetectionCandidates*> slots;
++                for (auto& slot : candidates) slots.push_back(slot.data);
++                tracking_graph = std::make_unique<detail::TrackingTailGraph>(tail_pointers(), slots, consumer);
++            }
+             std::ostringstream cfg_text;
+             cfg_text << "profile=" << profile.name << "\nepoch=" << cfg.epoch << "\ndevice=" << cfg.device << "\ncandidate_slots=" << cfg.candidate_slots
+                      << "\nmotion_slots=" << cfg.motion_slots << "\nresult_slots=" << cfg.result_slots
+                      << "\noriginal_width=" << cfg.original_width << "\noriginal_height=" << cfg.original_height
+                      << "\nmode=" << (cfg.mode == TrackingSessionMode::Serial ? "serial" : "pipelined")
++                     << "\ncuda_graph=" << (cfg.cuda_graph ? "true" : "false")
+                      << "\nperturb_seed=" << cfg.perturb_seed << "\nmotion.downscale=" << cfg.motion.downscale
+                      << "\nmotion.pcr_threshold=" << std::hexfloat << cfg.motion.pcr_threshold
+                      << "\nmotion.max_shift_fraction=" << cfg.motion.max_shift_fraction << std::defaultfloat << '\n'
+@@ -212,6 +229,48 @@ struct TrackingSession::Impl {
+             configuration = cfg_text.str();
+         } catch (...) { release(); throw; }
+     }
++    detail::TrackingTailPointers tail_pointers() const {
++        return {control, tracks, predicted, batch, rows, tracking_scratch, tracker_config, tracker_motion, device_result};
++    }
++    void capture_detect(const PreprocessedFrame& input, const PostprocessRequest& request) {
++        if (!detect_graphs.empty()) {
++            require(input.images == graph_images, "graph model input address changed");
++            return;
++        }
++        // The actual preprocessor address is known after its first enqueue.
++        // Warm this exact binding before capture; setup is outside steady state.
++        require(context->setTensorAddress(input_name.c_str(), input.images), "bind graph model input");
++        if (!context->enqueueV3(detect)) throw std::runtime_error("graph binding warmup failed");
++        cu(cudaStreamSynchronize(detect), "graph binding warmup drain");
++        graph_images = input.images;
++        detect_graphs.resize(candidates.size());
++        for (std::size_t i = 0; i < candidates.size(); ++i) {
++            auto& graph = detect_graphs[i];
++            bool capturing = false;
++            try {
++                cu(cudaStreamBeginCapture(detect, cudaStreamCaptureModeThreadLocal), "capture detect graph");
++                capturing = true;
++                if (!context->enqueueV3(detect)) throw std::runtime_error("capture F03 failed");
++                model_producer_cuda(input.images, model_profile(config.profile).input_elements(), raw_view, plugins,
++                                    producer, producer_scratch, model_producer_workspace_bytes(), detect, config.profile);
++                postprocess_cuda(raw_view, request, producer, candidates[i].data, sizeof(DetectionCandidates),
++                                 postprocess_scratch, postprocess_workspace_bytes(), detect);
++                const auto ended = cudaStreamEndCapture(detect, &graph.graph);
++                capturing = false;
++                cu(ended, "end detect capture");
++                graph.metadata = detail::postprocess_graph_nodes(graph.graph);
++                cu(cudaGraphInstantiate(&graph.executable, graph.graph, 0), "instantiate detect graph");
++                if (i == 0) cu(cudaGraphGetNodes(graph.graph, nullptr, &detect_graph_nodes), "count detect graph nodes");
++            } catch (...) {
++                if (capturing) {
++                    cudaGraph_t abandoned = nullptr;
++                    (void)cudaStreamEndCapture(detect, &abandoned);
++                    if (abandoned) (void)cudaGraphDestroy(abandoned);
++                }
++                throw;
++            }
++        }
++    }
+     template<class T> void allocate(T*& p, std::size_t count = 1) {
+         cu(cudaMalloc(reinterpret_cast<void**>(&p), count * sizeof(T)), "allocate tracking storage");
+         cu(cudaMemsetAsync(p, 0, count * sizeof(T), consumer), "initialize tracking storage");
+@@ -251,6 +310,13 @@ struct TrackingSession::Impl {
+         // Drain both streams independently, including a D-only tail.
+         if (detect) { token=1; report.release(token,[&](int) { cu(cudaStreamSynchronize(detect),"cleanup D drain"); }); }
+         if (consumer) { token=1; report.release(token,[&](int) { cu(cudaStreamSynchronize(consumer),"cleanup M drain"); }); }
++        if (auto* p = tracking_graph.release()) {
++            report.release(p, [](auto* h) { std::unique_ptr<detail::TrackingTailGraph> hold(h); h->close(); });
++        }
++        for (auto& graph : detect_graphs) {
++            report.release(graph.executable, [](auto p) { cu(cudaGraphExecDestroy(p), "destroy detect graph executable"); });
++            report.release(graph.graph, [](auto p) { cu(cudaGraphDestroy(p), "destroy detect capture"); });
++        }
+         if (auto* p = preprocess.release()) {
+             report.release(p,[](auto* h) { std::unique_ptr<NativePreprocessor> hold(h); h->close(); });
+         }
+@@ -324,19 +390,30 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
+         s.rgb_read_done_recorded = true;
+         d_delay();
+         if (d_only) throw std::runtime_error("directed D-only tail after F05");
+-        require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
+-        if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
+-        d_delay();
+-        model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
+-                            s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
+-        if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
+-        d_delay();
+         auto& candidate = s.candidates[frame % s.config.candidate_slots];
+-        if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
+         PostprocessRequest request;
+         request.epoch = s.config.epoch; request.frame = frame; request.mapping = input.mapping; request.profile = s.config.profile;
+-        postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
+-                         postprocess_workspace_bytes(), s.detect);
++        // Directed perturbation/injection retains the original individual boundaries.
++        const bool graph_detect = s.config.cuda_graph && !s.config.perturb_seed && !override_flags;
++        if (graph_detect) {
++            s.capture_detect(input, request);
++            auto& graph = s.detect_graphs[frame % s.config.candidate_slots];
++            detail::postprocess_graph_set_request(graph.executable, graph.metadata, s.producer, candidate.data,
++                                                  s.postprocess_scratch, request);
++            if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D graph wait CS consumed");
++            cu(cudaGraphLaunch(graph.executable, s.detect), "launch detect graph");
++        } else {
++            require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
++            if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
++            d_delay();
++            model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
++                                s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
++            if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
++            d_delay();
++            if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
++            postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
++                             postprocess_workspace_bytes(), s.detect);
++        }
+         d_delay();
+         cu(cudaEventRecord(candidate.ready, s.detect), "record CS ready");
+         detail::tracking_session_begin(s.control, s.config.epoch, frame, s.consumer);
+@@ -350,21 +427,27 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
+         m_delay();
+         detail::tracking_session_stage(s.control, &s.predicted->error, nullptr, nullptr, s.consumer);
+         cu(cudaStreamWaitEvent(s.consumer, candidate.ready, 0), "M wait CS ready");
+-        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+-        enqueue_assemble_detection_batch(candidate.data, s.predicted, s.tracker_config, s.batch,
+-                                         s.tracking_scratch, s.consumer, &s.control->value.run_stage);
+-        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+-        cu(cudaEventRecord(candidate.consumed, s.consumer), "record CS consumed");
+-        m_delay();
+-        detail::tracking_session_stage(s.control, &s.batch->error, nullptr, nullptr, s.consumer);
+-        for (unsigned i = 0; i < 2; ++i)
+-            enqueue_associate_and_update(s.predicted, s.batch, s.tracker_motion, s.tracker_config, s.tracks + i,
+-                                         s.rows, s.tracking_scratch, s.consumer, &s.control->slot_run[i]);
+-        m_delay();
+-        detail::tracking_session_stage(s.control, &s.rows->error, nullptr, nullptr, s.consumer);
+-        detail::tracking_session_commit(s.control, s.consumer);
+-        m_delay();
+-        detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
++        if (s.config.cuda_graph && !s.config.perturb_seed) {
++            s.tracking_graph->launch(frame % s.config.candidate_slots, s.consumer);
++            // A later release still protects every CS read, including graph work.
++            cu(cudaEventRecord(candidate.consumed, s.consumer), "record graph CS consumed");
++        } else {
++            detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
++            enqueue_assemble_detection_batch(candidate.data, s.predicted, s.tracker_config, s.batch,
++                                             s.tracking_scratch, s.consumer, &s.control->value.run_stage);
++            detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
++            cu(cudaEventRecord(candidate.consumed, s.consumer), "record CS consumed");
++            m_delay();
++            detail::tracking_session_stage(s.control, &s.batch->error, nullptr, nullptr, s.consumer);
++            for (unsigned i = 0; i < 2; ++i)
++                enqueue_associate_and_update(s.predicted, s.batch, s.tracker_motion, s.tracker_config, s.tracks + i,
++                                             s.rows, s.tracking_scratch, s.consumer, &s.control->slot_run[i]);
++            m_delay();
++            detail::tracking_session_stage(s.control, &s.rows->error, nullptr, nullptr, s.consumer);
++            detail::tracking_session_commit(s.control, s.consumer);
++            m_delay();
++            detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
++        }
+         auto& host = s.results[frame % s.config.result_slots];
+         cu(cudaMemcpyAsync(host.data, s.device_result, packet_bytes, cudaMemcpyDeviceToHost, s.consumer), "copy packet");
+         cu(cudaEventRecord(host.done, s.consumer), "record packet ready");
+@@ -418,6 +501,8 @@ std::string TrackingSession::identity() const {
+         << "\npacket_profile=v1\nengine_sha256=" << s.engine_hash
+         << "\ntracker_config_sha256=" << sha256_hex(canonical_tracker_config(s.config.tracker))
+         << "\nsource_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY << '\n'
++        << "detect_graph_nodes=" << s.detect_graph_nodes
++        << "\ntracking_graph_kernel_nodes=" << (s.tracking_graph ? s.tracking_graph->kernel_nodes() : 0) << '\n'
+         << s.configuration << "session_config_sha256=" << sha256_hex(s.configuration) << '\n';
+     return out.str();
+ }
+diff --git a/tests/postprocess_cuda_tests.cpp b/tests/postprocess_cuda_tests.cpp
+index 08d239c..3330381 100644
+--- a/tests/postprocess_cuda_tests.cpp
++++ b/tests/postprocess_cuda_tests.cpp
+@@ -1,4 +1,5 @@
+ #include "saccade/postprocess_cuda.hpp"
++#include "saccade/detail/postprocess_graph.hpp"
+ #include "saccade/cleanup.hpp"
+ #include "saccade/file_io.hpp"
+ #include "saccade/sha256.hpp"
+@@ -424,6 +425,61 @@ struct Harness {
+         report.throw_if_failed();
+     }
+ };
++void graph_request_tests() {
++    Harness h;
++    const auto captured_request = request();
++    cudaGraph_t capture = nullptr;
++    cudaGraphExec_t executable = nullptr;
++    cu(cudaStreamBeginCapture(h.stream.value, cudaStreamCaptureModeThreadLocal));
++    h.launch(captured_request);
++    cu(cudaStreamEndCapture(h.stream.value, &capture));
++    try {
++        const auto nodes = detail::postprocess_graph_nodes(capture);
++        require(nodes.initialize != nullptr && nodes.finalize != nullptr && nodes.initialize != nodes.finalize,
++                "graph metadata identifies distinct initialize/finalize nodes");
++        cu(cudaGraphInstantiate(&executable, capture, 0));
++        constexpr std::array<unsigned, 8> widths{1919, 1280, 31, 65535, 640, 1920, 17, 1079};
++        constexpr std::array<unsigned, 8> heights{1079, 320, 991, 1, 1080, 1080, 29, 1919};
++        constexpr std::array<std::uint32_t, 8> capacities{300, 2, 1, 300, 300, 0, 300, 300};
++        constexpr std::array<std::uint32_t, 8> flags{0, 0, kPostprocessOverflow, kPostprocessNumeric,
++                                                   kPostprocessUpstream, kPostprocessProtocol, 0, 0};
++        for (unsigned phase = 0; phase < widths.size(); ++phase) {
++            Raw raw;
++            // A zero logit has exactly representable score 0.5 in both
++            // implementations, permitting comparison of every output byte.
++            if (phase != 6) {
++                raw.logit(0, 0, 0); raw.logit(1, 0, 0);
++                raw.box(0, -8, -16, 16, 16); raw.box(1, 32, 48, 48, 80);
++            }
++            auto r = request(widths[phase], heights[phase]);
++            r.epoch = 0xface000000000000ULL + phase;
++            r.frame = 0x30000000bULL + phase * 7;
++            r.capacity = capacities[phase];
++            auto producer = success;
++            if (phase == 3) raw.logit(spec().positions() - 1, 79, std::numeric_limits<float>::quiet_NaN());
++            if (phase == 4) producer.flags = kPostprocessNumeric;
++            if (phase == 5) producer.done = 0;
++            const auto expected = postprocess_reference(raw.view(), r, producer);
++            require(expected.header.flags == flags[phase] && expected.header.count == (phase < 2 || phase == 7 ? 2U : 0U),
++                    "graph metadata fixture phase=" + std::to_string(phase));
++            h.upload(raw, producer);
++            detail::postprocess_graph_set_request(executable, nodes, h.producer.as<PostprocessProducerStatus>(),
++                h.output.as<DetectionCandidates>(), h.workspace.p, r);
++            cu(cudaGraphLaunch(executable, h.stream.value));
++            const auto actual = h.read();
++            require(std::memcmp(&actual, &expected, sizeof(actual)) == 0,
++                    "graph metadata/reuse phase=" + std::to_string(phase) + ": full output bytes differ");
++        }
++        cu(cudaGraphExecDestroy(executable)); executable = nullptr;
++        cu(cudaGraphDestroy(capture)); capture = nullptr;
++    } catch (...) {
++        if (executable) (void)cudaGraphExecDestroy(executable);
++        if (capture) (void)cudaGraphDestroy(capture);
++        throw;
++    }
++    h.close();
++    std::cout << "graph-request-update=PASS phases=8 full-output-bytes=identical\n";
++}
+ void directed_tests(bool graph) {
+     Harness h;
+     for (const auto& item : cases()) {
+@@ -665,7 +721,7 @@ int main(int argc, char** argv) {
+             std::cout << "CPU fixture invariants=" << checks << " PASS\n"; return 0;
+         }
+         cu(cudaSetDevice(0)); std::cout << postprocess_cuda_load_kernels() << postprocess_cuda_identity();
+-        if (!streams_only) { directed_tests(true); argument_tests(); }
++        if (!streams_only) { directed_tests(true); graph_request_tests(); argument_tests(); }
+         stream_tests(skip_held);
+         if (!dumps.empty()) replay_tests(dumps);
+         std::cout << "max_score_abs_error=" << worst_score_error << '\n';
+diff --git a/tests/tracking_cuda_tests.cpp b/tests/tracking_cuda_tests.cpp
+index 5c9e24c..c4e791a 100644
+--- a/tests/tracking_cuda_tests.cpp
++++ b/tests/tracking_cuda_tests.cpp
+@@ -296,6 +296,130 @@ void capacity_tests(Harness& h) {
+     u = h.step(state, candidates(2, {candidate(1, 20000)}), motion(2), 2);
+     check(u.error == Error::overflow, "full chain track overflow");
+ }
++void sorting_tests(Harness& h) {
++    // Real model IDs fit 15 bits, but the public candidate/batch ABI carries
++    // uint32 IDs. These fixtures also distinguish UINT_MAX from padding.
++    std::vector<std::uint32_t> ids{UINT32_MAX, 0, 0x80000000u, 0x7fffffffu, 0x00ffffffu, 0xff000000u};
++    for (std::uint32_t i = 1; ids.size() < kBatchCapacity; ++i) {
++        const std::uint32_t id = i * 0x9e3779b9u;
++        if (std::find(ids.begin(), ids.end(), id) == ids.end()) ids.push_back(id);
++    }
++    std::mt19937 rng(0x503274u);
++    for (unsigned count : {0u, 1u, 31u, 32u, 33u, 127u, 128u, 129u, 255u, 256u, 257u, 300u}) {
++        std::vector<DetectionCandidate> kept, suppressed;
++        std::vector<BatchDetection> unsorted_births;
++        for (unsigned i = 0; i < count; ++i) {
++            const float x = static_cast<float>(i * 20);
++            kept.push_back(candidate(ids[i], x, .8f));
++            unsorted_births.push_back(detection(ids[i], x, .8f, true));
++            const float scores[]{.8f, .6f, .6f, .2f};
++            suppressed.push_back(candidate(ids[i], 0, scores[i % 4], kDetectionSuppressed));
++        }
++        std::shuffle(kept.begin(), kept.end(), rng);
++        std::shuffle(suppressed.begin(), suppressed.end(), rng);
++        std::shuffle(unsorted_births.begin(), unsorted_births.end(), rng);
++        context = "F04b kept sorting count " + std::to_string(count);
++        const auto all_kept = h.assemble(candidates(0, kept), predicted(0));
++        check(all_kept.error == Error::none && all_kept.rows.size() == count, "kept count");
++        auto sorted_ids = std::vector<std::uint32_t>(ids.begin(), ids.begin() + count);
++        std::sort(sorted_ids.begin(), sorted_ids.end());
++        for (unsigned i = 0; i < count; ++i)
++            check(all_kept.rows[i].candidate_id == sorted_ids[i], "unsigned full-width candidate order");
++
++        auto prior = predicted(0); prior.priors = {{1, {0, 0, 10, 20}, 0}};
++        TrackerConfig c; c.continuation.dedup_iou = 1;
++        for (unsigned cap : {count, count / 2}) {
++            context = "F04b suppressed sorting count " + std::to_string(count) + " cap " + std::to_string(cap);
++            c.continuation.max_candidates = cap;
++            const auto selected = h.assemble(candidates(0, suppressed), prior, c);
++            check(selected.error == Error::none && selected.rows.size() == cap, "continuation cap/tie selection");
++            auto ranked = suppressed;
++            std::sort(ranked.begin(), ranked.end(), [](const auto& a, const auto& b) {
++                return a.score != b.score ? a.score > b.score : a.candidate_id < b.candidate_id;
++            });
++            std::vector<std::uint32_t> selected_ids;
++            for (unsigned i = 0; i < cap; ++i) selected_ids.push_back(ranked[i].candidate_id);
++            std::sort(selected_ids.begin(), selected_ids.end());
++            for (unsigned i = 0; i < cap; ++i)
++                check(selected.rows[i].candidate_id == selected_ids[i], "score descending and uint32 ID tie break");
++        }
++
++        // Update is a public primitive and must sort births even when its
++        // caller supplies a batch that did not come from F04b.
++        context = "unsorted public batch births count " + std::to_string(count);
++        auto p = predicted(0); p.next_uid = 0x100000003ULL;
++        const auto births = h.update(p, batch(0, unsorted_births), motion(0));
++        check(births.error == Error::none && births.next.tracks.size() == count && births.rows.empty(),
++              "all unsorted births remain tentative");
++        std::sort(unsorted_births.begin(), unsorted_births.end(), [](const auto& a, const auto& b) {
++            return a.candidate_id < b.candidate_id;
++        });
++        for (unsigned i = 0; i < count; ++i) {
++            check(births.next.tracks[i].uid == p.next_uid + i, "birth UID assignment follows unsigned candidate order");
++            same(births.next.tracks[i].x[0], unsorted_births[i].xyxy[0] + 5, "birth source candidate center");
++        }
++    }
++    // Exercise the already-sorted pool path with all four flag combinations.
++    // Equal scores make the deliberate inversion depend solely on ID order;
++    // the continuation cap falls inside that pair, so skipping its sort would
++    // choose a different candidate even after the final batch ID sort.
++    for (unsigned count : {32u, 33u, 256u, 257u, 300u}) {
++        std::vector<std::uint32_t> ordered_ids(ids.begin(), ids.begin() + count);
++        std::sort(ordered_ids.begin(), ordered_ids.end());
++        std::vector<DetectionCandidate> sorted_pool;
++        constexpr unsigned flags[]{kDetectionKept, kDetectionSuppressed, kDetectionKept | kDetectionSuppressed, 0};
++        for (unsigned i = 0; i < count; ++i)
++            sorted_pool.push_back(candidate(ordered_ids[i], static_cast<float>(i * 20), .8f, flags[i % 4]));
++        const unsigned inversion = count >= 257 ? 255 : count / 2 - 1;
++        sorted_pool[inversion].flags = sorted_pool[inversion + 1].flags = kDetectionSuppressed;
++        unsigned kept_count = 0, continuation_cap = 0;
++        for (unsigned i = 0; i < count; ++i) {
++            if (sorted_pool[i].flags & kDetectionKept) ++kept_count;
++            else if ((sorted_pool[i].flags & kDetectionSuppressed) && i <= inversion) ++continuation_cap;
++        }
++        auto prior = predicted(0); prior.priors = {{1, {0, 0, 10, 20}, 0}};
++        TrackerConfig c; c.continuation.prior_iou = 0; c.continuation.dedup_iou = 1;
++        c.continuation.max_candidates = continuation_cap;
++        context = "sorted mixed flags count " + std::to_string(count);
++        const auto sorted = h.assemble(candidates(0, sorted_pool), prior, c);
++        check(sorted.error == Error::none && sorted.rows.size() == kept_count + continuation_cap,
++              "mixed flags use kept precedence and ignore unflagged rows");
++        auto inverted_pool = sorted_pool;
++        std::swap(inverted_pool[inversion], inverted_pool[inversion + 1]);
++        context = "equal-score ID inversion at " + std::to_string(inversion) + "/" + std::to_string(inversion + 1);
++        const auto inverted = h.assemble(candidates(0, inverted_pool), prior, c);
++        compare(inverted, sorted);
++        inverted_pool[0].score = std::numeric_limits<float>::quiet_NaN();
++        context = "sorted/unsorted/numeric reuse count " + std::to_string(count);
++        check(h.assemble(candidates(0, inverted_pool), prior, c).error == Error::numeric, "numeric frame clears batch");
++        compare(h.assemble(candidates(0, sorted_pool), prior, c), sorted);
++    }
++    // Zero thresholds are valid. +0 and -0 compare equal in the reference,
++    // so their ID order must win over their different floating-point bits.
++    // Negative finite scores remain below the gate and must not displace them.
++    std::vector<DetectionCandidate> zeros{
++        candidate(UINT32_MAX, 0, 0.0f, kDetectionSuppressed),
++        candidate(0x80000000u, 0, -0.0f, kDetectionSuppressed),
++        candidate(0x7fffffffu, 0, 0.0f, kDetectionSuppressed),
++        candidate(0, 0, -0.0f, kDetectionSuppressed),
++        candidate(42, 0, -1.0f, kDetectionSuppressed),
++        candidate(UINT32_MAX - 1, 0, .25f, kDetectionSuppressed),
++        candidate(7, 0, -std::numeric_limits<float>::denorm_min(), kDetectionSuppressed)};
++    std::shuffle(zeros.begin(), zeros.end(), rng);
++    auto p = predicted(0); p.priors = {{1, {0, 0, 10, 20}, 0}};
++    TrackerConfig c; c.continuation.min_score = 0; c.continuation.dedup_iou = 1;
++    for (unsigned cap : {1u, 2u, 3u, 4u, 5u, 7u}) {
++        context = "suppressed signed zero sorting cap " + std::to_string(cap);
++        c.continuation.max_candidates = cap;
++        const auto out = h.assemble(candidates(0, zeros), p, c);
++        check(out.error == Error::none && out.rows.size() == std::min(cap, 5u), "zero scores accepted, negative scores excluded");
++        if (cap == 2) check(out.rows.front().candidate_id == 0, "signed zero tie uses ID before sign bit");
++    }
++    for (auto& d : zeros) d.flags = kDetectionKept;
++    c.batch.track_thresh = 0;
++    context = "kept signed zero and negative sorting";
++    check(h.assemble(candidates(0, zeros), predicted(0), c).rows.size() == 5, "kept zero threshold");
++}
+ void error_tests(Harness& h) {
+     for (unsigned kind = 0; kind < 11; ++kind) {
+         auto d = candidates(0, {candidate(1)});
+@@ -498,7 +622,7 @@ void recorded(Harness& h, const std::filesystem::path& dir) {
+ int main(int argc, char** argv) {
+     try {
+         Harness h;
+-        stream_tests(h); sequences(h); capacity_tests(h); error_tests(h); decision_tests(h);
++        stream_tests(h); sequences(h); capacity_tests(h); sorting_tests(h); error_tests(h); decision_tests(h);
+         if (argc > 1) recorded(h, argv[1]);
+         std::cout << "tracking_cuda_tests: " << checks << " checks passed\n"; return 0;
+     } catch (const std::exception& e) {
+diff --git a/tests/tracking_session_tests.cpp b/tests/tracking_session_tests.cpp
+index 2bda4a2..bd81690 100644
+--- a/tests/tracking_session_tests.cpp
++++ b/tests/tracking_session_tests.cpp
+@@ -104,6 +104,7 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
+     cfg.epoch = detections.epoch;
+     cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
+     cfg.mode = TrackingSessionMode::Serial;
++    cfg.cuda_graph = false;
+     Stream expected;
+     TrackerReference reference(cfg.epoch);
+     for (std::size_t k = 0; k < count; ++k) expected.push_back(encode_packet(reference.step(detections.frames[k], motion.frames[k])));
+@@ -118,8 +119,19 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
+         check(true, "CPU serial packet bytes");
+     }
+     cfg.mode = TrackingSessionMode::Pipelined;
++    cfg.cuda_graph = true;
+     const auto pipelined = run(engine, sequence, cfg, count);
+-    compare(expected, pipelined, "CPU/pipelined"); compare(serial, pipelined, "serial/pipelined");
++    compare(expected, pipelined, "CPU/graph pipelined"); compare(serial, pipelined, "ordinary serial/graph pipelined");
++    // Unequal ring periods expose captures that accidentally retain another
++    // slot's address or the first captured frame identity. Keep these controls
++    // bounded independently of the full-sequence comparison above.
++    const std::size_t prefix_count = std::min<std::size_t>(count, 30);
++    const Stream prefix(serial.begin(), serial.begin() + prefix_count);
++    for (const unsigned slots : {1U, 3U}) {
++        cfg.candidate_slots = slots; cfg.motion_slots = slots;
++        cfg.result_slots = slots == 1 ? 8 : 5;
++        compare(prefix, run(engine, sequence, cfg, prefix_count), slots == 1 ? "graph rings 1/1/8" : "graph rings 3/3/5");
++    }
+     if (sequence.filename() == "MOT17-10-SDP" || sequence.filename() == "MOT17-05-SDP") {
+         for (const auto seed : {0x12345678ULL, 0xbadc0ffeeULL}) {
+             cfg.perturb_seed = seed;
+@@ -130,92 +142,100 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
+     SequenceOutput cpu, gpu;
+     for (std::size_t k = 0; k < count; ++k) { cpu.add(decode_packet(expected[k])); gpu.add(decode_packet(pipelined[k])); }
+     check(format_mot_rows(cpu.finish()) == format_mot_rows(gpu.finish()), "F09 MOT bytes");
+-    std::cout << sequence.filename().string() << " frames=" << count << " CPU/serial/pipelined packet bytes identical\n";
++    std::cout << sequence.filename().string() << " frames=" << count
++              << " CPU/ordinary serial/graph pipelined packet bytes identical; graph ring controls=" << prefix_count << " frames\n";
+ }
+ void lifecycle_test(const std::string& engine, const std::filesystem::path& sequence,
+                     const DetectionRecords& detections, const MotionRecords& motion) {
+     TrackingSessionConfig cfg;
+     cfg.epoch = detections.epoch; cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
+-    cfg.result_slots = 8; cfg.motion_slots = 1; cfg.candidate_slots = 1; cfg.perturb_seed = 123;
++    cfg.motion_slots = 1; cfg.candidate_slots = 1;
+     Stream previous;
+-    for (const auto mode : {TrackingSessionMode::Serial, TrackingSessionMode::Pipelined}) {
+-        cfg.mode = mode;
+-        TrackingSession session(engine, cfg);
+-        detail::TrackingSessionDiagnostic baseline;
+-        for (FrameId k = 0; k < 8; ++k) {
+-            if (k == 3) baseline = TrackingSessionTestAccess::diagnostic(session);
+-            const auto bytes = jpeg(sequence, k);
+-            TrackingSessionTestAccess::enqueue(session, span(bytes), k, k == 3 ? static_cast<std::uint32_t>(kPostprocessUpstream) : k == 6 ? static_cast<std::uint32_t>(kPostprocessOverflow) : 0U);
++    // Perturbation intentionally exercises the ordinary boundary schedule.
++    // The graph branch must run without it to test actual graph execution,
++    // including sticky failure, frozen committed state and resource cleanup.
++    for (const bool use_graph : {false, true}) {
++        cfg.cuda_graph = use_graph;
++        cfg.result_slots = 8; cfg.perturb_seed = use_graph ? 0 : 123;
++        for (const auto mode : {TrackingSessionMode::Serial, TrackingSessionMode::Pipelined}) {
++            cfg.mode = mode;
++            TrackingSession session(engine, cfg);
++            detail::TrackingSessionDiagnostic baseline;
++            for (FrameId k = 0; k < 8; ++k) {
++                if (k == 3) baseline = TrackingSessionTestAccess::diagnostic(session);
++                const auto bytes = jpeg(sequence, k);
++                TrackingSessionTestAccess::enqueue(session, span(bytes), k, k == 3 ? static_cast<std::uint32_t>(kPostprocessUpstream) : k == 6 ? static_cast<std::uint32_t>(kPostprocessOverflow) : 0U);
++            }
++            bool full = false;
++            try { session.enqueue({}, 8); } catch (const std::length_error&) { full = true; }
++            check(full && session.pending() == 8, "ring backpressure before submission");
++            session.finish();
++            check(session.state() == TrackingSessionState::Failed, "failure observed on finish");
++            Stream current;
++            for (FrameId k = 0; k < 8; ++k) {
++                const auto r = session.receive(); current.push_back(r.bytes);
++                check(r.packet.status == (k < 3 ? ResultStatus::ok : k == 3 ? ResultStatus::failed : ResultStatus::skipped_after_failure), "failure status");
++                check(r.packet.committed_frame == (k < 3 ? k : 2), "frozen committed frame");
++                if (k >= 3) {
++                    check(r.packet.fail_frame == 3 && r.packet.fail_code == Error::producer, "first failure sticky");
++                    check(r.packet.tracks.empty() && r.packet.frame_error == (k == 3 ? Error::producer : Error::none), "failed/skipped rows and frame_error");
++                }
++            }
++            const auto d = TrackingSessionTestAccess::diagnostic(session);
++            check(d.control.committed_slot == baseline.control.committed_slot && d.control.committed_frame == 2, "CTL version frozen");
++            const auto* actual = reinterpret_cast<const unsigned char*>(&d.tracks[d.control.committed_slot]);
++            const auto* before = reinterpret_cast<const unsigned char*>(&baseline.tracks[baseline.control.committed_slot]);
++            const auto byte = static_cast<std::size_t>(std::mismatch(actual, actual + sizeof(DeviceTrackState), before).first - actual);
++            if (byte != sizeof(DeviceTrackState))
++                std::cerr << "TS snapshot first byte=" << byte << " live=" << unsigned(actual[byte]) << " baseline=" << unsigned(before[byte])
++                          << " track_base=" << offsetof(DeviceTrackState, tracks) << " track_size=" << sizeof(DeviceTrack)
++                          << " h_ema_offset=" << offsetof(DeviceTrack, h_ema) << '\n';
++            check(byte == sizeof(DeviceTrackState), "complete committed TS frozen");
++            if (!previous.empty()) compare(previous, current, "failure ordinary/graph serial/pipelined");
++            previous = current;
++            session.cancel(); session.close(); session.close();
+         }
+-        bool full = false;
+-        try { session.enqueue({}, 8); } catch (const std::length_error&) { full = true; }
+-        check(full && session.pending() == 8, "ring backpressure before submission");
+-        session.finish();
+-        check(session.state() == TrackingSessionState::Failed, "failure observed on finish");
+-        Stream current;
+-        for (FrameId k = 0; k < 8; ++k) {
+-            const auto r = session.receive(); current.push_back(r.bytes);
+-            check(r.packet.status == (k < 3 ? ResultStatus::ok : k == 3 ? ResultStatus::failed : ResultStatus::skipped_after_failure), "failure status");
+-            check(r.packet.committed_frame == (k < 3 ? k : 2), "frozen committed frame");
+-            if (k >= 3) {
+-                check(r.packet.fail_frame == 3 && r.packet.fail_code == Error::producer, "first failure sticky");
+-                check(r.packet.tracks.empty() && r.packet.frame_error == (k == 3 ? Error::producer : Error::none), "failed/skipped rows and frame_error");
++        cfg.mode = TrackingSessionMode::Pipelined; cfg.perturb_seed = use_graph ? 0 : 456;
++        {
++            cfg.result_slots = 1;
++            TrackingSession session(engine, cfg);
++            for (FrameId k = 0; k < 3; ++k) {
++                const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k);
++                bool full = false;
++                try { session.enqueue(span(bytes), k + 1); } catch (const std::length_error&) { full = true; }
++                check(full, "recoverable full ring"); check(session.receive().packet.status == ResultStatus::ok, "receive releases HP");
+             }
++            session.cancel();
++            check(session.state() == TrackingSessionState::Cancelled, "cancel distinct from EOF");
++            session.cancel(); session.close(); session.close();
+         }
+-        const auto d = TrackingSessionTestAccess::diagnostic(session);
+-        check(d.control.committed_slot == baseline.control.committed_slot && d.control.committed_frame == 2, "CTL version frozen");
+-        const auto* actual = reinterpret_cast<const unsigned char*>(&d.tracks[d.control.committed_slot]);
+-        const auto* before = reinterpret_cast<const unsigned char*>(&baseline.tracks[baseline.control.committed_slot]);
+-        const auto byte = static_cast<std::size_t>(std::mismatch(actual, actual + sizeof(DeviceTrackState), before).first - actual);
+-        if (byte != sizeof(DeviceTrackState))
+-            std::cerr << "TS snapshot first byte=" << byte << " live=" << unsigned(actual[byte]) << " baseline=" << unsigned(before[byte])
+-                      << " track_base=" << offsetof(DeviceTrackState, tracks) << " track_size=" << sizeof(DeviceTrack)
+-                      << " h_ema_offset=" << offsetof(DeviceTrack, h_ema) << '\n';
+-        check(byte == sizeof(DeviceTrackState), "complete committed TS frozen");
+-        if (!previous.empty()) compare(previous, current, "failure serial/pipelined");
+-        previous = current;
+-        session.cancel(); session.close(); session.close();
+-    }
+-    cfg.mode = TrackingSessionMode::Pipelined; cfg.perturb_seed = 456;
+-    {
+-        cfg.result_slots = 1;
+-        TrackingSession session(engine, cfg);
+-        for (FrameId k = 0; k < 3; ++k) {
+-            const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k);
+-            bool full = false;
+-            try { session.enqueue(span(bytes), k + 1); } catch (const std::length_error&) { full = true; }
+-            check(full, "recoverable full ring"); check(session.receive().packet.status == ResultStatus::ok, "receive releases HP");
++        {
++            cfg.result_slots = 4;
++            TrackingSession session(engine, cfg);
++            for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
++            session.cancel();
++            check(session.state() == TrackingSessionState::Cancelled, "cancel with pending packets");
++            while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "cancel drains pending packets");
++            session.close();
+         }
+-        session.cancel();
+-        check(session.state() == TrackingSessionState::Cancelled, "cancel distinct from EOF");
+-        session.cancel(); session.close(); session.close();
+-    }
+-    {
+-        cfg.result_slots = 4;
+-        TrackingSession session(engine, cfg);
+-        for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
+-        session.cancel();
+-        check(session.state() == TrackingSessionState::Cancelled, "cancel with pending packets");
+-        while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "cancel drains pending packets");
+-        session.close();
+-    }
+-    {
+-        TrackingSession session(engine, cfg);
+-        for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
+-        const auto bytes = jpeg(sequence, 3);
+-        bool threw = false;
+-        try { TrackingSessionTestAccess::enqueue(session, span(bytes), 3, 0, true); } catch (const std::runtime_error&) { threw = true; }
+-        check(threw && session.state() == TrackingSessionState::Failed, "D-only host failure");
+-        session.cancel();
+-        while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "D-only tail retains prior packets");
+-        session.close(); session.close();
+-    }
+-    {
+-        TrackingSession session(engine, cfg);
+-        const auto bytes = jpeg(sequence, 0); session.enqueue(span(bytes), 0);
+-        // Destructor drains an unread packet and both stream tails.
++        {
++            TrackingSession session(engine, cfg);
++            for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
++            const auto bytes = jpeg(sequence, 3);
++            bool threw = false;
++            try { TrackingSessionTestAccess::enqueue(session, span(bytes), 3, 0, true); } catch (const std::runtime_error&) { threw = true; }
++            check(threw && session.state() == TrackingSessionState::Failed, "D-only host failure");
++            session.cancel();
++            while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "D-only tail retains prior packets");
++            session.close(); session.close();
++        }
++        {
++            TrackingSession session(engine, cfg);
++            const auto bytes = jpeg(sequence, 0); session.enqueue(span(bytes), 0);
++            // Destructor drains an unread packet and both stream tails.
++        }
++        check(true, "destructor drain");
+     }
+-    check(true, "destructor drain");
+ }
+ }
+ int main(int argc, char** argv) {
+diff --git a/tools/track_sequence.cpp b/tools/track_sequence.cpp
+index cc9d098..8f034ec 100644
+--- a/tools/track_sequence.cpp
++++ b/tools/track_sequence.cpp
+@@ -51,12 +51,13 @@ SequenceInfo read_sequence_info(const std::filesystem::path& path) {
+ 
+ int main(int argc, char** argv) {
+     try {
+-        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--packets OUT.bin] [--epoch N] [--profile NAME]");
++        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--no-cuda-graph] [--packets OUT.bin] [--epoch N] [--profile NAME]");
+         saccade::TrackingSessionConfig config;
+         std::filesystem::path packets;
+         for (int i = 4; i < argc; ++i) {
+             const std::string_view arg = argv[i];
+             if (arg == "--serial") config.mode = saccade::TrackingSessionMode::Serial;
++            else if (arg == "--no-cuda-graph") config.cuda_graph = false;
+             else if (arg == "--packets" && i + 1 < argc) packets = argv[++i];
+             else if (arg == "--epoch" && i + 1 < argc) config.epoch = number<std::uint64_t>(argv[++i]);
+             else if (arg == "--profile" && i + 1 < argc) config.profile = saccade::parse_model_profile(argv[++i]);

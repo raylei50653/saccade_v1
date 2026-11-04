@@ -495,3 +495,9 @@ M4 正式執行 **PASS**（cad5298，乾淨 worktree）。證據見 [evidence/m4
 - 速度：`track_sequence` pipelined 每幀 7.2–8.5 ms，約 118–138 FPS（單一筆電 GPU、WSL2，沒有控制 clock）。
 
 P01 依 §17.4 記為 **CLOSED（有範圍）**，不涵蓋項目照 §17.4 所列。之後若再改偵測器、tracker 或參數，MOT17-02 的結果要標為「M4 之後」。
+
+## 18. 排序優化（2026-11-04）
+
+F04b 在 device 驗證完整 pool 的 score/ID 順序；已有序時穩定壓實 suppressed，否則用完整 64-bit score/ID key 做 stable block radix。batch ID 排序對 2..32 rows 保留 rank，大於 32 用 stable radix；birth 對已排序 batch 直接遍歷，public 未排序輸入仍排序 index permutation。FP32 signed zero、完整 uint32 ID、原 index tie、finite checks 與 deferred error gates 均保持原語義。ABI、scratch allocation 及 tracker profile 不變。
+
+固定 HR replay 的 F04b 組裝 kernel 平均 143.57→102.81 µs（−28.39%），但完整路徑單幀平均僅 7.037→6.978 ms，p95 7.383→7.369 ms，吞吐幾乎不變；不宣稱穩定端到端收益。詳細範圍、控制案例、CPU bit 比較與 sanitizer 結果見 [排序開發報告](../evidence/tracking-sort/2026-11-04/REPORT.md)。這些是開發來源證據，不改寫 §17 的正式驗收與品質結果。

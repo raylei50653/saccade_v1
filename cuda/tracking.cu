@@ -2,6 +2,8 @@
 #include "saccade/tracking_math.hpp"
 
 #include <cuda_runtime.h>
+#include <cub/block/block_radix_sort.cuh>
+#include <cub/block/block_scan.cuh>
 #include <algorithm>
 #include <stdexcept>
 #include <string>
@@ -10,6 +12,22 @@ namespace saccade {
 namespace {
 namespace math = tracking_math;
 constexpr int threads = 256;
+constexpr int sort_items = 2; // 512 blocked items cover the complete 300-row pool.
+using SuppressedSort = cub::BlockRadixSort<std::uint64_t, threads, sort_items, int>;
+using CandidateIdSort = cub::BlockRadixSort<std::uint32_t, threads, sort_items, int>;
+using SuppressedScan = cub::BlockScan<unsigned, threads>;
+union BatchSortStorage {
+    SuppressedSort::TempStorage suppressed;
+    CandidateIdSort::TempStorage ids;
+    SuppressedScan::TempStorage compact;
+};
+// All finite FP32 scores are valid inputs here, including negative values.
+// Canonicalize signed zero because the reference compares -0 == +0.
+__device__ std::uint64_t suppressed_key(const DetectionCandidate& candidate) {
+    const auto bits = __float_as_uint(candidate.score == 0.0f ? 0.0f : candidate.score);
+    const auto ascending = bits ^ ((bits & 0x80000000u) ? 0xffffffffu : 0x80000000u);
+    return (std::uint64_t(~ascending) << 32) | candidate.candidate_id;
+}
 __device__ bool finite_box(const float* box) {
     for (int i = 0; i < 4; ++i) if (!math::finite(box[i])) return false;
     return true;
@@ -95,10 +113,13 @@ __device__ DeviceBatchDetection convert(const DetectionCandidate& d, bool birth,
 __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredicted* predicted,
                              const TrackerConfig* config, DeviceBatch* out, TrackingCudaScratch* s, const bool* run_stage) {
     if (run_stage && !*run_stage) return;
+    __shared__ BatchSortStorage sort_storage;
+    __shared__ unsigned input_unsorted;
     const auto& h = input->header;
     const auto* candidate_rows = reinterpret_cast<const DetectionCandidate*>(&input->rows);
     const auto& c = *config;
     if (threadIdx.x == 0) {
+        input_unsorted = 0;
         out->epoch = h.epoch; out->frame = static_cast<FrameId>(h.frame); out->count = 0;
         unsigned error = 0;
         if (h.epoch != predicted->epoch || out->frame != predicted->frame || h.done != kPostprocessDone ||
@@ -113,6 +134,7 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
         const auto& d = candidate_rows[i];
         s->status[i] = math::finite(d.score) && math::finite(d.x1) && math::finite(d.y1) &&
                        math::finite(d.x2) && math::finite(d.y2);
+        if (i && suppressed_key(candidate_rows[i - 1]) > suppressed_key(d)) atomicOr(&input_unsorted, 1u);
     }
     __syncthreads();
     if (threadIdx.x == 0) for (unsigned i = 0; i < h.count; ++i)
@@ -120,17 +142,43 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
     __syncthreads();
     if (out->error != Error::none) return;
     if (c.continuation.enabled && predicted->prior_count && c.continuation.max_candidates) {
+        if (!input_unsorted) {
+            unsigned selected[sort_items], ranks[sort_items];
+            for (unsigned item = 0; item < sort_items; ++item) {
+                const unsigned i = threadIdx.x * sort_items + item;
+                selected[item] = i < h.count && !(candidate_rows[i].flags & kDetectionKept) &&
+                                 (candidate_rows[i].flags & kDetectionSuppressed);
+            }
+            // Native F04 already delivers score/ID order. Verify that order
+            // on device, then compact its suppressed subsequence without
+            // sorting it again. General callers still use the radix path.
+            SuppressedScan(sort_storage.compact).ExclusiveSum(selected, ranks);
+            for (unsigned item = 0; item < sort_items; ++item)
+                if (selected[item]) s->order[ranks[item]] = static_cast<int>(threadIdx.x * sort_items + item);
+        } else {
+            std::uint64_t keys[sort_items];
+            int indices[sort_items];
+            for (unsigned item = 0; item < sort_items; ++item) {
+                const unsigned i = threadIdx.x * sort_items + item;
+                keys[item] = ~std::uint64_t{0}; indices[item] = -1;
+                if (i < h.count) {
+                    const auto& d = candidate_rows[i];
+                    if (!(d.flags & kDetectionKept) && (d.flags & kDetectionSuppressed)) {
+                        keys[item] = suppressed_key(d); indices[item] = static_cast<int>(i);
+                    }
+                }
+            }
+            // Stable blocked input preserves original row order for equal
+            // score/ID keys. Striped output makes the order stores coalesced.
+            SuppressedSort(sort_storage.suppressed).SortBlockedToStriped(keys, indices);
+            for (unsigned item = 0; item < sort_items; ++item) {
+                const unsigned rank = threadIdx.x + item * threads;
+                if (rank < h.count) s->order[rank] = indices[item];
+            }
+        }
         for (unsigned i = threadIdx.x; i < h.count; i += blockDim.x) {
             const auto& d = candidate_rows[i];
             if ((d.flags & kDetectionKept) || !(d.flags & kDetectionSuppressed)) continue;
-            unsigned rank = 0;
-            for (unsigned j = 0; j < h.count; ++j) {
-                const auto& other = candidate_rows[j];
-                if ((other.flags & kDetectionKept) || !(other.flags & kDetectionSuppressed)) continue;
-                if (other.score > d.score || (other.score == d.score &&
-                    (other.candidate_id < d.candidate_id || (other.candidate_id == d.candidate_id && j < i)))) ++rank;
-            }
-            s->order[rank] = i;
             s->matched[i] = 0; s->claims[i] = 1;
             if (d.score < c.continuation.min_score) continue;
             const float box[4] = {d.x1, d.y1, d.x2, d.y2};
@@ -185,12 +233,36 @@ __global__ void batch_kernel(const DetectionCandidates* input, const DevicePredi
         if (out->error != Error::none) out->count = 0;
     }
     __syncthreads();
-    for (unsigned i = threadIdx.x; i < out->count; i += blockDim.x) {
-        const auto d = out->rows[i]; unsigned rank = 0;
-        for (unsigned j = 0; j < out->count; ++j)
-            if (out->rows[j].candidate_id < d.candidate_id ||
-                (out->rows[j].candidate_id == d.candidate_id && j < i)) ++rank;
-        s->batch_rows[rank] = d;
+    if (out->count <= 1) return;
+    // Small batches avoid the fixed 512-item radix cost. At most 32 rows
+    // participate here; larger batches use the stable block radix below.
+    if (out->count <= 32) {
+        if (threadIdx.x < out->count) {
+            const unsigned i = threadIdx.x;
+            const auto d = out->rows[i];
+            unsigned rank = 0;
+            for (unsigned j = 0; j < out->count; ++j)
+                if (out->rows[j].candidate_id < d.candidate_id ||
+                    (out->rows[j].candidate_id == d.candidate_id && j < i)) ++rank;
+            s->batch_rows[rank] = d;
+        }
+        __syncthreads();
+        if (threadIdx.x < out->count) out->rows[threadIdx.x] = s->batch_rows[threadIdx.x];
+        return;
+    }
+    std::uint32_t ids[sort_items];
+    int indices[sort_items];
+    for (unsigned item = 0; item < sort_items; ++item) {
+        const unsigned i = threadIdx.x * sort_items + item;
+        ids[item] = i < out->count ? out->rows[i].candidate_id : ~std::uint32_t{0};
+        indices[item] = static_cast<int>(i);
+    }
+    // A valid UINT32_MAX ID precedes padding because the radix sort is stable
+    // and every valid row precedes padding in the blocked input sequence.
+    CandidateIdSort(sort_storage.ids).SortBlockedToStriped(ids, indices);
+    for (unsigned item = 0; item < sort_items; ++item) {
+        const unsigned rank = threadIdx.x + item * threads;
+        if (rank < out->count) s->batch_rows[rank] = out->rows[indices[item]];
     }
     __syncthreads();
     for (unsigned i = threadIdx.x; i < out->count; i += blockDim.x) out->rows[i] = s->batch_rows[i];
@@ -200,9 +272,11 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
                               const DeviceMotionContext* motion, const TrackerConfig* config,
                               DeviceTrackState* next, DeviceTrackingRows* out, TrackingCudaScratch* s, const bool* run_stage) {
     if (run_stage && !*run_stage) return;
+    __shared__ unsigned birth_unsorted;
     const auto& c = *config;
     const unsigned n = predicted->count, m = batch->count;
     if (threadIdx.x == 0) {
+        birth_unsorted = 0;
         unsigned error = static_cast<unsigned>(predicted->error) | static_cast<unsigned>(batch->error);
         if (batch->epoch != predicted->epoch || motion->epoch != predicted->epoch ||
             predicted->motion.epoch != predicted->epoch || batch->frame != predicted->frame ||
@@ -218,6 +292,8 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
     }
     for (unsigned j = threadIdx.x; j < m; j += blockDim.x) {
         s->used[j] = false;
+        if (j && batch->rows[j - 1].candidate_id > batch->rows[j].candidate_id)
+            atomicOr(&birth_unsorted, 1u);
         if (!finite_detection(batch->rows[j])) numeric(s);
     }
     __syncthreads();
@@ -337,16 +413,21 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
     next->epoch = predicted->epoch; next->committed_frame = predicted->frame;
     next->next_uid = predicted->next_uid; next->count = 0;
     for (unsigned i = 0; i < n; ++i) if (!s->removed[i]) next->tracks[next->count++] = s->tracks[i];
-    for (unsigned j = 0; j < m; ++j) s->order[j] = j;
-    for (unsigned j = 1; j < m; ++j) {
-        const int v = s->order[j]; unsigned k = j;
-        while (k > 0 && batch->rows[v].candidate_id < batch->rows[s->order[k - 1]].candidate_id) {
-            s->order[k] = s->order[k - 1]; --k;
+    // The session batch is already sorted. Keep the original stable insertion
+    // fallback for arbitrary public inputs, without reserving radix shared
+    // storage on every hot-path update merely for this uncommon branch.
+    if (birth_unsorted) {
+        for (unsigned j = 0; j < m; ++j) s->order[j] = j;
+        for (unsigned j = 1; j < m; ++j) {
+            const int v = s->order[j]; unsigned k = j;
+            while (k > 0 && batch->rows[v].candidate_id < batch->rows[s->order[k - 1]].candidate_id) {
+                s->order[k] = s->order[k - 1]; --k;
+            }
+            s->order[k] = v;
         }
-        s->order[k] = v;
     }
     for (unsigned k = 0; k < m; ++k) {
-        const int j = s->order[k]; const auto& d = batch->rows[j];
+        const int j = birth_unsorted ? s->order[k] : static_cast<int>(k); const auto& d = batch->rows[j];
         if (s->used[j] || !d.can_birth || d.observed_score < c.life.new_track_thresh) continue;
         if (next->count == kTrackCapacity) { out->error = Error::overflow; return; }
         DeviceTrack t{}; t.lifecycle = TrackLifecycle::tentative;

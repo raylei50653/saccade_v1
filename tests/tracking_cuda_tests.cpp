@@ -296,6 +296,130 @@ void capacity_tests(Harness& h) {
     u = h.step(state, candidates(2, {candidate(1, 20000)}), motion(2), 2);
     check(u.error == Error::overflow, "full chain track overflow");
 }
+void sorting_tests(Harness& h) {
+    // Real model IDs fit 15 bits, but the public candidate/batch ABI carries
+    // uint32 IDs. These fixtures also distinguish UINT_MAX from padding.
+    std::vector<std::uint32_t> ids{UINT32_MAX, 0, 0x80000000u, 0x7fffffffu, 0x00ffffffu, 0xff000000u};
+    for (std::uint32_t i = 1; ids.size() < kBatchCapacity; ++i) {
+        const std::uint32_t id = i * 0x9e3779b9u;
+        if (std::find(ids.begin(), ids.end(), id) == ids.end()) ids.push_back(id);
+    }
+    std::mt19937 rng(0x503274u);
+    for (unsigned count : {0u, 1u, 31u, 32u, 33u, 127u, 128u, 129u, 255u, 256u, 257u, 300u}) {
+        std::vector<DetectionCandidate> kept, suppressed;
+        std::vector<BatchDetection> unsorted_births;
+        for (unsigned i = 0; i < count; ++i) {
+            const float x = static_cast<float>(i * 20);
+            kept.push_back(candidate(ids[i], x, .8f));
+            unsorted_births.push_back(detection(ids[i], x, .8f, true));
+            const float scores[]{.8f, .6f, .6f, .2f};
+            suppressed.push_back(candidate(ids[i], 0, scores[i % 4], kDetectionSuppressed));
+        }
+        std::shuffle(kept.begin(), kept.end(), rng);
+        std::shuffle(suppressed.begin(), suppressed.end(), rng);
+        std::shuffle(unsorted_births.begin(), unsorted_births.end(), rng);
+        context = "F04b kept sorting count " + std::to_string(count);
+        const auto all_kept = h.assemble(candidates(0, kept), predicted(0));
+        check(all_kept.error == Error::none && all_kept.rows.size() == count, "kept count");
+        auto sorted_ids = std::vector<std::uint32_t>(ids.begin(), ids.begin() + count);
+        std::sort(sorted_ids.begin(), sorted_ids.end());
+        for (unsigned i = 0; i < count; ++i)
+            check(all_kept.rows[i].candidate_id == sorted_ids[i], "unsigned full-width candidate order");
+
+        auto prior = predicted(0); prior.priors = {{1, {0, 0, 10, 20}, 0}};
+        TrackerConfig c; c.continuation.dedup_iou = 1;
+        for (unsigned cap : {count, count / 2}) {
+            context = "F04b suppressed sorting count " + std::to_string(count) + " cap " + std::to_string(cap);
+            c.continuation.max_candidates = cap;
+            const auto selected = h.assemble(candidates(0, suppressed), prior, c);
+            check(selected.error == Error::none && selected.rows.size() == cap, "continuation cap/tie selection");
+            auto ranked = suppressed;
+            std::sort(ranked.begin(), ranked.end(), [](const auto& a, const auto& b) {
+                return a.score != b.score ? a.score > b.score : a.candidate_id < b.candidate_id;
+            });
+            std::vector<std::uint32_t> selected_ids;
+            for (unsigned i = 0; i < cap; ++i) selected_ids.push_back(ranked[i].candidate_id);
+            std::sort(selected_ids.begin(), selected_ids.end());
+            for (unsigned i = 0; i < cap; ++i)
+                check(selected.rows[i].candidate_id == selected_ids[i], "score descending and uint32 ID tie break");
+        }
+
+        // Update is a public primitive and must sort births even when its
+        // caller supplies a batch that did not come from F04b.
+        context = "unsorted public batch births count " + std::to_string(count);
+        auto p = predicted(0); p.next_uid = 0x100000003ULL;
+        const auto births = h.update(p, batch(0, unsorted_births), motion(0));
+        check(births.error == Error::none && births.next.tracks.size() == count && births.rows.empty(),
+              "all unsorted births remain tentative");
+        std::sort(unsorted_births.begin(), unsorted_births.end(), [](const auto& a, const auto& b) {
+            return a.candidate_id < b.candidate_id;
+        });
+        for (unsigned i = 0; i < count; ++i) {
+            check(births.next.tracks[i].uid == p.next_uid + i, "birth UID assignment follows unsigned candidate order");
+            same(births.next.tracks[i].x[0], unsorted_births[i].xyxy[0] + 5, "birth source candidate center");
+        }
+    }
+    // Exercise the already-sorted pool path with all four flag combinations.
+    // Equal scores make the deliberate inversion depend solely on ID order;
+    // the continuation cap falls inside that pair, so skipping its sort would
+    // choose a different candidate even after the final batch ID sort.
+    for (unsigned count : {32u, 33u, 256u, 257u, 300u}) {
+        std::vector<std::uint32_t> ordered_ids(ids.begin(), ids.begin() + count);
+        std::sort(ordered_ids.begin(), ordered_ids.end());
+        std::vector<DetectionCandidate> sorted_pool;
+        constexpr unsigned flags[]{kDetectionKept, kDetectionSuppressed, kDetectionKept | kDetectionSuppressed, 0};
+        for (unsigned i = 0; i < count; ++i)
+            sorted_pool.push_back(candidate(ordered_ids[i], static_cast<float>(i * 20), .8f, flags[i % 4]));
+        const unsigned inversion = count >= 257 ? 255 : count / 2 - 1;
+        sorted_pool[inversion].flags = sorted_pool[inversion + 1].flags = kDetectionSuppressed;
+        unsigned kept_count = 0, continuation_cap = 0;
+        for (unsigned i = 0; i < count; ++i) {
+            if (sorted_pool[i].flags & kDetectionKept) ++kept_count;
+            else if ((sorted_pool[i].flags & kDetectionSuppressed) && i <= inversion) ++continuation_cap;
+        }
+        auto prior = predicted(0); prior.priors = {{1, {0, 0, 10, 20}, 0}};
+        TrackerConfig c; c.continuation.prior_iou = 0; c.continuation.dedup_iou = 1;
+        c.continuation.max_candidates = continuation_cap;
+        context = "sorted mixed flags count " + std::to_string(count);
+        const auto sorted = h.assemble(candidates(0, sorted_pool), prior, c);
+        check(sorted.error == Error::none && sorted.rows.size() == kept_count + continuation_cap,
+              "mixed flags use kept precedence and ignore unflagged rows");
+        auto inverted_pool = sorted_pool;
+        std::swap(inverted_pool[inversion], inverted_pool[inversion + 1]);
+        context = "equal-score ID inversion at " + std::to_string(inversion) + "/" + std::to_string(inversion + 1);
+        const auto inverted = h.assemble(candidates(0, inverted_pool), prior, c);
+        compare(inverted, sorted);
+        inverted_pool[0].score = std::numeric_limits<float>::quiet_NaN();
+        context = "sorted/unsorted/numeric reuse count " + std::to_string(count);
+        check(h.assemble(candidates(0, inverted_pool), prior, c).error == Error::numeric, "numeric frame clears batch");
+        compare(h.assemble(candidates(0, sorted_pool), prior, c), sorted);
+    }
+    // Zero thresholds are valid. +0 and -0 compare equal in the reference,
+    // so their ID order must win over their different floating-point bits.
+    // Negative finite scores remain below the gate and must not displace them.
+    std::vector<DetectionCandidate> zeros{
+        candidate(UINT32_MAX, 0, 0.0f, kDetectionSuppressed),
+        candidate(0x80000000u, 0, -0.0f, kDetectionSuppressed),
+        candidate(0x7fffffffu, 0, 0.0f, kDetectionSuppressed),
+        candidate(0, 0, -0.0f, kDetectionSuppressed),
+        candidate(42, 0, -1.0f, kDetectionSuppressed),
+        candidate(UINT32_MAX - 1, 0, .25f, kDetectionSuppressed),
+        candidate(7, 0, -std::numeric_limits<float>::denorm_min(), kDetectionSuppressed)};
+    std::shuffle(zeros.begin(), zeros.end(), rng);
+    auto p = predicted(0); p.priors = {{1, {0, 0, 10, 20}, 0}};
+    TrackerConfig c; c.continuation.min_score = 0; c.continuation.dedup_iou = 1;
+    for (unsigned cap : {1u, 2u, 3u, 4u, 5u, 7u}) {
+        context = "suppressed signed zero sorting cap " + std::to_string(cap);
+        c.continuation.max_candidates = cap;
+        const auto out = h.assemble(candidates(0, zeros), p, c);
+        check(out.error == Error::none && out.rows.size() == std::min(cap, 5u), "zero scores accepted, negative scores excluded");
+        if (cap == 2) check(out.rows.front().candidate_id == 0, "signed zero tie uses ID before sign bit");
+    }
+    for (auto& d : zeros) d.flags = kDetectionKept;
+    c.batch.track_thresh = 0;
+    context = "kept signed zero and negative sorting";
+    check(h.assemble(candidates(0, zeros), predicted(0), c).rows.size() == 5, "kept zero threshold");
+}
 void error_tests(Harness& h) {
     for (unsigned kind = 0; kind < 11; ++kind) {
         auto d = candidates(0, {candidate(1)});
@@ -498,7 +622,7 @@ void recorded(Harness& h, const std::filesystem::path& dir) {
 int main(int argc, char** argv) {
     try {
         Harness h;
-        stream_tests(h); sequences(h); capacity_tests(h); error_tests(h); decision_tests(h);
+        stream_tests(h); sequences(h); capacity_tests(h); sorting_tests(h); error_tests(h); decision_tests(h);
         if (argc > 1) recorded(h, argv[1]);
         std::cout << "tracking_cuda_tests: " << checks << " checks passed\n"; return 0;
     } catch (const std::exception& e) {

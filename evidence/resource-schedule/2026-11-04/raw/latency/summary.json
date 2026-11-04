@@ -1,0 +1,19 @@
+{
+  "schema":"tracking-latency/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+  "frames_per_session":120,
+  "warmup_frames":20,
+  "abba_rounds":2,
+  "input_io":"JPEGs preloaded; excludes disk I/O and file output",
+  "warmup_scope":"constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+  "latency_scope":"one enqueue through blocking receive, no frames in flight at start",
+  "queued_scope":"wall time per frame is throughput, not individual frame latency",
+  "packet_comparison":"ordinary/graph and single/queued, all runs, including warmup",
+  "packet_sha256":"35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+  "groups":[
+    {"mode":"ordinary","latency_samples":480,"latency_mean_us":8615.127254,"latency_p50_us":8653.311000,"latency_p95_us":9363.527000,"latency_p99_us":9780.288000,"queued_us_per_frame_mean":6941.990085,"queued_us_per_frame_min":6887.309425,"queued_us_per_frame_max":7045.027508,"init_us_mean":608023.433875,"first_frame_us_mean":10116.761250,"warmup_us_mean":180628.560750},
+    {"mode":"graph","latency_samples":480,"latency_mean_us":6987.780817,"latency_p50_us":6958.329000,"latency_p95_us":7405.161000,"latency_p99_us":7682.066000,"queued_us_per_frame_mean":5412.372377,"queued_us_per_frame_min":5332.826975,"queued_us_per_frame_max":5583.078900,"init_us_mean":412724.664625,"first_frame_us_mean":17270.965375,"warmup_us_mean":151296.086000}
+  ],
+  "comparison":{"mean_latency_speedup":1.232885,"mean_latency_reduction_percent":18.889407,"p95_latency_speedup":1.264460,"queued_throughput_speedup":1.282615}
+}

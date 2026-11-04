@@ -1,0 +1,1912 @@
+{
+  "schema": "saccade-stage-schedule/1",
+  "status": "PASS",
+  "sqlite": "/home/ray/developer/ai/saccade_v1/build/resource-schedule-20261104/trace.sqlite",
+  "warmup": 20,
+  "samples_per_mode": 120,
+  "modes": [
+    "queued",
+    "serial",
+    "single"
+  ],
+  "timing_scope": "Nsight-profiled GPU kernel activity; not unprofiled wall latency",
+  "busy_definition": "union of kernel or copy intervals within a stage/frame",
+  "envelope_definition": "first activity start to last activity end, including intervening gaps",
+  "F01_scope": "compressed HostToDevice transfer and CUDA SM color conversion separately; hardware JPEG decoder duration is not visible in CUDA activity",
+  "input_availability_scope": "enqueue start to F02 start includes host previous-RGB wait, staging/header work, decoder and stream queue waits; not isolated F01 latency",
+  "logical_stream_scope": "graph kernels may have synthetic profiler stream IDs; logical D/M follows graph content and launch frame correlation",
+  "stage_summaries": [
+    {
+      "mode": "queued",
+      "stage": "F01_compressed_H2D",
+      "busy_us": {
+        "n": 120,
+        "mean": 12.815183333333334,
+        "p50": 12.448,
+        "p95": 16.96,
+        "p99": 18.625,
+        "min": 8.96,
+        "max": 18.784
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 12.815183333333334,
+        "p50": 12.448,
+        "p95": 16.96,
+        "p99": 18.625,
+        "min": 8.96,
+        "max": 18.784
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 137006.725,
+        "p50": 137987,
+        "p95": 152216,
+        "p99": 154683,
+        "min": 107558,
+        "max": 154710
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F01_nvJPEG_SM_conversion",
+      "busy_us": {
+        "n": 120,
+        "mean": 29.456574999999997,
+        "p50": 29.984,
+        "p95": 30.977,
+        "p99": 35.745,
+        "min": 25.888,
+        "max": 36.384
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 29.456574999999997,
+        "p50": 29.984,
+        "p95": 30.977,
+        "p99": 35.745,
+        "min": 25.888,
+        "max": 36.384
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F02_resize",
+      "busy_us": {
+        "n": 120,
+        "mean": 149.51654166666668,
+        "p50": 149.667,
+        "p95": 151.332,
+        "p99": 152.548,
+        "min": 140.163,
+        "max": 152.771
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 153.10890833333332,
+        "p50": 153.571,
+        "p95": 154.947,
+        "p99": 155.427,
+        "min": 142.051,
+        "max": 156.804
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F05_motion_image",
+      "busy_us": {
+        "n": 120,
+        "mean": 6.496391666666667,
+        "p50": 6.496,
+        "p95": 6.721,
+        "p99": 6.817,
+        "min": 6.208,
+        "max": 6.848
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 8.639908333333333,
+        "p50": 8.609,
+        "p95": 8.864,
+        "p99": 8.928,
+        "min": 8.321,
+        "max": 9.408
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F03_engine",
+      "busy_us": {
+        "n": 120,
+        "mean": 5003.800291666667,
+        "p50": 5008.746,
+        "p95": 5061.675,
+        "p99": 5067.277,
+        "min": 4823.524,
+        "max": 5068.876
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 5132.676333333334,
+        "p50": 5138.001,
+        "p95": 5188.146,
+        "p99": 5200.691,
+        "min": 4941.197,
+        "max": 5202.035
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        302
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F03_producer",
+      "busy_us": {
+        "n": 120,
+        "mean": 28.181491666666666,
+        "p50": 28.192,
+        "p95": 28.609,
+        "p99": 28.704,
+        "min": 27.585,
+        "max": 28.704
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 28.567625000000003,
+        "p50": 28.576,
+        "p95": 28.961,
+        "p99": 29.088,
+        "min": 27.969,
+        "max": 29.12
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        3
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F04_postprocess",
+      "busy_us": {
+        "n": 120,
+        "mean": 99.64623333333334,
+        "p50": 91.394,
+        "p95": 115.746,
+        "p99": 117.155,
+        "min": 86.146,
+        "max": 117.219
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 100.38703333333333,
+        "p50": 92.162,
+        "p95": 116.482,
+        "p99": 117.923,
+        "min": 86.85,
+        "max": 117.987
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        5
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "M_begin",
+      "busy_us": {
+        "n": 120,
+        "mean": 0.928,
+        "p50": 0.896,
+        "p95": 1.024,
+        "p99": 1.376,
+        "min": 0.8,
+        "max": 1.44
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 0.928,
+        "p50": 0.896,
+        "p95": 1.024,
+        "p99": 1.376,
+        "min": 0.8,
+        "max": 1.44
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F06_GMC_including_cuFFT",
+      "busy_us": {
+        "n": 120,
+        "mean": 99.88265833333334,
+        "p50": 99.073,
+        "p95": 106.083,
+        "p99": 116.771,
+        "min": 91.938,
+        "max": 122.306
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 226.43815,
+        "p50": 224.933,
+        "p95": 298.983,
+        "p99": 473.898,
+        "min": 179.524,
+        "max": 496.235
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        14
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F08a_predict",
+      "busy_us": {
+        "n": 120,
+        "mean": 61.51951666666666,
+        "p50": 63.17,
+        "p95": 67.97,
+        "p99": 70.529,
+        "min": 39.009,
+        "max": 94.274
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 107.418425,
+        "p50": 70.466,
+        "p95": 199.684,
+        "p99": 204.325,
+        "min": 42.337,
+        "max": 204.581
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F04b_batch",
+      "busy_us": {
+        "n": 120,
+        "mean": 682.0801166666666,
+        "p50": 677.231,
+        "p95": 743.665,
+        "p99": 825.554,
+        "min": 177.444,
+        "max": 857.651
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 682.0801166666666,
+        "p50": 677.231,
+        "p95": 743.665,
+        "p99": 825.554,
+        "min": 177.444,
+        "max": 857.651
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "F07_F08b_update",
+      "busy_us": {
+        "n": 120,
+        "mean": 219.32192500000002,
+        "p50": 219.717,
+        "p95": 253.19,
+        "p99": 265.381,
+        "min": 104.483,
+        "max": 271.142
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 251.66826666666665,
+        "p50": 259.718,
+        "p95": 287.91,
+        "p99": 289.319,
+        "min": 104.675,
+        "max": 451.658
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "M_control",
+      "busy_us": {
+        "n": 120,
+        "mean": 5.828608333333333,
+        "p50": 5.696,
+        "p95": 7.296,
+        "p99": 8.384,
+        "min": 4.0,
+        "max": 10.337
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 5162.360233333334,
+        "p50": 5173.555,
+        "p95": 5279.701,
+        "p99": 5542.843,
+        "min": 4077.402,
+        "max": 5739.999
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        4
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "M_candidates",
+      "busy_us": {
+        "n": 120,
+        "mean": 3.7171666666666665,
+        "p50": 3.712,
+        "p95": 4.128,
+        "p99": 4.224,
+        "min": 2.016,
+        "max": 4.384
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 754.2206916666667,
+        "p50": 758.384,
+        "p95": 766.417,
+        "p99": 978.006,
+        "min": 179.844,
+        "max": 1039.223
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "M_commit",
+      "busy_us": {
+        "n": 120,
+        "mean": 0.8752083333333334,
+        "p50": 0.864,
+        "p95": 0.96,
+        "p99": 0.992,
+        "min": 0.768,
+        "max": 1.024
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 0.8752083333333334,
+        "p50": 0.864,
+        "p95": 0.96,
+        "p99": 0.992,
+        "min": 0.768,
+        "max": 1.024
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "M_packet",
+      "busy_us": {
+        "n": 120,
+        "mean": 2.9205916666666667,
+        "p50": 2.912,
+        "p95": 3.04,
+        "p99": 3.136,
+        "min": 2.528,
+        "max": 4.833
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 2.9205916666666667,
+        "p50": 2.912,
+        "p95": 3.04,
+        "p99": 3.136,
+        "min": 2.528,
+        "max": 4.833
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "queued",
+      "stage": "packet_D2H",
+      "busy_us": {
+        "n": 120,
+        "mean": 2.115483333333333,
+        "p50": 2.017,
+        "p95": 2.208,
+        "p99": 5.184,
+        "min": 1.952,
+        "max": 6.656
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 2.115483333333333,
+        "p50": 2.017,
+        "p95": 2.208,
+        "p99": 5.184,
+        "min": 1.952,
+        "max": 6.656
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 12368.0,
+        "p50": 12368,
+        "p95": 12368,
+        "p99": 12368,
+        "min": 12368,
+        "max": 12368
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F01_compressed_H2D",
+      "busy_us": {
+        "n": 120,
+        "mean": 10.615716666666666,
+        "p50": 10.688,
+        "p95": 11.648,
+        "p99": 11.84,
+        "min": 8.544,
+        "max": 12.065
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 10.615716666666666,
+        "p50": 10.688,
+        "p95": 11.648,
+        "p99": 11.84,
+        "min": 8.544,
+        "max": 12.065
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 137006.725,
+        "p50": 137987,
+        "p95": 152216,
+        "p99": 154683,
+        "min": 107558,
+        "max": 154710
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F01_nvJPEG_SM_conversion",
+      "busy_us": {
+        "n": 120,
+        "mean": 33.12611666666667,
+        "p50": 32.161,
+        "p95": 37.6,
+        "p99": 37.985,
+        "min": 29.504,
+        "max": 39.681
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 33.12611666666667,
+        "p50": 32.161,
+        "p95": 37.6,
+        "p99": 37.985,
+        "min": 29.504,
+        "max": 39.681
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F02_resize",
+      "busy_us": {
+        "n": 120,
+        "mean": 141.84074166666667,
+        "p50": 141.668,
+        "p95": 145.155,
+        "p99": 145.827,
+        "min": 138.147,
+        "max": 146.307
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 144.512275,
+        "p50": 144.419,
+        "p95": 147.652,
+        "p99": 148.099,
+        "min": 139.619,
+        "max": 148.291
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F05_motion_image",
+      "busy_us": {
+        "n": 120,
+        "mean": 6.435041666666667,
+        "p50": 6.432,
+        "p95": 6.656,
+        "p99": 6.752,
+        "min": 6.144,
+        "max": 6.816
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 8.635116666666667,
+        "p50": 8.641,
+        "p95": 8.8,
+        "p99": 8.896,
+        "min": 8.032,
+        "max": 8.928
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F03_engine",
+      "busy_us": {
+        "n": 120,
+        "mean": 4860.382874999999,
+        "p50": 4864.84,
+        "p95": 4892.102,
+        "p99": 4904.196,
+        "min": 4814.405,
+        "max": 4907.685
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 4974.727825,
+        "p50": 4979.598,
+        "p95": 5012.11,
+        "p99": 5019.599,
+        "min": 4927.277,
+        "max": 5022.479
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        302
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F03_producer",
+      "busy_us": {
+        "n": 120,
+        "mean": 27.739341666666668,
+        "p50": 27.745,
+        "p95": 27.968,
+        "p99": 28.001,
+        "min": 27.392,
+        "max": 28.097
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 28.115616666666668,
+        "p50": 28.128,
+        "p95": 28.352,
+        "p99": 28.385,
+        "min": 27.776,
+        "max": 28.481
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        3
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F04_postprocess",
+      "busy_us": {
+        "n": 120,
+        "mean": 95.36176666666667,
+        "p50": 87.266,
+        "p95": 111.011,
+        "p99": 112.546,
+        "min": 84.481,
+        "max": 113.282
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 96.066075,
+        "p50": 88.002,
+        "p95": 111.715,
+        "p99": 113.25,
+        "min": 85.217,
+        "max": 114.018
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        5
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "M_begin",
+      "busy_us": {
+        "n": 120,
+        "mean": 0.840275,
+        "p50": 0.8,
+        "p95": 1.248,
+        "p99": 1.312,
+        "min": 0.704,
+        "max": 1.344
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 0.840275,
+        "p50": 0.8,
+        "p95": 1.248,
+        "p99": 1.312,
+        "min": 0.704,
+        "max": 1.344
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F06_GMC_including_cuFFT",
+      "busy_us": {
+        "n": 120,
+        "mean": 119.79088333333334,
+        "p50": 118.851,
+        "p95": 128.547,
+        "p99": 132.739,
+        "min": 113.604,
+        "max": 133.602
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 440.8371916666667,
+        "p50": 439.434,
+        "p95": 472.715,
+        "p99": 474.187,
+        "min": 396.168,
+        "max": 480.65
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        14
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F08a_predict",
+      "busy_us": {
+        "n": 120,
+        "mean": 68.85535,
+        "p50": 65.281,
+        "p95": 81.25,
+        "p99": 144.515,
+        "min": 51.041,
+        "max": 145.795
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 115.022775,
+        "p50": 147.651,
+        "p95": 151.652,
+        "p99": 259.397,
+        "min": 54.689,
+        "max": 281.735
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F04b_batch",
+      "busy_us": {
+        "n": 120,
+        "mean": 111.28643333333333,
+        "p50": 106.179,
+        "p95": 137.892,
+        "p99": 169.38,
+        "min": 90.114,
+        "max": 170.052
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 111.28643333333333,
+        "p50": 106.179,
+        "p95": 137.892,
+        "p99": 169.38,
+        "min": 90.114,
+        "max": 170.052
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "F07_F08b_update",
+      "busy_us": {
+        "n": 120,
+        "mean": 95.97098333333334,
+        "p50": 94.562,
+        "p95": 123.619,
+        "p99": 132.227,
+        "min": 69.346,
+        "max": 132.259
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 96.14378333333335,
+        "p50": 94.722,
+        "p95": 123.811,
+        "p99": 132.387,
+        "min": 69.506,
+        "max": 132.419
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "M_control",
+      "busy_us": {
+        "n": 120,
+        "mean": 4.561941666666667,
+        "p50": 4.512,
+        "p95": 5.089,
+        "p99": 5.472,
+        "min": 4.0,
+        "max": 5.6
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 4841.435541666667,
+        "p50": 4831.275,
+        "p95": 4945.837,
+        "p99": 4978.062,
+        "min": 4682.887,
+        "max": 4994.126
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        4
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "M_candidates",
+      "busy_us": {
+        "n": 120,
+        "mean": 1.9635083333333334,
+        "p50": 1.952,
+        "p95": 2.08,
+        "p99": 2.144,
+        "min": 1.888,
+        "max": 2.176
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 113.60569166666666,
+        "p50": 108.483,
+        "p95": 140.196,
+        "p99": 171.684,
+        "min": 92.386,
+        "max": 172.388
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "M_commit",
+      "busy_us": {
+        "n": 120,
+        "mean": 0.7354916666666667,
+        "p50": 0.736,
+        "p95": 0.832,
+        "p99": 0.896,
+        "min": 0.704,
+        "max": 0.896
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 0.7354916666666667,
+        "p50": 0.736,
+        "p95": 0.832,
+        "p99": 0.896,
+        "min": 0.704,
+        "max": 0.896
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "M_packet",
+      "busy_us": {
+        "n": 120,
+        "mean": 2.3963166666666664,
+        "p50": 2.4,
+        "p95": 2.464,
+        "p99": 2.496,
+        "min": 2.304,
+        "max": 2.528
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 2.3963166666666664,
+        "p50": 2.4,
+        "p95": 2.464,
+        "p99": 2.496,
+        "min": 2.304,
+        "max": 2.528
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "serial",
+      "stage": "packet_D2H",
+      "busy_us": {
+        "n": 120,
+        "mean": 1.991775,
+        "p50": 1.984,
+        "p95": 2.112,
+        "p99": 2.208,
+        "min": 1.92,
+        "max": 2.24
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 1.991775,
+        "p50": 1.984,
+        "p95": 2.112,
+        "p99": 2.208,
+        "min": 1.92,
+        "max": 2.24
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 12368.0,
+        "p50": 12368,
+        "p95": 12368,
+        "p99": 12368,
+        "min": 12368,
+        "max": 12368
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F01_compressed_H2D",
+      "busy_us": {
+        "n": 120,
+        "mean": 10.613008333333333,
+        "p50": 10.689,
+        "p95": 11.648,
+        "p99": 11.808,
+        "min": 8.544,
+        "max": 11.968
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 10.613008333333333,
+        "p50": 10.689,
+        "p95": 11.648,
+        "p99": 11.808,
+        "min": 8.544,
+        "max": 11.968
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 137006.725,
+        "p50": 137987,
+        "p95": 152216,
+        "p99": 154683,
+        "min": 107558,
+        "max": 154710
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F01_nvJPEG_SM_conversion",
+      "busy_us": {
+        "n": 120,
+        "mean": 32.725833333333334,
+        "p50": 30.049,
+        "p95": 37.505,
+        "p99": 38.337,
+        "min": 29.536,
+        "max": 39.585
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 32.725833333333334,
+        "p50": 30.049,
+        "p95": 37.505,
+        "p99": 38.337,
+        "min": 29.536,
+        "max": 39.585
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F02_resize",
+      "busy_us": {
+        "n": 120,
+        "mean": 142.96268333333333,
+        "p50": 141.987,
+        "p95": 145.828,
+        "p99": 154.084,
+        "min": 137.507,
+        "max": 228.453
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 145.71470833333333,
+        "p50": 144.676,
+        "p95": 149.411,
+        "p99": 156.675,
+        "min": 139.907,
+        "max": 231.173
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F05_motion_image",
+      "busy_us": {
+        "n": 120,
+        "mean": 6.6121083333333335,
+        "p50": 6.56,
+        "p95": 6.912,
+        "p99": 7.072,
+        "min": 6.145,
+        "max": 9.728
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 8.695616666666668,
+        "p50": 8.672,
+        "p95": 8.833,
+        "p99": 10.144,
+        "min": 7.84,
+        "max": 12.992
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F03_engine",
+      "busy_us": {
+        "n": 120,
+        "mean": 4873.816891666666,
+        "p50": 4860.228,
+        "p95": 4919.749,
+        "p99": 5199.562,
+        "min": 4815.3,
+        "max": 5208.465
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 4989.812775,
+        "p50": 4974.67,
+        "p95": 5043.087,
+        "p99": 5317.685,
+        "min": 4932.749,
+        "max": 5328.566
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        302
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F03_producer",
+      "busy_us": {
+        "n": 120,
+        "mean": 27.501308333333334,
+        "p50": 27.425,
+        "p95": 27.969,
+        "p99": 28.673,
+        "min": 27.105,
+        "max": 28.768
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 27.887991666666668,
+        "p50": 27.84,
+        "p95": 28.353,
+        "p99": 29.057,
+        "min": 27.488,
+        "max": 29.152
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        3
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F04_postprocess",
+      "busy_us": {
+        "n": 120,
+        "mean": 95.75575,
+        "p50": 87.49,
+        "p95": 111.171,
+        "p99": 121.027,
+        "min": 84.258,
+        "max": 121.73
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 96.472025,
+        "p50": 88.194,
+        "p95": 111.875,
+        "p99": 121.827,
+        "min": 84.93,
+        "max": 122.498
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        5
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "M_begin",
+      "busy_us": {
+        "n": 120,
+        "mean": 0.86375,
+        "p50": 0.8,
+        "p95": 1.28,
+        "p99": 1.344,
+        "min": 0.704,
+        "max": 1.44
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 0.86375,
+        "p50": 0.8,
+        "p95": 1.28,
+        "p99": 1.344,
+        "min": 0.704,
+        "max": 1.44
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F06_GMC_including_cuFFT",
+      "busy_us": {
+        "n": 120,
+        "mean": 120.50315,
+        "p50": 120.162,
+        "p95": 129.443,
+        "p99": 132.45,
+        "min": 102.212,
+        "max": 132.803
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 448.76981666666666,
+        "p50": 441.002,
+        "p95": 472.683,
+        "p99": 518.795,
+        "min": 426.377,
+        "max": 1008.567
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        14
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F08a_predict",
+      "busy_us": {
+        "n": 120,
+        "mean": 67.70468333333334,
+        "p50": 64.801,
+        "p95": 80.866,
+        "p99": 147.843,
+        "min": 45.217,
+        "max": 149.475
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 114.01614166666667,
+        "p50": 85.762,
+        "p95": 174.372,
+        "p99": 264.774,
+        "min": 53.826,
+        "max": 266.086
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F04b_batch",
+      "busy_us": {
+        "n": 120,
+        "mean": 111.78115833333332,
+        "p50": 106.435,
+        "p95": 138.243,
+        "p99": 168.355,
+        "min": 93.186,
+        "max": 169.028
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 111.78115833333332,
+        "p50": 106.435,
+        "p95": 138.243,
+        "p99": 168.355,
+        "min": 93.186,
+        "max": 169.028
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "F07_F08b_update",
+      "busy_us": {
+        "n": 120,
+        "mean": 96.28770833333333,
+        "p50": 94.947,
+        "p95": 123.395,
+        "p99": 132.003,
+        "min": 71.233,
+        "max": 132.739
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 96.46264166666667,
+        "p50": 95.107,
+        "p95": 123.555,
+        "p99": 132.163,
+        "min": 71.393,
+        "max": 132.931
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "M_control",
+      "busy_us": {
+        "n": 120,
+        "mean": 4.631525,
+        "p50": 4.512,
+        "p95": 5.408,
+        "p99": 5.824,
+        "min": 3.936,
+        "max": 6.368
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 4852.784683333333,
+        "p50": 4836.139,
+        "p95": 4945.037,
+        "p99": 5188.275,
+        "min": 4294.303,
+        "max": 5192.019
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        4
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "M_candidates",
+      "busy_us": {
+        "n": 120,
+        "mean": 2.005125,
+        "p50": 1.984,
+        "p95": 2.144,
+        "p99": 2.24,
+        "min": 1.888,
+        "max": 2.304
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 114.14335833333332,
+        "p50": 108.866,
+        "p95": 140.611,
+        "p99": 170.691,
+        "min": 95.554,
+        "max": 171.364
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        2
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "M_commit",
+      "busy_us": {
+        "n": 120,
+        "mean": 0.716025,
+        "p50": 0.704,
+        "p95": 0.768,
+        "p99": 0.832,
+        "min": 0.704,
+        "max": 0.864
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 0.716025,
+        "p50": 0.704,
+        "p95": 0.768,
+        "p99": 0.832,
+        "min": 0.704,
+        "max": 0.864
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "M_packet",
+      "busy_us": {
+        "n": 120,
+        "mean": 2.405125,
+        "p50": 2.4,
+        "p95": 2.529,
+        "p99": 2.656,
+        "min": 2.272,
+        "max": 2.656
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 2.405125,
+        "p50": 2.4,
+        "p95": 2.529,
+        "p99": 2.656,
+        "min": 2.272,
+        "max": 2.656
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 0.0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "min": 0,
+        "max": 0
+      },
+      "activities_per_frame": [
+        1
+      ]
+    },
+    {
+      "mode": "single",
+      "stage": "packet_D2H",
+      "busy_us": {
+        "n": 120,
+        "mean": 2.00005,
+        "p50": 1.984,
+        "p95": 2.208,
+        "p99": 2.241,
+        "min": 1.92,
+        "max": 2.304
+      },
+      "envelope_us": {
+        "n": 120,
+        "mean": 2.00005,
+        "p50": 1.984,
+        "p95": 2.208,
+        "p99": 2.241,
+        "min": 1.92,
+        "max": 2.304
+      },
+      "transfer_bytes": {
+        "n": 120,
+        "mean": 12368.0,
+        "p50": 12368,
+        "p95": 12368,
+        "p99": 12368,
+        "min": 12368,
+        "max": 12368
+      },
+      "activities_per_frame": [
+        1
+      ]
+    }
+  ],
+  "overlap": [
+    {
+      "mode": "queued",
+      "D_kernel_busy_us": 634516.914,
+      "M_kernel_busy_us": 129248.855,
+      "D_M_kernel_overlap_us": 125554.601,
+      "D_M_overlap_us_per_sample_frame": 1046.2883416666666,
+      "fraction_of_M_kernel_busy_overlapped_by_D": 0.9714175108166335,
+      "M_k_D_kplus1_kernel_overlap_us": {
+        "n": 119,
+        "mean": 895.1845546218487,
+        "p50": 886.835,
+        "p95": 989.364,
+        "p99": 996.855,
+        "min": 688.015,
+        "max": 1039.575
+      }
+    },
+    {
+      "mode": "serial",
+      "D_kernel_busy_us": 615811.172,
+      "M_kernel_busy_us": 48768.142,
+      "D_M_kernel_overlap_us": 22370.815,
+      "D_M_overlap_us_per_sample_frame": 186.42345833333334,
+      "fraction_of_M_kernel_busy_overlapped_by_D": 0.4587178039302789,
+      "M_k_D_kplus1_kernel_overlap_us": {
+        "n": 119,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    {
+      "mode": "single",
+      "D_kernel_busy_us": 617597.849,
+      "M_kernel_busy_us": 48827.79,
+      "D_M_kernel_overlap_us": 22171.451,
+      "D_M_overlap_us_per_sample_frame": 184.76209166666666,
+      "fraction_of_M_kernel_busy_overlapped_by_D": 0.45407443179386164,
+      "M_k_D_kplus1_kernel_overlap_us": {
+        "n": 119,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    }
+  ],
+  "graph_profiler_streams": [
+    {
+      "mode": "queued",
+      "logical_stream": "D",
+      "graph_stream_pairs": [
+        [
+          20,
+          48
+        ],
+        [
+          23,
+          49
+        ]
+      ]
+    },
+    {
+      "mode": "queued",
+      "logical_stream": "M",
+      "graph_stream_pairs": [
+        [
+          14,
+          46
+        ],
+        [
+          17,
+          47
+        ]
+      ]
+    },
+    {
+      "mode": "serial",
+      "logical_stream": "D",
+      "graph_stream_pairs": [
+        [
+          32,
+          66
+        ],
+        [
+          35,
+          67
+        ]
+      ]
+    },
+    {
+      "mode": "serial",
+      "logical_stream": "M",
+      "graph_stream_pairs": [
+        [
+          26,
+          64
+        ],
+        [
+          29,
+          65
+        ]
+      ]
+    },
+    {
+      "mode": "single",
+      "logical_stream": "D",
+      "graph_stream_pairs": [
+        [
+          8,
+          30
+        ],
+        [
+          11,
+          31
+        ]
+      ]
+    },
+    {
+      "mode": "single",
+      "logical_stream": "M",
+      "graph_stream_pairs": [
+        [
+          2,
+          28
+        ],
+        [
+          5,
+          29
+        ]
+      ]
+    }
+  ],
+  "observable_ordering_checks": {
+    "F01_compressed_H2D -> F01_nvJPEG_SM_conversion": 360,
+    "F01_nvJPEG_SM_conversion -> F02_resize": 360,
+    "F02_resize -> F05_motion_image": 360,
+    "F03_engine -> F03_producer": 360,
+    "F03_producer -> F04_postprocess": 360,
+    "F04_postprocess -> M_candidates": 360,
+    "F04b_batch -> F07_F08b_update": 360,
+    "F05_motion_image -> F03_engine": 360,
+    "F05_motion_image -> F06_GMC_including_cuFFT": 360,
+    "F06_GMC_including_cuFFT -> F08a_predict": 360,
+    "F07_F08b_update -> M_commit": 360,
+    "F08a_predict -> M_candidates": 360,
+    "M_commit -> M_packet": 360,
+    "M_packet -> packet_D2H": 360
+  },
+  "ordering_scope": "necessary same-frame ready and commit edges only; does not establish arbitrary memory safety or lifetime safety",
+  "extra_sampled_memcopies": [],
+  "failures": []
+}

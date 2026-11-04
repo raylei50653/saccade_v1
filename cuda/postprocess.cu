@@ -1,4 +1,5 @@
 #include "saccade/postprocess_cuda.hpp"
+#include "saccade/detail/postprocess_graph.hpp"
 
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -10,6 +11,7 @@
 #include <limits>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 
 #ifndef SACCADE_BUILD_COMMIT
 #define SACCADE_BUILD_COMMIT "unknown"
@@ -536,6 +538,61 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
     finalize<<<1, kFinalizeThreads, 0, stream>>>(output, work, request, inputs.positions);
     ck(cudaGetLastError(), "postprocess finalize launch");
 }
+
+namespace detail {
+PostprocessGraphNodes postprocess_graph_nodes(cudaGraph_t graph) {
+    std::size_t count = 0;
+    ck(cudaGraphGetNodes(graph, nullptr, &count), "F04 graph node count");
+    std::vector<cudaGraphNode_t> nodes(count);
+    ck(cudaGraphGetNodes(graph, nodes.data(), &count), "F04 graph nodes");
+    PostprocessGraphNodes found;
+    // TensorRT can add driver-API kernel nodes whose CUfunction has no CUDA
+    // runtime registration. Querying their runtime kernel parameters fails.
+    // F04 is the captured tail: walk its five-node chain from the sole sink
+    // and query only the two kernels owned by this translation unit.
+    for (const auto node : nodes) {
+        std::size_t dependents = 0;
+        ck(cudaGraphNodeGetDependentNodes(node, nullptr, nullptr, &dependents), "F04 graph dependents");
+        if (dependents == 0) {
+            if (found.finalize) throw std::invalid_argument("F04 graph requires one terminal node");
+            found.finalize = node;
+        }
+    }
+    if (!found.finalize) throw std::invalid_argument("missing F04 terminal node");
+    auto node = found.finalize;
+    for (unsigned i = 0; i < 4; ++i) {
+        std::size_t dependencies = 0;
+        ck(cudaGraphNodeGetDependencies(node, nullptr, nullptr, &dependencies), "F04 graph dependency count");
+        if (dependencies != 1) throw std::invalid_argument("F04 graph requires a five-node tail");
+        cudaGraphNode_t previous = nullptr;
+        ck(cudaGraphNodeGetDependencies(node, &previous, nullptr, &dependencies), "F04 graph dependency");
+        node = previous;
+    }
+    found.initialize = node;
+    cudaKernelNodeParams params{};
+    ck(cudaGraphKernelNodeGetParams(found.initialize, &params), "F04 initialize graph params");
+    if (params.func != reinterpret_cast<void*>(initialize)) throw std::invalid_argument("incorrect F04 initialize node");
+    ck(cudaGraphKernelNodeGetParams(found.finalize, &params), "F04 finalize graph params");
+    if (params.func != reinterpret_cast<void*>(finalize)) throw std::invalid_argument("incorrect F04 finalize node");
+    return found;
+}
+void postprocess_graph_set_request(cudaGraphExec_t executable, const PostprocessGraphNodes& nodes,
+                                  const PostprocessProducerStatus* producer, DetectionCandidates* output,
+                                  void* workspace, const PostprocessRequest& request) {
+    auto* work = static_cast<Workspace*>(workspace);
+    auto metadata = request;
+    unsigned positions = model_profile(request.profile).positions();
+    void* init_args[]{&producer, &output, &work, &metadata};
+    cudaKernelNodeParams params{};
+    params.func = reinterpret_cast<void*>(initialize);
+    params.gridDim = dim3(1); params.blockDim = dim3(1); params.kernelParams = init_args;
+    ck(cudaGraphExecKernelNodeSetParams(executable, nodes.initialize, &params), "update F04 initialize metadata");
+    void* final_args[]{&output, &work, &metadata, &positions};
+    params.func = reinterpret_cast<void*>(finalize);
+    params.blockDim = dim3(kFinalizeThreads); params.kernelParams = final_args;
+    ck(cudaGraphExecKernelNodeSetParams(executable, nodes.finalize, &params), "update F04 finalize metadata");
+}
+} // namespace detail
 
 std::string postprocess_cuda_load_kernels() {
     std::ostringstream text;

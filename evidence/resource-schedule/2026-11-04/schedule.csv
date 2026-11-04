@@ -1,0 +1,14 @@
+step,hardware,work,must_wait,publish_or_release,allowed_overlap,condition
+H0,CPU host,ring背壓與RGB回收,pending < result_slots；如有前幀，host等rgb_read_done(k-1),覆寫staging/RGB前完成F05最後讀取,可與前幀D模型或M tracking重疊,enqueue/receive/cancel/close都由同一owner thread呼叫
+D1,JPEG hardware + copy + private SM stream,F01 decode(k),H0；staging/state單份、header/support檢查成功,nvJPEG交付RGB給D,與前幀D模型/M可能重疊，受共用RGB限制,不能刪除H0；decoder本體時間未由CUDA trace揭露
+D2,GPU SM / D,F02 resize(k),本幀RGB ready；同D前幀F03完成讀images,寫固定HR FP32 input,F02與前幀M可重疊,input/raw/context僅D使用
+D3,GPU SM / D,F05 motion image(k),D2；D wait mi_consumed[m]上代（已使用才等）,record mi_ready[m]及rgb_read_done(k),發布MI後M可先做GMC,m=k mod motion_slots；小影像與RGB不alias
+D4,Tensor Cores + GPU SM / D,D graph F03→producer→F04(k),D3；更新F04 initialize/finalize metadata；wait cs_consumed[c]上代,record cs_ready[c](k),與M GMC/predict(k)、M tail(k-1)重疊,c=k mod candidate_slots；單context、raw、F04 scratch不跨D並行
+M1,GPU SM + cuFFT / M,begin→GMC(k),M前幀tail+D2H有序；wait mi_ready[m](k),forward FFT與最後MI/header讀完record mi_consumed[m],與D4重疊；MI歸還後D可重用該slot,cuFFT兩plans共用workspace，全部綁M
+M2,GPU SM / M,F08a predict(k),GMC(k)完成；讀上次committed TS；SPEC由F06讀取,本幀PredictedPrior(k),與D4剩餘工作重疊,同幀僅一次predict；不得越過前幀commit
+M3,GPU SM / M,wait CS→candidate checks→F04b(k),M2及cs_ready[c](k),獨立BATCH；最後CS讀取完成,可與D(k+1)重疊,graph路徑consumed保守延至整個M tail後
+M4,GPU SM / M,F07/F08b→commit→packet(k),M3；每stage固定run_stage；計算受guard，control/error aggregation/commit/packet照常執行,成功才翻轉committed TS/SPEC；record cs_consumed[c],與D(k+1)重疊,失敗仍跑control/events/packet；不提交working狀態
+M5,copy engine / M,固定12368B packet D2H,M4 packet完成,record host done[r],可與D計算重疊；依裝置回報1個async copy engine保守排程，不假設雙向同傳,r=k mod result_slots；device packet由M序列保護
+H1,CPU host,receive(k),host等done[r]，epoch/frame吻合,copy成獨立value後遞增received，歸還HP,其他GPU計算可繼續,不要把session pinned slot交給其他thread保留
+H2,CPU output owner,F09 ID mapping→sequence tail→MOT write,H1 owned packet按frame順序交付,序列完成後finish/interpolation/sort/format/write,可另由單一writer owner處理owned copies（現行工具未實作）,有界queue、錯誤傳遞、join；最後檔案不早於sequence tail完成
+END,CPU host + D/M,finish/cancel/close,停止提交；finish/cancel獨立drain D和M並保留pending；close再drain含D-only tail,close才destroy graphs→context/plans/buffers/events,close完成後才可釋放資源,close/destructor與其他session方法不可並行

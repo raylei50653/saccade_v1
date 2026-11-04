@@ -1,5 +1,7 @@
 #include "saccade/tracking_session.hpp"
 #include "saccade/cleanup.hpp"
+#include "saccade/detail/postprocess_graph.hpp"
+#include "saccade/detail/tracking_tail_graph.hpp"
 #include "saccade/file_io.hpp"
 #include "saccade/model_producer_cuda.hpp"
 #include "saccade/model_trt_network.hpp"
@@ -49,6 +51,11 @@ public:
 }
 
 struct TrackingSession::Impl {
+    struct DetectGraph {
+        cudaGraph_t graph = nullptr;
+        cudaGraphExec_t executable = nullptr;
+        detail::PostprocessGraphNodes metadata;
+    };
     struct CandidateSlot {
         DetectionCandidates* data = nullptr;
         cudaEvent_t ready = nullptr, consumed = nullptr;
@@ -75,6 +82,10 @@ struct TrackingSession::Impl {
     std::unique_ptr<MotionCuda> motion;
     std::vector<CandidateSlot> candidates;
     std::vector<HostSlot> results;
+    std::vector<DetectGraph> detect_graphs;
+    std::unique_ptr<detail::TrackingTailGraph> tracking_graph;
+    float* graph_images = nullptr;
+    std::size_t detect_graph_nodes = 0;
     void *raw = nullptr, *statuses = nullptr, *producer_scratch = nullptr, *postprocess_scratch = nullptr;
     float* warmup_images = nullptr;
     PostprocessProducerStatus* producer = nullptr;
@@ -200,17 +211,65 @@ struct TrackingSession::Impl {
             enqueue_associate_and_update(predicted, batch, tracker_motion, tracker_config, tracks, rows,
                                          tracking_scratch, consumer, &control->value.run_stage);
             cu(cudaDeviceSynchronize(), "tracking session initialization drain");
+            if (cfg.cuda_graph) {
+                std::vector<DetectionCandidates*> slots;
+                for (auto& slot : candidates) slots.push_back(slot.data);
+                tracking_graph = std::make_unique<detail::TrackingTailGraph>(tail_pointers(), slots, consumer);
+            }
             std::ostringstream cfg_text;
             cfg_text << "profile=" << profile.name << "\nepoch=" << cfg.epoch << "\ndevice=" << cfg.device << "\ncandidate_slots=" << cfg.candidate_slots
                      << "\nmotion_slots=" << cfg.motion_slots << "\nresult_slots=" << cfg.result_slots
                      << "\noriginal_width=" << cfg.original_width << "\noriginal_height=" << cfg.original_height
                      << "\nmode=" << (cfg.mode == TrackingSessionMode::Serial ? "serial" : "pipelined")
+                     << "\ncuda_graph=" << (cfg.cuda_graph ? "true" : "false")
                      << "\nperturb_seed=" << cfg.perturb_seed << "\nmotion.downscale=" << cfg.motion.downscale
                      << "\nmotion.pcr_threshold=" << std::hexfloat << cfg.motion.pcr_threshold
                      << "\nmotion.max_shift_fraction=" << cfg.motion.max_shift_fraction << std::defaultfloat << '\n'
                      << canonical_tracker_config(cfg.tracker) << preprocess->identity();
             configuration = cfg_text.str();
         } catch (...) { release(); throw; }
+    }
+    detail::TrackingTailPointers tail_pointers() const {
+        return {control, tracks, predicted, batch, rows, tracking_scratch, tracker_config, tracker_motion, device_result};
+    }
+    void capture_detect(const PreprocessedFrame& input, const PostprocessRequest& request) {
+        if (!detect_graphs.empty()) {
+            require(input.images == graph_images, "graph model input address changed");
+            return;
+        }
+        // The actual preprocessor address is known after its first enqueue.
+        // Warm this exact binding before capture; setup is outside steady state.
+        require(context->setTensorAddress(input_name.c_str(), input.images), "bind graph model input");
+        if (!context->enqueueV3(detect)) throw std::runtime_error("graph binding warmup failed");
+        cu(cudaStreamSynchronize(detect), "graph binding warmup drain");
+        graph_images = input.images;
+        detect_graphs.resize(candidates.size());
+        for (std::size_t i = 0; i < candidates.size(); ++i) {
+            auto& graph = detect_graphs[i];
+            bool capturing = false;
+            try {
+                cu(cudaStreamBeginCapture(detect, cudaStreamCaptureModeThreadLocal), "capture detect graph");
+                capturing = true;
+                if (!context->enqueueV3(detect)) throw std::runtime_error("capture F03 failed");
+                model_producer_cuda(input.images, model_profile(config.profile).input_elements(), raw_view, plugins,
+                                    producer, producer_scratch, model_producer_workspace_bytes(), detect, config.profile);
+                postprocess_cuda(raw_view, request, producer, candidates[i].data, sizeof(DetectionCandidates),
+                                 postprocess_scratch, postprocess_workspace_bytes(), detect);
+                const auto ended = cudaStreamEndCapture(detect, &graph.graph);
+                capturing = false;
+                cu(ended, "end detect capture");
+                graph.metadata = detail::postprocess_graph_nodes(graph.graph);
+                cu(cudaGraphInstantiate(&graph.executable, graph.graph, 0), "instantiate detect graph");
+                if (i == 0) cu(cudaGraphGetNodes(graph.graph, nullptr, &detect_graph_nodes), "count detect graph nodes");
+            } catch (...) {
+                if (capturing) {
+                    cudaGraph_t abandoned = nullptr;
+                    (void)cudaStreamEndCapture(detect, &abandoned);
+                    if (abandoned) (void)cudaGraphDestroy(abandoned);
+                }
+                throw;
+            }
+        }
     }
     template<class T> void allocate(T*& p, std::size_t count = 1) {
         cu(cudaMalloc(reinterpret_cast<void**>(&p), count * sizeof(T)), "allocate tracking storage");
@@ -251,6 +310,13 @@ struct TrackingSession::Impl {
         // Drain both streams independently, including a D-only tail.
         if (detect) { token=1; report.release(token,[&](int) { cu(cudaStreamSynchronize(detect),"cleanup D drain"); }); }
         if (consumer) { token=1; report.release(token,[&](int) { cu(cudaStreamSynchronize(consumer),"cleanup M drain"); }); }
+        if (auto* p = tracking_graph.release()) {
+            report.release(p, [](auto* h) { std::unique_ptr<detail::TrackingTailGraph> hold(h); h->close(); });
+        }
+        for (auto& graph : detect_graphs) {
+            report.release(graph.executable, [](auto p) { cu(cudaGraphExecDestroy(p), "destroy detect graph executable"); });
+            report.release(graph.graph, [](auto p) { cu(cudaGraphDestroy(p), "destroy detect capture"); });
+        }
         if (auto* p = preprocess.release()) {
             report.release(p,[](auto* h) { std::unique_ptr<NativePreprocessor> hold(h); h->close(); });
         }
@@ -324,19 +390,30 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
         s.rgb_read_done_recorded = true;
         d_delay();
         if (d_only) throw std::runtime_error("directed D-only tail after F05");
-        require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
-        if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
-        d_delay();
-        model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
-                            s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
-        if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
-        d_delay();
         auto& candidate = s.candidates[frame % s.config.candidate_slots];
-        if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
         PostprocessRequest request;
         request.epoch = s.config.epoch; request.frame = frame; request.mapping = input.mapping; request.profile = s.config.profile;
-        postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
-                         postprocess_workspace_bytes(), s.detect);
+        // Directed perturbation/injection retains the original individual boundaries.
+        const bool graph_detect = s.config.cuda_graph && !s.config.perturb_seed && !override_flags;
+        if (graph_detect) {
+            s.capture_detect(input, request);
+            auto& graph = s.detect_graphs[frame % s.config.candidate_slots];
+            detail::postprocess_graph_set_request(graph.executable, graph.metadata, s.producer, candidate.data,
+                                                  s.postprocess_scratch, request);
+            if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D graph wait CS consumed");
+            cu(cudaGraphLaunch(graph.executable, s.detect), "launch detect graph");
+        } else {
+            require(s.context->setTensorAddress(s.input_name.c_str(), input.images), "bind session model input");
+            if (!s.context->enqueueV3(s.detect)) throw std::runtime_error("session F03 enqueueV3 failed");
+            d_delay();
+            model_producer_cuda(input.images, model_profile(s.config.profile).input_elements(), s.raw_view, s.plugins, s.producer,
+                                s.producer_scratch, model_producer_workspace_bytes(), s.detect, s.config.profile);
+            if (override_flags) detail::tracking_session_producer_flag(s.producer, override_flags, s.detect);
+            d_delay();
+            if (candidate.recorded) cu(cudaStreamWaitEvent(s.detect, candidate.consumed, 0), "D wait CS consumed");
+            postprocess_cuda(s.raw_view, request, s.producer, candidate.data, sizeof(*candidate.data), s.postprocess_scratch,
+                             postprocess_workspace_bytes(), s.detect);
+        }
         d_delay();
         cu(cudaEventRecord(candidate.ready, s.detect), "record CS ready");
         detail::tracking_session_begin(s.control, s.config.epoch, frame, s.consumer);
@@ -350,21 +427,27 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
         m_delay();
         detail::tracking_session_stage(s.control, &s.predicted->error, nullptr, nullptr, s.consumer);
         cu(cudaStreamWaitEvent(s.consumer, candidate.ready, 0), "M wait CS ready");
-        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
-        enqueue_assemble_detection_batch(candidate.data, s.predicted, s.tracker_config, s.batch,
-                                         s.tracking_scratch, s.consumer, &s.control->value.run_stage);
-        detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
-        cu(cudaEventRecord(candidate.consumed, s.consumer), "record CS consumed");
-        m_delay();
-        detail::tracking_session_stage(s.control, &s.batch->error, nullptr, nullptr, s.consumer);
-        for (unsigned i = 0; i < 2; ++i)
-            enqueue_associate_and_update(s.predicted, s.batch, s.tracker_motion, s.tracker_config, s.tracks + i,
-                                         s.rows, s.tracking_scratch, s.consumer, &s.control->slot_run[i]);
-        m_delay();
-        detail::tracking_session_stage(s.control, &s.rows->error, nullptr, nullptr, s.consumer);
-        detail::tracking_session_commit(s.control, s.consumer);
-        m_delay();
-        detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
+        if (s.config.cuda_graph && !s.config.perturb_seed) {
+            s.tracking_graph->launch(frame % s.config.candidate_slots, s.consumer);
+            // A later release still protects every CS read, including graph work.
+            cu(cudaEventRecord(candidate.consumed, s.consumer), "record graph CS consumed");
+        } else {
+            detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+            enqueue_assemble_detection_batch(candidate.data, s.predicted, s.tracker_config, s.batch,
+                                             s.tracking_scratch, s.consumer, &s.control->value.run_stage);
+            detail::tracking_session_candidates(s.control, candidate.data, s.consumer);
+            cu(cudaEventRecord(candidate.consumed, s.consumer), "record CS consumed");
+            m_delay();
+            detail::tracking_session_stage(s.control, &s.batch->error, nullptr, nullptr, s.consumer);
+            for (unsigned i = 0; i < 2; ++i)
+                enqueue_associate_and_update(s.predicted, s.batch, s.tracker_motion, s.tracker_config, s.tracks + i,
+                                             s.rows, s.tracking_scratch, s.consumer, &s.control->slot_run[i]);
+            m_delay();
+            detail::tracking_session_stage(s.control, &s.rows->error, nullptr, nullptr, s.consumer);
+            detail::tracking_session_commit(s.control, s.consumer);
+            m_delay();
+            detail::tracking_session_packet(&s.control->value, s.rows, s.device_result, s.consumer);
+        }
         auto& host = s.results[frame % s.config.result_slots];
         cu(cudaMemcpyAsync(host.data, s.device_result, packet_bytes, cudaMemcpyDeviceToHost, s.consumer), "copy packet");
         cu(cudaEventRecord(host.done, s.consumer), "record packet ready");
@@ -418,6 +501,8 @@ std::string TrackingSession::identity() const {
         << "\npacket_profile=v1\nengine_sha256=" << s.engine_hash
         << "\ntracker_config_sha256=" << sha256_hex(canonical_tracker_config(s.config.tracker))
         << "\nsource_commit=" << SACCADE_BUILD_COMMIT << "\nsource_dirty=" << SACCADE_BUILD_DIRTY << '\n'
+        << "detect_graph_nodes=" << s.detect_graph_nodes
+        << "\ntracking_graph_kernel_nodes=" << (s.tracking_graph ? s.tracking_graph->kernel_nodes() : 0) << '\n'
         << s.configuration << "session_config_sha256=" << sha256_hex(s.configuration) << '\n';
     return out.str();
 }

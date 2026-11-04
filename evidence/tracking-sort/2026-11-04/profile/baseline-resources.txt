@@ -1,0 +1,222 @@
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking_session.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking_session.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb9720913producer_flagEPNS_25PostprocessProducerStatusEj:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:908 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972097perturbEy:
+  REG:4 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972096packetEPKNS_7ControlEPKNS_18DeviceTrackingRowsEPh:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972096commitEPNS0_22TrackingSessionControlE:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb9720910candidatesEPNS0_22TrackingSessionControlEPKNS_19DetectionCandidatesE:
+  REG:12 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:912 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972095stageEPNS0_22TrackingSessionControlEPKNS_5ErrorEPKNS_13MotionContextEPNS_19DeviceMotionContextE:
+  REG:22 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:928 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb972095beginEPNS0_22TrackingSessionControlEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade6detail52_GLOBAL__N__d64d9651_19_tracking_session_cu_4cb9720910initializeEPNS0_22TrackingSessionControlEPNS_16DeviceTrackStateEm:
+  REG:16 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/tracking.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade44_GLOBAL__N__7dbd9899_11_tracking_cu_e2ac41f613update_kernelEPKNS_15DevicePredictedEPKNS_11DeviceBatchEPKNS_19DeviceMotionContextEPKNS_13TrackerConfigEPNS_16DeviceTrackStateEPNS_18DeviceTrackingRowsEPNS_19TrackingCudaScratchEPKb:
+  REG:128 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade44_GLOBAL__N__7dbd9899_11_tracking_cu_e2ac41f612batch_kernelEPKNS_19DetectionCandidatesEPKNS_15DevicePredictedEPKNS_13TrackerConfigEPNS_11DeviceBatchEPNS_19TrackingCudaScratchEPKb:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade44_GLOBAL__N__7dbd9899_11_tracking_cu_e2ac41f614predict_kernelEPKNS_16DeviceTrackStateEPKNS_19DeviceMotionContextEPKlPKNS_13TrackerConfigEPNS_15DevicePredictedEPNS_19TrackingCudaScratchEPKb:
+  REG:122 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/motion.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/motion.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b12motion_stageEPNS_7ControlEPKiPKNS0_11ImageHeaderEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:936 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b12image_headerEPNS0_11ImageHeaderEml:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b14context_kernelEPKNS0_9ReductionEjPKiNS_14MotionImageKeyENS_12MotionConfigEmllPNS_13MotionContextEPKbPKNS_7ControlE:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1000 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b18reduce_correlationEPKfmPNS0_9ReductionEPKb:
+  REG:20 STACK:0 SHARED:9216 LOCAL:0 CONSTANT[0]:928 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b11cross_powerEPK6float2S3_PS1_mPiPKbPKNS_7ControlE:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b7deliverEPK6float2PS1_mPiPKbPKNS_7ControlE:
+  REG:18 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b13reset_numericEPi:
+  REG:6 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:904 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__404583e6_9_motion_cu_fdd31f6b12image_kernelEPKhPfNS_14MotionImageKeyEPKfS6_PKb:
+  REG:39 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/resize.cu
+ptxasOptions =  --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/resize.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade41_GLOBAL__N__185ab3f3_9_resize_cu_51f0b64b8verticalEPKfPfiiifm:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:936 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade41_GLOBAL__N__185ab3f3_9_resize_cu_51f0b64b10horizontalEPKhPfiiifm:
+  REG:36 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:936 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/selective_scan.cu
+ptxasOptions =  --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/selective_scan.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade50_GLOBAL__N__8f5d3f5b_17_selective_scan_cu_5547a49812merge_kernelENS0_11CrossParamsEPKfPf:
+  REG:34 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade50_GLOBAL__N__8f5d3f5b_17_selective_scan_cu_5547a49813expand_kernelENS0_11CrossParamsEPKfPf:
+  REG:28 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade50_GLOBAL__N__8f5d3f5b_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE:
+  REG:16 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:920 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade50_GLOBAL__N__8f5d3f5b_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE:
+  REG:20 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1056 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade50_GLOBAL__N__8f5d3f5b_17_selective_scan_cu_5547a49811scan_kernelENS0_10ScanParamsEPNS_10ScanStatusE:
+  REG:34 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1000 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/model_producer.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/model_producer.cu
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _ZN7saccade50_GLOBAL__N__b1876684_17_model_producer_cu_c4ad98f29aggregateENS0_6InputsEPNS_25PostprocessProducerStatusEPNS0_9WorkspaceE:
+  REG:32 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1096 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade50_GLOBAL__N__b1876684_17_model_producer_cu_c4ad98f26finiteENS0_6InputsEPNS0_9WorkspaceE:
+  REG:13 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1088 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade50_GLOBAL__N__b1876684_17_model_producer_cu_c4ad98f210initializeEPNS_25PostprocessProducerStatusEPNS0_9WorkspaceE:
+  REG:8 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:912 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = /home/ray/developer/ai/saccade_v1/cuda/postprocess.cu
+ptxasOptions =  --fmad false --generate-line-info 
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = /home/ray/developer/ai/saccade_v1/cuda/postprocess.cu
+
+Resource usage:
+ Common:
+  GLOBAL:26 CONSTANT[4]:208
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f8finalizeEPNS_19DetectionCandidatesEPNS0_9WorkspaceENS_18PostprocessRequestEj:
+  REG:56 STACK:0 SHARED:40096 LOCAL:0 CONSTANT[0]:972 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f11dense_mergeEPNS0_9WorkspaceEj:
+  REG:18 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:908 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f15adaptive_prefixEPNS0_9WorkspaceENS0_12KernelInputsE:
+  REG:40 STACK:0 SHARED:10304 LOCAL:0 CONSTANT[0]:984 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f6decodeENS0_12KernelInputsEPNS0_9WorkspaceE:
+  REG:31 STACK:80 SHARED:0 LOCAL:0 CONSTANT[0]:984 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7saccade47_GLOBAL__N__39e41855_14_postprocess_cu_df49ce7f10initializeEPKNS_25PostprocessProducerStatusEPNS_19DetectionCandidatesEPNS0_9WorkspaceENS_18PostprocessRequestE:
+  REG:20 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:976 TEXTURE:0 SURFACE:0 SAMPLER:0

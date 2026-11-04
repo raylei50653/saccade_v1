@@ -1,0 +1,30 @@
+{
+  "schema":"jpeg-stage-probe/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+  "frames":120,
+  "warmup":20,
+  "first_measured_frame":20,
+  "last_measured_frame":139,
+  "gpu":"NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+  "cuda_runtime":13040,
+  "cuda_driver_api":13040,
+  "nvjpeg":"13.2.3",
+  "backend":"NVJPEG_BACKEND_HARDWARE",
+  "output":"NVJPEG_OUTPUT_RGB",
+  "batch":1,
+  "input_io":"JPEGs preloaded; disk input and all output writes excluded",
+  "f01_scope":"idle start; staging memcpy, metadata/support validation and decode through detect-stream synchronization to RGB delivery; not decoder-engine busy time",
+  "f02_scope":"isolated after F01 completion; same RGB, NativePreprocessor horizontal/vertical FP32 resize; CUDA events enclose validation/submission gaps as well as kernels",
+  "overlap":"none between F01 and F02 or frames; isolated measurements cannot be added to overlapping pipeline timings",
+  "percentiles":"nearest rank of individual measured-frame samples; all outliers retained",
+  "metrics_us":{
+    "f01_full":{"samples":120,"mean":1454.366883,"p50":1417.752000,"p95":1715.965000,"p99":1930.132000,"min":1248.214000,"max":1942.377000},
+    "staging_parse":{"samples":120,"mean":15.463825,"p50":15.078000,"p95":18.274000,"p99":23.735000,"min":12.373000,"max":28.774000},
+    "decode_call":{"samples":120,"mean":540.801458,"p50":506.893000,"p95":698.760000,"p99":809.316000,"min":436.879000,"max":855.675000},
+    "decode_to_rgb_ready":{"samples":120,"mean":1438.903058,"p50":1400.870000,"p95":1702.519000,"p99":1911.858000,"min":1234.267000,"max":1928.651000},
+    "f02_gpu_event_envelope":{"samples":120,"mean":155.685066,"p50":151.424006,"p95":188.447997,"p99":191.520005,"min":144.768000,"max":195.296004},
+    "f02_enqueue":{"samples":120,"mean":36.097917,"p50":30.218000,"p95":61.376000,"p99":85.843000,"min":25.318000,"max":96.163000},
+    "f02_enqueue_to_done":{"samples":120,"mean":190.344758,"p50":183.598000,"p95":224.727000,"p99":232.411000,"min":171.475000,"max":232.622000}
+  }
+}

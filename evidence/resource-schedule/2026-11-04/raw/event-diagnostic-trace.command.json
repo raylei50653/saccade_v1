@@ -1,0 +1,20 @@
+[
+  "nsys",
+  "profile",
+  "--trace=cuda,nvtx",
+  "--sample=none",
+  "--cpuctxsw=none",
+  "--cuda-graph-trace=node",
+  "--cuda-memory-usage=true",
+  "--cuda-event-trace=true",
+  "-o",
+  "/home/ray/developer/ai/saccade_v1/build/resource-schedule-20261104/trace",
+  "/home/ray/developer/ai/saccade_v1/build/resource-schedule-20261104/resource_schedule_probe",
+  "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+  "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+  "/home/ray/developer/ai/saccade_v1/build/resource-schedule-20261104/trace-probe",
+  "--frames",
+  "120",
+  "--warmup",
+  "20"
+]

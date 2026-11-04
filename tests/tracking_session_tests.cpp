@@ -104,6 +104,7 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
     cfg.epoch = detections.epoch;
     cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
     cfg.mode = TrackingSessionMode::Serial;
+    cfg.cuda_graph = false;
     Stream expected;
     TrackerReference reference(cfg.epoch);
     for (std::size_t k = 0; k < count; ++k) expected.push_back(encode_packet(reference.step(detections.frames[k], motion.frames[k])));
@@ -118,8 +119,19 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
         check(true, "CPU serial packet bytes");
     }
     cfg.mode = TrackingSessionMode::Pipelined;
+    cfg.cuda_graph = true;
     const auto pipelined = run(engine, sequence, cfg, count);
-    compare(expected, pipelined, "CPU/pipelined"); compare(serial, pipelined, "serial/pipelined");
+    compare(expected, pipelined, "CPU/graph pipelined"); compare(serial, pipelined, "ordinary serial/graph pipelined");
+    // Unequal ring periods expose captures that accidentally retain another
+    // slot's address or the first captured frame identity. Keep these controls
+    // bounded independently of the full-sequence comparison above.
+    const std::size_t prefix_count = std::min<std::size_t>(count, 30);
+    const Stream prefix(serial.begin(), serial.begin() + prefix_count);
+    for (const unsigned slots : {1U, 3U}) {
+        cfg.candidate_slots = slots; cfg.motion_slots = slots;
+        cfg.result_slots = slots == 1 ? 8 : 5;
+        compare(prefix, run(engine, sequence, cfg, prefix_count), slots == 1 ? "graph rings 1/1/8" : "graph rings 3/3/5");
+    }
     if (sequence.filename() == "MOT17-10-SDP" || sequence.filename() == "MOT17-05-SDP") {
         for (const auto seed : {0x12345678ULL, 0xbadc0ffeeULL}) {
             cfg.perturb_seed = seed;
@@ -130,92 +142,100 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
     SequenceOutput cpu, gpu;
     for (std::size_t k = 0; k < count; ++k) { cpu.add(decode_packet(expected[k])); gpu.add(decode_packet(pipelined[k])); }
     check(format_mot_rows(cpu.finish()) == format_mot_rows(gpu.finish()), "F09 MOT bytes");
-    std::cout << sequence.filename().string() << " frames=" << count << " CPU/serial/pipelined packet bytes identical\n";
+    std::cout << sequence.filename().string() << " frames=" << count
+              << " CPU/ordinary serial/graph pipelined packet bytes identical; graph ring controls=" << prefix_count << " frames\n";
 }
 void lifecycle_test(const std::string& engine, const std::filesystem::path& sequence,
                     const DetectionRecords& detections, const MotionRecords& motion) {
     TrackingSessionConfig cfg;
     cfg.epoch = detections.epoch; cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
-    cfg.result_slots = 8; cfg.motion_slots = 1; cfg.candidate_slots = 1; cfg.perturb_seed = 123;
+    cfg.motion_slots = 1; cfg.candidate_slots = 1;
     Stream previous;
-    for (const auto mode : {TrackingSessionMode::Serial, TrackingSessionMode::Pipelined}) {
-        cfg.mode = mode;
-        TrackingSession session(engine, cfg);
-        detail::TrackingSessionDiagnostic baseline;
-        for (FrameId k = 0; k < 8; ++k) {
-            if (k == 3) baseline = TrackingSessionTestAccess::diagnostic(session);
-            const auto bytes = jpeg(sequence, k);
-            TrackingSessionTestAccess::enqueue(session, span(bytes), k, k == 3 ? static_cast<std::uint32_t>(kPostprocessUpstream) : k == 6 ? static_cast<std::uint32_t>(kPostprocessOverflow) : 0U);
-        }
-        bool full = false;
-        try { session.enqueue({}, 8); } catch (const std::length_error&) { full = true; }
-        check(full && session.pending() == 8, "ring backpressure before submission");
-        session.finish();
-        check(session.state() == TrackingSessionState::Failed, "failure observed on finish");
-        Stream current;
-        for (FrameId k = 0; k < 8; ++k) {
-            const auto r = session.receive(); current.push_back(r.bytes);
-            check(r.packet.status == (k < 3 ? ResultStatus::ok : k == 3 ? ResultStatus::failed : ResultStatus::skipped_after_failure), "failure status");
-            check(r.packet.committed_frame == (k < 3 ? k : 2), "frozen committed frame");
-            if (k >= 3) {
-                check(r.packet.fail_frame == 3 && r.packet.fail_code == Error::producer, "first failure sticky");
-                check(r.packet.tracks.empty() && r.packet.frame_error == (k == 3 ? Error::producer : Error::none), "failed/skipped rows and frame_error");
+    // Perturbation intentionally exercises the ordinary boundary schedule.
+    // The graph branch must run without it to test actual graph execution,
+    // including sticky failure, frozen committed state and resource cleanup.
+    for (const bool use_graph : {false, true}) {
+        cfg.cuda_graph = use_graph;
+        cfg.result_slots = 8; cfg.perturb_seed = use_graph ? 0 : 123;
+        for (const auto mode : {TrackingSessionMode::Serial, TrackingSessionMode::Pipelined}) {
+            cfg.mode = mode;
+            TrackingSession session(engine, cfg);
+            detail::TrackingSessionDiagnostic baseline;
+            for (FrameId k = 0; k < 8; ++k) {
+                if (k == 3) baseline = TrackingSessionTestAccess::diagnostic(session);
+                const auto bytes = jpeg(sequence, k);
+                TrackingSessionTestAccess::enqueue(session, span(bytes), k, k == 3 ? static_cast<std::uint32_t>(kPostprocessUpstream) : k == 6 ? static_cast<std::uint32_t>(kPostprocessOverflow) : 0U);
             }
-        }
-        const auto d = TrackingSessionTestAccess::diagnostic(session);
-        check(d.control.committed_slot == baseline.control.committed_slot && d.control.committed_frame == 2, "CTL version frozen");
-        const auto* actual = reinterpret_cast<const unsigned char*>(&d.tracks[d.control.committed_slot]);
-        const auto* before = reinterpret_cast<const unsigned char*>(&baseline.tracks[baseline.control.committed_slot]);
-        const auto byte = static_cast<std::size_t>(std::mismatch(actual, actual + sizeof(DeviceTrackState), before).first - actual);
-        if (byte != sizeof(DeviceTrackState))
-            std::cerr << "TS snapshot first byte=" << byte << " live=" << unsigned(actual[byte]) << " baseline=" << unsigned(before[byte])
-                      << " track_base=" << offsetof(DeviceTrackState, tracks) << " track_size=" << sizeof(DeviceTrack)
-                      << " h_ema_offset=" << offsetof(DeviceTrack, h_ema) << '\n';
-        check(byte == sizeof(DeviceTrackState), "complete committed TS frozen");
-        if (!previous.empty()) compare(previous, current, "failure serial/pipelined");
-        previous = current;
-        session.cancel(); session.close(); session.close();
-    }
-    cfg.mode = TrackingSessionMode::Pipelined; cfg.perturb_seed = 456;
-    {
-        cfg.result_slots = 1;
-        TrackingSession session(engine, cfg);
-        for (FrameId k = 0; k < 3; ++k) {
-            const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k);
             bool full = false;
-            try { session.enqueue(span(bytes), k + 1); } catch (const std::length_error&) { full = true; }
-            check(full, "recoverable full ring"); check(session.receive().packet.status == ResultStatus::ok, "receive releases HP");
+            try { session.enqueue({}, 8); } catch (const std::length_error&) { full = true; }
+            check(full && session.pending() == 8, "ring backpressure before submission");
+            session.finish();
+            check(session.state() == TrackingSessionState::Failed, "failure observed on finish");
+            Stream current;
+            for (FrameId k = 0; k < 8; ++k) {
+                const auto r = session.receive(); current.push_back(r.bytes);
+                check(r.packet.status == (k < 3 ? ResultStatus::ok : k == 3 ? ResultStatus::failed : ResultStatus::skipped_after_failure), "failure status");
+                check(r.packet.committed_frame == (k < 3 ? k : 2), "frozen committed frame");
+                if (k >= 3) {
+                    check(r.packet.fail_frame == 3 && r.packet.fail_code == Error::producer, "first failure sticky");
+                    check(r.packet.tracks.empty() && r.packet.frame_error == (k == 3 ? Error::producer : Error::none), "failed/skipped rows and frame_error");
+                }
+            }
+            const auto d = TrackingSessionTestAccess::diagnostic(session);
+            check(d.control.committed_slot == baseline.control.committed_slot && d.control.committed_frame == 2, "CTL version frozen");
+            const auto* actual = reinterpret_cast<const unsigned char*>(&d.tracks[d.control.committed_slot]);
+            const auto* before = reinterpret_cast<const unsigned char*>(&baseline.tracks[baseline.control.committed_slot]);
+            const auto byte = static_cast<std::size_t>(std::mismatch(actual, actual + sizeof(DeviceTrackState), before).first - actual);
+            if (byte != sizeof(DeviceTrackState))
+                std::cerr << "TS snapshot first byte=" << byte << " live=" << unsigned(actual[byte]) << " baseline=" << unsigned(before[byte])
+                          << " track_base=" << offsetof(DeviceTrackState, tracks) << " track_size=" << sizeof(DeviceTrack)
+                          << " h_ema_offset=" << offsetof(DeviceTrack, h_ema) << '\n';
+            check(byte == sizeof(DeviceTrackState), "complete committed TS frozen");
+            if (!previous.empty()) compare(previous, current, "failure ordinary/graph serial/pipelined");
+            previous = current;
+            session.cancel(); session.close(); session.close();
         }
-        session.cancel();
-        check(session.state() == TrackingSessionState::Cancelled, "cancel distinct from EOF");
-        session.cancel(); session.close(); session.close();
+        cfg.mode = TrackingSessionMode::Pipelined; cfg.perturb_seed = use_graph ? 0 : 456;
+        {
+            cfg.result_slots = 1;
+            TrackingSession session(engine, cfg);
+            for (FrameId k = 0; k < 3; ++k) {
+                const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k);
+                bool full = false;
+                try { session.enqueue(span(bytes), k + 1); } catch (const std::length_error&) { full = true; }
+                check(full, "recoverable full ring"); check(session.receive().packet.status == ResultStatus::ok, "receive releases HP");
+            }
+            session.cancel();
+            check(session.state() == TrackingSessionState::Cancelled, "cancel distinct from EOF");
+            session.cancel(); session.close(); session.close();
+        }
+        {
+            cfg.result_slots = 4;
+            TrackingSession session(engine, cfg);
+            for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
+            session.cancel();
+            check(session.state() == TrackingSessionState::Cancelled, "cancel with pending packets");
+            while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "cancel drains pending packets");
+            session.close();
+        }
+        {
+            TrackingSession session(engine, cfg);
+            for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
+            const auto bytes = jpeg(sequence, 3);
+            bool threw = false;
+            try { TrackingSessionTestAccess::enqueue(session, span(bytes), 3, 0, true); } catch (const std::runtime_error&) { threw = true; }
+            check(threw && session.state() == TrackingSessionState::Failed, "D-only host failure");
+            session.cancel();
+            while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "D-only tail retains prior packets");
+            session.close(); session.close();
+        }
+        {
+            TrackingSession session(engine, cfg);
+            const auto bytes = jpeg(sequence, 0); session.enqueue(span(bytes), 0);
+            // Destructor drains an unread packet and both stream tails.
+        }
+        check(true, "destructor drain");
     }
-    {
-        cfg.result_slots = 4;
-        TrackingSession session(engine, cfg);
-        for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
-        session.cancel();
-        check(session.state() == TrackingSessionState::Cancelled, "cancel with pending packets");
-        while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "cancel drains pending packets");
-        session.close();
-    }
-    {
-        TrackingSession session(engine, cfg);
-        for (FrameId k = 0; k < 3; ++k) { const auto bytes = jpeg(sequence, k); session.enqueue(span(bytes), k); }
-        const auto bytes = jpeg(sequence, 3);
-        bool threw = false;
-        try { TrackingSessionTestAccess::enqueue(session, span(bytes), 3, 0, true); } catch (const std::runtime_error&) { threw = true; }
-        check(threw && session.state() == TrackingSessionState::Failed, "D-only host failure");
-        session.cancel();
-        while (session.pending()) check(session.receive().packet.status == ResultStatus::ok, "D-only tail retains prior packets");
-        session.close(); session.close();
-    }
-    {
-        TrackingSession session(engine, cfg);
-        const auto bytes = jpeg(sequence, 0); session.enqueue(span(bytes), 0);
-        // Destructor drains an unread packet and both stream tails.
-    }
-    check(true, "destructor drain");
 }
 }
 int main(int argc, char** argv) {

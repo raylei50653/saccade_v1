@@ -48,9 +48,9 @@ flowchart TD
         ING[F01 nvJPEG] --> FRAME[GpuFrame]
         FRAME --> MP[F05 grayscale downsample Hanning]
         MP --> SMALL[獨立 MotionImage]
-        MP -. 同 stream 排序 .-> PRE[F02 正規化與 640 stretch]
+        PRE[F02 正規化與 profile stretch] -. 現行 D 順序 .-> MP
         FRAME --> PRE
-        PRE --> MODEL[F03 YOLO26 與 Mamba-FPN]
+        MP -. 同 stream 排序 .-> MODEL[F03 YOLO26 與 Mamba-FPN]
         MODEL --> POST[F04 Decode 篩選 NMS 與座標還原]
         PRE --> MAP[ImageMapping]
         MAP --> POST
@@ -82,7 +82,7 @@ flowchart TD
     OUT --> SINK[每序列 MOT 結果與 completion]
 ```
 
-原圖只在 detect stream 上被 F05 與 F02 讀取。F05 先生成獨立小型 MotionImage，再發布 ready；main stream 不接觸原圖，可在模型推論仍執行時開始 F06。
+原圖只在 detect stream 上被 F02 與 F05 讀取。現行 native TrackingSession 的 D 順序是 F01／F02 → F05 → F03／F04；F05 生成獨立小型 MotionImage 後發布 ready，main stream 不接觸原圖，可在模型推論仍執行時開始 F06。下一次 nvJPEG 硬體 decode 前，host 等 F05 的 `rgb_read_done`，不能只靠 D 排序保護 RGB；見 [ASYNC_CONTROL](ASYNC_CONTROL.md)。
 
 main 的必要順序是 F06 GMC(k) → F08a GMC control＋predict(k) → PredictedPrior(k) → F04b(k) → F07 → F08b 關聯／更新。F04b 依賴本幀 GMC 與 predict，使用本幀原圖座標的 predicted boxes；偵測候選尚未 ready 時只延後 F04b，不阻止已滿足依賴的 F06／F08a。
 
@@ -254,10 +254,10 @@ sequenceDiagram
     participant D as detect stream
     participant M as 有序 main stream
     D->>D: F01 decode(k)
+    D->>D: F02 模型輸入轉換
     D->>D: F05 產生獨立 MotionImage(k)
     D-->>M: motion-input-ready(k)
-    D->>D: F02 模型輸入轉換
-    Note over D: 原圖最後使用完成，只在本 stream 重用
+    Note over C,D: 下次 decode 前 host 等 F05 的 rgb_read_done
     par 模型推論與觀測整理
         D->>D: F03 與 F04
         D-->>M: candidates-ready(k)
@@ -280,7 +280,7 @@ sequenceDiagram
 serial 路徑先完整處理一幀，作為同一套新 C++／GPU 邏輯的依賴參考；同樣使用本幀 predicted prior。運行目標採 detect stream 與有序 main stream。原圖是 detect stream 內的單一 buffer，候選與小影像 slots 依 frame 序號輪替，另有 host 端 JPEG staging 與 main 頻譜資源；同來源的 GMC／預測／關聯串行。
 
 ```text
-detect：decode(k) → F05(k) → F02／F03／F04(k) → 下一幀偵測
+detect：decode(k) → F02(k) → F05(k) → F03／F04(k) → 下一幀偵測
 main：      F06(k) → F08a(k) → F04b(k) → F07／F08b(k) → packet(k)
             ↑等小影像↑         ↑也等候選↑
 
@@ -289,8 +289,8 @@ detect(k+1) 可與 main(k) 重疊；main(k+1) 不越過 main(k) 的狀態提交�
 
 這張示意圖只標出依賴，不表示等長時間或保證實際並行。每次提交均遵守以下條件：
 
-1. 原圖只由 detect stream 的 F05／F02 使用，這兩者最後讀取完成後即可重用 decode buffer；不等待 main，也不存在 MotionState 借用原圖的分支。模型輸入另等 F03 最後讀取完成。
-2. F05 在 decode 後先做 grayscale／downsample／Hanning，輸出獨立 MotionImage 並立即發布 motion-input-ready。每個小影像 slot 在覆寫前須等 main 的 motion-input-consumed；slot 重用不牽連原圖生命週期。MotionState 只保存獨立頻譜，不延長小影像借用。
+1. 原圖只由 detect stream 的 F02／F05 使用；下一次硬體 decode 前，host 等最後 F05 reader 完成後才可重用 decode buffer。不等待 main，也不存在 MotionState 借用原圖的分支。模型輸入由同一 D 的 F03 → 下一次 F02 順序保護。
+2. 現行 F05 在 F02 後做 grayscale／downsample／Hanning，輸出獨立 MotionImage 並立即發布 motion-input-ready。每個小影像 slot 在覆寫前須等 main 的 motion-input-consumed；slot 重用不牽連原圖生命週期。MotionState 只保存獨立頻譜，不延長小影像借用。
 3. 偵測提交串行，最多一個 detection 在執行。graph 固定輸出交到受保護候選 slot，再發布 candidates-ready；下一次覆寫此 slot 前等 F04b 的 candidates-consumed，不能把 replay 靜態輸出直接借給 main 後立即重用。
 4. main 按 `GMC(k) → GMC control／predict(k) → predicted prior(k) → F04b(k) → association／update(k)` 執行。F06／F08a 可以先於 detection-ready 執行；F04b 同時等待本幀候選與本幀預測，F08b 不重複 predict。
 5. 所有中途 count／status 留在 device。F08b 寫完整固定容量 ResultPacket，packet-ready 後在 main／有序輸出邊界作每幀唯一一次 D2H；copy 完成後 host 讀 count、status 與前 count 筆結果。不得先讀 count 再複製變長 rows，也不得為 postprocess／prior／gating 另插 D2H。

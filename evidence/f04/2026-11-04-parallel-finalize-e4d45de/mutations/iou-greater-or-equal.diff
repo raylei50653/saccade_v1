@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ iou-greater-or-equal/cuda/postprocess.cu
+@@ -347,7 +347,7 @@
+                     float overlap = 0.0f;
+                     if (!iou(shared.pool[i], shared.pool[j], shared.areas[i], shared.areas[j], overlap))
+                         failed = true;
+-                    else if (overlap > kPostprocessNmsIou) over = true;
++                    else if (overlap >= kPostprocessNmsIou) over = true;
+                 }
+                 failures |= std::uint64_t{__ballot_sync(0xffffffffu, failed)} << (half * 32);
+                 overlaps |= std::uint64_t{__ballot_sync(0xffffffffu, over)} << (half * 32);

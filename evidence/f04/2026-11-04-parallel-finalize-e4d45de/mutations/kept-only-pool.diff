@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ kept-only-pool/cuda/postprocess.cu
+@@ -431,7 +431,7 @@
+     }
+     __syncthreads();
+     if (threadIdx.x == 0) {
+-        if (shared.bad == 0) header.count = shared.count;
++        if (shared.bad == 0) header.count = header.kept;
+         output->header.done = kPostprocessDone;
+     }
+ }

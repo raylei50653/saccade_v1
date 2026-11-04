@@ -1,0 +1,17 @@
+--- baseline/cuda/postprocess.cu
++++ dense-drop-last-tile/cuda/postprocess.cu
+@@ -221,12 +221,12 @@
+ __global__ void dense_merge(Workspace* work, unsigned tiles) {
+     if (work->run_stage == 0 || work->numeric != 0 || work->qualified <= kRadixThreshold) return;
+     const unsigned index = blockIdx.x * blockDim.x + threadIdx.x;
+-    if (index >= tiles * kPostprocessCapacity) return;
++    if (index >= (tiles - 1) * kPostprocessCapacity) return;
+     const std::uint64_t key = work->partial_keys[index];
+     if (key == kInvalidKey) return;
+     const unsigned own_tile = index / kPostprocessCapacity;
+     unsigned rank = index % kPostprocessCapacity;
+-    for (unsigned tile = 0; tile < tiles; ++tile) {
++    for (unsigned tile = 0; tile < tiles - 1; ++tile) {
+         if (tile == own_tile) continue;
+         unsigned begin = 0, end = kPostprocessCapacity;
+         const auto* list = work->partial_keys + tile * kPostprocessCapacity;

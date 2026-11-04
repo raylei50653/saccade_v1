@@ -1,0 +1,1 @@
+python3 -I scripts/check_stream_placement.py /home/ray/developer/ai/saccade_v1-worktrees/f04-parallel/build/f04-eval2/nsys/track.sqlite /home/ray/developer/ai/saccade_v1-worktrees/f04-parallel/build/f04-eval2/capture/stream-placement.txt 

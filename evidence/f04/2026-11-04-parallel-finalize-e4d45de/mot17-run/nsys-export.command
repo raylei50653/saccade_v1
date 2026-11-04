@@ -1,0 +1,1 @@
+nsys export --type sqlite --output /home/ray/developer/ai/saccade_v1-worktrees/f04-parallel/build/f04-eval2/nsys/track.sqlite /home/ray/developer/ai/saccade_v1-worktrees/f04-parallel/build/f04-eval2/nsys/track.nsys-rep 

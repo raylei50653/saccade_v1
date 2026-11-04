@@ -1,0 +1,11 @@
+--- baseline/cuda/postprocess.cu
++++ suppressed-can-suppress/cuda/postprocess.cu
+@@ -389,7 +389,7 @@
+                     flags = kDetectionSuppressed;
+                 }
+                 shared.pool[i].flags = flags;
+-                if (flags == kDetectionKept) {
++                if (flags != 0) {
+                     const auto bit = std::uint64_t{1} << (i % 64);
+                     if (i / 64 == 0) kept0 |= bit;
+                     if (i / 64 == 1) kept1 |= bit;

@@ -1,0 +1,13 @@
+--- baseline/cuda/postprocess.cu
++++ swap-xy-mapping/cuda/postprocess.cu
+@@ -401,8 +401,8 @@
+         }
+     }
+     __syncthreads();
+-    const float sx = static_cast<float>(request.mapping.scale_x);
+-    const float sy = static_cast<float>(request.mapping.scale_y);
++    const float sx = static_cast<float>(request.mapping.scale_y);
++    const float sy = static_cast<float>(request.mapping.scale_x);
+     unsigned mapping_bad = 0;
+     if (shared.bad == 0) {
+         for (unsigned i = threadIdx.x; i < shared.count; i += blockDim.x) {

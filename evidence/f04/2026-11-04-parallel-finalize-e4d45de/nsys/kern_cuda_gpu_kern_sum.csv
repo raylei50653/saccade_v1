@@ -1,0 +1,185 @@
+Time (%),Total Time (ns),Instances,Avg (ns),Med (ns),Min (ns),Max (ns),StdDev (ns),Name
+17.7,35365046,93,380269.3,220329.0,51937,885554,351668.0,"saccade::<unnamed>::scan_kernel(saccade::<unnamed>::ScanParams, saccade::ScanStatus *)"
+11.2,22370983,372,60137.1,19419.0,17728,231941,73315.9,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS_execute_kernel_trt
+9.6,19268955,31,621579.2,726986.0,576,789135,243670.2,"saccade::<unnamed>::batch_kernel(const saccade::DetectionCandidates *, const saccade::DevicePredicted *, const saccade::TrackerConfig *, saccade::DeviceBatch *, saccade::TrackingCudaScratch *, const bool *)"
+5.5,11073643,310,35721.4,16992.0,6334,235493,64958.4,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+4.3,8597218,248,34666.2,41531.5,9920,57330,14604.7,sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+3.6,7112026,155,45884.0,12001.0,10656,106501,42212.7,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x256x32_stage3_warpsize2x4x1_tensor16x8x16_execute_kernel_trt
+2.8,5636191,279,20201.4,21114.0,10721,29601,3148.5,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+2.8,5582239,186,30012.0,15584.0,11008,69615,22922.5,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x128x32_stage5_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+2.1,4264375,31,137560.5,138019.0,131747,141916,2533.8,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_execute_kernel_trt
+2.0,4052115,61,66428.1,5535.0,608,211908,70028.9,"saccade::<unnamed>::update_kernel(const saccade::DevicePredicted *, const saccade::DeviceBatch *, const saccade::DeviceMotionContext *, const saccade::TrackerConfig *, saccade::DeviceTrackState *, saccade::DeviceTrackingRows *, saccade::TrackingCudaScratch *, const bool *)"
+2.0,3938296,31,127041.8,127011.0,120291,130722,2424.9,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x64_stage3_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1_execute_kernel_trt
+1.9,3846033,186,20677.6,22205.0,10561,29112,4167.4,sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x16_alignc4_execute_kernel_trt
+1.5,2945815,31,95026.3,95330.0,91746,99655,1965.9,__myl_Silu_0x17fd4eabc00623d07ea0ad4b78f2c955
+1.4,2857106,62,46082.4,46154.5,42145,48372,1401.2,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x128x32_stage3_warpsize4x2x1_g1_tensor16x8x16_simple_t1r1s1_execute_kernel_trt
+1.3,2703519,93,29070.1,11360.0,9569,73325,26263.4,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS_execute_kernel_trt
+1.3,2669174,31,86102.4,86145.0,84139,88450,1144.1,__myl_Silu_0xa27d3f4a203b84034d928edd52818490
+1.2,2427988,30,80932.9,80887.0,75137,84139,2188.9,"saccade::<unnamed>::horizontal(const unsigned char *, float *, int, int, int, float, unsigned long)"
+1.1,2247900,30,74930.0,75217.0,71521,77485,1178.0,"saccade::<unnamed>::vertical(const float *, float *, int, int, int, float, unsigned long)"
+1.0,2035170,31,65650.6,65807.0,62657,72814,1789.4,sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8_execute_kernel_trt
+0.9,1822277,124,14695.8,14238.0,9760,21377,3407.7,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x32_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.8,1639348,31,52882.2,53281.0,49811,55393,1553.0,__myl_TranReshSlicTran_0x1e9099a5127dd333f625cc9ac76d26e3
+0.8,1510979,30,50366.0,50705.0,46625,51905,1243.5,"saccade::<unnamed>::finalize(saccade::DetectionCandidates *, saccade::<unnamed>::Workspace *, saccade::PostprocessRequest, unsigned int)"
+0.7,1335651,61,21895.9,1728.0,544,97570,24552.3,"saccade::<unnamed>::predict_kernel(const saccade::DeviceTrackState *, const saccade::DeviceMotionContext *, const long *, const saccade::TrackerConfig *, saccade::DevicePredicted *, saccade::TrackingCudaScratch *, const bool *)"
+0.6,1245321,62,20085.8,20093.5,18529,22752,722.9,__myl_DivMulTran_0x887da5e6170e9e231da4d5f83887e9f0
+0.6,1133046,62,18274.9,18350.0,16289,19424,712.7,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize256x64x32_stage3_warpsize4x1x1_tensor16x8x16_execute_kernel_trt
+0.6,1117964,30,37265.5,33200.0,1024,145083,22148.7,"saccade::<unnamed>::context_kernel(const saccade::<unnamed>::Reduction *, unsigned int, const int *, saccade::MotionImageKey, saccade::MotionConfig, unsigned long, long, long, saccade::MotionContext *, const bool *, const saccade::Control *)"
+0.5,1083890,31,34964.2,34881.0,32033,39798,1450.3,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16_simple_t1r1s1_execute_kernel_trt
+0.5,1075863,31,34705.3,34977.0,32824,36385,1019.1,__myl_ReshTranResh_0xb9f1675787e2628de9692488dd462e89
+0.5,976387,279,3499.6,1536.0,671,16860,4650.4,"saccade::<unnamed>::check_finite(saccade::<unnamed>::CheckList, saccade::ScanStatus *)"
+0.5,973782,62,15706.2,15568.0,12640,18336,1897.2,sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x16_alignc8_execute_kernel_trt
+0.5,973629,124,7851.8,7904.0,6912,8833,399.6,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x1x2_g1_tensor16x8x16_aACCESS_execute_kernel_trt
+0.5,945467,30,31515.6,31772.5,20474,34433,2476.0,"void nvjpeg::rgba2rgb<(nvjpegOutputFormat_t)3, nvjpeg::RGBAToRGBConversion::LaunchParams<(int)32, (int)8>>(nvjpegImage_t, NppiSize, nvjpegImage_t)"
+0.5,923108,62,14888.8,14752.5,13792,16288,560.2,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+0.5,918468,62,14814.0,14863.0,13725,15776,460.6,__myl_ReshTranSlic_0x5d9deabc40cd281a52f2a67739b5b909
+0.4,894302,62,14424.2,14400.5,13600,15264,348.0,sm80_xmma_gemm_f16f16_f16f32_f32_nn_n_tilesize96x64x32_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.4,856328,62,13811.7,13886.0,12705,14880,553.5,__myl_MulMaxrSubExpSum_0xf9e991b89b45b5c8645bcb15258f35d7
+0.4,803789,30,26793.0,26861.0,25889,27385,416.2,"saccade::<unnamed>::finite(saccade::<unnamed>::Inputs, saccade::<unnamed>::Workspace *)"
+0.4,752360,93,8089.9,8768.0,5856,9597,1277.9,sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.3,690642,93,7426.3,8864.0,3809,9664,2403.1,sm50_xmma_fprop_conv3d_c1_k1_f16f16_f16_f16_ndhwcktrsc_ndhwc_tilesize64x16_threadsize64x2_general_alignC8_execute_kernel_trt
+0.3,688147,93,7399.4,7358.0,6464,8096,347.5,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x128x64_stage3_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.3,672956,31,21708.3,18108.0,15932,33825,6785.8,__myl_Silu_0xaf4a1bd7ef47e5d2e2c6f1f00f534e18
+0.3,655154,31,21134.0,21152.0,20257,21979,422.1,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x64x32_stage3_warpsize4x1x1_g1_tensor16x8x16_execute_kernel_trt
+0.3,634254,186,3410.0,3392.0,2976,3872,126.3,__myl_Silu_0x0a2763854d1e471967ef83e2afa787b0
+0.3,607960,93,6537.2,4352.0,1408,14368,5298.2,"saccade::<unnamed>::merge_kernel(saccade::<unnamed>::CrossParams, const float *, float *)"
+0.3,564124,30,18804.1,18944.5,17697,19232,408.8,"saccade::<unnamed>::decode(saccade::<unnamed>::KernelInputs, saccade::<unnamed>::Workspace *)"
+0.3,554715,93,5964.7,5918.0,5472,6654,268.2,sm50_xmma_pooling_coalescedC_NHWC_kMAX_3_False_execute_kernel_trt
+0.3,551718,30,18390.6,18541.5,992,21921,3671.4,"saccade::<unnamed>::cross_power(const float2 *, const float2 *, float2 *, unsigned long, int *, const bool *, const saccade::Control *)"
+0.3,533146,62,8599.1,8352.0,2272,15137,6224.2,sm50_xmma_convolution_depthwiseHMMA_FP16NHWCx8_TR_TS_STRIDEH_STRIDEW_execute_kernel_trt
+0.3,528759,30,17625.3,23933.0,640,24097,10402.1,"saccade::<unnamed>::dense_merge(saccade::<unnamed>::Workspace *, unsigned int)"
+0.3,528636,155,3410.6,3392.0,3008,3903,167.6,__myl_Silu_0xae41c41a971202d4e2d92c455d4300b4
+0.3,526400,30,17546.7,17664.5,16608,17920,362.1,"saccade::<unnamed>::initialize(const saccade::PostprocessProducerStatus *, saccade::DetectionCandidates *, saccade::<unnamed>::Workspace *, saccade::PostprocessRequest)"
+0.3,525466,155,3390.1,3392.0,2976,3872,184.1,__myl_Silu_0x610341b13f5d9dd12274291fd5a16ea3
+0.3,525269,31,16944.2,16571.0,15936,27257,1942.2,__myl_Cast_0x925cd64808fe2248be2b3d9b6ed9e6b3
+0.3,517920,62,8353.5,8367.0,7776,8992,280.2,__myl_SiluSpli_0x217de6be4822ef848cf5ffa459267bed
+0.3,515191,31,16619.1,16768.0,15580,17472,497.2,__myl_Silu_0xfc87a44984a6bb2f2f1a5dde21ecc06a
+0.3,503576,31,16244.4,16347.0,14844,17632,532.1,__myl_SiluSpli_0x71a47febad037c716652568ecd81158f
+0.2,499068,62,8049.5,8047.0,7390,8832,306.4,__myl_Silu_0xc646825e33b4e481f9cb0885e4fc6d6e
+0.2,473729,31,15281.6,15392.0,14141,16225,636.0,__myl_MoveResi_0x51e157f65bd082d41462df28d1f69d8b
+0.2,470211,93,5056.0,3264.0,1600,10657,3718.2,"saccade::<unnamed>::expand_kernel(saccade::<unnamed>::CrossParams, const float *, float *)"
+0.2,443713,62,7156.7,7216.5,6208,7744,340.8,__myl_MoveResh_0x95023677575bca0082c830f1e81d8893
+0.2,442242,93,4755.3,4767.0,4352,5216,190.5,__myl_SiluSpli_0x60b3ec69b0e09956fd098179fcf971f0
+0.2,436381,31,14076.8,14077.0,13152,14492,308.6,sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x64x64_stage3_warpsize2x2x1_tensor16x8x16_aligna2_alignc2_execute_kernel_trt
+0.2,417189,62,6728.9,6783.0,6144,7136,232.0,__myl_TranResh_0x57ea00b4653361b0fd6e622803eaa6ab
+0.2,416614,62,6719.6,6655.0,6112,7264,261.6,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x128x32_stage5_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1_execute_kernel_trt
+0.2,405926,279,1454.9,1088.0,672,3967,940.9,"saccade::<unnamed>::finalize(float *, unsigned long long, saccade::ScanStatus *)"
+0.2,395942,124,3193.1,2976.0,2432,8896,1043.5,__myl_Silu_0x8847cfc0a813f7ef86bae6c56dac7a07
+0.2,393128,93,4227.2,4799.0,2528,5440,1100.9,sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x96x32_stage3_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.2,386183,62,6228.8,5102.5,3552,11905,2885.4,"void regular_fft<(unsigned int)270, EPT<(unsigned int)9, (unsigned int)10>, (unsigned int)8, (unsigned int)4, (padding_t)6, (twiddle_t)0, (loadstore_modifier_t)2, (layout_t)1, unsigned int, float, HostConfigPlaceholder>(kernel_arguments_t<T9>)"
+0.2,363816,31,11736.0,11712.0,10912,12576,445.6,__myl_TranReshSlicTran_0x989156572b3663775dc75e63119d00d8
+0.2,360618,31,11632.8,11617.0,10976,12161,307.4,__myl_ReshTranResh_0x0acbcdac8f0de08fbeb0b977dff8db55
+0.2,358666,62,5784.9,5759.5,5408,6272,196.2,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+0.2,357056,124,2879.5,2879.0,2528,3232,147.2,__myl_Silu_0x17f5399bfc0643e47826f355f081364a
+0.2,342186,93,3679.4,3679.0,3455,3967,130.3,__myl_SiluAdd_0x5f98b8ae9cc4334bafaaf72d6b7ea96a
+0.2,335979,93,3612.7,3648.0,3200,4064,193.9,__myl_SiluAdd_0xb6dacda6a9f2051dba359d1f42b7c857
+0.2,327241,31,10556.2,10558.0,9856,11296,270.8,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+0.2,324393,93,3488.1,3488.0,3136,3712,123.9,__myl_Silu_0xcc92e926cd2fe6064d10cfc018faebdf
+0.2,301960,62,4870.3,4767.5,4256,9472,653.0,__myl_Silu_0x5c1fcddf4ddd5ff97768a3b7d11f9d5a
+0.1,286606,62,4622.7,4608.0,4255,5184,211.2,__myl_Silu_0x0479a89c6e4d53160c624fa897447623
+0.1,286062,62,4613.9,4608.0,3999,5248,221.8,__myl_Silu_0xe0d8d643619c895c5a0dbfe5fec449cb
+0.1,276527,62,4460.1,4448.0,4096,4800,184.7,__myl_Silu_0x89f5de26eeada17de5a72733ba015e82
+0.1,270541,31,8727.1,8672.0,8256,9280,227.5,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+0.1,269329,30,8977.6,8864.0,6784,11581,1501.0,"saccade::<unnamed>::reduce_correlation(const float *, unsigned long, saccade::<unnamed>::Reduction *, const bool *)"
+0.1,265680,31,8570.3,8608.0,7327,9536,443.3,__myl_Silu_0xf25f9956d260d803ce7fd68acc775572
+0.1,260368,31,8399.0,8416.0,8032,8862,192.9,__myl_TranSlic_0x0780bfe0f22258beb732255c95b43328
+0.1,252270,30,8409.0,8816.0,6816,9152,839.1,"saccade::<unnamed>::adaptive_prefix(saccade::<unnamed>::Workspace *, saccade::<unnamed>::KernelInputs)"
+0.1,248268,31,8008.6,8030.0,7488,8320,165.6,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x16_execute_kernel_trt
+0.1,227695,31,7345.0,7392.0,6688,7680,209.0,__myl_Cast_0xbb75defc13a942177d9382825237fb1d
+0.1,226898,62,3659.6,3648.0,3200,4065,211.9,__myl_Silu_0x4cf4197ba4395754f5e4022871315da3
+0.1,209521,62,3379.4,3375.5,3103,3712,149.8,__myl_SiluAdd_0xcc4df919e2da34113004de91c445c919
+0.1,207411,62,3345.3,3247.5,2815,8096,751.3,__myl_SiluAdd_0x4087a78a56fa9829455a0e695c76f95f
+0.1,193745,31,6249.8,6302.0,5886,6880,220.0,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize64x64x64_stage4_warpsize2x2x1_tensor16x8x16_aligna2_alignc2_execute_kernel_trt
+0.1,187606,30,6253.5,6240.5,5856,6656,223.7,"saccade::<unnamed>::image_kernel(const unsigned char *, float *, saccade::MotionImageKey, const float *, const float *, const bool *)"
+0.1,186613,31,6019.8,6016.0,5632,6592,190.1,__myl_Tran_0x13428967c35ba50243f3d6e2421d3b70
+0.1,185777,31,5992.8,5854.0,5632,6656,297.1,sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x64x64_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.1,182709,62,2946.9,2944.5,2560,3199,137.2,__myl_Silu_0xdb74ac2b37e00a3ad67a99e1d71db19e
+0.1,181625,31,5858.9,5856.0,5406,6464,247.4,__myl_SlicReshTranSiluCast_0x8850560b9ec1732abd1caa3e9c44129d
+0.1,176468,62,2846.3,2879.5,2592,3104,115.3,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize64x64x64_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.1,175924,150,1172.8,1152.0,576,2848,430.1,"saccade::<unnamed>::motion_stage(saccade::Control *, const int *, const saccade::<unnamed>::ImageHeader *, unsigned long, long)"
+0.1,173012,62,2790.5,2784.0,2496,3167,140.1,__myl_Silu_0x75f065d16f8949476fd4cfcb6482e67d
+0.1,169685,31,5473.7,5407.0,4896,6432,330.5,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r1s1_fused
+0.1,168304,31,5429.2,5504.0,4992,5856,278.0,__myl_Silu_0x2b64175a0ff6aca0690750040b3ee0bf
+0.1,167956,31,5417.9,5376.0,4960,5824,215.4,sm80_xmma_gemm_f16f16_f16f32_f32_nn_n_tilesize64x96x32_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.1,165620,31,5342.6,5248.0,4769,7678,494.3,__myl_Silu_0x6a0f1688c1164216ea57b303286b913d
+0.1,163123,31,5262.0,5216.0,4768,5760,262.1,sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x96x32_stage4_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.1,160501,120,1337.5,1264.0,768,2463,316.2,"saccade::detail::<unnamed>::stage(saccade::detail::TrackingSessionControl *, const saccade::Error *, const saccade::MotionContext *, saccade::DeviceMotionContext *)"
+0.1,158995,31,5128.9,5152.0,4830,5376,155.9,__myl_AddCast_0x270bce6f2a54dd771f2d7d763871feed
+0.1,158357,31,5108.3,5024.0,4704,7422,471.8,__myl_SiluAdd_0x8db5653a6c6e0cff7afd5977db85e35d
+0.1,157593,31,5083.6,5057.0,4383,5568,279.0,__myl_SiluAdd_0x1d4ced0c7a02905c1dba5d3a0ba5fd4d
+0.1,157336,31,5075.4,5119.0,4767,5473,189.7,__myl_Cast_0x220bf71c107fe7fae0e0edeeb5796874
+0.1,153043,31,4936.9,4960.0,4512,5184,156.5,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x64_stage3_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.1,146259,31,4718.0,4768.0,4352,4992,180.6,__myl_Silu_0x7d6e27fa1be25fd21b85d94de979f8ae
+0.1,142999,31,4612.9,4608.0,4288,4991,132.2,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize32x32x64_stage6_warpsize2x2x1_tensor16x8x16_aligna2_alignc2_execute_kernel_trt
+0.1,142934,31,4610.8,4608.0,4350,5120,167.2,__myl_Silu_0x5a22c0300baa409b3b261574747b826c
+0.1,142900,62,2304.8,2303.0,2016,2591,112.3,__myl_SiluSlicSlic_0xa7b36061645bdb5b7528fb8d65c8cabb
+0.1,142133,31,4584.9,5088.0,2912,8221,1473.7,"void regular_fft_c2r<(unsigned int)480, EPT<(unsigned int)5, (unsigned int)8, (unsigned int)12>, (unsigned int)1, (unsigned int)16, (padding_t)14, (twiddle_t)0, (loadstore_modifier_t)2, (layout_t)0, unsigned int, float, HostConfigPlaceholder>(kernel_arguments_t<T9>)"
+0.1,135031,31,4355.8,4256.0,4063,4960,246.0,__myl_MoveResi_0x5dbad2ec65f6bb3565c7c65906087c41
+0.1,132602,62,2138.7,2144.0,1952,2272,62.8,__myl_SlicTran_0x7a807abc427d16594d7fdf7b228b4706
+0.1,132405,31,4271.1,4127.0,3103,6398,640.0,"void regular_fft_r2c<(unsigned int)480, EPT<(unsigned int)5, (unsigned int)8, (unsigned int)12>, (unsigned int)1, (unsigned int)16, (padding_t)14, (twiddle_t)0, (loadstore_modifier_t)2, (layout_t)0, unsigned int, float, HostConfigPlaceholder>(kernel_arguments_t<T9>)"
+0.1,126358,93,1358.7,1407.0,1088,1568,125.4,__myl_Silu_0x81703bd077abda7cc173b707b5740582
+0.1,124311,31,4010.0,3999.0,3488,4414,234.1,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_simple_t1r1s1_fused
+0.1,122169,62,1970.5,1984.0,1728,2239,119.1,__myl_MoveMove_0xf397abdb9a7552f7d28070d26bc4e0d7
+0.1,121013,93,1301.2,1344.0,1056,1568,107.3,__myl_Silu_0xa8467352a81e0f77125870becdf49505
+0.1,119222,31,3845.9,3871.0,3680,4000,79.0,sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_execute_kernel_trt
+0.1,113911,31,3674.5,3648.0,3328,4031,161.4,__myl_SiluAdd_0x4e041785335248c185cd06db5091f6b7
+0.1,104314,31,3365.0,3329.0,3168,3616,129.0,__myl_Conc_0x5ed42888ab6535af1fd82e5da416e6f3
+0.1,103003,60,1716.7,1472.0,864,2624,477.5,"saccade::detail::<unnamed>::candidates(saccade::detail::TrackingSessionControl *, const saccade::DetectionCandidates *)"
+0.1,102936,31,3320.5,3328.0,3040,3584,117.6,sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.1,102745,31,3314.4,3327.0,3105,3584,120.8,__myl_SiluCastMul_0x111d7b04f83ce59b3fd52055dc3b17df
+0.0,98587,31,3180.2,3199.0,2976,3424,91.9,sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_execute_kernel_trt
+0.0,98487,31,3177.0,3167.0,2976,3616,124.3,__myl_TranSlic_0x7f37c0f7b84f7a126a3decd2ea52b558
+0.0,96442,31,3111.0,3040.0,2784,3488,211.6,__myl_Tran_0x9810cd34d694370f37b486dfdd2023d5
+0.0,96024,31,3097.5,3072.0,2912,3329,87.3,__myl_Cast_0x589f4cca6ff8a9b8d0abc2d4a6f26932
+0.0,94841,30,3161.4,3088.0,1919,8640,1082.2,"saccade::detail::<unnamed>::packet(const saccade::Control *, const saccade::DeviceTrackingRows *, unsigned char *)"
+0.0,92760,31,2992.3,2976.0,2784,3232,100.5,sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize128x64x64_stage3_warpsize2x2x1_tensor16x8x16_execute_kernel_trt
+0.0,86922,1,86922.0,86922.0,86922,86922,0.0,"saccade::detail::<unnamed>::initialize(saccade::detail::TrackingSessionControl *, saccade::DeviceTrackState *, unsigned long)"
+0.0,86173,31,2779.8,2784.0,2624,2880,75.6,__myl_Cast_0x8b4e4e2e896c42e6b63ab5c3ff1d6969
+0.0,84090,31,2712.6,2720.0,2560,2848,73.7,__myl_Conc_0x7a8549a711e41576cd34f47c318a8334
+0.0,77916,31,2513.4,2496.0,2336,2721,97.5,__myl_Cast_0x7c6fc33293c9ff7a8d3ab0512d1ebefa
+0.0,76638,62,1236.1,1232.0,1151,1407,51.5,__myl_Slic_0x80c900d82c3b3ea4d2f5abebdc3eccfc
+0.0,70236,31,2265.7,2272.0,2048,2368,75.4,__myl_SiluSpli_0xdc34b223ad5cb0dd2bc96f70e31b6da7
+0.0,66396,31,2141.8,2113.0,1952,2368,88.2,__myl_SlicReshTranSiluCast_0xcd6b744154d353f5492dab7521961757
+0.0,65752,31,2121.0,2112.0,1984,2272,59.8,__myl_SiluAdd_0x0c8717062576893a09e951517daed78b
+0.0,63576,31,2050.8,2016.0,1824,2432,124.1,__myl_Silu_0x9e2ba0b5b91091a4d3b81381b466015c
+0.0,61053,31,1969.5,1983.0,1856,2048,38.6,__myl_SiluCastMul_0xfa744684d945df07826a24291da48781
+0.0,59708,31,1926.1,1920.0,1855,2048,50.6,__myl_Move_0x8537fb63c1fd5668f435986deefa7ee9
+0.0,59642,31,1923.9,1951.0,1760,2016,58.8,__myl_Move_0x33caa17711022d8485ade37ddcd71c7f
+0.0,57501,30,1916.7,1952.0,1280,2336,275.0,"saccade::<unnamed>::deliver(const float2 *, float2 *, unsigned long, int *, const bool *, const saccade::Control *)"
+0.0,56765,31,1831.1,1856.0,1632,1984,87.3,__myl_Cast_0x892437a306d7deb84db20a589b23e9dc
+0.0,55196,31,1780.5,1760.0,1600,1984,86.0,__myl_AddCast_0xc7bd02ce00645779729d842ff5a9e6ec
+0.0,54782,31,1767.2,1760.0,1664,1984,63.3,__myl_Cast_0xac20362768fc1cf2506fb5863e6d0572
+0.0,54586,31,1760.8,1760.0,1664,1888,58.1,__myl_TranReshTranResh_0x7ad64e7a127e8616f2d52b34c3aa1f1b
+0.0,48413,31,1561.7,1536.0,1408,1696,64.3,__myl_Cast_0x83a1138afa34d7f819cad0a8cb52e050
+0.0,47072,31,1518.5,1504.0,1408,1728,60.1,__myl_Cast_0x53d9c38835dd0edef53dd92baf0b27af
+0.0,43899,31,1416.1,1439.0,1280,1599,72.8,__myl_SiluAdd_0x447302371eec55e5525cf67f1d006e76
+0.0,43681,31,1409.1,1408.0,1312,1568,59.2,__myl_Silu_0xb2f0927f08a547534f86630cac0e1dae
+0.0,43294,31,1396.6,1408.0,1152,1536,86.1,__myl_TranSlic_0x1cf07308ddc950431f0f6dd5aa718c6f
+0.0,42140,31,1359.4,1344.0,1280,1472,52.8,__myl_SiluAdd_0x45a33a5f5ef9e1fb8e13ddb3910cdd35
+0.0,40481,31,1305.8,1312.0,1152,1472,90.2,__myl_SlicCast_0x605739b248c58454ae3581776aa0e931
+0.0,38974,30,1299.1,1280.0,1215,1472,61.5,"saccade::<unnamed>::aggregate(saccade::<unnamed>::Inputs, saccade::PostprocessProducerStatus *, saccade::<unnamed>::Workspace *)"
+0.0,38972,31,1257.2,1248.0,1183,1376,40.8,__myl_Cast_0xbe0b28659b0c0eb7767e57a60e407062
+0.0,38242,31,1233.6,1216.0,1152,1376,46.1,__myl_Cast_0x34e7a6c02c85208653331eabdad35261
+0.0,37054,31,1195.3,1184.0,1119,1312,61.1,__myl_SlicCast_0xf87fbbfdf95d70687525f5cda56e9625
+0.0,35265,31,1137.6,1152.0,1024,1216,40.4,__myl_SlicReshTranSiluCast_0x00d94f3271298b0f0a85605fb04ec8d9
+0.0,33822,30,1127.4,1119.5,896,1920,169.9,saccade::detail::<unnamed>::commit(saccade::detail::TrackingSessionControl *)
+0.0,33308,31,1074.5,1087.0,992,1216,52.7,__myl_TranReshTranSlicSlicTran_0xbefe2a8c9f7b076d17cd46baf8ee1aac
+0.0,31840,31,1027.1,992.0,928,1184,63.6,__myl_SlicCast_0x9fedfda9820aa74e87b0a0edf4aca7ce
+0.0,30463,31,982.7,992.0,896,1120,51.1,__myl_SlicCast_0x4f5b737cbba0e9a600772e1254a11055
+0.0,30046,31,969.2,960.0,928,1056,29.9,__myl_SiluCastMul_0x903417ed25ea35b915434903d1cc80f8
+0.0,29888,31,964.1,960.0,897,1152,54.0,__myl_CastTranSlic_0x3117d52b0159bab421092f0183106f8c
+0.0,29536,31,952.8,960.0,895,1056,39.5,__myl_Cast_0xf931b3804aa1e2eab57913212a8fa137
+0.0,28959,31,934.2,928.0,800,1056,68.8,__myl_TranSlic_0xa41b502d2539ae9222b56fecc34e2715
+0.0,28767,31,928.0,928.0,831,1120,74.4,__myl_Cast_0x24c1c9a7895c5c838ce2023ce6d0313e
+0.0,28609,31,922.9,928.0,831,992,43.0,__myl_Slic_0x958f3e948794e1f249681471e59811b2
+0.0,28509,31,919.6,928.0,864,1024,28.7,__myl_Cast_0xb37ae8392f78c92795f6a21fb8a1e789
+0.0,28093,30,936.4,896.0,768,1503,164.5,"saccade::detail::<unnamed>::begin(saccade::detail::TrackingSessionControl *, unsigned long, long)"
+0.0,26431,31,852.6,864.0,800,928,29.2,__myl_SlicCast_0x57a383b7b232fcf6117b1b0ca83144ac
+0.0,25726,31,829.9,832.0,768,960,35.9,__myl_AddCast_0xfdb76ac2bce72ed5c628dbb1ef95b4c7
+0.0,24703,31,796.9,800.0,768,864,22.4,__myl_Cast_0xa4c965c139863d8407898b39fee99751
+0.0,24701,31,796.8,800.0,735,895,36.3,__myl_Slic_0x937cc448780af8fc835233d7f41eef5c
+0.0,24093,31,777.2,768.0,704,864,33.3,__myl_SlicCast_0x375e94549227a7dcc4d256f3a536aa3e
+0.0,24063,31,776.2,768.0,704,1024,58.4,__myl_Slic_0x33f6b2be5c788476f85f70611873d95f
+0.0,16799,32,525.0,512.0,384,768,63.9,"saccade::<unnamed>::image_header(saccade::<unnamed>::ImageHeader *, unsigned long, long)"
+0.0,16158,30,538.6,512.0,448,1055,107.5,saccade::<unnamed>::reset_numeric(int *)
+0.0,15967,30,532.2,512.0,448,639,39.8,"saccade::<unnamed>::initialize(saccade::PostprocessProducerStatus *, saccade::<unnamed>::Workspace *)"

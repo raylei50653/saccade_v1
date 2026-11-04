@@ -81,7 +81,7 @@ std::array<double,2> mean_shift(const std::vector<WeightedCell>& cells,std::arra
     }
     return mu;
 }
-FrameControl::FrameControl(const flow::Frame& f,int cols,int rows,int width,const DetectionCandidates* previous,const MotionContext& pcr)
+FrameControl::FrameControl(const flow::Frame& f,int cols,int rows,int width,const DetectionCandidates* previous,const MotionContext& pcr,int scale)
     : frame_(&f),cols_(cols),rows_(rows),width_(width),pcr_{pcr.status==MotionStatus::valid?pcr.tx:0.f,pcr.status==MotionStatus::valid?pcr.ty:0.f},
       mask_(static_cast<std::size_t>(cols)*rows,0) {
     if(previous) {
@@ -89,10 +89,13 @@ FrameControl::FrameControl(const flow::Frame& f,int cols,int rows,int width,cons
             const auto& d=previous->rows[i];
             if(!(d.flags & kDetectionKept) || d.class_id!=0 || d.score<0.45f) continue;
             const Box box{d.x1,d.y1,d.x2,d.y2};
-            const int c0=std::clamp(static_cast<int>(std::ceil((box[0]-4.f)/8.f)),0,cols_);
-            const int c1=std::clamp(static_cast<int>(std::ceil((box[2]-4.f)/8.f)),0,cols_);
-            const int r0=std::clamp(static_cast<int>(std::ceil((box[1]-4.f)/8.f)),0,rows_);
-            const int r1=std::clamp(static_cast<int>(std::ceil((box[3]-4.f)/8.f)),0,rows_);
+            const auto bound=[&](float edge,int size) {
+                int lo=0,hi=size;
+                while(lo<hi) { const int mid=lo+(hi-lo)/2; if(float(scale*(8*mid+4))<edge) lo=mid+1; else hi=mid; }
+                return lo;
+            };
+            const int c0=bound(box[0],cols_), c1=bound(box[2],cols_);
+            const int r0=bound(box[1],rows_), r1=bound(box[3],rows_);
             for(int r=r0;r<r1;++r) for(int c=c0;c<c1;++c) mask_[static_cast<std::size_t>(r)*cols_+c]=1;
         }
     }

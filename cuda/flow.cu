@@ -1,5 +1,7 @@
 #include "saccade/flow_cuda.hpp"
 #include "saccade/cleanup.hpp"
+#include "saccade/flow_config.hpp"
+#include "saccade/detail/flow_gray.cuh"
 #include "nvOpticalFlowCuda.h"
 
 #include <cuda_runtime.h>
@@ -18,12 +20,10 @@ void ck(cudaError_t s, const char* op) {
 void driver(CUresult s, const char* op) {
     if (s != CUDA_SUCCESS) throw std::runtime_error(std::string(op) + ": CUresult=" + std::to_string(s));
 }
-__global__ void grayscale(const std::uint8_t* rgb, std::uint8_t* dst, std::size_t pitch, int w, int h) {
+__global__ void grayscale(const std::uint8_t* rgb, std::uint8_t* dst, std::size_t pitch, int w, int h, int s) {
     const int x = blockIdx.x * blockDim.x + threadIdx.x, y = blockIdx.y * blockDim.y + threadIdx.y;
-    if (x >= w || y >= h) return;
-    const auto n = static_cast<std::size_t>(w) * h, i = static_cast<std::size_t>(y) * w + x;
-    const float g = (0.299f * float(rgb[i]) + 0.587f * float(rgb[n+i])) + 0.114f * float(rgb[2*n+i]);
-    dst[y*pitch+x] = static_cast<std::uint8_t>(fminf(255.f, floorf(g + 0.5f)));
+    if (x >= w/s || y >= h/s) return;
+    dst[y*pitch+x] = detail::gray_pixel(rgb,w,h,s,x,y);
 }
 __device__ float median4(int a, int b, int c, int d) {
     if (a > b) { const int t=a; a=b; b=t; }
@@ -41,7 +41,7 @@ __global__ void cells_kernel(const std::uint8_t* raw, std::size_t pitch, Vector*
 }
 }
 struct Engine::Impl {
-    int width, height, cols, rows;
+    int original_width, original_height, scale, width, height, cols, rows;
     CUdevice device = 0;
     CUcontext context = nullptr;
     cudaStream_t stream = nullptr;
@@ -68,7 +68,9 @@ struct Engine::Impl {
         of(api.nvOFGPUBufferGetStrideInfo(b.handle, &stride), "NvOFGPUBufferGetStrideInfo");
         b.pitch = stride.strideInfo[0].strideXInBytes;
     }
-    Impl(int w, int h, Perf perf): width(w), height(h), cols(w/8), rows(h/8) {
+    Impl(int W, int H, Perf perf): original_width(W), original_height(H), scale(flow_scale(W,H)),
+        width(W/scale), height(H/scale), cols(width/8), rows(height/8) {
+        const int w=width, h=height;
         try {
             driver(cuInit(0), "cuInit"); driver(cuDeviceGet(&device, 0), "cuDeviceGet");
             driver(cuDevicePrimaryCtxRetain(&context, device), "cuDevicePrimaryCtxRetain");
@@ -146,7 +148,7 @@ Frame Engine::push_rgb(const std::uint8_t* rgb,std::int64_t frame,Timing& timing
     auto& s=*impl_; auto& b=s.input[frame%2];
     ck(cudaEventRecord(s.events[0],s.stream),"record gray start");
     const dim3 threads(16,16), blocks((s.width+15)/16,(s.height+15)/16);
-    grayscale<<<blocks,threads,0,s.stream>>>(rgb,b.ptr,b.pitch,s.width,s.height);
+    grayscale<<<blocks,threads,0,s.stream>>>(rgb,b.ptr,b.pitch,s.original_width,s.original_height,s.scale);
     ck(cudaGetLastError(),"grayscale kernel");
     ck(cudaEventRecord(s.events[1],s.stream),"record gray end");
     return s.finish(frame,timing);

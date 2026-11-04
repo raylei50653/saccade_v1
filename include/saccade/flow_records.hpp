@@ -17,6 +17,7 @@ struct Frame {
     std::vector<Vector> cells;
 };
 struct Records {
+    // Original dimensions; cells use OFA pixels at the fixed §20.2 scale.
     std::int32_t width = 0, height = 0, cell = 8, cols = 0, rows = 0;
     Perf perf = Perf::slow;
     std::vector<Frame> frames;

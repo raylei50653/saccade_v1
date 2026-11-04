@@ -34,7 +34,7 @@ struct Control {
 class FrameControl {
 public:
     FrameControl(const flow::Frame& frame, int cols, int rows, int width,
-                 const DetectionCandidates* previous, const MotionContext& pcr);
+                 const DetectionCandidates* previous, const MotionContext& pcr, int scale = 1);
     Control evaluate(Arm arm, const Box& own_box) const;
     flow::Vector global() const { return global_; }
     bool valid() const { return available_ >= 8 && frame_->status == flow::Status::valid; }

@@ -1,4 +1,5 @@
 #include "saccade/flow_records.hpp"
+#include "saccade/flow_config.hpp"
 
 #include <algorithm>
 #include <bit>
@@ -24,7 +25,8 @@ template<class T> T get(std::istream& in) {
     return std::bit_cast<T>(bits);
 }
 std::size_t cells(const Records& r) {
-    if (r.width < 8 || r.height < 8 || r.cell != 8 || r.cols != r.width / 8 || r.rows != r.height / 8)
+    const int s = flow_scale(r.width, r.height);
+    if (r.width < 8 || r.height < 8 || r.cell != 8 || r.cols != r.width / s / 8 || r.rows != r.height / s / 8)
         throw std::runtime_error("wrong SCFL dimensions");
     return static_cast<std::size_t>(r.cols) * r.rows;
 }

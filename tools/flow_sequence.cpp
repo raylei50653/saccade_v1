@@ -1,6 +1,7 @@
 #include "saccade/flow_cuda.hpp"
 #include "saccade/preprocess.hpp"
 #include "saccade/file_io.hpp"
+#include "saccade/flow_config.hpp"
 
 #include <filesystem>
 #include <fstream>
@@ -57,7 +58,8 @@ int main(int argc,char** argv) {
         saccade::flow::Engine engine(seq.w,seq.h,perf);
         saccade::PreprocessConfig config; config.max_width=seq.w; config.max_height=seq.h;
         saccade::NativePreprocessor preprocess(engine.stream(),config);
-        saccade::flow::Records records{seq.w,seq.h,8,seq.w/8,seq.h/8,perf,{}};
+        const auto key=saccade::flow_image_key(seq.w,seq.h);
+        saccade::flow::Records records{seq.w,seq.h,8,key.width/8,key.height/8,perf,{}};
         records.frames.reserve(seq.count);
         std::ostringstream timing;
         timing << "frame,grayscale_ms,execute_ms,cell_ms\n" << std::fixed << std::setprecision(6);

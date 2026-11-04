@@ -103,7 +103,7 @@ run ctest-list ctest --test-dir "$out/cuda" -N
 run ctest ctest --test-dir "$out/cuda" --output-on-failure
 cp "$out/cuda/Testing/Temporary/LastTest.log" "$cap/LastTest.log"
 for s in 02 04 05 09 10 11 13; do
-  rg -q "^MOT17-$s-SDP frames=[0-9]+ CPU/serial/pipelined packet bytes identical$" "$cap/LastTest.log"
+  rg -q "^MOT17-$s-SDP frames=[0-9]+ CPU/ordinary serial/graph pipelined packet bytes identical; graph ring controls=[0-9]+ frames$" "$cap/LastTest.log"
 done
 
 # 2. Deployed path: HR FP16 on MOT17-10, CPU reference vs serial vs pipelined.

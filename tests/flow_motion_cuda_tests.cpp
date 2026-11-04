@@ -17,9 +17,13 @@ void ck(cudaError_t s) { if(s!=cudaSuccess) throw std::runtime_error(cudaGetErro
 void check(bool b,const char* label) { if(!b) throw std::runtime_error(label); }
 template<class T> struct Device {
     T* p=nullptr;
-    explicit Device(std::size_t n) { ck(cudaMalloc(reinterpret_cast<void**>(&p),n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); }
+    // cudaMemset and pageable cudaMemcpy run on the legacy stream, which the
+    // non-blocking test stream does not wait for; finish them before returning.
+    explicit Device(std::size_t n) {
+        ck(cudaMalloc(reinterpret_cast<void**>(&p),n*sizeof(T))); ck(cudaMemset(p,0,n*sizeof(T))); ck(cudaDeviceSynchronize());
+    }
     ~Device() { cudaFree(p); }
-    void put(const T* src,std::size_t n) { ck(cudaMemcpy(p,src,n*sizeof(T),cudaMemcpyHostToDevice)); }
+    void put(const T* src,std::size_t n) { ck(cudaMemcpy(p,src,n*sizeof(T),cudaMemcpyHostToDevice)); ck(cudaDeviceSynchronize()); }
     std::vector<T> get(std::size_t n) { std::vector<T> v(n); ck(cudaMemcpy(v.data(),p,n*sizeof(T),cudaMemcpyDeviceToHost)); return v; }
 };
 void test(int W,int H,cudaStream_t stream) {

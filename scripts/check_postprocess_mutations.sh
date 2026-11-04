@@ -113,10 +113,10 @@ replace_exact() {
 mutate() {
   case "$variant" in
     iou-greater-or-equal)
-      replace_exact 'if (overlap > kPostprocessNmsIou)' 'if (overlap >= kPostprocessNmsIou)'
+      replace_exact 'else if (overlap > kPostprocessNmsIou)' 'else if (overlap >= kPostprocessNmsIou)'
       diagnostic='nms-iou-exact-half: header differs' ;;
     suppressed-can-suppress)
-      replace_exact 'if (result[j].flags != kDetectionKept) continue;' 'if (result[j].flags == 0) continue;'
+      replace_exact 'if (shared.pool[i].flags == kDetectionKept)' 'if (shared.pool[i].flags != 0)'
       diagnostic='nms-greedy-chain: header differs' ;;
     class-logit-argmax)
       replace_exact 'float best_score = -1.0f;' 'float best_score = -1.0f; float best_logit = -FLT_MAX;'
@@ -135,7 +135,7 @@ mutate() {
         'static_cast<std::uint32_t>(kCandidateIdMask - (keys[i] & kCandidateIdMask))'
       diagnostic='level-first-last-layout: row 0 bits differ' ;;
     wrong-p3-stride)
-      replace_exact 'local = id, side = 80, stride = 8;' 'local = id, side = 80, stride = 16;'
+      replace_exact 'stride = 8u << level;' 'stride = level == 0 ? 16u : 8u << level;'
       diagnostic='single-asymmetric-map-no-clip: row 0 bits differ' ;;
     swap-left-top)
       replace_exact 'const float raw[4]{__fsub_rn(ax, reg[0]), __fsub_rn(ay, reg[1]),' \
@@ -148,7 +148,7 @@ mutate() {
         'const float sy = static_cast<float>(request.mapping.scale_x);'
       diagnostic='single-asymmetric-map-no-clip: row 0 bits differ' ;;
     kept-only-pool)
-      replace_exact 'else header.count = count;' 'else header.count = header.kept;'
+      replace_exact 'header.count = shared.count;' 'header.count = header.kept;'
       diagnostic='nms-equal-score-id-suppressed-pool: header differs' ;;
     ignore-producer-flags)
       replace_exact 'if (producer->flags != 0) flags |= kPostprocessUpstream;' \
@@ -163,15 +163,25 @@ mutate() {
         'const bool qualified = best_score >= kPostprocessScoreFloor && best_class == 0;'
       diagnostic='top300-before-person: header differs' ;;
     dense-drop-last-tile)
-      replace_exact 'if (index >= kDenseTiles * kPostprocessCapacity) return;' \
-        'if (index >= (kDenseTiles - 1) * kPostprocessCapacity) return;'
-      replace_exact 'for (unsigned tile = 0; tile < kDenseTiles; ++tile)' \
-        'for (unsigned tile = 0; tile < kDenseTiles - 1; ++tile)'
+      replace_exact 'if (index >= tiles * kPostprocessCapacity) return;' \
+        'if (index >= (tiles - 1) * kPostprocessCapacity) return;'
+      replace_exact 'for (unsigned tile = 0; tile < tiles; ++tile)' \
+        'for (unsigned tile = 0; tile < tiles - 1; ++tile)'
       diagnostic='adaptive-dense-high-id-winners: global highest IDs win' ;;
     dense-first512-only)
-      replace_exact 'index < kPostprocessPositions ? work->full_keys[index] : kInvalidKey;' \
+      replace_exact 'index < input.positions ? work->full_keys[index] : kInvalidKey;' \
         'index < kRadixThreshold ? work->full_keys[index] : kInvalidKey;'
       diagnostic='deterministic-dense-random: score exceeds fixed bound' ;;
+    nms-any-pair-failure)
+      replace_exact 'for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;' \
+        'for (unsigned i = 0; i < shared.count; ++i) for (unsigned word = 0; word < kNmsWords; ++word) if (shared.fail[i][word] != 0) shared.bad = 1; for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;'
+      diagnostic='nms-uncompared-suppressed-pair: header differs' ;;
+    nms-word-index)
+      replace_exact 'const std::uint64_t failures = shared.fail[i][word];' \
+        'const std::uint64_t failures = shared.fail[i][0];'
+      replace_exact '(failures | shared.over[i][word]) & shared.kept[word]' \
+        '(failures | shared.over[i][0]) & shared.kept[0]'
+      diagnostic='nms-word-boundaries: header differs' ;;
     *) echo "unknown mutation: $variant" >&2; return 2 ;;
   esac
 }
@@ -196,7 +206,7 @@ fi
 
 variants=(iou-greater-or-equal suppressed-can-suppress class-logit-argmax reverse-candidate-id-ties
           wrong-p3-stride swap-left-top swap-xy-mapping kept-only-pool ignore-producer-flags no-row-reset
-          person-only-topk dense-drop-last-tile dense-first512-only)
+          person-only-topk dense-drop-last-tile dense-first512-only nms-any-pair-failure nms-word-index)
 printf 'variant\tresult\texit\texpected_diagnostic\n' > "$cap/results.tsv"
 for variant in "${variants[@]}"; do
   guard_source

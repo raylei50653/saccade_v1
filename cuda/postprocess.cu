@@ -3,6 +3,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <cub/block/block_radix_sort.cuh>
+#include <cub/block/block_scan.cuh>
 #include <cub/version.cuh>
 #include <cfloat>
 #include <cstdint>
@@ -258,70 +259,148 @@ __device__ bool iou(const DetectionCandidate& a, const DetectionCandidate& b,
            finite32(united) && united > 0.0f && finite32(value);
 }
 
+constexpr unsigned kNmsWords = (kPostprocessCapacity + 63) / 64;
+using FinalizeScan = cub::BlockScan<unsigned, kSortThreads>;
+struct FinalizeShared {
+    typename FinalizeScan::TempStorage scan;
+    DetectionCandidate pool[kPostprocessCapacity];
+    float areas[kPostprocessCapacity];
+    std::uint64_t fail[kPostprocessCapacity][kNmsWords];
+    std::uint64_t over[kPostprocessCapacity][kNmsWords];
+    std::uint64_t kept[kNmsWords];
+    unsigned count, bad;
+};
+static_assert(sizeof(FinalizeShared) <= 48 * 1024);
+
 __global__ void finalize(DetectionCandidates* output, Workspace* work,
                          PostprocessRequest request, unsigned positions) {
-    if (work->run_stage == 0) { output->header.done = kPostprocessDone; return; }
-    if (work->numeric != 0) {
-        reset(output, request, kPostprocessNumeric);
-        output->header.done = kPostprocessDone;
+    if (work->run_stage == 0) {
+        __syncthreads();
+        if (threadIdx.x == 0) output->header.done = kPostprocessDone;
         return;
     }
+    if (work->numeric != 0) {
+        if (threadIdx.x == 0) reset(output, request, kPostprocessNumeric);
+        __syncthreads();
+        if (threadIdx.x == 0) output->header.done = kPostprocessDone;
+        return;
+    }
+    __shared__ FinalizeShared shared;
     auto& header = output->header;
-    auto* result = rows(output);
-    header.low_score = positions - work->qualified;
-    header.topk_dropped = work->qualified > kPostprocessCapacity
-                       ? work->qualified - kPostprocessCapacity : 0u;
+    if (threadIdx.x == 0) {
+        shared.bad = 0;
+        header.low_score = positions - work->qualified;
+        header.topk_dropped = work->qualified > kPostprocessCapacity
+                           ? work->qualified - kPostprocessCapacity : 0u;
+    }
     const unsigned selected = work->qualified < kPostprocessCapacity
                             ? work->qualified : kPostprocessCapacity;
-    unsigned count = 0;
-    for (unsigned i = 0; i < selected; ++i) {
-        const unsigned id = work->top_ids[i];
-        const auto& candidate = work->positions[id];
-        if (candidate.class_id != 0) { ++header.class_dropped; continue; }
-        if (candidate.x2 <= candidate.x1 || candidate.y2 <= candidate.y1) {
-            ++header.degenerate; continue;
-        }
-        result[count] = {candidate.x1, candidate.y1, candidate.x2, candidate.y2,
-                         candidate.score, candidate.class_id, id, 0};
-        ++count;
+    constexpr unsigned items = (kPostprocessCapacity + kSortThreads - 1) / kSortThreads;
+    unsigned accepted[items]{}, offsets[items], total;
+    unsigned class_dropped = 0, degenerate = 0;
+#pragma unroll
+    for (unsigned item = 0; item < items; ++item) {
+        const unsigned i = threadIdx.x * items + item;
+        if (i >= selected) continue;
+        const auto& candidate = work->positions[work->top_ids[i]];
+        if (candidate.class_id != 0) ++class_dropped;
+        else if (candidate.x2 <= candidate.x1 || candidate.y2 <= candidate.y1) ++degenerate;
+        else accepted[item] = 1;
     }
-    if (count > request.capacity) {
-        reset(output, request, kPostprocessOverflow);
-        output->header.done = kPostprocessDone;
+    // Blocked item order is the original score/ID order, including the tail.
+    FinalizeScan(shared.scan).ExclusiveSum(accepted, offsets, total);
+    if (threadIdx.x == 0) shared.count = total;
+    if (class_dropped != 0) atomicAdd(&header.class_dropped, class_dropped);
+    if (degenerate != 0) atomicAdd(&header.degenerate, degenerate);
+#pragma unroll
+    for (unsigned item = 0; item < items; ++item) {
+        if (accepted[item] == 0) continue;
+        const unsigned id = work->top_ids[threadIdx.x * items + item];
+        const auto& candidate = work->positions[id];
+        shared.pool[offsets[item]] = {candidate.x1, candidate.y1, candidate.x2, candidate.y2,
+                                      candidate.score, candidate.class_id, id, 0};
+    }
+    __syncthreads();
+    if (shared.count > request.capacity) {
+        if (threadIdx.x == 0) reset(output, request, kPostprocessOverflow);
+        __syncthreads();
+        if (threadIdx.x == 0) output->header.done = kPostprocessDone;
         return;
     }
-    float areas[kPostprocessCapacity];
-    bool bad = false;
-    for (unsigned i = 0; i < count; ++i) {
-        if (!box_area(result[i], areas[i])) { bad = true; break; }
-        result[i].flags = kDetectionKept;
-        for (unsigned j = 0; j < i; ++j) {
-            if (result[j].flags != kDetectionKept) continue;
-            float overlap = 0.0f;
-            if (!iou(result[i], result[j], areas[i], areas[j], overlap)) { bad = true; break; }
-            if (overlap > kPostprocessNmsIou) {
-                result[i].flags = kDetectionSuppressed;
-                break;
+    for (unsigned i = threadIdx.x; i < shared.count; i += blockDim.x)
+        if (!box_area(shared.pool[i], shared.areas[i])) atomicExch(&shared.bad, 1u);
+    __syncthreads();
+    if (shared.bad == 0) {
+        // One thread owns each word, including its zero bits beyond j<i.
+        // A speculative failure is only data; the ordered greedy pass decides
+        // whether that pair would actually have been visited by scalar NMS.
+        for (unsigned index = threadIdx.x; index < shared.count * kNmsWords; index += blockDim.x) {
+            const unsigned i = index / kNmsWords, word = index % kNmsWords;
+            std::uint64_t failures = 0, overlaps = 0;
+            for (unsigned j = word * 64; j < i && j < (word + 1) * 64; ++j) {
+                float overlap = 0.0f;
+                const auto bit = std::uint64_t{1} << (j % 64);
+                if (!iou(shared.pool[i], shared.pool[j], shared.areas[i], shared.areas[j], overlap))
+                    failures |= bit;
+                else if (overlap > kPostprocessNmsIou) overlaps |= bit;
+            }
+            shared.fail[i][word] = failures;
+            shared.over[i][word] = overlaps;
+        }
+        __syncthreads();
+        if (threadIdx.x == 0) {
+            for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;
+            for (unsigned i = 0; i < shared.count; ++i) {
+                shared.pool[i].flags = kDetectionKept;
+                for (unsigned word = 0; word < kNmsWords; ++word) {
+                    const std::uint64_t failures = shared.fail[i][word];
+                    const auto decisive = (failures | shared.over[i][word]) & shared.kept[word];
+                    if (decisive == 0) continue;
+                    const auto first = decisive & (~decisive + 1);
+                    if ((failures & first) != 0) shared.bad = 1;
+                    else shared.pool[i].flags = kDetectionSuppressed;
+                    break;
+                }
+                if (shared.bad != 0) break;
+                if (shared.pool[i].flags == kDetectionKept)
+                    shared.kept[i / 64] |= std::uint64_t{1} << (i % 64);
             }
         }
-        if (bad) break;
     }
+    __syncthreads();
     const float sx = static_cast<float>(request.mapping.scale_x);
     const float sy = static_cast<float>(request.mapping.scale_y);
-    if (!bad) for (unsigned i = 0; i < count; ++i) {
-        auto& candidate = result[i];
-        candidate.x1 = __fdiv_rn(candidate.x1, sx);
-        candidate.y1 = __fdiv_rn(candidate.y1, sy);
-        candidate.x2 = __fdiv_rn(candidate.x2, sx);
-        candidate.y2 = __fdiv_rn(candidate.y2, sy);
-        if (!finite32(candidate.x1) || !finite32(candidate.y1) ||
-            !finite32(candidate.x2) || !finite32(candidate.y2)) { bad = true; break; }
-        if (candidate.flags == kDetectionKept) ++header.kept;
-        else ++header.suppressed;
+    unsigned mapping_bad = 0;
+    if (shared.bad == 0) {
+        for (unsigned i = threadIdx.x; i < shared.count; i += blockDim.x) {
+            auto& candidate = shared.pool[i];
+            candidate.x1 = __fdiv_rn(candidate.x1, sx);
+            candidate.y1 = __fdiv_rn(candidate.y1, sy);
+            candidate.x2 = __fdiv_rn(candidate.x2, sx);
+            candidate.y2 = __fdiv_rn(candidate.y2, sy);
+            if (!finite32(candidate.x1) || !finite32(candidate.y1) ||
+                !finite32(candidate.x2) || !finite32(candidate.y2)) mapping_bad = 1;
+        }
     }
-    if (bad) reset(output, request, kPostprocessNumeric);
-    else header.count = count;
-    output->header.done = kPostprocessDone;
+    __syncthreads();
+    if (mapping_bad != 0) atomicExch(&shared.bad, 1u);
+    __syncthreads();
+    if (shared.bad != 0) {
+        if (threadIdx.x == 0) reset(output, request, kPostprocessNumeric);
+    } else {
+        auto* result = rows(output);
+        for (unsigned i = threadIdx.x; i < shared.count; i += blockDim.x) {
+            const auto candidate = shared.pool[i];
+            result[i] = candidate;
+            if (candidate.flags == kDetectionKept) atomicAdd(&header.kept, 1u);
+            else atomicAdd(&header.suppressed, 1u);
+        }
+    }
+    __syncthreads();
+    if (threadIdx.x == 0) {
+        if (shared.bad == 0) header.count = shared.count;
+        output->header.done = kPostprocessDone;
+    }
 }
 
 struct Region { const void* pointer; std::size_t bytes, alignment; };
@@ -421,7 +500,7 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
     const unsigned merge_blocks = (inputs.tiles * kPostprocessCapacity + kThreads - 1) / kThreads;
     dense_merge<<<merge_blocks, kThreads, 0, stream>>>(work, inputs.tiles);
     ck(cudaGetLastError(), "postprocess dense merge launch");
-    finalize<<<1, 1, 0, stream>>>(output, work, request, inputs.positions);
+    finalize<<<1, kSortThreads, 0, stream>>>(output, work, request, inputs.positions);
     ck(cudaGetLastError(), "postprocess finalize launch");
 }
 
@@ -463,6 +542,7 @@ std::string postprocess_cuda_identity() {
          << "\ncub_version=" << CUB_VERSION
          << "\ncccl_version=" << CCCL_VERSION
          << "\nsort_strategy=decode-compaction/adaptive-top300-v1"
+         << "\nfinalize_strategy=cta-bitmask-greedy-v1"
          << "\nsort_rank_threshold=" << kRankThreshold
          << "\nsort_radix_threshold=" << kRadixThreshold
          << "\nsort_dense_tile_items=" << kDenseTileItems

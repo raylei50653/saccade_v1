@@ -260,14 +260,14 @@ __device__ bool iou(const DetectionCandidate& a, const DetectionCandidate& b,
 }
 
 constexpr unsigned kNmsWords = (kPostprocessCapacity + 63) / 64;
-using FinalizeScan = cub::BlockScan<unsigned, kSortThreads>;
+constexpr unsigned kFinalizeThreads = 1024;
+using FinalizeScan = cub::BlockScan<unsigned, kFinalizeThreads>;
 struct FinalizeShared {
     typename FinalizeScan::TempStorage scan;
     DetectionCandidate pool[kPostprocessCapacity];
     float areas[kPostprocessCapacity];
     std::uint64_t fail[kPostprocessCapacity][kNmsWords];
     std::uint64_t over[kPostprocessCapacity][kNmsWords];
-    std::uint64_t kept[kNmsWords];
     unsigned count, bad;
 };
 static_assert(sizeof(FinalizeShared) <= 48 * 1024);
@@ -295,7 +295,7 @@ __global__ void finalize(DetectionCandidates* output, Workspace* work,
     }
     const unsigned selected = work->qualified < kPostprocessCapacity
                             ? work->qualified : kPostprocessCapacity;
-    constexpr unsigned items = (kPostprocessCapacity + kSortThreads - 1) / kSortThreads;
+    constexpr unsigned items = (kPostprocessCapacity + kFinalizeThreads - 1) / kFinalizeThreads;
     unsigned accepted[items]{}, offsets[items], total;
     unsigned class_dropped = 0, degenerate = 0;
 #pragma unroll
@@ -331,39 +331,72 @@ __global__ void finalize(DetectionCandidates* output, Workspace* work,
         if (!box_area(shared.pool[i], shared.areas[i])) atomicExch(&shared.bad, 1u);
     __syncthreads();
     if (shared.bad == 0) {
-        // One thread owns each word, including its zero bits beyond j<i.
+        // One warp owns each word; two ballots assemble its 64 pair bits.
         // A speculative failure is only data; the ordered greedy pass decides
         // whether that pair would actually have been visited by scalar NMS.
-        for (unsigned index = threadIdx.x; index < shared.count * kNmsWords; index += blockDim.x) {
+        const unsigned lane = threadIdx.x % 32;
+        for (unsigned index = threadIdx.x / 32; index < shared.count * kNmsWords;
+             index += blockDim.x / 32) {
             const unsigned i = index / kNmsWords, word = index % kNmsWords;
             std::uint64_t failures = 0, overlaps = 0;
-            for (unsigned j = word * 64; j < i && j < (word + 1) * 64; ++j) {
-                float overlap = 0.0f;
-                const auto bit = std::uint64_t{1} << (j % 64);
-                if (!iou(shared.pool[i], shared.pool[j], shared.areas[i], shared.areas[j], overlap))
-                    failures |= bit;
-                else if (overlap > kPostprocessNmsIou) overlaps |= bit;
+#pragma unroll
+            for (unsigned half = 0; half < 2; ++half) {
+                const unsigned j = word * 64 + half * 32 + lane;
+                bool failed = false, over = false;
+                if (j < i) {
+                    float overlap = 0.0f;
+                    if (!iou(shared.pool[i], shared.pool[j], shared.areas[i], shared.areas[j], overlap))
+                        failed = true;
+                    else if (overlap > kPostprocessNmsIou) over = true;
+                }
+                failures |= std::uint64_t{__ballot_sync(0xffffffffu, failed)} << (half * 32);
+                overlaps |= std::uint64_t{__ballot_sync(0xffffffffu, over)} << (half * 32);
             }
-            shared.fail[i][word] = failures;
-            shared.over[i][word] = overlaps;
+            if (lane == 0) {
+                shared.fail[i][word] = failures;
+                shared.over[i][word] = overlaps;
+            }
         }
         __syncthreads();
         if (threadIdx.x == 0) {
-            for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;
-            for (unsigned i = 0; i < shared.count; ++i) {
-                shared.pool[i].flags = kDetectionKept;
-                for (unsigned word = 0; word < kNmsWords; ++word) {
-                    const std::uint64_t failures = shared.fail[i][word];
-                    const auto decisive = (failures | shared.over[i][word]) & shared.kept[word];
-                    if (decisive == 0) continue;
+            // Scalar words cannot spill through a dynamically indexed array.
+            // Load every row mask independently of the carried greedy state.
+            static_assert(kNmsWords == 5);
+            std::uint64_t kept0 = 0, kept1 = 0, kept2 = 0, kept3 = 0, kept4 = 0;
+            const unsigned count = shared.count;
+            for (unsigned i = 0; i < count; ++i) {
+                const auto failures0 = shared.fail[i][0];
+                const auto failures1 = shared.fail[i][1];
+                const auto failures2 = shared.fail[i][2];
+                const auto failures3 = shared.fail[i][3];
+                const auto failures4 = shared.fail[i][4];
+                const auto decisive0 = (failures0 | shared.over[i][0]) & kept0;
+                const auto decisive1 = (failures1 | shared.over[i][1]) & kept1;
+                const auto decisive2 = (failures2 | shared.over[i][2]) & kept2;
+                const auto decisive3 = (failures3 | shared.over[i][3]) & kept3;
+                const auto decisive4 = (failures4 | shared.over[i][4]) & kept4;
+                const auto decisive = decisive0 != 0 ? decisive0 : decisive1 != 0 ? decisive1
+                                    : decisive2 != 0 ? decisive2 : decisive3 != 0 ? decisive3 : decisive4;
+                const auto failures = decisive0 != 0 ? failures0 : decisive1 != 0 ? failures1
+                                    : decisive2 != 0 ? failures2 : decisive3 != 0 ? failures3 : failures4;
+                unsigned flags = kDetectionKept;
+                if (decisive != 0) {
                     const auto first = decisive & (~decisive + 1);
-                    if ((failures & first) != 0) shared.bad = 1;
-                    else shared.pool[i].flags = kDetectionSuppressed;
-                    break;
+                    if ((failures & first) != 0) {
+                        shared.bad = 1;
+                        break;
+                    }
+                    flags = kDetectionSuppressed;
                 }
-                if (shared.bad != 0) break;
-                if (shared.pool[i].flags == kDetectionKept)
-                    shared.kept[i / 64] |= std::uint64_t{1} << (i % 64);
+                shared.pool[i].flags = flags;
+                if (flags == kDetectionKept) {
+                    const auto bit = std::uint64_t{1} << (i % 64);
+                    if (i / 64 == 0) kept0 |= bit;
+                    if (i / 64 == 1) kept1 |= bit;
+                    if (i / 64 == 2) kept2 |= bit;
+                    if (i / 64 == 3) kept3 |= bit;
+                    if (i / 64 == 4) kept4 |= bit;
+                }
             }
         }
     }
@@ -500,7 +533,7 @@ void postprocess_cuda(const PostprocessRawView& raw, const PostprocessRequest& r
     const unsigned merge_blocks = (inputs.tiles * kPostprocessCapacity + kThreads - 1) / kThreads;
     dense_merge<<<merge_blocks, kThreads, 0, stream>>>(work, inputs.tiles);
     ck(cudaGetLastError(), "postprocess dense merge launch");
-    finalize<<<1, kSortThreads, 0, stream>>>(output, work, request, inputs.positions);
+    finalize<<<1, kFinalizeThreads, 0, stream>>>(output, work, request, inputs.positions);
     ck(cudaGetLastError(), "postprocess finalize launch");
 }
 
@@ -542,7 +575,7 @@ std::string postprocess_cuda_identity() {
          << "\ncub_version=" << CUB_VERSION
          << "\ncccl_version=" << CCCL_VERSION
          << "\nsort_strategy=decode-compaction/adaptive-top300-v1"
-         << "\nfinalize_strategy=cta-bitmask-greedy-v1"
+         << "\nfinalize_strategy=cta-bitmask-greedy-v2"
          << "\nsort_rank_threshold=" << kRankThreshold
          << "\nsort_radix_threshold=" << kRadixThreshold
          << "\nsort_dense_tile_items=" << kDenseTileItems

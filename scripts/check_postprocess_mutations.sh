@@ -116,7 +116,7 @@ mutate() {
       replace_exact 'else if (overlap > kPostprocessNmsIou)' 'else if (overlap >= kPostprocessNmsIou)'
       diagnostic='nms-iou-exact-half: header differs' ;;
     suppressed-can-suppress)
-      replace_exact 'if (shared.pool[i].flags == kDetectionKept)' 'if (shared.pool[i].flags != 0)'
+      replace_exact 'if (flags == kDetectionKept)' 'if (flags != 0)'
       diagnostic='nms-greedy-chain: header differs' ;;
     class-logit-argmax)
       replace_exact 'float best_score = -1.0f;' 'float best_score = -1.0f; float best_logit = -FLT_MAX;'
@@ -173,14 +173,15 @@ mutate() {
         'index < kRadixThreshold ? work->full_keys[index] : kInvalidKey;'
       diagnostic='deterministic-dense-random: score exceeds fixed bound' ;;
     nms-any-pair-failure)
-      replace_exact 'for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;' \
-        'for (unsigned i = 0; i < shared.count; ++i) for (unsigned word = 0; word < kNmsWords; ++word) if (shared.fail[i][word] != 0) shared.bad = 1; for (unsigned word = 0; word < kNmsWords; ++word) shared.kept[word] = 0;'
+      replace_exact 'const auto decisive = decisive0 != 0' \
+        'if ((failures0 | failures1 | failures2 | failures3 | failures4) != 0) { shared.bad = 1; break; } const auto decisive = decisive0 != 0'
       diagnostic='nms-uncompared-suppressed-pair: header differs' ;;
     nms-word-index)
-      replace_exact 'const std::uint64_t failures = shared.fail[i][word];' \
-        'const std::uint64_t failures = shared.fail[i][0];'
-      replace_exact '(failures | shared.over[i][word]) & shared.kept[word]' \
-        '(failures | shared.over[i][0]) & shared.kept[0]'
+      for word in 1 2 3 4; do
+        replace_exact "shared.fail[i][$word]" 'shared.fail[i][0]'
+        replace_exact "(failures$word | shared.over[i][$word]) & kept$word" \
+          "(failures$word | shared.over[i][0]) & kept0"
+      done
       diagnostic='nms-word-boundaries: header differs' ;;
     *) echo "unknown mutation: $variant" >&2; return 2 ;;
   esac

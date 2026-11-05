@@ -39,6 +39,8 @@ RULES = [
     ("F04", "D", U + r"(initialize\(const saccade::PostprocessProducerStatus \*|decode\(|adaptive_prefix\(|dense_merge\(|finalize\(saccade::DetectionCandidates \*)"),
     ("F06", "M", U + r"flow_(mask|input|output|cells|count|keys|context)\("),
     ("flow median sort", "M", r"void cub::"),
+    # The NVOF library launches these on the stream of its Execute call.
+    ("OFA", "M", r"(Convert_PL2BL|Convert_BL2PL|Gaussian_Subsample2x2_Luma_BL2BL_v2)$"),
     ("tracking", "M", U + r"(predict_kernel|batch_kernel|update_kernel)\("),
     ("session control", "M", S + r"(initialize|begin|stage|candidates|commit)\("),
     ("packet", "M", S + r"packet\("),

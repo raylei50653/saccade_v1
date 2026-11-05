@@ -135,7 +135,7 @@ print('NVOF loaded paths:', ', '.join(map(str, sorted(paths))))
 if paths != {expected}:
     raise SystemExit('unexpected NVOF library path')
 PY
-run environment bash -c 'date -Is; uname -srmo; cmake --version; c++ --version; "$1" --version; "$2" --version; nsys --version; nvidia-smi --query-gpu=name,uuid,driver_version,memory.free --format=csv' _ "$nvcc" "$sanitizer"
+run environment bash -c 'date -Is; uname -srmo; cmake --version; c++ --version; "$1" --version; "$2" --version; nsys --version; nvidia-smi --query-gpu=name,uuid,driver_version,memory.free --format=csv; sha256sum /usr/lib/wsl/lib/libnvidia-opticalflow.so.1 /usr/lib/wsl/lib/libnvcuvid.so.1' _ "$nvcc" "$sanitizer"
 artifact_hashes > "$cap/artifacts.sha256"
 pass
 
@@ -263,24 +263,35 @@ for tool in memcheck initcheck racecheck synccheck; do
   esac
   status=0
   run "control-$tool" "$sanitizer" --tool "$tool" --error-exitcode 99 "$out/cuda/postprocess_sanitizer_control" "$tool" || status=$?
-  [[ $status == 99 ]] && rg -Fq "$diagnostic" "$cap/control-$tool.log"
+  [[ $status == 99 ]]
+  rg -Fq "$diagnostic" "$cap/control-$tool.log"
 done
 seq10=$sequences/MOT17-10-SDP
 prefix=$out/prefix/MOT17-10-SDP
 mkdir -p "$prefix"
 sed 's/^seqLength=.*/seqLength=30/' "$seq10/seqinfo.ini" > "$prefix/seqinfo.ini"
 ln -s "$seq10/img1" "$prefix/img1"
-run lifecycle-memcheck "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 "$out/cuda/tracking_session_tests" "$t01_engine" "$sequences" "$records" MOT17-10-SDP --lifecycle
-clean memcheck lifecycle-memcheck
+# Both session memchecks exit 99 on NVOF's own cuArrayGetPlane calls: 74 per
+# session at nvOFInit and 12 at its first Execute (HR 86; lifecycle 74*12 + 12*10).
+# That stays open with NVIDIA and is not a pass. This only proves it is the whole
+# report. Exit 99 hides the target's status, so the target's output is checked.
+session_memcheck() {
+  local name=$1 expected=$2 status=0
+  shift 2
+  run "$name" "$sanitizer" --tool memcheck --report-api-errors explicit --print-limit 0 --error-exitcode 99 "$@" || status=$?
+  [[ $status == 99 ]]
+  run "$name-classify" python3 -I scripts/tracking_session_acceptance.py memcheck-ofa "$cap/$name.log" "$expected"
+}
+session_memcheck lifecycle-memcheck 1008 "$out/cuda/tracking_session_tests" "$t01_engine" "$sequences" "$records" MOT17-10-SDP --lifecycle
 rg -q 'checks passed' "$cap/lifecycle-memcheck.log"
-run hr-memcheck "$sanitizer" --tool memcheck --report-api-errors explicit --error-exitcode 99 "$out/cuda/track_sequence" "$hr_engine" "$prefix" "$out/hr/prefix.txt" --profile hr-1280x768
-clean memcheck hr-memcheck
+session_memcheck hr-memcheck 86 "$out/cuda/track_sequence" "$hr_engine" "$prefix" "$out/hr/prefix.txt" --profile hr-1280x768
+rg -q '^track_sequence frames=30 ' "$cap/hr-memcheck.log"
 for tool in racecheck synccheck; do
   run "session-$tool" "$sanitizer" --tool "$tool" --error-exitcode 99 --kernel-name regex="$v1_kernels" "$out/cuda/tracking_session_tests" "$t01_engine" "$sequences" "$records" MOT17-10-SDP --limit 10
   clean "$tool" "session-$tool"
   rg -q 'checks passed' "$cap/session-$tool.log"
 done
-pass
+printf '%s\tOPEN: session memcheck exit 99 from NVOF cuArrayGetPlane; all other sanitizer gates pass\n' "$step" >> "$cap/steps.tsv"
 
 # 7. Node/graph captures verify every v1 kernel's stream. The audited M
 # ordering bounds OFA between input-copy completion and cell reduction. Require
@@ -343,4 +354,4 @@ find "$out/hr" "$out/pp22" "$out/pp22-4k" "$out/timing" -type f -print0 | sort -
 cp "$out/cuda/compile_commands.json" "$cap/compile_commands.json"
 check_source
 pass
-printf 'PASS\n' > "$cap/acceptance.txt"
+printf 'NOT A FULL PASS: every gate met except step 6, whose session memcheck exit 99 stays open with NVIDIA\n' > "$cap/acceptance.txt"

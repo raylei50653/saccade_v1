@@ -140,9 +140,43 @@ def overlap(args):
           f'D={gray[0][2]} M={inputs[0][2]}; A1/A3 establish OFA ordering between the M kernels')
 
 
+OFA_API_ERROR = 'Program hit CUDA_ERROR_INVALID_VALUE (error 1) due to "invalid argument" on CUDA API call to cuArrayGetPlane.'
+
+
+def memcheck_ofa(args):
+    """Prove NVOF's own cuArrayGetPlane errors are the whole of a memcheck log (§20.8 step 6). They stay open, not passed."""
+    log, expected = args
+    reports, summaries = [], []
+    for line in Path(log).read_text(errors='replace').splitlines():
+        if not line.startswith('========='):
+            continue
+        text = line[len('========='):].strip()
+        if not text or text == 'COMPUTE-SANITIZER' or text.startswith('Saved host backtrace'):
+            continue
+        if text == OFA_API_ERROR:
+            reports.append([])
+        elif text.startswith('Host Frame:') and reports:
+            reports[-1].append(text)
+        elif text.startswith('ERROR SUMMARY:'):
+            summaries.append(text)
+        else:
+            raise RuntimeError(f'memcheck report outside the OFA exception: {text}')
+    match = re.fullmatch(r'ERROR SUMMARY: (\d+) errors?', summaries[0]) if len(summaries) == 1 else None
+    if not match:
+        raise RuntimeError(f'expected one complete error summary, found {summaries}')
+    if int(match[1]) != len(reports):
+        raise RuntimeError(f'{match[1]} errors counted, {len(reports)} printed')
+    if len(reports) != int(expected):
+        raise RuntimeError(f'{len(reports)} NVOF errors, expected {expected}')
+    if not all(any('libnvidia-opticalflow.so.1' in frame for frame in frames) for frames in reports):
+        raise RuntimeError('cuArrayGetPlane error whose backtrace does not pass through the NVOF library')
+    print(f'memcheck stays open, not passed: {len(reports)} NVOF-internal cuArrayGetPlane errors as expected; no other API or device error')
+
+
 if __name__ == '__main__':
     try:
-        {'score': score, 'throughput': throughput, 'overlap': overlap}[sys.argv[1]](sys.argv[2:])
+        {'score': score, 'throughput': throughput, 'overlap': overlap,
+         'memcheck-ofa': memcheck_ofa}[sys.argv[1]](sys.argv[2:])
     except (RuntimeError, sqlite3.Error, KeyError, ValueError, StopIteration) as error:
         print(f'acceptance: {error}', file=sys.stderr)
         sys.exit(1)

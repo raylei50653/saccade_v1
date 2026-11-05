@@ -613,8 +613,10 @@ A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路
    - 完整 session memcheck：HR MOT17-10 前 30 幀與 lifecycle。
    - racecheck／synccheck：T01 MOT17-10 前 10 幀，只檢查 v1 kernels（OFA、TensorRT、nvJPEG 內部不檢查）。
    - 正控制照舊。
+   - 完整 session memcheck 的 exit 99（2026-11-05，capture 前補）：NVOF 內部的 `cuArrayGetPlane` 失敗無法由呼叫端避免（每個 session 在 `nvOFInit` 74 次、第一次 `nvOFExecute` 12 次；HR 86 次、lifecycle 1008 次），已回報 [Bug 7048273](https://developer.nvidia.com/bugs/7048273)，證據見 `evidence/nvof-getplane/2026-11-05/`。此項記為 OPEN，不算通過。其他 API 或 device 錯誤、次數不符、未全數列出，都算失敗。
 7. **Stream 位置**：
    - `check_stream_placement.py` 更新：F05 kernels 在 D；遮罩、輸入／輸出搬移、OFA、cells、中位數在 M。
+   - NVOF 函式庫發出的 kernels（`Convert_PL2BL`、`Convert_BL2PL`、`Gaussian_Subsample2x2_Luma_BL2BL_v2`）計為 OFA，必須在 M（2026-11-05，capture 前補）。
    - nsys 顯示 OFA 執行與同一幀 D 的 F03 時間重疊。
 8. **吞吐**：無 profiler 的 HR pipelined `track_sequence`，7 序列各跑 3 次。以總幀數÷總時間計算 ms/frame，與同一次執行中 main `23ade53` 的同樣量測比較：增加不得超過 3%。serial 單幀延遲只記錄。
 9. **Evidence report**：同 §14.5 第 5 項，另附 §20.6 的結果。

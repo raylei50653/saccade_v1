@@ -377,14 +377,27 @@ TrackingSession::~TrackingSession() = default;
 void TrackingSession::enqueue(std::span<const std::uint8_t> jpeg, FrameId frame) {
     enqueue_for_test(jpeg, frame, 0);
 }
+void TrackingSession::enqueue_rgb(std::span<const std::uint8_t> rgb, FrameId frame) {
+    enqueue_impl(rgb, frame, 0, false, true);
+}
+void TrackingSession::enqueue_device(const DeviceVideoFrame& surface, FrameId frame) {
+    enqueue_impl({}, frame, 0, false, false, &surface);
+}
 void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, FrameId frame,
                                         std::uint32_t override_flags, bool d_only) {
+    enqueue_impl(jpeg, frame, override_flags, d_only, false);
+}
+void TrackingSession::enqueue_impl(std::span<const std::uint8_t> data, FrameId frame,
+                                  std::uint32_t override_flags, bool d_only, bool host_rgb,
+                                  const DeviceVideoFrame* surface) {
     auto& s = *impl_;
     s.check_access();
     require(s.lifecycle == TrackingSessionState::Running, "session is not accepting frames");
     if (s.submitted - s.received == s.config.result_slots) throw std::length_error("session result ring full; receive first");
     try {
         require(frame == s.submitted, "session frame must be contiguous and zero-based");
+        require(!surface || (surface->width == s.config.original_width && surface->height == s.config.original_height),
+                "device video dimensions differ from session metadata");
         // nvJPEG hardware decode writes RGB without ordering behind earlier work on D.
         // Wait for F05, the last RGB reader, before reusing the buffer.
         if (s.rgb_read_done_recorded) cu(cudaEventSynchronize(s.rgb_read_done), "wait RGB read done");
@@ -392,7 +405,9 @@ void TrackingSession::enqueue_for_test(std::span<const std::uint8_t> jpeg, Frame
         const auto d_delay = [&] { detail::tracking_session_perturb(s.config.perturb_seed, frame, boundary++, s.detect); };
         const auto m_delay = [&] { detail::tracking_session_perturb(s.config.perturb_seed, frame, boundary++, s.consumer); };
         d_delay();
-        const auto input = s.preprocess->enqueue(jpeg, frame, s.config.original_width, s.config.original_height);
+        const auto input = surface ? s.preprocess->enqueue_device(*surface, frame)
+            : host_rgb ? s.preprocess->enqueue_rgb(data, frame, s.config.original_width, s.config.original_height)
+            : s.preprocess->enqueue(data, frame, s.config.original_width, s.config.original_height);
         d_delay();
         if (s.config.perturb_seed) detail::tracking_session_spin(10000000, s.detect);
         s.motion->enqueue_image(s.detect, input.rgb, frame);

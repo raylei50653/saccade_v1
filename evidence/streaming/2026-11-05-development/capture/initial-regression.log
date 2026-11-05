@@ -1,0 +1,132 @@
+Test project /home/ray/developer/ai/saccade_v1/build/streaming-nvdec
+      Start  1: protocol_happens_before
+ 1/58 Test  #1: protocol_happens_before ............   Passed    0.34 sec
+      Start  2: protocol_state_and_packet
+ 2/58 Test  #2: protocol_state_and_packet ..........   Passed    0.00 sec
+      Start  3: packet_compare_cli
+ 3/58 Test  #3: packet_compare_cli .................   Passed    0.02 sec
+      Start  4: synthetic_resolved_config
+ 4/58 Test  #4: synthetic_resolved_config ..........   Passed    0.00 sec
+      Start  5: checked_file_io
+ 5/58 Test  #5: checked_file_io ....................   Passed    0.00 sec
+      Start  6: checked_resource_cleanup
+ 6/58 Test  #6: checked_resource_cleanup ...........   Passed    0.00 sec
+      Start  7: model_manifest_contract
+ 7/58 Test  #7: model_manifest_contract ............   Passed    0.01 sec
+      Start  8: model_manifest_cli
+ 8/58 Test  #8: model_manifest_cli .................   Passed    0.04 sec
+      Start  9: selective_scan_reference
+ 9/58 Test  #9: selective_scan_reference ...........   Passed    0.06 sec
+      Start 10: head_weight_delivery
+10/58 Test #10: head_weight_delivery ...............   Passed   27.85 sec
+      Start 11: head_reference
+11/58 Test #11: head_reference .....................   Passed   18.69 sec
+      Start 12: native_tensorrt_roundtrip
+12/58 Test #12: native_tensorrt_roundtrip ..........   Passed    3.83 sec
+      Start 13: native_tensorrt_cli_io
+13/58 Test #13: native_tensorrt_cli_io .............   Passed    4.11 sec
+      Start 14: postprocess_reference
+14/58 Test #14: postprocess_reference ..............   Passed    0.26 sec
+      Start 15: selective_scan_cuda
+15/58 Test #15: selective_scan_cuda ................   Passed    1.52 sec
+      Start 16: selective_scan_cuda_lazy_streams
+16/58 Test #16: selective_scan_cuda_lazy_streams ...   Passed    0.28 sec
+      Start 17: cuda_synthetic_protocol
+17/58 Test #17: cuda_synthetic_protocol ............   Passed    1.12 sec
+      Start 18: cuda_synthetic_cli_io
+18/58 Test #18: cuda_synthetic_cli_io ..............   Passed    0.52 sec
+      Start 19: cuda_checked_cleanup
+19/58 Test #19: cuda_checked_cleanup ...............   Passed    0.28 sec
+      Start 20: scan_trt
+20/58 Test #20: scan_trt ...........................   Passed    7.71 sec
+      Start 21: scan_trt_api_trace
+21/58 Test #21: scan_trt_api_trace .................   Passed    1.00 sec
+      Start 22: scan_trt_async_fault
+22/58 Test #22: scan_trt_async_fault ...............   Passed    1.00 sec
+      Start 23: scan_trt_engine_build
+23/58 Test #23: scan_trt_engine_build ..............   Passed    0.98 sec
+      Start 24: scan_trt_engine_run
+24/58 Test #24: scan_trt_engine_run ................   Passed    0.29 sec
+      Start 25: scan_trt_engine_unregistered
+25/58 Test #25: scan_trt_engine_unregistered .......   Passed    0.26 sec
+      Start 26: head_trt_engine_build
+26/58 Test #26: head_trt_engine_build ..............   Passed   27.50 sec
+      Start 27: head_trt_engine_run
+27/58 Test #27: head_trt_engine_run ................   Passed    4.66 sec
+      Start 28: head_trt_engine_unregistered
+28/58 Test #28: head_trt_engine_unregistered .......   Passed    0.55 sec
+      Start 29: head_trt
+29/58 Test #29: head_trt ...........................   Passed   30.58 sec
+      Start 30: head_trt_api_trace
+30/58 Test #30: head_trt_api_trace .................   Passed    4.59 sec
+      Start 31: head_profile_trt
+31/58 Test #31: head_profile_trt ...................   Passed   25.51 sec
+      Start 32: head_fp16_trt
+32/58 Test #32: head_fp16_trt ......................   Passed   39.20 sec
+      Start 33: resize_cuda
+33/58 Test #33: resize_cuda ........................   Passed    0.77 sec
+      Start 34: native_preprocess
+34/58 Test #34: native_preprocess ..................   Passed    1.55 sec
+      Start 35: host_rgb_preprocess
+35/58 Test #35: host_rgb_preprocess ................   Passed    0.24 sec
+      Start 36: postprocess_cuda
+36/58 Test #36: postprocess_cuda ...................   Passed    0.40 sec
+      Start 37: postprocess_cuda_hr
+37/58 Test #37: postprocess_cuda_hr ................   Passed    0.76 sec
+      Start 38: postprocess_cuda_lazy_streams
+38/58 Test #38: postprocess_cuda_lazy_streams ......   Passed    0.24 sec
+      Start 39: model_producer_cuda
+39/58 Test #39: model_producer_cuda ................   Passed    0.29 sec
+      Start 40: model_producer_cuda_lazy_streams
+40/58 Test #40: model_producer_cuda_lazy_streams ...   Passed    0.20 sec
+      Start 41: model_producer_cuda_hr
+41/58 Test #41: model_producer_cuda_hr .............   Passed    0.36 sec
+      Start 42: model_profile_trt
+42/58 Test #42: model_profile_trt ..................   Passed   25.37 sec
+      Start 43: detection_session_cuda
+43/58 Test #43: detection_session_cuda .............   Passed    0.32 sec
+      Start 44: detection_session_happens_before
+44/58 Test #44: detection_session_happens_before ...   Passed    0.04 sec
+      Start 45: motion_reference
+45/58 Test #45: motion_reference ...................   Passed    0.05 sec
+      Start 46: motion_cuda
+46/58 Test #46: motion_cuda ........................   Passed    1.00 sec
+      Start 47: tracking_reference
+47/58 Test #47: tracking_reference .................   Passed    0.24 sec
+      Start 48: mot_output
+48/58 Test #48: mot_output .........................   Passed    0.00 sec
+      Start 49: occlusion_experiment
+49/58 Test #49: occlusion_experiment ...............   Passed    0.00 sec
+      Start 50: occlusion_ablation_cli
+50/58 Test #50: occlusion_ablation_cli .............   Passed    0.02 sec
+      Start 51: tracking_cuda
+51/58 Test #51: tracking_cuda ......................   Passed    1.70 sec
+      Start 52: tracking_packet
+52/58 Test #52: tracking_packet ....................   Passed    0.30 sec
+      Start 53: flow_records
+53/58 Test #53: flow_records .......................   Passed    0.01 sec
+      Start 54: gmc_flow_controls
+54/58 Test #54: gmc_flow_controls ..................   Passed    0.00 sec
+      Start 55: flow_motion_cuda
+55/58 Test #55: flow_motion_cuda ...................   Passed    0.37 sec
+      Start 56: video_source
+56/58 Test #56: video_source .......................   Passed    0.57 sec
+      Start 57: video_source_cuda
+57/58 Test #57: video_source_cuda ..................   Passed    1.11 sec
+      Start 58: tracking_rgb_session
+58/58 Test #58: tracking_rgb_session ...............   Passed    3.35 sec
+
+100% tests passed out of 58
+
+Label Time Summary:
+flow              =   0.37 sec*proc (1 test)
+gpu               = 193.81 sec*proc (37 tests)
+model_producer    =   0.85 sec*proc (3 tests)
+nvdec             =   1.11 sec*proc (1 test)
+postprocess       =   1.39 sec*proc (3 tests)
+preprocess        =  27.93 sec*proc (4 tests)
+session           =  29.04 sec*proc (3 tests)
+streaming         =   4.69 sec*proc (3 tests)
+tensorrt          = 177.15 sec*proc (16 tests)
+
+Total Test time (real) = 242.03 sec

@@ -38,6 +38,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
 | [F01–F04 detection session](docs/DETECTION_SESSION.md) | 獨立 bounded detection API；原開發來源驗證 PASS，不等同 TrackingSession |
 | [F05–F09 tracking](docs/TRACKING.md) | GMC、prior、F04b、關聯更新、ResultPacket／MOT、M0–M4；正式驗收及 P01 有範圍結案 |
 | [CUDA Graph 與延遲量測](docs/CUDA_GRAPH.md) | D 的 F03→F04 與 M tracking tail；預設啟用，另有最新 clean-source 驗收 |
+| [即時影像串流](docs/STREAMING.md) | FFmpeg 收流／NVDEC GPU 解碼、CUDA 色彩轉換與即時結果 CLI；CPU decode 為顯式選項，驗證邊界獨立記錄 |
 
 ### 模型來源與 native 推論
 
@@ -80,6 +81,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
 
 | 證據 | 狀態與閱讀重點 |
 | --- | --- |
+| [串流／NVDEC 開發驗證與交付檢查](evidence/streaming/2026-11-05-development/REPORT.md) | 原生 GPU decode／CUDA 色彩轉換、完整 packet 比較與資料搬移 trace；保留開發來源、CLI 修正與外部裝置未連線邊界 |
 | [G1 NVOFA／v1-motion/2 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) | 完整 session memcheck OPEN（Bug 7048273），其餘八步通過；runtime 已整合，原證據與支援邊界保留 |
 | [最新 CUDA Graph 分支正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) | 乾淨 `4329ed7`／`d21a144`；F04、tracking、stream 守門與 M4 21/21 輸出比對 PASS |
 | [加速後完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md) | F02 fusion／F03 特化；CPU 16/16、CUDA 59/59、有範圍 sanitizer 及七序列守門 PASS；5,316 幀、M4 輸出 21/21 相同、品質不變，吞吐 195.85 FPS；非 clean-source 正式證書 |

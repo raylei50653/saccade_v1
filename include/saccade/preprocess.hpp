@@ -1,6 +1,7 @@
 #pragma once
 
 #include "saccade/image_mapping.hpp"
+#include "saccade/device_video_frame.hpp"
 
 #include <cuda_runtime_api.h>
 
@@ -12,10 +13,13 @@
 
 namespace saccade {
 
+enum class PreprocessInput { HardwareJpeg, HostRgb, DeviceVideo };
+
 struct PreprocessConfig {
     int max_width = 1920, max_height = 1080;
     int output_width = 640, output_height = 640;
     std::size_t max_jpeg_bytes = 16 * 1024 * 1024;
+    PreprocessInput input = PreprocessInput::HardwareJpeg;
 };
 
 struct PreprocessedFrame {
@@ -26,9 +30,11 @@ struct PreprocessedFrame {
 };
 
 // F01/F02, single host submitter and one borrowed, non-default detect stream.
-// HARDWARE batch-size-1 decode only: baseline RGB YCbCr 4:2:0 JPEGs; unsupported
-// sources fail explicitly. All device buffers are preallocated. No Python,
-// CPU decode, fallback decoder, graph capture or multiframe host overlap.
+// HardwareJpeg uses HARDWARE batch-size-1 decode for baseline RGB YCbCr 4:2:0
+// JPEGs. HostRgb uploads already decoded contiguous planar RGB8 and does not
+// initialize an nvJPEG decoder. Unsupported sources fail explicitly. All
+// storage is preallocated. No Python, fallback decoder, graph capture or
+// multiframe host overlap.
 //
 // enqueue owns a copy of the compressed bytes. Before reusing host staging it
 // waits for the previous F02 event. RAW/images are borrowed until the next
@@ -50,6 +56,13 @@ public:
     // both be positive or both zero; a metadata mismatch is a sequence error.
     PreprocessedFrame enqueue(std::span<const std::uint8_t> jpeg, std::uint64_t frame,
                               int expected_width = 0, int expected_height = 0);
+    // HostRgb mode only. Owns a copy before returning; the caller may reuse its
+    // input immediately. RAW/images follow the same borrowed-buffer contract.
+    PreprocessedFrame enqueue_rgb(std::span<const std::uint8_t> rgb, std::uint64_t frame,
+                                  int width, int height);
+    // DeviceVideo mode only. Retains the surface owner until conversion finishes
+    // on detect_stream. No host pixel transfer; output follows the same lease.
+    PreprocessedFrame enqueue_device(const DeviceVideoFrame& input, std::uint64_t frame);
     void wait(); // frame boundary for consumers that need host observation
     std::string identity() const;
     void close(); // checked drain and release; destructor is best effort

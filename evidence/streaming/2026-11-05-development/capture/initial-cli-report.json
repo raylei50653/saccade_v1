@@ -1,0 +1,197 @@
+{
+  "formal_acceptance": false,
+  "scope": "nine-frame CPU/NVDEC local development CLI integration",
+  "binary_sha256": "db46b4ad45e8ed3850a4048dca71f7c5585b47340f32c3c8bf70792b9349db42",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "input_sha256": "947f59412c6ab510d8fe9ca0697478658305dca3a1ea9b5058ca8b1554638bed",
+  "cases": [
+    {
+      "case": "make-video",
+      "returncode": 0,
+      "elapsed_s": 0.11736735799786402
+    },
+    {
+      "case": "help",
+      "returncode": 0,
+      "elapsed_s": 0.08423294400199666
+    },
+    {
+      "case": "graph",
+      "returncode": 0,
+      "elapsed_s": 1.6907740740025474
+    },
+    {
+      "case": "ordinary-serial",
+      "returncode": 0,
+      "elapsed_s": 1.0294482499994047
+    },
+    {
+      "case": "frame-limit",
+      "returncode": 0,
+      "elapsed_s": 0.8519054560019867
+    },
+    {
+      "case": "existing-mot",
+      "returncode": 1,
+      "elapsed_s": 0.0818089839995082
+    },
+    {
+      "case": "existing-packets",
+      "returncode": 1,
+      "elapsed_s": 0.08259379800074385
+    },
+    {
+      "case": "source-output-collision",
+      "returncode": 1,
+      "elapsed_s": 0.08294411899987608
+    },
+    {
+      "case": "engine-output-collision",
+      "returncode": 1,
+      "elapsed_s": 0.08167983000021195
+    },
+    {
+      "case": "output-packet-collision",
+      "returncode": 1,
+      "elapsed_s": 0.08281839099799981
+    },
+    {
+      "case": "source-packet-collision",
+      "returncode": 1,
+      "elapsed_s": 0.08162962599817547
+    },
+    {
+      "case": "missing-source",
+      "returncode": 1,
+      "elapsed_s": 0.08291758799896343
+    },
+    {
+      "case": "invalid-frame-limit",
+      "returncode": 1,
+      "elapsed_s": 0.08322009999756119
+    },
+    {
+      "case": "invalid-decode",
+      "returncode": 1,
+      "elapsed_s": 0.08135180099998252
+    },
+    {
+      "case": "invalid-device",
+      "returncode": 1,
+      "elapsed_s": 0.08435863100021379
+    },
+    {
+      "case": "credential-redaction",
+      "returncode": 1,
+      "elapsed_s": 0.08093017399733071
+    },
+    {
+      "case": "sigint",
+      "returncode": 130,
+      "packets": 2,
+      "elapsed_s": 1.5247477029988659
+    },
+    {
+      "case": "sigterm",
+      "returncode": 143,
+      "packets": 3,
+      "elapsed_s": 0.9914043200005835
+    },
+    {
+      "case": "nvdec-no-fallback",
+      "returncode": 1,
+      "elapsed_s": 0.0843733900001098
+    },
+    {
+      "case": "make-h264-8",
+      "returncode": 0,
+      "elapsed_s": 0.2499390359989775
+    },
+    {
+      "case": "probe-h264-8",
+      "returncode": 0,
+      "elapsed_s": 0.12201512799947523
+    },
+    {
+      "case": "nvdec-h264-8-graph",
+      "returncode": 0,
+      "elapsed_s": 1.5506196469978022
+    },
+    {
+      "case": "nvdec-h264-8-serial",
+      "returncode": 0,
+      "elapsed_s": 1.0279957149978145
+    },
+    {
+      "case": "nvdec-frame-limit",
+      "returncode": 0,
+      "elapsed_s": 0.9786935800002539
+    },
+    {
+      "case": "make-hevc-8",
+      "returncode": 0,
+      "elapsed_s": 0.8841505980017246
+    },
+    {
+      "case": "probe-hevc-8",
+      "returncode": 0,
+      "elapsed_s": 0.15937423200011835
+    },
+    {
+      "case": "nvdec-hevc-8-graph",
+      "returncode": 0,
+      "elapsed_s": 1.6676422140008071
+    },
+    {
+      "case": "nvdec-hevc-8-serial",
+      "returncode": 0,
+      "elapsed_s": 1.017141039003036
+    },
+    {
+      "case": "make-hevc-10",
+      "returncode": 0,
+      "elapsed_s": 1.0753880629999912
+    },
+    {
+      "case": "probe-hevc-10",
+      "returncode": 0,
+      "elapsed_s": 0.1744668430001184
+    },
+    {
+      "case": "nvdec-hevc-10-graph",
+      "returncode": 0,
+      "elapsed_s": 1.6243729349989735
+    },
+    {
+      "case": "nvdec-hevc-10-serial",
+      "returncode": 0,
+      "elapsed_s": 1.011666497997794
+    }
+  ],
+  "graph_serial_packet_bytes_equal": true,
+  "graph_serial_mot_bytes_equal": true,
+  "nvdec": [
+    {
+      "codec": "h264-8",
+      "video_sha256": "d7e4e565876a5eb459ae01af7d21f70a6974adaf1aab4ce99c0ba7fe8f68af6c",
+      "packets": 9,
+      "graph_serial_packet_bytes_equal": true,
+      "graph_serial_mot_bytes_equal": true
+    },
+    {
+      "codec": "hevc-8",
+      "video_sha256": "6e246e70a081f6ba038163579e7f6bc727cc2fff4689246feab3cf13569d7e6a",
+      "packets": 9,
+      "graph_serial_packet_bytes_equal": true,
+      "graph_serial_mot_bytes_equal": true
+    },
+    {
+      "codec": "hevc-10",
+      "video_sha256": "4e51307399f7c006f964a81cdc259ac3ac2c5fd301c243ae755fa3ac067fc895",
+      "packets": 9,
+      "graph_serial_packet_bytes_equal": true,
+      "graph_serial_mot_bytes_equal": true
+    }
+  ],
+  "nvdec_unsupported_codec_rejected_without_fallback": true
+}

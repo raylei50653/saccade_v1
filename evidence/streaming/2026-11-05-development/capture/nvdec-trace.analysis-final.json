@@ -1,0 +1,489 @@
+{
+  "database": "/home/ray/developer/ai/saccade_v1/build/streaming-nvdec/nvdec-trace.sqlite",
+  "database_sha256": "7202ddcec2bffb35f14f72ff396efb49639200b23c3d42516d4e5bbf7840e711",
+  "formal_acceptance": false,
+  "scope": "observed CUDA activity after the first native video color kernel; initialization separate",
+  "first_color_kernel_start_ns": 1782102217,
+  "first_color_host_api_start_ns": 1782127107,
+  "first_color_gpu_minus_api_start_ns": -24890,
+  "color_kernels": [
+    {
+      "start": 1782102217,
+      "end": 1782147930,
+      "streamId": 14,
+      "correlationId": 3307,
+      "name": "void saccade::<unnamed>::convert<(bool)0>(const unsigned char *, const unsigned char *, unsigned long, unsigned long, int, int, saccade::<unnamed>::Coefficients, unsigned char *)"
+    },
+    {
+      "start": 1816816086,
+      "end": 1816854660,
+      "streamId": 14,
+      "correlationId": 6145,
+      "name": "void saccade::<unnamed>::convert<(bool)0>(const unsigned char *, const unsigned char *, unsigned long, unsigned long, int, int, saccade::<unnamed>::Coefficients, unsigned char *)"
+    },
+    {
+      "start": 1832203539,
+      "end": 1832246755,
+      "streamId": 14,
+      "correlationId": 6444,
+      "name": "void saccade::<unnamed>::convert<(bool)0>(const unsigned char *, const unsigned char *, unsigned long, unsigned long, int, int, saccade::<unnamed>::Coefficients, unsigned char *)"
+    }
+  ],
+  "expected_frames": 3,
+  "motion_context_bytes": 56,
+  "all_gpu_copy_summary": [
+    {
+      "kind": "Device-to-Device",
+      "bytes_each": 1114112,
+      "streamId": 13,
+      "count": 3,
+      "bytes": 3342336,
+      "gpu_duration_ns": 12293
+    },
+    {
+      "kind": "Device-to-Device",
+      "bytes_each": 2228224,
+      "streamId": 13,
+      "count": 3,
+      "bytes": 6684672,
+      "gpu_duration_ns": 22344
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 2,
+      "streamId": 21,
+      "count": 1,
+      "bytes": 2,
+      "gpu_duration_ns": 3489
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 56,
+      "streamId": 15,
+      "count": 3,
+      "bytes": 168,
+      "gpu_duration_ns": 10339
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 64,
+      "streamId": 7,
+      "count": 2,
+      "bytes": 128,
+      "gpu_duration_ns": 3778
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 12368,
+      "streamId": 15,
+      "count": 3,
+      "bytes": 37104,
+      "gpu_duration_ns": 6786
+    },
+    {
+      "kind": "Host-to-Device",
+      "bytes_each": 120,
+      "streamId": 15,
+      "count": 1,
+      "bytes": 120,
+      "gpu_duration_ns": 480
+    },
+    {
+      "kind": "Host-to-Device",
+      "bytes_each": 9664,
+      "streamId": 7,
+      "count": 2,
+      "bytes": 19328,
+      "gpu_duration_ns": 1889
+    },
+    {
+      "kind": "Host-to-Device",
+      "bytes_each": 58265984,
+      "streamId": 16,
+      "count": 1,
+      "bytes": 58265984,
+      "gpu_duration_ns": 4667327
+    }
+  ],
+  "initialization_gpu_copy_summary": [
+    {
+      "kind": "Device-to-Device",
+      "bytes_each": 1114112,
+      "streamId": 13,
+      "count": 1,
+      "bytes": 1114112,
+      "gpu_duration_ns": 3778
+    },
+    {
+      "kind": "Device-to-Device",
+      "bytes_each": 2228224,
+      "streamId": 13,
+      "count": 1,
+      "bytes": 2228224,
+      "gpu_duration_ns": 6722
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 2,
+      "streamId": 21,
+      "count": 1,
+      "bytes": 2,
+      "gpu_duration_ns": 3489
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 64,
+      "streamId": 7,
+      "count": 2,
+      "bytes": 128,
+      "gpu_duration_ns": 3778
+    },
+    {
+      "kind": "Host-to-Device",
+      "bytes_each": 120,
+      "streamId": 15,
+      "count": 1,
+      "bytes": 120,
+      "gpu_duration_ns": 480
+    },
+    {
+      "kind": "Host-to-Device",
+      "bytes_each": 9664,
+      "streamId": 7,
+      "count": 2,
+      "bytes": 19328,
+      "gpu_duration_ns": 1889
+    },
+    {
+      "kind": "Host-to-Device",
+      "bytes_each": 58265984,
+      "streamId": 16,
+      "count": 1,
+      "bytes": 58265984,
+      "gpu_duration_ns": 4667327
+    }
+  ],
+  "after_first_color_gpu_copy_summary": [
+    {
+      "kind": "Device-to-Device",
+      "bytes_each": 1114112,
+      "streamId": 13,
+      "count": 2,
+      "bytes": 2228224,
+      "gpu_duration_ns": 8515
+    },
+    {
+      "kind": "Device-to-Device",
+      "bytes_each": 2228224,
+      "streamId": 13,
+      "count": 2,
+      "bytes": 4456448,
+      "gpu_duration_ns": 15622
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 56,
+      "streamId": 15,
+      "count": 3,
+      "bytes": 168,
+      "gpu_duration_ns": 10339
+    },
+    {
+      "kind": "Device-to-Host",
+      "bytes_each": 12368,
+      "streamId": 15,
+      "count": 3,
+      "bytes": 37104,
+      "gpu_duration_ns": 6786
+    }
+  ],
+  "after_first_color_gpu_copy_details": [
+    {
+      "start": 1814933373,
+      "end": 1814938559,
+      "streamId": 15,
+      "correlationId": 6096,
+      "bytes": 56,
+      "copyKind": 2,
+      "kind": "Device-to-Host",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOH",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cudaMemcpyAsync_v3020",
+          "start": 1814672718,
+          "end": 1814971332,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1814943329,
+      "end": 1814945602,
+      "streamId": 15,
+      "correlationId": 6097,
+      "bytes": 12368,
+      "copyKind": 2,
+      "kind": "Device-to-Host",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOH",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cudaMemcpyAsync_v3020",
+          "start": 1814972263,
+          "end": 1814984166,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1816773414,
+      "end": 1816780969,
+      "streamId": 13,
+      "correlationId": 6114,
+      "bytes": 2228224,
+      "copyKind": 8,
+      "kind": "Device-to-Device",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOD",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cuMemcpy2DAsync_v2",
+          "start": 1816718482,
+          "end": 1816762315,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1816784266,
+      "end": 1816788011,
+      "streamId": 13,
+      "correlationId": 6115,
+      "bytes": 1114112,
+      "copyKind": 8,
+      "kind": "Device-to-Device",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOD",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cuMemcpy2DAsync_v2",
+          "start": 1816762535,
+          "end": 1816775109,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1830925114,
+      "end": 1830928251,
+      "streamId": 15,
+      "correlationId": 6398,
+      "bytes": 56,
+      "copyKind": 2,
+      "kind": "Device-to-Host",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOH",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cudaMemcpyAsync_v3020",
+          "start": 1830785877,
+          "end": 1830800074,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1830930620,
+      "end": 1830932893,
+      "streamId": 15,
+      "correlationId": 6399,
+      "bytes": 12368,
+      "copyKind": 2,
+      "kind": "Device-to-Host",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOH",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cudaMemcpyAsync_v3020",
+          "start": 1830800284,
+          "end": 1830810524,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1832168550,
+      "end": 1832176617,
+      "streamId": 13,
+      "correlationId": 6413,
+      "bytes": 2228224,
+      "copyKind": 8,
+      "kind": "Device-to-Device",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOD",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cuMemcpy2DAsync_v2",
+          "start": 1832183537,
+          "end": 1832197784,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1832179434,
+      "end": 1832184204,
+      "streamId": 13,
+      "correlationId": 6414,
+      "bytes": 1114112,
+      "copyKind": 8,
+      "kind": "Device-to-Device",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOD",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cuMemcpy2DAsync_v2",
+          "start": 1832198055,
+          "end": 1832208384,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1841025716,
+      "end": 1841027732,
+      "streamId": 15,
+      "correlationId": 6651,
+      "bytes": 56,
+      "copyKind": 2,
+      "kind": "Device-to-Host",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOH",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cudaMemcpyAsync_v3020",
+          "start": 1833566169,
+          "end": 1833576960,
+          "returnValue": 0
+        }
+      ]
+    },
+    {
+      "start": 1841030998,
+      "end": 1841033238,
+      "streamId": 15,
+      "correlationId": 6652,
+      "bytes": 12368,
+      "copyKind": 2,
+      "kind": "Device-to-Host",
+      "kind_enum": "CUDA_MEMCPY_KIND_DTOH",
+      "apis": [
+        {
+          "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+          "name": "cudaMemcpyAsync_v3020",
+          "start": 1833577110,
+          "end": 1833583592,
+          "returnValue": 0
+        }
+      ]
+    }
+  ],
+  "post_boundary_cpu_mem_api_summary": [
+    {
+      "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+      "name": "cuMemcpy2DAsync_v2",
+      "calls": 4
+    },
+    {
+      "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+      "name": "cudaMemcpyAsync_v3020",
+      "calls": 6
+    },
+    {
+      "table": "CUPTI_ACTIVITY_KIND_RUNTIME",
+      "name": "cudaMemsetAsync_v3020",
+      "calls": 27
+    }
+  ],
+  "nvvideo_tables": [
+    "NVVIDEO_DECODER_API",
+    "NVVIDEO_ENCODER_API",
+    "NVVIDEO_JPEG_API"
+  ],
+  "nvvideo_host_api_summary": [
+    {
+      "table": "NVVIDEO_DECODER_API",
+      "name": "cuvidGetDecoderCaps",
+      "calls": 1,
+      "host_api_total_ns": 2534648,
+      "first_ns": 1324603061,
+      "last_ns": 1327137709
+    },
+    {
+      "table": "NVVIDEO_DECODER_API",
+      "name": "cuvidCreateDecoder",
+      "calls": 1,
+      "host_api_total_ns": 23783939,
+      "first_ns": 1327139252,
+      "last_ns": 1350923191
+    },
+    {
+      "table": "NVVIDEO_DECODER_API",
+      "name": "cuvidDecodePicture",
+      "calls": 5,
+      "host_api_total_ns": 2910169,
+      "first_ns": 1351654202,
+      "last_ns": 1832028414
+    },
+    {
+      "table": "NVVIDEO_DECODER_API",
+      "name": "cuvidMapVideoFrame64",
+      "calls": 3,
+      "host_api_total_ns": 352547,
+      "first_ns": 1354260185,
+      "last_ns": 1832177636
+    },
+    {
+      "table": "NVVIDEO_DECODER_API",
+      "name": "cuvidDestroyDecoder",
+      "calls": 1,
+      "host_api_total_ns": 8267278,
+      "first_ns": 1874218534,
+      "last_ns": 1882485812
+    }
+  ],
+  "nvvideo_metadata_records": [
+    {
+      "table": "NVVIDEO_DECODER_API",
+      "name": "GpuMetrics",
+      "records": 2
+    },
+    {
+      "table": "NVVIDEO_ENCODER_API",
+      "name": "GpuMetrics",
+      "records": 2
+    },
+    {
+      "table": "NVVIDEO_JPEG_API",
+      "name": "GpuMetrics",
+      "records": 2
+    }
+  ],
+  "checks": {
+    "color_kernel_count_matches_frames": true,
+    "nvvideo_decode_picture_api_recorded": true,
+    "no_h2d_activity_after_first_color": true,
+    "no_d2h_except_packet_and_motion_after_first_color": true,
+    "packet_and_motion_d2h_counts_match_frames": true
+  },
+  "observed_transfer_contract_pass": true,
+  "limitations": [
+    "CUDA runtime/driver API durations and GPU activity durations are separate observations.",
+    "NvVideo API intervals identify calls, not hardware decode engine utilization or measured overlap.",
+    "D2H attribution uses observed transfer size plus expected source copies; source does not download pixels.",
+    "This is not full-library race/synchronization safety or cross-environment support proof.",
+    "First-conversion boundary excludes setup copies and the first decode before session construction.",
+    "Host/GPU timestamp alignment is finite; cross-domain microsecond offsets are not causal-order proof."
+  ]
+}

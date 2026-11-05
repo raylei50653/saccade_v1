@@ -2,6 +2,8 @@
 
 更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速的完整 MOT 開發重測與原 clean-source 正式證書分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
 
+新增可選的 [即時影像串流組件](STREAMING.md)：FFmpeg 收流 → NVDEC GPU 解碼 → CUDA 色彩轉換／前處理／TrackingSession，提供 `video_probe` 與 `track_stream`。CLI 預設 GPU、CPU decode 須明確選擇；即時輸出政策與開發測試獨立記錄，實際裝置連線邊界見該文件，不改寫原 JPEG／P01 正式判定。
+
 2026-11-05 接續：目前 TrackingSession GMC 已採 [G1 NVOFA／v1-motion/2（TRACKING §20）](TRACKING.md)；該輪驗收除完整 session memcheck OPEN 外，其餘八步通過，依 [原報告](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) 判定。以下較早正式證書仍保留各自來源與 motion profile。
 
 本輪 [OAO duration-ramp／front-occluder 消融](../evidence/occlusion/2026-11-05/REPORT.md)只讀 MOT17-10 val；四臂 CPU replay 未見收益，both 的 HOTA 50.869→50.634、IDF1 64.975→62.998、IDSW 56→67，**不加入部署預設**。交付前 CPU 20/20、baseline 654 幀 packet 相同、補上 CLI 檢查後四臂 MOT bytes 相同；非 CUDA／session／效能驗收。

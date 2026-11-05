@@ -66,6 +66,12 @@ public:
     // Contiguous zero-based frame. A full result ring throws length_error
     // before submission and is recoverable by receive(). Other errors latch Failed.
     void enqueue(std::span<const std::uint8_t> jpeg, FrameId frame);
+    // HostRgb mode only. Contiguous planar RGB8 at the configured original
+    // dimensions; owns a copy before returning, with the same ring contract.
+    void enqueue_rgb(std::span<const std::uint8_t> rgb, FrameId frame);
+    // DeviceVideo mode only. The preprocessor retains the surface lease until
+    // the detect stream has finished reading it; no host pixel transfer.
+    void enqueue_device(const DeviceVideoFrame& surface, FrameId frame);
     TrackingSessionResult receive();
     std::size_t pending() const;
     // Drain both streams, retaining outstanding results for ordered receive().
@@ -79,6 +85,8 @@ private:
     std::unique_ptr<Impl> impl_;
     friend struct TrackingSessionTestAccess;
     void enqueue_for_test(std::span<const std::uint8_t>, FrameId, std::uint32_t, bool = false);
+    void enqueue_impl(std::span<const std::uint8_t>, FrameId, std::uint32_t, bool, bool,
+                      const DeviceVideoFrame* = nullptr);
     // Test-only snapshot after draining both current stream tails.
     detail::TrackingSessionDiagnostic diagnostic_for_test() const;
 };

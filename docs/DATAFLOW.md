@@ -415,6 +415,8 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 
 ### 9.3 需要另列架構差異的擴充
 
+2026-11-05：[即時影像串流](STREAMING.md) 新增可選影片／RTSP／攝影機輸入。B02／F01 擴充為 FFmpeg 收流／NVDEC device NV12、P010 → CUDA 色彩轉換，B04 的 F02 GPU resize 沿用；CPU decode→host planar RGB8 為顯式選項。B10 維持單一 session caller、原有 ready／consumed 與 first-error 協定，另以 producer ready event／AVFrame owner lease 保護解碼表面至 D 讀完。F09 即時輸出另用 `stream-observations/1`，不作離線尾段插值。來源 PTS 尚未進入 tracker dt；斷線／尺寸改變結束該 epoch，不自動重連。此擴充與原 JPEG／P01 證書分開判定，完整 API、操作與驗證邊界見該文件。
+
 壓縮影片、RTSP、外部 GPU frame、多來源並行、可變時間差追蹤、時間模型、ReID、其他運動／關聯模型與其他輸出格式，均是基線之外的擴充。它們不阻擋目前 JPEG sequence → MOT 資料流的規劃；若引入，再明列影響的 B／F／E 與狀態契約。
 
 時間模型擴充才引入 ModelState：F03 必須等待同來源／epoch 的正確前版狀態，reset 隔離舊版本，重建 graph 不隱式重設模型記憶。這會改變 B03 的幀內推論與 B10 的排程前提，不能直接套用基線 overlap。

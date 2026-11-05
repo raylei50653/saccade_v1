@@ -1,0 +1,61 @@
+{
+  "utc": "2026-11-05T11:22:40.481546+00:00",
+  "scope": "pre-publication review fixes; development validation, not clean-source acceptance",
+  "base_commit": "6d4c3d8a32b0ae9637e33aa3224ad69041814ce1",
+  "source_dirty": true,
+  "formal_acceptance": false,
+  "source_files_sha256": {
+    "CMakeLists.txt": "00b48fdd31b1593b4715cbd9948abc651501262e26a98d1fe17f1751acd1c8f1",
+    "README.md": "c329192e787f534f84f5c3e50d5680ed2b3f3af77a2772ce72d4e43a09e56f26",
+    "cmake/Preprocess.cmake": "477206aaa1f2e76d81d6dff836cfd6057aded73c1676e0e0718174eeb341bef8",
+    "cmake/Streaming.cmake": "20ce67f6598007f1a8cc7462b54a39f06f3684d4a5cf9fd89de379cf75084996",
+    "cmake/Video.cmake": "aebf87748f719d9abe1d40738d4d0e32c7f2fbbacfdf1ad71743a4e6a06d3102",
+    "cuda/video_color.cu": "abfa350bf46d35e536cc77def0d4bff45809ca70a35292f4c4729714ff001913",
+    "docs/BACKLOG.md": "706589bc6f99dde3de571ee19487ee4c0d078ab8f001b7963fc6355c226ba2b2",
+    "docs/DATAFLOW.md": "8681dc68889144f9f9ff2a68086706f87e5572a00a62daa56766fbf6faa9e31a",
+    "docs/STATUS.md": "a4fef677b6c36b84b7f802ab7f130fdd88025d4ae37702f02a75fabac1a8ae18",
+    "docs/STREAMING.md": "77e53daef3c5554fbcca54fa454c5492110e4821784afa47abd6dfd51d45bdce",
+    "include/saccade/device_video_frame.hpp": "38a192c54dddf87a5d4bfafaed9b92fc77e6d77ce57285049ea5971fa98b3e2a",
+    "include/saccade/preprocess.hpp": "41223c8de4445f10b388135666672b1b791825c3613939e9dd49dd78a67e6d4d",
+    "include/saccade/tracking_session.hpp": "b62381ab6993863fbb62d07ea6f6313c2f9bfd78b2cd178522253f2dd0625844",
+    "include/saccade/video_color_cuda.hpp": "9ac8df7a1bc011fa48f0849ea18ce1b009fa0c19f47b667eb9cfea7fa10bfdd4",
+    "include/saccade/video_source.hpp": "9b6aa0eb31031be289d44ed40d67f298f3c5196473ba06886e092e963d1ebc06",
+    "src/preprocess.cpp": "970c94005d69c336360604c4b39633ab6128abf002f05448b503249aaf919a89",
+    "src/tracking_session.cpp": "8681f7fd8c971560d5d8b39893648e9aa9436038cf5f55300e683b371fd9e538",
+    "src/video_source.cpp": "218f282cf23367d95fe8f3d11ba6ac086d8646eb699f27803f1fa1f6b24650b7",
+    "tests/device_video_preprocess_tests.cpp": "5c4d4988bdef9cc18399258f7dbd67db805331504cc28a113ed9ae39047d17a4",
+    "tests/host_rgb_preprocess_tests.cpp": "a6c8e091170e0a40a76a2e0b51b43c9007cb543dd851514313d1324162611653",
+    "tests/track_stream_cli_tests.py": "730402f56dea3724ad287394ae119de88bd1642363fd37c09a125f8b2d2f5b35",
+    "tests/tracking_rgb_session_tests.cpp": "a5ddf5674943632669b5cdcd86a800cf94103016c48fa45554f00d837e578190",
+    "tests/video_device_session_tests.cpp": "928a47efc76ebd2bf7d205599977f18d7230cd8e50ad63ee30097eb3fd6da950",
+    "tests/video_source_cuda_tests.cpp": "1e728380144a88d8f8bfc54bd8449e6b1d95be68784a414c132ce1bae8403093",
+    "tests/video_source_tests.cpp": "e00eeba3445c5f44ccb05f291895585d87746d03d22b92072a15d55fb62237c2",
+    "tools/track_stream.cpp": "eecf2a3cda3092f6ce3b03390b86fc96667d857dd572bd007b3f1b1aa5230018",
+    "tools/video_probe.cpp": "3be682cba8bf1be7bc0314eb46ad8485654f5f1e809e67cdd09f2ddd35926620"
+  },
+  "source_changes_since_initial_capture": [
+    "README.md",
+    "cmake/Streaming.cmake",
+    "docs/STREAMING.md",
+    "tests/track_stream_cli_tests.py",
+    "tests/video_source_cuda_tests.cpp",
+    "tools/track_stream.cpp"
+  ],
+  "binary_sha256": {
+    "track_stream": "36186c9aeee775d6cf38234c070ecddab1449f980e886d5de23b2f79b23f5b2f",
+    "video_source_cuda_tests": "ea0f80096ca778293434b7f090e8820a73facdc20e7e66ebc1144ce14fbd2c71"
+  },
+  "cpu_ctest": {
+    "passed": 20,
+    "total": 20
+  },
+  "review_tests": {
+    "video_source_cuda_ctest": "PASS",
+    "source_cuda_checks": 329,
+    "track_stream_cli_ctest": "PASS",
+    "cli_cases": 35
+  },
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "review_cli_report": "capture/review-cli-report.json",
+  "original_gpu_capture": "capture/development-source-manifest.json"
+}

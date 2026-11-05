@@ -1,6 +1,6 @@
 # Saccade v1 目前狀態與文件狀態
 
-更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速的完整 MOT 開發重測與原 clean-source 正式證書分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
 
 新增可選的 [即時影像串流組件](STREAMING.md)：FFmpeg 收流 → NVDEC GPU 解碼 → CUDA 色彩轉換／前處理／TrackingSession，提供 `video_probe` 與 `track_stream`。CLI 預設 GPU、CPU decode 須明確選擇；即時輸出政策與開發測試獨立記錄，實際裝置連線邊界見該文件，不改寫原 JPEG／P01 正式判定。
 
@@ -27,11 +27,13 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含�
 
 各步的受測 source 分開記錄；後續開發來源重測不改寫這些正式證書。
 
-後續 [HR F02 tile fusion](../evidence/f02-fusion/2026-11-04/REPORT.md) 為開發來源改版，僅分派 1920×1080→1280×768；128 組舊／新 bits、4 張 HR Python references、60/60 CTest 與新 kernel 的有範圍 sanitizer 通過。這份工作樹尚未執行新的 clean-source 正式 gate，不改寫上表的證書來源。
+後續 [HR F02 tile fusion](../evidence/f02-fusion/2026-11-04/REPORT.md) 為開發來源改版，僅分派 1920×1080→1280×768；128 組舊／新 bits、4 張 HR Python references、60/60 CTest 與新 kernel 的有範圍 sanitizer 通過。該輪尚未執行新的 clean-source 正式 gate，不改寫上表的證書來源。
 
 再後續的 [F03 N16 特化](../evidence/f03-scan/2026-11-04/REPORT.md) 保留既有 Graph；scan 精確比較、四張完整模型輸出、16 sessions 的 140 幀完整 packets、此 build 的 49/49 CTest 與 scan 四種 sanitizer 通過。該輪為開發來源，未執行新的 clean-source 正式 gate 或品質重評。
 
 上述 F02 fusion、F03 N16 與部署 shape／128-thread 特化已一併重新建置，完成[完整 MOT 開發測試](../evidence/mot/2026-11-04-full-development/REPORT.md)：CPU 16/16、CUDA 59/59、報告所列 17 次 sanitizer 與四個正控制、七序列 offline／native MOT 及 node／graph stream 守門均通過。HR 七個序列共 **5,316 幀**，7 個 SCDR、7 個 MOT、7 個 offline MOT 與 M4 **21/21 逐位元相同**；重新讀 GT 計分後品質指標不變。吞吐為 **195.85 FPS**（加權 5.10608 ms／幀，包含 JPEG 讀檔及 pipeline，排除 engine 初始化與輸出寫檔）。本次保留 `source_dirty=true`、`formal_acceptance=false`，MOT17-02 記為 **M4 之後**的重跑，不作新的獨立 eval 或 clean-source 正式證書。
+
+2026-11-05 已完成 [F02／F03 clean-source 整合補驗](../evidence/f02-f03/2026-11-05-clean-23ade53/REPORT.md)：乾淨 `23ade53`、原 `v1-motion/1`，CPU 16/16、CUDA 59/59、原固定 session gate、F02／scan 各四種完整 suite sanitizer 與四個正控制通過。四張 HR RGB／FP32 references bitwise 相同，七序列共 5,316 幀的 SCDR／MOT／offline MOT 與 M4 **21/21 相同**。受測兩個 kernels 與目前 checkout bytes 相同；接受 binaries 已先封存，前後 source／binary／input hashes 一致。本輪未重測 ABBA、未讀 GT 或重跑 semantic mutations，不重發原 S02 primitive 證書；現行 G1／`v1-motion/2` 的完整 session memcheck 仍 **OPEN／NOT A FULL PASS**。
 
 ## 各階段狀態
 
@@ -61,7 +63,7 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含�
 | [F03 backbone／head 瓶頸分析](../evidence/f03-backbone-head/2026-11-04/REPORT.md) | 20次Graph／6040 kernel calls完整對映：backbone／neck占kernel duration加總66.12%，conv／GEMM占63.73%，scan core占15.63% | 本輪沒有可採用的新加速。Cache收益確認輪反轉；causal直接對現行engine只差0.014%，重建FP16 engines均非bitwise替代品；開發來源，未跑新正式gate／品質重評 |
 | [加速後完整 MOT 開發測試](../evidence/mot/2026-11-04-full-development/REPORT.md) | 七序列共 5,316 幀，吞吐 195.85 FPS；M4 輸出 21/21 相同，品質指標不變 | 每序列單次完整執行；吞吐不當作單幀交付延遲，與歷史測時未做 ABBA。未提交來源，MOT17-02 為 M4 之後重跑；sanitizer 範圍依報告 |
 
-這些報告保留各自的開發來源身分、樣本與失敗嘗試。先前 Graph／排序的 clean-source gate 補上對應來源的正確性與七序列回歸，不改寫原測時身分或取代其量測條件；後續完整 MOT 開發重測補上 F02／F03 加速的全序列回歸與計分，不改寫各輪原始量測或正式證書。
+這些報告保留各自的開發來源身分、樣本與失敗嘗試。先前 Graph／排序的 clean-source gate 補上對應來源的正確性與七序列回歸，不改寫原測時身分或取代其量測條件；後續完整 MOT 開發重測補上 F02／F03 加速的全序列回歸與計分。2026-11-05 的 clean-source 補驗新增指定來源與 motion profile 的正式整合證據，原加速幅度仍是各開發報告的 A/B 結果。
 
 ## 未涵蓋與未完成邊界
 

@@ -1,0 +1,13 @@
+========= COMPUTE-SANITIZER
+contract=t01-input/1
+resize=fp32-antialiased-bilinear-half-pixel
+source_commit=23ade536906d07ccf09859f1b580b044dafe95dc
+source_dirty=false
+nvcc=13.4.92
+normalize=fp32-reciprocal-255-before-resize
+hr_resize=shared-tile-32x8-1920x1080-to-1280x768
+registers=36 local_bytes=0 shared_bytes=0
+registers=36 local_bytes=0 shared_bytes=0
+registers=34 local_bytes=0 shared_bytes=2048
+resize_cuda_tests PASS cases=72 max_abs_binary64=1.41507e-05 held_stream=PASS
+========= ERROR SUMMARY: 0 errors

@@ -1,0 +1,1 @@
+timeout -k 10 900 /opt/cuda/bin/compute-sanitizer --tool synccheck --error-exitcode 99 /home/ray/developer/ai/saccade_v1-worktrees/f02-f03-clean-20261105/build/clean-acceptance/cuda/motion_cuda_tests 

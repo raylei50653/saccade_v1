@@ -1,0 +1,175 @@
+{
+  "backbone_names": [
+    "p3",
+    "p4",
+    "p5"
+  ],
+  "backbone_shapes": [
+    [
+      1,
+      256,
+      96,
+      160
+    ],
+    [
+      1,
+      512,
+      48,
+      80
+    ],
+    [
+      1,
+      512,
+      24,
+      40
+    ]
+  ],
+  "contract": "hr-input/1",
+  "frames": [
+    {
+      "backbone": "backbone/input-0.f32",
+      "fid": 1,
+      "index": 0,
+      "model": "model/input-0.f32",
+      "sequence": "MOT17-10-SDP"
+    },
+    {
+      "backbone": "backbone/input-1.f32",
+      "fid": 218,
+      "index": 1,
+      "model": "model/input-1.f32",
+      "sequence": "MOT17-10-SDP"
+    },
+    {
+      "backbone": "backbone/input-2.f32",
+      "fid": 437,
+      "index": 2,
+      "model": "model/input-2.f32",
+      "sequence": "MOT17-10-SDP"
+    },
+    {
+      "backbone": "backbone/input-3.f32",
+      "fid": 654,
+      "index": 3,
+      "model": "model/input-3.f32",
+      "sequence": "MOT17-10-SDP"
+    }
+  ],
+  "hashes": {
+    "backbone/input-0.f32": "be2cefd3ed803593cc4a03475b7ebc584f242dc905c540a3e61ad172d59cb4a4",
+    "backbone/input-1.f32": "37f25d5122051bfe071e90a61ee1b2cbeea91d8a3120becd8d488ea5f8a79dd8",
+    "backbone/input-2.f32": "f561ea4c547ccbac06ce9d291d16ea72c5d79b2095ca7855bbefdadcb08ce268",
+    "backbone/input-3.f32": "5534e0090c5522ec88552cd43c94f88ee0c8435c6a29767d3d9767bee31eae2b",
+    "case-000.f32": "48e82d03d2cf82d9c6a48dc91d92e0ce9077b8fcc2ff4a029f84be14a025e83b",
+    "case-000.jpg": "bc655b86e7dcd9993df950217534f2f6cbf85217faba544dce956b834fb053a0",
+    "case-000.rgb": "6137445b8be2856f9b7ad667fddc44732ec2f3321c0d5d88ad50257efa99b40c",
+    "case-001.f32": "579600bfc8da12750f3b41e2eb1034090d6cd3205d3ad3ebb50058e5d2e09f47",
+    "case-001.jpg": "62cb2ba017efc7868b0ff06ce948eefe1ee9600b85c347af280157dea2701800",
+    "case-001.rgb": "4dfd46dbf184946aa837e0b86673469daec156453f00e62e81e2902ee57b1267",
+    "case-002.f32": "5eea1712ad5413334bcd703ba248f3e53505422503015bb95e4ee60a245b76a8",
+    "case-002.jpg": "3b98c71fbd9ca5516a51ec5d64976f802cf1099d81742f6b678f1ad8a4dcc9ef",
+    "case-002.rgb": "cb364283ee006b7dc8071da5b91ebe82cc8e717d9485c5f2f1be69bb697fe20a",
+    "case-003.f32": "a214e3e7bb50d395708d0430666dddcb4a4a566197f6036f76a41022f365301f",
+    "case-003.jpg": "c9113976657bcde5adfcb1351a03713a8652b0352d0ac05598fe945f4d248309",
+    "case-003.rgb": "bdd0098df46a662b613d8772d9cd4c969b239742c97b2289bd327d4506e710d4",
+    "cases.tsv": "2afd0d54a4b2854c1861f8f9e196cf8afd497f12237a64753f1ad2b0ca24c147",
+    "head-features.f32": "2476f62681b3bbcaf39a4906b73b66c032e9699832da6a6238c8faa62d852cc8",
+    "model-images.f32": "0d2ad63d8d74b02858099d48b100887667d0b6040cca2bfd39d1faf7edec5611",
+    "model/input-0.f32": "c094c2afaf920da2010a87b6b1fbda9d0d459b881e2ae7e5b3cdf1135f57e1a7",
+    "model/input-1.f32": "bc5dd4b8d1b515509d5de7e18c5fd868dc91b122a3b125c11cb4ebc4eac4d39a",
+    "model/input-2.f32": "77fd0cc45c57c127b4c78febc53e928d78a3239fe52374a8ed4b47284ef9a560",
+    "model/input-3.f32": "ec751d349e8fd3c89ec5cbc7dd4e512e76cd3e3a9463da15d5f9ba04c3cade4a"
+  },
+  "head_backend": "pinned pure PyTorch stepwise scan; no old CUDA extension",
+  "head_features": "head-features.f32",
+  "layout": "little-endian FP32, contiguous NCHW; concatenated in listed order; no headers",
+  "model_images": "model-images.f32",
+  "output_names": [
+    "cls_p3",
+    "cls_p4",
+    "cls_p5",
+    "reg_p3",
+    "reg_p4",
+    "reg_p5"
+  ],
+  "output_shapes": [
+    [
+      1,
+      80,
+      96,
+      160
+    ],
+    [
+      1,
+      80,
+      48,
+      80
+    ],
+    [
+      1,
+      80,
+      24,
+      40
+    ],
+    [
+      1,
+      4,
+      96,
+      160
+    ],
+    [
+      1,
+      4,
+      48,
+      80
+    ],
+    [
+      1,
+      4,
+      24,
+      40
+    ]
+  ],
+  "precision_end": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "precision_start": {
+    "conv_math": "fp32",
+    "conv_rel_err_vs_fp64": 1.7671583839730635e-06,
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision_api": {
+      "cuda_matmul": "ieee",
+      "cudnn": "none",
+      "cudnn_conv": "none",
+      "generic": "none"
+    },
+    "matmul_math": "fp32",
+    "matmul_rel_err_vs_fp64": 1.5408067846654446e-07,
+    "nvidia_tf32_override": "0",
+    "policy": "fp32-strict"
+  },
+  "student_sha256": "53bccffe9bdbf37bdcfc81d03e95ccbd2d142d67a557ea015b76d356e4fa5f7d",
+  "student_state_key": "student",
+  "teacher_sha256": "08be5abae55d26b762e262948ded7d3deb11295aa0509ee04ad3582a2c9774cd",
+  "teacher_state_key": "model"
+}

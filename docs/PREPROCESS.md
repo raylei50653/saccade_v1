@@ -2,7 +2,7 @@
 
 [`NativePreprocessor`](../include/saccade/preprocess.hpp) 實作 `t01-input/1`：C++ 讀壓縮 JPEG，nvJPEG hardware backend 解碼成原尺寸 planar RGB uint8，再以 CUDA FP32 `/255` 與 antialiased bilinear、`align_corners=False` stretch 產生 `[1,3,640,640]`。不取整、不 clamp，沒有 mean／std、letterbox 或額外色彩轉換。數值比較政策為 [`t01-preprocess-fp32/1`](PREPROCESS_POLICY.md)，訓練側來源見 [T01 §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)。**F01／F02 使用驗收在受測範圍 PASS**：依 [`t01-preprocess-usage/1`](PREPROCESS_USAGE_POLICY.md)，[正常使用補驗](../evidence/preprocess/2026-10-31-usage/REPORT.md)的 208 幀 RGB／FP32 全部與固定 reference 逐位元相同；[既有 17 組對照](../evidence/preprocess/2026-10-31/REPORT.md)亦保留。nvJPEG initcheck FAIL／原因 OPEN 另列診斷，不再作為目前使用結案的門檻。
 
-文件狀態（2026-11-04）：本頁保留原 T01 640×640 數值與使用驗收範圍。現行 TrackingSession 使用 HR 1280×768 模型輸入，完整 tracking 與 P01 已在 M4 **CLOSED（有範圍）**，見 [TRACKING §14–§17](TRACKING.md)、[M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md) 與[目前狀態](STATUS.md)。此更新不改判 nvJPEG initcheck 診斷。
+文件狀態（2026-11-05）：本頁保留原 T01 640×640 數值與使用驗收範圍；HR tile fusion 的 clean-source 整合補驗見 §9。現行 TrackingSession 使用 HR 1280×768 模型輸入，完整 tracking 與 P01 已在 M4 **CLOSED（有範圍）**，見 [TRACKING §14–§17](TRACKING.md)、[M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md) 與[目前狀態](STATUS.md)。此更新不改判 nvJPEG initcheck 診斷。
 
 ## 1. 支援範圍與 API
 
@@ -122,6 +122,12 @@ bash scripts/run_resize_optimization.sh build/NEW-F02-REPLAY
 ```
 
 腳本凍結舊版與目前來源，以相同算術旗標分別編譯，逐位元比較 ordinary／repeat／graph 輸出，再量隔離 resize 的 ABBA 平均 processing interval。完整 pipeline 的 single latency／queued throughput 另量，不將 primitive interval 當作整幀延遲。此開發證據不改寫先前 clean-source 驗收或 nvJPEG initcheck 診斷。
+
+## 9. HR tile fusion 的 clean-source 整合補驗（2026-11-05）
+
+[正式補驗](../evidence/f02-f03/2026-11-05-clean-23ade53/REPORT.md)以乾淨 `23ade53`、原 `v1-motion/1` 重新建置：CPU 16/16、CUDA 59/59、原 session gate 與 HR 七序列回歸 PASS，21 個輸出與 M4 相同。F02 獨立 suite 的 72 cases 另跑完整四種 sanitizer，未設 kernel filter 或 launch-count，均為零 errors／hazards；initcheck 依既有 harness 略過 held-stream callback，其餘三工具與正常執行保留該測項。四張 HR Python reference 的 RGB／FP32 全部 bitwise 相同。
+
+受測 `cuda/resize.cu` 與核對時現行版本 bytes 相同。原效能 A/B 保留開發來源身分；現行 G1 的完整 session memcheck 仍 OPEN，nvJPEG initcheck 原診斷亦保留。
 
 ## Native F01–F04 session 接續
 

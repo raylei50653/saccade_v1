@@ -1,0 +1,1 @@
+timeout -k 10 600 /opt/cuda/bin/compute-sanitizer --tool memcheck --error-exitcode 99 /home/ray/developer/ai/saccade_v1-worktrees/f02-f03-clean-20261105/build/clean-acceptance/cuda/selective_scan_cuda_tests 

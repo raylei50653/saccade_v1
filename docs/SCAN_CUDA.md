@@ -120,6 +120,12 @@ N16特化引入 `state==16` 分派編譯期固定 N=16／log2(N)=4 的 kernel；
 
 在§8的N16起點上，`channels=256, A_rows=1, C_width=1, has_D=true`進一步用編譯期常數建構deployment kernel；N16 scan改用128 threads/block，初始化新增該kernel預載。L與batch仍動態，其他shape保留fallback；浮點運算、butterfly與失敗處理保持原式。
 
-[完整報告](../evidence/f03-llama/2026-11-04/REPORT.md)的兩輪完整F03 Graph ABBA為4.810→4.754 ms、4.900→4.819 ms（−1.15%／−1.64%）；四張輸入的六outputs與九statuses逐位元相同。採用版scan suite 368 checks、lazy streams及四種sanitizer通過，範圍限scan，沒有新正式gate或tracking重評。
+[完整報告](../evidence/f03-llama/2026-11-04/REPORT.md)的兩輪完整F03 Graph ABBA為4.810→4.754 ms、4.900→4.819 ms（−1.15%／−1.64%）；四張輸入的六outputs與九statuses逐位元相同。採用版scan suite 368 checks、lazy streams及四種sanitizer通過，範圍限scan，該輪沒有新正式gate或tracking重評。
 
 共用讀取另以採用版為baseline：n0讀u／原始delta／C再shuffle，global load requests／sectors不變且完整F03慢1.28%；B／C shared copy降低約37.5%的L1 global requests，但L2 read sectors幾乎不變，完整F03慢2.18%。兩者均未採用。現行u／delta／B／C仍直接讀global memory，A／D在迴圈前讀入，h保持register，不新增shared copy。
+
+## 10. N16／部署特化的 clean-source 整合補驗（2026-11-05）
+
+[正式補驗](../evidence/f02-f03/2026-11-05-clean-23ade53/REPORT.md)以乾淨 `23ade53`、原 `v1-motion/1` 完成 CPU 16/16、CUDA 59/59、原固定 session gate 與 HR 七序列回歸；21 個輸出與 M4 相同。Scan 獨立 suite 四種 sanitizer 均通過，未設 kernel filter 或 launch-count：memcheck／racecheck／synccheck 各 368 checks，initcheck 依原 harness 略過 held-stream callback，360 checks；一般執行與 lazy streams 測試通過。
+
+受測 `cuda/selective_scan.cu` 與核對時現行版本 bytes 相同。本輪未重跑 S02／F04 semantic mutations，不重發 §7 的原 S02 完整 primitive 證書；原 A/B 加速數據保留開發來源身分，現行 G1 的完整 session memcheck 仍 OPEN。

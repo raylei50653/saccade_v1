@@ -10,6 +10,8 @@
 | HR FP16、M4／P01 | M4 正式驗收與計分完成，P01 CLOSED（有範圍）；[M4 證據](../evidence/m4/2026-11-03-formal-cad5298/REPORT.md) |
 | F04 平行 finalize | clean-source 正式驗收 PASS；[第二輪證據](../evidence/f04/2026-11-04-parallel-finalize-e4d45de/REPORT.md) |
 | CUDA Graph／tracking 排序 | clean-source 驗收 PASS：步驟 1–3 使用 `4329ed7`，步驟 4–5 使用 `d21a144`；HR 七個序列的 21 個輸出與 M4 逐位元相同；[正式證據](../evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) |
+| F02 tile fusion／F03 N16 與部署特化 | [clean-source 整合補驗](../evidence/f02-f03/2026-11-05-clean-23ade53/REPORT.md) PASS：乾淨 `23ade53`、`v1-motion/1`；CPU 16/16、CUDA 59/59、原 session gate、F02／scan 四 sanitizer、M4 21/21 輸出相同；原 A/B 測時保留開發來源身分 |
+| 現行 G1／v1-motion/2 | [正式驗收](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍 OPEN／NOT A FULL PASS，其餘八步通過；F02／F03 的舊 profile 補驗不關閉此項 |
 | 延遲與資源排程 | 開發來源量測已記錄；[資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md)、[排程表](../evidence/resource-schedule/2026-11-04/SCHEDULE.md)。單幀延遲、queued 交付延遲與吞吐分列，不設速度門檻 |
 | 即時影像串流（2026-11-05） | [FFmpeg／NVDEC／CUDA 前處理／track_stream](STREAMING.md) 已實作，CLI 預設 GPU 解碼，開發驗證獨立記錄。外部攝影機／RTSP 連線、多來源、重連與可變 dt 不由現有證書涵蓋 |
 

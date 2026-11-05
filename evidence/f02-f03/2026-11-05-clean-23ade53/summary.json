@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "formal_acceptance": true,
+  "source_dirty": false,
+  "revision": "23ade536906d07ccf09859f1b580b044dafe95dc",
+  "motion_profile": "v1-motion/1",
+  "cpu_tests": 16,
+  "cuda_tests": 59,
+  "m4_identical_outputs": 21,
+  "sanitizer_positive_controls": {
+    "memcheck": {
+      "exit": 99,
+      "diagnostic_matched": true
+    },
+    "initcheck": {
+      "exit": 99,
+      "diagnostic_matched": true
+    },
+    "racecheck": {
+      "exit": 99,
+      "diagnostic_matched": true
+    },
+    "synccheck": {
+      "exit": 99,
+      "diagnostic_matched": true
+    }
+  },
+  "supplemental_component_sanitizers": [
+    {
+      "suite": "resize_cuda_tests",
+      "tool": "memcheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "selective_scan_cuda_tests",
+      "tool": "memcheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "resize_cuda_tests",
+      "tool": "initcheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "selective_scan_cuda_tests",
+      "tool": "initcheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "resize_cuda_tests",
+      "tool": "racecheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "selective_scan_cuda_tests",
+      "tool": "racecheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "resize_cuda_tests",
+      "tool": "synccheck",
+      "exit": 0,
+      "kernel_filter": false
+    },
+    {
+      "suite": "selective_scan_cuda_tests",
+      "tool": "synccheck",
+      "exit": 0,
+      "kernel_filter": false
+    }
+  ],
+  "current_component_equivalence": {
+    "accepted_revision": "23ade536906d07ccf09859f1b580b044dafe95dc",
+    "current_revision": "23e2fbad218e6bb58184cd073adae97149e6c6f8",
+    "files": [
+      {
+        "path": "cuda/resize.cu",
+        "sha256": "ca95426dca12b06f6ff19dc04ae8ba30a651233312046f58967c01760f178d36",
+        "identical": true
+      },
+      {
+        "path": "cuda/selective_scan.cu",
+        "sha256": "e01c59a3ae15a9191a409b92ee26010e47655a5ae2092fb6c8fcfdc76ca72b83",
+        "identical": true
+      },
+      {
+        "path": "include/saccade/resize_cuda.hpp",
+        "sha256": "f4e3a0212823366391d333f2331eb5525a1fa1df7ada34a9dca901af1599214c",
+        "identical": true
+      },
+      {
+        "path": "include/saccade/selective_scan.hpp",
+        "sha256": "5c111a7d10d4a8c7581237786181cd48b05f2b7a368250529e982390991682db",
+        "identical": true
+      },
+      {
+        "path": "include/saccade/selective_scan_cuda.hpp",
+        "sha256": "27ec6eaa2847be117707cf236a70099b9f2679a9fd9969df8202695aa76c7e13",
+        "identical": true
+      },
+      {
+        "path": "tests/resize_cuda_tests.cpp",
+        "sha256": "437e4ca7a4e2d95c023f6b82850ad9d6856b2a15472360df5405591da412c0ef",
+        "identical": true
+      },
+      {
+        "path": "tests/selective_scan_cuda_tests.cpp",
+        "sha256": "10569992298787ee7b5ef8c4ae722b89a508582eaa21f8859c8fc4bbe3487d84",
+        "identical": true
+      },
+      {
+        "path": "tests/scan_cuda_suite.hpp",
+        "sha256": "df8bf4b99f71b642563dd5dc6c1c97d37a68ad637eabd3ce9020c634663449e3",
+        "identical": true
+      },
+      {
+        "path": "tools/resize_benchmark.cpp",
+        "sha256": "e9e397936ce615628963d8e9d5b1561c39a87043fccd0a488497624674abb4a6",
+        "identical": true
+      },
+      {
+        "path": "tools/scan_benchmark.cpp",
+        "sha256": "180b353a79f6534d76108c122caa0220d9f9b7bb23c6e06ce4349c950a67e49a",
+        "identical": true
+      }
+    ]
+  },
+  "g1_session_memcheck": "OPEN; this certificate does not close v1-motion/2",
+  "performance_abba": "UNEXECUTED; original dirty-source measurements retain their original identity",
+  "semantic_mutations": "UNEXECUTED in this capture; not required by the unchanged v1-motion/1 gate",
+  "full_hr_session_racecheck": "UNEXECUTED; standalone component checks and scoped session checks only",
+  "archive_schema": "f02-f03-clean-integration/1",
+  "certificate_scope": "23ade53 v1-motion/1 integration and standalone F02/scan sanitizer coverage",
+  "accepted_checkout": "/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-clean-20261105",
+  "current_component_equivalence_is_snapshot": true,
+  "ground_truth_scoring": "UNEXECUTED; no new GT scoring or independent evaluation",
+  "timing_scope": "single full-sequence observations; no ABBA or attributed speed ratio",
+  "frames": 5316,
+  "sequences": 7,
+  "deploy_engine_rebuilt": false,
+  "deploy_engine_original_build_provenance_retained": true,
+  "original_development_evidence": "unchanged; source_dirty=true and formal_acceptance=false retain their original meaning",
+  "excluded_payloads": "binaries, libraries, packets, tensors, output payloads, nsys reports and sqlite retained locally",
+  "local_artifacts_manifest": "local-artifacts.json"
+}

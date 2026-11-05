@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-clean-20261105/build/clean-acceptance/cuda/detect_sequence /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-02-SDP /home/ray/developer/ai/saccade_v1-worktrees/f02-f03-clean-20261105/build/clean-evaluation/scdr/MOT17-02-SDP.scdr --profile hr-1280x768 

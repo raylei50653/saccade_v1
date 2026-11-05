@@ -1,0 +1,47 @@
+{
+  "configure": {
+    "argv": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build/occlusion-ablation/cpu",
+      "-DCMAKE_BUILD_TYPE=Release"
+    ],
+    "exit_code": 0
+  },
+  "build": {
+    "argv": [
+      "cmake",
+      "--build",
+      "build/occlusion-ablation/cpu",
+      "--parallel",
+      "8"
+    ],
+    "exit_code": 0
+  },
+  "test": {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build/occlusion-ablation/cpu",
+      "--output-on-failure",
+      "--output-log",
+      "build/occlusion-ablation/ctest.log"
+    ],
+    "exit_code": 0,
+    "passed": 19,
+    "total": 19
+  },
+  "python_compile": {
+    "argv": [
+      "python3",
+      "-m",
+      "py_compile",
+      "scripts/run_occlusion_ablation.py"
+    ],
+    "exit_code": 0
+  },
+  "gpu_tests_executed": false,
+  "formal_acceptance": false
+}

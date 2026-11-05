@@ -157,7 +157,8 @@ DetectionBatch assemble_detection_batch(const DetectionCandidates& candidates, c
 }
 
 UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
-                                  const MotionContext& motion, const TrackerConfig& c) {
+                                  const MotionContext& motion, const TrackerConfig& c,
+                                  const AssociationCostHook& hook) {
     UpdateResult out;
     out.error = predicted.error | batch.error;
     if (batch.epoch != predicted.epoch || motion.epoch != predicted.epoch ||
@@ -195,7 +196,8 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
                 if (!math::finite(overlap)) { out.error = Error::numeric; return out; }
                 if (overlap <= 0) continue;
                 const float h = d.xyxy[3] - d.xyxy[1], w = d.xyxy[2] - d.xyxy[0];
-                const float cost = math::association_cost(overlap, t.x[3], h, c.assoc.lambda, c.assoc.stability_cost_w);
+                const float cost = hook ? hook(t, d, overlap) :
+                    math::association_cost(overlap, t.x[3], h, c.assoc.lambda, c.assoc.stability_cost_w);
                 const float p = math::association_value(cost, w, h, c.assoc.lambda);
                 if (!math::finite(cost) || !math::finite(p)) { out.error = Error::numeric; return out; }
                 if (cost <= (stage == 3 ? c.assoc.stage2_match_thresh : c.assoc.match_thresh))

@@ -1,0 +1,153 @@
+diff --git a/README.md b/README.md
+index c18d949..1bddfdd 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,11 @@
+ 
+ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC → geometry-first／ReID-free tracking → MOT 輸出。runtime 不依賴 Python；模型訓練與匯出使用 PyTorch／Python。專案從零重寫，以舊架構作設計基線，不復用舊 runtime 程式或遷移舊實驗數據。
+ 
+-文件狀態更新：**2026-11-04**。目前部署為 **HR 1280×768 FP16**，M0–M4 完成，**P01 CLOSED（有範圍）**。CUDA Graph 預設啟用；[最新 clean-source 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)保留原受測來源。後續 F02／F03 加速已完成[七序列完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)：5,316 幀、21/21 份輸出與 M4 相同，重新計分的品質指標不變，吞吐 195.85 FPS；本次為 M4 之後的開發來源重測。完整判定、來源版本與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
++文件狀態更新：**2026-11-05**。目前部署為 **HR 1280×768 FP16**，CUDA Graph 預設啟用，GMC 已採 **G1 NVOFA／v1-motion/2**。M0–M4 完成，**P01 CLOSED（有範圍）**；後續 [G1 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍為 OPEN，其餘八步通過。
++
++原 [CUDA Graph 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)與 [F02／F03 加速後七序列 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)保留各自受測來源與 motion profile；後者 5,316 幀、21/21 份輸出與 M4 相同，品質不變，吞吐 195.85 FPS，屬 M4 之後的開發來源證據。
++
++[OAO duration-ramp／front-occluder 四臂消融](evidence/occlusion/2026-11-05/REPORT.md)只用 MOT17-10 val 的固定輸入 CPU replay，舊 preset 參數未改善關聯，未加入部署預設。完整判定與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
+ 
+ ## 文件分組
+ 
+@@ -76,6 +80,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
+ 
+ | 證據 | 狀態與閱讀重點 |
+ | --- | --- |
++| [G1 NVOFA／v1-motion/2 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) | 完整 session memcheck OPEN（Bug 7048273），其餘八步通過；runtime 已整合，原證據與支援邊界保留 |
+ | [最新 CUDA Graph 分支正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) | 乾淨 `4329ed7`／`d21a144`；F04、tracking、stream 守門與 M4 21/21 輸出比對 PASS |
+ | [加速後完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md) | F02 fusion／F03 特化；CPU 16/16、CUDA 59/59、有範圍 sanitizer 及七序列守門 PASS；5,316 幀、M4 輸出 21/21 相同、品質不變，吞吐 195.85 FPS；非 clean-source 正式證書 |
+ | [M4 正式評估與 P01](evidence/m4/2026-11-03-formal-cad5298/REPORT.md) | `cad5298`；P01 CLOSED（有範圍），MOT17-02 HOTA 40.6／AP50 72.91%；品質只作記錄 |
+@@ -85,6 +90,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
+ | [F01／F02 使用驗收](evidence/preprocess/2026-10-31-usage/REPORT.md)／[detection session 開發驗證](evidence/detection-session/2026-10-31/REPORT.md) | 各自固定輸入、輸出等價與資源重用範圍 |
+ | [CUDA Graph 開發量測](evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms；保留開發來源與首幀成本，不混作正式驗收測時 |
+ | [Tracking 排序開發量測](evidence/tracking-sort/2026-11-04/REPORT.md) | F04b replay 143.57→102.81 µs；完整吞吐幾乎不變，不宣稱穩定端到端收益 |
++| [OAO／front-occluder 消融](evidence/occlusion/2026-11-05/REPORT.md) | HR＋G1 的 MOT17-10 四臂 CPU replay；舊固定參數未改善關聯，未加入部署預設；CPU 19/19、baseline packets／MOT bytes 相同 |
+ | [硬體資源與階段延遲](evidence/resource-schedule/2026-11-04/REPORT.md)／[排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md) | 單幀平均 6.988 ms、queued 吞吐約 184.8 FPS；2 格 ring 的單次交付延遲 10.740 ms；完整 HR racecheck 曾 OOM／timeout，限制保留 |
+ | [Kernel 資料格式與 cache 分析](evidence/kernel-analysis/2026-11-04/REPORT.md) | 現行 source 的 buffer 大小／strides、47 個函式編譯資源、隔離 cache counters，以及後續 fusion／shared／L2 復用候選；尚未修改 runtime |
+ | [HR F02 tile fusion 開發量測](evidence/f02-fusion/2026-11-04/REPORT.md) | 固定 1920×1080→1280×768 的 F02 interval 149.06→89.76 µs；queued 5.367→5.312 ms/frame。128 組 bitwise、60/60 CTest 與有範圍 sanitizer 通過；workspace 容量仍保留，尚非 clean-source 正式驗收 |
+diff --git a/cmake/TrackOffline.cmake b/cmake/TrackOffline.cmake
+index 21d6069..078cabd 100644
+--- a/cmake/TrackOffline.cmake
++++ b/cmake/TrackOffline.cmake
+@@ -4,3 +4,23 @@ target_link_libraries(track_offline PRIVATE saccade_tracking_reference saccade_m
+ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+   target_compile_options(track_offline PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+ endif()
++
++# CPU research only: optional occlusion costs against fixed detection/motion
++# records. Native tracker defaults and CUDA state/config are unchanged.
++add_library(saccade_occlusion_experiment src/occlusion_experiment.cpp)
++target_link_libraries(saccade_occlusion_experiment PUBLIC saccade_tracking_reference)
++add_executable(occlusion_ablation tools/occlusion_ablation.cpp)
++target_link_libraries(occlusion_ablation PRIVATE saccade_occlusion_experiment saccade_motion saccade_mot_output saccade_file_io)
++add_executable(occlusion_experiment_tests tests/occlusion_experiment_tests.cpp)
++target_link_libraries(occlusion_experiment_tests PRIVATE saccade_occlusion_experiment)
++if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
++  foreach(target saccade_occlusion_experiment occlusion_ablation occlusion_experiment_tests)
++    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
++  endforeach()
++endif()
++add_test(NAME occlusion_experiment COMMAND occlusion_experiment_tests)
++add_test(NAME occlusion_ablation_cli
++  COMMAND ${CMAKE_COMMAND}
++    -DPROGRAM=$<TARGET_FILE:occlusion_ablation>
++    -DFIXTURE_DIR=${CMAKE_CURRENT_BINARY_DIR}/occlusion-cli-fixtures
++    -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/OcclusionAblationCliTest.cmake)
+diff --git a/docs/STATUS.md b/docs/STATUS.md
+index 9e20953..2f4d8a9 100644
+--- a/docs/STATUS.md
++++ b/docs/STATUS.md
+@@ -1,6 +1,10 @@
+ # Saccade v1 目前狀態與文件狀態
+ 
+-更新日期：2026-11-04。依目前 checkout 的文件、正式報告與驗收腳本整理；最新 F02／F03 加速的完整 MOT 開發重測與原 clean-source 正式證書分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
++更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速的完整 MOT 開發重測與原 clean-source 正式證書分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
++
++2026-11-05 接續：目前 TrackingSession GMC 已採 [G1 NVOFA／v1-motion/2（TRACKING §20）](TRACKING.md)；該輪驗收除完整 session memcheck OPEN 外，其餘八步通過，依 [原報告](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) 判定。以下較早正式證書仍保留各自來源與 motion profile。
++
++本輪 [OAO duration-ramp／front-occluder 消融](../evidence/occlusion/2026-11-05/REPORT.md)只讀 MOT17-10 val；四臂 CPU replay 未見收益，both 的 HOTA 50.869→50.634、IDF1 64.975→62.998、IDSW 56→67，**不加入部署預設**。CPU 19/19、baseline 654 幀 packet 與 MOT bytes 相同；非 CUDA／session／效能驗收。
+ 
+ ## 目前部署與最新判定
+ 
+diff --git a/docs/TRACKING.md b/docs/TRACKING.md
+index c62ff10..2bc2906 100644
+--- a/docs/TRACKING.md
++++ b/docs/TRACKING.md
+@@ -1,6 +1,6 @@
+ # Tracking 半段規格（F05–F09）
+ 
+-規格日期：2026-11-03；文件狀態更新：2026-11-04。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序改版已完成最新 clean-source 驗收（§19）。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
++規格日期：2026-11-03；文件狀態更新：2026-11-05。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序的 clean-source 驗收見 §19，目前 G1 GMC 與 memcheck OPEN 見 §20，OAO／front 的 val 負結果見 §21。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
+ 
+ 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
+ 
+@@ -626,3 +626,14 @@ A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路
+ **結果（2026-11-05）**：**未完全通過**（fae5cb7，乾淨 worktree，約 41 分鐘）。第 6 步完整 session memcheck 的 exit 99 記為 OPEN（[Bug 7048273](https://developer.nvidia.com/bugs/7048273)），其餘八步通過；吞吐總計 +2.70%。證據見 [evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)。
+ 
+ **合併時的調整（2026-11-05）**：runtime source 與上述驗收相同。Records 搬到 `../saccade_v1-worktrees/m1-data-v2/` 與 `../saccade_v1-worktrees/hr-records-v2/`，bytes 不變。CTest 的 `SACCADE_TRACKING_RECORDS` 沒有預設值，由驗收腳本傳入。M4 的 `scripts/run_mot17_evaluation.sh` 已停用：它的預期雜湊與 SCMO 屬 `v1-motion/1`，檢查內容由第 3–5 步取代。
++
++## 21. OAO／front-occluder 本地消融（2026-11-05）
++
++依 §1 只使用 MOT17-10 val，在目前 HR＋G1＋bridge 基準做 baseline／OAO only／front only／both 四臂 CPU replay。
++固定舊 preset 的 tau 0.50、duration ramp 25、front IoU 0.45／foot gap 0.15／TTL 4／weight 0.50，未掃描參數。
++HOTA 依序為 50.869／50.548／50.864／50.634，IDF1 為 64.975／63.218／64.915／62.998，IDSW 為 56／60／56／67。
++**本輪不採用**；保留 CPU 實驗工具，CUDA 與部署預設未加入遮擋項。
++
++事前規格、公式、來源 hash、完整指標、diagnostics 與重跑入口見 [實驗報告](../evidence/occlusion/2026-11-05/REPORT.md)。
++全新 CPU CTest 19/19；baseline 654 幀完整 packet 與原 reference 相同、MOT 與 G1 baseline bytes 相同。
++本次為開發來源，未跑新的 CUDA parity／session／效能 gate，不改寫既有正式證書或 NVOF memcheck OPEN。
+diff --git a/include/saccade/tracking.hpp b/include/saccade/tracking.hpp
+index 0e28e36..30259cf 100644
+--- a/include/saccade/tracking.hpp
++++ b/include/saccade/tracking.hpp
+@@ -125,6 +125,10 @@ struct BatchDetection {
+     std::uint32_t class_id = 0, candidate_id = 0;
+     bool can_continue = false, can_birth = false;
+ };
++// Experiment-only CPU association control. The hook receives the predicted
++// track, candidate detection and their already-computed IoU. An empty hook
++// preserves the stock cost arithmetic and all native CUDA behavior.
++using AssociationCostHook = std::function<float(const Track&, const BatchDetection&, float overlap)>;
+ struct DetectionBatch {
+     Epoch epoch = 0;
+     FrameId frame = no_frame;
+@@ -143,7 +147,8 @@ struct UpdateResult {
+     Error error = Error::none;
+ };
+ UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
+-                                  const MotionContext& motion, const TrackerConfig& config);
++                                  const MotionContext& motion, const TrackerConfig& config,
++                                  const AssociationCostHook& hook = {});
+ 
+ // Serial CPU session: F08a -> F04b -> F07/F08b -> commit/packet per frame with
+ // the RESULT_PACKET status model (first failure FAILED, then
+diff --git a/src/tracking_reference.cpp b/src/tracking_reference.cpp
+index 84794e4..4e3d6d8 100644
+--- a/src/tracking_reference.cpp
++++ b/src/tracking_reference.cpp
+@@ -157,7 +157,8 @@ DetectionBatch assemble_detection_batch(const DetectionCandidates& candidates, c
+ }
+ 
+ UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
+-                                  const MotionContext& motion, const TrackerConfig& c) {
++                                  const MotionContext& motion, const TrackerConfig& c,
++                                  const AssociationCostHook& hook) {
+     UpdateResult out;
+     out.error = predicted.error | batch.error;
+     if (batch.epoch != predicted.epoch || motion.epoch != predicted.epoch ||
+@@ -195,7 +196,8 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
+                 if (!math::finite(overlap)) { out.error = Error::numeric; return out; }
+                 if (overlap <= 0) continue;
+                 const float h = d.xyxy[3] - d.xyxy[1], w = d.xyxy[2] - d.xyxy[0];
+-                const float cost = math::association_cost(overlap, t.x[3], h, c.assoc.lambda, c.assoc.stability_cost_w);
++                const float cost = hook ? hook(t, d, overlap) :
++                    math::association_cost(overlap, t.x[3], h, c.assoc.lambda, c.assoc.stability_cost_w);
+                 const float p = math::association_value(cost, w, h, c.assoc.lambda);
+                 if (!math::finite(cost) || !math::finite(p)) { out.error = Error::numeric; return out; }
+                 if (cost <= (stage == 3 ? c.assoc.stage2_match_thresh : c.assoc.match_thresh))

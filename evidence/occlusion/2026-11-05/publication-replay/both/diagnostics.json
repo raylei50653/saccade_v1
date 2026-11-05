@@ -1,0 +1,11 @@
+{
+  "arm": "both",
+  "scope": "CPU fixed-input development replay; no GPU or end-to-end timing",
+  "formal_acceptance": false,
+  "tracker_config": "kalman.r_scale=0x1.cp+1\u000akalman.std_position=0x1.99999ap-5\u000akalman.std_velocity=0x1.99999ap-8\u000abatch.track_thresh=0x1.99999ap-5\u000acontinuation.enabled=1\u000acontinuation.min_score=0x1.99999ap-4\u000acontinuation.prior_iou=0x1.333334p-2\u000acontinuation.dedup_iou=0x1.666666p-1\u000acontinuation.max_candidates=50\u000aassoc.high_thresh=0x1.ccccccp-2\u000aassoc.mid_thresh=0x1.99999ap-4\u000aassoc.match_thresh=0x1p-1\u000aassoc.stage2_match_thresh=0x1p-1\u000aassoc.lambda=0x1.4p+3\u000aassoc.stability_cost_w=0x1.99999ap-3\u000aassoc.top_k=3\u000aassoc.auction_eps=0x1.47ae14p-7\u000aassoc.stability_bid_w=0x1.99999ap-4\u000alife.new_track_thresh=0x1.1eb852p-2\u000alife.confirm_streak=3\u000alife.confirm_score=0x1p-1\u000alife.track_buffer=30\u000abridge.enabled=1\u000abridge.trigger_streak=4\u000abridge.min_lost=2\u000abridge.max_distance=0x1.99999ap-2\u000abridge.height_ratio_lo=0x1.333334p-1\u000abridge.height_ratio_hi=0x1.b33334p+0\u000abridge.margin=0x1.99999ap-5\u000abridge.speed_norm=0x1.eb851ep-4\u000a",
+  "occlusion_config": {"oao_enabled": true, "front_enabled": true, "oao_tau": 0.5, "oao_ramp_frames": 25, "front_iou_thresh": 0.449999988, "front_foot_gap": 0.150000006, "front_ttl": 4, "front_cost_weight": 0.5},
+  "frames": 654, "mot_rows": 11318, "interpolated_rows": 986, "ids": 104,
+  "baseline_packet_comparisons": 0,
+  "cpu_replay_ms_including_baseline_oracle": 22.055225,
+  "diagnostics": {"frames": 654, "overlapped_track_frames": 10956, "front_latched_track_frames": 1293, "cost_calls": 24961, "oao_positive_calls": 20827, "front_positive_calls": 1683}
+}

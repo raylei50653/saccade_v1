@@ -1,6 +1,6 @@
 # Tracking 半段規格（F05–F09）
 
-規格日期：2026-11-03；文件狀態更新：2026-11-04。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序改版已完成最新 clean-source 驗收（§19）。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
+規格日期：2026-11-03；文件狀態更新：2026-11-05。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序的 clean-source 驗收見 §19，目前 G1 GMC 與 memcheck OPEN 見 §20，OAO／front 的 val 負結果見 §21。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
 
 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
 
@@ -626,3 +626,15 @@ A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路
 **結果（2026-11-05）**：**未完全通過**（fae5cb7，乾淨 worktree，約 41 分鐘）。第 6 步完整 session memcheck 的 exit 99 記為 OPEN（[Bug 7048273](https://developer.nvidia.com/bugs/7048273)），其餘八步通過；吞吐總計 +2.70%。證據見 [evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)。
 
 **合併時的調整（2026-11-05）**：runtime source 與上述驗收相同。Records 搬到 `../saccade_v1-worktrees/m1-data-v2/` 與 `../saccade_v1-worktrees/hr-records-v2/`，bytes 不變。CTest 的 `SACCADE_TRACKING_RECORDS` 沒有預設值，由驗收腳本傳入。M4 的 `scripts/run_mot17_evaluation.sh` 已停用：它的預期雜湊與 SCMO 屬 `v1-motion/1`，檢查內容由第 3–5 步取代。
+
+## 21. OAO／front-occluder 本地消融（2026-11-05）
+
+依 §1 只使用 MOT17-10 val，在目前 HR＋G1＋bridge 基準做 baseline／OAO only／front only／both 四臂 CPU replay。
+固定舊 preset 的 tau 0.50、duration ramp 25、front IoU 0.45／foot gap 0.15／TTL 4／weight 0.50，未掃描參數。
+HOTA 依序為 50.869／50.548／50.864／50.634，IDF1 為 64.975／63.218／64.915／62.998，IDSW 為 56／60／56／67。
+**本輪不採用**；保留 CPU 實驗工具，CUDA 與部署預設未加入遮擋項。
+
+事前規格、公式、來源 hash、完整指標、diagnostics 與重跑入口見 [實驗報告](../evidence/occlusion/2026-11-05/REPORT.md)。
+原實驗全新 CPU CTest 19/19；交付前補上 CLI 輸出路徑檢查後完整 CPU CTest 20/20。
+baseline 654 幀完整 packet 與原 reference 相同、MOT 與 G1 baseline bytes 相同；補驗四臂 MOT 均與原計分版本逐位元相同，未重新讀 GT。
+本次為開發來源，未跑新的 CUDA parity／session／效能 gate，不改寫既有正式證書或 NVOF memcheck OPEN。

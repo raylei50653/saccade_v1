@@ -2,7 +2,11 @@
 
 Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC → geometry-first／ReID-free tracking → MOT 輸出。runtime 不依賴 Python；模型訓練與匯出使用 PyTorch／Python。專案從零重寫，以舊架構作設計基線，不復用舊 runtime 程式或遷移舊實驗數據。
 
-文件狀態更新：**2026-11-04**。目前部署為 **HR 1280×768 FP16**，M0–M4 完成，**P01 CLOSED（有範圍）**。CUDA Graph 預設啟用；[最新 clean-source 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)保留原受測來源。後續 F02／F03 加速已完成[七序列完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)：5,316 幀、21/21 份輸出與 M4 相同，重新計分的品質指標不變，吞吐 195.85 FPS；本次為 M4 之後的開發來源重測。完整判定、來源版本與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
+文件狀態更新：**2026-11-05**。目前部署為 **HR 1280×768 FP16**，CUDA Graph 預設啟用，GMC 已採 **G1 NVOFA／v1-motion/2**。M0–M4 完成，**P01 CLOSED（有範圍）**；後續 [G1 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍為 OPEN，其餘八步通過。
+
+原 [CUDA Graph 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)與 [F02／F03 加速後七序列 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)保留各自受測來源與 motion profile；後者 5,316 幀、21/21 份輸出與 M4 相同，品質不變，吞吐 195.85 FPS，屬 M4 之後的開發來源證據。
+
+[OAO duration-ramp／front-occluder 四臂消融](evidence/occlusion/2026-11-05/REPORT.md)只用 MOT17-10 val 的固定輸入 CPU replay，舊 preset 參數未改善關聯，未加入部署預設。完整判定與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
 
 ## 文件分組
 
@@ -76,6 +80,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
 
 | 證據 | 狀態與閱讀重點 |
 | --- | --- |
+| [G1 NVOFA／v1-motion/2 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) | 完整 session memcheck OPEN（Bug 7048273），其餘八步通過；runtime 已整合，原證據與支援邊界保留 |
 | [最新 CUDA Graph 分支正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) | 乾淨 `4329ed7`／`d21a144`；F04、tracking、stream 守門與 M4 21/21 輸出比對 PASS |
 | [加速後完整 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md) | F02 fusion／F03 特化；CPU 16/16、CUDA 59/59、有範圍 sanitizer 及七序列守門 PASS；5,316 幀、M4 輸出 21/21 相同、品質不變，吞吐 195.85 FPS；非 clean-source 正式證書 |
 | [M4 正式評估與 P01](evidence/m4/2026-11-03-formal-cad5298/REPORT.md) | `cad5298`；P01 CLOSED（有範圍），MOT17-02 HOTA 40.6／AP50 72.91%；品質只作記錄 |
@@ -85,6 +90,7 @@ Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC →
 | [F01／F02 使用驗收](evidence/preprocess/2026-10-31-usage/REPORT.md)／[detection session 開發驗證](evidence/detection-session/2026-10-31/REPORT.md) | 各自固定輸入、輸出等價與資源重用範圍 |
 | [CUDA Graph 開發量測](evidence/cuda-graph/2026-11-04/REPORT.md) | 單幀平均 8.59→7.06 ms；保留開發來源與首幀成本，不混作正式驗收測時 |
 | [Tracking 排序開發量測](evidence/tracking-sort/2026-11-04/REPORT.md) | F04b replay 143.57→102.81 µs；完整吞吐幾乎不變，不宣稱穩定端到端收益 |
+| [OAO／front-occluder 消融](evidence/occlusion/2026-11-05/REPORT.md) | HR＋G1 的 MOT17-10 四臂 CPU replay；舊固定參數未改善關聯，未加入部署預設；交付前 CPU 20/20、baseline packets／四臂 MOT bytes 相同 |
 | [硬體資源與階段延遲](evidence/resource-schedule/2026-11-04/REPORT.md)／[排程表](evidence/resource-schedule/2026-11-04/SCHEDULE.md) | 單幀平均 6.988 ms、queued 吞吐約 184.8 FPS；2 格 ring 的單次交付延遲 10.740 ms；完整 HR racecheck 曾 OOM／timeout，限制保留 |
 | [Kernel 資料格式與 cache 分析](evidence/kernel-analysis/2026-11-04/REPORT.md) | 現行 source 的 buffer 大小／strides、47 個函式編譯資源、隔離 cache counters，以及後續 fusion／shared／L2 復用候選；尚未修改 runtime |
 | [HR F02 tile fusion 開發量測](evidence/f02-fusion/2026-11-04/REPORT.md) | 固定 1920×1080→1280×768 的 F02 interval 149.06→89.76 µs；queued 5.367→5.312 ms/frame。128 組 bitwise、60/60 CTest 與有範圍 sanitizer 通過；workspace 容量仍保留，尚非 clean-source 正式驗收 |

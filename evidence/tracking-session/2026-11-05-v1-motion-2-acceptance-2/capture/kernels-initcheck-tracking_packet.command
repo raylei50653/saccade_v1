@@ -1,0 +1,1 @@
+/opt/cuda/bin/compute-sanitizer --tool initcheck --error-exitcode 99 --check-api-memory-access no /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/cuda/tracking_packet_tests 

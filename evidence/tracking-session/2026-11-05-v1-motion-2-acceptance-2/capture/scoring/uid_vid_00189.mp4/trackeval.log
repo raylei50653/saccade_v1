@@ -1,0 +1,31 @@
+
+CLEAR Config:
+THRESHOLD            : 0.5                           
+PRINT_CONFIG         : True                          
+
+Identity Config:
+THRESHOLD            : 0.5                           
+PRINT_CONFIG         : True                          
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating v1
+
+
+HOTA: v1-pedestrian                HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+uid_vid_00189.mp4                  41.638    42.886    40.889    61.473    52.783    46.978    68.044    79.884    50.053    63.42     67.626    42.888    
+COMBINED                           41.638    42.886    40.889    61.473    52.783    46.978    68.044    79.884    50.053    63.42     67.626    42.888    
+
+CLEAR: v1-pedestrian               MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+uid_vid_00189.mp4                  18.14     79.79     21.189    68.826    59.097    33.333    57.143    9.5238    4.2304    903       409       625       40        7         12        2         54        
+COMBINED                           18.14     79.79     21.189    68.826    59.097    33.333    57.143    9.5238    4.2304    903       409       625       40        7         12        2         54        
+
+Identity: v1-pedestrian            IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+uid_vid_00189.mp4                  47.606    51.524    44.241    676       636       852       
+COMBINED                           47.606    51.524    44.241    676       636       852       
+
+Count: v1-pedestrian               Dets      GT_Dets   IDs       GT_IDs    
+uid_vid_00189.mp4                  1528      1312      60        21        
+COMBINED                           1528      1312      60        21        
+RESULT HOTA=41.638 DetA=42.886 AssA=40.889 IDF1=47.606 MOTA=18.14 IDSW=40

@@ -1,0 +1,1 @@
+bash -c date\ -Is\;\ uname\ -srmo\;\ cmake\ --version\;\ c++\ --version\;\ \"\$1\"\ --version\;\ \"\$2\"\ --version\;\ nsys\ --version\;\ nvidia-smi\ --query-gpu=name\,uuid\,driver_version\,memory.free\ --format=csv\;\ sha256sum\ /usr/lib/wsl/lib/libnvidia-opticalflow.so.1\ /usr/lib/wsl/lib/libnvcuvid.so.1 _ /opt/cuda/bin/nvcc /opt/cuda/bin/compute-sanitizer 

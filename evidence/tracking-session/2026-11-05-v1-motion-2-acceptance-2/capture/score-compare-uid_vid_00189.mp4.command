@@ -1,0 +1,1 @@
+python3 -I scripts/tracking_session_acceptance.py score uid_vid_00189.mp4 /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/score/uid_vid_00189.mp4/trackeval/results/v1/pedestrian_detailed.csv - /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/capture/scores.csv 

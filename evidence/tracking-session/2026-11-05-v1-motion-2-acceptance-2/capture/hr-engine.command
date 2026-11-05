@@ -1,0 +1,1 @@
+bash -c \[\[\ \$\(sha256sum\ \<\ \"\$1\"\ \|\ cut\ -d\"\ \"\ -f1\)\ ==\ 8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876\ \]\] _ /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine 

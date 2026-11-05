@@ -1,0 +1,1 @@
+/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/cuda/track_sequence /home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine /home/ray/developer/ai/saccade/datasets/PersonPath22/mot_test_kf/uid_vid_00201.mp4 /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/pp22/uid_vid_00201.mp4.txt --profile hr-1280x768 

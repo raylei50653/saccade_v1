@@ -622,3 +622,5 @@ A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路
 9. **Evidence report**：同 §14.5 第 5 項，另附 §20.6 的結果。
 
 **不涵蓋**：OFA 內部的 sanitizer、MEDIUM／FAST 的品質、局部光流臂。
+
+**結果（2026-11-05）**：**未完全通過**（fae5cb7，乾淨 worktree，約 41 分鐘）。第 6 步完整 session memcheck 的 exit 99 記為 OPEN（[Bug 7048273](https://developer.nvidia.com/bugs/7048273)），其餘八步通過；吞吐總計 +2.70%。證據見 [evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)。

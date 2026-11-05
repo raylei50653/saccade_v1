@@ -1,0 +1,1 @@
+bash -c \[\[\ \$\(sha256sum\ \<\ \"\$1\"\ \|\ cut\ -d\"\ \"\ -f1\)\ ==\ c6cff1936194e679ce11c3736cab552e4a73a2b1a9ae5508bc3e5d1b3fbab9c5\ \]\] _ /home/ray/developer/ai/saccade_v1/build/t01-f03-evidence/stage/model.engine 

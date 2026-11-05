@@ -1,0 +1,1 @@
+bash -c cd\ \"\$1\"\;\ sha256sum\ -c\ \"\$2\" _ /home/ray/developer/ai/saccade_v1/build/preprocess-evidence/refs /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/evidence/preprocess/2026-10-31/capture/reference-hashes.log 

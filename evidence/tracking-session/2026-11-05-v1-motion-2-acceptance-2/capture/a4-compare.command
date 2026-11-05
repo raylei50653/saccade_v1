@@ -1,0 +1,1 @@
+cmp /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/MOT17-10-SDP.scfl /home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/../gmc-flow/build/gmc-flow/flow/MOT17-10-SDP.scfl 

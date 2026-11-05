@@ -624,3 +624,5 @@ A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路
 **不涵蓋**：OFA 內部的 sanitizer、MEDIUM／FAST 的品質、局部光流臂。
 
 **結果（2026-11-05）**：**未完全通過**（fae5cb7，乾淨 worktree，約 41 分鐘）。第 6 步完整 session memcheck 的 exit 99 記為 OPEN（[Bug 7048273](https://developer.nvidia.com/bugs/7048273)），其餘八步通過；吞吐總計 +2.70%。證據見 [evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)。
+
+**合併時的調整（2026-11-05）**：runtime source 與上述驗收相同。Records 搬到 `../saccade_v1-worktrees/m1-data-v2/` 與 `../saccade_v1-worktrees/hr-records-v2/`，bytes 不變。CTest 的 `SACCADE_TRACKING_RECORDS` 沒有預設值，由驗收腳本傳入。M4 的 `scripts/run_mot17_evaluation.sh` 已停用：它的預期雜湊與 SCMO 屬 `v1-motion/1`，檢查內容由第 3–5 步取代。

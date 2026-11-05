@@ -4,6 +4,11 @@
 # at the same commit, then every gate that does not read ground truth. Only
 # score_mot17_evaluation.sh reads GT, after this script writes gates.txt.
 # Run it under the GPU lock.
+#
+# Retired by docs/TRACKING.md §20: its expected MOT hashes and SCMO records are
+# v1-motion/1. To rerun M4, check out its commit, cad5298.
+echo 'retired: the session runs v1-motion/2; use run_tracking_session_acceptance.sh (TRACKING §20.8 steps 3-5)' >&2
+exit 2
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 usage() { echo 'usage: run_mot17_evaluation.sh ACCEPTANCE_DIR build/NEW-OUTPUT [--allow-dirty]' >&2; exit 2; }

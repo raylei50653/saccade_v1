@@ -1,0 +1,108 @@
+{
+  "source_commit": "ddb9750e2ff26402455fe5a7684bfbbf5792319d",
+  "source_dirty": true,
+  "formal_acceptance": false,
+  "binary_inputs_sha256": {
+    "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-cpu/tracking_event_trace": "00d579e31e1d698c5cad854c64280ee0767702a164ea6aa75cdfcfefed9416ea",
+    "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scdr": "98e2554f1b1db179bfd756fb1dbd37ee694e912d6debb2c7a11c3a610a433a6f",
+    "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scmo": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+    "/home/ray/developer/ai/saccade_v1/evidence/occlusion/2026-11-05/run/baseline/MOT17-10-SDP.txt": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f"
+  },
+  "commands": [
+    {
+      "label": "ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-cpu",
+        "--output-on-failure"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "event-tests",
+      "argv": [
+        "/home/ray/developer/ai/saccade/.venv/bin/python",
+        "/home/ray/developer/ai/saccade_v1/tests/tracking_events_tests.py"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "trace",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-cpu/tracking_event_trace",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "extract",
+      "argv": [
+        "/home/ray/developer/ai/saccade/.venv/bin/python",
+        "/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py",
+        "--trace",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace",
+        "--baseline",
+        "/home/ray/developer/ai/saccade_v1/evidence/occlusion/2026-11-05/run/baseline/MOT17-10-SDP.txt",
+        "--output",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-viewer"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "existing-trace",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-cpu/tracking_event_trace",
+        "missing.scdr",
+        "missing.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace"
+      ],
+      "exit": 1
+    },
+    {
+      "label": "existing-viewer",
+      "argv": [
+        "/home/ray/developer/ai/saccade/.venv/bin/python",
+        "/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py",
+        "--trace",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace",
+        "--baseline",
+        "/home/ray/developer/ai/saccade_v1/evidence/occlusion/2026-11-05/run/baseline/MOT17-10-SDP.txt",
+        "--output",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-viewer"
+      ],
+      "exit": 2
+    },
+    {
+      "label": "tampered-baseline",
+      "argv": [
+        "/home/ray/developer/ai/saccade/.venv/bin/python",
+        "/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py",
+        "--trace",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace",
+        "--baseline",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-tampered.txt",
+        "--output",
+        "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-rejected"
+      ],
+      "exit": 1
+    }
+  ],
+  "status": "complete",
+  "inputs_binary_sources_unchanged": true,
+  "original_evidence_unchanged": true,
+  "event_csv_json_unchanged": true,
+  "packet_to_mot_bytes_equal": true,
+  "one_based_track_frames_checked": true,
+  "concurrent_exits": [
+    0,
+    1
+  ],
+  "payload_sha256": {
+    "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace/trace.jsonl": "07a4114581ce74ba36514c18e7f9d82bb5233631c27d41fea7c592261c188bf2",
+    "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-trace/MOT17-10-SDP.txt": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+    "/home/ray/developer/ai/saccade_v1/build/tracking-events/publication-viewer/index.html": "58d0a58c6ea389884244d472b5dee8e825650b4408cd8be6caf3ae3710b2e454"
+  }
+}

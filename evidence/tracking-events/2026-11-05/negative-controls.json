@@ -1,0 +1,28 @@
+[
+  {
+    "argv": [
+      "build/tracking-events/cpu/tracking_event_trace",
+      "missing.scdr",
+      "missing.scmo",
+      "build/tracking-events/val-trace-final"
+    ],
+    "exit": 1,
+    "stdout": "",
+    "stderr": "output already exists\n"
+  },
+  {
+    "argv": [
+      "/home/ray/developer/ai/saccade/.venv/bin/python",
+      "scripts/tracking_events.py",
+      "--trace",
+      "build/tracking-events/val-trace-final",
+      "--baseline",
+      "/home/ray/developer/ai/saccade_v1/build/tracking-events/tampered-mot.txt",
+      "--output",
+      "build/tracking-events/rejected-tamper"
+    ],
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py\", line 240, in <module>\n    main()\n  File \"/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py\", line 109, in main\n    raise ValueError('traced MOT differs from frozen G1 baseline')\nValueError: traced MOT differs from frozen G1 baseline\n"
+  }
+]

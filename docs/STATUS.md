@@ -6,6 +6,8 @@
 
 本輪 [OAO duration-ramp／front-occluder 消融](../evidence/occlusion/2026-11-05/REPORT.md)只讀 MOT17-10 val；四臂 CPU replay 未見收益，both 的 HOTA 50.869→50.634、IDF1 64.975→62.998、IDSW 56→67，**不加入部署預設**。交付前 CPU 20/20、baseline 654 幀 packet 相同、補上 CLI 檢查後四臂 MOT bytes 相同；非 CUDA／session／效能驗收。
 
+本輪 [MOT17-10 IDSW／斷軌回放](../evidence/tracking-events/2026-11-05/REPORT.md)核對 56 次 IDSW、150 次 CLEAR Frag，合併後 159 個事件另加 10 個末段未接回。654/654 CPU packets 與 stock reference 相同，MOT 與 G1 baseline bytes 相同；提供本機互動回放與候選／batch／track／成本線索，尚非因果歸因，未更改部署。
+
 ## 目前部署與最新判定
 
 目前路徑為 **JPEG sequence → F01／F02 → F03／F04 → F05–F09 tracking → MOT**；部署模型為 **HR 1280×768 FP16**，scan plugins 與模型 input／raw outputs 維持 FP32。部署 engine 以 SHA-256 `8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876` 固定；來源、精度、shape binding 與支援邊界見 [TRACKING §15–§17](TRACKING.md#15-d1hr-偵測器部署2026-11-03-使用者核准)。

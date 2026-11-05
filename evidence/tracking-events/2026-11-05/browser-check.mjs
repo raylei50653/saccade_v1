@@ -1,0 +1,27 @@
+import fs from 'node:fs';
+const pages=await (await fetch('http://localhost:9339/json')).json();
+const ws=new WebSocket(pages[0].webSocketDebuggerUrl);await new Promise(r=>ws.onopen=r);
+let id=0;const pending=new Map(),errors=[];
+ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(m.error):p.resolve(m.result)}else if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails)};
+const call=(method,params={})=>new Promise((resolve,reject)=>{const k=++id;pending.set(k,{resolve,reject});ws.send(JSON.stringify({id:k,method,params}))});
+const evaluate=async expression=>{const x=await call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(x.exceptionDetails)throw x.exceptionDetails;return x.result.value};
+await call('Runtime.enable');await call('Page.enable');
+await call('Emulation.setDeviceMetricsOverride',{width:1500,height:1100,deviceScaleFactor:1,mobile:false});
+await call('Page.navigate',{url:'file:///home/ray/developer/ai/saccade_v1/build/tracking-events/val-viewer-final/index.html'});
+for(let i=0;i<100;i++){if(await evaluate('typeof D!=="undefined" && document.getElementById("detail").textContent.length>0'))break;await new Promise(r=>setTimeout(r,100))}
+const initial=await evaluate('({events:D.events.length,options:$("events").options.length,detail:$("detail").textContent.length,frame})');
+if(initial.events!==169||initial.options!==169||!initial.detail)throw initial;
+await evaluate('$("filter").value="idsw";listing();');
+const switches=await evaluate('$("events").options.length');if(switches!==56)throw {switches};
+await evaluate('choose(D.events.find(e=>e.idsw&&e.screening==="association_or_output_review").index);frame=event.frame;document.querySelector("[data-layer=batch]").checked=true;document.querySelector("[data-layer=predicted]").checked=true;draw()');
+await new Promise(r=>setTimeout(r,300));
+const atEvent=await evaluate('({event:event.index,frame,detail:JSON.parse($("detail").textContent)})');
+if(atEvent.frame!==atEvent.detail.frame||!atEvent.detail.gt)throw atEvent;
+const screenshot=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync('build/tracking-events/viewer.png',Buffer.from(screenshot.data,'base64'));
+await evaluate('$("next").click()');await new Promise(r=>setTimeout(r,150));
+const next=await evaluate('frame');if(next!==atEvent.frame+1)throw {next};
+await evaluate('$("filter").value="unrecovered_tail";listing()');
+const tails=await evaluate('$("events").options.length');if(tails!==10)throw {tails};
+if(errors.length)throw errors;
+console.log(JSON.stringify({initial,switches,tails,event:atEvent.event,eventFrame:atEvent.frame,next,errors},null,2));
+await call('Browser.close');

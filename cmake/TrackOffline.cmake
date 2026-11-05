@@ -24,3 +24,10 @@ add_test(NAME occlusion_ablation_cli
     -DPROGRAM=$<TARGET_FILE:occlusion_ablation>
     -DFIXTURE_DIR=${CMAKE_CURRENT_BINARY_DIR}/occlusion-cli-fixtures
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/OcclusionAblationCliTest.cmake)
+
+# Observational CPU replay; no deployment/session changes.
+add_executable(tracking_event_trace tools/tracking_event_trace.cpp)
+target_link_libraries(tracking_event_trace PRIVATE saccade_tracking_reference saccade_motion saccade_mot_output saccade_file_io)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(tracking_event_trace PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+endif()

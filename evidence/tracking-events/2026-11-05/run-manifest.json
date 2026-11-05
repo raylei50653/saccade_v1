@@ -1,0 +1,33 @@
+{
+  "commands": [
+    [
+      "/home/ray/developer/ai/saccade_v1/build/tracking-events/cpu/tracking_event_trace",
+      "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scdr",
+      "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scmo",
+      "/home/ray/developer/ai/saccade_v1/build/tracking-events/val-trace-final"
+    ],
+    [
+      "/home/ray/developer/ai/saccade/.venv/bin/python",
+      "/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py",
+      "--trace",
+      "/home/ray/developer/ai/saccade_v1/build/tracking-events/val-trace-final",
+      "--baseline",
+      "/home/ray/developer/ai/saccade_v1/evidence/occlusion/2026-11-05/run/baseline/MOT17-10-SDP.txt",
+      "--output",
+      "/home/ray/developer/ai/saccade_v1/build/tracking-events/val-viewer-final"
+    ]
+  ],
+  "source_commit": "ddb9750e2ff26402455fe5a7684bfbbf5792319d",
+  "source_dirty": true,
+  "formal_acceptance": false,
+  "inputs_sources_binary_sha256": {
+    "/home/ray/developer/ai/saccade_v1/build/tracking-events/cpu/tracking_event_trace": "184c04c64df7a2caf2233a00dc2c568ac2a1f863576d095078ac2b9c5fbb26f0",
+    "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scdr": "98e2554f1b1db179bfd756fb1dbd37ee694e912d6debb2c7a11c3a610a433a6f",
+    "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scmo": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+    "/home/ray/developer/ai/saccade_v1/tools/tracking_event_trace.cpp": "d9640f71a361149bf54f3767154cdc24773b0dc4b1aabfc6b2fadf97e1a1ff47",
+    "/home/ray/developer/ai/saccade_v1/scripts/tracking_events.py": "771cb3ad24159a3979f2f8abb9cfa880a7847952b3150dfad9f9803d42cc097f",
+    "/home/ray/developer/ai/saccade_v1/tools/tracking_event_viewer.html": "d47c8dde9c36cbba5eb58921e4dd10c92b8fc8bdf467cc6803b5b5b7f911fbfa",
+    "/home/ray/developer/ai/saccade_v1/cmake/TrackOffline.cmake": "39a2d0d90420f673449a7b14975bab4415c441edea8bb816b41b9e49447e5920"
+  },
+  "unchanged_after_run": true
+}

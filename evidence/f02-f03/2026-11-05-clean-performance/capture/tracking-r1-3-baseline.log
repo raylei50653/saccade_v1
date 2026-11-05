@@ -1,0 +1,21 @@
+r0-2-graph-single init_ms=1378.373 first_frame_ms=21.996 warmup_ms=163.956 wall_ms=850.991 wall_us_per_frame=7091.588 latency_mean_us=7091.381 p50_us=7043.216 p95_us=7550.694 p99_us=7719.933 packet_sha256=35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9 packets_equal=PASS
+r0-2-graph-queued init_ms=390.543 first_frame_ms=16.714 warmup_ms=148.021 wall_ms=659.153 wall_us_per_frame=5492.938 packet_sha256=35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9 packets_equal=PASS
+r0-3-graph-single init_ms=379.322 first_frame_ms=16.595 warmup_ms=145.202 wall_ms=840.937 wall_us_per_frame=7007.809 latency_mean_us=7007.620 p50_us=6917.198 p95_us=7522.481 p99_us=7921.956 packet_sha256=35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9 packets_equal=PASS
+r0-3-graph-queued init_ms=396.154 first_frame_ms=16.956 warmup_ms=149.110 wall_ms=668.171 wall_us_per_frame=5568.092 packet_sha256=35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9 packets_equal=PASS
+{
+  "schema":"tracking-latency/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+  "frames_per_session":120,
+  "warmup_frames":20,
+  "abba_rounds":1,
+  "input_io":"JPEGs preloaded; excludes disk I/O and file output",
+  "warmup_scope":"constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+  "latency_scope":"one enqueue through blocking receive, no frames in flight at start",
+  "queued_scope":"wall time per frame is throughput, not individual frame latency",
+  "packet_comparison":"selected mode repeats and single/queued, including warmup",
+  "packet_sha256":"35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+  "groups":[
+    {"mode":"graph","latency_samples":240,"latency_mean_us":7049.500538,"latency_p50_us":6970.569000,"latency_p95_us":7550.694000,"latency_p99_us":7921.956000,"queued_us_per_frame_mean":5530.515133,"queued_us_per_frame_min":5492.938192,"queued_us_per_frame_max":5568.092075,"init_us_mean":636098.254250,"first_frame_us_mean":18065.074500,"warmup_us_mean":151572.390000}
+  ]
+}

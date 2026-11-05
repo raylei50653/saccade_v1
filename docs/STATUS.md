@@ -1,6 +1,6 @@
 # Saccade v1 目前狀態與文件狀態
 
-更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
 
 新增可選的 [即時影像串流組件](STREAMING.md)：FFmpeg 收流 → NVDEC GPU 解碼 → CUDA 色彩轉換／前處理／TrackingSession，提供 `video_probe` 與 `track_stream`。CLI 預設 GPU、CPU decode 須明確選擇；即時輸出政策與開發測試獨立記錄，實際裝置連線邊界見該文件，不改寫原 JPEG／P01 正式判定。
 
@@ -35,6 +35,8 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含�
 
 2026-11-05 已完成 [F02／F03 clean-source 整合補驗](../evidence/f02-f03/2026-11-05-clean-23ade53/REPORT.md)：乾淨 `23ade53`、原 `v1-motion/1`，CPU 16/16、CUDA 59/59、原固定 session gate、F02／scan 各四種完整 suite sanitizer 與四個正控制通過。四張 HR RGB／FP32 references bitwise 相同，七序列共 5,316 幀的 SCDR／MOT／offline MOT 與 M4 **21/21 相同**。受測兩個 kernels 與目前 checkout bytes 相同；接受 binaries 已先封存，前後 source／binary／input hashes 一致。本輪未重測 ABBA、未讀 GT 或重跑 semantic mutations，不重發原 S02 primitive 證書；現行 G1／`v1-motion/2` 的完整 session memcheck 仍 **OPEN／NOT A FULL PASS**。
 
+同日另完成 [clean-source ABBA 效能補驗](../evidence/f02-f03/2026-11-05-clean-performance/REPORT.md)：乾淨 `f4865cd`→`23ade53`、同一部署 engine、原 `v1-motion/1`，兩輪 ABBA 的完整 F03 Graph 平均 5.241696→4.904589 ms（−6.43%）；tracking 單幀平均 7.092724→6.626377 ms（−6.58%）、p95 7.524795→7.059455 ms，queued interval 5.536401→5.123390 ms/frame（−7.46%，180.6→195.2 FPS）。四張完整模型 outputs／statuses 與 32 份 140 幀 packets 逐 byte 相同；tracking 限 MOT17-10 prefix、JPEG 預載，排除磁碟／初始化／暖機／輸出，不關閉 G1 或完整 HR racecheck。原 harness 固定 development 標籤保留，clean source／binary custody 由外層 contract 與報告判定。
+
 ## 各階段狀態
 
 | 階段 | 狀態與依據 | 範圍與接續 |
@@ -62,8 +64,9 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含�
 | [llama.cpp 啟發的 F03 部署特化](../evidence/f03-llama/2026-11-04/REPORT.md) | 在既有N16之上，shape＋block128使完整F03 Graph兩輪改善1.15%／1.64%；四張輸出與statuses相同 | 開發來源；scan suite與四種sanitizer通過，未跑新正式gate／tracking重評。raw load＋shuffle與B／C shared copy使完整模型變慢，保留負控制及NCU counters |
 | [F03 backbone／head 瓶頸分析](../evidence/f03-backbone-head/2026-11-04/REPORT.md) | 20次Graph／6040 kernel calls完整對映：backbone／neck占kernel duration加總66.12%，conv／GEMM占63.73%，scan core占15.63% | 本輪沒有可採用的新加速。Cache收益確認輪反轉；causal直接對現行engine只差0.014%，重建FP16 engines均非bitwise替代品；開發來源，未跑新正式gate／品質重評 |
 | [加速後完整 MOT 開發測試](../evidence/mot/2026-11-04-full-development/REPORT.md) | 七序列共 5,316 幀，吞吐 195.85 FPS；M4 輸出 21/21 相同，品質指標不變 | 每序列單次完整執行；吞吐不當作單幀交付延遲，與歷史測時未做 ABBA。未提交來源，MOT17-02 為 M4 之後重跑；sanitizer 範圍依報告 |
+| [F02／F03 clean-source ABBA](../evidence/f02-f03/2026-11-05-clean-performance/REPORT.md) | 隔離 F02 Graph 147.138→88.483 µs；完整 F03 Graph 5.242→4.905 ms（−6.43%）；tracking single mean 7.093→6.626 ms；queued 180.6→195.2 FPS | 乾淨 `f4865cd`→`23ade53`、原 `v1-motion/1`、固定 engine；兩輪 ABBA，四張 outputs／statuses、32 份 packets 相同。限本機／固定模型輸入與 MOT17-10 140 幀 prefix，保留全部長尾 |
 
-這些報告保留各自的開發來源身分、樣本與失敗嘗試。先前 Graph／排序的 clean-source gate 補上對應來源的正確性與七序列回歸，不改寫原測時身分或取代其量測條件；後續完整 MOT 開發重測補上 F02／F03 加速的全序列回歸與計分。2026-11-05 的 clean-source 補驗新增指定來源與 motion profile 的正式整合證據，原加速幅度仍是各開發報告的 A/B 結果。
+上述較早開發報告保留各自的來源身分、樣本與失敗嘗試。先前 Graph／排序的 clean-source gate 補上對應來源的正確性與七序列回歸，不改寫原測時身分或取代其量測條件；後續完整 MOT 開發重測補上 F02／F03 加速的全序列回歸與計分。2026-11-05 的 clean-source 整合補驗與另一輪 ABBA 效能補驗分別提供指定來源／motion profile 的正確性和效能證據；新的量測不改寫原開發 A/B 的原值。
 
 ## 未涵蓋與未完成邊界
 

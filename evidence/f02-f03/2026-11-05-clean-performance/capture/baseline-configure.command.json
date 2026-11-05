@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "cmake",
+    "-S",
+    "/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-perf-baseline-f4865cd-20261105",
+    "-B",
+    "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/baseline-build",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DSACCADE_ENABLE_CUDA=ON",
+    "-DSACCADE_ENABLE_PREPROCESS=ON",
+    "-DSACCADE_ENABLE_POSTPROCESS=ON",
+    "-DSACCADE_ENABLE_MODEL_PRODUCER=ON",
+    "-DSACCADE_ENABLE_TENSORRT=ON",
+    "-DSACCADE_ENABLE_MODEL_TRT=ON",
+    "-DSACCADE_ENABLE_DETECTION_SESSION=ON",
+    "-DSACCADE_TENSORRT_ROOT=/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk",
+    "-DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc",
+    "-DCMAKE_CUDA_ARCHITECTURES=120",
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105"
+}

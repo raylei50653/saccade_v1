@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "/opt/cuda/bin/nvcc",
+    "-O3",
+    "-DNDEBUG",
+    "-std=c++20",
+    "-arch=sm_120",
+    "-ccbin",
+    "/usr/bin/c++",
+    "--ftz=false",
+    "--prec-div=true",
+    "--prec-sqrt=true",
+    "--fmad=true",
+    "-lineinfo",
+    "-I/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-perf-baseline-f4865cd-20261105/include",
+    "-DSACCADE_BUILD_COMMIT=\"f4865cdb27f0e624b8cc26219e78f4aa938690df\"",
+    "-DSACCADE_BUILD_DIRTY=\"false\"",
+    "-Dresize_input_bytes=resize_input_bytes_baseline",
+    "-Dresize_output_elements=resize_output_elements_baseline",
+    "-Dresize_workspace_elements=resize_workspace_elements_baseline",
+    "-Dresize_rgb_chw_cuda=resize_rgb_chw_cuda_baseline",
+    "-Dresize_cuda_load_kernels=resize_cuda_load_kernels_baseline",
+    "-Dresize_cuda_identity=resize_cuda_identity_baseline",
+    "-c",
+    "/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-perf-baseline-f4865cd-20261105/cuda/resize.cu",
+    "-o",
+    "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/primitive-build/baseline.o"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105"
+}

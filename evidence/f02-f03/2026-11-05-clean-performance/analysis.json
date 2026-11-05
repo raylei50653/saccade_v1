@@ -1,0 +1,991 @@
+{
+  "status": "PASS",
+  "schema": "f02-f03-clean-performance-analysis/1",
+  "commits": {
+    "baseline": "f4865cdb27f0e624b8cc26219e78f4aa938690df",
+    "candidate": "23ade536906d07ccf09859f1b580b044dafe95dc"
+  },
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "model_images_sha256": "0d2ad63d8d74b02858099d48b100887667d0b6040cca2bfd39d1faf7edec5611",
+  "measurement_scope": "v1-motion/1; fixed engine/GPU; model input 0 timed, four inputs verified; HR tracking prefix 140 frames",
+  "raw_model_capture_labels_preserved": "development-optimization/formal_acceptance=false are fixed harness labels; clean build identities checked separately",
+  "model_output_status_comparison": {
+    "mode": "direct byte comparison",
+    "processes": 8,
+    "inputs": 4,
+    "payload_sha256": {
+      "input-3.status": "3432dcd76d2eb041ac3bb320454066f02b02e74af9a2e1080ee0faef0bb47698",
+      "input-0.status": "3432dcd76d2eb041ac3bb320454066f02b02e74af9a2e1080ee0faef0bb47698",
+      "input-3.f32": "dddaa6728c50daa034ab2cc6a56375d49b3097856963774d9ce6b79d9f399a46",
+      "input-1.status": "3432dcd76d2eb041ac3bb320454066f02b02e74af9a2e1080ee0faef0bb47698",
+      "input-2.status": "3432dcd76d2eb041ac3bb320454066f02b02e74af9a2e1080ee0faef0bb47698",
+      "input-0.f32": "7d63b0cc4b4fd041038a40d56d418ccdef7a7d49ef22b63d47eeabdf5fb53d2e",
+      "input-2.f32": "fe9ebb187ea536ec6efe91944d289a4d23278338d82aaa4da188aa6302726565",
+      "input-1.f32": "09972464d26c7c450983e707bdfed73ac62d6337b544583bf5f245b016ecc048"
+    }
+  },
+  "tracking_packet_comparison": {
+    "mode": "direct byte comparison",
+    "files": 32,
+    "frames_per_file": 140,
+    "bytes_per_file": 1731520,
+    "sha256": "35ec34474f692e5e398790d5d81edbff3f94bf3bed431695d8b33714153775a9",
+    "files_compared": [
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-1-candidate/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-1-candidate/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-1-candidate/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-1-candidate/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-2-candidate/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-2-candidate/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-2-candidate/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-2-candidate/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-3-baseline/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-3-baseline/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-3-baseline/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-3-baseline/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-1-candidate/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-1-candidate/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-1-candidate/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-1-candidate/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-2-candidate/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-2-candidate/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-2-candidate/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-2-candidate/r0-3-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline/r0-2-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline/r0-2-graph-queued.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline/r0-3-graph-single.bin",
+      "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline/r0-3-graph-queued.bin"
+    ],
+    "input_manifest_sha256": "119a759c2f7e579dd9ba3dd7be9577a2cd99684ff96a71298c4d9b4f93ffe501"
+  },
+  "model_ms": {
+    "ordinary": {
+      "baseline": {
+        "samples": 1600,
+        "mean": 6.55745106,
+        "p50": 6.555712,
+        "p95": 7.021824,
+        "p99": 7.190688,
+        "min": 5.797504,
+        "max": 9.14816
+      },
+      "candidate": {
+        "samples": 1600,
+        "mean": 6.19549464,
+        "p50": 6.198784,
+        "p95": 6.637568,
+        "p99": 6.767872,
+        "min": 5.453184,
+        "max": 7.1976
+      },
+      "mean_reduction_percent": 5.51977310525289,
+      "throughput_speedup": 1.0584225216923115
+    },
+    "graph": {
+      "baseline": {
+        "samples": 1600,
+        "mean": 5.24169606,
+        "p50": 5.21712,
+        "p95": 5.544832,
+        "p99": 5.675584,
+        "min": 4.994912,
+        "max": 7.52288
+      },
+      "candidate": {
+        "samples": 1600,
+        "mean": 4.90458868,
+        "p50": 4.862144,
+        "p95": 5.181344,
+        "p99": 5.256128,
+        "min": 4.690016,
+        "max": 5.30592
+      },
+      "mean_reduction_percent": 6.431265303085887,
+      "throughput_speedup": 1.0687330583652532
+    }
+  },
+  "tracking_us": {
+    "single": {
+      "baseline": {
+        "samples": 960,
+        "mean": 7092.7239864583335,
+        "p50": 7045.901,
+        "p95": 7524.795,
+        "p99": 7719.933,
+        "min": 6589.859,
+        "max": 8385.982
+      },
+      "candidate": {
+        "samples": 960,
+        "mean": 6626.3773375,
+        "p50": 6568.929,
+        "p95": 7059.455,
+        "p99": 7312.254,
+        "min": 6209.25,
+        "max": 8595.218
+      },
+      "mean_reduction_percent": 6.575000660517705,
+      "throughput_speedup": 1.070377315568672
+    },
+    "queued": {
+      "baseline": {
+        "samples": 8,
+        "mean": 5536.4006595,
+        "p50": 5512.2876,
+        "p95": 5646.719017,
+        "p99": 5646.719017,
+        "min": 5441.172258,
+        "max": 5646.719017,
+        "run_intervals_us_per_frame": [
+          5646.719017,
+          5577.196075,
+          5441.172258,
+          5512.2876,
+          5492.785192,
+          5560.014867,
+          5492.938192,
+          5568.092075
+        ],
+        "fps": 180.6227658549393
+      },
+      "candidate": {
+        "samples": 8,
+        "mean": 5123.39026675,
+        "p50": 5099.90505,
+        "p95": 5189.515792,
+        "p99": 5189.515792,
+        "min": 5043.283792,
+        "max": 5189.515792,
+        "run_intervals_us_per_frame": [
+          5189.515792,
+          5167.111308,
+          5084.06935,
+          5171.497092,
+          5141.021383,
+          5043.283792,
+          5099.90505,
+          5090.718367
+        ],
+        "fps": 195.1832571666155
+      },
+      "mean_reduction_percent": 7.459907946533983,
+      "throughput_speedup": 1.0806127137006083,
+      "scope": "throughput wall interval per frame; not frame delivery latency"
+    }
+  },
+  "per_round": [
+    {
+      "workload": "model",
+      "mode": "ordinary",
+      "round": 0,
+      "baseline": {
+        "samples": 800,
+        "mean": 6.50687208,
+        "p50": 6.506304,
+        "p95": 6.949312,
+        "p99": 7.118656,
+        "min": 5.797504,
+        "max": 9.14816
+      },
+      "candidate": {
+        "samples": 800,
+        "mean": 6.16419516,
+        "p50": 6.149824,
+        "p95": 6.632704,
+        "p99": 6.767872,
+        "min": 5.453184,
+        "max": 7.1976
+      },
+      "mean_reduction_percent": 5.266384766549759,
+      "throughput_speedup": 1.055591510506296
+    },
+    {
+      "workload": "model",
+      "mode": "ordinary",
+      "round": 1,
+      "baseline": {
+        "samples": 800,
+        "mean": 6.60803004,
+        "p50": 6.615648,
+        "p95": 7.073088,
+        "p99": 7.217344,
+        "min": 5.87728,
+        "max": 7.510912
+      },
+      "candidate": {
+        "samples": 800,
+        "mean": 6.22679412,
+        "p50": 6.228992,
+        "p95": 6.6464,
+        "p99": 6.763552,
+        "min": 5.508768,
+        "max": 7.095008
+      },
+      "mean_reduction_percent": 5.769282489520888,
+      "throughput_speedup": 1.06122507226881
+    },
+    {
+      "workload": "model",
+      "mode": "graph",
+      "round": 0,
+      "baseline": {
+        "samples": 800,
+        "mean": 5.1510876,
+        "p50": 5.118592,
+        "p95": 5.343584,
+        "p99": 5.392896,
+        "min": 4.994912,
+        "max": 7.52288
+      },
+      "candidate": {
+        "samples": 800,
+        "mean": 4.79595768,
+        "p50": 4.792512,
+        "p95": 4.870144,
+        "p99": 4.9104,
+        "min": 4.690016,
+        "max": 4.936928
+      },
+      "mean_reduction_percent": 6.894270639078249,
+      "throughput_speedup": 1.0740477593205118
+    },
+    {
+      "workload": "model",
+      "mode": "graph",
+      "round": 1,
+      "baseline": {
+        "samples": 800,
+        "mean": 5.33230452,
+        "p50": 5.299296,
+        "p95": 5.612064,
+        "p99": 5.686432,
+        "min": 5.067936,
+        "max": 5.770688
+      },
+      "candidate": {
+        "samples": 800,
+        "mean": 5.01321968,
+        "p50": 5.000768,
+        "p95": 5.222432,
+        "p99": 5.2664,
+        "min": 4.725504,
+        "max": 5.30592
+      },
+      "mean_reduction_percent": 5.9839950776104605,
+      "throughput_speedup": 1.0636486849505067
+    },
+    {
+      "workload": "tracking",
+      "mode": "single",
+      "round": 0,
+      "baseline": {
+        "samples": 480,
+        "mean": 7111.7141125,
+        "p50": 7093.02,
+        "p95": 7524.795,
+        "p99": 7683.163,
+        "min": 6589.859,
+        "max": 8385.982
+      },
+      "candidate": {
+        "samples": 480,
+        "mean": 6569.686829166667,
+        "p50": 6511.22,
+        "p95": 6981.919,
+        "p99": 7153.844,
+        "min": 6209.25,
+        "max": 7609.054
+      },
+      "mean_reduction_percent": 7.621612381473986,
+      "throughput_speedup": 1.0825042802538103
+    },
+    {
+      "workload": "tracking",
+      "mode": "single",
+      "round": 1,
+      "baseline": {
+        "samples": 480,
+        "mean": 7073.733860416667,
+        "p50": 7020.853,
+        "p95": 7522.481,
+        "p99": 7740.683,
+        "min": 6644.603,
+        "max": 8335.106
+      },
+      "candidate": {
+        "samples": 480,
+        "mean": 6683.067845833333,
+        "p50": 6641.291,
+        "p95": 7159.539,
+        "p99": 7391.042,
+        "min": 6281.356,
+        "max": 8595.218
+      },
+      "mean_reduction_percent": 5.522769477792067,
+      "throughput_speedup": 1.0584560898670063
+    },
+    {
+      "workload": "tracking",
+      "mode": "queued",
+      "round": 0,
+      "baseline": {
+        "samples": 4,
+        "mean": 5544.343737499999,
+        "p50": 5512.2876,
+        "p95": 5646.719017,
+        "p99": 5646.719017,
+        "min": 5441.172258,
+        "max": 5646.719017
+      },
+      "candidate": {
+        "samples": 4,
+        "mean": 5153.0483855,
+        "p50": 5167.111308,
+        "p95": 5189.515792,
+        "p99": 5189.515792,
+        "min": 5084.06935,
+        "max": 5189.515792
+      },
+      "mean_reduction_percent": 7.057559388921264,
+      "throughput_speedup": 1.075934732749852
+    },
+    {
+      "workload": "tracking",
+      "mode": "queued",
+      "round": 1,
+      "baseline": {
+        "samples": 4,
+        "mean": 5528.4575815,
+        "p50": 5492.938192,
+        "p95": 5568.092075,
+        "p99": 5568.092075,
+        "min": 5492.785192,
+        "max": 5568.092075
+      },
+      "candidate": {
+        "samples": 4,
+        "mean": 5093.732148,
+        "p50": 5090.718367,
+        "p95": 5141.021383,
+        "p99": 5141.021383,
+        "min": 5043.283792,
+        "max": 5141.021383
+      },
+      "mean_reduction_percent": 7.863412662416569,
+      "throughput_speedup": 1.085345169488484
+    }
+  ],
+  "model_processes": [
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-0-baseline",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.47915888,
+        "p50": 6.483808,
+        "p95": 6.876544,
+        "p99": 7.062112,
+        "min": 5.797504,
+        "max": 9.14816
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.528714905,
+        "p50": 6.525167,
+        "p95": 6.931685,
+        "p99": 7.116323,
+        "min": 5.846314,
+        "max": 9.185081
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-0-baseline",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 5.1005068,
+        "p50": 5.099968,
+        "p95": 5.172352,
+        "p99": 5.227616,
+        "min": 5.0312,
+        "max": 5.261472
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 5.14289697,
+        "p50": 5.136925,
+        "p95": 5.219781,
+        "p99": 5.274995,
+        "min": 5.059147,
+        "max": 5.298469
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 1,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-1-candidate",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.15263472,
+        "p50": 6.126368,
+        "p95": 6.668928,
+        "p99": 6.77376,
+        "min": 5.453184,
+        "max": 6.922816
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.202608245,
+        "p50": 6.173812,
+        "p95": 6.718873,
+        "p99": 6.841635,
+        "min": 5.49462,
+        "max": 8.425116
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 1,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-1-candidate",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 4.78936392,
+        "p50": 4.790112,
+        "p95": 4.86576,
+        "p99": 4.91584,
+        "min": 4.690016,
+        "max": 4.931776
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 4.842976345,
+        "p50": 4.829062,
+        "p95": 4.910838,
+        "p99": 4.966482,
+        "min": 4.727881,
+        "max": 9.186424
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 2,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-2-candidate",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.1757556000000005,
+        "p50": 6.186048,
+        "p95": 6.59664,
+        "p99": 6.682784,
+        "min": 5.509024,
+        "max": 7.1976
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.2247482275,
+        "p50": 6.227705,
+        "p95": 6.65401,
+        "p99": 6.822638,
+        "min": 5.543752,
+        "max": 7.820514
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 2,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-2-candidate",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 4.80255144,
+        "p50": 4.796896,
+        "p95": 4.874176,
+        "p99": 4.897504,
+        "min": 4.692,
+        "max": 4.936928
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 4.8499928575,
+        "p50": 4.844581,
+        "p95": 4.919834,
+        "p99": 4.952076,
+        "min": 4.72731,
+        "max": 6.714624
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-3-baseline",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.53458528,
+        "p50": 6.535328,
+        "p95": 6.990432,
+        "p99": 7.134784,
+        "min": 5.912256,
+        "max": 7.326336
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.58277694,
+        "p50": 6.588045,
+        "p95": 7.032205,
+        "p99": 7.166068,
+        "min": 5.954238,
+        "max": 7.356066
+      }
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r0-3-baseline",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 5.2016684,
+        "p50": 5.190752,
+        "p95": 5.35792,
+        "p99": 5.402304,
+        "min": 4.994912,
+        "max": 7.52288
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 5.2462573775,
+        "p50": 5.236532,
+        "p95": 5.411583,
+        "p99": 5.482878,
+        "min": 5.024272,
+        "max": 7.586992
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-0-baseline",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.5644312,
+        "p50": 6.560992,
+        "p95": 7.02416,
+        "p99": 7.173344,
+        "min": 5.89744,
+        "max": 7.510912
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.61309648,
+        "p50": 6.604597,
+        "p95": 7.07734,
+        "p99": 7.266647,
+        "min": 5.938939,
+        "max": 8.197496
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-0-baseline",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 5.2478888,
+        "p50": 5.228416,
+        "p95": 5.398112,
+        "p99": 5.444768,
+        "min": 5.08336,
+        "max": 5.770688
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 5.29318312,
+        "p50": 5.27207,
+        "p95": 5.44169,
+        "p99": 5.504088,
+        "min": 5.117207,
+        "max": 5.843619
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 1,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-1-candidate",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.21180784,
+        "p50": 6.221376,
+        "p95": 6.628832,
+        "p99": 6.7824,
+        "min": 5.508768,
+        "max": 6.906752
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.262686115,
+        "p50": 6.275214,
+        "p95": 6.676713,
+        "p99": 6.869487,
+        "min": 5.56347,
+        "max": 7.629583
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 1,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-1-candidate",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 4.97905856,
+        "p50": 4.96784,
+        "p95": 5.178816,
+        "p99": 5.217216,
+        "min": 4.725504,
+        "max": 5.239648
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 5.02357528,
+        "p50": 5.009413,
+        "p95": 5.223879,
+        "p99": 5.279293,
+        "min": 4.763398,
+        "max": 5.305112
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 2,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-2-candidate",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.2417804,
+        "p50": 6.238336,
+        "p95": 6.663808,
+        "p99": 6.749344,
+        "min": 5.597088,
+        "max": 7.095008
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.28857375,
+        "p50": 6.286476,
+        "p95": 6.707922,
+        "p99": 6.812479,
+        "min": 5.632941,
+        "max": 7.137524
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 2,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-2-candidate",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 5.0473808,
+        "p50": 5.028928,
+        "p95": 5.253696,
+        "p99": 5.278848,
+        "min": 4.855136,
+        "max": 5.30592
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 5.093330025,
+        "p50": 5.069136,
+        "p95": 5.298389,
+        "p99": 5.345177,
+        "min": 4.885188,
+        "max": 5.670873
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-3-baseline",
+      "mode": "ordinary",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 6.65162888,
+        "p50": 6.656672,
+        "p95": 7.080064,
+        "p99": 7.217344,
+        "min": 5.87728,
+        "max": 7.251104
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 6.7046263425,
+        "p50": 6.71761,
+        "p95": 7.138726,
+        "p99": 7.27875,
+        "min": 5.927678,
+        "max": 8.260876
+      }
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/model/r1-3-baseline",
+      "mode": "graph",
+      "gpu_ms": {
+        "samples": 400,
+        "mean": 5.41672024,
+        "p50": 5.403392,
+        "p95": 5.651424,
+        "p99": 5.69072,
+        "min": 5.067936,
+        "max": 5.710656
+      },
+      "wall_ms": {
+        "samples": 400,
+        "mean": 5.46365903,
+        "p50": 5.453733,
+        "p95": 5.700989,
+        "p99": 5.74331,
+        "min": 5.101557,
+        "max": 6.716999
+      }
+    }
+  ],
+  "largest_single_latencies": [
+    {
+      "outer_round": 1,
+      "outer_position": 2,
+      "backend": "candidate",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-2-candidate",
+      "inner_round": "0",
+      "ordinal": "3",
+      "frame": "116",
+      "enqueue_to_receive_us": "8595.218000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-3-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "86",
+      "enqueue_to_receive_us": "8385.982000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "38",
+      "enqueue_to_receive_us": "8335.106000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "3",
+      "frame": "127",
+      "enqueue_to_receive_us": "8079.353000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "3",
+      "frame": "125",
+      "enqueue_to_receive_us": "7921.956000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "25",
+      "enqueue_to_receive_us": "7877.061000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "41",
+      "enqueue_to_receive_us": "7793.703000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "77",
+      "enqueue_to_receive_us": "7791.800000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "107",
+      "enqueue_to_receive_us": "7767.944000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "3",
+      "frame": "131",
+      "enqueue_to_receive_us": "7740.683000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "138",
+      "enqueue_to_receive_us": "7719.933000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "50",
+      "enqueue_to_receive_us": "7683.163000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "29",
+      "enqueue_to_receive_us": "7676.020000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "139",
+      "enqueue_to_receive_us": "7673.045000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "113",
+      "enqueue_to_receive_us": "7637.898000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "3",
+      "frame": "129",
+      "enqueue_to_receive_us": "7628.360000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "73",
+      "enqueue_to_receive_us": "7625.876000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 0,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-0-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "78",
+      "enqueue_to_receive_us": "7622.830000"
+    },
+    {
+      "outer_round": 1,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r1-3-baseline",
+      "inner_round": "0",
+      "ordinal": "2",
+      "frame": "99",
+      "enqueue_to_receive_us": "7622.520000"
+    },
+    {
+      "outer_round": 0,
+      "outer_position": 3,
+      "backend": "baseline",
+      "directory": "/home/ray/developer/ai/saccade_v1/build/f02-f03-clean-performance-20261105/tracking/r0-3-baseline",
+      "inner_round": "0",
+      "ordinal": "3",
+      "frame": "136",
+      "enqueue_to_receive_us": "7622.510000"
+    }
+  ],
+  "outlier_policy": "All samples retained; no trimming, no outlier exclusions"
+}

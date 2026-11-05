@@ -1,0 +1,25 @@
+capture_kind=development-optimization
+formal_acceptance=false
+engine_sha256=8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876
+images_sha256=0d2ad63d8d74b02858099d48b100887667d0b6040cca2bfd39d1faf7edec5611
+profile=hr-1280x768
+frames=4
+timing_input=0
+timing_excludes=H2D,D2H,external_verification,initialization,warmup,trace,layer_profiling
+persistent_cache_bytes_requested=0
+persistent_cache_bytes=0
+nvtx_requested=engine
+nvtx=detailed
+trace_iterations=0
+layer_iterations=0
+tensorrt_headers=10.16.1.11
+tensorrt_library=101601.11
+plugin_api=IPluginV3+IPluginV3OneCore/Build/Runtime,IPluginCreatorV3One
+plugin_namespace=saccade
+plugins=SelectiveScan:v2,CrossScanExpand:v1,CrossScanMerge:v1
+build_commit=23ade536906d07ccf09859f1b580b044dafe95dc
+build_dirty=false
+nvcc=13.4.92
+scan_cuda_flags=--ftz=false --prec-div=true --prec-sqrt=true --fmad=true -lineinfo
+cuda_arch_list=1200
+host_compiler=16.2.1 20260810

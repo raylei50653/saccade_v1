@@ -1,0 +1,51 @@
+{
+  "schema": "clean-source-performance-contract/1",
+  "sources": {
+    "baseline": {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-perf-baseline-f4865cd-20261105",
+      "revision": "f4865cdb27f0e624b8cc26219e78f4aa938690df",
+      "dirty": false
+    },
+    "candidate": {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/f02-f03-clean-20261105",
+      "revision": "23ade536906d07ccf09859f1b580b044dafe95dc",
+      "dirty": false
+    }
+  },
+  "motion_profile": "v1-motion/1",
+  "engine": "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+  "engine_rebuilt": false,
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "model_inputs": "/home/ray/.cache/saccade-v1/hr-deploy/refs/model-images.f32",
+  "sequence": "/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP",
+  "outer_order": [
+    "baseline",
+    "candidate",
+    "candidate",
+    "baseline"
+  ],
+  "outer_rounds": 2,
+  "model_iterations_per_entry": 200,
+  "model_warmup_per_entry": 40,
+  "model_inner_order": [
+    "ordinary",
+    "graph",
+    "graph",
+    "ordinary"
+  ],
+  "model_persistent_cache_bytes": 0,
+  "model_nvtx": "engine",
+  "tracking_measured_frames": 120,
+  "tracking_warmup_frames": 20,
+  "tracking_graph": true,
+  "tracking_result_slots": 4,
+  "tracking_jpegs_preloaded": true,
+  "tracking_excludes_disk_initialization_warmup_output": true,
+  "clock_lock": false,
+  "outlier_removal": false,
+  "gpu_lock": "/home/ray/.cache/saccade-v1/gpu.lock",
+  "shared_model_harness_revision": "23ade536906d07ccf09859f1b580b044dafe95dc",
+  "baseline_model_binary": "candidate clean model_benchmark object linked against baseline clean runtime libraries; component provenance explicit",
+  "raw_harness_labels": "development-optimization/formal_acceptance=false are fixed harness labels and will remain byte-identical",
+  "verdict_scope": "bounded clean-source performance measurement, not a new whole-runtime sanitizer or model-quality certificate"
+}

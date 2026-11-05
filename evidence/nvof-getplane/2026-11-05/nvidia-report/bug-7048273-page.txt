@@ -1,0 +1,79 @@
+Title: Bug 7048273: Compute Sanitizer memcheck reports failing cuArrayGetPlane calls from nvcuvid during valid NVOF API use | NVIDIA Developer
+URL: https://developer.nvidia.com/bugs/7048273
+Source element: <main>
+---
+Compute Sanitizer memcheck reports failing cuArrayGetPlane calls from nvcuvid during valid NVOF API use
+OPEN
+Last Updated: November 04, 2026
+Summary
+ID
+7048273
+Area
+CUDA
+Description
+
+Summary
+With valid use of the NVIDIA Optical Flow API 2.0, compute-sanitizer memcheck reports CUDA_ERROR_INVALID_VALUE on cuArrayGetPlane, and exits with the --error-exitcode value. The application does not make these calls: every backtrace runs through nvcuvid under the NVOF library. All NVOF calls return NV_OF_SUCCESS. We have not seen a wrong result and are not claiming a functional defect. We are asking whether this is intended and safe to ignore.
+
+Minimal repro (standalone, CUDA Driver API and NVOF library only, no kernels; source and logs will be emailed to NVSDKIssues with the bug ID)
+1. cuInit, retain the primary context, create one non-blocking stream
+2. NvOFAPICreateInstanceCuda, nvCreateOpticalFlowCuda, nvOFSetIOCudaStreams
+3. nvOFInit: 1920x1080, grid 4, NV_OF_MODE_OPTICALFLOW, NV_OF_PERF_LEVEL_SLOW
+4. Create two GRAYSCALE8 inputs and one SHORT2 output (CUDEVICEPTR buffers), zero them, call nvOFExecute N times
+5. Destroy everything
+
+compute-sanitizer --tool memcheck --report-api-errors explicit --print-limit 0 --error-exitcode 99 ./repro_getplane 2
+
+Observed (identical on WSL2 and as a native Windows executable, same GPU and driver)
+- No sanitizer, 2 Executes: exit 0, every call succeeds
+- explicit, nvOFInit only: 74 errors, exit 99
+- explicit, 1 Execute: 86 errors (74 in nvOFInit, 12 in the first nvOFExecute), exit 99
+- explicit, 2 Executes: 86 errors, exit 99
+- explicit, 30 Executes: 86 errors, exit 99
+- extended, 2 Executes: 172 errors, exit 99. The extra 86 are "CUDA API Error: Check failed: Cannot use this API for non-planar arrays"
+- --report-api-errors no, 2 Executes: 0 errors, exit 0
+
+Every report is: Program hit CUDA_ERROR_INVALID_VALUE (error 1) due to "invalid argument" on CUDA API call to cuArrayGetPlane.
+WSL2 backtrace: libnvcuvid.so.1 frames, then libnvidia-opticalflow.so.1. Windows backtrace: nvcuvid.dll frames, then nvofapi64.dll.
+
+From a larger probe of ours, not in the attachments (available on request)
+- A CUPTI callback, without memcheck, sees the same 86 calls return CUDA_ERROR_INVALID_VALUE, so this is not produced by the sanitizer.
+- They target 43 CUDA arrays that the application did not create, each queried for plane 0 and plane 1: 37 arrays in nvOFInit and 6 more in the first nvOFExecute. Descriptors show 30 UNSIGNED_INT8 with 1 channel and 13 UNSIGNED_INT32 with 4 channels, none multi-planar.
+- Two sessions double the count (172), so it scales per session.
+- A known (8,4) displacement is measured as (8,4), and repeated runs give byte-identical flow.
+- In our application, 30 frames with and without memcheck give byte-identical outputs. This covers that workload only.
+
+Documentation
+- The cuArrayGetPlane documentation says a non-multi-planar array returns CUDA_ERROR_INVALID_VALUE, so the return value itself matches the documentation.
+- The Compute Sanitizer documentation describes explicit mode as "Report errors only from explicit CUDA API calls made directly by user code". These calls are made inside an NVIDIA library, yet explicit mode reports them.
+- Its Excluded Errors section lists API errors "commonly used for polling or state checking". cuArrayGetPlane is not on that list.
+- We found no documentation on using NVOF with Compute Sanitizer.
+
+Impact
+A project that requires a clean memcheck, with API error reporting on, cannot meet that requirement while using NVOF, because the caller cannot avoid these calls. Turning reporting off also hides genuine API errors, and we cannot tell whether a suppression is safe without knowing that this behaviour is intended.
+
+Questions
+1. Is this deliberate probing of the array format, and is it safe to ignore, with no side effects? If so, is a suppression keyed on these modules the recommended approach?
+2. Could the library check the array format before calling cuArrayGetPlane, or could this case be added to the sanitizer's Excluded Errors?
+3. Should explicit mode report API calls made inside NVIDIA libraries? If so, could the documentation say so?
+
+Related public report (same error from cuvidCreateDecoder, no NVIDIA reply in the thread):
+https://forums.developer.nvidia.com/t/errors-reported-by-compute-sanitizer-for-cuvidcreatedecoder/317461
+
+Not tested: a native Linux driver, another GPU or another driver version.
+
+Environment
+- GeForce RTX 5070 Ti Laptop GPU (SM 12.0), driver 617.42 (KMD)
+- WSL2: Linux 6.18.33.1-microsoft-standard-WSL2 x86_64, NVIDIA-SMI 615.78.08, CUDA UMD 13.4, Compute Sanitizer 2026.3.0.0 (build 38855100)
+- Native Windows: Windows 11 Pro 10.0.26300 x64, WDDM, CUDA toolkit 13.4, Compute Sanitizer 2026.3.0.0 (build 38637409), MSVC 19.44
+- NVOF API 2.0 headers from NVIDIAOpticalFlowSDK commit edb50da3cf849840d680249aa6dbef248ebce2ca
+
+NVIDIA GPU or Systems
+NVIDIA GeForce RTX 5070 Ti Laptop GPU
+NVIDIA Software Version
+617.42
+Operating System
+Linux, Windows 11
+Operating System Details
+WSL2: Linux 6.18.33.1-microsoft-standard-WSL2 x86_64. Native Windows: Windows 11 Pro 10.0.26300 x64 (WDDM). Same GPU and driver 617.42. A native Linux driver was not tested.
+Comments (0)

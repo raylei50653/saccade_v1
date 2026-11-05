@@ -1,0 +1,27 @@
+To: NVSDKIssues@nvidia.com
+Subject: Attachments for Bug 7048273: Compute Sanitizer memcheck reports failing cuArrayGetPlane calls from nvcuvid during valid NVOF API use
+Attachment: nvidia-nvof-getplane.zip
+
+Hello,
+
+These are the attachments for Bug 7048273, which I submitted through the NVIDIA Developer bug form ("Compute Sanitizer memcheck reports failing cuArrayGetPlane calls from nvcuvid during valid NVOF API use").
+
+nvidia-nvof-getplane.zip contains:
+- repro_getplane.cpp: standalone repro using only the CUDA Driver API and the NVOF library, with no kernels
+- nvOpticalFlowCommon.h, nvOpticalFlowCuda.h: the unmodified NVOF API 2.0 headers it builds against
+- wsl2/: logs for each configuration under WSL2, plus identity.log (driver, tool and library versions and hashes)
+- windows/: logs for the same source built and run as a native Windows executable on the same GPU
+- README.txt: build and run commands and the expected results
+
+To reproduce:
+  g++ -std=c++17 -O2 -I. -I/opt/cuda/include repro_getplane.cpp -L/usr/lib/wsl/lib -Wl,-rpath,/usr/lib/wsl/lib -lcuda -ldl -o repro_getplane
+  compute-sanitizer --tool memcheck --report-api-errors explicit --print-limit 0 --error-exitcode 99 ./repro_getplane 2
+
+Expected result on our system: "ERROR SUMMARY: 86 errors" and exit code 99, with every report on cuArrayGetPlane. Without the sanitizer the program exits 0 and every call succeeds.
+
+The result is the same under WSL2 and as a native Windows 11 executable (WDDM, driver 617.42) on the same GPU, so WSL is not required. A native Linux driver has not been tested.
+
+We have not seen a wrong result. We would like to know whether this is intended and safe to ignore.
+
+Thank you,
+raylei50653

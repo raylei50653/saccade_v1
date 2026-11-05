@@ -1,0 +1,24 @@
+
+/usr/lib/wsl/lib/libnvcuvid.so.1:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000015e17 <cuvidDestroyVideoParser@@Base-0x4999>:
+   15e17:	48 8d 44 24 28       	lea    0x28(%rsp),%rax
+   15e1c:	45 31 ed             	xor    %r13d,%r13d
+   15e1f:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+   15e24:	48 8b 7b 10          	mov    0x10(%rbx),%rdi
+   15e28:	48 8b 54 24 20       	mov    0x20(%rsp),%rdx
+   15e2d:	44 89 e9             	mov    %r13d,%ecx
+   15e30:	48 8b 74 24 10       	mov    0x10(%rsp),%rsi
+   15e35:	48 8b 07             	mov    (%rdi),%rax
+   15e38:	ff 90 b8 00 00 00    	call   *0xb8(%rax)
+   15e3e:	85 c0                	test   %eax,%eax
+   15e40:	0f 85 ca 02 00 00    	jne    16110 <__cxa_finalize@plt+0x1c50>
+   15e46:	48 8b 44 24 28       	mov    0x28(%rsp),%rax
+   15e4b:	48 85 c0             	test   %rax,%rax
+   15e4e:	0f 84 bc 02 00 00    	je     16110 <__cxa_finalize@plt+0x1c50>
+   15e54:	48 89 84 24 f0 00 00 	mov    %rax,0xf0(%rsp)
+   15e5b:	00 
+   15e5c:	48 8b 43 20          	mov    0x20(%rbx),%rax

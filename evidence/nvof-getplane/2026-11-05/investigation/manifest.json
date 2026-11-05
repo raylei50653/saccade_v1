@@ -1,0 +1,380 @@
+{
+  "root": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa",
+  "started_utc": "2026-11-05T03:00:13Z",
+  "runs": [
+    {
+      "name": "probe-init-only",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--init-only"
+      ],
+      "exit": 99,
+      "wall_seconds": 1.1420775579999827,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-init-only.log",
+      "log_sha256": "2bc4a05bc0feeaa37c8dfbf20142853919c0134fdd07fb104ff5c0b2c08ecdc0"
+    },
+    {
+      "name": "probe-allocate-only",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--executes",
+        "0"
+      ],
+      "exit": 99,
+      "wall_seconds": 0.5074652220000644,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-allocate-only.log",
+      "log_sha256": "362331b537f6abe3fef0e0f10ad8594bfaf6ba877c6df9ad006da3848e9dbfd0"
+    },
+    {
+      "name": "probe-execute-1",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--executes",
+        "1"
+      ],
+      "exit": 99,
+      "wall_seconds": 0.7260857440001018,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-execute-1.log",
+      "log_sha256": "c92e13576dab3ffb0c060258386eaa1c29b3f25a3a19d93a8f42028cfc933a3d"
+    },
+    {
+      "name": "probe-execute-2",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--executes",
+        "2"
+      ],
+      "exit": 99,
+      "wall_seconds": 0.5557940590001635,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-execute-2.log",
+      "log_sha256": "e54cf1085cd5bbd73feed12732d7af1978b665c0b0bdc229b6247d76c2f43228"
+    },
+    {
+      "name": "probe-execute-30",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--executes",
+        "30"
+      ],
+      "exit": 99,
+      "wall_seconds": 1.0269758099998398,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-execute-30.log",
+      "log_sha256": "7df47dfe6685122d09309297a67d1bb7aa4b02dc539cd3d08c4742e981cbc4a2"
+    },
+    {
+      "name": "probe-sessions-2",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--sessions",
+        "2",
+        "--executes",
+        "2"
+      ],
+      "exit": 99,
+      "wall_seconds": 0.7265135620000365,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-sessions-2.log",
+      "log_sha256": "a24dcc56711907665ff413ccda29f88ad252827206c3965460b3b4506f00eb7d"
+    },
+    {
+      "name": "probe-default-stream",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--default-stream",
+        "--executes",
+        "2"
+      ],
+      "exit": 99,
+      "wall_seconds": 0.778740722999828,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-default-stream.log",
+      "log_sha256": "f10d4ecc7a6ecef2d7909f58698dd2247567694a7d9e9c5ee2734975227b0f48"
+    },
+    {
+      "name": "probe-cupti",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe",
+        "--executes",
+        "2",
+        "--cupti"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.3485153139999966,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/probe-cupti.log",
+      "log_sha256": "aeee93947e64fd6a404e5252c1450677d32c3d8257f512326e0d10c3803c114f"
+    },
+    {
+      "name": "hr-plain",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/development/track_sequence",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/prefix/MOT17-10-SDP",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-plain.txt",
+        "--profile",
+        "hr-1280x768",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-plain.packets.bin",
+        "--motion",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-plain.scmo"
+      ],
+      "exit": 0,
+      "wall_seconds": 3.198324658999809,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-plain.log",
+      "log_sha256": "a78fe4115873bd6068959c8eb6c17671b9cdf5caaa517ab6385421936f993af4"
+    },
+    {
+      "name": "hr-memcheck",
+      "command": [
+        "flock",
+        "/home/ray/.cache/saccade-v1/gpu.lock",
+        "timeout",
+        "-k",
+        "10",
+        "300",
+        "/opt/cuda/bin/compute-sanitizer",
+        "--tool",
+        "memcheck",
+        "--report-api-errors",
+        "explicit",
+        "--print-limit",
+        "0",
+        "--error-exitcode",
+        "99",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/development/track_sequence",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/prefix/MOT17-10-SDP",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-memcheck.txt",
+        "--profile",
+        "hr-1280x768",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-memcheck.packets.bin",
+        "--motion",
+        "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-memcheck.scmo"
+      ],
+      "exit": 99,
+      "wall_seconds": 14.162483723999685,
+      "log": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/hr-memcheck.log",
+      "log_sha256": "71dff717ccfa982a2add204769bc29bb1fa1e6f653eca7d708408f65531b921c"
+    }
+  ],
+  "compile": {
+    "command": [
+      "g++",
+      "-std=c++20",
+      "-O0",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Werror",
+      "-I/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/third_party/nvof",
+      "-I/opt/cuda/include",
+      "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe.cpp",
+      "-L/opt/cuda/lib64",
+      "-Wl,-rpath,/opt/cuda/lib64",
+      "-L/usr/lib/wsl/lib",
+      "-Wl,-rpath,/usr/lib/wsl/lib",
+      "-lcuda",
+      "-lcupti",
+      "-ldl",
+      "-pthread",
+      "-o",
+      "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe"
+    ],
+    "exit": 0
+  },
+  "sha256": {
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe.cpp": "8f3eb4a5bc4614c8a744cf323f0faa84e7651bf6d842b159767360fa647f9589",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/array_trace.hpp": "56b9eece26d8c5f275192e1bce371b5d09cf7bdfd38b246c52956aa1a5fabe7a",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/nvof_api_probe": "01f876a98e517d483ced4a04ecb207e418cd8cc4223798af90348ce0a34ddd91",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/nvof-memcheck/investigation-20261105/run_probe.py": "d194201ccfbb4af1f648b687fe38584d022c959a90af635a4b10984f67825522",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/third_party/nvof/nvOpticalFlowCuda.h": "07defc79637fb9893f2a06204972eaa6bcf9e5bea400c88440439ebaaa39f115",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/third_party/nvof/nvOpticalFlowCommon.h": "a83f6045e5c470b35a6c50672f92e082b78d55752fe51cc20eb1a2738be05b9d",
+    "/usr/lib/wsl/lib/libnvidia-opticalflow.so.1": "a8037232557c9693f5735d22cc90718d4941598a95cdd686f31f6554f54f4be0",
+    "/usr/lib/wsl/lib/libnvcuvid.so.1": "eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/development/track_sequence": "0ce8cba6247d6f057c5a76e78a517637a4756b97c28296fa603cfe2b548c605a",
+    "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/development/ofa_audit": "ccf4724942a2b822e2dc2e3da2e5cf41680b7a0b14142612975e6ce3dda470d2"
+  },
+  "git-head": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit": 0,
+    "stdout": "e56bfd914596b6e8917b687e42946b233bdd3867\n",
+    "stderr": ""
+  },
+  "git-status": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain=v1"
+    ],
+    "exit": 0,
+    "stdout": " M scripts/check_stream_placement.py\n M scripts/run_tracking_session_acceptance.sh\n M scripts/tracking_session_acceptance.py\n",
+    "stderr": ""
+  },
+  "gpu": {
+    "command": [
+      "nvidia-smi"
+    ],
+    "exit": 0,
+    "stdout": "Thu Nov  5 11:00:16 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 615.78.08              KMD Version: 617.42        CUDA UMD Version: 13.4     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 5070 ...    On  |   00000000:01:00.0 Off |                  N/A |\n| N/A   47C    P0             15W /  140W |       0MiB /  12227MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+\n",
+    "stderr": ""
+  },
+  "sanitizer-version": {
+    "command": [
+      "/opt/cuda/bin/compute-sanitizer",
+      "--version"
+    ],
+    "exit": 0,
+    "stdout": "NVIDIA (R) Compute Sanitizer\nCopyright (c) 2020-2026 NVIDIA Corporation\nVersion 2026.3.0.0 (build 38855100) (public-release)\n",
+    "stderr": ""
+  },
+  "os": {
+    "command": [
+      "uname",
+      "-a"
+    ],
+    "exit": 0,
+    "stdout": "Linux DESKTOP-0FLA6SQ 6.18.33.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Fri Jun  5 01:12:21 UTC 2026 x86_64 GNU/Linux\n",
+    "stderr": ""
+  },
+  "hr_output_comparison": {
+    ".txt": {
+      "plain_sha256": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9",
+      "memcheck_sha256": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9",
+      "identical_bytes": true,
+      "size": 23460
+    },
+    ".packets.bin": {
+      "plain_sha256": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+      "memcheck_sha256": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+      "identical_bytes": true,
+      "size": 371040
+    },
+    ".scmo": {
+      "plain_sha256": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+      "memcheck_sha256": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+      "identical_bytes": true,
+      "size": 1364
+    }
+  },
+  "finished_utc": "2026-11-05T03:00:40Z"
+}

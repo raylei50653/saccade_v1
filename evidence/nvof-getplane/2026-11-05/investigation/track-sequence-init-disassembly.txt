@@ -1,0 +1,28 @@
+
+build/development/track_sequence:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000516b0 <saccade::FlowMotionCuda::Impl::Impl(saccade::MotionImageKey const&, unsigned long, unsigned int, CUstream_st*)+0x400>:
+   516b0:	4c 89 fe             	mov    %r15,%rsi
+   516b3:	c7 85 dc fe ff ff 00 	movl   $0x0,-0x124(%rbp)
+   516ba:	00 00 00 
+   516bd:	0f 11 85 bc fe ff ff 	movups %xmm0,-0x144(%rbp)
+   516c4:	48 8b bb a8 00 00 00 	mov    0xa8(%rbx),%rdi
+   516cb:	48 89 85 b0 fe ff ff 	mov    %rax,-0x150(%rbp)
+   516d2:	48 b8 01 00 00 00 05 	movabs $0x500000001,%rax
+   516d9:	00 00 00 
+   516dc:	c7 85 b8 fe ff ff 04 	movl   $0x4,-0x148(%rbp)
+   516e3:	00 00 00 
+   516e6:	48 89 85 c0 fe ff ff 	mov    %rax,-0x140(%rbp)
+   516ed:	0f 11 85 cc fe ff ff 	movups %xmm0,-0x134(%rbp)
+   516f4:	ff 53 50             	call   *0x50(%rbx)
+   516f7:	48 8d 15 22 d3 06 00 	lea    0x6d322(%rip),%rdx        # bea20 <_IO_stdin_used+0x7a20>
+   516fe:	89 c6                	mov    %eax,%esi
+   51700:	48 89 df             	mov    %rbx,%rdi
+   51703:	e8 48 c8 ff ff       	call   4df50 <saccade::FlowMotionCuda::Impl::of(_NV_OF_STATUS, char const*)>
+   51708:	49 8b 44 24 0c       	mov    0xc(%r12),%rax
+   5170d:	48                   	rex.W
+   5170e:	8b                   	.byte 0x8b
+   5170f:	bb                   	.byte 0xbb

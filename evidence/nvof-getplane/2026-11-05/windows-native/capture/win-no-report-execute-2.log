@@ -1,0 +1,23 @@
+========= COMPUTE-SANITIZER
+NvOFAPICreateInstanceCuda: NV_OF_SUCCESS
+nvCreateOpticalFlowCuda: NV_OF_SUCCESS
+nvOFSetIOCudaStreams: NV_OF_SUCCESS
+-- nvOFInit begins
+nvOFInit: NV_OF_SUCCESS
+nvOFCreateGPUBufferCuda: NV_OF_SUCCESS
+nvOFGPUBufferGetStrideInfo: NV_OF_SUCCESS
+nvOFCreateGPUBufferCuda: NV_OF_SUCCESS
+nvOFGPUBufferGetStrideInfo: NV_OF_SUCCESS
+nvOFCreateGPUBufferCuda: NV_OF_SUCCESS
+nvOFGPUBufferGetStrideInfo: NV_OF_SUCCESS
+-- nvOFExecute 0 begins
+nvOFExecute: NV_OF_SUCCESS
+-- nvOFExecute 1 begins
+nvOFExecute: NV_OF_SUCCESS
+nvOFDestroyGPUBufferCuda: NV_OF_SUCCESS
+nvOFDestroyGPUBufferCuda: NV_OF_SUCCESS
+nvOFDestroyGPUBufferCuda: NV_OF_SUCCESS
+nvOFDestroy: NV_OF_SUCCESS
+repro finished: every CUDA and NVOF call made here succeeded
+========= ERROR SUMMARY: 0 errors
+exit=0

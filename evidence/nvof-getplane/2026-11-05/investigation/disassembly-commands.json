@@ -1,0 +1,45 @@
+{
+  "track-sequence-init-disassembly": {
+    "command": [
+      "objdump",
+      "-d",
+      "-C",
+      "--start-address=0x516b0",
+      "--stop-address=0x51710",
+      "build/development/track_sequence"
+    ],
+    "exit": 0
+  },
+  "track-sequence-execute-disassembly": {
+    "command": [
+      "objdump",
+      "-d",
+      "-C",
+      "--start-address=0x4d870",
+      "--stop-address=0x4d8e0",
+      "build/development/track_sequence"
+    ],
+    "exit": 0
+  },
+  "lifecycle-init-disassembly": {
+    "command": [
+      "objdump",
+      "-d",
+      "-C",
+      "--start-address=0x54e70",
+      "--stop-address=0x54ec0",
+      "build/development/tracking_session_tests"
+    ],
+    "exit": 0
+  },
+  "nvcuvid-getplane-disassembly": {
+    "command": [
+      "objdump",
+      "-d",
+      "--start-address=0x15e17",
+      "--stop-address=0x15e60",
+      "/usr/lib/wsl/lib/libnvcuvid.so.1"
+    ],
+    "exit": 0
+  }
+}

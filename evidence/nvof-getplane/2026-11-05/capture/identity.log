@@ -1,0 +1,25 @@
+== date
+2026-11-05T11:23:22+08:00
+== os
+Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 GNU/Linux
+== nvidia-smi
+name, driver_version, vbios_version
+NVIDIA GeForce RTX 5070 Ti Laptop GPU, 617.42, 98.05.31.00.4d
+| NVIDIA-SMI 615.78.08              KMD Version: 617.42        CUDA UMD Version: 13.4     |
+== compute-sanitizer
+NVIDIA (R) Compute Sanitizer
+Version 2026.3.0.0 (build 38855100) (public-release)
+== compiler
+g++ (GCC) 16.2.1 20260810
+== cuda headers
+#define CUDA_VERSION 13040
+== libraries
+a8037232557c9693f5735d22cc90718d4941598a95cdd686f31f6554f54f4be0  /usr/lib/wsl/lib/libnvidia-opticalflow.so.1
+eef76fcf52bb7a594e6ef4dcc70f0e2579c183240037a67099646911acc273cf  /usr/lib/wsl/lib/libnvcuvid.so.1
+2530de95fe5fbc7708d98841407a14a77979881e127206e0df9823529b58087d  /usr/lib/wsl/lib/libcuda.so.1
+== ldd
+	libcuda.so.1 => /usr/lib/wsl/lib/libcuda.so.1
+== repro
+486cea5b138d3425df36f31f073b183dafb0115bb16ca5a40b5f023fcb2d19ca  repro_getplane.cpp
+a83f6045e5c470b35a6c50672f92e082b78d55752fe51cc20eb1a2738be05b9d  nvOpticalFlowCommon.h
+07defc79637fb9893f2a06204972eaa6bcf9e5bea400c88440439ebaaa39f115  nvOpticalFlowCuda.h

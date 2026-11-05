@@ -1,0 +1,31 @@
+
+build/development/tracking_session_tests:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000054e70 <saccade::FlowMotionCuda::Impl::Impl(saccade::MotionImageKey const&, unsigned long, unsigned int, CUstream_st*)+0x420>:
+   54e70:	ff                   	(bad)
+   54e71:	ff 48 b8             	decl   -0x48(%rax)
+   54e74:	01 00                	add    %eax,(%rax)
+   54e76:	00 00                	add    %al,(%rax)
+   54e78:	05 00 00 00 c7       	add    $0xc7000000,%eax
+   54e7d:	85 b8 fe ff ff 04    	test   %edi,0x4fffffe(%rax)
+   54e83:	00 00                	add    %al,(%rax)
+   54e85:	00 48 89             	add    %cl,-0x77(%rax)
+   54e88:	85 c0                	test   %eax,%eax
+   54e8a:	fe                   	(bad)
+   54e8b:	ff                   	(bad)
+   54e8c:	ff 0f                	decl   (%rdi)
+   54e8e:	11 85 cc fe ff ff    	adc    %eax,-0x134(%rbp)
+   54e94:	ff 53 50             	call   *0x50(%rbx)
+   54e97:	48 8d 15 59 6d 07 00 	lea    0x76d59(%rip),%rdx        # cbbf7 <_IO_stdin_used+0x7bf7>
+   54e9e:	89 c6                	mov    %eax,%esi
+   54ea0:	48 89 df             	mov    %rbx,%rdi
+   54ea3:	e8 48 c8 ff ff       	call   516f0 <saccade::FlowMotionCuda::Impl::of(_NV_OF_STATUS, char const*)>
+   54ea8:	49 8b 44 24 0c       	mov    0xc(%r12),%rax
+   54ead:	48 8b bb a8 00 00 00 	mov    0xa8(%rbx),%rdi
+   54eb4:	49 be 01 00 00 00 01 	movabs $0x100000001,%r14
+   54ebb:	00 00 00 
+   54ebe:	48                   	rex.W
+   54ebf:	8d                   	.byte 0x8d

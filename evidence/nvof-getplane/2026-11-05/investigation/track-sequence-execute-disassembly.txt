@@ -1,0 +1,35 @@
+
+build/development/track_sequence:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000004d870 <saccade::FlowMotionCuda::enqueue_estimate(CUstream_st*, long, saccade::MotionContext*, saccade::Control const*)+0x150>:
+   4d870:	00 0f                	add    %cl,(%rdi)
+   4d872:	29 84 24 80 00 00 00 	sub    %eax,0x80(%rsp)
+   4d879:	f3 41 0f 7e 8f b0 00 	movq   0xb0(%r15),%xmm1
+   4d880:	00 00 
+   4d882:	0f 16 0b             	movhps (%rbx),%xmm1
+   4d885:	0f 11 44 24 48       	movups %xmm0,0x48(%rsp)
+   4d88a:	0f 29 4c 24 60       	movaps %xmm1,0x60(%rsp)
+   4d88f:	49 8b 87 c8 00 00 00 	mov    0xc8(%r15),%rax
+   4d896:	c7 44 24 78 01 00 00 	movl   $0x1,0x78(%rsp)
+   4d89d:	00 
+   4d89e:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+   4d8a3:	41 ff 97 80 00 00 00 	call   *0x80(%r15)
+   4d8aa:	48 8d 15 e0 0f 07 00 	lea    0x70fe0(%rip),%rdx        # be891 <_IO_stdin_used+0x7891>
+   4d8b1:	4c 89 ff             	mov    %r15,%rdi
+   4d8b4:	89 c6                	mov    %eax,%esi
+   4d8b6:	e8 95 06 00 00       	call   4df50 <saccade::FlowMotionCuda::Impl::of(_NV_OF_STATUS, char const*)>
+   4d8bb:	41 8b 47 0c          	mov    0xc(%r15),%eax
+   4d8bf:	49 89 e9             	mov    %rbp,%r9
+   4d8c2:	85 c0                	test   %eax,%eax
+   4d8c4:	44 8d 68 07          	lea    0x7(%rax),%r13d
+   4d8c8:	44 0f 49 e8          	cmovns %eax,%r13d
+   4d8cc:	41 8b 47 10          	mov    0x10(%r15),%eax
+   4d8d0:	41 c1 fd 03          	sar    $0x3,%r13d
+   4d8d4:	44 8d 70 07          	lea    0x7(%rax),%r14d
+   4d8d8:	85 c0                	test   %eax,%eax
+   4d8da:	44 0f 49 f0          	cmovns %eax,%r14d
+   4d8de:	49                   	rex.WB
+   4d8df:	8b                   	.byte 0x8b

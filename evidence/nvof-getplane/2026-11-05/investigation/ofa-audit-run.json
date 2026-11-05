@@ -1,0 +1,30 @@
+{
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "timeout",
+    "-k",
+    "10",
+    "300",
+    "/opt/cuda/bin/compute-sanitizer",
+    "--tool",
+    "memcheck",
+    "--report-api-errors",
+    "explicit",
+    "--print-limit",
+    "0",
+    "--error-exitcode",
+    "99",
+    "--log-file",
+    "build/nvof-memcheck/investigation-20261105/ofa-audit-explicit.sanitizer.log",
+    "build/development/ofa_audit",
+    "build/nvof-memcheck/investigation-20261105/ofa-audit-explicit-payload"
+  ],
+  "exit": 99,
+  "stdout_stderr": "ofa-audit-explicit.stdout.log",
+  "sanitizer_log": "ofa-audit-explicit.sanitizer.log",
+  "sha256": {
+    "ofa-audit-explicit.stdout.log": "02a5d80d520438b99a27f7c2716a8c3022f0e517957e25a7e8a9decc7a0f289e",
+    "ofa-audit-explicit.sanitizer.log": "595278bc9f0a63c5716fbf2b9cf2b2f8f926438d57d97c64b90406925896475d"
+  }
+}

@@ -1,0 +1,2 @@
+flock ~/.cache/saccade-v1/gpu.lock timeout -k 10 3600 bash -c 'set -euo pipefail; cmake -S . -B build/development > build/development/configure-resume.log 2>&1; cmake --build build/development --parallel 8 > build/development/build-resume.log 2>&1; ctest --test-dir build/development --output-on-failure --stop-on-failure > build/development/ctest-resume.log 2>&1'
+Started 2026-11-05T08:55:28+08:00

@@ -1,0 +1,35 @@
+{
+  "base": "23ade53",
+  "head": "0cae6afa4121275605905de08ab684a394ac39ce",
+  "files": [
+    "tests/flow_cuda_tests.cpp",
+    "tests/flow_motion_cuda_tests.cpp",
+    "tests/flow_records_tests.cpp",
+    "tests/gmc_flow_tests.cpp",
+    "tests/tracking_session_tests.cpp",
+    "tools/detect_sequence.cpp",
+    "tools/flow_sequence.cpp",
+    "tools/gmc_flow_offline.cpp",
+    "tools/gmc_records.cpp",
+    "tools/ofa_audit.cu",
+    "tools/track_sequence.cpp"
+  ],
+  "findings": [
+    {
+      "file": "tests/flow_motion_cuda_tests.cpp",
+      "status": "Fixed in 0cae6afa4121275605905de08ab684a394ac39ce: Device constructor and put synchronize after legacy memset/pageable H2D memcpy; get follows an explicit test-stream synchronize."
+    },
+    {
+      "file": "tools/ofa_audit.cu",
+      "status": "All setup copies and clears use the explicit nonblocking IO stream; setup and observation synchronize that stream."
+    },
+    {
+      "file": "tools/flow_sequence.cpp and tests/flow_cuda_tests.cpp",
+      "status": "Engine copies use its explicit stream; flow_sequence decodes on that same stream. No legacy-stream setup calls."
+    },
+    {
+      "file": "All other changed tests and tools",
+      "status": "No direct CUDA memset/memcpy setup calls. No additional instance found; no additional source fix applied."
+    }
+  ]
+}

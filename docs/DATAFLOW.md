@@ -116,6 +116,8 @@ F08a 不提前提交。age 以本幀預測後的版本判斷 prior eligibility�
 
 幾何 cost 的架構包含 motion／IoU、occlusion-aware penalty 與 size-stability 等來源；其值及啟用表在新設定中明列。階段間保留已配對結果，後段只處理剩餘 track／detection。這是分階段貪婪關聯，不宣稱 full Sinkhorn、迭代收斂 auction 或全域最優配對。
 
+目前正式部署不加入 OAO／front-occluder 懲罰；其固定輸入負結果與診斷程式由[獨立研究建置](RESEARCH_BOUNDARY.md)保存。正式核心不依賴實驗 runner、CPU hooks 或九臂 GMC 實作。
+
 首階段 DDA 等歷史開關是否保留，屬 §9 的簡化差異；不因此把整個關聯架構重新列為未選定。
 
 ### 3.2 Tracker 決定性契約

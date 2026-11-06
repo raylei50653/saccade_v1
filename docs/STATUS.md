@@ -4,6 +4,8 @@
 
 新增可選的 [即時影像串流組件](STREAMING.md)：FFmpeg 收流 → NVDEC GPU 解碼 → CUDA 色彩轉換／前處理／TrackingSession，提供 `video_probe` 與 `track_stream`。CLI 預設 GPU、CPU decode 須明確選擇；即時輸出政策與開發測試獨立記錄，實際裝置連線邊界見該文件，不改寫原 JPEG／P01 正式判定。
 
+2026-11-06 [正式發布與獨立研究分離](RESEARCH_BOUNDARY.md)：整理前 runtime R0 固定 `dacb91a`；正式 CUDA 依賴改連 tracking core／flow records，CPU hooks 與九臂研究實作由獨立研究建置管理。三庫來源及15個資料單位已保存並實際還原核對；本輪針對性驗證以研究區的新收據記錄，既有正式證書與 sanitizer OPEN 邊界保持原判定。
+
 2026-11-05 接續：目前 TrackingSession GMC 已採 [G1 NVOFA／v1-motion/2（TRACKING §20）](TRACKING.md)；該輪驗收除完整 session memcheck OPEN 外，其餘八步通過，依 [原報告](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) 判定。以下較早正式證書仍保留各自來源與 motion profile。
 
 2026-11-05 已追加 [HR 完整路徑 sanitizer 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)：乾淨 `a00ab3a` runtime、現行 G1，CUDA CTest 68/68、HR 30 幀 602 checks、HR lifecycle 180 checks；四種排程及 HR lifecycle 的**未過濾完整 synccheck PASS**。四種排程 memcheck 均完成且 outputs 相同，但各有 86 次 NVOF 診斷，lifecycle 為 1,008 次，仍 OPEN。未過濾 racecheck／lazy retry 及自訂＋CUB racecheck 仍 24 GiB OOM，initcheck 出現 nvJPEG 診斷後 900 秒 timeout；**不是 sanitizer 全通過**。

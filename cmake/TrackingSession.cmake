@@ -38,6 +38,8 @@ foreach(target track_sequence tracking_benchmark resource_schedule_probe trackin
   set_target_properties(${target} PROPERTIES BUILD_RPATH "${SACCADE_TENSORRT_LIBDIR}")
   target_link_options(${target} PRIVATE "LINKER:--disable-new-dtags")
 endforeach()
+target_link_libraries(track_sequence PRIVATE saccade_motion)
+target_link_libraries(tracking_session_tests PRIVATE saccade_tracking_reference saccade_motion)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   foreach(target saccade_tracking_session track_sequence tracking_benchmark resource_schedule_probe tracking_session_tests)
     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)

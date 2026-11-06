@@ -56,7 +56,7 @@ TrackState initial_track_state(Epoch epoch) {
 }
 
 PredictedState predict_tracks(const TrackState& committed, const MotionContext& motion, FrameId frame,
-                              const TrackerConfig& c, const TrackControlHook& hook) {
+                              const TrackerConfig& c) {
     PredictedState out;
     out.epoch = committed.epoch;
     out.source_committed_frame = committed.committed_frame;
@@ -66,14 +66,8 @@ PredictedState predict_tracks(const TrackState& committed, const MotionContext& 
     for (auto t : committed.tracks) {
         if (!finite_track(t)) { out.error = Error::numeric; return out; }
         if (motion.status == MotionStatus::valid) {
-            if (hook) {
-                const auto control = hook(t);
-                t.x[0] += control[0];
-                t.x[1] += control[1];
-            } else {
-                t.x[0] += motion.tx;
-                t.x[1] += motion.ty;
-            }
+            t.x[0] += motion.tx;
+            t.x[1] += motion.ty;
         }
         math::kalman_predict(t.x.data(), t.P.data(), c.kalman.std_position, c.kalman.std_velocity);
         ++t.age;
@@ -157,8 +151,7 @@ DetectionBatch assemble_detection_batch(const DetectionCandidates& candidates, c
 }
 
 UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
-                                  const MotionContext& motion, const TrackerConfig& c,
-                                  const AssociationCostHook& hook) {
+                                  const MotionContext& motion, const TrackerConfig& c) {
     UpdateResult out;
     out.error = predicted.error | batch.error;
     if (batch.epoch != predicted.epoch || motion.epoch != predicted.epoch ||
@@ -196,8 +189,7 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
                 if (!math::finite(overlap)) { out.error = Error::numeric; return out; }
                 if (overlap <= 0) continue;
                 const float h = d.xyxy[3] - d.xyxy[1], w = d.xyxy[2] - d.xyxy[0];
-                const float cost = hook ? hook(t, d, overlap) :
-                    math::association_cost(overlap, t.x[3], h, c.assoc.lambda, c.assoc.stability_cost_w);
+                const float cost = math::association_cost(overlap, t.x[3], h, c.assoc.lambda, c.assoc.stability_cost_w);
                 const float p = math::association_value(cost, w, h, c.assoc.lambda);
                 if (!math::finite(cost) || !math::finite(p)) { out.error = Error::numeric; return out; }
                 if (cost <= (stage == 3 ? c.assoc.stage2_match_thresh : c.assoc.match_thresh))
@@ -349,7 +341,7 @@ ResultPacket TrackerReference::step(const DetectionCandidates& candidates, const
         packet.fail_code = fail_code_;
         return packet;
     }
-    const auto predicted = predict_tracks(committed_, motion, packet.frame, config_, control_hook_);
+    const auto predicted = predict_tracks(committed_, motion, packet.frame, config_);
     const auto batch = assemble_detection_batch(candidates, predicted, config_);
     auto update = associate_and_update(predicted, batch, motion, config_);
     if (update.error != Error::none) {
@@ -365,5 +357,4 @@ ResultPacket TrackerReference::step(const DetectionCandidates& candidates, const
     packet.tracks = std::move(update.rows);
     return packet;
 }
-void TrackerReference::set_control_hook(TrackControlHook hook) { control_hook_ = std::move(hook); }
 } // namespace saccade

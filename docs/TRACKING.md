@@ -568,7 +568,7 @@ TrackingSession 的 F05／F06 由 `v1-motion/1`（§4–§5 的 PCR）改為 `v1
 6. **MotionContext**：`peak_x = peak_y = 0`、`pcr = 0`；valid 時 `confidence = 1`，其他狀態為 0。
 7. **輸出搬移與釋放**：守護的 kernel 把 MI(k) 複製到 `gray[working]`，然後記錄 `mi_consumed(k)`。
 
-CPU reference 為實驗的 `gmc_flow::FrameControl`（G1），輸入是 OFA 原始 grid 輸出或 SCFL cells 加上候選。
+CPU reference 為正式 `gmc_g1::FrameControl`，保留原實驗 G1 的 mask／median 算式；輸入是 OFA 原始 grid 輸出或 SCFL cells 加上候選。九臂與 CPU hooks 的獨立建置見 [正式發布與獨立研究](RESEARCH_BOUNDARY.md)，原驗收身分依當時報告。
 
 ### 20.6 OFA 的前置審查（整合前，未通過即停）
 

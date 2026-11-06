@@ -21,7 +21,7 @@ ctest --test-dir build/cpu --output-on-failure --parallel 8
 CUDA_VISIBLE_DEVICES='' "$PY" training/hr_deploy/test_eval_scdr.py
 
 build/cpu/head_weights convert \
-  "$DEV/build-hr-mixed/HR01-MS-FULL25-20261103/mixed/attempt-001/epoch_0010.ckpt" \
+  "$OUT/sources/epoch_0010.ckpt" \
   53bccffe9bdbf37bdcfc81d03e95ccbd2d142d67a557ea015b76d356e4fa5f7d \
   "$OUT/hr-head.swb" "$OUT/hr-head-mapping.tsv"
 build/cpu/head_weights convert \

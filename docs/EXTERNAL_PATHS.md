@@ -10,7 +10,7 @@
 | 本專案 `build/` | 忽略於 Git 的建置、測試、replay 與本機盤點結果；其中的輸入連結可能指向庫外 |
 | `~/.cache/saccade-v1/t01/` | T01 pinned source、兩套 venv、checkpoint、ONNX、訓練與 native artifacts；根目錄設定見 [T01](T01_TRAINING.md) |
 | `~/.cache/saccade-v1/hr-deploy/` | HR engine、ONNX、head bundle、references 與 manifest；[部署操作](../training/hr_deploy/README.md) |
-| `~/.cache/saccade-v1/s04/` | 歷史 head artifacts；`best.ckpt` 仍連到舊庫的訓練結果 |
+| `~/.cache/saccade-v1/s04/` | 歷史 head artifacts；`best.ckpt` 已保存為核對同 hash 的實體檔 |
 | `~/.cache/saccade-native-trt/10.16.1.11/sdk/` | pinned TensorRT SDK；三個共享函式庫版本連結都在 SDK 內 |
 | `../saccade/` | 舊庫來源、base weights、資料集、TrackEval 與評分 Python 環境；[T01 recipe](../training/t01/recipe.json)、[評分入口](../scripts/eval_mot17.sh) |
 | `../saccade_v1_dev/` | HR teacher／student checkpoints、cache 與研究用 Python 模組；[匯出程式](../training/hr_deploy/export.py) |
@@ -35,10 +35,11 @@
 
 ## Cache 與環境的額外連結
 
-- `s04/best.ckpt` → `../saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt`，目標存在。S04 的 manifest 是歷史記錄，保留原始 bytes。
+- `s04/best.ckpt` 原連到 `../saccade/runs/mamba_gt_yolo26m_v14replica_t3_t1/best.ckpt`；本輪先封存連結與真實目標，再核對 SHA-256 後換成實體檔。S04 的 manifest 是歷史記錄，保留原始 bytes。
 - T01 cache 的六個 artifact links 原本有一個反向依賴本專案 `build/`。`t01/f03/stage/t1-head.swb` 已改連到同一 cache 內的 `../../native/dev/t1-head.swb`；兩份 bundle 的 SHA-256 都是 `4fccfda6342b88d43fc2bf676228810b974b9e9956f45fa53352124098f046a3`。其餘五個 artifact links 都在 T01 cache 內。
 - T01 的 `venv`／`venv-export` 各有三個 Python 連結，最終抵達 `~/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/bin/python3.12`，另各有一個內部 `lib64 → lib`。兩套 venv 仍依賴這份 uv Python。
 - `hr-deploy/` 本身沒有 symlink。其 manifest 以一般路徑記錄 teacher／student／base weights 與歷史來源。
+- HR selected student 已另複製至 `hr-deploy/sources/epoch_0010.ckpt`，export 配方改讀該位置；原檔、歷史 manifest 與原來源身分不改寫。[實體複製收據](../../saccade_research/docs/materialized-dependencies.json)與[保存索引](RESEARCH_BOUNDARY.md)另行記錄。
 
 ## 歷史來源與新建輸出
 

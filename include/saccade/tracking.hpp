@@ -6,7 +6,6 @@
 
 #include <array>
 #include <cstdint>
-#include <functional>
 #include <string>
 #include <vector>
 
@@ -94,10 +93,6 @@ struct TrackState {
 };
 TrackState initial_track_state(Epoch epoch);
 
-// Experiment-only CPU control, evaluated on the committed track before GMC
-// and Kalman prediction. An empty hook preserves the stock control arithmetic.
-using TrackControlHook = std::function<std::array<float, 2>(const Track&)>;
-
 // F08a output: this frame's working version, never committed by itself.
 struct PredictedPrior {
     std::uint64_t uid = 0;
@@ -116,7 +111,7 @@ struct PredictedState {
 // GMC control, one predict, age and removal (docs/TRACKING.md §6). frame is the
 // target frame k; identity consistency is F07's job, not checked here.
 PredictedState predict_tracks(const TrackState& committed, const MotionContext& motion, FrameId frame,
-                              const TrackerConfig& config, const TrackControlHook& hook = {});
+                              const TrackerConfig& config);
 
 // F04b output, owned by M after the candidate slot is consumed.
 struct BatchDetection {
@@ -125,10 +120,6 @@ struct BatchDetection {
     std::uint32_t class_id = 0, candidate_id = 0;
     bool can_continue = false, can_birth = false;
 };
-// Experiment-only CPU association control. The hook receives the predicted
-// track, candidate detection and their already-computed IoU. An empty hook
-// preserves the stock cost arithmetic and all native CUDA behavior.
-using AssociationCostHook = std::function<float(const Track&, const BatchDetection&, float overlap)>;
 struct DetectionBatch {
     Epoch epoch = 0;
     FrameId frame = no_frame;
@@ -147,8 +138,7 @@ struct UpdateResult {
     Error error = Error::none;
 };
 UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
-                                  const MotionContext& motion, const TrackerConfig& config,
-                                  const AssociationCostHook& hook = {});
+                                  const MotionContext& motion, const TrackerConfig& config);
 
 // Serial CPU session: F08a -> F04b -> F07/F08b -> commit/packet per frame with
 // the RESULT_PACKET status model (first failure FAILED, then
@@ -158,7 +148,6 @@ class TrackerReference {
 public:
     explicit TrackerReference(Epoch epoch, const TrackerConfig& config = {});
     ResultPacket step(const DetectionCandidates& candidates, const MotionContext& motion);
-    void set_control_hook(TrackControlHook hook);
     const TrackState& committed() const { return committed_; }
     bool failed() const { return fail_frame_ != no_frame; }
 
@@ -168,7 +157,6 @@ private:
     FrameId next_frame_ = 0;
     FrameId fail_frame_ = no_frame;
     Error fail_code_ = Error::none;
-    TrackControlHook control_hook_;
 };
 
 } // namespace saccade

@@ -1,5 +1,5 @@
 #include "saccade/flow_config.hpp"
-#include "saccade/gmc_flow.hpp"
+#include "saccade/gmc_g1.hpp"
 #include "saccade/mot_output.hpp"
 #include <iostream>
 #include <stdexcept>
@@ -13,8 +13,8 @@ int main(int argc,char** argv) {
         if(detections.frames.size()!=flow.frames.size()) throw std::runtime_error("SCDR/SCFL frame counts differ");
         saccade::MotionRecords records{key,detections.epoch,{}};
         for(std::size_t k=0;k<flow.frames.size();++k) {
-            const saccade::gmc_flow::FrameControl control(flow.frames[k],flow.cols,flow.rows,key.width,
-                k?&detections.frames[k-1]:nullptr,{},key.downscale);
+            const saccade::gmc_g1::FrameControl control(flow.frames[k],flow.cols,flow.rows,
+                k?&detections.frames[k-1]:nullptr,key.downscale);
             saccade::MotionContext m;
             m.epoch=records.epoch; m.frame=static_cast<std::int64_t>(k); m.reference_frame=m.frame-1;
             m.status=k==0?saccade::MotionStatus::uninitialized:

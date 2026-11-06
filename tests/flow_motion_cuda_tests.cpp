@@ -1,5 +1,5 @@
 #include "saccade/flow_motion_cuda.hpp"
-#include "saccade/gmc_flow.hpp"
+#include "saccade/gmc_g1.hpp"
 #include <cuda_runtime_api.h>
 #include <algorithm>
 #include <array>
@@ -103,7 +103,7 @@ void test(int W,int H,cudaStream_t stream) {
     control.committed_slot=1; control.working_slot=0; ctl.put(&control,1);
     flow_mask_cuda(candidates.p,masks.p,key,ctl.p,stream); ck(cudaStreamSynchronize(stream));
     auto mask=masks.get(2*n);
-    const gmc_flow::FrameControl reference(frame,cols,rows,w,&detections,{},s);
+    const gmc_g1::FrameControl reference(frame,cols,rows,&detections,s);
     for(int i=0;i<n;++i) {
         check(mask[i]==reference.masked(i%cols,i/cols),"mask exact score/class/half-open boundaries");
         check(mask[n+i]==0,"mask preserves committed slot");
@@ -121,7 +121,7 @@ void test(int W,int H,cudaStream_t stream) {
         check(m.epoch==7 && m.frame==1 && m.reference_frame==0 && m.peak_x==0 && m.peak_y==0 && m.pcr==0,"motion identity");
         if(kept<8) check(m.status==MotionStatus::rejected && m.tx==0 && m.ty==0 && m.confidence==0,"min_cells rejected");
         else {
-            const auto med=gmc_flow::median({frame.cells.begin(),frame.cells.begin()+kept});
+            const auto med=gmc_g1::median({frame.cells.begin(),frame.cells.begin()+kept});
             check(m.status==MotionStatus::valid && m.confidence==1,"valid context");
             check(std::bit_cast<std::uint32_t>(m.tx)==std::bit_cast<std::uint32_t>(float(s)*med.dx) &&
                   std::bit_cast<std::uint32_t>(m.ty)==std::bit_cast<std::uint32_t>(float(s)*med.dy),"median exact bytes");

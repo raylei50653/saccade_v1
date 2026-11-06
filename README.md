@@ -21,6 +21,7 @@ F02 tile fusion／F03 N16 與部署特化已完成 [clean-source 整合補驗](e
 | [目前狀態](docs/STATUS.md) | 現行部署、各階段驗收、文件狀態與未完成邊界的總入口 |
 | [後續工作](docs/BACKLOG.md) | 已結案工作的接續關係與仍待處理項目 |
 | [外部路徑與符號連結](docs/EXTERNAL_PATHS.md) | 庫外模型／資料／worktrees 依賴、本機連結整理與唯讀盤點工具 |
+| [正式發布與獨立研究](docs/RESEARCH_BOUNDARY.md) | 固定 R0、正式依賴、研究入口、保存與針對性驗證 |
 | [T01 實驗結案與恢復](docs/history/2026-10-31-t01-closeout.md) | 歷史封存；固定 tag `t01-experiment-final-2026-10-31`（`a47fb16`），含 PR #1 合併與 archive custody |
 
 ### 架構與同步協定

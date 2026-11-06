@@ -1,0 +1,907 @@
+{
+  "schema": "p08-records-validation/1",
+  "directory": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z",
+  "scope": "fixed-records CPU; no GT read; no GPU/session/sanitizer/performance acceptance",
+  "source_dirty": true,
+  "formal_acceptance": false,
+  "commands": [
+    {
+      "name": "MOT17-10-SDP-off",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.receipt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.packets"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.08435279799596174,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-off.log"
+    },
+    {
+      "name": "MOT17-10-SDP-on",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.receipt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.packets",
+        "--events",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.events"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.41276620399730746,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-on.log"
+    },
+    {
+      "name": "MOT17-10-SDP-repeat",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.receipt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.packets",
+        "--events",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.events"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.39618085799884284,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-repeat.log"
+    },
+    {
+      "name": "MOT17-10-SDP-baseline",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/baseline.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.04429779299971415,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-baseline.log"
+    },
+    {
+      "name": "MOT17-10-SDP-on-model-and-packets",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_events",
+        "validate",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.events",
+        "--config",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.receipt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.packets"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.3862765679950826,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-on-model-and-packets.log"
+    },
+    {
+      "name": "MOT17-10-SDP-repeat-model-and-packets",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_events",
+        "validate",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.events",
+        "--config",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.receipt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.packets"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.3772483989960165,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-repeat-model-and-packets.log"
+    },
+    {
+      "name": "MOT17-10-SDP-events-repeat",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_events",
+        "compare",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.events",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.events",
+        "--config",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.receipt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.4682246259981184,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-events-repeat.log"
+    },
+    {
+      "name": "MOT17-10-SDP-config-observer-allowed",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_config",
+        "compare",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.receipt",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.receipt",
+        "--allow",
+        "observer.event_dump"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.002314680998097174,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-10-SDP-config-observer-allowed.log"
+    },
+    {
+      "name": "MOT17-05-SDP-new",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-05-SDP-new.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.06712255700404057,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-05-SDP-new.log"
+    },
+    {
+      "name": "MOT17-02-SDP-new",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-02-SDP-new.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.07725356800074223,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-02-SDP-new.log"
+    },
+    {
+      "name": "MOT17-05-SDP-old",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-05-SDP-old.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.03213259299809579,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-05-SDP-old.log"
+    },
+    {
+      "name": "MOT17-02-SDP-old",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-02-SDP-old.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.055117511001299135,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-02-SDP-old.log"
+    },
+    {
+      "name": "MOT17-09-SDP-new",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-09-SDP-new.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.04271387799963122,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-09-SDP-new.log"
+    },
+    {
+      "name": "MOT17-09-SDP-old",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-09-SDP-old.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.02303570399817545,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-09-SDP-old.log"
+    },
+    {
+      "name": "MOT17-04-SDP-new",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-04-SDP-new.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.18085984599747462,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-04-SDP-new.log"
+    },
+    {
+      "name": "MOT17-11-SDP-new",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-11-SDP-new.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.0729133240020019,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-11-SDP-new.log"
+    },
+    {
+      "name": "MOT17-11-SDP-old",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-11-SDP-old.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.039040162999299355,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-11-SDP-old.log"
+    },
+    {
+      "name": "MOT17-13-SDP-new",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-13-SDP-new.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.07983556200633757,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-13-SDP-new.log"
+    },
+    {
+      "name": "MOT17-13-SDP-old",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-13-SDP-old.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.050176841999928,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-13-SDP-old.log"
+    },
+    {
+      "name": "MOT17-04-SDP-old",
+      "argv": [
+        "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scdr",
+        "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-04-SDP-old.txt"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.14415902300243033,
+      "log": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-04-SDP-old.log"
+    }
+  ],
+  "sequences": {
+    "MOT17-10-SDP": {
+      "variants": {
+        "off": {
+          "frames": 654,
+          "MOT": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.txt",
+            "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+            "bytes": 594269,
+            "mtime_ns": 1793974141064056346
+          },
+          "packets": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.packets",
+            "sha256": "dbb226d5d4d7944cabec1fd8530a57c9c02788bf2db1ade0f790aca3e40531db",
+            "bytes": 8088672,
+            "mtime_ns": 1793974141053832903
+          },
+          "receipt": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/off.receipt",
+            "sha256": "41ba0dfb753350d3e329eb5ef06abfbddfe4e30e25779bb39c93514988746d2e",
+            "bytes": 6456,
+            "mtime_ns": 1793974141023338138
+          }
+        },
+        "on": {
+          "frames": 654,
+          "MOT": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.txt",
+            "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+            "bytes": 594269,
+            "mtime_ns": 1793974141476056280
+          },
+          "packets": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.packets",
+            "sha256": "dbb226d5d4d7944cabec1fd8530a57c9c02788bf2db1ade0f790aca3e40531db",
+            "bytes": 8088672,
+            "mtime_ns": 1793974141468265920
+          },
+          "receipt": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.receipt",
+            "sha256": "8193941eab3786c4bad5ec59247c1b24e7d278efbd6790496f2b551e18c80a4e",
+            "bytes": 6449,
+            "mtime_ns": 1793974141113026638
+          },
+          "events": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/on.events",
+            "sha256": "c300b7614e5622fb5d5195bc4a925f11dbca084427bfdfef143015bce4e7a1c5",
+            "bytes": 28684192,
+            "mtime_ns": 1793974141340056301
+          }
+        },
+        "repeat": {
+          "frames": 654,
+          "MOT": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.txt",
+            "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+            "bytes": 594269,
+            "mtime_ns": 1793974141892056212
+          },
+          "packets": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.packets",
+            "sha256": "dbb226d5d4d7944cabec1fd8530a57c9c02788bf2db1ade0f790aca3e40531db",
+            "bytes": 8088672,
+            "mtime_ns": 1793974141884056213
+          },
+          "receipt": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.receipt",
+            "sha256": "8193941eab3786c4bad5ec59247c1b24e7d278efbd6790496f2b551e18c80a4e",
+            "bytes": 6449,
+            "mtime_ns": 1793974141542278840
+          },
+          "events": {
+            "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/repeat.events",
+            "sha256": "c300b7614e5622fb5d5195bc4a925f11dbca084427bfdfef143015bce4e7a1c5",
+            "bytes": 28684192,
+            "mtime_ns": 1793974141760056234
+          }
+        }
+      },
+      "flags": {
+        "observer_packets_equal": true,
+        "repeat_packets_equal": true,
+        "observer_MOT_equal": true,
+        "repeat_MOT_equal": true,
+        "repeat_events_equal": true,
+        "baseline_MOT_equal": true,
+        "frozen_MOT_equal": true
+      },
+      "baseline_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/baseline.txt",
+        "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+        "bytes": 594269,
+        "mtime_ns": 1793974141960056201
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.txt",
+        "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+        "bytes": 594269,
+        "mtime_ns": 1793934004533041279
+      }
+    },
+    "MOT17-02-SDP": {
+      "frames": 600,
+      "new_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-02-SDP-new.txt",
+        "sha256": "75cbe9d8ea4826c376fce4fea3599eec785dacaa08f89e3dac77dfea8733fa09",
+        "bytes": 706710,
+        "mtime_ns": 1793974144324887386
+      },
+      "old_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-02-SDP-old.txt",
+        "sha256": "75cbe9d8ea4826c376fce4fea3599eec785dacaa08f89e3dac77dfea8733fa09",
+        "bytes": 706710,
+        "mtime_ns": 1793974144380055809
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.txt",
+        "sha256": "75cbe9d8ea4826c376fce4fea3599eec785dacaa08f89e3dac77dfea8733fa09",
+        "bytes": 706710,
+        "mtime_ns": 1793934004487159611
+      },
+      "new_old_equal": true,
+      "new_frozen_equal": true
+    },
+    "MOT17-04-SDP": {
+      "frames": 1050,
+      "new_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-04-SDP-new.txt",
+        "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778",
+        "bytes": 2376912,
+        "mtime_ns": 1793974144428055801
+      },
+      "old_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-04-SDP-old.txt",
+        "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778",
+        "bytes": 2376912,
+        "mtime_ns": 1793974144572055778
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.txt",
+        "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778",
+        "bytes": 2376912,
+        "mtime_ns": 1793934004501902812
+      },
+      "new_old_equal": true,
+      "new_frozen_equal": true
+    },
+    "MOT17-05-SDP": {
+      "frames": 837,
+      "new_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-05-SDP-new.txt",
+        "sha256": "0bc96fefdb1b0f96873480b993c780050981b8cd3a191a536d0427880969c856",
+        "bytes": 333271,
+        "mtime_ns": 1793974144316653259
+      },
+      "old_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-05-SDP-old.txt",
+        "sha256": "0bc96fefdb1b0f96873480b993c780050981b8cd3a191a536d0427880969c856",
+        "bytes": 333271,
+        "mtime_ns": 1793974144352339654
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.txt",
+        "sha256": "0bc96fefdb1b0f96873480b993c780050981b8cd3a191a536d0427880969c856",
+        "bytes": 333271,
+        "mtime_ns": 1793934004517164306
+      },
+      "new_old_equal": true,
+      "new_frozen_equal": true
+    },
+    "MOT17-09-SDP": {
+      "frames": 525,
+      "new_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-09-SDP-new.txt",
+        "sha256": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
+        "bytes": 246882,
+        "mtime_ns": 1793974144392055808
+      },
+      "old_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-09-SDP-old.txt",
+        "sha256": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
+        "bytes": 246882,
+        "mtime_ns": 1793974144416055804
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.txt",
+        "sha256": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
+        "bytes": 246882,
+        "mtime_ns": 1793934004523932497
+      },
+      "new_old_equal": true,
+      "new_frozen_equal": true
+    },
+    "MOT17-11-SDP": {
+      "frames": 900,
+      "new_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-11-SDP-new.txt",
+        "sha256": "abe57d7cf3e065fd7672155ad82f542b0521756882233df4b83c6cb138790ec6",
+        "bytes": 425579,
+        "mtime_ns": 1793974144456055797
+      },
+      "old_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-11-SDP-old.txt",
+        "sha256": "abe57d7cf3e065fd7672155ad82f542b0521756882233df4b83c6cb138790ec6",
+        "bytes": 425579,
+        "mtime_ns": 1793974144496055791
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.txt",
+        "sha256": "abe57d7cf3e065fd7672155ad82f542b0521756882233df4b83c6cb138790ec6",
+        "bytes": 425579,
+        "mtime_ns": 1793934004544398216
+      },
+      "new_old_equal": true,
+      "new_frozen_equal": true
+    },
+    "MOT17-13-SDP": {
+      "frames": 750,
+      "new_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-13-SDP-new.txt",
+        "sha256": "808067a6c0291848689f8cf357b3b9e87599426fcc496eca50e96e22126f053e",
+        "bytes": 592705,
+        "mtime_ns": 1793974144496055791
+      },
+      "old_MOT": {
+        "path": "/home/ray/developer/ai/saccade_v1/build/p08/records-validation/run-20261106T140900.941325Z/MOT17-13-SDP-old.txt",
+        "sha256": "808067a6c0291848689f8cf357b3b9e87599426fcc496eca50e96e22126f053e",
+        "bytes": 592705,
+        "mtime_ns": 1793974144548055782
+      },
+      "frozen_MOT": {
+        "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.txt",
+        "sha256": "808067a6c0291848689f8cf357b3b9e87599426fcc496eca50e96e22126f053e",
+        "bytes": 592705,
+        "mtime_ns": 1793934004554702515
+      },
+      "new_old_equal": true,
+      "new_frozen_equal": true
+    }
+  },
+  "binaries_before": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+      "sha256": "95d38dbbbf7a8358cb8cddbb974d213b28b443ae517985a284e71b3ad1d45185",
+      "bytes": 786256,
+      "mtime_ns": 1793974054171342407
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_events",
+      "sha256": "9eb86d8249bf63732b34fbbe86b9cbcd27a11368342e91cfdf8c63a239200d96",
+      "bytes": 662992,
+      "mtime_ns": 1793974053410710515
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_config",
+      "sha256": "a70e38907fa94b6e3040a2cdaf959dafa9718cac12e7cdc30e35d482fce9f0ba",
+      "bytes": 553176,
+      "mtime_ns": 1793974053489754912
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+      "sha256": "a2166302df89c9c10a8adb064468128a85d871e59f5aa03b8f86b8e5ae2a68a5",
+      "bytes": 143224,
+      "mtime_ns": 1793973459021658084
+    }
+  ],
+  "sources_before": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/src/tracking_reference.cpp",
+      "sha256": "20db51f0a52131ed523c77ebbe8b63edce46f2871f344fa5f1028a4e324c06fc",
+      "bytes": 24130,
+      "mtime_ns": 1793973389948162809
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/src/tracking_events.cpp",
+      "sha256": "84f37e4a49af83450754bbffbe0c9abbc390dad240b5283b97bdc1268f6dcbbe",
+      "bytes": 37846,
+      "mtime_ns": 1793973955671486689
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/include/saccade/tracking_events.hpp",
+      "sha256": "c026c798444f227a95953f7f28ee8c74fddd9fc9392128ff2790b49058aefb69",
+      "bytes": 4332,
+      "mtime_ns": 1793973955671310023
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/tools/track_offline.cpp",
+      "sha256": "5e7e60de817ba1306d5dfeae0352f660243b3ba9a781e4dc6feff3db6a8e55f8",
+      "bytes": 8799,
+      "mtime_ns": 1793974046068069396
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/tools/tracking_events.cpp",
+      "sha256": "f9af2b156bf6d36583cc549c1ec9cb2e767403b60201460382b4a59085f6d929",
+      "bytes": 6102,
+      "mtime_ns": 1793974046072069395
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/src/resolved_config.cpp",
+      "sha256": "734ebeede8086af22e766e4fdc3eae2ba721e88c7324ed2272cb5380e3543235",
+      "bytes": 27978,
+      "mtime_ns": 1793973812832100312
+    }
+  ],
+  "declared_environment": {},
+  "inputs_before": [
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scdr",
+      "sha256": "18cd957da6f182dcb9e03bcf6c087e26f4a8dd716ba20437351033e2081e3e38",
+      "bytes": 5798428,
+      "mtime_ns": 1793934004485869705
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scmo",
+      "sha256": "f9209da865ea02ef3b8a681be87803e38902c4e4b7bcb957413095be9f22e59c",
+      "bytes": 26444,
+      "mtime_ns": 1793934004486877385
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.txt",
+      "sha256": "75cbe9d8ea4826c376fce4fea3599eec785dacaa08f89e3dac77dfea8733fa09",
+      "bytes": 706710,
+      "mtime_ns": 1793934004487159611
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scdr",
+      "sha256": "3f36a1406829111f52d7025b8a910b512faf066623b5e9c88efd0bc2007c42c0",
+      "bytes": 10147228,
+      "mtime_ns": 1793934004497869703
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scmo",
+      "sha256": "86c391a3dc905f6a9bb60ad999cb54d47a5b06bf6147204e3725530f72c54f75",
+      "bytes": 46244,
+      "mtime_ns": 1793934004501579358
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.txt",
+      "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778",
+      "bytes": 2376912,
+      "mtime_ns": 1793934004501902812
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scdr",
+      "sha256": "ba9d5354bdc7905aa5b147943b4b1f8d02456d1cf2c12bd43573efe4d101802a",
+      "bytes": 8088796,
+      "mtime_ns": 1793934004513869700
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scmo",
+      "sha256": "4aea9129563b935064ddb97bb5b421bd13d4a137fb649c50954682ba9fc20b56",
+      "bytes": 36872,
+      "mtime_ns": 1793934004516873244
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.txt",
+      "sha256": "0bc96fefdb1b0f96873480b993c780050981b8cd3a191a536d0427880969c856",
+      "bytes": 333271,
+      "mtime_ns": 1793934004517164306
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scdr",
+      "sha256": "b0f47471495194ca0bfda9203b3bbf5e703b2eae629a5fdabe5cb77f5f4cf1df",
+      "bytes": 5073628,
+      "mtime_ns": 1793934004521869699
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scmo",
+      "sha256": "e9231cb9b367a9bc873bd8c670812ed77ef0d5d863930b10ecf5b650f587a93a",
+      "bytes": 23144,
+      "mtime_ns": 1793934004523693384
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.txt",
+      "sha256": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
+      "bytes": 246882,
+      "mtime_ns": 1793934004523932497
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scdr",
+      "sha256": "98e2554f1b1db179bfd756fb1dbd37ee694e912d6debb2c7a11c3a610a433a6f",
+      "bytes": 6320284,
+      "mtime_ns": 1793934004529869698
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scmo",
+      "sha256": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+      "bytes": 28820,
+      "mtime_ns": 1793934004532686756
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.txt",
+      "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+      "bytes": 594269,
+      "mtime_ns": 1793934004533041279
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scdr",
+      "sha256": "49028ffcfc929eee905400009b6d8cc717956b6becef81c26dccf8fa3325cd71",
+      "bytes": 8697628,
+      "mtime_ns": 1793934004541869696
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scmo",
+      "sha256": "54df6c378370b8c7e75ad9d21def1fc7fa2b3e73a99ef9e6cdf6188e1dab7e5f",
+      "bytes": 39644,
+      "mtime_ns": 1793934004544139535
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.txt",
+      "sha256": "abe57d7cf3e065fd7672155ad82f542b0521756882233df4b83c6cb138790ec6",
+      "bytes": 425579,
+      "mtime_ns": 1793934004544398216
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scdr",
+      "sha256": "3270c8eb81549f17173386753f9b92cc45915a0042430091c6cb27a8c485f348",
+      "bytes": 7248028,
+      "mtime_ns": 1793934004549869695
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scmo",
+      "sha256": "90a03f809f8e548b3878303887261d55a8bb870ede11fac4bec297f7be6f28a9",
+      "bytes": 33044,
+      "mtime_ns": 1793934004554260777
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.txt",
+      "sha256": "808067a6c0291848689f8cf357b3b9e87599426fcc496eca50e96e22126f053e",
+      "bytes": 592705,
+      "mtime_ns": 1793934004554702515
+    }
+  ],
+  "binaries_after": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/cpu/track_offline",
+      "sha256": "95d38dbbbf7a8358cb8cddbb974d213b28b443ae517985a284e71b3ad1d45185",
+      "bytes": 786256,
+      "mtime_ns": 1793974054171342407
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_events",
+      "sha256": "9eb86d8249bf63732b34fbbe86b9cbcd27a11368342e91cfdf8c63a239200d96",
+      "bytes": 662992,
+      "mtime_ns": 1793974053410710515
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/cpu/tracking_config",
+      "sha256": "a70e38907fa94b6e3040a2cdaf959dafa9718cac12e7cdc30e35d482fce9f0ba",
+      "bytes": 553176,
+      "mtime_ns": 1793974053489754912
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/build/p08/baseline-cpu/track_offline",
+      "sha256": "a2166302df89c9c10a8adb064468128a85d871e59f5aa03b8f86b8e5ae2a68a5",
+      "bytes": 143224,
+      "mtime_ns": 1793973459021658084
+    }
+  ],
+  "sources_after": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/src/tracking_reference.cpp",
+      "sha256": "20db51f0a52131ed523c77ebbe8b63edce46f2871f344fa5f1028a4e324c06fc",
+      "bytes": 24130,
+      "mtime_ns": 1793973389948162809
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/src/tracking_events.cpp",
+      "sha256": "84f37e4a49af83450754bbffbe0c9abbc390dad240b5283b97bdc1268f6dcbbe",
+      "bytes": 37846,
+      "mtime_ns": 1793973955671486689
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/include/saccade/tracking_events.hpp",
+      "sha256": "c026c798444f227a95953f7f28ee8c74fddd9fc9392128ff2790b49058aefb69",
+      "bytes": 4332,
+      "mtime_ns": 1793973955671310023
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/tools/track_offline.cpp",
+      "sha256": "5e7e60de817ba1306d5dfeae0352f660243b3ba9a781e4dc6feff3db6a8e55f8",
+      "bytes": 8799,
+      "mtime_ns": 1793974046068069396
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/tools/tracking_events.cpp",
+      "sha256": "f9af2b156bf6d36583cc549c1ec9cb2e767403b60201460382b4a59085f6d929",
+      "bytes": 6102,
+      "mtime_ns": 1793974046072069395
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1/src/resolved_config.cpp",
+      "sha256": "734ebeede8086af22e766e4fdc3eae2ba721e88c7324ed2272cb5380e3543235",
+      "bytes": 27978,
+      "mtime_ns": 1793973812832100312
+    }
+  ],
+  "inputs_after": [
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scdr",
+      "sha256": "18cd957da6f182dcb9e03bcf6c087e26f4a8dd716ba20437351033e2081e3e38",
+      "bytes": 5798428,
+      "mtime_ns": 1793934004485869705
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.scmo",
+      "sha256": "f9209da865ea02ef3b8a681be87803e38902c4e4b7bcb957413095be9f22e59c",
+      "bytes": 26444,
+      "mtime_ns": 1793934004486877385
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-02-SDP.txt",
+      "sha256": "75cbe9d8ea4826c376fce4fea3599eec785dacaa08f89e3dac77dfea8733fa09",
+      "bytes": 706710,
+      "mtime_ns": 1793934004487159611
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scdr",
+      "sha256": "3f36a1406829111f52d7025b8a910b512faf066623b5e9c88efd0bc2007c42c0",
+      "bytes": 10147228,
+      "mtime_ns": 1793934004497869703
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.scmo",
+      "sha256": "86c391a3dc905f6a9bb60ad999cb54d47a5b06bf6147204e3725530f72c54f75",
+      "bytes": 46244,
+      "mtime_ns": 1793934004501579358
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-04-SDP.txt",
+      "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778",
+      "bytes": 2376912,
+      "mtime_ns": 1793934004501902812
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scdr",
+      "sha256": "ba9d5354bdc7905aa5b147943b4b1f8d02456d1cf2c12bd43573efe4d101802a",
+      "bytes": 8088796,
+      "mtime_ns": 1793934004513869700
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.scmo",
+      "sha256": "4aea9129563b935064ddb97bb5b421bd13d4a137fb649c50954682ba9fc20b56",
+      "bytes": 36872,
+      "mtime_ns": 1793934004516873244
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-05-SDP.txt",
+      "sha256": "0bc96fefdb1b0f96873480b993c780050981b8cd3a191a536d0427880969c856",
+      "bytes": 333271,
+      "mtime_ns": 1793934004517164306
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scdr",
+      "sha256": "b0f47471495194ca0bfda9203b3bbf5e703b2eae629a5fdabe5cb77f5f4cf1df",
+      "bytes": 5073628,
+      "mtime_ns": 1793934004521869699
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.scmo",
+      "sha256": "e9231cb9b367a9bc873bd8c670812ed77ef0d5d863930b10ecf5b650f587a93a",
+      "bytes": 23144,
+      "mtime_ns": 1793934004523693384
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-09-SDP.txt",
+      "sha256": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
+      "bytes": 246882,
+      "mtime_ns": 1793934004523932497
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scdr",
+      "sha256": "98e2554f1b1db179bfd756fb1dbd37ee694e912d6debb2c7a11c3a610a433a6f",
+      "bytes": 6320284,
+      "mtime_ns": 1793934004529869698
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.scmo",
+      "sha256": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+      "bytes": 28820,
+      "mtime_ns": 1793934004532686756
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-10-SDP.txt",
+      "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+      "bytes": 594269,
+      "mtime_ns": 1793934004533041279
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scdr",
+      "sha256": "49028ffcfc929eee905400009b6d8cc717956b6becef81c26dccf8fa3325cd71",
+      "bytes": 8697628,
+      "mtime_ns": 1793934004541869696
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.scmo",
+      "sha256": "54df6c378370b8c7e75ad9d21def1fc7fa2b3e73a99ef9e6cdf6188e1dab7e5f",
+      "bytes": 39644,
+      "mtime_ns": 1793934004544139535
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-11-SDP.txt",
+      "sha256": "abe57d7cf3e065fd7672155ad82f542b0521756882233df4b83c6cb138790ec6",
+      "bytes": 425579,
+      "mtime_ns": 1793934004544398216
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scdr",
+      "sha256": "3270c8eb81549f17173386753f9b92cc45915a0042430091c6cb27a8c485f348",
+      "bytes": 7248028,
+      "mtime_ns": 1793934004549869695
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.scmo",
+      "sha256": "90a03f809f8e548b3878303887261d55a8bb870ede11fac4bec297f7be6f28a9",
+      "bytes": 33044,
+      "mtime_ns": 1793934004554260777
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_research/work/inputs/hr-records-v2/MOT17-13-SDP.txt",
+      "sha256": "808067a6c0291848689f8cf357b3b9e87599426fcc496eca50e96e22126f053e",
+      "bytes": 592705,
+      "mtime_ns": 1793934004554702515
+    }
+  ],
+  "custody": {
+    "binaries": true,
+    "sources": true,
+    "inputs": true
+  },
+  "total_sequence_frames": 5316,
+  "pass": true
+}

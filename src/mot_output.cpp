@@ -105,7 +105,10 @@ void write_detection_records(const std::filesystem::path& path, const DetectionR
 }
 
 DetectionRecords read_detection_records(const std::filesystem::path& path) {
-    const auto bytes = read_text_file(path);
+    return decode_detection_records(read_text_file(path));
+}
+
+DetectionRecords decode_detection_records(std::string_view bytes) {
     constexpr std::size_t header_size = 28;
     if (bytes.size() < header_size) throw std::runtime_error("SCDR: truncated header");
     if (bytes.compare(0, 4, "SCDR") != 0) throw std::runtime_error("SCDR: invalid magic");

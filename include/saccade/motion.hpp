@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <span>
+#include <string_view>
 #include <vector>
 
 // F05/F06 contract, profile v1-motion/1 (docs/TRACKING.md §4-§5). Line A owns
@@ -70,5 +71,7 @@ struct MotionRecords {
 };
 void write_motion_records(const std::filesystem::path& path, const MotionRecords& records);
 MotionRecords read_motion_records(const std::filesystem::path& path);
+// Decodes the exact immutable bytes that callers can hash in the run receipt.
+MotionRecords decode_motion_records(std::string_view bytes);
 
 } // namespace saccade

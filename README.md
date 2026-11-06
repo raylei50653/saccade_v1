@@ -2,7 +2,7 @@
 
 Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC → geometry-first／ReID-free tracking → MOT 輸出。runtime 不依賴 Python；模型訓練與匯出使用 PyTorch／Python。專案從零重寫，以舊架構作設計基線，不復用舊 runtime 程式或遷移舊實驗數據。
 
-文件狀態更新：**2026-11-05**。目前部署為 **HR 1280×768 FP16**，CUDA Graph 預設啟用，GMC 已採 **G1 NVOFA／v1-motion/2**。M0–M4 完成，**P01 CLOSED（有範圍）**；後續 [G1 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍為 OPEN，其餘八步通過。
+文件狀態更新：**2026-11-06**。目前部署為 **HR 1280×768 FP16**，CUDA Graph 預設啟用，GMC 已採 **G1 NVOFA／v1-motion/2**。M0–M4 完成，**P01 CLOSED（有範圍）**；後續 [G1 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍為 OPEN，其餘八步通過。
 
 原 [CUDA Graph 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)與 [F02／F03 加速後七序列 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)保留各自受測來源與 motion profile；後者 5,316 幀、21/21 份輸出與 M4 相同，品質不變，吞吐 195.85 FPS，屬 M4 之後的開發來源證據。
 
@@ -11,6 +11,8 @@ F02 tile fusion／F03 N16 與部署特化已完成 [clean-source 整合補驗](e
 另完成 [clean-source ABBA 效能補驗](evidence/f02-f03/2026-11-05-clean-performance/REPORT.md)：固定 engine、`f4865cd`→`23ade53`、原 `v1-motion/1`，完整 F03 Graph 5.242→4.905 ms（−6.43%），tracking 單幀平均 7.093→6.626 ms，queued 180.6→195.2 FPS。四張模型 outputs／statuses 與 32 份完整 packets 相同；tracking 限 MOT17-10 的 140 幀 prefix、JPEG 預載，原開發測時仍保留各自來源身分。
 
 [OAO duration-ramp／front-occluder 四臂消融](evidence/occlusion/2026-11-05/REPORT.md)只用 MOT17-10 val 的固定輸入 CPU replay，舊 preset 參數未改善關聯，未加入部署預設。完整判定與未涵蓋項目見 [目前狀態](docs/STATUS.md)，待辦見 [BACKLOG](docs/BACKLOG.md)。
+
+2026-11-06 [P08 設定與事件工具](docs/P08_TOOLS.md)已接入 `track_offline`、`track_sequence`、`track_stream` 的單一 resolved tracking schema、覆寫與來源收據；CPU 實際決策事件、lifecycle／身份／提交模型及完整 packet binding 已落地。這是[本機開發來源驗證](evidence/p08/2026-11-06-development/REPORT.md)；GPU 完整中間事件 dump 與觀察開關一致性仍 OPEN，P08 尚未整體結案。
 
 ## 文件分組
 
@@ -31,6 +33,7 @@ F02 tile fusion／F03 N16 與部署特化已完成 [clean-source 整合補驗](e
 | [資料流與架構](docs/DATAFLOW.md) | 邏輯階段、資料契約、GPU 所有權、設定治理與行為驗證 |
 | [非同步流程控制](docs/ASYNC_CONTROL.md) | streams／events、ready／consumed、首次失敗與 drain／close |
 | [ResultPacket](docs/RESULT_PACKET.md) | 固定容量封包、穩定編碼、失敗狀態與完整 bytes 比較 |
+| [P08 設定與事件工具](docs/P08_TOOLS.md) | 三個 tracking CLI 的 resolved schema／hash／來源收據、CPU 實際事件與合法性模型、完整 packet binding；GPU 中間事件與觀察驗證仍 OPEN |
 | [C++ 協定模型](docs/PROTOCOL_MODEL.md) | 216 組有限 happens-before 檢查與同步邊變異測試 |
 | [合成 CUDA 骨架](docs/CUDA_SYNTHETIC.md) | streams／events／cuFFT 的獨立有限驗證；保留原始與 closeout 證據 |
 

@@ -15,6 +15,8 @@
 // compared through these values and the encoded ResultPacket.
 namespace saccade {
 
+class TrackingEventObserver;
+
 inline constexpr const char* kTrackerProfile = "v1-tracker/1";
 inline constexpr std::uint32_t kTrackCapacity = 512;
 inline constexpr std::uint32_t kBatchCapacity = kPostprocessCapacity;
@@ -111,7 +113,8 @@ struct PredictedState {
 // GMC control, one predict, age and removal (docs/TRACKING.md §6). frame is the
 // target frame k; identity consistency is F07's job, not checked here.
 PredictedState predict_tracks(const TrackState& committed, const MotionContext& motion, FrameId frame,
-                              const TrackerConfig& config);
+                              const TrackerConfig& config, TrackingEventObserver* observer = nullptr,
+                              std::uint64_t source = 1);
 
 // F04b output, owned by M after the candidate slot is consumed.
 struct BatchDetection {
@@ -138,7 +141,8 @@ struct UpdateResult {
     Error error = Error::none;
 };
 UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
-                                  const MotionContext& motion, const TrackerConfig& config);
+                                  const MotionContext& motion, const TrackerConfig& config,
+                                  TrackingEventObserver* observer = nullptr, std::uint64_t source = 1);
 
 // Serial CPU session: F08a -> F04b -> F07/F08b -> commit/packet per frame with
 // the RESULT_PACKET status model (first failure FAILED, then
@@ -146,7 +150,8 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
 // Frames are implicit and consecutive from 0.
 class TrackerReference {
 public:
-    explicit TrackerReference(Epoch epoch, const TrackerConfig& config = {});
+    explicit TrackerReference(Epoch epoch, const TrackerConfig& config = {},
+                              TrackingEventObserver* observer = nullptr, std::uint64_t source = 1);
     ResultPacket step(const DetectionCandidates& candidates, const MotionContext& motion);
     const TrackState& committed() const { return committed_; }
     bool failed() const { return fail_frame_ != no_frame; }
@@ -157,6 +162,8 @@ private:
     FrameId next_frame_ = 0;
     FrameId fail_frame_ = no_frame;
     Error fail_code_ = Error::none;
+    TrackingEventObserver* observer_ = nullptr; // optional read-only decision snapshots; caller owns lifetime
+    std::uint64_t source_ = 1;
 };
 
 } // namespace saccade

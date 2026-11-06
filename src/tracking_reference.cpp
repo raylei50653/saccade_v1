@@ -1,5 +1,6 @@
 #include "saccade/tracking.hpp"
 #include "saccade/tracking_math.hpp"
+#include "saccade/tracking_events.hpp"
 
 #include <algorithm>
 #include <utility>
@@ -7,6 +8,25 @@
 namespace saccade {
 namespace {
 namespace math = tracking_math;
+TrackingEvent event(std::uint64_t source, Epoch epoch, FrameId frame, TrackingEventKind kind,
+                    TrackingEventPhase phase, TrackingEventStage stage) {
+    TrackingEvent e;
+    e.source = source; e.epoch = epoch; e.frame = frame;
+    e.kind = kind; e.phase = phase; e.stage = stage;
+    return e;
+}
+void transition(TrackingEventObserver* observer, std::uint64_t source, Epoch epoch, FrameId frame,
+                TrackingEventKind kind, TrackingEventPhase phase, const Track& before, const Track& after,
+                const BatchDetection* detection = nullptr, std::uint32_t association_stage = 0,
+                TrackingEventReason reason = TrackingEventReason::none, std::uint64_t related_uid = 0) {
+    if (!observer) return;
+    auto e = event(source, epoch, frame, kind, phase,
+                   phase == TrackingEventPhase::predict ? TrackingEventStage::f08a : TrackingEventStage::f08b);
+    e.before = before; e.after = after; e.reason = reason; e.related_uid = related_uid;
+    if (detection) e.detection = *detection;
+    e.association_stage = association_stage;
+    observer->record(e);
+}
 bool finite_box(const std::array<float, 4>& box) {
     for (float v : box) if (!math::finite(v)) return false;
     return true;
@@ -56,7 +76,7 @@ TrackState initial_track_state(Epoch epoch) {
 }
 
 PredictedState predict_tracks(const TrackState& committed, const MotionContext& motion, FrameId frame,
-                              const TrackerConfig& c) {
+                              const TrackerConfig& c, TrackingEventObserver* observer, std::uint64_t source) {
     PredictedState out;
     out.epoch = committed.epoch;
     out.source_committed_frame = committed.committed_frame;
@@ -64,6 +84,7 @@ PredictedState predict_tracks(const TrackState& committed, const MotionContext& 
     out.motion = motion;
     out.next_uid = committed.next_uid;
     for (auto t : committed.tracks) {
+        const auto before = observer ? t : Track{};
         if (!finite_track(t)) { out.error = Error::numeric; return out; }
         if (motion.status == MotionStatus::valid) {
             t.x[0] += motion.tx;
@@ -72,7 +93,14 @@ PredictedState predict_tracks(const TrackState& committed, const MotionContext& 
         math::kalman_predict(t.x.data(), t.P.data(), c.kalman.std_position, c.kalman.std_velocity);
         ++t.age;
         if (!finite_track(t)) { out.error = Error::numeric; return out; }
-        if (t.age > c.life.track_buffer || t.x[3] < 1 || t.x[2] <= 0) continue;
+        transition(observer, source, committed.epoch, frame, TrackingEventKind::predict,
+                   TrackingEventPhase::predict, before, t);
+        if (t.age > c.life.track_buffer || t.x[3] < 1 || t.x[2] <= 0) {
+            transition(observer, source, committed.epoch, frame, TrackingEventKind::remove,
+                       TrackingEventPhase::predict, t, {}, nullptr, 0,
+                       t.age > c.life.track_buffer ? TrackingEventReason::expired : TrackingEventReason::invalid_geometry);
+            continue;
+        }
         std::array<float, 4> box;
         math::state_to_box(t.x.data(), box.data());
         if (!finite_box(box)) { out.error = Error::numeric; return out; }
@@ -151,7 +179,8 @@ DetectionBatch assemble_detection_batch(const DetectionCandidates& candidates, c
 }
 
 UpdateResult associate_and_update(const PredictedState& predicted, const DetectionBatch& batch,
-                                  const MotionContext& motion, const TrackerConfig& c) {
+                                  const MotionContext& motion, const TrackerConfig& c,
+                                  TrackingEventObserver* observer, std::uint64_t source) {
     UpdateResult out;
     out.error = predicted.error | batch.error;
     if (batch.epoch != predicted.epoch || motion.epoch != predicted.epoch ||
@@ -166,6 +195,7 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
     for (const auto& d : batch.rows) if (!finite_detection(d)) out.error = Error::numeric;
     if (out.error != Error::none) return out;
     std::vector<int> matched(tracks.size(), -1);
+    std::vector<std::uint32_t> matched_stage(observer ? tracks.size() : 0, 0);
     std::vector<bool> used(batch.rows.size(), false), removed(tracks.size(), false);
     struct Proposal { int detection = -1; float p = 0, bid = 0; };
     struct Option { int detection; float p; };
@@ -218,13 +248,21 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
                 winner = static_cast<int>(i);
         }
         for (std::size_t j = 0; j < winners.size(); ++j)
-            if (winners[j] >= 0) { matched[winners[j]] = static_cast<int>(j); used[j] = true; }
+            if (winners[j] >= 0) {
+                matched[winners[j]] = static_cast<int>(j); used[j] = true;
+                if (observer) matched_stage[winners[j]] = static_cast<std::uint32_t>(stage + 1);
+            }
     }
     for (std::size_t i = 0; i < tracks.size(); ++i) {
         auto& t = tracks[i];
+        const auto before = observer ? t : Track{};
         if (matched[i] < 0) {
             if (t.lifecycle == TrackLifecycle::tentative) removed[i] = true;
             else { t.hit_streak = 0; t.score_sum = 0; }
+            transition(observer, source, predicted.epoch, predicted.frame,
+                       removed[i] ? TrackingEventKind::remove : TrackingEventKind::lost,
+                       TrackingEventPhase::update, before, removed[i] ? Track{} : t, nullptr, 0,
+                       TrackingEventReason::unmatched);
             continue;
         }
         const auto& d = batch.rows[matched[i]];
@@ -240,6 +278,15 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         t.h_ema = math::height_ema(t.h_ema, d.xyxy[3] - d.xyxy[1]);
         confirm(t, c);
         if (!finite_track(t)) { out.error = Error::numeric; return out; }
+        if (observer) {
+            auto associated = t;
+            associated.lifecycle = before.lifecycle;
+            transition(observer, source, predicted.epoch, predicted.frame, TrackingEventKind::associate,
+                       TrackingEventPhase::update, before, associated, &d, matched_stage[i]);
+            if (t.lifecycle != before.lifecycle)
+                transition(observer, source, predicted.epoch, predicted.frame, TrackingEventKind::confirm,
+                           TrackingEventPhase::update, associated, t);
+        }
     }
     if (c.bridge.enabled) {
         struct Claim { int lost = -1; };
@@ -280,7 +327,14 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
                 winner = static_cast<int>(i);
         }
         for (std::size_t j = 0; j < winners.size(); ++j)
-            if (winners[j] >= 0) { tracks[winners[j]].output_id = tracks[j].output_id; removed[j] = true; }
+            if (winners[j] >= 0) {
+                auto& receiver = tracks[winners[j]];
+                const auto before = observer ? receiver : Track{};
+                receiver.output_id = tracks[j].output_id; removed[j] = true;
+                transition(observer, source, predicted.epoch, predicted.frame, TrackingEventKind::relink,
+                           TrackingEventPhase::bridge, before, receiver, nullptr, 0,
+                           TrackingEventReason::none, tracks[j].uid);
+            }
     }
     std::vector<Track> survivors;
     for (std::size_t i = 0; i < tracks.size(); ++i) if (!removed[i]) survivors.push_back(tracks[i]);
@@ -307,6 +361,15 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         t.h_ema = d.xyxy[3] - d.xyxy[1];
         confirm(t, c);
         if (!finite_track(t)) { out.error = Error::numeric; return out; }
+        if (observer) {
+            auto born = t;
+            born.lifecycle = TrackLifecycle::tentative;
+            transition(observer, source, predicted.epoch, predicted.frame, TrackingEventKind::birth,
+                       TrackingEventPhase::birth, {}, born, &d);
+            if (t.lifecycle != born.lifecycle)
+                transition(observer, source, predicted.epoch, predicted.frame, TrackingEventKind::confirm,
+                           TrackingEventPhase::birth, born, t);
+        }
         tracks.push_back(t);
     }
     for (const auto& t : tracks) {
@@ -321,13 +384,20 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         row.association_score = t.association_score;
         if (!finite_box(row.xyxy)) { out.error = Error::numeric; out.rows.clear(); return out; }
         out.rows.push_back(row);
+        if (observer) {
+            auto e = event(source, predicted.epoch, predicted.frame, TrackingEventKind::emit,
+                           TrackingEventPhase::emit, TrackingEventStage::f09);
+            e.row = row;
+            observer->record(e);
+        }
     }
     if (out.rows.size() > packet_capacity) { out.error = Error::overflow; out.rows.clear(); }
     return out;
 }
 
-TrackerReference::TrackerReference(Epoch epoch, const TrackerConfig& config)
-    : config_(config), committed_(initial_track_state(epoch)) {
+TrackerReference::TrackerReference(Epoch epoch, const TrackerConfig& config,
+                                   TrackingEventObserver* observer, std::uint64_t source)
+    : config_(config), committed_(initial_track_state(epoch)), observer_(observer), source_(source) {
     validate_tracker_config(config_);
 }
 ResultPacket TrackerReference::step(const DetectionCandidates& candidates, const MotionContext& motion) {
@@ -335,26 +405,53 @@ ResultPacket TrackerReference::step(const DetectionCandidates& candidates, const
     packet.epoch = committed_.epoch;
     packet.frame = next_frame_++;
     packet.committed_frame = committed_.committed_frame;
+    const auto terminal = [&](TrackingEventKind kind) {
+        if (!observer_) return;
+        auto e = event(source_, packet.epoch, packet.frame, kind, TrackingEventPhase::commit, TrackingEventStage::control);
+        e.committed_frame = packet.committed_frame;
+        e.count = static_cast<std::uint32_t>(packet.tracks.size());
+        e.error = packet.fail_code;
+        observer_->record(e);
+    };
+    if (observer_) {
+        auto e = event(source_, packet.epoch, packet.frame, TrackingEventKind::frame_begin,
+                       TrackingEventPhase::frame, TrackingEventStage::control);
+        e.committed_frame = packet.committed_frame;
+        observer_->record(e);
+    }
     if (failed()) {
         packet.status = ResultStatus::skipped_after_failure;
         packet.fail_frame = fail_frame_;
         packet.fail_code = fail_code_;
+        terminal(TrackingEventKind::frame_skipped);
         return packet;
     }
-    const auto predicted = predict_tracks(committed_, motion, packet.frame, config_);
+    const auto predicted = predict_tracks(committed_, motion, packet.frame, config_, observer_, source_);
     const auto batch = assemble_detection_batch(candidates, predicted, config_);
-    auto update = associate_and_update(predicted, batch, motion, config_);
+    if (observer_ && batch.error == Error::none && predicted.error == Error::none) {
+        auto e = event(source_, packet.epoch, packet.frame, TrackingEventKind::batch_ready,
+                       TrackingEventPhase::batch, TrackingEventStage::f04b);
+        e.count = static_cast<std::uint32_t>(batch.rows.size());
+        observer_->record(e);
+        for (const auto& d : batch.rows) {
+            e.kind = TrackingEventKind::candidate; e.detection = d;
+            observer_->record(e);
+        }
+    }
+    auto update = associate_and_update(predicted, batch, motion, config_, observer_, source_);
     if (update.error != Error::none) {
         fail_frame_ = packet.frame;
         fail_code_ = update.error;
         packet.status = ResultStatus::failed;
         packet.fail_frame = fail_frame_;
         packet.frame_error = packet.fail_code = fail_code_;
+        terminal(TrackingEventKind::frame_fail);
         return packet;
     }
     committed_ = std::move(update.next);
     packet.committed_frame = committed_.committed_frame;
     packet.tracks = std::move(update.rows);
+    terminal(TrackingEventKind::frame_commit);
     return packet;
 }
 } // namespace saccade

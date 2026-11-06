@@ -1,6 +1,8 @@
 #include "saccade/tracking_session.hpp"
 #include "saccade/video_source.hpp"
 #include "saccade/mot_output.hpp"
+#include "saccade/config_cli.hpp"
+#include "saccade/resolved_session.hpp"
 
 extern "C" {
 #include <libavutil/log.h>
@@ -20,6 +22,7 @@ extern "C" {
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -35,7 +38,7 @@ static_assert(decltype(stop_signal)::is_always_lock_free);
 extern "C" void handle_stop(int signal) { stop_signal.store(signal, std::memory_order_relaxed); }
 int interrupted() { return stop_signal.load(std::memory_order_relaxed); }
 
-constexpr std::string_view usage = "usage: track_stream ENGINE SOURCE OUT.txt [--decode cuda|cpu] [--device N] [--format NAME] [--profile NAME] [--frames N] [--timeout-ms N] [--rtsp-transport tcp|udp] [--packets OUT.bin] [--no-cuda-graph] [--serial] [--epoch N]";
+constexpr std::string_view usage = "usage: track_stream ENGINE SOURCE OUT.txt [--decode cuda|cpu] [--device N] [--format NAME] [--profile NAME] [--frames N] [--timeout-ms N] [--rtsp-transport tcp|udp] [--packets OUT.bin] [--no-cuda-graph] [--serial] [--epoch N] [--config FILE] [--set KEY=VALUE] [--resolved-config FILE]";
 
 class Signals {
 public:
@@ -69,41 +72,70 @@ template<class T> T number(std::string_view text, std::string_view flag) {
 
 struct Options {
     std::string engine, source;
-    std::filesystem::path output, packets;
+    std::filesystem::path output, packets, config_path, resolved_path;
+    std::string config_text;
+    saccade::ConfigAssignments assignments, environment;
+    std::set<std::string> explicit_options;
     saccade::VideoSourceConfig video;
     saccade::TrackingSessionConfig tracking;
     std::uint64_t frames = static_cast<std::uint64_t>(std::numeric_limits<saccade::FrameId>::max());
 };
+
+saccade::ResolvedTrackingConfig stream_defaults(std::uint32_t width, std::uint32_t height) {
+    saccade::ResolvedTrackingConfig defaults;
+    defaults.source.width = width; defaults.source.height = height;
+    defaults.preprocess.max_width = std::max(1920u, width);
+    defaults.preprocess.max_height = std::max(1080u, height);
+    defaults.implementation.backend = "cuda"; defaults.implementation.input = "device-video";
+    defaults.implementation.motion_profile = saccade::kFlowMotionProfile;
+    defaults.implementation.model_profile = saccade::ModelProfile::Hr1280x768;
+    defaults.execution.result_slots = 1;
+    defaults.execution.mode = "pipelined"; defaults.execution.cuda_graph = true;
+    defaults.output_profile = "stream-observations/1";
+    defaults.mot.interpolate_max_gap = 0;
+    return defaults;
+}
+
+saccade::ResolvedTrackingConfig resolve_stream(const Options& options, std::uint32_t width, std::uint32_t height) {
+    const auto resolved = saccade::resolve_tracking_config(options.config_text, options.environment,
+        options.assignments, {{"cuda"}, {"host-rgb", "device-video"}}, stream_defaults(width, height), "track_stream");
+    if (resolved.output_profile != "stream-observations/1")
+        throw std::invalid_argument("track_stream requires stream-observations/1 output");
+    return resolved;
+}
 
 Options parse(int argc, char** argv) {
     if (argc < 4)
         throw std::invalid_argument(std::string(usage));
     Options options;
     options.engine = argv[1]; options.source = argv[2]; options.output = argv[3];
-    options.tracking.profile = saccade::ModelProfile::Hr1280x768;
-    options.video.backend = saccade::VideoDecodeBackend::Cuda;
-    // Deliver each result before the next possibly blocking source read.
-    options.tracking.result_slots = 1;
     for (int i = 4; i < argc; ++i) {
         const std::string_view argument = argv[i];
-        if (argument == "--no-cuda-graph") options.tracking.cuda_graph = false;
-        else if (argument == "--serial") options.tracking.mode = saccade::TrackingSessionMode::Serial;
+        if (argument == "--no-cuda-graph") options.assignments.emplace_back("execution.cuda_graph", "false");
+        else if (argument == "--serial") options.assignments.emplace_back("execution.mode", "serial");
         else {
             if (i + 1 == argc) throw std::invalid_argument("incomplete stream option");
             const std::string_view value = argv[++i];
-            if (argument == "--format") options.video.input_format = value;
+            const bool alias = argument == "--decode" || argument == "--device" || argument == "--profile" ||
+                               argument == "--epoch" || argument == "--set";
+            if (!alias && !options.explicit_options.insert(std::string(argument)).second)
+                throw std::invalid_argument("duplicate stream option");
+            if (argument == "--config") options.config_path = value;
+            else if (argument == "--resolved-config") options.resolved_path = value;
+            else if (argument == "--set") options.assignments.push_back(saccade::tracking_cli_assignment(value));
+            else if (argument == "--format") options.video.input_format = value;
             else if (argument == "--decode") {
-                if (value == "cuda") options.video.backend = saccade::VideoDecodeBackend::Cuda;
-                else if (value == "cpu") options.video.backend = saccade::VideoDecodeBackend::Cpu;
+                if (value == "cuda") options.assignments.emplace_back("implementation.input", "device-video");
+                else if (value == "cpu") options.assignments.emplace_back("implementation.input", "host-rgb");
                 else throw std::invalid_argument("--decode must be cuda or cpu");
             }
-            else if (argument == "--device") options.video.device = number<int>(value, argument);
-            else if (argument == "--profile") options.tracking.profile = saccade::parse_model_profile(value);
+            else if (argument == "--device") options.assignments.emplace_back("execution.device", value);
+            else if (argument == "--profile") options.assignments.emplace_back("implementation.model_profile", value);
             else if (argument == "--frames") options.frames = number<std::uint64_t>(value, argument);
             else if (argument == "--timeout-ms") options.video.timeout_ms = number<int>(value, argument);
             else if (argument == "--rtsp-transport") options.video.rtsp_transport = value;
             else if (argument == "--packets") options.packets = value;
-            else if (argument == "--epoch") options.tracking.epoch = number<std::uint64_t>(value, argument);
+            else if (argument == "--epoch") options.assignments.emplace_back("source.epoch", value);
             else throw std::invalid_argument("unknown stream option");
         }
     }
@@ -112,10 +144,20 @@ Options parse(int argc, char** argv) {
     if (options.video.timeout_ms <= 0) throw std::invalid_argument("--timeout-ms must be positive");
     if (options.video.rtsp_transport != "tcp" && options.video.rtsp_transport != "udp")
         throw std::invalid_argument("--rtsp-transport must be tcp or udp");
-    if (options.video.device < 0) throw std::invalid_argument("--device must be nonnegative");
-    options.tracking.device = options.video.device;
-    options.tracking.preprocess.input = options.video.backend == saccade::VideoDecodeBackend::Cuda
-        ? saccade::PreprocessInput::DeviceVideo : saccade::PreprocessInput::HostRgb;
+    for (const unsigned char c : options.video.input_format)
+        if (!(c >= 'a' && c <= 'z') && !(c >= 'A' && c <= 'Z') && !(c >= '0' && c <= '9') &&
+            c != '_' && c != '-') throw std::invalid_argument("--format requires a format name");
+    if (!options.config_path.empty()) options.config_text = saccade::read_text_file(options.config_path);
+    options.environment = saccade::declared_tracking_environment();
+    // Validate typed options before opening a potentially blocking source. Only
+    // dimensions are provisional here; the first decoded frame locks them below.
+    const auto preview = saccade::native_preview_defaults(stream_defaults(1920, 1080), options.config_text,
+                                                         options.environment, options.assignments);
+    const auto resolved = resolve_stream(options, preview.source.width, preview.source.height);
+    options.tracking = saccade::session_config_from_resolved(resolved);
+    options.video.device = options.tracking.device;
+    options.video.backend = resolved.implementation.input == "device-video" ?
+        saccade::VideoDecodeBackend::Cuda : saccade::VideoDecodeBackend::Cpu;
     return options;
 }
 
@@ -140,6 +182,13 @@ void validate_outputs(const Options& options) {
         if (normalized(options.packets) == output)
             throw std::invalid_argument("MOT and packet outputs must differ");
         check(options.packets);
+    }
+    if (!options.resolved_path.empty()) {
+        const auto resolved = normalized(options.resolved_path);
+        if (resolved == output || (!options.packets.empty() && resolved == normalized(options.packets)) ||
+            (!options.config_path.empty() && resolved == normalized(options.config_path)))
+            throw std::invalid_argument("resolved config output must differ from inputs and other outputs");
+        check(options.resolved_path);
     }
 }
 
@@ -279,12 +328,26 @@ int run(Options options) {
         stopped = interrupted() != 0;
         if (!first && !stopped) throw std::runtime_error("video source contains no frames");
         if (first) {
-            options.tracking.original_width = frame.width;
-            options.tracking.original_height = frame.height;
+            auto resolved = resolve_stream(options, static_cast<std::uint32_t>(frame.width),
+                                                  static_cast<std::uint32_t>(frame.height));
+            if (resolved.source.width != static_cast<std::uint32_t>(frame.width) ||
+                resolved.source.height != static_cast<std::uint32_t>(frame.height))
+                throw std::invalid_argument("resolved source dimensions differ from decoded metadata");
+            saccade::mark_native_input_origins(resolved, "decoded-frame-metadata");
+            options.tracking = saccade::session_config_from_resolved(resolved);
             session = std::make_unique<saccade::TrackingSession>(options.engine, options.tracking);
+            const auto build_identity = saccade::tracking_build_identity(options.engine) +
+                "video.open.input_format=" + options.video.input_format + '\n' +
+                "video.open.max_width=" + std::to_string(options.video.max_width) + '\n' +
+                "video.open.max_height=" + std::to_string(options.video.max_height) + '\n' +
+                "video.open.frame_limit=" + std::to_string(options.frames) + '\n' +
+                (!options.config_path.empty() ? "input.config_file_sha256=" + saccade::sha256_hex(options.config_text) + '\n' : std::string{}) +
+                source.identity();
+            const auto record = saccade::resolved_config_record(resolved, build_identity);
+            if (!options.resolved_path.empty()) saccade::write_resolved_config_file(options.resolved_path, record);
             output = std::make_unique<StreamOutput>(options);
             std::cout << "output_profile=stream-observations/1\noutput_ids=native\ninterpolation=disabled\n"
-                      << "tracker_time_model=fixed-step\n" << source.identity() << '\n' << session->identity();
+                      << "tracker_time_model=fixed-step\n" << source.identity() << '\n' << session->identity() << record;
             const auto receive = [&] {
                 const auto result = session->receive();
                 ++received;
@@ -294,13 +357,13 @@ int run(Options options) {
                 if (frame.width != options.tracking.original_width || frame.height != options.tracking.original_height)
                     throw std::runtime_error("video dimensions changed; begin a new tracking session");
                 if (frame.index != submitted) throw std::runtime_error("video frame index is not contiguous");
-                if (session->pending() == options.tracking.result_slots) receive();
+                if (session->pending()) receive();
                 if (output->failed()) break;
                 if (options.video.backend == saccade::VideoDecodeBackend::Cuda)
                     session->enqueue_device(frame.device_frame, static_cast<saccade::FrameId>(submitted));
                 else session->enqueue_rgb(frame.rgb, static_cast<saccade::FrameId>(submitted));
                 ++submitted;
-                if (session->pending() == options.tracking.result_slots) receive();
+                if (session->pending()) receive();
                 if (output->failed()) break;
                 if (submitted == options.frames) { frame_limit = true; break; }
                 if (!source.read(frame)) break;

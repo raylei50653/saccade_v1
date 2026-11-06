@@ -150,6 +150,16 @@ void records() {
     std::ifstream in(file.path, std::ios::binary);
     const std::vector<char> bytes{std::istreambuf_iterator<char>(in), {}};
     in.close();
+    const auto memory_decoded = decode_motion_records(std::string_view(bytes.data(), bytes.size()));
+    check(memory_decoded.key == decoded.key && memory_decoded.epoch == decoded.epoch &&
+          memory_decoded.frames.size() == decoded.frames.size(), "SCMO immutable receipt bytes header");
+    for (std::size_t i = 0; i < decoded.frames.size(); ++i) {
+        const auto& a = memory_decoded.frames[i]; const auto& b = decoded.frames[i];
+        check(a.epoch == b.epoch && a.frame == b.frame && a.reference_frame == b.reference_frame &&
+              a.status == b.status && a.peak_x == b.peak_x && a.peak_y == b.peak_y && bits(a.pcr, b.pcr) &&
+              bits(a.confidence, b.confidence) && bits(a.tx, b.tx) && bits(a.ty, b.ty),
+              "SCMO immutable receipt bytes preserve every frame field");
+    }
     check(bytes.size() == 44 + 4 * 44 && bytes[4] == 1 && bytes[8] == 35 &&
           static_cast<unsigned char>(bytes[28]) == 0xe7 && bytes[29] == 3 && bytes[36] == 4 &&
           static_cast<unsigned char>(bytes[52]) == 255 && static_cast<unsigned char>(bytes[64]) == 253,
@@ -161,13 +171,16 @@ void records() {
     for (std::size_t length = 0; length < bytes.size(); ++length) {
         write_bytes({bytes.begin(), bytes.begin() + length});
         rejects<std::runtime_error>([&] { (void)read_motion_records(file.path); });
+        rejects<std::runtime_error>([&] { (void)decode_motion_records(std::string_view(bytes.data(), length)); });
     }
     for (const auto offset : {0u, 4u, 60u}) {
         auto bad = bytes; bad[offset] = 99; write_bytes(bad);
         rejects<std::runtime_error>([&] { (void)read_motion_records(file.path); });
+        rejects<std::runtime_error>([&] { (void)decode_motion_records(std::string_view(bad.data(), bad.size())); });
     }
     auto extra = bytes; extra.push_back(0); write_bytes(extra);
     rejects<std::runtime_error>([&] { (void)read_motion_records(file.path); });
+    rejects<std::runtime_error>([&] { (void)decode_motion_records(std::string_view(extra.data(), extra.size())); });
     write_motion_records(file.path, {records.key, 0, {}});
     check(read_motion_records(file.path).frames.empty(), "SCMO empty stream");
     std::filesystem::remove(file.path);

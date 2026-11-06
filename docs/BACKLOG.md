@@ -15,6 +15,7 @@
 | 現行 G1／v1-motion/2 | [正式驗收](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍 OPEN／NOT A FULL PASS，其餘八步通過；F02／F03 的舊 profile 補驗不關閉此項 |
 | 延遲與資源排程 | 開發來源量測已記錄；[資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md)、[排程表](../evidence/resource-schedule/2026-11-04/SCHEDULE.md)。單幀延遲、queued 交付延遲與吞吐分列，不設速度門檻 |
 | 即時影像串流（2026-11-05） | [FFmpeg／NVDEC／CUDA 前處理／track_stream](STREAMING.md) 已實作，CLI 預設 GPU 解碼，開發驗證獨立記錄。外部攝影機／RTSP 連線、多來源、重連與可變 dt 不由現有證書涵蓋 |
+| P08 設定與 CPU 事件工具（2026-11-06） | [工具與契約](P08_TOOLS.md)、[本機開發來源證據](../evidence/p08/2026-11-06-development/REPORT.md)：resolved tracking schema 已接三個 CLI，CPU 實際事件、lifecycle／身份／提交模型與完整 packet binding 已落地；GPU 完整中間事件與觀察開關一致性仍 OPEN，未整體結案 |
 
 ## 1. F04：先固定觀測政策，再實作
 
@@ -73,7 +74,7 @@ M4 當時未執行 Head／F03（TensorRT 內部 kernel）的 racecheck／syncche
 | 完整 HR 自訂路徑 racecheck | 原生排隊仍 OPEN；2026-11-05 的 24 GiB OOM 與 [原補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)保留。2026-11-06 [有界排隊補驗](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)以 8 workers／sync limit 8 跑完自訂＋CUB 四種排程各 30 幀及 lifecycle 180 checks，零 errors／warnings、outputs 相同；`PASS_FILTERED_FORCED_SYNC` 不關閉原生未過濾 gate |
 | 雙 host staging 與重疊配置 | 尚未實作雙 STAGE。depth 1／2／4 的交付延遲觀測在 [資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md)，depth 2 未改為預設；新增重疊或變更 buffers／consumed 時須重驗所有權與完整 bytes |
 | P07 支援與恢復 | 跨 GPU、driver、TensorRT 版本的支援矩陣及 GPU fatal 後恢復未由目前單機證據涵蓋；依 [DATAFLOW §9](DATAFLOW.md#9-重抽象差異與待補規格) 與 M4 不涵蓋項目接續 |
-| P08 設定與行為驗證工具 | 現有 tracking lifecycle、packet／MOT 比較與有限協定模型已驗；完整 resolved schema／覆寫優先序、設定 hash 與 bridge 事件模型等其餘工具仍依 [DATAFLOW §4.4、§8.1、§9.2](DATAFLOW.md) 判定，不由 M4 一併關閉 |
+| P08 設定與行為驗證工具 | [resolved tracking schema、三個 CLI 與 CPU 實際事件／模型／完整 packet binding](P08_TOOLS.md)已落地，開發來源證據另列；GPU 完整中間事件 dump 與對應觀察開關一致性仍 OPEN。video I/O CLI 選項另列收據，未納入 tracking config hash。P08 不由這輪 CPU／短程 native 驗證或 M4 一併關閉；完整契約見 [DATAFLOW §4.4、§8.1、§9.2](DATAFLOW.md) |
 | 輸出耐久性 | checked close 與一般檔案輸出已有各自測試；額外 fsync／durability 及異常後部分檔案處置不由現有速度或 bytes 比對證明，仍依 [DATAFLOW P07](DATAFLOW.md#92-真正待補齊的工程規格) 判定 |
 | 效能與品質 | 資源／延遲報告是指定來源、SDK、輸入與設定的量測；不推導其他環境的速度保證。M4 品質只記錄，後續調整仍只用 val |
 

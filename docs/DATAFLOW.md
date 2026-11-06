@@ -189,7 +189,7 @@ continuation-only 候選的 `can_birth=false` 是硬限制，不能被高 score 
 
 ### 4.4 設定治理
 
-本節規則已採納，細化 B11 與 D05；schema、解析器及檢查工具仍待 C++ 實作。
+本節規則已採納，細化 B11 與 D05。2026-11-06 的 [P08 工具](P08_TOOLS.md)已以 C++ 實作 resolved tracking schema、解析器、穩定 hash、來源收據與比較工具，並接入 `track_offline`、`track_sequence`、`track_stream`；原有入口各自的預設與 typed API 保留。驗證身分與範圍見[本機開發來源報告](../evidence/p08/2026-11-06-development/REPORT.md)。video I/O 的格式、timeout、transport、frame limit 仍由獨立 typed CLI 管理並另列收據，不屬於 tracking config hash；完整 P08 仍有 §8.1 所列 GPU 事件與觀察驗證缺口。
 
 所有執行設定經同一個解析入口形成單一 resolved 設定，明列 schema 版本與展開後的預設值。若提供 CLI／環境變數覆寫，僅接受已宣告的項目，採用明定的優先序，並將有效值與來源記入 resolved 記錄；階段與 kernel 不再另讀環境變數改變決策。設定在開始提交 frame 前完成驗證，run 期間保持不變。
 
@@ -351,7 +351,9 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 
 ### 8.1 行為驗證
 
-本節規則已採納；首批 C++ 工具已實作 frame 提交／失敗狀態模型、ResultPacket v1 穩定編碼及完整封包比較，見 [RESULT_PACKET.md](RESULT_PACKET.md)。tracker lifecycle／bridge 事件編碼與模型、resolved 設定 schema／hash 仍待實作。基準來自新專案自己的明定規格與執行結果，不承接舊系統的輸出或實驗成績。
+本節規則已採納；首批 C++ 工具已實作 frame 提交／失敗狀態模型、ResultPacket v1 穩定編碼及完整封包比較，見 [RESULT_PACKET.md](RESULT_PACKET.md)。2026-11-06 的 [P08 工具](P08_TOOLS.md)另補上 resolved tracking 設定、CPU 實際 lifecycle／Bridge 決策事件的穩定編碼、第一分歧比較、lifecycle／身份／提交模型與完整 packet binding。基準來自新專案自己的明定規格與執行結果，不承接舊系統的輸出或實驗成績。
+
+本輪 CPU 事件取自實際決策點，模型核對事件先後、必要轉移、候選資格、身份所有權、提交與失敗，並將事件與完整 ResultPacket stream 綁定；不重算 Kalman／GMC 的數值快照或重解 auction／Bridge 幾何排名。GPU 完整中間事件 dump 與對應觀察開關一致性仍 OPEN；CPU 事件與 packet binding 不表示已覆蓋 GPU 的中間轉移，也不關閉既有 sanitizer OPEN。實際覆蓋及開發來源結果見[本輪報告](../evidence/p08/2026-11-06-development/REPORT.md)，下列三項獨立檢查的契約維持。
 
 行為驗證分成三項獨立檢查，通過其中一項不能代替其他項目：
 
@@ -413,7 +415,7 @@ reset 會建立新 epoch。舊 epoch 的工作須完成或隔離，遲到的結�
 | P05 graph 與比較鍵封裝 | capture／event／資源封裝、warm-up／cache 政策、fixed output 交付，以及 packed winner key 的位寬／序碼或分階段比較方式。 | serial／double-buffer 均滿足 E01–E11 與 [ASYNC_CONTROL](ASYNC_CONTROL.md) 的 A01–A10；F05 在 detect、原圖不跨 stream；物理比較必須完全等價於 §3.2 已定的全序與 phase boundary。 |
 | P06 輸出細節 | MOT 數值精度、輸出／預測框政策、插值適用條件與窗口、序列尾資料落點及記憶體預算。 | 每序列 MOT、首次出現 ID 映射、序列尾插值／定稿；完成後提交。 |
 | P07 故障與支援 | 部分輸出檔案處理、額外 durability、GPU fatal 後清理／恢復與實際 GPU／CUDA／推論版本支援矩陣。 | 必要輸入／計算／輸出失敗即失敗，取消不是 EOF，不隱式重試或降為其他計算路徑。 |
-| P08 設定與行為驗證落地 | resolved schema 與覆寫優先序、設定序列化／hash、tracker lifecycle／bridge 事件編碼與完整模型。 | repo 已有 C++ happens-before／提交失敗模型、錯誤注入、封包 codec 與逐位元比較；§4.4 與 §8.1 的其餘工具仍 OPEN，A10／V04 契約維持。 |
+| P08 設定與行為驗證落地 | resolved schema 與覆寫優先序、設定序列化／hash、tracker lifecycle／bridge 事件編碼與完整模型。 | 原有 C++ happens-before／提交失敗模型、錯誤注入、封包 codec 與逐位元比較保留。2026-11-06 [工具](P08_TOOLS.md)已接入三個 tracking CLI 的 resolved schema，CPU 實際事件、lifecycle／身份／提交模型與完整 packet binding 已落地；GPU 完整中間事件 dump 與觀察開關一致性仍 OPEN，video I/O 設定另列收據、不屬 tracking hash。P08 未整體結案，A10／V04 契約維持。 |
 
 ### 9.3 需要另列架構差異的擴充
 

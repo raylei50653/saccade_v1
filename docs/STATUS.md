@@ -6,6 +6,8 @@
 
 2026-11-06 [正式發布與獨立研究分離](RESEARCH_BOUNDARY.md)：整理前 runtime R0 固定 `dacb91a`；正式 CUDA 依賴改連 tracking core／flow records，CPU hooks 與九臂研究實作由獨立研究建置管理。三庫來源及15個資料單位已保存並實際還原核對；本輪針對性驗證以研究區的新收據記錄，既有正式證書與 sanitizer OPEN 邊界保持原判定。
 
+2026-11-06 [P08 設定與事件工具](P08_TOOLS.md)：`track_offline`、`track_sequence`、`track_stream` 共用 resolved tracking schema，提供明定的覆寫優先序、穩定設定 hash、有效值與來源，以及獨立 build／binary／engine 身分收據。CPU 實際決策事件、lifecycle／身份／提交模型與完整 packet binding 已落地，結果見[本機開發來源報告](../evidence/p08/2026-11-06-development/REPORT.md)。video I/O 的格式、timeout、transport、frame limit 另列收據，未納入 tracking config hash；GPU 完整中間事件 dump 與觀察開關一致性仍 OPEN，P08 尚未整體結案。
+
 2026-11-05 接續：目前 TrackingSession GMC 已採 [G1 NVOFA／v1-motion/2（TRACKING §20）](TRACKING.md)；該輪驗收除完整 session memcheck OPEN 外，其餘八步通過，依 [原報告](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) 判定。以下較早正式證書仍保留各自來源與 motion profile。
 
 2026-11-05 已追加 [HR 完整路徑 sanitizer 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)：乾淨 `a00ab3a` runtime、現行 G1，CUDA CTest 68/68、HR 30 幀 602 checks、HR lifecycle 180 checks；四種排程及 HR lifecycle 的**未過濾完整 synccheck PASS**。四種排程 memcheck 均完成且 outputs 相同，但各有 86 次 NVOF 診斷，lifecycle 為 1,008 次，仍 OPEN。未過濾 racecheck／lazy retry 及自訂＋CUB racecheck 仍 24 GiB OOM，initcheck 出現 nvJPEG 診斷後 900 秒 timeout；**不是 sanitizer 全通過**。
@@ -87,7 +89,8 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含�
 - **完整函式庫插樁**：[HR 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)已補上四種排程各 30 幀及 HR lifecycle 的未過濾完整 synccheck，包含受測 TensorRT／nvJPEG／NVOF CUDA kernels；OFA 硬體本體不在 CUDA 插樁範圍。完整 memcheck 仍因 NVOF 診斷 OPEN；完整 initcheck 已嘗試，出現 nvJPEG 未初始化讀取後 timeout，未完成。原 T01 filtered racecheck 的 PASS 不擴成完整 HR racecheck。
 - **完整 HR racecheck**：原生排隊／未過濾 Graph gate 仍 OPEN。2026-11-06 [有界排隊補驗](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)完成未過濾 ordinary serial 30 幀（工具逐次同步，`PASS_FORCED_SYNC`），以及自訂＋CUB 四種 30 幀排程／lifecycle（`PASS_FILTERED_FORCED_SYNC`）；Graph 全 kernel 的同步化重試仍碰到 24 GiB OOM。原 [資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md#8-無競態的條件與本次驗證) 與 [HR 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md) 的 OOM／timeout 保留，不以普通 serial、同步化、過濾或 component PASS 取代原生 Graph 驗收。
 - **nvJPEG**：F01 initcheck FAIL／原因 OPEN 保留；[使用政策](PREPROCESS_USAGE_POLICY.md) 與 [診斷紀錄](PREPROCESS.md#6-逆向與初始化診斷的證明邊界) 分開判定，不將介入後零報告當作原 runtime 修復。
-- **部署與支援**：HR FP16 engine 的 build provenance、HR deploy manifest 與 native schemas 1–3 的邊界見 [TRACKING §17.4](TRACKING.md#174-p01-判定標準)。跨 GPU／SDK 支援、GPU fatal 後恢復、額外 durability 與完整 P08 工具仍依 [BACKLOG](BACKLOG.md) 及 [DATAFLOW §9.2](DATAFLOW.md#92-真正待補齊的工程規格) 各自判定。
+- **部署與支援**：HR FP16 engine 的 build provenance、HR deploy manifest 與 native schemas 1–3 的邊界見 [TRACKING §17.4](TRACKING.md#174-p01-判定標準)。跨 GPU／SDK 支援、GPU fatal 後恢復與額外 durability 仍依 [BACKLOG](BACKLOG.md) 及 [DATAFLOW §9.2](DATAFLOW.md#92-真正待補齊的工程規格) 各自判定。
+- **P08 GPU 事件與觀察驗證**：[設定與 CPU 事件工具](P08_TOOLS.md)已有本機開發來源驗證；CUDA 完整中間事件 dump 與對應觀察開關一致性仍 OPEN，工具明確拒絕 CUDA 完整事件請求。CPU 事件模型與完整 packet binding 不證明 GPU 中間決策、無競態或完整 session sanitizer 通過；video I/O 設定另列收據，不以 tracking hash 宣稱全部串流設定相同。
 - **排程擴充**：雙 host staging／完整 host decode overlap 尚未實作；多 caller、新 streams、shape／buffer 或 slot 回收邊改動，需更新 owner／last-use 及對應驗證。當前安全使用條件見 [ownership](../evidence/resource-schedule/2026-11-04/ownership.csv) 與 [安全審查](../evidence/resource-schedule/2026-11-04/safety-review.md)。
 
 ## 文件狀態與維護方式

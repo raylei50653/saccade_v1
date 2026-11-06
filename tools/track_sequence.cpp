@@ -1,6 +1,8 @@
 #include "saccade/tracking_session.hpp"
 #include "saccade/file_io.hpp"
 #include "saccade/mot_output.hpp"
+#include "saccade/config_cli.hpp"
+#include "saccade/resolved_session.hpp"
 
 #include <charconv>
 #include <algorithm>
@@ -52,27 +54,71 @@ SequenceInfo read_sequence_info(const std::filesystem::path& path) {
 
 int main(int argc, char** argv) {
     try {
-        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--no-cuda-graph] [--packets OUT.bin] [--epoch N] [--profile NAME]");
-        saccade::TrackingSessionConfig config;
-        std::filesystem::path packets, motion_path;
+        if (argc < 4) throw std::invalid_argument("usage: track_sequence ENGINE SEQ_DIR OUT.txt [--serial] [--no-cuda-graph] [--packets OUT.bin] [--epoch N] [--profile NAME] [--config FILE] [--set KEY=VALUE] [--resolved-config FILE]");
+        std::filesystem::path packets, motion_path, config_path, resolved_path;
+        saccade::ConfigAssignments assignments;
+        bool have_config = false, have_resolved = false;
         for (int i = 4; i < argc; ++i) {
             const std::string_view arg = argv[i];
-            if (arg == "--serial") config.mode = saccade::TrackingSessionMode::Serial;
-            else if (arg == "--no-cuda-graph") config.cuda_graph = false;
+            if (arg == "--serial") assignments.emplace_back("execution.mode", "serial");
+            else if (arg == "--no-cuda-graph") assignments.emplace_back("execution.cuda_graph", "false");
             else if (arg == "--packets" && i + 1 < argc) packets = argv[++i];
             else if (arg == "--motion" && i + 1 < argc) motion_path = argv[++i];
-            else if (arg == "--epoch" && i + 1 < argc) config.epoch = number<std::uint64_t>(argv[++i]);
-            else if (arg == "--profile" && i + 1 < argc) config.profile = saccade::parse_model_profile(argv[++i]);
+            else if (arg == "--epoch" && i + 1 < argc) assignments.emplace_back("source.epoch", argv[++i]);
+            else if (arg == "--profile" && i + 1 < argc) assignments.emplace_back("implementation.model_profile", argv[++i]);
+            else if (arg == "--set" && i + 1 < argc) assignments.push_back(saccade::tracking_cli_assignment(argv[++i]));
+            else if (arg == "--config" && i + 1 < argc) {
+                if (have_config) throw std::invalid_argument("duplicate --config");
+                have_config = true; config_path = argv[++i];
+            } else if (arg == "--resolved-config" && i + 1 < argc) {
+                if (have_resolved) throw std::invalid_argument("duplicate --resolved-config");
+                have_resolved = true; resolved_path = argv[++i];
+            }
             else throw std::invalid_argument("unknown or incomplete argument: " + std::string(arg));
         }
         const std::filesystem::path sequence = argv[2];
         const auto info = read_sequence_info(sequence / "seqinfo.ini");
-        config.original_width = info.width; config.original_height = info.height;
-        config.preprocess.max_width = std::max(1920, info.width);
-        config.preprocess.max_height = std::max(1080, info.height);
+        if (info.width <= 0 || info.height <= 0) throw std::invalid_argument("invalid sequence dimensions");
+        saccade::ResolvedTrackingConfig defaults;
+        defaults.source.width = static_cast<std::uint32_t>(info.width);
+        defaults.source.height = static_cast<std::uint32_t>(info.height);
+        defaults.preprocess.max_width = static_cast<std::uint32_t>(std::max(1920, info.width));
+        defaults.preprocess.max_height = static_cast<std::uint32_t>(std::max(1080, info.height));
+        defaults.implementation.backend = "cuda"; defaults.implementation.input = "jpeg";
+        defaults.implementation.motion_profile = saccade::kFlowMotionProfile;
+        defaults.execution.mode = "pipelined"; defaults.execution.cuda_graph = true;
+        const auto config_text = have_config ? saccade::read_text_file(config_path) : std::string{};
+        auto resolved = saccade::resolve_tracking_config(
+            config_text,
+            saccade::declared_tracking_environment(), assignments, {{"cuda"}, {"jpeg"}}, defaults, "track_sequence");
+        if (resolved.source.width != static_cast<std::uint32_t>(info.width) ||
+            resolved.source.height != static_cast<std::uint32_t>(info.height))
+            throw std::invalid_argument("resolved source dimensions differ from sequence metadata");
+        if (resolved.output_profile != "v1-mot/1")
+            throw std::invalid_argument("track_sequence requires v1-mot/1 output");
+        saccade::mark_native_input_origins(resolved, "seqinfo.ini");
+        const auto config = saccade::session_config_from_resolved(resolved);
+        if (!resolved_path.empty()) {
+            const auto normalized = [](const std::filesystem::path& path) {
+                return std::filesystem::weakly_canonical(std::filesystem::absolute(path));
+            };
+            const auto destination = normalized(resolved_path);
+            for (const auto& path : {std::filesystem::path(argv[1]), std::filesystem::path(argv[3]), packets,
+                                     motion_path, config_path, sequence / "seqinfo.ini"})
+                if (!path.empty() && destination == normalized(path))
+                    throw std::invalid_argument("resolved config output must differ from inputs and other outputs");
+            if (std::filesystem::symlink_status(resolved_path).type() != std::filesystem::file_type::not_found)
+                throw std::invalid_argument("resolved config output already exists; choose a new path");
+        }
         saccade::TrackingSession session(argv[1], config);
         std::cout << session.identity();
-        saccade::SequenceOutput output;
+        const auto build_identity = saccade::tracking_build_identity(argv[1]) +
+            "input.seqinfo_sha256=" + saccade::sha256_hex(saccade::read_text_file(sequence / "seqinfo.ini")) + '\n' +
+            (have_config ? "input.config_file_sha256=" + saccade::sha256_hex(config_text) + '\n' : std::string{});
+        const auto record = saccade::resolved_config_record(resolved, build_identity);
+        std::cout << record;
+        if (!resolved_path.empty()) saccade::write_resolved_config_file(resolved_path, record);
+        saccade::SequenceOutput output(resolved.mot);
         saccade::MotionRecords motion{saccade::flow_image_key(info.width,info.height),config.epoch,{}};
         std::vector<std::uint8_t> raw;
         if (!packets.empty()) raw.reserve(info.frames * saccade::packet_bytes);

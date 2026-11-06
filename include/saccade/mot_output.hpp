@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <span>
 #include <string>
+#include <string_view>
 #include <vector>
 
 // F09 contract, profile v1-mot/1 (docs/TRACKING.md §10), plus the detection
@@ -68,5 +69,7 @@ struct DetectionRecords {
 };
 void write_detection_records(const std::filesystem::path& path, const DetectionRecords& records);
 DetectionRecords read_detection_records(const std::filesystem::path& path);
+// Decodes the exact immutable bytes that callers can hash in the run receipt.
+DetectionRecords decode_detection_records(std::string_view bytes);
 
 } // namespace saccade

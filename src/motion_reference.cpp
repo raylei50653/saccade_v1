@@ -6,7 +6,9 @@
 #include <cmath>
 #include <complex>
 #include <fstream>
+#include <iterator>
 #include <numbers>
+#include <sstream>
 #include <stdexcept>
 #include <type_traits>
 
@@ -196,6 +198,12 @@ void write_motion_records(const std::filesystem::path& path, const MotionRecords
 MotionRecords read_motion_records(const std::filesystem::path& path) {
     std::ifstream in(path, std::ios::binary);
     if (!in) throw std::runtime_error("cannot open SCMO input");
+    const std::string bytes{std::istreambuf_iterator<char>(in), {}};
+    if (in.bad()) throw std::runtime_error("cannot read SCMO input");
+    return decode_motion_records(bytes);
+}
+MotionRecords decode_motion_records(std::string_view bytes) {
+    std::istringstream in(std::string(bytes), std::ios::binary);
     std::array<char, 4> magic{};
     if (!in.read(magic.data(), magic.size())) throw std::runtime_error("truncated SCMO");
     if (magic != std::array<char, 4>{'S', 'C', 'M', 'O'}) throw std::runtime_error("unknown SCMO magic");
@@ -205,6 +213,9 @@ MotionRecords read_motion_records(const std::filesystem::path& path) {
     records.key.downscale = get<std::int32_t>(in); records.key.width = get<std::int32_t>(in); records.key.height = get<std::int32_t>(in);
     records.epoch = get<std::uint64_t>(in);
     const auto count = get<std::uint64_t>(in);
+    constexpr std::size_t header_bytes = 44, frame_bytes = 44;
+    if (count > (bytes.size() - header_bytes) / frame_bytes) throw std::runtime_error("truncated SCMO records");
+    if (count * frame_bytes != bytes.size() - header_bytes) throw std::runtime_error("trailing SCMO bytes");
     for (std::uint64_t i = 0; i < count; ++i) {
         MotionContext f;
         f.epoch = records.epoch;

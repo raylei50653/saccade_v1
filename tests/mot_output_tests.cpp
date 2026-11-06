@@ -248,6 +248,10 @@ void record_tests(const TemporaryDirectory& temp) {
     check(bytes.size() == 28 + 2 * sizeof(DetectionCandidates) && bytes.substr(0, 4) == "SCDR",
           "SCDR header and total byte size");
     const auto decoded = read_detection_records(file);
+    const auto memory_decoded = decode_detection_records(bytes);
+    check(memory_decoded.epoch == decoded.epoch && memory_decoded.frames.size() == decoded.frames.size() &&
+          std::memcmp(memory_decoded.frames.data(), decoded.frames.data(), bytes.size() - 28) == 0,
+          "SCDR decode uses exactly the immutable receipt bytes");
     check(decoded.epoch == records.epoch && decoded.frames.size() == 2, "SCDR epoch and frame count roundtrip");
     check(std::memcmp(decoded.frames.data(), records.frames.data(), 2 * sizeof(DetectionCandidates)) == 0,
           "SCDR preserves all raw candidate bytes");
@@ -261,6 +265,7 @@ void record_tests(const TemporaryDirectory& temp) {
     const auto reject_bytes = [&](const std::string& contents, const char* message) {
         write_text_file(malformed, contents);
         rejects<std::runtime_error>([&] { read_detection_records(malformed); }, message);
+        rejects<std::runtime_error>([&] { decode_detection_records(contents); }, message);
     };
     auto bad = bytes;
     bad[0] = 'X';

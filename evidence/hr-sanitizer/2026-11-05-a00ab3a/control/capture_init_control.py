@@ -1,0 +1,6 @@
+import argparse,fcntl,importlib.util,json,sys
+from pathlib import Path
+root=Path(__file__).resolve().parent;s=importlib.util.spec_from_file_location('validation',root/'run_hr_sanitizer_validation_nodump.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+a=argparse.Namespace(source=root.parent/'hr-sanitizer-20261105-source',timeout=60,memory_high='24G',memory_max='24G');out=root.parent/'hr-sanitizer-20261105-init-control';out.mkdir();c=m.Capture(a,out)
+with (Path.home()/'.cache/saccade-v1/gpu.lock').open('a') as lock:
+ print('Waiting for GPU lock',flush=True);fcntl.flock(lock,fcntl.LOCK_EX);command=['/opt/cuda/bin/compute-sanitizer','--tool','initcheck','--error-exitcode','99',str(root/'cuda/postprocess_sanitizer_control'),'initcheck'];r=c.run('control-initcheck',command);text=(out/'control-initcheck.log').read_text();ok=r['returncode']==99 and r.get('target',{}).get('returncode')==99 and m.DIAGNOSTIC['initcheck'] in text and 'control=initcheck launch=' in text and m.positive_summary_ok('initcheck',text) and not m.INTERNAL.search(text) and not m.incomplete(r,text);m.save(out/'result.json',{'status':'PASS' if ok else 'FAIL','execution':r,'sanitizer_sha256':m.digest(command[0]),'control_sha256':m.digest(command[-2]),'runner_sha256':m.digest(__file__),'scope':'positive control only; no session coverage'});sys.exit(0 if ok else 1)

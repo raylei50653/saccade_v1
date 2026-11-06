@@ -1,6 +1,6 @@
 # Saccade v1 後續工作
 
-更新日期：2026-11-05。tracking M0–M4 已完成，部署模型為 HR 1280×768 FP16，**P01 CLOSED（有範圍）**。本頁先列現行結果與剩餘界線，再保留各階段原始契約及驗收紀錄；2026-10-31 的待辦已由後續證據接續。
+更新日期：2026-11-06。tracking M0–M4 已完成，部署模型為 HR 1280×768 FP16，**P01 CLOSED（有範圍）**。本頁先列現行結果與剩餘界線，再保留各階段原始契約及驗收紀錄；2026-10-31 的待辦已由後續證據接續。
 
 | 項目 | 現行狀態與入口 |
 | --- | --- |
@@ -61,7 +61,7 @@ F05–F09 的數值與決策規格、參數、容量及已完成的 M0–M4 里�
 - TensorRT 與 cuFFT 的 stream 行為。
 - MOT17 七個序列的偵測與追蹤指標（只記錄）。
 
-Head／F03（TensorRT 內部 kernel）的 racecheck／synccheck 仍為 UNEXECUTED，與其他不涵蓋項目一起明列在 §17.4。
+M4 當時未執行 Head／F03（TensorRT 內部 kernel）的 racecheck／synccheck，原 §17.4 邊界保留。2026-11-05 [HR 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)已補上受測 HR prefix／lifecycle 的完整 synccheck；racecheck 仍因 OOM 未完成。
 
 2026-11-04 的 Graph／排序改版保留相同部署模型與 tracker 設定，HR 七個序列的 SCDR、MOT 與 offline MOT 共 21 個輸出均與 M4 相同；此次沒有重新計分或讀取 `gt/`。MOT17-02 已於 M4 開啟，後續更改模型、tracker 或參數的結果須標為「M4 之後」，不再算獨立 eval。
 
@@ -69,8 +69,8 @@ Head／F03（TensorRT 內部 kernel）的 racecheck／synccheck 仍為 UNEXECUTE
 
 | 項目 | 現行界線與後續依據 |
 | --- | --- |
-| TensorRT 內部 racecheck／synccheck、完整 session initcheck | 仍 UNEXECUTED；完整 session memcheck 與 v1 kernel 的 scoped racecheck／synccheck 已有正式證據，不能擴成函式庫內部全通過。nvJPEG initcheck 依使用政策獨立診斷 |
-| 完整 HR 自訂路徑 racecheck | [資源報告 §8](../evidence/resource-schedule/2026-11-04/REPORT.md#8-無競態的條件與本次驗證) 的開發嘗試 OOM，另一次有界 T01 session 嘗試 timeout；後續正式驗收完成的是 tracking／motion／session-control 範圍，未補成完整 HR 自訂路徑驗收 |
+| 完整函式庫 sanitizer | [原 HR 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)的完整 synccheck PASS、NVOF memcheck OPEN、nvJPEG initcheck 診斷／timeout 保留；[2026-11-06 補驗](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)完成未過濾 ordinary serial 30 幀 racecheck（工具逐次同步，`PASS_FORCED_SYNC`），原生／未過濾 Graph gate 仍 OPEN，Graph 同步化重試仍 24 GiB OOM |
+| 完整 HR 自訂路徑 racecheck | 原生排隊仍 OPEN；2026-11-05 的 24 GiB OOM 與 [原補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)保留。2026-11-06 [有界排隊補驗](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)以 8 workers／sync limit 8 跑完自訂＋CUB 四種排程各 30 幀及 lifecycle 180 checks，零 errors／warnings、outputs 相同；`PASS_FILTERED_FORCED_SYNC` 不關閉原生未過濾 gate |
 | 雙 host staging 與重疊配置 | 尚未實作雙 STAGE。depth 1／2／4 的交付延遲觀測在 [資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md)，depth 2 未改為預設；新增重疊或變更 buffers／consumed 時須重驗所有權與完整 bytes |
 | P07 支援與恢復 | 跨 GPU、driver、TensorRT 版本的支援矩陣及 GPU fatal 後恢復未由目前單機證據涵蓋；依 [DATAFLOW §9](DATAFLOW.md#9-重抽象差異與待補規格) 與 M4 不涵蓋項目接續 |
 | P08 設定與行為驗證工具 | 現有 tracking lifecycle、packet／MOT 比較與有限協定模型已驗；完整 resolved schema／覆寫優先序、設定 hash 與 bridge 事件模型等其餘工具仍依 [DATAFLOW §4.4、§8.1、§9.2](DATAFLOW.md) 判定，不由 M4 一併關閉 |

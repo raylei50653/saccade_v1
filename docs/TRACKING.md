@@ -1,6 +1,6 @@
 # Tracking 半段規格（F05–F09）
 
-規格日期：2026-11-03；文件狀態更新：2026-11-05。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序的 clean-source 驗收見 §19，目前 G1 GMC 與 memcheck OPEN 見 §20，OAO／front 的 val 負結果見 §21。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
+規格日期：2026-11-03；文件狀態更新：2026-11-06。M0–M4 完成（M4 結果見 §17.5），P01 CLOSED（有範圍）；CUDA Graph／排序的 clean-source 驗收見 §19，目前 G1 GMC 與 memcheck OPEN 見 §20，OAO／front 的 val 負結果見 §21。上層文件：[DATAFLOW](DATAFLOW.md)、[ASYNC_CONTROL](ASYNC_CONTROL.md)、[ResultPacket](RESULT_PACKET.md)；總覽見 [STATUS](STATUS.md)。
 
 本文件把 DATAFLOW 已定的 F05–F09 落成可實作的數值與決策規格，並收斂 P03（決策參數）、P04（容量）、P06（輸出）中 M1 需要的部分。profile 名稱：motion `v1-motion/1`、tracker `v1-tracker/1`、輸出 `v1-mot/1`。
 
@@ -319,7 +319,7 @@ M（main stream）：
 5. **Evidence report**：記錄 source、環境、每個命令的 exit 與時間、測試輸出、hash 與以上判定。
 
 **不涵蓋**
-- F03（TensorRT）kernels 的 racecheck／synccheck：沿用 S04 的狀態，仍未執行。
+- F03（TensorRT）kernels 的 racecheck／synccheck：沿用 S04 的狀態，仍未執行。 此為原 M3 驗收的排除項；2026-11-05 HR 完整 synccheck 與 racecheck 補跑結果另見 §20.9。
 - 完整 session 的 initcheck：nvJPEG 的既知報告依上述政策處理，不在本驗收執行。
 - 效能與追蹤品質：不設門檻。MOT17-02 的 GT 評估留給 M4。
 
@@ -474,7 +474,7 @@ P01（[DATAFLOW](DATAFLOW.md) §9.2：模型檔案的來源／版本、engine �
 | 模型品質 | §17.2 的 AP50 與追蹤指標（只記錄） |
 
 **不涵蓋（明列）**
-- TensorRT 內部 kernel 的 racecheck／synccheck：沿用 S04 起的決定，未執行（插樁成本極高，S04 試跑期間發生過原因未判定的 WSL 當機）。v1 自己的 scan plugin、producer、F04 與 tracking kernel 已有四種 sanitizer 的證據；TensorRT kernel 有完整 session 的 memcheck。
+- TensorRT 內部 kernel 的 racecheck／synccheck：沿用 S04 起的決定，未執行（插樁成本極高，S04 試跑期間發生過原因未判定的 WSL 當機）。v1 自己的 scan plugin、producer、F04 與 tracking kernel 已有四種 sanitizer 的證據；TensorRT kernel 有完整 session 的 memcheck。 此為原 M4 判定的排除項；2026-11-05 HR 完整 synccheck PASS 與 racecheck OOM 另見 §20.9。
 - 完整 session 的 initcheck：nvJPEG 的既知報告（NVIDIA Bug 7021871），依 PREPROCESS_USAGE_POLICY 處理。
 - FP16 engine 是在 761889c 加上未提交的修改（之後提交為 04912e2）下 build 的（`build_dirty=true`）；部署身分以 engine SHA-256 固定，不重新 build。
 - v1 的 native manifest 工具（schema 1–3）不描述 HR profile 或 FP16；HR 的身分紀錄是上述 deploy manifest，不另加 schema。
@@ -626,6 +626,30 @@ A1–A4 任一違規即停止並回報，不自行加 host 同步或其他繞路
 **結果（2026-11-05）**：**未完全通過**（fae5cb7，乾淨 worktree，約 41 分鐘）。第 6 步完整 session memcheck 的 exit 99 記為 OPEN（[Bug 7048273](https://developer.nvidia.com/bugs/7048273)），其餘八步通過；吞吐總計 +2.70%。證據見 [evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)。
 
 **合併時的調整（2026-11-05）**：runtime source 與上述驗收相同。Records 搬到 `../saccade_v1-worktrees/m1-data-v2/` 與 `../saccade_v1-worktrees/hr-records-v2/`，bytes 不變。CTest 的 `SACCADE_TRACKING_RECORDS` 沒有預設值，由驗收腳本傳入。M4 的 `scripts/run_mot17_evaluation.sh` 已停用：它的預期雜湊與 SCMO 屬 `v1-motion/1`，檢查內容由第 3–5 步取代。
+
+### 20.9 HR 完整路徑 sanitizer 補驗（2026-11-05）
+
+[補驗報告](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)使用乾淨 `a00ab3a` runtime、原部署 HR engine 與 `v1-motion/2`；不重定義或重發 §20.8 的固定驗收。
+
+- 全新 CUDA CTest 68/68；新增 test harness `--profile NAME`（預設 T01），HR 30 幀 CPU／ordinary serial／Graph pipelined、兩種 ring 與兩個 seeds 共 602 checks；HR lifecycle 180 checks。該測試檔單獨改版、編譯並連結乾淨 runtime，來源 hashes 分列。
+- **無 kernel filter 的完整 synccheck PASS**：Graph／ordinary × serial／pipelined，各 30 幀，完整 packets／MOT／SCMO 與 baseline 相同；HR lifecycle 亦 180 checks、0 errors。
+- 完整 memcheck 在上述四種排程與 HR lifecycle 全部跑完，但分別為 86／1,008 次 NVOF `cuArrayGetPlane` 診斷，無其他 API／device 診斷；仍 **OPEN**。
+- 完整未過濾 Graph racecheck（原環境及 lazy loading retry），以及全部觀察到的自訂 kernels＋CUB 的 Graph／ordinary pipelined racecheck，四次皆遭 24 GiB cgroup OOM，**INCOMPLETE**。完整 initcheck 已出現 nvJPEG `rgba2rgb` 未初始化讀取，900 秒 timeout，**未完成**；後續未執行範圍與中止紀錄見報告。
+
+新增 `scripts/run_hr_sanitizer_validation.py`，預設不開 launch dump；同時核對 source／binary／engine／input 前後 custody、正控制、target 完成、三種 outputs、零 summary 與資源結果。此版工具的 `--dump-kernel-launches` 會影響錯誤總數，該模式僅作 inventory，維持 OPEN，另以不開 dump 的命令判定。Graph inventory 有 11,551 launches／188 kernel names；推論的 library owner 與直接 backtrace 證據分開保管。
+
+這一輪只擴充指定 HR prefix／lifecycle 的受測範圍，不代表完整 HR racecheck、OFA 硬體、跨 GPU／SDK 或所有 global-memory lease 已通過。
+
+### 20.10 Racecheck 有界排隊補驗（2026-11-06）
+
+[補驗報告](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)沿用 §20.9 的乾淨 `a00ab3a` runtime／封存 binaries、HR engine、`v1-motion/2` 和 MOT17-10-SDP 前 30 幀。僅修改驗證入口；部署 runtime、kernels、engine 與 ring／Graph 預設維持原版。
+
+- **未過濾 ordinary serial：PASS_FORCED_SYNC**。使用 `--serial --no-cuda-graph`、8 workers、sync limit 1，不設 kernel filter／launch count／skip 或 hazard-cap override；完整 30 幀 exit 0、唯一零 errors／warnings summary。整個工具命令 3019.959 秒、cgroup peak 1,107,017,728 B（1.031 GiB），8 GiB 硬上限、swap 0。MOT／完整 packets／SCMO 逐 byte 與普通及 Graph baselines 相同，前後 custody 一致。這是工具同步、Graph 關閉的診斷入口。
+- **自訂＋CUB：PASS_FILTERED_FORCED_SYNC**。使用 8 workers、sync limit 8，固定 namespace predicate `_ZN7saccade|_ZN3cub`，Graph／ordinary × serial／pipelined 各 30 幀均 exit 0、零 errors／warnings；三種 outputs 逐 byte 與 baseline 相同，前後 custody 一致。最高 cgroup peak 6.270 GiB，8 GiB 硬上限、swap 0；不設 launch count／skip，不降低 hazard cap。
+- 相同自訂／CUB 工具設定的 HR lifecycle 完整 180 checks 通過，exit 0、零 errors／warnings；前後 runtime／harness／SDK／輸入 custody 一致。各 capture 的同設定正控制仍能偵測植入 shared-memory race。
+- **未過濾 Graph 仍 INCOMPLETE**：sync8／8 GiB 與 sync1／24 GiB 重試皆 OOM。原生排隊／未過濾 Graph gate、NVOF memcheck OPEN、nvJPEG initcheck 診斷與 §20.9 的歷史 OOM 各自保留；上述成功不重發 §20.8 固定驗收。
+
+`scripts/run_hr_sanitizer_validation.py` 新增明確的同步上限與 worker 參數；同步上限預設 0，仍保留原生排隊。非零只允許 racecheck，成功僅可標為 `PASS_FORCED_SYNC`；dump inventory、內部工具錯誤、OOM／timeout、摘要或輸出不完整仍不得 PASS。收尾另對 30 份 outputs 做實際 bytes equality，並核對三個 binaries 與原 archive 相同、17 個函式庫 hashes 前後一致。重跑入口、完整命令、未完成嘗試與封存 hashes 見本輪報告。
 
 ## 21. OAO／front-occluder 本地消融（2026-11-05）
 

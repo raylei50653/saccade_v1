@@ -1,0 +1,39 @@
+{
+  "control_sha256": "0f82f04fdd73c07e28ac0882696b188df6f2e867e79c199602415852bb40aa47",
+  "execution": {
+    "finished": "2026-11-05T14:18:05.056015+00:00",
+    "name": "control-initcheck",
+    "returncode": 99,
+    "sampled_memory_events": {
+      "high": "0",
+      "low": "0",
+      "max": "0",
+      "oom": "0",
+      "oom_group_kill": "0",
+      "oom_kill": "0"
+    },
+    "sampled_memory_peak_bytes": 160927744,
+    "sampled_systemd_results": [
+      "success"
+    ],
+    "started": "2026-11-05T14:18:04.025516+00:00",
+    "target": {
+      "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-hr-7e074ce4a50e.service",
+      "finished": "2026-11-05T14:18:04.782232+00:00",
+      "memory.current": "11857920",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.peak": "215752704",
+      "memory.swap.current": "0",
+      "memory.swap.peak": "0",
+      "returncode": 99,
+      "started": "2026-11-05T14:18:04.105496+00:00",
+      "time": "2026-11-05T14:18:04.781862+00:00"
+    },
+    "unit": "saccade-hr-7e074ce4a50e.service"
+  },
+  "runner_sha256": "b4cca946e00ab513b6fbce32ea448d58aff1d0eaa4051be3cee80c58acd38689",
+  "sanitizer_sha256": "fc3b9d2abad07999a56631a6be69c320461ebdb80a5ab0044775c44d301c9488",
+  "scope": "positive control only; no session coverage",
+  "status": "PASS"
+}

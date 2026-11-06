@@ -1,0 +1,142 @@
+{
+  "schema": "inotify-input-observer-cpu-tests/1",
+  "finished_utc": "2026-11-06T01:07:04.748498+00:00",
+  "gpu_executed": false,
+  "real_dataset_observed": false,
+  "checks": [
+    {
+      "name": "decode two padded open events",
+      "passed": true
+    },
+    {
+      "name": "select six-digit JPG",
+      "passed": true
+    },
+    {
+      "name": "select six-digit uppercase JPEG",
+      "passed": true
+    },
+    {
+      "name": "ignore invalid JPEG name b'00001.jpg'",
+      "passed": true
+    },
+    {
+      "name": "ignore invalid JPEG name b'0000001.jpg'",
+      "passed": true
+    },
+    {
+      "name": "ignore invalid JPEG name b'000001.png'",
+      "passed": true
+    },
+    {
+      "name": "ignore invalid JPEG name b'other.jpg'",
+      "passed": true
+    },
+    {
+      "name": "ignore invalid JPEG name b'000001.jpg.bak'",
+      "passed": true
+    },
+    {
+      "name": "ignore invalid JPEG name b''",
+      "passed": true
+    },
+    {
+      "name": "non-open mask ignored",
+      "passed": true
+    },
+    {
+      "name": "queue overflow decoded explicitly",
+      "passed": true
+    },
+    {
+      "name": "queue overflow not input progress",
+      "passed": true
+    },
+    {
+      "name": "reject malformed partial header",
+      "passed": true
+    },
+    {
+      "name": "reject malformed partial filename",
+      "passed": true
+    },
+    {
+      "name": "reject malformed missing NUL",
+      "passed": true
+    },
+    {
+      "name": "reject malformed invalid slash",
+      "passed": true
+    },
+    {
+      "name": "reject malformed invalid descriptor",
+      "passed": true
+    },
+    {
+      "name": "read own Linux starttime",
+      "passed": true
+    },
+    {
+      "name": "same live PID retained",
+      "passed": true
+    },
+    {
+      "name": "absent PID terminates",
+      "passed": true
+    },
+    {
+      "name": "zombie PID terminates",
+      "passed": true
+    },
+    {
+      "name": "PID reuse terminates",
+      "passed": true
+    },
+    {
+      "name": "observer exits after watched process disappears",
+      "passed": true
+    },
+    {
+      "name": "real inotify open event delivered",
+      "passed": true
+    },
+    {
+      "name": "nonmatching input open omitted",
+      "passed": true
+    },
+    {
+      "name": "all records timestamped",
+      "passed": true
+    },
+    {
+      "name": "start and terminal retained",
+      "passed": true
+    },
+    {
+      "name": "explicitly denies PID and frame attribution",
+      "passed": true
+    },
+    {
+      "name": "exit marks undrained post-exit events",
+      "passed": true
+    },
+    {
+      "name": "fresh output enforced",
+      "passed": true
+    },
+    {
+      "name": "SIGTERM exits cleanly",
+      "passed": true
+    },
+    {
+      "name": "SIGTERM terminal retained",
+      "passed": true
+    },
+    {
+      "name": "bounded timeout is terminal",
+      "passed": true
+    }
+  ],
+  "passed": 33,
+  "failed": 0
+}

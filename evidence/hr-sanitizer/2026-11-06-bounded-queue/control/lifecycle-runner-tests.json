@@ -1,0 +1,709 @@
+{
+  "schema": "hr-lifecycle-runner-cpu-tests/1",
+  "finished": "2026-11-06T00:40:48.786973+00:00",
+  "gpu_executed": false,
+  "checks": [
+    {
+      "name": "unfiltered success retains forced-sync tag",
+      "passed": true
+    },
+    {
+      "name": "filtered success retains both scope tags",
+      "passed": true
+    },
+    {
+      "name": "filtered row denies full coverage",
+      "passed": true
+    },
+    {
+      "name": "unfiltered row declares full kernel selection",
+      "passed": true
+    },
+    {
+      "name": "zero summary does not replace completion",
+      "passed": true
+    },
+    {
+      "name": "wrong check count fails",
+      "passed": true
+    },
+    {
+      "name": "duplicate completion fails",
+      "passed": true
+    },
+    {
+      "name": "wrong HR identity fails",
+      "passed": true
+    },
+    {
+      "name": "failed positive control fails",
+      "passed": true
+    },
+    {
+      "name": "missing target exit record fails",
+      "passed": true
+    },
+    {
+      "name": "target nonzero fails",
+      "passed": true
+    },
+    {
+      "name": "service nonzero fails",
+      "passed": true
+    },
+    {
+      "name": "timeout fails incomplete",
+      "passed": true
+    },
+    {
+      "name": "OOM event fails incomplete",
+      "passed": true
+    },
+    {
+      "name": "OOM service result fails incomplete",
+      "passed": true
+    },
+    {
+      "name": "duplicate summary fails",
+      "passed": true
+    },
+    {
+      "name": "unknown sanitizer diagnostic fails",
+      "passed": true
+    },
+    {
+      "name": "untracked launch fails",
+      "passed": true
+    },
+    {
+      "name": "nonzero race summary fails",
+      "passed": true
+    },
+    {
+      "name": "complete full aggregate remains forced-sync",
+      "passed": true
+    },
+    {
+      "name": "custody failure forces OPEN",
+      "passed": true
+    },
+    {
+      "name": "exception forces OPEN",
+      "passed": true
+    },
+    {
+      "name": "missing lifecycle forces OPEN",
+      "passed": true
+    },
+    {
+      "name": "filtered row cannot grant full scope",
+      "passed": true
+    },
+    {
+      "name": "unfiltered row cannot masquerade as filtered capture",
+      "passed": true
+    },
+    {
+      "name": "default flags remain unfiltered one worker sync8",
+      "passed": true
+    },
+    {
+      "name": "automatic worker count is accepted",
+      "passed": true
+    },
+    {
+      "name": "reject invalid or arbitrary flag --racecheck-num-workers=-1",
+      "passed": true
+    },
+    {
+      "name": "reject invalid or arbitrary flag --force-synchronization-limit=0",
+      "passed": true
+    },
+    {
+      "name": "reject invalid or arbitrary flag --timeout=0",
+      "passed": true
+    },
+    {
+      "name": "reject invalid or arbitrary flag --memory=0G",
+      "passed": true
+    },
+    {
+      "name": "reject invalid or arbitrary flag --kernel-name=.*",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "full successful capture: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "filtered successful capture: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "bad-control: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "bad-control: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "bad-control: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "bad-control: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "bad-control: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "bad-control: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "bad-control: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "bad-control: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "bad-control: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "bad-control: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "bad-control: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "bad-control: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "bad-control: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "bad-control: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "bad-control: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "bad-control: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "missing-completion: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "missing-final: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "missing-final: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "missing-final: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "missing-final: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "missing-final: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "missing-final: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "missing-final: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "missing-final: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "missing-final: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "missing-final: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "missing-final: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "missing-final: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "missing-final: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "missing-final: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "missing-final: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "missing-final: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "oom: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "oom: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "oom: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "oom: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "oom: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "oom: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "oom: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "oom: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "oom: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "oom: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "oom: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "oom: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "oom: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "oom: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "oom: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "oom: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "unknown: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "unknown: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "unknown: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "unknown: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "unknown: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "unknown: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "unknown: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "unknown: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "unknown: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "unknown: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "unknown: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "unknown: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "unknown: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "unknown: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "unknown: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "unknown: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: three required stages retained",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: target wrapper in custody",
+      "passed": true
+    },
+    {
+      "name": "changed-wrapper: changed wrapper detected",
+      "passed": true
+    },
+    {
+      "name": "raise-session: exception path expected",
+      "passed": true
+    },
+    {
+      "name": "raise-session: expected aggregate scope",
+      "passed": true
+    },
+    {
+      "name": "raise-session: never native acceptance",
+      "passed": true
+    },
+    {
+      "name": "raise-session: explicit kernel coverage",
+      "passed": true
+    },
+    {
+      "name": "raise-session: exit matches capture success",
+      "passed": true
+    },
+    {
+      "name": "raise-session: control-racecheck workers match",
+      "passed": true
+    },
+    {
+      "name": "raise-session: control-racecheck sync matches",
+      "passed": true
+    },
+    {
+      "name": "raise-session: control-racecheck explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "raise-session: control-racecheck exact regex",
+      "passed": true
+    },
+    {
+      "name": "raise-session: racecheck-lifecycle workers match",
+      "passed": true
+    },
+    {
+      "name": "raise-session: racecheck-lifecycle sync matches",
+      "passed": true
+    },
+    {
+      "name": "raise-session: racecheck-lifecycle explicit filter policy",
+      "passed": true
+    },
+    {
+      "name": "raise-session: racecheck-lifecycle exact regex",
+      "passed": true
+    },
+    {
+      "name": "raise-session: shared runner in custody",
+      "passed": true
+    },
+    {
+      "name": "raise-session: local runner in custody",
+      "passed": true
+    },
+    {
+      "name": "raise-session: target wrapper in custody",
+      "passed": true
+    }
+  ],
+  "passed": 175,
+  "failed": 0
+}

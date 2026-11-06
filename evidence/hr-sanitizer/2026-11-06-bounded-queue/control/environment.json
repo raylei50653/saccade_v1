@@ -1,0 +1,66 @@
+[
+  {
+    "command": [
+      "date",
+      "-Is"
+    ],
+    "returncode": 0,
+    "stdout": "2026-11-06T08:35:08+08:00\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "uname",
+      "-srmo"
+    ],
+    "returncode": 0,
+    "stdout": "Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 GNU/Linux\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/cuda/bin/compute-sanitizer",
+      "--version"
+    ],
+    "returncode": 0,
+    "stdout": "NVIDIA (R) Compute Sanitizer\nCopyright (c) 2020-2026 NVIDIA Corporation\nVersion 2026.3.0.0 (build 38855100) (public-release)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/cuda/bin/nvcc",
+      "--version"
+    ],
+    "returncode": 0,
+    "stdout": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2026 NVIDIA Corporation\nBuilt on Tue_Sep_01_08:45:21_PDT_2026\nCuda compilation tools, release 13.4, V13.4.92\nBuild cuda_13.4.r13.4/compiler.38855100_0\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=name,uuid,driver_version,memory.total",
+      "--format=csv"
+    ],
+    "returncode": 0,
+    "stdout": "name, uuid, driver_version, memory.total [MiB]\nNVIDIA GeForce RTX 5070 Ti Laptop GPU, GPU-825ae551-ba16-539a-e444-22726b59ee9a, 617.42, 12227 MiB\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "free",
+      "-b"
+    ],
+    "returncode": 0,
+    "stdout": "               total        used        free      shared  buff/cache   available\nMem:     50509565952  4905283584 41736228864   360775680  4750962688 45604282368\nSwap:    38654701568           0 38654701568\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "ldd",
+      "build/hr-sanitizer-20261105/cuda/track_sequence"
+    ],
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x0000788002b95000)\n\tlibnvjpeg.so.13 => /opt/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13 (0x0000788001e00000)\n\tlibnvinfer.so.10 => /home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10 (0x0000787fd9400000)\n\tlibnvonnxparser.so.10 => /home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvonnxparser.so.10 (0x0000787fd8e00000)\n\tlibcudart.so.13 => /opt/cuda/targets/x86_64-linux/lib/libcudart.so.13 (0x0000787fd8a00000)\n\tlibcuda.so.1 => /usr/lib/wsl/lib/libcuda.so.1 (0x0000788002b32000)\n\tlibstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x0000787fd8600000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x00007880026c9000)\n\tlibgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x000078800269c000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x0000787fd8200000)\n\tlibrt.so.1 => /usr/lib/librt.so.1 (0x0000788002b2b000)\n\tlibpthread.so.0 => /usr/lib/libpthread.so.0 (0x0000788002b26000)\n\tlibdl.so.2 => /usr/lib/libdl.so.2 (0x0000788002b21000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x0000788002b97000)\n",
+    "stderr": ""
+  }
+]

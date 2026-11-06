@@ -1,0 +1,171 @@
+{
+  "schema": "hr-racecheck-runtime-variation-notes/1",
+  "saved_utc": "2026-11-06T01:48:35.607037+00:00",
+  "scope": {
+    "observation_not_completion": true,
+    "diagnosed_cause": null,
+    "causal_claim": false,
+    "frame_completion_claim": false,
+    "sanitizer_acceptance_claim": false,
+    "filesystem_events_have_pid_attribution": false,
+    "description": "Preserved read-only source findings and already observed inotify intervals. File opens can come from any process; they are progress observations, not CUDA, frame, packet or sanitizer completion. No target, monitor, GPU, SDK or tool-version changes were made for this investigation."
+  },
+  "capture": {
+    "path": "build/hr-racecheck-20261106/full-sync1-workers8-ordinary-serial",
+    "reported_target_pid": 12848,
+    "mode": "ordinary-serial",
+    "racecheck_num_workers": 8,
+    "force_synchronization_limit": 1,
+    "memory_high": "8G",
+    "memory_max": "8G",
+    "memory_swap_max": 0,
+    "kernel_filter": null,
+    "clean_runtime_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48"
+  },
+  "source_findings": [
+    {
+      "finding": "No frame-16 periodic branch was found in the inspected TrackingSession, FlowMotionCuda or tracking paths. This bounded source inspection is not a claim about private NVIDIA library internals.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/src/tracking_session.cpp",
+          "lines": "396-485"
+        },
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/flow_motion.cu",
+          "lines": "197-218"
+        },
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/tracking.cu",
+          "lines": "71-460"
+        }
+      ]
+    },
+    {
+      "finding": "FlowMotionCuda enqueue_estimate only uses the special first-frame branch frame!=0; it explicitly sets disableTemporalHints=NV_OF_TRUE for NvOFExecute.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/flow_motion.cu",
+          "lines": "203-211"
+        }
+      ]
+    },
+    {
+      "finding": "The configured track bridge history capacity is 4, not 16.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/include/saccade/tracking.hpp",
+          "lines": "19-22"
+        },
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/tracking.cu",
+          "lines": "51-58"
+        }
+      ]
+    },
+    {
+      "finding": "Ordinary serial session work drains after each submitted frame. track_sequence opens the next JPEG before enqueueing it; the resulting open-to-open interval includes work and host overhead rather than attributing time to one kernel.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/src/tracking_session.cpp",
+          "lines": "478-485"
+        },
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/tools/track_sequence.cpp",
+          "lines": "87-96"
+        }
+      ]
+    },
+    {
+      "finding": "F04 adaptive sorting has data-dependent qualified-candidate branches at 100 and 512; launch shape stays fixed while shared-memory accesses can differ.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/postprocess.cu",
+          "lines": "32-33"
+        },
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/postprocess.cu",
+          "lines": "167-209"
+        }
+      ]
+    },
+    {
+      "finding": "F04b batch sorting uses a small-batch path through 32 rows, with a radix path for larger batches.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/tracking.cu",
+          "lines": "235-263"
+        }
+      ]
+    },
+    {
+      "finding": "Association work depends on predicted track and batch counts and executes four stages. These data-dependent paths are possible contributors to workload variation, not a diagnosis of the observed slowdown.",
+      "references": [
+        {
+          "path": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-source/cuda/tracking.cu",
+          "lines": "271-342"
+        }
+      ]
+    }
+  ],
+  "baseline_observation": {
+    "path": "build/hr-racecheck-20261106/full-sync1-workers8-ordinary-serial/baseline-ordinary-serial.txt",
+    "method": "Counted existing MOT output rows by one-based frame number; no dataset or GPU access.",
+    "frames_10_through_24_rows_each": 17,
+    "limitation": "Emitted track row counts do not reveal pre-suppression qualified detections, suppressed rows or all association-state counts; they cannot rule out data-dependent workload changes."
+  },
+  "preserved_input_open_observations": {
+    "path": "build/hr-racecheck-20261106/full-sync1-workers8-ordinary-serial/input-access-telemetry.jsonl",
+    "latest_included_filename": "000021.jpg",
+    "latest_included_utc": "2026-11-06T01:46:01.122131+00:00",
+    "previous_included_filename": "000020.jpg",
+    "previous_included_utc": "2026-11-06T01:44:19.259027+00:00",
+    "last_eight_gaps_seconds_rounded_to_two_decimals": [
+      83.94,
+      84.02,
+      84.45,
+      84.85,
+      121.88,
+      230.29,
+      111.61,
+      101.86
+    ],
+    "last_eight_median_seconds_rounded_to_two_decimals": 93.35,
+    "last_eight_mean_seconds_rounded_to_two_decimals": 112.86,
+    "interpretation": "The last two observed intervals decreased after the 230.29-second gap; the sampled series had not shown monotonic runaway through input21. This observation does not identify a cause or predict completion."
+  },
+  "timeout_bounds": [
+    {
+      "layer": "GNU timeout",
+      "duration_seconds": 3600,
+      "kill_after_seconds": 10,
+      "configuration": "/usr/bin/timeout --kill-after=10s 3600 ...",
+      "reference": "scripts/run_hr_sanitizer_validation.py:162"
+    },
+    {
+      "layer": "systemd service RuntimeMaxSec",
+      "duration_seconds": 3630,
+      "configuration": "RuntimeMaxSec=args.timeout+30",
+      "reference": "scripts/run_hr_sanitizer_validation.py:170"
+    },
+    {
+      "layer": "root capture controller outer deadline",
+      "duration_seconds": 3660,
+      "configuration": "deadline=time.monotonic()+args.timeout+60",
+      "reference": "scripts/run_hr_sanitizer_validation.py:184,204-207"
+    }
+  ],
+  "timeout_extension_assessment": {
+    "supported_live_extension_found": false,
+    "description": "GNU timeout has no documented live-duration extension command. Its SIGALRM handler marks timed_out and forwards the configured termination signal; SIGALRM is not a reset request. The independent service and root-controller deadlines would remain even if the timeout process were altered. Editing on-disk specs cannot change already running timers. Existing capture should remain unchanged; any later longer attempt must use a fresh capture with its actual timeout recorded.",
+    "source": "https://raw.githubusercontent.com/coreutils/coreutils/master/src/timeout.c",
+    "source_lines": "98-119,205-247,633-639",
+    "manual": "https://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html"
+  },
+  "sanitizer_complexity_boundary": {
+    "documented_frame16_threshold_found": false,
+    "documented_per_iteration_complexity_guarantee_found": false,
+    "description": "NVIDIA documents that indirect barrier tracking can severely affect performance in some cases. This does not diagnose the active workload, establish a frame-16 mechanism or justify disabling checks.",
+    "source": "https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html#environment-variables",
+    "local_reference": "/opt/cuda/compute-sanitizer/docs/ComputeSanitizer/index.html:1025-1027"
+  }
+}

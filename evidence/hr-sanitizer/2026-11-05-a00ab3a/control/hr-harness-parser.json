@@ -1,0 +1,377 @@
+{
+  "recorded_at_utc": "2026-11-05T13:39:29.355739+00:00",
+  "scope": "CLI parser only; no GPU execution; missing records force failure before session construction",
+  "binary": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+  "binary_sha256": "cbba35fd548c781ab33e9c433078f3050f055990dcce4c3149ea3ea4ce8b1311",
+  "test_source": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_tests.cpp",
+  "test_source_sha256": "4cb51863d8530be74c0cdf6529f5c5b55fb3cca4a39532c1e5d96a818f2ee07f",
+  "invalid_cases": 14,
+  "valid_combinations": 7,
+  "all_passed": true,
+  "cases": [
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --profile\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile",
+        "wrong"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown model profile (expected t01-640x640 or hr-1280x768)\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile",
+        "hr-1280x768",
+        "--profile",
+        "hr-1280x768"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --profile\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --limit\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "0"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: --limit requires a positive integer\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "-1"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: --limit requires a positive integer\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "1junk"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: --limit requires a positive integer\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "+1"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: --limit requires a positive integer\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "999999999999999999999999999"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: --limit requires a positive integer\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "1",
+        "--limit",
+        "2"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --limit\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--lifecycle",
+        "--lifecycle"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --lifecycle\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--lifecycle",
+        "--limit",
+        "1"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --limit\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "1",
+        "--lifecycle"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --lifecycle\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "invalid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--unknown"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: unknown, duplicate, conflicting, or incomplete option: --unknown\n",
+      "expectation": "reject during argument parsing before records or GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile",
+        "hr-1280x768"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile",
+        "t01-640x640"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile",
+        "hr-1280x768",
+        "--limit",
+        "1"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--limit",
+        "1",
+        "--profile",
+        "hr-1280x768"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--profile",
+        "hr-1280x768",
+        "--lifecycle"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    },
+    {
+      "category": "valid",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105/harness/tracking_session_hr_tests",
+        "/missing-engine",
+        "/missing-sequences",
+        "/missing-records",
+        "SEQ",
+        "--lifecycle",
+        "--profile",
+        "hr-1280x768"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "tracking_session_tests: cannot open input: /missing-records/SEQ.scdr\n",
+      "expectation": "accept arguments then fail opening intentionally absent records before GPU",
+      "pass": true
+    }
+  ]
+}

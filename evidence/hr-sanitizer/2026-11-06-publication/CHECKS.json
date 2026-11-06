@@ -1,0 +1,58 @@
+{
+  "schema": "hr-sanitizer-presubmit/1",
+  "recorded": "2026-11-06T02:20:36.023470+00:00",
+  "base_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+  "scope": "Pre-commit CPU build/tests, script rechecks and frozen-artifact verification; GPU results remain the separately recorded runs.",
+  "cpu_ctest": {
+    "passed": 20,
+    "total": 20,
+    "seconds": 52.79
+  },
+  "python_checks": {
+    "runner": {
+      "passed": 175,
+      "failed": 0
+    },
+    "custom-runner": {
+      "passed": 131,
+      "failed": 0
+    },
+    "lifecycle-runner": {
+      "passed": 175,
+      "failed": 0
+    },
+    "archive": {
+      "passed": 48,
+      "failed": 0
+    },
+    "watch-inputs": {
+      "passed": 33,
+      "failed": 0
+    }
+  },
+  "frozen_evidence": [
+    {
+      "directory": "evidence/hr-sanitizer/2026-11-05-a00ab3a",
+      "manifest_sha256": "f1206f649896451ce2213154555986e86c5a88e7c5300af5286c159bc9abb61a",
+      "verified_files": 62
+    },
+    {
+      "directory": "evidence/hr-sanitizer-memory/2026-11-05",
+      "manifest_sha256": "43bd0449e5a45130783ba12e3a141a6b099903b9e35a72f57f83c1c560d98f41",
+      "verified_files": 130
+    },
+    {
+      "directory": "evidence/hr-sanitizer/2026-11-06-bounded-queue",
+      "manifest_sha256": "536451246cc0c311ebc3cb7588160e39496f4647214099834b394ccdbaa0d1e1",
+      "verified_files": 58
+    }
+  ],
+  "frozen_artifact_files_verified": 250,
+  "harness_source_matches_executed_frozen_source": true,
+  "harness_source_sha256": "4cb51863d8530be74c0cdf6529f5c5b55fb3cca4a39532c1e5d96a818f2ee07f",
+  "runner_matches_executed_frozen_source": true,
+  "runner_sha256": "e998987782479ceea38302e2390719d952420dd3e499a953b29fcf0cf3bb5b90",
+  "deployment_runtime_or_engine_modified": false,
+  "native_unfiltered_graph_racecheck": "OPEN",
+  "remote_ci": "Not assessed by this pre-commit receipt; verify the published commit separately."
+}

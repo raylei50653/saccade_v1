@@ -1,10 +1,20 @@
 # Saccade v1 目前狀態與文件狀態
 
-更新日期：2026-11-05。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+更新日期：2026-11-06。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
 
 新增可選的 [即時影像串流組件](STREAMING.md)：FFmpeg 收流 → NVDEC GPU 解碼 → CUDA 色彩轉換／前處理／TrackingSession，提供 `video_probe` 與 `track_stream`。CLI 預設 GPU、CPU decode 須明確選擇；即時輸出政策與開發測試獨立記錄，實際裝置連線邊界見該文件，不改寫原 JPEG／P01 正式判定。
 
 2026-11-05 接續：目前 TrackingSession GMC 已採 [G1 NVOFA／v1-motion/2（TRACKING §20）](TRACKING.md)；該輪驗收除完整 session memcheck OPEN 外，其餘八步通過，依 [原報告](../evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) 判定。以下較早正式證書仍保留各自來源與 motion profile。
+
+2026-11-05 已追加 [HR 完整路徑 sanitizer 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)：乾淨 `a00ab3a` runtime、現行 G1，CUDA CTest 68/68、HR 30 幀 602 checks、HR lifecycle 180 checks；四種排程及 HR lifecycle 的**未過濾完整 synccheck PASS**。四種排程 memcheck 均完成且 outputs 相同，但各有 86 次 NVOF 診斷，lifecycle 為 1,008 次，仍 OPEN。未過濾 racecheck／lazy retry 及自訂＋CUB racecheck 仍 24 GiB OOM，initcheck 出現 nvJPEG 診斷後 900 秒 timeout；**不是 sanitizer 全通過**。
+
+[Racecheck RAM 來源追蹤](../evidence/hr-sanitizer-memory/2026-11-05/REPORT.md)已定位到 target 內 `libsanitizer-collection.so` worker 的大型暫存配置；在已追蹤 ≥64 KiB heap requests 中占約 97–98%。Pointwise 原生排隊碰到 6 GiB OOM，強制逐次同步對照則完整暖機、峰值約 1.08 GiB；最小 CUDA probe 亦量到 grid 相關配置成本。這是來源診斷，私有 payload／洩漏與工具 bug 分類仍未確認，原生完整 HR racecheck 仍 OPEN。
+
+2026-11-06 [Racecheck 有界排隊補驗](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)：相同乾淨 `a00ab3a` runtime，**未過濾 ordinary serial 30 幀**以 8 workers、sync limit 1 完整跑完，exit 0、零 errors／warnings，約 50 分 20 秒、cgroup peak **1.031 GiB**，MOT／完整 packets／SCMO 與普通及 Graph baselines 逐 byte 相同，前後 custody 一致；標為 **PASS_FORCED_SYNC**。此入口使用 `--serial --no-cuda-graph`，部署 runtime／engine／Graph 預設維持原版。
+
+全部自訂 kernels＋CUB 另以 8 workers、sync limit 8 跑完四種排程各 30 幀及 HR lifecycle 180 checks，零 errors／warnings、outputs 相同、最高 peak 6.270 GiB，標為 **PASS_FILTERED_FORCED_SYNC**。未過濾 Graph 的 sync8／8 GiB 與 sync1／24 GiB 重試仍 OOM；原生排隊／未過濾 Graph gate 仍 OPEN，不由上述診斷入口關閉。
+
+三輪 sanitizer 工作的[發布前核對](../evidence/hr-sanitizer/2026-11-06-publication/REPORT.md)另行保留：新建 CPU CTest 20/20、Python checks 全通過，250 個 frozen artifact hashes／sizes 與受測 source 身分一致；不重寫原 GPU 收據或擴大正式驗收範圍。
 
 本輪 [OAO duration-ramp／front-occluder 消融](../evidence/occlusion/2026-11-05/REPORT.md)只讀 MOT17-10 val；四臂 CPU replay 未見收益，both 的 HOTA 50.869→50.634、IDF1 64.975→62.998、IDSW 56→67，**不加入部署預設**。交付前 CPU 20/20、baseline 654 幀 packet 相同、補上 CLI 檢查後四臂 MOT bytes 相同；非 CUDA／session／效能驗收。
 
@@ -70,8 +80,8 @@ CUDA Graph 預設啟用，D graph 包含 F03→producer→F04，M graph 包含�
 
 ## 未涵蓋與未完成邊界
 
-- **完整函式庫插樁**：TensorRT 內部 kernels 的 racecheck／synccheck 仍未執行；完整 session initcheck 受 nvJPEG 既知診斷影響。已通過的 session racecheck／synccheck 限 T01 前 10 幀的 tracking／motion／session-control kernels，不等於完整 HR／函式庫路徑驗收。
-- **完整 HR racecheck**：[資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md#8-無競態的條件與本次驗證) 的 OOM／timeout 嘗試仍為未完成；較後的有範圍 session PASS 不覆蓋這些失敗嘗試。
+- **完整函式庫插樁**：[HR 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md)已補上四種排程各 30 幀及 HR lifecycle 的未過濾完整 synccheck，包含受測 TensorRT／nvJPEG／NVOF CUDA kernels；OFA 硬體本體不在 CUDA 插樁範圍。完整 memcheck 仍因 NVOF 診斷 OPEN；完整 initcheck 已嘗試，出現 nvJPEG 未初始化讀取後 timeout，未完成。原 T01 filtered racecheck 的 PASS 不擴成完整 HR racecheck。
+- **完整 HR racecheck**：原生排隊／未過濾 Graph gate 仍 OPEN。2026-11-06 [有界排隊補驗](../evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md)完成未過濾 ordinary serial 30 幀（工具逐次同步，`PASS_FORCED_SYNC`），以及自訂＋CUB 四種 30 幀排程／lifecycle（`PASS_FILTERED_FORCED_SYNC`）；Graph 全 kernel 的同步化重試仍碰到 24 GiB OOM。原 [資源報告](../evidence/resource-schedule/2026-11-04/REPORT.md#8-無競態的條件與本次驗證) 與 [HR 補驗](../evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md) 的 OOM／timeout 保留，不以普通 serial、同步化、過濾或 component PASS 取代原生 Graph 驗收。
 - **nvJPEG**：F01 initcheck FAIL／原因 OPEN 保留；[使用政策](PREPROCESS_USAGE_POLICY.md) 與 [診斷紀錄](PREPROCESS.md#6-逆向與初始化診斷的證明邊界) 分開判定，不將介入後零報告當作原 runtime 修復。
 - **部署與支援**：HR FP16 engine 的 build provenance、HR deploy manifest 與 native schemas 1–3 的邊界見 [TRACKING §17.4](TRACKING.md#174-p01-判定標準)。跨 GPU／SDK 支援、GPU fatal 後恢復、額外 durability 與完整 P08 工具仍依 [BACKLOG](BACKLOG.md) 及 [DATAFLOW §9.2](DATAFLOW.md#92-真正待補齊的工程規格) 各自判定。
 - **排程擴充**：雙 host staging／完整 host decode overlap 尚未實作；多 caller、新 streams、shape／buffer 或 slot 回收邊改動，需更新 owner／last-use 及對應驗證。當前安全使用條件見 [ownership](../evidence/resource-schedule/2026-11-04/ownership.csv) 與 [安全審查](../evidence/resource-schedule/2026-11-04/safety-review.md)。

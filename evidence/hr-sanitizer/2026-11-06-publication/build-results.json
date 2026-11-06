@@ -1,0 +1,46 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "-S",
+      ".",
+      "-B",
+      "build/hr-sanitizer-publication-20261106/cpu",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DSACCADE_ENABLE_CUDA=OFF",
+      "-DSACCADE_ENABLE_TENSORRT=OFF"
+    ],
+    "started": "2026-11-06T02:16:37.435197+00:00",
+    "finished": "2026-11-06T02:16:39.110769+00:00",
+    "returncode": 0,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "build/hr-sanitizer-publication-20261106/cpu",
+      "--parallel",
+      "4"
+    ],
+    "started": "2026-11-06T02:16:39.111178+00:00",
+    "finished": "2026-11-06T02:16:56.019279+00:00",
+    "returncode": 0,
+    "log": "build.log"
+  },
+  {
+    "name": "ctest",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "build/hr-sanitizer-publication-20261106/cpu",
+      "--output-on-failure"
+    ],
+    "started": "2026-11-06T02:16:56.019495+00:00",
+    "finished": "2026-11-06T02:17:48.824181+00:00",
+    "returncode": 0,
+    "log": "ctest.log"
+  }
+]

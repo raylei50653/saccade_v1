@@ -1,0 +1,56 @@
+{
+  "schema": "independent-memory-causal-assessment/1",
+  "observations": {
+    "native_vs_blocking_command_diff_is_only_force_flag": true,
+    "trt_only_last_large_request_heap_live": 5434280908,
+    "collection_caller_live": 5276748728,
+    "collection_fraction_of_tracked_live_heap": 0.9710114028577191,
+    "collection_caller_offset": "0x5b9ef9",
+    "growth_comparison": {
+      "growth-pointwise": {
+        "tracked_heap_live": 5234969548,
+        "tracked_heap_peak": 5234969548,
+        "collection_caller_live": 5077437368,
+        "collection_caller_peak": 5077437368,
+        "tracked_heap_owner_fraction": 0.969907717980865,
+        "collection_caller_file_offset": "0x5b9ef9",
+        "dropped": 0,
+        "owner_dropped": 0
+      },
+      "growth-pointwise-sync": {
+        "tracked_heap_live": 93358024,
+        "tracked_heap_peak": 686468044,
+        "collection_caller_live": 28309272,
+        "collection_caller_peak": 528935864,
+        "tracked_heap_owner_fraction": 0.3032334103386764,
+        "collection_caller_file_offset": "0x5b9ef9",
+        "dropped": 0,
+        "owner_dropped": 0
+      }
+    },
+    "process_memory_summary": "process-memory-final.json",
+    "custom_filter_validation": "custom-filter-validation-full.json",
+    "elf_private_symbol_bounds": "elf-symbol-boundaries.json"
+  },
+  "supported_conclusions": [
+    "Bulk growth is anonymous host memory in the instrumented target; sanitizer frontend remains about9MBRSS.",
+    "The dominant directly observed caller for >=64KiB tracked heap requests is libsanitizer-collection.so+0x5b9ef9,97.101% of tracked live heap in tracedTRT-only snapshot. This percentage is not97.101%ofRSS or all allocations.",
+    "Changing only force-blocking-launches completes the same __myl-selected constructor at approximately1.16GBcgroup peak instead of6GcapOOM; tracedreplicate shows trackedliveheap and callerpeak reduced.",
+    "The controlled result supports a dependence on outstanding/queued instrumentation work and concurrent allocation lifetime; it does not identify the private payload structure.",
+    "Workers4 alsoOOM6G; it did not resolve this bounded reproduction.",
+    "Custom-only constructor completesabout5.53GB; subsequent one-frame custom/CUB runOOM6G. Old30framecustomOOM must not be assumed to occur in constructorwarmup without launchstage evidence."
+  ],
+  "not_established": [
+    "Exact private allocationpayload semantics or a named patch-generation phase.",
+    "A memory leak; OOM kills the native run before potential laterfree and finite constructorcontrols have different lifetimes.",
+    "Originalschedule fullsessionracecheckPASS; forceblockingchangesexecutionandonly__mylkernelsareselected.",
+    "Exact trueRAMrequiredtofinishnativeHRsession; configuredcapOOM suppliesabound, notarequirement."
+  ],
+  "source_hashes": {
+    "allocator-attribution.json": "3d124c4d8280367cba39449365d57a801b73f39ff9f6de3cfe85be24a6a50d41",
+    "growth-sync-comparison.json": "8a2043e9131947e72eb6b144fe094e3e08308c6da04ff96ce9f669446d780da0",
+    "process-memory-final.json": "53c19e49d4d28ff07cdef7733312ba0e3e48ef744c4a12a1652119de2a7e01dc",
+    "custom-filter-validation-full.json": "06eba54cab24df9ee06190fb040150b33a658aae69fca31b43ee0537e94805a4",
+    "elf-symbol-boundaries.json": "4a8e9f5e3e64cca8d84087e3d4c38999623723125f1b038777743252280f079e"
+  }
+}

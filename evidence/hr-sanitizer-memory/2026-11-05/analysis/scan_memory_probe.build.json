@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/usr/bin/c++",
+    "-std=c++20",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffp-contract=off",
+    "-Ibuild/hr-sanitizer-20261105-source/include",
+    "-I/opt/cuda/targets/x86_64-linux/include",
+    "build/racecheck-memory-20261105/scan_memory_probe.cpp",
+    "-o",
+    "build/racecheck-memory-20261105/scan_memory_probe",
+    "-L/opt/cuda/targets/x86_64-linux/lib",
+    "-Wl,-rpath,/opt/cuda/targets/x86_64-linux/lib",
+    "build/hr-sanitizer-20261105/cuda/libsaccade_selective_scan_cuda.a",
+    "-lcudart",
+    "-ldl",
+    "-lrt",
+    "-lpthread"
+  ],
+  "compile_exit": 0,
+  "gpu_executed": false,
+  "source_sha256": "0bba0644676edc6dcac6ccfe9df578f6049400a5a968f10d04cc93fa1ff32f8f",
+  "binary_sha256": "ac175a831af52d1592f46a5d5745ae86debd2a15f2c61ac399a90489d3b63595",
+  "runtime_static_library_sha256": "7c14b94a9d267a6cf2c2e025764383e7db4a749d9f17262bb766a42e4920d1e0"
+}

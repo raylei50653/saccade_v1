@@ -1,0 +1,44 @@
+{
+  "source": "cached matching libc debuginfo via GNU debuglink; no private sanitizer symbols asserted",
+  "libc_sha256": "02c8c3d06180beee9c7d0392aa85736c7d19f274a81e7f8f0b3d9e28e0641524",
+  "debuginfo_path": "/home/ray/.cache/debuginfod_client/d320029ad1a23be2f4bce117fd321cbd23a2014b/debuginfo",
+  "debuginfo_sha256": "9af842d74dabd58b9389ac41060ad28f2ed7f3997a943d0422f8cfe9c119bed3",
+  "commands": {
+    "debuglink": {
+      "command": [
+        "readelf",
+        "--debug-dump=links",
+        "/usr/lib/libc.so.6"
+      ],
+      "returncode": 0,
+      "stdout": "\n/usr/lib/libc.so.6: Found separate debug info file: /home/ray/.cache/debuginfod_client/d320029ad1a23be2f4bce117fd321cbd23a2014b/debuginfo\nContents of the .gnu_debuglink section (loaded from /usr/lib/libc.so.6):\n\n  Separate debug info file: libc.so.6.debug\n  CRC value: 0x5ae16453\n\n",
+      "stderr": ""
+    },
+    "symbols": {
+      "command": [
+        "objdump",
+        "-t",
+        "/usr/lib/libc.so.6"
+      ],
+      "returncode": 0,
+      "stdout": "0000000000097ca0 l     F .text\t00000000000005fc start_thread\n000000000002683a l     F .text\t0000000000000034 start_thread.cold\n0000000000120700 l     F .text\t0000000000000047 __GI___clone3",
+      "stderr": ""
+    }
+  },
+  "verified_ranges": [
+    {
+      "name": "start_thread",
+      "start": "0x97ca0",
+      "size": "0x5fc",
+      "end_exclusive": "0x9829c",
+      "observed_pc": "0x98042"
+    },
+    {
+      "name": "__GI___clone3",
+      "start": "0x120700",
+      "size": "0x47",
+      "end_exclusive": "0x120747",
+      "observed_pc": "0x12072c"
+    }
+  ]
+}

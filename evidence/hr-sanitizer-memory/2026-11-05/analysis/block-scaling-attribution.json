@@ -1,0 +1,3540 @@
+{
+  "schema": "block-scaling-allocator-attribution/1",
+  "results": {
+    "block-global-1": {
+      "pid": 855190,
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "destructor",
+        "pid": 855190,
+        "sequence": 1,
+        "monotonic_ns": 45919474452432,
+        "heap_live": 82282607,
+        "heap_peak": 82806895,
+        "heap_allocated": 128523495,
+        "heap_freed": 46240888,
+        "mmap_live": 107590189056,
+        "mmap_peak": 107590189056,
+        "mmap_allocated": 107590189056,
+        "mmap_freed": 0,
+        "active": 74,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "same_collection_caller": {
+        "owner_ids": [
+          723
+        ],
+        "peak_seen": 22759160,
+        "final": [
+          {
+            "type": "owner",
+            "id": 723,
+            "kind": "heap",
+            "caller": "0x739b651b9ef9",
+            "live": 22234872,
+            "peak": 22759160,
+            "allocated": 22832888,
+            "freed": 598016,
+            "alloc_calls": 14,
+            "free_calls": 2,
+            "max_allocation": 2846528,
+            "site": {
+              "type": "site",
+              "id": 723,
+              "kind": "heap",
+              "caller": "0x739b651b9ef9",
+              "stack": [
+                "0x739b65d18f98",
+                "0x739b65d1959e",
+                "0x739b651b9ef9",
+                "0x739b64d82369",
+                "0x739b64d187e7",
+                "0x739b64cf23be",
+                "0x739b60a4bb2e",
+                "0x739b60ff7f81",
+                "0x739b60ff8d9f",
+                "0x739b60ff9030",
+                "0x739b60ffa666",
+                "0x739b60f59370",
+                "0x739b60f5a371",
+                "0x739b60f5a559",
+                "0x739b60e9c9e4",
+                "0x739b610121d2",
+                "0x739b6100e6ba",
+                "0x5c133d87aea9",
+                "0x5c133d87b0b7",
+                "0x5c133d87b8a8",
+                "0x5c133d87ab88",
+                "0x5c133d84555f",
+                "0x5c133d886a23",
+                "0x5c133d840404",
+                "0x739b63c27781",
+                "0x739b63c278b9",
+                "0x5c133d840d95"
+              ],
+              "caller_resolution": {
+                "address": "0x739b651b9ef9",
+                "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                "module_file_offset": "0x5b9ef9",
+                "symbol": [
+                  "dlclose",
+                  "??:?"
+                ],
+                "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                "elf_lookup_address": "0x5b9ef9",
+                "containing_elf_function_ranges": []
+              },
+              "stack_resolution": [
+                {
+                  "address": "0x739b65d18f98",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x1f98",
+                  "symbol": [
+                    "record_site",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:114 (discriminator 2)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1f98",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "record_site",
+                      "start": "0x1f40",
+                      "end_exclusive": "0x21bd",
+                      "size": 637
+                    }
+                  ]
+                },
+                {
+                  "address": "0x739b65d1959e",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x259e",
+                  "symbol": [
+                    "malloc",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x259e",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "malloc",
+                      "start": "0x24e0",
+                      "end_exclusive": "0x25b7",
+                      "size": 215
+                    }
+                  ]
+                },
+                {
+                  "address": "0x739b651b9ef9",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x5b9ef9",
+                  "symbol": [
+                    "dlclose",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x5b9ef9",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b64d82369",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x182369",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x182369",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b64d187e7",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x1187e7",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1187e7",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b64cf23be",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0xf23be",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf23be",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60a4bb2e",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+                  "module_file_offset": "0x4bb2e",
+                  "symbol": [
+                    "sanitizerAddPatchesFromFile",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x4bb2e",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60ff7f81",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33ef81",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33ef81",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60ff8d9f",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33fd9f",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33fd9f",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60ff9030",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x340030",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x340030",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60ffa666",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x341666",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x341666",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60f59370",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a0370",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a0370",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60f5a371",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1371",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1371",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60f5a559",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1559",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1559",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b60e9c9e4",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x1e39e4",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1e39e4",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b610121d2",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3591d2",
+                  "symbol": [
+                    "cuCtxSetFlags",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3591d2",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b6100e6ba",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3556ba",
+                  "symbol": [
+                    "cuDevicePrimaryCtxRetain",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3556ba",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cuDevicePrimaryCtxRetain",
+                      "start": "0x3556a0",
+                      "end_exclusive": "0x3556e6",
+                      "size": 70
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d87aea9",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44ea9",
+                  "symbol": [
+                    "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44ea9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                      "start": "0x44df0",
+                      "end_exclusive": "0x44f71",
+                      "size": 385
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d87b0b7",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x450b7",
+                  "symbol": [
+                    "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x450b7",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                      "start": "0x45010",
+                      "end_exclusive": "0x4525d",
+                      "size": 589
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d87b8a8",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x458a8",
+                  "symbol": [
+                    "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x458a8",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                      "start": "0x45840",
+                      "end_exclusive": "0x4591b",
+                      "size": 219
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d87ab88",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44b88",
+                  "symbol": [
+                    "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44b88",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                      "start": "0x44b60",
+                      "end_exclusive": "0x44b8a",
+                      "size": 42
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d84555f",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xf55f",
+                  "symbol": [
+                    "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf55f",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                      "start": "0xf4c0",
+                      "end_exclusive": "0xf594",
+                      "size": 212
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d886a23",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x50a23",
+                  "symbol": [
+                    "cudaSetDevice",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x50a23",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cudaSetDevice",
+                      "start": "0x508b0",
+                      "end_exclusive": "0x50a8a",
+                      "size": 474
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d840404",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xa404",
+                  "symbol": [
+                    "main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xa404",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "main",
+                      "start": "0xa180",
+                      "end_exclusive": "0xac30",
+                      "size": 2736
+                    }
+                  ]
+                },
+                {
+                  "address": "0x739b63c27781",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x27781",
+                  "symbol": [
+                    "__libc_init_first",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x27781",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x739b63c278b9",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x278b9",
+                  "symbol": [
+                    "__libc_start_main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x278b9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "__libc_start_main@@GLIBC_2.34",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    },
+                    {
+                      "name": "__libc_start_main@GLIBC_2.2.5",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c133d840d95",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xad95",
+                  "symbol": [
+                    "_start",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xad95",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "_start",
+                      "start": "0xad70",
+                      "end_exclusive": "0xad96",
+                      "size": 38
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "growth_stacks": [],
+      "execution": {
+        "finished": "2026-11-05T15:08:02.539605+00:00",
+        "process_peaks": {
+          "855181": {
+            "comm": "python3",
+            "pss_bytes": 11302912,
+            "rss_bytes": 18997248
+          },
+          "855182": {
+            "comm": "timeout",
+            "pss_bytes": 215040,
+            "rss_bytes": 2158592
+          },
+          "855183": {
+            "comm": "compute-sanitiz",
+            "pss_bytes": 6034432,
+            "rss_bytes": 8847360
+          },
+          "855184": {
+            "comm": "TreeLauncherSub",
+            "pss_bytes": 3106816,
+            "rss_bytes": 7933952
+          },
+          "855190": {
+            "comm": "block_memory_pr",
+            "pss_bytes": 27958272,
+            "rss_bytes": 34689024
+          }
+        },
+        "returncode": 0,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "sampled_memory_peak_bytes": 429772800,
+        "sampled_systemd_results": [
+          "success"
+        ],
+        "service_reported_oom": false,
+        "service_runner_returncode": 0,
+        "started": "2026-11-05T15:07:59.443356+00:00",
+        "target": {
+          "cgroup.events": {
+            "frozen": 0,
+            "populated": 1
+          },
+          "command_pid": 855182,
+          "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-a61a1d886f2b.service",
+          "finished": "2026-11-05T15:08:02.482761+00:00",
+          "memory.current": 11374592,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.events.local": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.peak": 429772800,
+          "memory.stat": {
+            "active_anon": 4096,
+            "active_file": 0,
+            "anon": 8413184,
+            "anon_thp": 0,
+            "file": 81920,
+            "file_dirty": 32768,
+            "file_mapped": 0,
+            "file_thp": 0,
+            "file_writeback": 0,
+            "inactive_anon": 8396800,
+            "inactive_file": 86016,
+            "kernel": 520192,
+            "kernel_stack": 0,
+            "pagetables": 299008,
+            "percpu": 2176,
+            "pgactivate": 77312,
+            "pgdeactivate": 0,
+            "pgdemote_direct": 0,
+            "pgdemote_khugepaged": 0,
+            "pgdemote_kswapd": 0,
+            "pgdemote_proactive": 0,
+            "pgfault": 112175,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "pgmajfault": 144,
+            "pgrefill": 0,
+            "pgscan": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_proactive": 0,
+            "pgsteal": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_proactive": 0,
+            "pswpin": 0,
+            "pswpout": 0,
+            "sec_pagetables": 0,
+            "shmem": 0,
+            "shmem_thp": 0,
+            "slab": 210528,
+            "slab_reclaimable": 44200,
+            "slab_unreclaimable": 166328,
+            "sock": 0,
+            "swapcached": 0,
+            "swpin_zero": 0,
+            "swpout_zero": 0,
+            "thp_collapse_alloc": 0,
+            "thp_fault_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0,
+            "unevictable": 0,
+            "vmalloc": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_nodereclaim": 0,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0
+          },
+          "memory.swap.current": 0,
+          "memory.swap.peak": 0,
+          "returncode": 0,
+          "started": "2026-11-05T15:07:59.516197+00:00",
+          "time": "2026-11-05T15:08:02.482400+00:00",
+          "wrapper_pid": 855181
+        },
+        "unit": "saccade-memory-a61a1d886f2b.service"
+      }
+    },
+    "block-global-1024": {
+      "pid": 855250,
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "destructor",
+        "pid": 855250,
+        "sequence": 3,
+        "monotonic_ns": 45921064904468,
+        "heap_live": 82282607,
+        "heap_peak": 385321071,
+        "heap_allocated": 665918695,
+        "heap_freed": 583636088,
+        "mmap_live": 107590189056,
+        "mmap_peak": 107590189056,
+        "mmap_allocated": 107590189056,
+        "mmap_freed": 0,
+        "active": 74,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "same_collection_caller": {
+        "owner_ids": [
+          995
+        ],
+        "peak_seen": 324224760,
+        "final": [
+          {
+            "type": "owner",
+            "id": 995,
+            "kind": "heap",
+            "caller": "0x76d0477b9ef9",
+            "live": 22234872,
+            "peak": 324224760,
+            "allocated": 559179512,
+            "freed": 536944640,
+            "alloc_calls": 1037,
+            "free_calls": 1025,
+            "max_allocation": 2846528,
+            "site": {
+              "type": "site",
+              "id": 995,
+              "kind": "heap",
+              "caller": "0x76d0477b9ef9",
+              "stack": [
+                "0x76d0483dcf98",
+                "0x76d0483dd59e",
+                "0x76d0477b9ef9",
+                "0x76d047382369",
+                "0x76d0473187e7",
+                "0x76d0472f23be",
+                "0x76d04304bb2e",
+                "0x76d0435f7f81",
+                "0x76d0435f8d9f",
+                "0x76d0435f9030",
+                "0x76d0435fa666",
+                "0x76d043559370",
+                "0x76d04355a371",
+                "0x76d04355a559",
+                "0x76d04349c9e4",
+                "0x76d0436121d2",
+                "0x76d04360e6ba",
+                "0x6239c7652ea9",
+                "0x6239c76530b7",
+                "0x6239c76538a8",
+                "0x6239c7652b88",
+                "0x6239c761d55f",
+                "0x6239c765ea23",
+                "0x6239c7618404",
+                "0x76d046227781",
+                "0x76d0462278b9",
+                "0x6239c7618d95"
+              ],
+              "caller_resolution": {
+                "address": "0x76d0477b9ef9",
+                "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                "module_file_offset": "0x5b9ef9",
+                "symbol": [
+                  "dlclose",
+                  "??:?"
+                ],
+                "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                "elf_lookup_address": "0x5b9ef9",
+                "containing_elf_function_ranges": []
+              },
+              "stack_resolution": [
+                {
+                  "address": "0x76d0483dcf98",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x1f98",
+                  "symbol": [
+                    "record_site",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:114 (discriminator 2)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1f98",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "record_site",
+                      "start": "0x1f40",
+                      "end_exclusive": "0x21bd",
+                      "size": 637
+                    }
+                  ]
+                },
+                {
+                  "address": "0x76d0483dd59e",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x259e",
+                  "symbol": [
+                    "malloc",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x259e",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "malloc",
+                      "start": "0x24e0",
+                      "end_exclusive": "0x25b7",
+                      "size": 215
+                    }
+                  ]
+                },
+                {
+                  "address": "0x76d0477b9ef9",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x5b9ef9",
+                  "symbol": [
+                    "dlclose",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x5b9ef9",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d047382369",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x182369",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x182369",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0473187e7",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x1187e7",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1187e7",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0472f23be",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0xf23be",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf23be",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d04304bb2e",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+                  "module_file_offset": "0x4bb2e",
+                  "symbol": [
+                    "sanitizerAddPatchesFromFile",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x4bb2e",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0435f7f81",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33ef81",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33ef81",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0435f8d9f",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33fd9f",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33fd9f",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0435f9030",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x340030",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x340030",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0435fa666",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x341666",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x341666",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d043559370",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a0370",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a0370",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d04355a371",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1371",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1371",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d04355a559",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1559",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1559",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d04349c9e4",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x1e39e4",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1e39e4",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0436121d2",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3591d2",
+                  "symbol": [
+                    "cuCtxSetFlags",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3591d2",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d04360e6ba",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3556ba",
+                  "symbol": [
+                    "cuDevicePrimaryCtxRetain",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3556ba",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cuDevicePrimaryCtxRetain",
+                      "start": "0x3556a0",
+                      "end_exclusive": "0x3556e6",
+                      "size": 70
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c7652ea9",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44ea9",
+                  "symbol": [
+                    "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44ea9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                      "start": "0x44df0",
+                      "end_exclusive": "0x44f71",
+                      "size": 385
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c76530b7",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x450b7",
+                  "symbol": [
+                    "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x450b7",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                      "start": "0x45010",
+                      "end_exclusive": "0x4525d",
+                      "size": 589
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c76538a8",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x458a8",
+                  "symbol": [
+                    "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x458a8",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                      "start": "0x45840",
+                      "end_exclusive": "0x4591b",
+                      "size": 219
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c7652b88",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44b88",
+                  "symbol": [
+                    "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44b88",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                      "start": "0x44b60",
+                      "end_exclusive": "0x44b8a",
+                      "size": 42
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c761d55f",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xf55f",
+                  "symbol": [
+                    "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf55f",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                      "start": "0xf4c0",
+                      "end_exclusive": "0xf594",
+                      "size": 212
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c765ea23",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x50a23",
+                  "symbol": [
+                    "cudaSetDevice",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x50a23",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cudaSetDevice",
+                      "start": "0x508b0",
+                      "end_exclusive": "0x50a8a",
+                      "size": 474
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c7618404",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xa404",
+                  "symbol": [
+                    "main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xa404",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "main",
+                      "start": "0xa180",
+                      "end_exclusive": "0xac30",
+                      "size": 2736
+                    }
+                  ]
+                },
+                {
+                  "address": "0x76d046227781",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x27781",
+                  "symbol": [
+                    "__libc_init_first",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x27781",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x76d0462278b9",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x278b9",
+                  "symbol": [
+                    "__libc_start_main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x278b9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "__libc_start_main@@GLIBC_2.34",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    },
+                    {
+                      "name": "__libc_start_main@GLIBC_2.2.5",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    }
+                  ]
+                },
+                {
+                  "address": "0x6239c7618d95",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xad95",
+                  "symbol": [
+                    "_start",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xad95",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "_start",
+                      "start": "0xad70",
+                      "end_exclusive": "0xad96",
+                      "size": 38
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "growth_stacks": [
+        {
+          "type": "growth_stack",
+          "sequence": 1,
+          "pid": 855250,
+          "monotonic_ns": 45920847081456,
+          "kind": "heap",
+          "caller": "0x76d0477b9ef9",
+          "trigger_size": 524288,
+          "heap_live_trigger": 134711407,
+          "mmap_live_trigger": 107590189056,
+          "stack": [
+            "0x76d0483dc9e2",
+            "0x76d0483dd439",
+            "0x76d0483dd59e",
+            "0x76d0477b9ef9",
+            "0x76d0473987da",
+            "0x76d047396e4f",
+            "0x76d0473a0b6f",
+            "0x76d0477fbf41",
+            "0x76d046298042",
+            "0x76d04632072c"
+          ],
+          "caller_resolution": {
+            "address": "0x76d0477b9ef9",
+            "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+            "module_file_offset": "0x5b9ef9",
+            "symbol": [
+              "dlclose",
+              "??:?"
+            ],
+            "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+            "elf_lookup_address": "0x5b9ef9",
+            "containing_elf_function_ranges": []
+          },
+          "stack_resolution": [
+            {
+              "address": "0x76d0483dc9e2",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x19e2",
+              "symbol": [
+                "record_growth_stack",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:123 (discriminator 1)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x19e2",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_growth_stack",
+                  "start": "0x1990",
+                  "end_exclusive": "0x1b83",
+                  "size": 499
+                }
+              ]
+            },
+            {
+              "address": "0x76d0483dd439",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x2439",
+              "symbol": [
+                "record_alloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:133 (discriminator 2)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x2439",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_alloc",
+                  "start": "0x21c0",
+                  "end_exclusive": "0x2442",
+                  "size": 642
+                }
+              ]
+            },
+            {
+              "address": "0x76d0483dd59e",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x259e",
+              "symbol": [
+                "malloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x259e",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "malloc",
+                  "start": "0x24e0",
+                  "end_exclusive": "0x25b7",
+                  "size": 215
+                }
+              ]
+            },
+            {
+              "address": "0x76d0477b9ef9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5b9ef9",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5b9ef9",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d0473987da",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1987da",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1987da",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d047396e4f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x196e4f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x196e4f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d0473a0b6f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1a0b6f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1a0b6f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d0477fbf41",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5fbf41",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5fbf41",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d046298042",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x98042",
+              "symbol": [
+                "pthread_condattr_setpshared",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x98042",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d04632072c",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x12072c",
+              "symbol": [
+                "__clone",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x12072c",
+              "containing_elf_function_ranges": []
+            }
+          ]
+        },
+        {
+          "type": "growth_stack",
+          "sequence": 2,
+          "pid": 855250,
+          "monotonic_ns": 45920947930201,
+          "kind": "heap",
+          "caller": "0x76d0477b9ef9",
+          "trigger_size": 524288,
+          "heap_live_trigger": 268929135,
+          "mmap_live_trigger": 107590189056,
+          "stack": [
+            "0x76d0483dc9e2",
+            "0x76d0483dd439",
+            "0x76d0483dd59e",
+            "0x76d0477b9ef9",
+            "0x76d0473987da",
+            "0x76d047396e4f",
+            "0x76d0473a0b6f",
+            "0x76d0477fbf41",
+            "0x76d046298042",
+            "0x76d04632072c"
+          ],
+          "caller_resolution": {
+            "address": "0x76d0477b9ef9",
+            "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+            "module_file_offset": "0x5b9ef9",
+            "symbol": [
+              "dlclose",
+              "??:?"
+            ],
+            "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+            "elf_lookup_address": "0x5b9ef9",
+            "containing_elf_function_ranges": []
+          },
+          "stack_resolution": [
+            {
+              "address": "0x76d0483dc9e2",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x19e2",
+              "symbol": [
+                "record_growth_stack",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:123 (discriminator 1)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x19e2",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_growth_stack",
+                  "start": "0x1990",
+                  "end_exclusive": "0x1b83",
+                  "size": 499
+                }
+              ]
+            },
+            {
+              "address": "0x76d0483dd439",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x2439",
+              "symbol": [
+                "record_alloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:133 (discriminator 2)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x2439",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_alloc",
+                  "start": "0x21c0",
+                  "end_exclusive": "0x2442",
+                  "size": 642
+                }
+              ]
+            },
+            {
+              "address": "0x76d0483dd59e",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x259e",
+              "symbol": [
+                "malloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x259e",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "malloc",
+                  "start": "0x24e0",
+                  "end_exclusive": "0x25b7",
+                  "size": 215
+                }
+              ]
+            },
+            {
+              "address": "0x76d0477b9ef9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5b9ef9",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5b9ef9",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d0473987da",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1987da",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1987da",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d047396e4f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x196e4f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x196e4f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d0473a0b6f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1a0b6f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1a0b6f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d0477fbf41",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5fbf41",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5fbf41",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d046298042",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x98042",
+              "symbol": [
+                "pthread_condattr_setpshared",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x98042",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x76d04632072c",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x12072c",
+              "symbol": [
+                "__clone",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x12072c",
+              "containing_elf_function_ranges": []
+            }
+          ]
+        }
+      ],
+      "execution": {
+        "finished": "2026-11-05T15:08:04.596522+00:00",
+        "process_peaks": {
+          "855241": {
+            "comm": "python3",
+            "pss_bytes": 9991168,
+            "rss_bytes": 18939904
+          },
+          "855242": {
+            "comm": "timeout",
+            "pss_bytes": 210944,
+            "rss_bytes": 2138112
+          },
+          "855243": {
+            "comm": "compute-sanitiz",
+            "pss_bytes": 6693888,
+            "rss_bytes": 9498624
+          },
+          "855244": {
+            "comm": "TreeLauncherSub",
+            "pss_bytes": 3096576,
+            "rss_bytes": 7860224
+          },
+          "855250": {
+            "comm": "block_memory_pr",
+            "pss_bytes": 307519488,
+            "rss_bytes": 309534720
+          }
+        },
+        "returncode": 0,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "sampled_memory_peak_bytes": 772419584,
+        "sampled_systemd_results": [
+          "success"
+        ],
+        "service_reported_oom": false,
+        "service_runner_returncode": 0,
+        "started": "2026-11-05T15:08:00.602847+00:00",
+        "target": {
+          "cgroup.events": {
+            "frozen": 0,
+            "populated": 1
+          },
+          "command_pid": 855242,
+          "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-79e7ba1d1f35.service",
+          "finished": "2026-11-05T15:08:04.077623+00:00",
+          "memory.current": 11309056,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.events.local": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.peak": 772419584,
+          "memory.stat": {
+            "active_anon": 4096,
+            "active_file": 0,
+            "anon": 8421376,
+            "anon_thp": 0,
+            "file": 90112,
+            "file_dirty": 40960,
+            "file_mapped": 0,
+            "file_thp": 0,
+            "file_writeback": 0,
+            "inactive_anon": 8409088,
+            "inactive_file": 94208,
+            "kernel": 536576,
+            "kernel_stack": 0,
+            "pagetables": 315392,
+            "percpu": 2176,
+            "pgactivate": 77312,
+            "pgdeactivate": 0,
+            "pgdemote_direct": 0,
+            "pgdemote_khugepaged": 0,
+            "pgdemote_kswapd": 0,
+            "pgdemote_proactive": 0,
+            "pgfault": 195398,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "pgmajfault": 144,
+            "pgrefill": 0,
+            "pgscan": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_proactive": 0,
+            "pgsteal": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_proactive": 0,
+            "pswpin": 0,
+            "pswpout": 0,
+            "sec_pagetables": 0,
+            "shmem": 0,
+            "shmem_thp": 0,
+            "slab": 221696,
+            "slab_reclaimable": 45880,
+            "slab_unreclaimable": 175816,
+            "sock": 0,
+            "swapcached": 0,
+            "swpin_zero": 0,
+            "swpout_zero": 0,
+            "thp_collapse_alloc": 0,
+            "thp_fault_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0,
+            "unevictable": 0,
+            "vmalloc": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_nodereclaim": 0,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0
+          },
+          "memory.swap.current": 0,
+          "memory.swap.peak": 0,
+          "returncode": 0,
+          "started": "2026-11-05T15:08:02.595602+00:00",
+          "time": "2026-11-05T15:08:04.077271+00:00",
+          "wrapper_pid": 855241
+        },
+        "unit": "saccade-memory-79e7ba1d1f35.service"
+      }
+    },
+    "block-shared-1": {
+      "pid": 855357,
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "destructor",
+        "pid": 855357,
+        "sequence": 1,
+        "monotonic_ns": 45922995397702,
+        "heap_live": 82282607,
+        "heap_peak": 82905199,
+        "heap_allocated": 128720103,
+        "heap_freed": 46437496,
+        "mmap_live": 107590189056,
+        "mmap_peak": 107590189056,
+        "mmap_allocated": 107590189056,
+        "mmap_freed": 0,
+        "active": 74,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "same_collection_caller": {
+        "owner_ids": [
+          1843
+        ],
+        "peak_seen": 22857464,
+        "final": [
+          {
+            "type": "owner",
+            "id": 1843,
+            "kind": "heap",
+            "caller": "0x7300cedb9ef9",
+            "live": 22234872,
+            "peak": 22857464,
+            "allocated": 23029496,
+            "freed": 794624,
+            "alloc_calls": 16,
+            "free_calls": 4,
+            "max_allocation": 2846528,
+            "site": {
+              "type": "site",
+              "id": 1843,
+              "kind": "heap",
+              "caller": "0x7300cedb9ef9",
+              "stack": [
+                "0x7300cfabbf98",
+                "0x7300cfabc59e",
+                "0x7300cedb9ef9",
+                "0x7300ce982369",
+                "0x7300ce9187e7",
+                "0x7300ce8f23be",
+                "0x7300ca84bb2e",
+                "0x7300cadf7f81",
+                "0x7300cadf8d9f",
+                "0x7300cadf9030",
+                "0x7300cadfa666",
+                "0x7300cad59370",
+                "0x7300cad5a371",
+                "0x7300cad5a559",
+                "0x7300cac9c9e4",
+                "0x7300cae121d2",
+                "0x7300cae0e6ba",
+                "0x5bfe7a58bea9",
+                "0x5bfe7a58c0b7",
+                "0x5bfe7a58c8a8",
+                "0x5bfe7a58bb88",
+                "0x5bfe7a55655f",
+                "0x5bfe7a597a23",
+                "0x5bfe7a551404",
+                "0x7300cda27781",
+                "0x7300cda278b9",
+                "0x5bfe7a551d95"
+              ],
+              "caller_resolution": {
+                "address": "0x7300cedb9ef9",
+                "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                "module_file_offset": "0x5b9ef9",
+                "symbol": [
+                  "dlclose",
+                  "??:?"
+                ],
+                "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                "elf_lookup_address": "0x5b9ef9",
+                "containing_elf_function_ranges": []
+              },
+              "stack_resolution": [
+                {
+                  "address": "0x7300cfabbf98",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x1f98",
+                  "symbol": [
+                    "record_site",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:114 (discriminator 2)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1f98",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "record_site",
+                      "start": "0x1f40",
+                      "end_exclusive": "0x21bd",
+                      "size": 637
+                    }
+                  ]
+                },
+                {
+                  "address": "0x7300cfabc59e",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x259e",
+                  "symbol": [
+                    "malloc",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x259e",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "malloc",
+                      "start": "0x24e0",
+                      "end_exclusive": "0x25b7",
+                      "size": 215
+                    }
+                  ]
+                },
+                {
+                  "address": "0x7300cedb9ef9",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x5b9ef9",
+                  "symbol": [
+                    "dlclose",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x5b9ef9",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300ce982369",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x182369",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x182369",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300ce9187e7",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x1187e7",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1187e7",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300ce8f23be",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0xf23be",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf23be",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300ca84bb2e",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+                  "module_file_offset": "0x4bb2e",
+                  "symbol": [
+                    "sanitizerAddPatchesFromFile",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x4bb2e",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cadf7f81",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33ef81",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33ef81",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cadf8d9f",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33fd9f",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33fd9f",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cadf9030",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x340030",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x340030",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cadfa666",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x341666",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x341666",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cad59370",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a0370",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a0370",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cad5a371",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1371",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1371",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cad5a559",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1559",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1559",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cac9c9e4",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x1e39e4",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1e39e4",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cae121d2",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3591d2",
+                  "symbol": [
+                    "cuCtxSetFlags",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3591d2",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cae0e6ba",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3556ba",
+                  "symbol": [
+                    "cuDevicePrimaryCtxRetain",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3556ba",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cuDevicePrimaryCtxRetain",
+                      "start": "0x3556a0",
+                      "end_exclusive": "0x3556e6",
+                      "size": 70
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a58bea9",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44ea9",
+                  "symbol": [
+                    "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44ea9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                      "start": "0x44df0",
+                      "end_exclusive": "0x44f71",
+                      "size": 385
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a58c0b7",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x450b7",
+                  "symbol": [
+                    "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x450b7",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                      "start": "0x45010",
+                      "end_exclusive": "0x4525d",
+                      "size": 589
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a58c8a8",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x458a8",
+                  "symbol": [
+                    "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x458a8",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                      "start": "0x45840",
+                      "end_exclusive": "0x4591b",
+                      "size": 219
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a58bb88",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44b88",
+                  "symbol": [
+                    "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44b88",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                      "start": "0x44b60",
+                      "end_exclusive": "0x44b8a",
+                      "size": 42
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a55655f",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xf55f",
+                  "symbol": [
+                    "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf55f",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                      "start": "0xf4c0",
+                      "end_exclusive": "0xf594",
+                      "size": 212
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a597a23",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x50a23",
+                  "symbol": [
+                    "cudaSetDevice",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x50a23",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cudaSetDevice",
+                      "start": "0x508b0",
+                      "end_exclusive": "0x50a8a",
+                      "size": 474
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a551404",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xa404",
+                  "symbol": [
+                    "main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xa404",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "main",
+                      "start": "0xa180",
+                      "end_exclusive": "0xac30",
+                      "size": 2736
+                    }
+                  ]
+                },
+                {
+                  "address": "0x7300cda27781",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x27781",
+                  "symbol": [
+                    "__libc_init_first",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x27781",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x7300cda278b9",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x278b9",
+                  "symbol": [
+                    "__libc_start_main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x278b9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "__libc_start_main@@GLIBC_2.34",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    },
+                    {
+                      "name": "__libc_start_main@GLIBC_2.2.5",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5bfe7a551d95",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xad95",
+                  "symbol": [
+                    "_start",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xad95",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "_start",
+                      "start": "0xad70",
+                      "end_exclusive": "0xad96",
+                      "size": 38
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "growth_stacks": [],
+      "execution": {
+        "finished": "2026-11-05T15:08:06.148991+00:00",
+        "process_peaks": {
+          "855348": {
+            "comm": "python3",
+            "pss_bytes": 10436608,
+            "rss_bytes": 18989056
+          },
+          "855349": {
+            "comm": "timeout",
+            "pss_bytes": 211968,
+            "rss_bytes": 2150400
+          },
+          "855350": {
+            "comm": "compute-sanitiz",
+            "pss_bytes": 6689792,
+            "rss_bytes": 9424896
+          },
+          "855351": {
+            "comm": "TreeLauncherSub",
+            "pss_bytes": 3096576,
+            "rss_bytes": 7708672
+          },
+          "855357": {
+            "comm": "block_memory_pr",
+            "pss_bytes": 94724096,
+            "rss_bytes": 101076992
+          }
+        },
+        "returncode": 0,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "sampled_memory_peak_bytes": 430428160,
+        "sampled_systemd_results": [
+          "success"
+        ],
+        "service_reported_oom": false,
+        "service_runner_returncode": 0,
+        "started": "2026-11-05T15:08:01.770708+00:00",
+        "target": {
+          "cgroup.events": {
+            "frozen": 0,
+            "populated": 1
+          },
+          "command_pid": 855349,
+          "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-aea3177250ad.service",
+          "finished": "2026-11-05T15:08:06.016427+00:00",
+          "memory.current": 11661312,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.events.local": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.peak": 430428160,
+          "memory.stat": {
+            "active_anon": 4096,
+            "active_file": 0,
+            "anon": 8417280,
+            "anon_thp": 0,
+            "file": 81920,
+            "file_dirty": 32768,
+            "file_mapped": 0,
+            "file_thp": 0,
+            "file_writeback": 0,
+            "inactive_anon": 8400896,
+            "inactive_file": 86016,
+            "kernel": 561152,
+            "kernel_stack": 0,
+            "pagetables": 311296,
+            "percpu": 1632,
+            "pgactivate": 77312,
+            "pgdeactivate": 0,
+            "pgdemote_direct": 0,
+            "pgdemote_khugepaged": 0,
+            "pgdemote_kswapd": 0,
+            "pgdemote_proactive": 0,
+            "pgfault": 112169,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "pgmajfault": 144,
+            "pgrefill": 0,
+            "pgscan": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_proactive": 0,
+            "pgsteal": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_proactive": 0,
+            "pswpin": 0,
+            "pswpout": 0,
+            "sec_pagetables": 0,
+            "shmem": 0,
+            "shmem_thp": 0,
+            "slab": 245280,
+            "slab_reclaimable": 43520,
+            "slab_unreclaimable": 201760,
+            "sock": 0,
+            "swapcached": 0,
+            "swpin_zero": 0,
+            "swpout_zero": 0,
+            "thp_collapse_alloc": 0,
+            "thp_fault_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0,
+            "unevictable": 0,
+            "vmalloc": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_nodereclaim": 0,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0
+          },
+          "memory.swap.current": 0,
+          "memory.swap.peak": 0,
+          "returncode": 0,
+          "started": "2026-11-05T15:08:04.652205+00:00",
+          "time": "2026-11-05T15:08:06.015766+00:00",
+          "wrapper_pid": 855348
+        },
+        "unit": "saccade-memory-aea3177250ad.service"
+      }
+    },
+    "block-shared-1024": {
+      "pid": 855392,
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "destructor",
+        "pid": 855392,
+        "sequence": 4,
+        "monotonic_ns": 45924894556542,
+        "heap_live": 82282607,
+        "heap_peak": 462489711,
+        "heap_allocated": 867245287,
+        "heap_freed": 784962680,
+        "mmap_live": 107590189056,
+        "mmap_peak": 107590189056,
+        "mmap_allocated": 107590189056,
+        "mmap_freed": 0,
+        "active": 74,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "same_collection_caller": {
+        "owner_ids": [
+          1715
+        ],
+        "peak_seen": 401393400,
+        "final": [
+          {
+            "type": "owner",
+            "id": 1715,
+            "kind": "heap",
+            "caller": "0x73ea3ddb9ef9",
+            "live": 22234872,
+            "peak": 401393400,
+            "allocated": 760506104,
+            "freed": 738271232,
+            "alloc_calls": 3085,
+            "free_calls": 3073,
+            "max_allocation": 2846528,
+            "site": {
+              "type": "site",
+              "id": 1715,
+              "kind": "heap",
+              "caller": "0x73ea3ddb9ef9",
+              "stack": [
+                "0x73ea3e9c2f98",
+                "0x73ea3e9c359e",
+                "0x73ea3ddb9ef9",
+                "0x73ea3d982369",
+                "0x73ea3d9187e7",
+                "0x73ea3d8f23be",
+                "0x73ea3964bb2e",
+                "0x73ea39bf7f81",
+                "0x73ea39bf8d9f",
+                "0x73ea39bf9030",
+                "0x73ea39bfa666",
+                "0x73ea39b59370",
+                "0x73ea39b5a371",
+                "0x73ea39b5a559",
+                "0x73ea39a9c9e4",
+                "0x73ea39c121d2",
+                "0x73ea39c0e6ba",
+                "0x5c3d50b7bea9",
+                "0x5c3d50b7c0b7",
+                "0x5c3d50b7c8a8",
+                "0x5c3d50b7bb88",
+                "0x5c3d50b4655f",
+                "0x5c3d50b87a23",
+                "0x5c3d50b41404",
+                "0x73ea3c827781",
+                "0x73ea3c8278b9",
+                "0x5c3d50b41d95"
+              ],
+              "caller_resolution": {
+                "address": "0x73ea3ddb9ef9",
+                "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                "module_file_offset": "0x5b9ef9",
+                "symbol": [
+                  "dlclose",
+                  "??:?"
+                ],
+                "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                "elf_lookup_address": "0x5b9ef9",
+                "containing_elf_function_ranges": []
+              },
+              "stack_resolution": [
+                {
+                  "address": "0x73ea3e9c2f98",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x1f98",
+                  "symbol": [
+                    "record_site",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:114 (discriminator 2)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1f98",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "record_site",
+                      "start": "0x1f40",
+                      "end_exclusive": "0x21bd",
+                      "size": 637
+                    }
+                  ]
+                },
+                {
+                  "address": "0x73ea3e9c359e",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+                  "module_file_offset": "0x259e",
+                  "symbol": [
+                    "malloc",
+                    "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x259e",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "malloc",
+                      "start": "0x24e0",
+                      "end_exclusive": "0x25b7",
+                      "size": 215
+                    }
+                  ]
+                },
+                {
+                  "address": "0x73ea3ddb9ef9",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x5b9ef9",
+                  "symbol": [
+                    "dlclose",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x5b9ef9",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea3d982369",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x182369",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x182369",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea3d9187e7",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0x1187e7",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1187e7",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea3d8f23be",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+                  "module_file_offset": "0xf23be",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf23be",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea3964bb2e",
+                  "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+                  "module_file_offset": "0x4bb2e",
+                  "symbol": [
+                    "sanitizerAddPatchesFromFile",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x4bb2e",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39bf7f81",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33ef81",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33ef81",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39bf8d9f",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x33fd9f",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x33fd9f",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39bf9030",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x340030",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x340030",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39bfa666",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x341666",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x341666",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39b59370",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a0370",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a0370",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39b5a371",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1371",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1371",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39b5a559",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x2a1559",
+                  "symbol": [
+                    "cuEGLApiInit",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x2a1559",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39a9c9e4",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x1e39e4",
+                  "symbol": [
+                    "??",
+                    "??:0"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x1e39e4",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39c121d2",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3591d2",
+                  "symbol": [
+                    "cuCtxSetFlags",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3591d2",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea39c0e6ba",
+                  "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+                  "module_file_offset": "0x3556ba",
+                  "symbol": [
+                    "cuDevicePrimaryCtxRetain",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x3556ba",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cuDevicePrimaryCtxRetain",
+                      "start": "0x3556a0",
+                      "end_exclusive": "0x3556e6",
+                      "size": 70
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b7bea9",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44ea9",
+                  "symbol": [
+                    "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44ea9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_5449a5077e9603031b6d1a024d25647afd27a0ba",
+                      "start": "0x44df0",
+                      "end_exclusive": "0x44f71",
+                      "size": 385
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b7c0b7",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x450b7",
+                  "symbol": [
+                    "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x450b7",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_ad9262876fc0252a7a95dbc876859d40746b0b56",
+                      "start": "0x45010",
+                      "end_exclusive": "0x4525d",
+                      "size": 589
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b7c8a8",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x458a8",
+                  "symbol": [
+                    "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x458a8",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_19d132c815f85334ee1756d16281ce95ea02e148",
+                      "start": "0x45840",
+                      "end_exclusive": "0x4591b",
+                      "size": 219
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b7bb88",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x44b88",
+                  "symbol": [
+                    "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x44b88",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_bf75d3fb4d1836f42a3c2a8a3f9a215f76cf2991",
+                      "start": "0x44b60",
+                      "end_exclusive": "0x44b8a",
+                      "size": 42
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b4655f",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xf55f",
+                  "symbol": [
+                    "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xf55f",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "libcudart_static_9407899f77e72732c379f97b41f83786677f8abb",
+                      "start": "0xf4c0",
+                      "end_exclusive": "0xf594",
+                      "size": 212
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b87a23",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0x50a23",
+                  "symbol": [
+                    "cudaSetDevice",
+                    ":?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x50a23",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "cudaSetDevice",
+                      "start": "0x508b0",
+                      "end_exclusive": "0x50a8a",
+                      "size": 474
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b41404",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xa404",
+                  "symbol": [
+                    "main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xa404",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "main",
+                      "start": "0xa180",
+                      "end_exclusive": "0xac30",
+                      "size": 2736
+                    }
+                  ]
+                },
+                {
+                  "address": "0x73ea3c827781",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x27781",
+                  "symbol": [
+                    "__libc_init_first",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x27781",
+                  "containing_elf_function_ranges": []
+                },
+                {
+                  "address": "0x73ea3c8278b9",
+                  "module": "/usr/lib/libc.so.6",
+                  "module_file_offset": "0x278b9",
+                  "symbol": [
+                    "__libc_start_main",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0x278b9",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "__libc_start_main@@GLIBC_2.34",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    },
+                    {
+                      "name": "__libc_start_main@GLIBC_2.2.5",
+                      "start": "0x27830",
+                      "end_exclusive": "0x27980",
+                      "size": 336
+                    }
+                  ]
+                },
+                {
+                  "address": "0x5c3d50b41d95",
+                  "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/block_memory_probe",
+                  "module_file_offset": "0xad95",
+                  "symbol": [
+                    "_start",
+                    "??:?"
+                  ],
+                  "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+                  "elf_lookup_address": "0xad95",
+                  "containing_elf_function_ranges": [
+                    {
+                      "name": "_start",
+                      "start": "0xad70",
+                      "end_exclusive": "0xad96",
+                      "size": 38
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "growth_stacks": [
+        {
+          "type": "growth_stack",
+          "sequence": 1,
+          "pid": 855392,
+          "monotonic_ns": 45924633829460,
+          "kind": "heap",
+          "caller": "0x73ea3ddb9ef9",
+          "trigger_size": 524288,
+          "heap_live_trigger": 134383727,
+          "mmap_live_trigger": 107590189056,
+          "stack": [
+            "0x73ea3e9c29e2",
+            "0x73ea3e9c3439",
+            "0x73ea3e9c359e",
+            "0x73ea3ddb9ef9",
+            "0x73ea3d9987da",
+            "0x73ea3d996e4f",
+            "0x73ea3d9a0b6f",
+            "0x73ea3ddfbf41",
+            "0x73ea3c898042",
+            "0x73ea3c92072c"
+          ],
+          "caller_resolution": {
+            "address": "0x73ea3ddb9ef9",
+            "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+            "module_file_offset": "0x5b9ef9",
+            "symbol": [
+              "dlclose",
+              "??:?"
+            ],
+            "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+            "elf_lookup_address": "0x5b9ef9",
+            "containing_elf_function_ranges": []
+          },
+          "stack_resolution": [
+            {
+              "address": "0x73ea3e9c29e2",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x19e2",
+              "symbol": [
+                "record_growth_stack",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:123 (discriminator 1)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x19e2",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_growth_stack",
+                  "start": "0x1990",
+                  "end_exclusive": "0x1b83",
+                  "size": 499
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3e9c3439",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x2439",
+              "symbol": [
+                "record_alloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:133 (discriminator 2)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x2439",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_alloc",
+                  "start": "0x21c0",
+                  "end_exclusive": "0x2442",
+                  "size": 642
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3e9c359e",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x259e",
+              "symbol": [
+                "malloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x259e",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "malloc",
+                  "start": "0x24e0",
+                  "end_exclusive": "0x25b7",
+                  "size": 215
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3ddb9ef9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5b9ef9",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5b9ef9",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d9987da",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1987da",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1987da",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d996e4f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x196e4f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x196e4f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d9a0b6f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1a0b6f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1a0b6f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3ddfbf41",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5fbf41",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5fbf41",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3c898042",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x98042",
+              "symbol": [
+                "pthread_condattr_setpshared",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x98042",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3c92072c",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x12072c",
+              "symbol": [
+                "__clone",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x12072c",
+              "containing_elf_function_ranges": []
+            }
+          ]
+        },
+        {
+          "type": "growth_stack",
+          "sequence": 2,
+          "pid": 855392,
+          "monotonic_ns": 45924731440649,
+          "kind": "heap",
+          "caller": "0x73ea3ddb9ef9",
+          "trigger_size": 98304,
+          "heap_live_trigger": 268437615,
+          "mmap_live_trigger": 107590189056,
+          "stack": [
+            "0x73ea3e9c29e2",
+            "0x73ea3e9c3439",
+            "0x73ea3e9c359e",
+            "0x73ea3ddb9ef9",
+            "0x73ea3d9995fc",
+            "0x73ea3d994b3b",
+            "0x73ea3d9a0b6f",
+            "0x73ea3ddfbf41",
+            "0x73ea3c898042",
+            "0x73ea3c92072c"
+          ],
+          "caller_resolution": {
+            "address": "0x73ea3ddb9ef9",
+            "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+            "module_file_offset": "0x5b9ef9",
+            "symbol": [
+              "dlclose",
+              "??:?"
+            ],
+            "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+            "elf_lookup_address": "0x5b9ef9",
+            "containing_elf_function_ranges": []
+          },
+          "stack_resolution": [
+            {
+              "address": "0x73ea3e9c29e2",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x19e2",
+              "symbol": [
+                "record_growth_stack",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:123 (discriminator 1)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x19e2",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_growth_stack",
+                  "start": "0x1990",
+                  "end_exclusive": "0x1b83",
+                  "size": 499
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3e9c3439",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x2439",
+              "symbol": [
+                "record_alloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:133 (discriminator 2)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x2439",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_alloc",
+                  "start": "0x21c0",
+                  "end_exclusive": "0x2442",
+                  "size": 642
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3e9c359e",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x259e",
+              "symbol": [
+                "malloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x259e",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "malloc",
+                  "start": "0x24e0",
+                  "end_exclusive": "0x25b7",
+                  "size": 215
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3ddb9ef9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5b9ef9",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5b9ef9",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d9995fc",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1995fc",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1995fc",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d994b3b",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x194b3b",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x194b3b",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d9a0b6f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1a0b6f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1a0b6f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3ddfbf41",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5fbf41",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5fbf41",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3c898042",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x98042",
+              "symbol": [
+                "pthread_condattr_setpshared",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x98042",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3c92072c",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x12072c",
+              "symbol": [
+                "__clone",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x12072c",
+              "containing_elf_function_ranges": []
+            }
+          ]
+        },
+        {
+          "type": "growth_stack",
+          "sequence": 3,
+          "pid": 855392,
+          "monotonic_ns": 45924806079970,
+          "kind": "heap",
+          "caller": "0x73ea3ddb9ef9",
+          "trigger_size": 524288,
+          "heap_live_trigger": 402720879,
+          "mmap_live_trigger": 107590189056,
+          "stack": [
+            "0x73ea3e9c29e2",
+            "0x73ea3e9c3439",
+            "0x73ea3e9c359e",
+            "0x73ea3ddb9ef9",
+            "0x73ea3d9987da",
+            "0x73ea3d996e4f",
+            "0x73ea3d9a0b6f",
+            "0x73ea3ddfbf41",
+            "0x73ea3c898042",
+            "0x73ea3c92072c"
+          ],
+          "caller_resolution": {
+            "address": "0x73ea3ddb9ef9",
+            "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+            "module_file_offset": "0x5b9ef9",
+            "symbol": [
+              "dlclose",
+              "??:?"
+            ],
+            "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+            "elf_lookup_address": "0x5b9ef9",
+            "containing_elf_function_ranges": []
+          },
+          "stack_resolution": [
+            {
+              "address": "0x73ea3e9c29e2",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x19e2",
+              "symbol": [
+                "record_growth_stack",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:123 (discriminator 1)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x19e2",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_growth_stack",
+                  "start": "0x1990",
+                  "end_exclusive": "0x1b83",
+                  "size": 499
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3e9c3439",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x2439",
+              "symbol": [
+                "record_alloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:133 (discriminator 2)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x2439",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "record_alloc",
+                  "start": "0x21c0",
+                  "end_exclusive": "0x2442",
+                  "size": 642
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3e9c359e",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+              "module_file_offset": "0x259e",
+              "symbol": [
+                "malloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c:138 (discriminator 12)"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x259e",
+              "containing_elf_function_ranges": [
+                {
+                  "name": "malloc",
+                  "start": "0x24e0",
+                  "end_exclusive": "0x25b7",
+                  "size": 215
+                }
+              ]
+            },
+            {
+              "address": "0x73ea3ddb9ef9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5b9ef9",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5b9ef9",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d9987da",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1987da",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1987da",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d996e4f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x196e4f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x196e4f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3d9a0b6f",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1a0b6f",
+              "symbol": [
+                "InitializeInjectionNvtx2",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x1a0b6f",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3ddfbf41",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5fbf41",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x5fbf41",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3c898042",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x98042",
+              "symbol": [
+                "pthread_condattr_setpshared",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x98042",
+              "containing_elf_function_ranges": []
+            },
+            {
+              "address": "0x73ea3c92072c",
+              "module": "/usr/lib/libc.so.6",
+              "module_file_offset": "0x12072c",
+              "symbol": [
+                "__clone",
+                "??:?"
+              ],
+              "symbol_note": "addr2line may report nearest symbol; containing ELF function range is authoritative when available",
+              "elf_lookup_address": "0x12072c",
+              "containing_elf_function_ranges": []
+            }
+          ]
+        }
+      ],
+      "execution": {
+        "finished": "2026-11-05T15:08:08.223363+00:00",
+        "process_peaks": {
+          "855380": {
+            "comm": "python3",
+            "pss_bytes": 11304960,
+            "rss_bytes": 18898944
+          },
+          "855384": {
+            "comm": "timeout",
+            "pss_bytes": 211968,
+            "rss_bytes": 2142208
+          },
+          "855385": {
+            "comm": "compute-sanitiz",
+            "pss_bytes": 6689792,
+            "rss_bytes": 9453568
+          },
+          "855386": {
+            "comm": "TreeLauncherSub",
+            "pss_bytes": 3112960,
+            "rss_bytes": 7950336
+          },
+          "855392": {
+            "comm": "block_memory_pr",
+            "pss_bytes": 814664704,
+            "rss_bytes": 821116928
+          }
+        },
+        "returncode": 0,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "sampled_memory_peak_bytes": 823521280,
+        "sampled_systemd_results": [
+          "success"
+        ],
+        "service_reported_oom": false,
+        "service_runner_returncode": 0,
+        "started": "2026-11-05T15:08:02.934769+00:00",
+        "target": {
+          "cgroup.events": {
+            "frozen": 0,
+            "populated": 1
+          },
+          "command_pid": 855384,
+          "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-50f281dca591.service",
+          "finished": "2026-11-05T15:08:07.931274+00:00",
+          "memory.current": 11522048,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.events.local": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.peak": 823521280,
+          "memory.stat": {
+            "active_anon": 4096,
+            "active_file": 0,
+            "anon": 8413184,
+            "anon_thp": 0,
+            "file": 98304,
+            "file_dirty": 45056,
+            "file_mapped": 0,
+            "file_thp": 0,
+            "file_writeback": 0,
+            "inactive_anon": 8400896,
+            "inactive_file": 102400,
+            "kernel": 565248,
+            "kernel_stack": 0,
+            "pagetables": 303104,
+            "percpu": 2176,
+            "pgactivate": 77291,
+            "pgdeactivate": 0,
+            "pgdemote_direct": 0,
+            "pgdemote_khugepaged": 0,
+            "pgdemote_kswapd": 0,
+            "pgdemote_proactive": 0,
+            "pgfault": 208017,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "pgmajfault": 144,
+            "pgrefill": 0,
+            "pgscan": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_proactive": 0,
+            "pgsteal": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_proactive": 0,
+            "pswpin": 0,
+            "pswpout": 0,
+            "sec_pagetables": 0,
+            "shmem": 0,
+            "shmem_thp": 0,
+            "slab": 243384,
+            "slab_reclaimable": 44488,
+            "slab_unreclaimable": 198896,
+            "sock": 0,
+            "swapcached": 0,
+            "swpin_zero": 0,
+            "swpout_zero": 0,
+            "thp_collapse_alloc": 0,
+            "thp_fault_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0,
+            "unevictable": 0,
+            "vmalloc": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_nodereclaim": 0,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0
+          },
+          "memory.swap.current": 0,
+          "memory.swap.peak": 0,
+          "returncode": 0,
+          "started": "2026-11-05T15:08:06.199483+00:00",
+          "time": "2026-11-05T15:08:07.930891+00:00",
+          "wrapper_pid": 855380
+        },
+        "unit": "saccade-memory-50f281dca591.service"
+      }
+    }
+  },
+  "notes": [
+    "Allrequestedheapcounterscover>=64KiBrequests and are notRSS.",
+    "Samecollectioncaller is exactmodule+offset0x5b9ef9; privatepayloadrecordtype stillunknown.",
+    "Blockcount is varied1to1024 with256threadsperblock. Devicebuffersizechanges1KiBto1MiB, so comparisonbounds instrumenteroverhead ratherthanclaims completeisolationofeveryhostdetail.",
+    "STG-only and STS/barrier/LDS/STG distinctions from rootrecordedkernels; no GPUexecutions byanalysisagent.",
+    "Integer fits describe observedcounterdeltas, not identificationofprivateallocationpayloadorindividualallocationhistogram."
+  ],
+  "observed_integer_scaling": {
+    "global": {
+      "additional_blocks": 1023,
+      "additional_alloc_calls": 1023,
+      "additional_requested_bytes": 536346624,
+      "alloc_calls_per_additional_block": 1,
+      "requested_bytes_per_additional_block": 524288,
+      "divides_exactly": true
+    },
+    "shared": {
+      "additional_blocks": 1023,
+      "additional_alloc_calls": 3069,
+      "additional_requested_bytes": 737476608,
+      "alloc_calls_per_additional_block": 3,
+      "requested_bytes_per_additional_block": 720896,
+      "divides_exactly": true
+    },
+    "shared_minus_global": {
+      "1": {
+        "extra_alloc_calls": 2,
+        "extra_requested_bytes": 196608,
+        "extra_calls_per_block": 2,
+        "extra_requested_bytes_per_block": 196608
+      },
+      "1024": {
+        "extra_alloc_calls": 2048,
+        "extra_requested_bytes": 201326592,
+        "extra_calls_per_block": 2,
+        "extra_requested_bytes_per_block": 196608
+      }
+    }
+  }
+}

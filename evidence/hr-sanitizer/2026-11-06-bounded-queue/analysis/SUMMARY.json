@@ -1,0 +1,2448 @@
+{
+  "captures": [
+    {
+      "archive": "raw/custom-sync8-four-modes.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": null,
+      "expected_checks": null,
+      "finished": null,
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": {
+        "reason": "Restart against stable updated root runner for exact helper provenance",
+        "stage": "Waiting for GPU lock; no GPU baseline/control/session started",
+        "time": "2026-11-06T00:38:03.937710+00:00"
+      },
+      "kernel_filter": null,
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": null,
+      "name": "custom-sync8-four-modes",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": null,
+      "original_manifest_status": null,
+      "racecheck_num_workers": null,
+      "results": [],
+      "retention_category": "ABORTED_OR_UNSTARTED_PREFLIGHT",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": null
+    },
+    {
+      "archive": "raw/custom-sync8-four-modes-v2.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 162.204073,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:40:52.102817+00:00",
+      "force_synchronization_limit": 8,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": 30,
+      "full_kernel_coverage": false,
+      "interruption_reason": {
+        "reason": "Switch to measured multi-worker configuration after unfiltered constructor completed80s at8workers vs180s timeout at1worker",
+        "stage": "First filtered Graph racecheck still running; no completed frame coverage claimed",
+        "time": "2026-11-06T00:40:51.969751+00:00"
+      },
+      "kernel_filter": "_ZN7saccade|_ZN3cub",
+      "kind": "session_or_lifecycle",
+      "manifest_error": "KeyboardInterrupt: SIGTERM",
+      "modes": [
+        "graph-pipelined",
+        "ordinary-pipelined",
+        "ordinary-serial",
+        "graph-serial"
+      ],
+      "name": "custom-sync8-four-modes-v2",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "SCOPED custom namespace and CUB racecheck only, with tool-forced stream synchronization. Full stated input prefix, baseline parity, and selected modes; external library kernels are excluded. Does not close unfiltered or native queued racecheck.",
+      "original_manifest_status": "OPEN",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.564145,
+            "final_target_peak_bytes": "350162944",
+            "finished": "2026-11-06T00:39:23.028753+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350162944,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350162944,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:39:20.464608+00:00",
+            "target_elapsed_seconds": 2.034399,
+            "target_finished": "2026-11-06T00:39:22.587900+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:39:20.553501+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:20.471258+00:00",
+              "last_sample": "2026-11-06T00:39:22.518978+00:00",
+              "memory_peak_bytes": 350162944,
+              "observed_interval_seconds": 2.04772
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.057463,
+            "final_target_peak_bytes": "350158848",
+            "finished": "2026-11-06T00:39:29.216200+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350158848,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350158848,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:39:27.158737+00:00",
+            "target_elapsed_seconds": 1.806251,
+            "target_finished": "2026-11-06T00:39:29.024862+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:39:27.218611+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:27.166654+00:00",
+              "last_sample": "2026-11-06T00:39:28.701682+00:00",
+              "memory_peak_bytes": 350158848,
+              "observed_interval_seconds": 1.535028
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-serial",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.052037,
+            "final_target_peak_bytes": "350117888",
+            "finished": "2026-11-06T00:39:25.087582+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350117888,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350117888,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:39:23.035545+00:00",
+            "target_elapsed_seconds": 1.951059,
+            "target_finished": "2026-11-06T00:39:25.063460+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:39:23.112401+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:23.043120+00:00",
+              "last_sample": "2026-11-06T00:39:24.577405+00:00",
+              "memory_peak_bytes": 350117888,
+              "observed_interval_seconds": 1.534285
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-ordinary-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.054081,
+            "final_target_peak_bytes": "350461952",
+            "finished": "2026-11-06T00:39:27.148005+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350461952,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350461952,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:39:25.093924+00:00",
+            "target_elapsed_seconds": 1.444591,
+            "target_finished": "2026-11-06T00:39:26.620456+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:39:25.175865+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:25.100882+00:00",
+              "last_sample": "2026-11-06T00:39:26.638525+00:00",
+              "memory_peak_bytes": 350461952,
+              "observed_interval_seconds": 1.537643
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-ordinary-serial",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub|^_Z11shared_racePf$",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.056696,
+            "final_target_peak_bytes": "436252672",
+            "finished": "2026-11-06T00:39:31.278968+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 436252672,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 436252672,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:39:29.222272+00:00",
+            "target_elapsed_seconds": 1.506967,
+            "target_finished": "2026-11-06T00:39:30.790724+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:39:29.283757+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:29.229487+00:00",
+              "last_sample": "2026-11-06T00:39:30.764615+00:00",
+              "memory_peak_bytes": 436252672,
+              "observed_interval_seconds": 1.535128
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "kernel_filter": "_ZN7saccade|_ZN3cub|^_Z11shared_racePf$",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": null,
+            "final_target_peak_bytes": null,
+            "finished": null,
+            "memory_events": null,
+            "memory_peak_bytes": 6399078400,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": null,
+            "returncode": null,
+            "sampled_systemd_results": null,
+            "started": null,
+            "target_elapsed_seconds": null,
+            "target_finished": null,
+            "target_memory_events": null,
+            "target_started": null,
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:31.296122+00:00",
+              "last_sample": "2026-11-06T00:40:51.889728+00:00",
+              "memory_peak_bytes": 6399078400,
+              "observed_interval_seconds": 80.593606
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "racecheck-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "UNFINISHED_OR_UNCLASSIFIED"
+        }
+      ],
+      "retention_category": "INTERRUPTED_ATTEMPT",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T00:38:09.898744+00:00"
+    },
+    {
+      "archive": "raw/custom-sync8-workers8-four-modes.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 792.144911,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:54:40.843259+00:00",
+      "force_synchronization_limit": 8,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": 30,
+      "full_kernel_coverage": false,
+      "interruption_reason": null,
+      "kernel_filter": "_ZN7saccade|_ZN3cub",
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": [
+        "graph-pipelined",
+        "ordinary-pipelined",
+        "ordinary-serial",
+        "graph-serial"
+      ],
+      "name": "custom-sync8-workers8-four-modes",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "SCOPED custom namespace and CUB racecheck only, with tool-forced stream synchronization. Full stated input prefix, baseline parity, and selected modes; external library kernels are excluded. Does not close unfiltered or native queued racecheck.",
+      "original_manifest_status": "PASS_FILTERED_FORCED_SYNC",
+      "racecheck_num_workers": 8,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.542351,
+            "final_target_peak_bytes": "349790208",
+            "finished": "2026-11-06T00:42:24.188319+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 349790208,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 349790208,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:42:22.645968+00:00",
+            "target_elapsed_seconds": 1.004534,
+            "target_finished": "2026-11-06T00:42:23.707263+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:42:22.702729+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:42:22.653172+00:00",
+              "last_sample": "2026-11-06T00:42:23.673403+00:00",
+              "memory_peak_bytes": 349790208,
+              "observed_interval_seconds": 1.020231
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.054856,
+            "final_target_peak_bytes": "350044160",
+            "finished": "2026-11-06T00:42:30.885502+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350044160,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350044160,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:42:28.830646+00:00",
+            "target_elapsed_seconds": 1.80296,
+            "target_finished": "2026-11-06T00:42:30.705335+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:42:28.902375+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:42:28.837554+00:00",
+              "last_sample": "2026-11-06T00:42:30.370776+00:00",
+              "memory_peak_bytes": 350044160,
+              "observed_interval_seconds": 1.533222
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-serial",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.054527,
+            "final_target_peak_bytes": "349839360",
+            "finished": "2026-11-06T00:42:26.254975+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 349839360,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 349839360,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:42:24.200448+00:00",
+            "target_elapsed_seconds": 1.836389,
+            "target_finished": "2026-11-06T00:42:26.090634+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:42:24.254245+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:42:24.207002+00:00",
+              "last_sample": "2026-11-06T00:42:25.740656+00:00",
+              "memory_peak_bytes": 349839360,
+              "observed_interval_seconds": 1.533654
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-ordinary-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.557106,
+            "final_target_peak_bytes": "350068736",
+            "finished": "2026-11-06T00:42:28.818519+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350068736,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350068736,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:42:26.261413+00:00",
+            "target_elapsed_seconds": 1.982979,
+            "target_finished": "2026-11-06T00:42:28.296657+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:42:26.313678+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:42:26.268836+00:00",
+              "last_sample": "2026-11-06T00:42:28.308552+00:00",
+              "memory_peak_bytes": 350068736,
+              "observed_interval_seconds": 2.039716
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-ordinary-serial",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub|^_Z11shared_racePf$",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.051639,
+            "final_target_peak_bytes": "437850112",
+            "finished": "2026-11-06T00:42:32.943682+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 437850112,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 437850112,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:42:30.892043+00:00",
+            "target_elapsed_seconds": 1.461151,
+            "target_finished": "2026-11-06T00:42:32.416304+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:42:30.955153+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:42:30.899510+00:00",
+              "last_sample": "2026-11-06T00:42:32.434264+00:00",
+              "memory_peak_bytes": 34398208,
+              "observed_interval_seconds": 1.534754
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "kernel_filter": "_ZN7saccade|_ZN3cub|^_Z11shared_racePf$",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "byte_parity": true,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 159.338638,
+            "final_target_peak_bytes": "6457942016",
+            "finished": "2026-11-06T00:45:12.288540+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 6457942016,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 6457942016,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:42:32.949902+00:00",
+            "target_elapsed_seconds": 159.018566,
+            "target_finished": "2026-11-06T00:45:12.048774+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:42:33.030208+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:42:32.957208+00:00",
+              "last_sample": "2026-11-06T00:45:11.774253+00:00",
+              "memory_peak_bytes": 6457942016,
+              "observed_interval_seconds": 158.817045
+            }
+          },
+          "force_synchronization_limit": 8,
+          "forced_synchronization": true,
+          "full_kernel_coverage": false,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "kernel_filter": "_ZN7saccade|_ZN3cub",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": true,
+          "name": "racecheck-graph-pipelined",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "positive_control_passed": true,
+          "sanitizer_log_clean": true,
+          "status": "PASS_FILTERED_FORCED_SYNC",
+          "target_completed": true,
+          "zero_summary": true
+        },
+        {
+          "byte_parity": true,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 232.636855,
+            "final_target_peak_bytes": "6732693504",
+            "finished": "2026-11-06T00:54:40.720141+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 6732693504,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 6732693504,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:50:48.083286+00:00",
+            "target_elapsed_seconds": 232.520577,
+            "target_finished": "2026-11-06T00:54:40.680100+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:50:48.159523+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:50:48.090537+00:00",
+              "last_sample": "2026-11-06T00:54:40.205542+00:00",
+              "memory_peak_bytes": 6732693504,
+              "observed_interval_seconds": 232.115005
+            }
+          },
+          "force_synchronization_limit": 8,
+          "forced_synchronization": true,
+          "full_kernel_coverage": false,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "kernel_filter": "_ZN7saccade|_ZN3cub",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": true,
+          "name": "racecheck-graph-serial",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "positive_control_passed": true,
+          "sanitizer_log_clean": true,
+          "status": "PASS_FILTERED_FORCED_SYNC",
+          "target_completed": true,
+          "zero_summary": true
+        },
+        {
+          "byte_parity": true,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 176.924133,
+            "final_target_peak_bytes": "3315884032",
+            "finished": "2026-11-06T00:48:09.224289+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 3315884032,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 3315884032,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:45:12.300156+00:00",
+            "target_elapsed_seconds": 176.495014,
+            "target_finished": "2026-11-06T00:48:08.857608+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:45:12.362594+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:45:12.306501+00:00",
+              "last_sample": "2026-11-06T00:48:08.710126+00:00",
+              "memory_peak_bytes": 3315884032,
+              "observed_interval_seconds": 176.403625
+            }
+          },
+          "force_synchronization_limit": 8,
+          "forced_synchronization": true,
+          "full_kernel_coverage": false,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "kernel_filter": "_ZN7saccade|_ZN3cub",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": true,
+          "name": "racecheck-ordinary-pipelined",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "positive_control_passed": true,
+          "sanitizer_log_clean": true,
+          "status": "PASS_FILTERED_FORCED_SYNC",
+          "target_completed": true,
+          "zero_summary": true
+        },
+        {
+          "byte_parity": true,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 158.833451,
+            "final_target_peak_bytes": "3277430784",
+            "finished": "2026-11-06T00:50:48.070591+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 3277430784,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 3277430784,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:48:09.237140+00:00",
+            "target_elapsed_seconds": 158.287191,
+            "target_finished": "2026-11-06T00:50:47.589314+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:48:09.302123+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:48:09.244329+00:00",
+              "last_sample": "2026-11-06T00:50:47.555548+00:00",
+              "memory_peak_bytes": 3277430784,
+              "observed_interval_seconds": 158.311219
+            }
+          },
+          "force_synchronization_limit": 8,
+          "forced_synchronization": true,
+          "full_kernel_coverage": false,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "kernel_filter": "_ZN7saccade|_ZN3cub",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": true,
+          "name": "racecheck-ordinary-serial",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "positive_control_passed": true,
+          "sanitizer_log_clean": true,
+          "status": "PASS_FILTERED_FORCED_SYNC",
+          "target_completed": true,
+          "zero_summary": true
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T00:41:28.698348+00:00"
+    },
+    {
+      "archive": "raw/full-sync1-workers8-graph-24g.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 206.242564,
+      "expected_checks": null,
+      "finished": "2026-11-06T01:09:50.310348+00:00",
+      "force_synchronization_limit": 1,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": 30,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": [
+        "graph-pipelined"
+      ],
+      "name": "full-sync1-workers8-graph-24g",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Complete selected HR session paths for the stated prefix and modes; no general race freedom claim. Tool-forced stream synchronization changes scheduling; successful captures do not close native queued racecheck.",
+      "original_manifest_status": "OPEN",
+      "racecheck_num_workers": 8,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 3.698204,
+            "final_target_peak_bytes": "350052352",
+            "finished": "2026-11-06T01:06:27.902372+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350052352,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350052352,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:06:24.204168+00:00",
+            "target_elapsed_seconds": 3.415326,
+            "target_finished": "2026-11-06T01:06:27.690974+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:06:24.275648+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:06:24.211336+00:00",
+              "last_sample": "2026-11-06T01:06:27.387864+00:00",
+              "memory_peak_bytes": 350052352,
+              "observed_interval_seconds": 3.176528
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "1",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.541883,
+            "final_target_peak_bytes": "437366784",
+            "finished": "2026-11-06T01:06:29.451069+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 437366784,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 437366784,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:06:27.909186+00:00",
+            "target_elapsed_seconds": 1.31942,
+            "target_finished": "2026-11-06T01:06:29.411032+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:06:28.091612+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:06:27.915861+00:00",
+              "last_sample": "2026-11-06T01:06:28.936465+00:00",
+              "memory_peak_bytes": 34385920,
+              "observed_interval_seconds": 1.020604
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "byte_parity": false,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "1",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 200.718061,
+            "final_target_peak_bytes": null,
+            "finished": "2026-11-06T01:09:50.176206+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 25594753024,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 25594753024,
+            "returncode": 1,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:06:29.458145+00:00",
+            "target_elapsed_seconds": null,
+            "target_finished": null,
+            "target_memory_events": null,
+            "target_started": null,
+            "telemetry": {
+              "first_sample": "2026-11-06T01:06:29.465308+00:00",
+              "last_sample": "2026-11-06T01:09:49.658870+00:00",
+              "memory_peak_bytes": 25594753024,
+              "observed_interval_seconds": 200.193562
+            }
+          },
+          "force_synchronization_limit": 1,
+          "forced_synchronization": true,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "racecheck-graph-pipelined",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {},
+          "positive_control_passed": true,
+          "sanitizer_log_clean": false,
+          "status": "INCOMPLETE",
+          "target_completed": false,
+          "zero_summary": false
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T01:06:24.067784+00:00"
+    },
+    {
+      "archive": "raw/full-sync1-workers8-ordinary-serial.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 3026.584922,
+      "expected_checks": null,
+      "finished": "2026-11-06T02:03:00.696218+00:00",
+      "force_synchronization_limit": 1,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": 30,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": [
+        "ordinary-serial"
+      ],
+      "name": "full-sync1-workers8-ordinary-serial",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Complete selected HR session paths for the stated prefix and modes; no general race freedom claim. Tool-forced stream synchronization changes scheduling; successful captures do not close native queued racecheck.",
+      "original_manifest_status": "PASS_FORCED_SYNC",
+      "racecheck_num_workers": 8,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 4.086553,
+            "final_target_peak_bytes": "349954048",
+            "finished": "2026-11-06T01:12:38.336164+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 349954048,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 349954048,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:12:34.249611+00:00",
+            "target_elapsed_seconds": 3.652534,
+            "target_finished": "2026-11-06T01:12:37.955579+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:12:34.303045+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:12:34.257395+00:00",
+              "last_sample": "2026-11-06T01:12:37.826428+00:00",
+              "memory_peak_bytes": 349954048,
+              "observed_interval_seconds": 3.569033
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-ordinary-serial",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "1",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.540694,
+            "final_target_peak_bytes": "436514816",
+            "finished": "2026-11-06T01:12:39.885721+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 436514816,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 436514816,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:12:38.345027+00:00",
+            "target_elapsed_seconds": 1.397635,
+            "target_finished": "2026-11-06T01:12:39.800746+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:12:38.403111+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:12:38.352748+00:00",
+              "last_sample": "2026-11-06T01:12:39.372070+00:00",
+              "memory_peak_bytes": 96976896,
+              "observed_interval_seconds": 1.019322
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "byte_parity": true,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "1",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 3020.113028,
+            "final_target_peak_bytes": "1107017728",
+            "finished": "2026-11-06T02:03:00.006158+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 1107017728,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 1107017728,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:12:39.893130+00:00",
+            "target_elapsed_seconds": 3019.959192,
+            "target_finished": "2026-11-06T02:02:59.922524+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:12:39.963332+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:12:39.900045+00:00",
+              "last_sample": "2026-11-06T02:02:59.490679+00:00",
+              "memory_peak_bytes": 1107017728,
+              "observed_interval_seconds": 3019.590634
+            }
+          },
+          "force_synchronization_limit": 1,
+          "forced_synchronization": true,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": true,
+          "name": "racecheck-ordinary-serial",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "positive_control_passed": true,
+          "sanitizer_log_clean": true,
+          "status": "PASS_FORCED_SYNC",
+          "target_completed": true,
+          "zero_summary": true
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T01:12:34.111296+00:00"
+    },
+    {
+      "archive": "raw/full-sync8-workers8-graph.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 1418.271517,
+      "expected_checks": null,
+      "finished": "2026-11-06T01:05:18.320446+00:00",
+      "force_synchronization_limit": 8,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": 30,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": [
+        "graph-pipelined"
+      ],
+      "name": "full-sync8-workers8-graph",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Complete selected HR session paths for the stated prefix and modes; no general race freedom claim. Tool-forced stream synchronization changes scheduling; successful captures do not close native queued racecheck.",
+      "original_manifest_status": "OPEN",
+      "racecheck_num_workers": 8,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.0596,
+            "final_target_peak_bytes": "350384128",
+            "finished": "2026-11-06T01:01:06.688059+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350384128,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350384128,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T01:01:04.628459+00:00",
+            "target_elapsed_seconds": 1.825481,
+            "target_finished": "2026-11-06T01:01:06.516897+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:01:04.691416+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:01:04.637541+00:00",
+              "last_sample": "2026-11-06T01:01:06.173287+00:00",
+              "memory_peak_bytes": 350384128,
+              "observed_interval_seconds": 1.535746
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 2.052542,
+            "final_target_peak_bytes": "437415936",
+            "finished": "2026-11-06T01:01:08.747417+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 437415936,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 437415936,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "exit-code",
+              "success"
+            ],
+            "started": "2026-11-06T01:01:06.694875+00:00",
+            "target_elapsed_seconds": 1.452405,
+            "target_finished": "2026-11-06T01:01:08.218400+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T01:01:06.765995+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T01:01:06.701455+00:00",
+              "last_sample": "2026-11-06T01:01:08.237868+00:00",
+              "memory_peak_bytes": 437415936,
+              "observed_interval_seconds": 1.536413
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "byte_parity": false,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 249.442748,
+            "final_target_peak_bytes": null,
+            "finished": "2026-11-06T01:05:18.202014+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "266",
+              "oom": "9",
+              "oom_group_kill": "1",
+              "oom_kill": "6"
+            },
+            "memory_peak_bytes": 8589934592,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 8589934592,
+            "returncode": 1,
+            "sampled_systemd_results": [
+              "oom-kill",
+              "success"
+            ],
+            "started": "2026-11-06T01:01:08.759266+00:00",
+            "target_elapsed_seconds": null,
+            "target_finished": null,
+            "target_memory_events": null,
+            "target_started": null,
+            "telemetry": {
+              "first_sample": "2026-11-06T01:01:08.767166+00:00",
+              "last_sample": "2026-11-06T01:05:17.687575+00:00",
+              "memory_peak_bytes": 8589934592,
+              "observed_interval_seconds": 248.920409
+            }
+          },
+          "force_synchronization_limit": 8,
+          "forced_synchronization": true,
+          "internal_tool_error": false,
+          "inventory_diagnostic": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "racecheck-graph-pipelined",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "outputs_sha256": {},
+          "positive_control_passed": true,
+          "sanitizer_log_clean": false,
+          "status": "INCOMPLETE",
+          "target_completed": false,
+          "zero_summary": false
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T00:41:40.048929+00:00"
+    },
+    {
+      "archive": "raw/lifecycle-custom-sync8-workers8.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 1170.998808,
+      "expected_checks": 180,
+      "finished": "2026-11-06T01:01:04.513570+00:00",
+      "force_synchronization_limit": 8,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": false,
+      "interruption_reason": null,
+      "kernel_filter": "_ZN7saccade|_ZN3cub",
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": null,
+      "name": "lifecycle-custom-sync8-workers8",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Clean a00ab3a runtime with separately compiled HR lifecycle harness. Only saccade/CUB CUDA kernels; external library kernels are excluded. All 180 existing lifecycle checks under explicit sanitizer stream synchronization, without launch limits. OFA hardware itself is outside CUDA instrumentation. PASS_FILTERED_FORCED_SYNC does not establish native-schedule acceptance.",
+      "original_manifest_status": "PASS_FILTERED_FORCED_SYNC",
+      "racecheck_num_workers": 8,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 8.205522,
+            "final_target_peak_bytes": "488210432",
+            "finished": "2026-11-06T00:54:49.570486+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 488210432,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 488210432,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:54:41.364964+00:00",
+            "target_elapsed_seconds": 7.821937,
+            "target_finished": "2026-11-06T00:54:49.253010+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:54:41.431073+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:54:41.372581+00:00",
+              "last_sample": "2026-11-06T00:54:49.055813+00:00",
+              "memory_peak_bytes": 488210432,
+              "observed_interval_seconds": 7.683232
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-lifecycle",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS",
+          "target_completed": true
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub|^_Z11shared_racePf$",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.543039,
+            "final_target_peak_bytes": "437047296",
+            "finished": "2026-11-06T00:54:51.123522+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 437047296,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 437047296,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:54:49.580483+00:00",
+            "target_elapsed_seconds": 1.416603,
+            "target_finished": "2026-11-06T00:54:51.055899+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:54:49.639296+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:54:49.587661+00:00",
+              "last_sample": "2026-11-06T00:54:50.609084+00:00",
+              "memory_peak_bytes": 97239040,
+              "observed_interval_seconds": 1.021423
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "clean_sanitizer_log": true,
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": "regex=_ZN7saccade|_ZN3cub",
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 372.890219,
+            "final_target_peak_bytes": "6533558272",
+            "finished": "2026-11-06T01:01:04.020701+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 6533558272,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 6533558272,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:54:51.130482+00:00",
+            "target_elapsed_seconds": 372.782834,
+            "target_finished": "2026-11-06T01:01:03.974254+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:54:51.191420+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:54:51.137718+00:00",
+              "last_sample": "2026-11-06T01:01:03.506542+00:00",
+              "memory_peak_bytes": 6533558272,
+              "observed_interval_seconds": 372.368824
+            }
+          },
+          "full_kernel_coverage": false,
+          "kernel_filter": "_ZN7saccade|_ZN3cub",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": true,
+          "name": "racecheck-lifecycle",
+          "native_gate_closed": false,
+          "native_schedule_acceptance": false,
+          "original_result_present": true,
+          "positive_control_passed": true,
+          "status": "PASS_FILTERED_FORCED_SYNC",
+          "target_completed": true,
+          "zero_summary": true
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T00:41:33.514762+00:00"
+    },
+    {
+      "archive": "raw/probe-constructor-queue-quarter.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": 301.324693,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:37:41.031748+00:00",
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "diagnostic_probe",
+      "manifest_error": null,
+      "modes": null,
+      "name": "probe-constructor-queue-quarter",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Host cgroup/process observation only; no sanitizer PASS classification.",
+      "original_manifest_status": "OOM",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "acceptance": "DIAGNOSTIC_ONLY_NOT_SANITIZER_ACCEPTANCE",
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "constructor_complete_marker": false,
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 301.28747,
+            "final_target_peak_bytes": null,
+            "finished": "2026-11-06T00:37:40.996547+00:00",
+            "memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 142,
+              "oom": 2,
+              "oom_group_kill": 1,
+              "oom_kill": 6
+            },
+            "memory_peak_bytes": 8589934592,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 8589934592,
+            "returncode": 1,
+            "sampled_systemd_results": [
+              "oom-kill",
+              "success"
+            ],
+            "started": "2026-11-06T00:32:39.709077+00:00",
+            "target_elapsed_seconds": null,
+            "target_finished": null,
+            "target_memory_events": null,
+            "target_started": null,
+            "telemetry": {
+              "first_sample": "2026-11-06T00:36:15.795475+00:00",
+              "last_sample": "2026-11-06T00:37:40.486648+00:00",
+              "memory_peak_bytes": 8589934592,
+              "observed_interval_seconds": 84.691173
+            }
+          },
+          "frame_coverage_claimed": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "probe",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "DIAGNOSTIC_PROBE_NOT_ACCEPTANCE"
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": "2026-11-06T00:32:39.707055+00:00"
+    },
+    {
+      "archive": "raw/probe-constructor-queue-quarter-workers8.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": 115.676631,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:39:20.365417+00:00",
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "diagnostic_probe",
+      "manifest_error": null,
+      "modes": null,
+      "name": "probe-constructor-queue-quarter-workers8",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Host cgroup/process observation only; no sanitizer PASS classification.",
+      "original_manifest_status": "OOM",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "acceptance": "DIAGNOSTIC_ONLY_NOT_SANITIZER_ACCEPTANCE",
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "constructor_complete_marker": false,
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 115.667449,
+            "final_target_peak_bytes": null,
+            "finished": "2026-11-06T00:39:20.357591+00:00",
+            "memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 314,
+              "oom": 8,
+              "oom_group_kill": 1,
+              "oom_kill": 6
+            },
+            "memory_peak_bytes": 8589934592,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 8589934592,
+            "returncode": 1,
+            "sampled_systemd_results": [
+              "oom-kill",
+              "success"
+            ],
+            "started": "2026-11-06T00:37:24.690142+00:00",
+            "target_elapsed_seconds": null,
+            "target_finished": null,
+            "target_memory_events": null,
+            "target_started": null,
+            "telemetry": {
+              "first_sample": "2026-11-06T00:39:01.630496+00:00",
+              "last_sample": "2026-11-06T00:39:19.842480+00:00",
+              "memory_peak_bytes": 8589934592,
+              "observed_interval_seconds": 18.211984
+            }
+          },
+          "frame_coverage_claimed": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "probe",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "DIAGNOSTIC_PROBE_NOT_ACCEPTANCE"
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": "2026-11-06T00:37:24.688786+00:00"
+    },
+    {
+      "archive": "raw/probe-constructor-sync8.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": 1.557003,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:31:13.059003+00:00",
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "diagnostic_probe",
+      "manifest_error": null,
+      "modes": null,
+      "name": "probe-constructor-sync8",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Host cgroup/process observation only; no sanitizer PASS classification.",
+      "original_manifest_status": "FINISHED",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "acceptance": "DIAGNOSTIC_ONLY_NOT_SANITIZER_ACCEPTANCE",
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "constructor_complete_marker": false,
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.547273,
+            "final_target_peak_bytes": 593743872,
+            "finished": "2026-11-06T00:31:13.051025+00:00",
+            "memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 593743872,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 593743872,
+            "returncode": 255,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:31:11.503752+00:00",
+            "target_elapsed_seconds": 1.014971,
+            "target_finished": "2026-11-06T00:31:12.597061+00:00",
+            "target_memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "target_started": "2026-11-06T00:31:11.582090+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:31:11.513755+00:00",
+              "last_sample": "2026-11-06T00:31:12.539996+00:00",
+              "memory_peak_bytes": 593743872,
+              "observed_interval_seconds": 1.026241
+            }
+          },
+          "frame_coverage_claimed": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "probe",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "DIAGNOSTIC_PROBE_NOT_ACCEPTANCE"
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": "2026-11-06T00:31:11.502000+00:00"
+    },
+    {
+      "archive": "raw/probe-constructor-sync8-r1.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": 180.111918,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:34:37.574510+00:00",
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "diagnostic_probe",
+      "manifest_error": null,
+      "modes": null,
+      "name": "probe-constructor-sync8-r1",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Host cgroup/process observation only; no sanitizer PASS classification.",
+      "original_manifest_status": "TIMEOUT",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "acceptance": "DIAGNOSTIC_ONLY_NOT_SANITIZER_ACCEPTANCE",
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "constructor_complete_marker": false,
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 180.100761,
+            "final_target_peak_bytes": 3345727488,
+            "finished": "2026-11-06T00:34:37.564816+00:00",
+            "memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 3345727488,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 3345727488,
+            "returncode": 124,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:31:37.464055+00:00",
+            "target_elapsed_seconds": 180.002516,
+            "target_finished": "2026-11-06T00:34:37.526837+00:00",
+            "target_memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "target_started": "2026-11-06T00:31:37.524321+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:31:37.474846+00:00",
+              "last_sample": "2026-11-06T00:34:37.029030+00:00",
+              "memory_peak_bytes": 3345727488,
+              "observed_interval_seconds": 179.554184
+            }
+          },
+          "frame_coverage_claimed": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "probe",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "DIAGNOSTIC_PROBE_NOT_ACCEPTANCE"
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": "2026-11-06T00:31:37.462592+00:00"
+    },
+    {
+      "archive": "raw/probe-constructor-sync8-workers1-inventory.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": 217.737646,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:42:22.552120+00:00",
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "diagnostic_probe",
+      "manifest_error": null,
+      "modes": null,
+      "name": "probe-constructor-sync8-workers1-inventory",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Host cgroup/process observation only; no sanitizer PASS classification.",
+      "original_manifest_status": "TIMEOUT",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "acceptance": "DIAGNOSTIC_ONLY_NOT_SANITIZER_ACCEPTANCE",
+          "command_options": {
+            "dump_kernel_launches": true,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "constructor_complete_marker": false,
+          "diagnostic_inventory": true,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 217.727122,
+            "final_target_peak_bytes": 3146915840,
+            "finished": "2026-11-06T00:42:22.543116+00:00",
+            "memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 3146915840,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 3146915840,
+            "returncode": 124,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:38:44.815994+00:00",
+            "target_elapsed_seconds": 90.002822,
+            "target_finished": "2026-11-06T00:42:22.284365+00:00",
+            "target_memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "target_started": "2026-11-06T00:40:52.281543+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:40:52.113574+00:00",
+              "last_sample": "2026-11-06T00:42:22.002422+00:00",
+              "memory_peak_bytes": 3146915840,
+              "observed_interval_seconds": 89.888848
+            }
+          },
+          "frame_coverage_claimed": false,
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "probe",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "DIAGNOSTIC_PROBE_NOT_ACCEPTANCE"
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": "2026-11-06T00:38:44.814474+00:00"
+    },
+    {
+      "archive": "raw/probe-constructor-sync8-workers8-inventory.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": 160.181927,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:39:01.633483+00:00",
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": null,
+      "kernel_filter": null,
+      "kind": "diagnostic_probe",
+      "manifest_error": null,
+      "modes": null,
+      "name": "probe-constructor-sync8-workers8-inventory",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Host cgroup/process observation only; no sanitizer PASS classification.",
+      "original_manifest_status": "FINISHED",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "acceptance": "DIAGNOSTIC_ONLY_NOT_SANITIZER_ACCEPTANCE",
+          "command_options": {
+            "dump_kernel_launches": true,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "8"
+          },
+          "constructor_complete_marker": true,
+          "diagnostic_inventory": true,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 160.176629,
+            "final_target_peak_bytes": 2687922176,
+            "finished": "2026-11-06T00:39:01.630101+00:00",
+            "memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 2687922176,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 2687922176,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:36:21.453472+00:00",
+            "target_elapsed_seconds": 80.34688,
+            "target_finished": "2026-11-06T00:39:01.477450+00:00",
+            "target_memory_events": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "target_started": "2026-11-06T00:37:41.130570+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:37:41.003449+00:00",
+              "last_sample": "2026-11-06T00:39:01.090455+00:00",
+              "memory_peak_bytes": 2687922176,
+              "observed_interval_seconds": 80.087006
+            }
+          },
+          "frame_coverage_claimed": false,
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 306 hazards displayed (0 errors, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "probe",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "DIAGNOSTIC_PROBE_NOT_ACCEPTANCE"
+        }
+      ],
+      "retention_category": "COMPLETED_CAPTURE_OR_PROBE",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": "2026-11-06T00:36:21.451556+00:00"
+    },
+    {
+      "archive": "raw/sync8-graph.tar.gz",
+      "custody_unchanged": true,
+      "elapsed_seconds": 242.24702,
+      "expected_checks": null,
+      "finished": "2026-11-06T00:36:15.781166+00:00",
+      "force_synchronization_limit": 8,
+      "forced_synchronization": true,
+      "formal_acceptance": false,
+      "frames": 30,
+      "full_kernel_coverage": null,
+      "interruption_reason": {
+        "acceptance": "INCOMPLETE; no completed frame coverage claimed",
+        "action": "SIGTERM runner pid 4856",
+        "reason": "One-worker unfiltered constructor exceeded 180 seconds with bounded memory. Switch to measured multi-worker probe before spending full 900-second session timeout.",
+        "time": "2026-11-06T00:36:15.633698+00:00"
+      },
+      "kernel_filter": null,
+      "kind": "session_or_lifecycle",
+      "manifest_error": "KeyboardInterrupt: SIGTERM",
+      "modes": [
+        "graph-pipelined"
+      ],
+      "name": "sync8-graph",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": "Complete selected HR session paths for the stated prefix and modes; no general race freedom claim. Tool-forced stream synchronization changes scheduling; successful captures do not close native queued racecheck.",
+      "original_manifest_status": "OPEN",
+      "racecheck_num_workers": null,
+      "results": [
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": null,
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": null
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.536259,
+            "final_target_peak_bytes": "350277632",
+            "finished": "2026-11-06T00:34:39.351412+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 350277632,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 350277632,
+            "returncode": 0,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:34:37.815153+00:00",
+            "target_elapsed_seconds": 1.081436,
+            "target_finished": "2026-11-06T00:34:38.956499+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:34:37.875063+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:34:37.822008+00:00",
+              "last_sample": "2026-11-06T00:34:38.841704+00:00",
+              "memory_peak_bytes": 350277632,
+              "observed_interval_seconds": 1.019696
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "baseline-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "outputs_sha256": {
+            "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+            "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+            "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+          },
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": 1.543091,
+            "final_target_peak_bytes": "436502528",
+            "finished": "2026-11-06T00:34:40.904868+00:00",
+            "memory_events": {
+              "high": "0",
+              "low": "0",
+              "max": "0",
+              "oom": "0",
+              "oom_group_kill": "0",
+              "oom_kill": "0"
+            },
+            "memory_peak_bytes": 436502528,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": 101945344,
+            "returncode": 99,
+            "sampled_systemd_results": [
+              "success"
+            ],
+            "started": "2026-11-06T00:34:39.361777+00:00",
+            "target_elapsed_seconds": 1.414955,
+            "target_finished": "2026-11-06T00:34:40.829534+00:00",
+            "target_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+            "target_started": "2026-11-06T00:34:39.414579+00:00",
+            "telemetry": {
+              "first_sample": "2026-11-06T00:34:39.369295+00:00",
+              "last_sample": "2026-11-06T00:34:40.390669+00:00",
+              "memory_peak_bytes": 101945344,
+              "observed_interval_seconds": 1.021374
+            }
+          },
+          "expected_diagnostic": "Error: Race reported between",
+          "literal_racecheck_summaries": [
+            "========= RACECHECK SUMMARY: 1 hazard displayed (1 error, 0 warnings)"
+          ],
+          "literal_unique_zero_summary": false,
+          "name": "control-racecheck",
+          "native_gate_closed": false,
+          "original_result_present": true,
+          "status": "PASS"
+        },
+        {
+          "command_options": {
+            "dump_kernel_launches": false,
+            "force_synchronization_limit": "8",
+            "kernel_name": null,
+            "launch_count": null,
+            "launch_skip": null,
+            "racecheck_num_workers": "1"
+          },
+          "diagnostic_inventory": false,
+          "execution": {
+            "elapsed_seconds_including_lock_or_service_wait": null,
+            "final_target_peak_bytes": null,
+            "finished": null,
+            "memory_events": null,
+            "memory_peak_bytes": 3160178688,
+            "outer_timeout": false,
+            "periodic_or_recorded_peak_bytes": null,
+            "returncode": null,
+            "sampled_systemd_results": null,
+            "started": null,
+            "target_elapsed_seconds": null,
+            "target_finished": null,
+            "target_memory_events": null,
+            "target_started": null,
+            "telemetry": {
+              "first_sample": "2026-11-06T00:34:40.918213+00:00",
+              "last_sample": "2026-11-06T00:36:15.315030+00:00",
+              "memory_peak_bytes": 3160178688,
+              "observed_interval_seconds": 94.396817
+            }
+          },
+          "literal_racecheck_summaries": [],
+          "literal_unique_zero_summary": false,
+          "name": "racecheck-graph-pipelined",
+          "native_gate_closed": false,
+          "original_result_present": false,
+          "status": "UNFINISHED_OR_UNCLASSIFIED"
+        }
+      ],
+      "retention_category": "INTERRUPTED_ATTEMPT",
+      "source_native_schedule_acceptance": false,
+      "source_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+      "started": "2026-11-06T00:32:13.534146+00:00"
+    },
+    {
+      "archive": "raw/sync8-workers8-graph.tar.gz",
+      "custody_unchanged": null,
+      "elapsed_seconds": null,
+      "expected_checks": null,
+      "finished": null,
+      "force_synchronization_limit": null,
+      "forced_synchronization": null,
+      "formal_acceptance": false,
+      "frames": null,
+      "full_kernel_coverage": null,
+      "interruption_reason": {
+        "reason": "Reorder queue to finish scoped four-mode and lifecycle checks before the long unfiltered capture",
+        "stage": "Waiting for GPU lock; no GPU jobs started",
+        "time": "2026-11-06T00:41:15.932791+00:00"
+      },
+      "kernel_filter": null,
+      "kind": "session_or_lifecycle",
+      "manifest_error": null,
+      "modes": null,
+      "name": "sync8-workers8-graph",
+      "native_gate_closed": false,
+      "native_schedule_acceptance": false,
+      "original_manifest_scope": null,
+      "original_manifest_status": null,
+      "racecheck_num_workers": null,
+      "results": [],
+      "retention_category": "ABORTED_OR_UNSTARTED_PREFLIGHT",
+      "source_native_schedule_acceptance": null,
+      "source_revision": null,
+      "started": null
+    }
+  ],
+  "created": "2026-11-06T02:06:39.492614+00:00",
+  "formal_acceptance": false,
+  "native_gate_closed": false,
+  "native_schedule_acceptance": false,
+  "schema": "hr-bounded-queue-summary/1",
+  "scope": "Original scoped statuses are retained. Forced synchronization and filtered runs never close the native unfiltered gate. Constructor probes, including launch dumps, are diagnostic only."
+}

@@ -1,0 +1,17 @@
+{
+  "overall_status": "NOT_A_FULL_PASS",
+  "runtime_revision": "a00ab3a6abd7cc2c1f823fd3fbac66a345f3ce48",
+  "formal_acceptance": false,
+  "hr_profile": "hr-1280x768",
+  "motion_profile": "v1-motion/2",
+  "frames_per_sequence_run": 30,
+  "ctest": "68/68 PASS",
+  "hr_reference_checks": 602,
+  "hr_lifecycle_checks": 180,
+  "full_hr_synccheck": "PASS: all four scheduling modes plus HR lifecycle, no kernel filter",
+  "full_hr_memcheck": "OPEN:86 NVOF errors per mode;1008 lifecycle; otherwise no API/device errors",
+  "full_hr_racecheck": "INCOMPLETE:4 cgroup OOM attempts at24GiB (2unfiltered+2custom/CUB filtered); remaining interrupted/unexecuted scopes preserved",
+  "full_hr_initcheck": "INCOMPLETE:900second timeout with nvJPEG uninitialized-read diagnostics",
+  "positive_controls": "4/4 PASS without launch dump",
+  "all_completed_output_triplets_identical": 20
+}

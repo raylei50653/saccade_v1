@@ -1,0 +1,143 @@
+{
+  "finished": "2026-11-05T15:08:02.539605+00:00",
+  "process_peaks": {
+    "855181": {
+      "comm": "python3",
+      "pss_bytes": 11302912,
+      "rss_bytes": 18997248
+    },
+    "855182": {
+      "comm": "timeout",
+      "pss_bytes": 215040,
+      "rss_bytes": 2158592
+    },
+    "855183": {
+      "comm": "compute-sanitiz",
+      "pss_bytes": 6034432,
+      "rss_bytes": 8847360
+    },
+    "855184": {
+      "comm": "TreeLauncherSub",
+      "pss_bytes": 3106816,
+      "rss_bytes": 7933952
+    },
+    "855190": {
+      "comm": "block_memory_pr",
+      "pss_bytes": 27958272,
+      "rss_bytes": 34689024
+    }
+  },
+  "returncode": 0,
+  "sampled_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0
+  },
+  "sampled_memory_peak_bytes": 429772800,
+  "sampled_systemd_results": [
+    "success"
+  ],
+  "service_reported_oom": false,
+  "service_runner_returncode": 0,
+  "started": "2026-11-05T15:07:59.443356+00:00",
+  "target": {
+    "cgroup.events": {
+      "frozen": 0,
+      "populated": 1
+    },
+    "command_pid": 855182,
+    "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-a61a1d886f2b.service",
+    "finished": "2026-11-05T15:08:02.482761+00:00",
+    "memory.current": 11374592,
+    "memory.events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory.events.local": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory.peak": 429772800,
+    "memory.stat": {
+      "active_anon": 4096,
+      "active_file": 0,
+      "anon": 8413184,
+      "anon_thp": 0,
+      "file": 81920,
+      "file_dirty": 32768,
+      "file_mapped": 0,
+      "file_thp": 0,
+      "file_writeback": 0,
+      "inactive_anon": 8396800,
+      "inactive_file": 86016,
+      "kernel": 520192,
+      "kernel_stack": 0,
+      "pagetables": 299008,
+      "percpu": 2176,
+      "pgactivate": 77312,
+      "pgdeactivate": 0,
+      "pgdemote_direct": 0,
+      "pgdemote_khugepaged": 0,
+      "pgdemote_kswapd": 0,
+      "pgdemote_proactive": 0,
+      "pgfault": 112175,
+      "pglazyfree": 0,
+      "pglazyfreed": 0,
+      "pgmajfault": 144,
+      "pgrefill": 0,
+      "pgscan": 0,
+      "pgscan_direct": 0,
+      "pgscan_khugepaged": 0,
+      "pgscan_kswapd": 0,
+      "pgscan_proactive": 0,
+      "pgsteal": 0,
+      "pgsteal_direct": 0,
+      "pgsteal_khugepaged": 0,
+      "pgsteal_kswapd": 0,
+      "pgsteal_proactive": 0,
+      "pswpin": 0,
+      "pswpout": 0,
+      "sec_pagetables": 0,
+      "shmem": 0,
+      "shmem_thp": 0,
+      "slab": 210528,
+      "slab_reclaimable": 44200,
+      "slab_unreclaimable": 166328,
+      "sock": 0,
+      "swapcached": 0,
+      "swpin_zero": 0,
+      "swpout_zero": 0,
+      "thp_collapse_alloc": 0,
+      "thp_fault_alloc": 0,
+      "thp_swpout": 0,
+      "thp_swpout_fallback": 0,
+      "unevictable": 0,
+      "vmalloc": 0,
+      "workingset_activate_anon": 0,
+      "workingset_activate_file": 0,
+      "workingset_nodereclaim": 0,
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 0,
+      "workingset_restore_anon": 0,
+      "workingset_restore_file": 0
+    },
+    "memory.swap.current": 0,
+    "memory.swap.peak": 0,
+    "returncode": 0,
+    "started": "2026-11-05T15:07:59.516197+00:00",
+    "time": "2026-11-05T15:08:02.482400+00:00",
+    "wrapper_pid": 855181
+  },
+  "unit": "saccade-memory-a61a1d886f2b.service"
+}

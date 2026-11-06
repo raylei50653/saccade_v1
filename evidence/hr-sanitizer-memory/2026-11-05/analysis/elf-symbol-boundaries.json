@@ -1,0 +1,23 @@
+{
+  "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+  "module_sha256": "4e534ac7d741f802ce62b3c1acc977301bf58c7b6ddfb2e07e175c39d05ab25d",
+  "dynamic_symbols": [
+    {
+      "symbol": "sanitizerAddPatchesFromFile",
+      "start": "0x4a7b0",
+      "size": 408,
+      "end_exclusive": "0x4a948",
+      "observed_stack_pc": "0x4bb2e",
+      "contains_observed_pc": false,
+      "readelf_line": "198: 000000000004a7b0   408 FUNC    GLOBAL DEFAULT   12 sanitizerAddPatchesFromFile"
+    }
+  ],
+  "unwind_fde_containing_stack_pc": [
+    {
+      "start": "0x4a950",
+      "end_exclusive": "0x4d712",
+      "line": "000040ec 00000000000000cc 00004070 FDE cie=00000080 pc=000000000004a950..000000000004d712"
+    }
+  ],
+  "conclusion": "PC0x4bb2e is inside unnamed function FDE0x4a950..0x4d712, outside sanitizerAddPatchesFromFile dynamic symbol0x4a7b0..0x4a948. Nearest exported symbol is not exact function attribution; no patch-generation phase conclusion from this PC alone."
+}

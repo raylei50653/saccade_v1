@@ -1,0 +1,112 @@
+[
+  {
+    "execution": {
+      "finished": "2026-11-05T14:12:45.561397+00:00",
+      "name": "baseline-graph-pipelined",
+      "returncode": 0,
+      "sampled_memory_events": {
+        "high": "0",
+        "low": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_group_kill": "0",
+        "oom_kill": "0"
+      },
+      "sampled_memory_peak_bytes": 349687808,
+      "sampled_systemd_results": [
+        "success"
+      ],
+      "started": "2026-11-05T14:12:43.504322+00:00",
+      "target": {
+        "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-hr-3605b5c98f4c.service",
+        "finished": "2026-11-05T14:12:45.358387+00:00",
+        "memory.current": "10911744",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "memory.peak": "349687808",
+        "memory.swap.current": "0",
+        "memory.swap.peak": "0",
+        "returncode": 0,
+        "started": "2026-11-05T14:12:43.557710+00:00",
+        "time": "2026-11-05T14:12:45.358088+00:00"
+      },
+      "unit": "saccade-hr-3605b5c98f4c.service"
+    },
+    "name": "baseline-graph-pipelined",
+    "outputs_sha256": {
+      "bin": "04e44fe63f7fbf9bc1bae512d361d6f8e5a1dd01bdf9fe162c05151d5c239cce",
+      "scmo": "cc911417c3ed02d6556ec321d46db12b9b38c18d03991042b12efe0141ef32c6",
+      "txt": "d3972f8d5320edeac63b5b95de2a1a1a8db232fb7336b524835d9d67e729dfc9"
+    },
+    "status": "PASS"
+  },
+  {
+    "execution": {
+      "finished": "2026-11-05T14:12:46.592146+00:00",
+      "name": "control-racecheck",
+      "returncode": 99,
+      "sampled_memory_events": {
+        "high": "0",
+        "low": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_group_kill": "0",
+        "oom_kill": "0"
+      },
+      "sampled_memory_peak_bytes": 436588544,
+      "sampled_systemd_results": [
+        "success"
+      ],
+      "started": "2026-11-05T14:12:45.568223+00:00",
+      "target": {
+        "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-hr-3d209f483424.service",
+        "finished": "2026-11-05T14:12:46.234952+00:00",
+        "memory.current": "10891264",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "memory.peak": "436588544",
+        "memory.swap.current": "0",
+        "memory.swap.peak": "0",
+        "returncode": 99,
+        "started": "2026-11-05T14:12:45.629543+00:00",
+        "time": "2026-11-05T14:12:46.234705+00:00"
+      },
+      "unit": "saccade-hr-3d209f483424.service"
+    },
+    "expected_diagnostic": "Error: Race reported between",
+    "name": "control-racecheck",
+    "status": "PASS"
+  },
+  {
+    "byte_parity": false,
+    "execution": {
+      "finished": "2026-11-05T14:15:59.958464+00:00",
+      "name": "racecheck-graph-pipelined",
+      "returncode": 1,
+      "sampled_memory_events": {
+        "high": "0",
+        "low": "0",
+        "max": "106",
+        "oom": "2",
+        "oom_group_kill": "1",
+        "oom_kill": "6"
+      },
+      "sampled_memory_peak_bytes": 25769803776,
+      "sampled_systemd_results": [
+        "oom-kill",
+        "success"
+      ],
+      "started": "2026-11-05T14:12:46.603879+00:00",
+      "unit": "saccade-hr-0bdecd1569d7.service"
+    },
+    "internal_tool_error": false,
+    "inventory_diagnostic": false,
+    "name": "racecheck-graph-pipelined",
+    "outputs_sha256": {},
+    "positive_control_passed": true,
+    "sanitizer_log_clean": false,
+    "status": "INCOMPLETE",
+    "target_completed": false,
+    "zero_summary": false
+  }
+]

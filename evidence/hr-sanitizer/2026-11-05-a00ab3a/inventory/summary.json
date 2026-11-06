@@ -1,0 +1,167 @@
+{
+  "schema": "sanitizer-launch-inventory/1",
+  "generated_utc": "2026-11-05T14:01:07.199024+00:00",
+  "acceptance_classification": "INVENTORY_ONLY_NOT_ACCEPTANCE",
+  "literal_summary_policy": "Dump launches can contribute to ERROR SUMMARY and exit99. Preserve literal counts and statuses; never subtract launch counts to create a PASS.",
+  "provisional": false,
+  "runs": [
+    {
+      "id": "00-synccheck-graph-pipelined",
+      "log": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-graph/synccheck-graph-pipelined.log",
+      "snapshot_sha256": "3fac6dc9ae478e710b103885d45864d4bdec8e84f7db98bc3ed1ff4a5638b1c4",
+      "snapshot_bytes": 13014354,
+      "size_changed_during_read": false,
+      "launched_total": 11551,
+      "filtered_total": 0,
+      "unique_kernel_total": 188,
+      "unique_kernel_dimension_total": 233,
+      "filter_unknown_total": 0,
+      "checked_label_total": 11551,
+      "incomplete_launch_records": 0,
+      "classification_counts": {
+        "nvinfer": 550,
+        "custom/scan": 864,
+        "custom/tracking-session": 331,
+        "custom/tracking": 153,
+        "nvjpeg": 30,
+        "custom/resize": 30,
+        "custom/flow-motion": 240,
+        "unknown": 8910,
+        "custom/producer": 90,
+        "custom/postprocess": 150,
+        "nvidia-opticalflow": 203
+      },
+      "launch_numbers_sequential_from_one": true,
+      "completion": {
+        "execution_record": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-graph/synccheck-graph-pipelined.execution.json",
+        "dump_kernel_launches_enabled": true,
+        "acceptance_classification": "INVENTORY_ONLY_NOT_ACCEPTANCE",
+        "execution_record_present": true,
+        "target_record_present": true,
+        "final_execution_records": true,
+        "application_markers": [
+          {
+            "frames": 30,
+            "mode": "pipelined"
+          }
+        ],
+        "control_markers": [],
+        "expected_frames": 30,
+        "resource_failure": false,
+        "internal_tool_error": false,
+        "sanitizer_summaries": [
+          "========= ERROR SUMMARY: 11551 errors"
+        ],
+        "capture_completed": true,
+        "returncode": 99,
+        "target_returncode": 99
+      },
+      "diagnostic_report_total": 0,
+      "diagnostic_header_counts": {},
+      "unknown_nonmetadata_line_count": 0,
+      "scope": "Observed dump launch records only; a logged launch does not prove checking completed."
+    },
+    {
+      "id": "01-memcheck-graph-pipelined",
+      "log": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-graph/memcheck-graph-pipelined.log",
+      "snapshot_sha256": "a7dadcd604f9da13bdff662aec5a83cd5aa75cc8b1647ce948ca80eb5e5ba769",
+      "snapshot_bytes": 13140209,
+      "size_changed_during_read": false,
+      "launched_total": 11551,
+      "filtered_total": 0,
+      "unique_kernel_total": 188,
+      "unique_kernel_dimension_total": 233,
+      "filter_unknown_total": 0,
+      "checked_label_total": 11551,
+      "incomplete_launch_records": 0,
+      "classification_counts": {
+        "nvinfer": 550,
+        "custom/scan": 864,
+        "custom/tracking-session": 331,
+        "custom/tracking": 153,
+        "nvjpeg": 30,
+        "custom/resize": 30,
+        "custom/flow-motion": 240,
+        "unknown": 8910,
+        "custom/producer": 90,
+        "custom/postprocess": 150,
+        "nvidia-opticalflow": 203
+      },
+      "launch_numbers_sequential_from_one": true,
+      "completion": {
+        "execution_record": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-graph/memcheck-graph-pipelined.execution.json",
+        "dump_kernel_launches_enabled": true,
+        "acceptance_classification": "INVENTORY_ONLY_NOT_ACCEPTANCE",
+        "execution_record_present": true,
+        "target_record_present": true,
+        "final_execution_records": true,
+        "application_markers": [
+          {
+            "frames": 30,
+            "mode": "pipelined"
+          }
+        ],
+        "control_markers": [],
+        "expected_frames": 30,
+        "resource_failure": false,
+        "internal_tool_error": false,
+        "sanitizer_summaries": [
+          "========= ERROR SUMMARY: 11637 errors"
+        ],
+        "capture_completed": true,
+        "returncode": 99,
+        "target_returncode": 99
+      },
+      "diagnostic_report_total": 86,
+      "diagnostic_header_counts": {
+        "Program hit CUDA_ERROR_INVALID_VALUE (error 1) due to \"invalid argument\" on CUDA API call to cuArrayGetPlane.": 86
+      },
+      "unknown_nonmetadata_line_count": 0,
+      "scope": "Observed dump launch records only; a logged launch does not prove checking completed."
+    },
+    {
+      "id": "02-racecheck-graph-pipelined",
+      "log": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-graph/racecheck-graph-pipelined.log",
+      "snapshot_sha256": "003691786bddb422483e6b12d489a78796e9ef71feb4b7b7b96b228c5c63a365",
+      "snapshot_bytes": 433739,
+      "size_changed_during_read": false,
+      "launched_total": 302,
+      "filtered_total": 0,
+      "unique_kernel_total": 153,
+      "unique_kernel_dimension_total": 194,
+      "filter_unknown_total": 0,
+      "checked_label_total": 302,
+      "incomplete_launch_records": 0,
+      "classification_counts": {
+        "nvinfer": 275,
+        "custom/scan": 27
+      },
+      "launch_numbers_sequential_from_one": true,
+      "completion": {
+        "execution_record": "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-20261105-graph/racecheck-graph-pipelined.execution.json",
+        "dump_kernel_launches_enabled": true,
+        "acceptance_classification": "INVENTORY_ONLY_NOT_ACCEPTANCE",
+        "execution_record_present": true,
+        "target_record_present": false,
+        "final_execution_records": false,
+        "application_markers": [],
+        "control_markers": [],
+        "expected_frames": 30,
+        "resource_failure": true,
+        "internal_tool_error": false,
+        "sanitizer_summaries": [],
+        "capture_completed": false,
+        "returncode": 1,
+        "target_returncode": null
+      },
+      "diagnostic_report_total": 0,
+      "diagnostic_header_counts": {},
+      "unknown_nonmetadata_line_count": 0,
+      "scope": "Observed dump launch records only; a logged launch does not prove checking completed."
+    }
+  ],
+  "all_captures_completed": false,
+  "all_launch_records_complete": true,
+  "all_inventory_counts_equal": false,
+  "comparison_note": "Counts compare observations, not instrumentation success. Controls and different modes may legitimately differ. No full-session PASS is inferred."
+}

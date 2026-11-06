@@ -1,0 +1,39 @@
+[
+  {
+    "command": [
+      "/opt/cuda/bin/compute-sanitizer",
+      "--version"
+    ],
+    "exit": 0,
+    "stdout": "NVIDIA (R) Compute Sanitizer\nCopyright (c) 2020-2026 NVIDIA Corporation\nVersion 2026.3.0.0 (build 38855100) (public-release)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/cuda/bin/nvcc",
+      "--version"
+    ],
+    "exit": 0,
+    "stdout": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2026 NVIDIA Corporation\nBuilt on Tue_Sep_01_08:45:21_PDT_2026\nCuda compilation tools, release 13.4, V13.4.92\nBuild cuda_13.4.r13.4/compiler.38855100_0\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=name,uuid,driver_version,memory.total",
+      "--format=csv"
+    ],
+    "exit": 0,
+    "stdout": "name, uuid, driver_version, memory.total [MiB]\nNVIDIA GeForce RTX 5070 Ti Laptop GPU, GPU-825ae551-ba16-539a-e444-22726b59ee9a, 617.42, 12227 MiB\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "uname",
+      "-srmo"
+    ],
+    "exit": 0,
+    "stdout": "Linux 6.18.33.1-microsoft-standard-WSL2 x86_64 GNU/Linux\n",
+    "stderr": ""
+  }
+]

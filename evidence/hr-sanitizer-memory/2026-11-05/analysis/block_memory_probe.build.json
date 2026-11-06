@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/opt/cuda/bin/nvcc",
+    "-std=c++20",
+    "-O3",
+    "-lineinfo",
+    "-arch=sm_120",
+    "-Xcompiler=-Wall,-Wextra,-Werror",
+    "build/racecheck-memory-20261105/block_memory_probe.cu",
+    "-o",
+    "build/racecheck-memory-20261105/block_memory_probe"
+  ],
+  "compile_exit": 0,
+  "gpu_executed": false,
+  "source_sha256": "48079eaaa20bb079aedade81e645da88f23c55a439bd343b92f848540fc5a6d4",
+  "binary_sha256": "37bbbd939a5b22b6438906e4b81ca8f68d7a42d9b2a873d98cbd33475104d362",
+  "scope": "standalone diagnostic CUDA global store or shared-neighbor with __syncthreads; only explicit cudaMalloc4*blocks*256bytes; fixedthreads256; per-launch synchronization and exactCPU output validation",
+  "sass_sha256": "58bd68f2fcf889517adec566b70dcf7c214853e20f1b200aa8988210d872d7bf",
+  "sass_validation": "shared_neighbor retains STS, BAR.SYNC.DEFER_BLOCKING, LDS, STG; global_store retains STG only; no GPU execution"
+}

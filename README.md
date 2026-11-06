@@ -87,6 +87,9 @@ F02 tile fusion／F03 N16 與部署特化已完成 [clean-source 整合補驗](e
 | --- | --- |
 | [串流／NVDEC 開發驗證與交付檢查](evidence/streaming/2026-11-05-development/REPORT.md) | 原生 GPU decode／CUDA 色彩轉換、完整 packet 比較與資料搬移 trace；保留開發來源、CLI 修正與外部裝置未連線邊界 |
 | [G1 NVOFA／v1-motion/2 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md) | 完整 session memcheck OPEN（Bug 7048273），其餘八步通過；runtime 已整合，原證據與支援邊界保留 |
+| [HR 完整路徑 sanitizer 補驗](evidence/hr-sanitizer/2026-11-05-a00ab3a/REPORT.md) | 乾淨 `a00ab3a` runtime；四種 HR 排程／lifecycle 的未過濾完整 synccheck PASS；memcheck NVOF OPEN，完整 racecheck OOM／initcheck timeout，原始失敗與範圍保留 |
+| [Racecheck RAM 來源追蹤](evidence/hr-sanitizer-memory/2026-11-05/REPORT.md) | 配置堆疊定位到注入 target 的 sanitizer collection worker；原生 pointwise 6 GiB OOM、逐次同步對照 1.08 GiB 完成；block 規模成本與 cleanup 對照，原生完整 HR racecheck 仍 OPEN |
+| [Racecheck 有界排隊補驗](evidence/hr-sanitizer/2026-11-06-bounded-queue/REPORT.md) | 未過濾 ordinary serial 30 幀＋工具逐次同步通過（50 分 20 秒、1.031 GiB）；自訂＋CUB 四種排程各 30 幀及 lifecycle 180 checks 通過；原生／未過濾 Graph gate 仍 OPEN，Graph 同步化重試仍 24 GiB OOM |
 | [F02／F03 clean-source 整合補驗](evidence/f02-f03/2026-11-05-clean-23ade53/REPORT.md) | 乾淨 `23ade53`、`v1-motion/1`；CPU 16/16、CUDA 59/59、原 session gate、F02／scan 四 sanitizer、M4 21/21 輸出 PASS；G1 memcheck OPEN 分列 |
 | [F02／F03 clean-source ABBA 效能](evidence/f02-f03/2026-11-05-clean-performance/REPORT.md) | 乾淨 `f4865cd`→`23ade53`、固定 engine、`v1-motion/1`；完整 F03 Graph −6.43%，queued 180.6→195.2 FPS；四張 raw／status、32 份 packets 相同，限固定輸入／140 幀 prefix |
 | [最新 CUDA Graph 分支正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md) | 乾淨 `4329ed7`／`d21a144`；F04、tracking、stream 守門與 M4 21/21 輸出比對 PASS |

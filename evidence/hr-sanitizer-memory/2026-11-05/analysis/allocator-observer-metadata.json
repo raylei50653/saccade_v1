@@ -1,0 +1,62 @@
+{
+  "schema": "allocator-observer-metadata/1",
+  "files": {
+    "build/racecheck-memory-20261105/alloc_trace.c": {
+      "resolved": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c",
+      "sha256": "a1b43e8b86331ce76b610ce7743d6910ffb2af27d692145ba3be6112211e9845"
+    },
+    "build/racecheck-memory-20261105/alloc_trace.so": {
+      "resolved": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+      "sha256": "d6b065f2dcda0f2d177b7d820f0a31dbebcd91e4c71a03e7b0a6205e27b20cea"
+    },
+    "build/racecheck-memory-20261105/alloc_trace_growth.c": {
+      "resolved": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.c",
+      "sha256": "d00565b38f2ebb0f646717702c9c1aa8b4926bd89d43019698f4bfc8bf1ce77d"
+    },
+    "build/racecheck-memory-20261105/alloc_trace_growth.so": {
+      "resolved": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace_growth.so",
+      "sha256": "7d6ca839c627f3b7ed5e252b20705e840e9957b4e2db34c4128b674a99cbcdff"
+    },
+    "build/racecheck-memory-20261105/summarize_alloc_trace.py": {
+      "resolved": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/summarize_alloc_trace.py",
+      "sha256": "ed503686195a22482ef4e814a2c33027a07a988d129a18c038fd77e8c7d51f10"
+    },
+    "build/racecheck-memory-20261105/summarize_alloc_trace_growth.py": {
+      "resolved": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/summarize_alloc_trace_growth.py",
+      "sha256": "239acf74e967a808979176ffb6906e84aee6e5b1834ba3c6b31e59ddad9d3928"
+    },
+    "/opt/cuda/compute-sanitizer/libsanitizer-collection.so": {
+      "resolved": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+      "sha256": "1eec90c04ac3c58c7a932e05e8466e59a1ccd17340934ceb823449bf1d5dec9a"
+    },
+    "/opt/cuda/compute-sanitizer/libsanitizer-public.so": {
+      "resolved": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+      "sha256": "4e534ac7d741f802ce62b3c1acc977301bf58c7b6ddfb2e07e175c39d05ab25d"
+    },
+    "/usr/lib/libc.so.6": {
+      "resolved": "/usr/lib/libc.so.6",
+      "sha256": "02c8c3d06180beee9c7d0392aa85736c7d19f274a81e7f8f0b3d9e28e0641524"
+    },
+    "/home/ray/.cache/debuginfod_client/d320029ad1a23be2f4bce117fd321cbd23a2014b/debuginfo": {
+      "resolved": "/home/ray/.cache/debuginfod_client/d320029ad1a23be2f4bce117fd321cbd23a2014b/debuginfo",
+      "sha256": "9af842d74dabd58b9389ac41060ad28f2ed7f3997a943d0422f8cfe9c119bed3"
+    }
+  },
+  "min_request_bytes": 65536,
+  "entry_capacity": 524288,
+  "table_bytes": 12582912,
+  "owner_capacity": 2048,
+  "v1_depth": 12,
+  "v2_depth": 32,
+  "v2_growth_step_bytes": 134217728,
+  "limits": [
+    "Only intercepted malloc/calloc/realloc requests>=64KiB, and mmap/mmap64; not totalRSS.",
+    "Large mmap reservations may be sparse; mmap APIcounter must not beadded toheap orinterpretedasRAM.",
+    "Partial/unmatched munmap and direct/private syscalls limit mmap lifetime coverage.",
+    "Alignedallocator and belowthreshold requests/bootstrap/fork-only child allocations notcovered.",
+    "Firstsite stack is only firstwitness; v2growth capturescurrentallocatingthreadcontext at128MiBpeaksteps.",
+    "Private sanitizer names stripped; exactmoduleoffsets authoritative, nearestexport names notfunctionproof.",
+    "Concurrent belowthreshold realloc pointerreuse may undercounttrackedlive; quantities are diagnosticattribution notformalaccounting.",
+    "Observer allocatesfixed12MiBtable+boundedowners, affects timing; rawcontrolswithoutobserver matter."
+  ]
+}

@@ -1,0 +1,861 @@
+{
+  "schema": "allocator-attribution/1",
+  "results": {
+    "baseline": {
+      "pid": 834266,
+      "execution": {
+        "finished": "2026-11-05T14:50:17.447661+00:00",
+        "process_peaks": {
+          "834264": {
+            "comm": "python3",
+            "pss_bytes": 11282432,
+            "rss_bytes": 18964480
+          },
+          "834265": {
+            "comm": "timeout",
+            "pss_bytes": 220160,
+            "rss_bytes": 2154496
+          },
+          "834266": {
+            "comm": "constructor_pro",
+            "pss_bytes": 512367616,
+            "rss_bytes": 517087232
+          }
+        },
+        "returncode": 0,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "sampled_memory_peak_bytes": 350380032,
+        "sampled_systemd_results": [
+          "success"
+        ],
+        "service_reported_oom": false,
+        "service_runner_returncode": 0,
+        "started": "2026-11-05T14:50:13.835829+00:00",
+        "target": {
+          "cgroup.events": {
+            "frozen": 0,
+            "populated": 1
+          },
+          "command_pid": 834265,
+          "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-e4c62b5c6e0d.service",
+          "finished": "2026-11-05T14:50:17.117449+00:00",
+          "memory.current": 10342400,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.events.local": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.peak": 350380032,
+          "memory.stat": {
+            "active_anon": 4096,
+            "active_file": 0,
+            "anon": 8409088,
+            "anon_thp": 0,
+            "file": 516096,
+            "file_dirty": 49152,
+            "file_mapped": 0,
+            "file_thp": 0,
+            "file_writeback": 0,
+            "inactive_anon": 8396800,
+            "inactive_file": 520192,
+            "kernel": 626688,
+            "kernel_stack": 0,
+            "pagetables": 172032,
+            "percpu": 1632,
+            "pgactivate": 24576,
+            "pgdeactivate": 0,
+            "pgdemote_direct": 0,
+            "pgdemote_khugepaged": 0,
+            "pgdemote_kswapd": 0,
+            "pgdemote_proactive": 0,
+            "pgfault": 134640,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "pgmajfault": 168,
+            "pgrefill": 0,
+            "pgscan": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_proactive": 0,
+            "pgsteal": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_proactive": 0,
+            "pswpin": 0,
+            "pswpout": 0,
+            "sec_pagetables": 0,
+            "shmem": 0,
+            "shmem_thp": 0,
+            "slab": 449944,
+            "slab_reclaimable": 279296,
+            "slab_unreclaimable": 170648,
+            "sock": 0,
+            "swapcached": 0,
+            "swpin_zero": 0,
+            "swpout_zero": 0,
+            "thp_collapse_alloc": 0,
+            "thp_fault_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0,
+            "unevictable": 0,
+            "vmalloc": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_nodereclaim": 0,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0
+          },
+          "memory.swap.current": 0,
+          "memory.swap.peak": 0,
+          "returncode": 0,
+          "started": "2026-11-05T14:50:13.895435+00:00",
+          "time": "2026-11-05T14:50:17.116851+00:00",
+          "wrapper_pid": 834264
+        },
+        "unit": "saccade-memory-e4c62b5c6e0d.service"
+      },
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "destructor",
+        "pid": 834266,
+        "monotonic_ns": 44854224376076,
+        "heap_live": 64547449,
+        "heap_peak": 281758171,
+        "heap_allocated": 498102683,
+        "heap_freed": 433555234,
+        "mmap_live": 107393056768,
+        "mmap_peak": 107393056768,
+        "mmap_allocated": 107393056768,
+        "mmap_freed": 0,
+        "active": 81,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "dominant_last_heap_owner": {
+        "type": "owner",
+        "id": 1290,
+        "kind": "heap",
+        "caller": "0x7854653de254",
+        "live": 28442624,
+        "peak": 28442624,
+        "allocated": 28442624,
+        "freed": 0,
+        "alloc_calls": 1,
+        "free_calls": 0,
+        "max_allocation": 28442624,
+        "site": {
+          "type": "site",
+          "id": 1290,
+          "kind": "heap",
+          "caller": "0x7854653de254",
+          "stack": [
+            "0x785491c99d38",
+            "0x785491c9a432",
+            "0x7854653de254",
+            "0x7854653c0d85",
+            "0x7854654f941c",
+            "0x7854654b5001",
+            "0x785465492e9a",
+            "0x78546b77778d",
+            "0x78546b7e658e",
+            "0x78546a89633f",
+            "0x78546a8c3b18",
+            "0x78546a900348"
+          ],
+          "caller_resolution": {
+            "address": "0x7854653de254",
+            "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+            "module_file_offset": "0x324254",
+            "symbol": [
+              "cuEGLApiInit",
+              "??:?"
+            ]
+          },
+          "stack_resolution": [
+            {
+              "address": "0x785491c99d38",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+              "module_file_offset": "0x1d38",
+              "symbol": [
+                "record_site",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c:112 (discriminator 2)"
+              ]
+            },
+            {
+              "address": "0x785491c9a432",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+              "module_file_offset": "0x2432",
+              "symbol": [
+                "calloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c:131 (discriminator 15)"
+              ]
+            },
+            {
+              "address": "0x7854653de254",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x324254",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x7854653c0d85",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x306d85",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x7854654f941c",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x43f41c",
+              "symbol": [
+                "cuVDPAUCtxCreate",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x7854654b5001",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x3fb001",
+              "symbol": [
+                "cuVDPAUCtxCreate",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x785465492e9a",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x3d8e9a",
+              "symbol": [
+                "cuMemAllocAsync",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x78546b77778d",
+              "module": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+              "module_file_offset": "0x2d7778d",
+              "symbol": [
+                "getBuilderSafePluginRegistry",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x78546b7e658e",
+              "module": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+              "module_file_offset": "0x2de658e",
+              "symbol": [
+                "getBuilderSafePluginRegistry",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x78546a89633f",
+              "module": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+              "module_file_offset": "0x1e9633f",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x78546a8c3b18",
+              "module": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+              "module_file_offset": "0x1ec3b18",
+              "symbol": [
+                "getLogger",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x78546a900348",
+              "module": "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+              "module_file_offset": "0x1f00348",
+              "symbol": [
+                "getInferLibVersion",
+                "??:?"
+              ]
+            }
+          ]
+        }
+      },
+      "last_tracked_heap_vs_peak_rss_fraction": 0.12482893601983194
+    },
+    "no-match": {
+      "pid": 834354,
+      "execution": {
+        "finished": "2026-11-05T14:50:20.038928+00:00",
+        "process_peaks": {
+          "834345": {
+            "comm": "python3",
+            "pss_bytes": 9980928,
+            "rss_bytes": 18976768
+          },
+          "834346": {
+            "comm": "timeout",
+            "pss_bytes": 214016,
+            "rss_bytes": 2154496
+          },
+          "834347": {
+            "comm": "compute-sanitiz",
+            "pss_bytes": 6696960,
+            "rss_bytes": 9388032
+          },
+          "834348": {
+            "comm": "TreeLauncherSub",
+            "pss_bytes": 3117056,
+            "rss_bytes": 7938048
+          },
+          "834354": {
+            "comm": "constructor_pro",
+            "pss_bytes": 777676800,
+            "rss_bytes": 784572416
+          }
+        },
+        "returncode": 0,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "sampled_memory_peak_bytes": 651718656,
+        "sampled_systemd_results": [
+          "success"
+        ],
+        "service_reported_oom": false,
+        "service_runner_returncode": 0,
+        "started": "2026-11-05T14:50:14.990712+00:00",
+        "target": {
+          "cgroup.events": {
+            "frozen": 0,
+            "populated": 1
+          },
+          "command_pid": 834346,
+          "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/saccade-memory-04beeef6c6ca.service",
+          "finished": "2026-11-05T14:50:19.724295+00:00",
+          "memory.current": 10878976,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.events.local": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.peak": 651718656,
+          "memory.stat": {
+            "active_anon": 4096,
+            "active_file": 0,
+            "anon": 8417280,
+            "anon_thp": 0,
+            "file": 118784,
+            "file_dirty": 61440,
+            "file_mapped": 0,
+            "file_thp": 0,
+            "file_writeback": 0,
+            "inactive_anon": 8400896,
+            "inactive_file": 122880,
+            "kernel": 565248,
+            "kernel_stack": 0,
+            "pagetables": 307200,
+            "percpu": 2720,
+            "pgactivate": 82430,
+            "pgdeactivate": 0,
+            "pgdemote_direct": 0,
+            "pgdemote_khugepaged": 0,
+            "pgdemote_kswapd": 0,
+            "pgdemote_proactive": 0,
+            "pgfault": 213522,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "pgmajfault": 167,
+            "pgrefill": 0,
+            "pgscan": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_proactive": 0,
+            "pgsteal": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_proactive": 0,
+            "pswpin": 0,
+            "pswpout": 0,
+            "sec_pagetables": 0,
+            "shmem": 0,
+            "shmem_thp": 0,
+            "slab": 249056,
+            "slab_reclaimable": 47864,
+            "slab_unreclaimable": 201192,
+            "sock": 0,
+            "swapcached": 0,
+            "swpin_zero": 0,
+            "swpout_zero": 0,
+            "thp_collapse_alloc": 0,
+            "thp_fault_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0,
+            "unevictable": 0,
+            "vmalloc": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_nodereclaim": 0,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0
+          },
+          "memory.swap.current": 0,
+          "memory.swap.peak": 0,
+          "returncode": 0,
+          "started": "2026-11-05T14:50:17.503136+00:00",
+          "time": "2026-11-05T14:50:19.723715+00:00",
+          "wrapper_pid": 834345
+        },
+        "unit": "saccade-memory-04beeef6c6ca.service"
+      },
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "destructor",
+        "pid": 834354,
+        "monotonic_ns": 44856706832832,
+        "heap_live": 93358024,
+        "heap_peak": 334336002,
+        "heap_allocated": 584686122,
+        "heap_freed": 491328098,
+        "mmap_live": 133232066560,
+        "mmap_peak": 133232066560,
+        "mmap_allocated": 133232066560,
+        "mmap_freed": 0,
+        "active": 119,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "dominant_last_heap_owner": {
+        "type": "owner",
+        "id": 1978,
+        "kind": "heap",
+        "caller": "0x7516165dd254",
+        "live": 28442624,
+        "peak": 28442624,
+        "allocated": 28442624,
+        "freed": 0,
+        "alloc_calls": 1,
+        "free_calls": 0,
+        "max_allocation": 28442624,
+        "site": {
+          "type": "site",
+          "id": 1978,
+          "kind": "heap",
+          "caller": "0x7516165dd254",
+          "stack": [
+            "0x75164513ed38",
+            "0x75164513f432",
+            "0x7516165dd254",
+            "0x7516165bfd85",
+            "0x7516166f841c",
+            "0x7516440c3a07",
+            "0x7516440fb399",
+            "0x7516440f1e8a",
+            "0x75161603ceb9",
+            "0x75161604b9be",
+            "0x75161655a154",
+            "0x75161655a371"
+          ],
+          "caller_resolution": {
+            "address": "0x7516165dd254",
+            "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+            "module_file_offset": "0x324254",
+            "symbol": [
+              "cuEGLApiInit",
+              "??:?"
+            ]
+          },
+          "stack_resolution": [
+            {
+              "address": "0x75164513ed38",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+              "module_file_offset": "0x1d38",
+              "symbol": [
+                "record_site",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c:112 (discriminator 2)"
+              ]
+            },
+            {
+              "address": "0x75164513f432",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+              "module_file_offset": "0x2432",
+              "symbol": [
+                "calloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c:131 (discriminator 15)"
+              ]
+            },
+            {
+              "address": "0x7516165dd254",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x324254",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x7516165bfd85",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x306d85",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x7516166f841c",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x43f41c",
+              "symbol": [
+                "cuVDPAUCtxCreate",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x7516440c3a07",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0xc3a07",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x7516440fb399",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0xfb399",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x7516440f1e8a",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0xf1e8a",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x75161603ceb9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+              "module_file_offset": "0x3ceb9",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x75161604b9be",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+              "module_file_offset": "0x4b9be",
+              "symbol": [
+                "sanitizerAddPatchesFromFile",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x75161655a154",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x2a1154",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x75161655a371",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x2a1371",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            }
+          ]
+        }
+      },
+      "last_tracked_heap_vs_peak_rss_fraction": 0.11899223334407923
+    },
+    "trt-only": {
+      "pid": 834395,
+      "execution": {
+        "finished": "2026-11-05T14:50:55.975775+00:00",
+        "process_peaks": {
+          "834386": {
+            "comm": "python3",
+            "pss_bytes": 10432512,
+            "rss_bytes": 19005440
+          },
+          "834387": {
+            "comm": "timeout",
+            "pss_bytes": 215040,
+            "rss_bytes": 2154496
+          },
+          "834388": {
+            "comm": "compute-sanitiz",
+            "pss_bytes": 6708224,
+            "rss_bytes": 9506816
+          },
+          "834389": {
+            "comm": "TreeLauncherSub",
+            "pss_bytes": 3149824,
+            "rss_bytes": 7954432
+          },
+          "834395": {
+            "comm": "constructor_pro",
+            "pss_bytes": 6614792192,
+            "rss_bytes": 6621745152
+          }
+        },
+        "returncode": 1,
+        "sampled_memory_events": {
+          "high": 0,
+          "low": 0,
+          "max": 177,
+          "oom": 2,
+          "oom_group_kill": 1,
+          "oom_kill": 6
+        },
+        "sampled_memory_peak_bytes": 6442450944,
+        "sampled_systemd_results": [
+          "oom-kill",
+          "success"
+        ],
+        "service_reported_oom": true,
+        "service_runner_returncode": 1,
+        "started": "2026-11-05T14:50:16.154859+00:00",
+        "unit": "saccade-memory-2dc703b00b0e.service"
+      },
+      "last_snapshot": {
+        "type": "snapshot",
+        "reason": "growth",
+        "pid": 834395,
+        "monotonic_ns": 44892088572074,
+        "heap_live": 5434280908,
+        "heap_peak": 5434280908,
+        "heap_allocated": 24646162581,
+        "heap_freed": 19211881673,
+        "mmap_live": 133213192192,
+        "mmap_peak": 133213192192,
+        "mmap_allocated": 133213192192,
+        "mmap_freed": 0,
+        "active": 13644,
+        "dropped": 0,
+        "owner_dropped": 0,
+        "unmatched_munmap": 0,
+        "partial_munmap": 0
+      },
+      "dominant_last_heap_owner": {
+        "type": "owner",
+        "id": 595,
+        "kind": "heap",
+        "caller": "0x72e3241b9ef9",
+        "live": 5276748728,
+        "peak": 5276748728,
+        "allocated": 24121124720,
+        "freed": 18844375992,
+        "alloc_calls": 56154,
+        "free_calls": 42733,
+        "max_allocation": 4767744,
+        "site": {
+          "type": "site",
+          "id": 595,
+          "kind": "heap",
+          "caller": "0x72e3241b9ef9",
+          "stack": [
+            "0x72e324e1dd38",
+            "0x72e324e1e35e",
+            "0x72e3241b9ef9",
+            "0x72e323d82369",
+            "0x72e323d187e7",
+            "0x72e323cf23be",
+            "0x72e2f5e4bb2e",
+            "0x72e2f63f7f81",
+            "0x72e2f63f8d9f",
+            "0x72e2f63f9030",
+            "0x72e2f63fa666",
+            "0x72e2f6359370"
+          ],
+          "caller_resolution": {
+            "address": "0x72e3241b9ef9",
+            "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+            "module_file_offset": "0x5b9ef9",
+            "symbol": [
+              "dlclose",
+              "??:?"
+            ]
+          },
+          "stack_resolution": [
+            {
+              "address": "0x72e324e1dd38",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+              "module_file_offset": "0x1d38",
+              "symbol": [
+                "record_site",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c:112 (discriminator 2)"
+              ]
+            },
+            {
+              "address": "0x72e324e1e35e",
+              "module": "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.so",
+              "module_file_offset": "0x235e",
+              "symbol": [
+                "malloc",
+                "/home/ray/developer/ai/saccade_v1/build/racecheck-memory-20261105/alloc_trace.c:130 (discriminator 12)"
+              ]
+            },
+            {
+              "address": "0x72e3241b9ef9",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x5b9ef9",
+              "symbol": [
+                "dlclose",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x72e323d82369",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x182369",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x72e323d187e7",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0x1187e7",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x72e323cf23be",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-collection.so",
+              "module_file_offset": "0xf23be",
+              "symbol": [
+                "??",
+                "??:0"
+              ]
+            },
+            {
+              "address": "0x72e2f5e4bb2e",
+              "module": "/opt/cuda/compute-sanitizer/libsanitizer-public.so",
+              "module_file_offset": "0x4bb2e",
+              "symbol": [
+                "sanitizerAddPatchesFromFile",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x72e2f63f7f81",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x33ef81",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x72e2f63f8d9f",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x33fd9f",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x72e2f63f9030",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x340030",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x72e2f63fa666",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x341666",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            },
+            {
+              "address": "0x72e2f6359370",
+              "module": "/usr/lib/wsl/drivers/nvamsi.inf_amd64_e6537d0cc841801c/libcuda.so.1.1",
+              "module_file_offset": "0x2a0370",
+              "symbol": [
+                "cuEGLApiInit",
+                "??:?"
+              ]
+            }
+          ]
+        }
+      },
+      "last_tracked_heap_vs_peak_rss_fraction": 0.8206720106645384
+    }
+  },
+  "precision_notes": [
+    "Last allocation snapshot precedes kill; targetRSS peak is a different sample, not exactsameinstant.",
+    "Allheapcounters coverrequests>=64KiB only; no entry orowner drops inthese captures.",
+    "Mmap figures here are sparse virtualaddressreservations, not residentRAM; do not addthem toheap orRSS.",
+    "Dominantdirectcaller address identifieseverytrackedallocation atthatsite. Storedbacktrace is firstwitness forthatsite, not astackcapture ofeverycall.",
+    "Nearestexportedsymbol names in strippedCUDA/Sanitizer libraries are not reliableinternalfunctionnames; usemodule+offset."
+  ]
+}

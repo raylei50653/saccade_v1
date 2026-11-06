@@ -1,0 +1,195 @@
+{
+  "schema": "hr-evidence-archive-pure-tests/1",
+  "gpu_work": false,
+  "archive_action_run": false,
+  "source_sha256": "85cde774223e1dd956f2bf982fe20514237bf8b7bcf45efcad3b34be03bd26eb",
+  "test_sha256": "9aca7aac9bdea31bdff4bbb60f96ac3d291ebd41812e047942a3c99ae3ac0c19",
+  "checks": [
+    {
+      "name": "explicitly interrupted preflight accepted",
+      "passed": true
+    },
+    {
+      "name": "preflight stays outside completed category",
+      "passed": true
+    },
+    {
+      "name": "manifestless interrupted preflight accepted",
+      "passed": true
+    },
+    {
+      "name": "active unfinished manifest rejected",
+      "passed": true
+    },
+    {
+      "name": "unfinished preflight without reason rejected",
+      "passed": true
+    },
+    {
+      "name": "empty preflight without reason rejected",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record racecheck.command.json",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record racecheck.execution.json",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record results.json",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record target-started.json",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record target-final.json",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record racecheck.target.json",
+      "passed": true
+    },
+    {
+      "name": "interruption reason cannot override execution record telemetry.jsonl",
+      "passed": true
+    },
+    {
+      "name": "completed capture accepted",
+      "passed": true
+    },
+    {
+      "name": "completed interrupted capture stays interrupted",
+      "passed": true
+    },
+    {
+      "name": "actual ROOT assignment transformed",
+      "passed": true
+    },
+    {
+      "name": "actual REPO assignment transformed",
+      "passed": true
+    },
+    {
+      "name": "quoted ROOT pattern remains literal",
+      "passed": true
+    },
+    {
+      "name": "quoted REPO pattern remains literal",
+      "passed": true
+    },
+    {
+      "name": "only two assignment derivations recorded",
+      "passed": true
+    },
+    {
+      "name": "original captured text remains unchanged",
+      "passed": true
+    },
+    {
+      "name": "assignment and quoted-pattern derivative compiles",
+      "passed": true
+    },
+    {
+      "name": "archiver own pattern strings remain byte equivalent",
+      "passed": true
+    },
+    {
+      "name": "archiver own derivative compiles",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles archive_evidence.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged archive_evidence.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles archive_tests.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged archive_tests.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles capture_custom.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged capture_custom.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles capture_lifecycle.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged capture_lifecycle.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles custom_runner_tests.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged custom_runner_tests.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles finalize_checks.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged finalize_checks.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles lifecycle_runner_tests.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged lifecycle_runner_tests.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles runner_tests.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged runner_tests.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles watch_inputs.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged watch_inputs.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles watch_inputs_tests.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged watch_inputs_tests.py",
+      "passed": true
+    },
+    {
+      "name": "derived control compiles run_hr_sanitizer_validation.py",
+      "passed": true
+    },
+    {
+      "name": "captured control unchanged run_hr_sanitizer_validation.py",
+      "passed": true
+    }
+  ],
+  "passed": 46,
+  "failed": 0
+}

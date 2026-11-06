@@ -1,0 +1,116 @@
+{
+  "schema": "hr-sanitizer-publication-cpu-checks/1",
+  "copied_source_count": 11,
+  "reports": {
+    "runner": {
+      "passed": 175,
+      "failed": 0
+    },
+    "custom-runner": {
+      "passed": 131,
+      "failed": 0
+    },
+    "lifecycle-runner": {
+      "passed": 175,
+      "failed": 0
+    },
+    "archive": {
+      "passed": 48,
+      "failed": 0
+    },
+    "watch-inputs": {
+      "passed": 33,
+      "failed": 0
+    }
+  },
+  "executions": [
+    {
+      "name": "runner_tests",
+      "command": [
+        "/usr/sbin/python3",
+        "-I",
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-publication-20261106/checks/runner_tests.py"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1",
+      "started": "2026-11-06T02:17:08.489595+00:00",
+      "finished": "2026-11-06T02:17:08.864419+00:00",
+      "returncode": 0,
+      "stdout": "runner_tests.stdout.log",
+      "stderr": "runner_tests.stderr.log"
+    },
+    {
+      "name": "custom_runner_tests",
+      "command": [
+        "/usr/sbin/python3",
+        "-I",
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-publication-20261106/checks/custom_runner_tests.py"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1",
+      "started": "2026-11-06T02:17:08.490315+00:00",
+      "finished": "2026-11-06T02:17:08.846401+00:00",
+      "returncode": 0,
+      "stdout": "custom_runner_tests.stdout.log",
+      "stderr": "custom_runner_tests.stderr.log"
+    },
+    {
+      "name": "lifecycle_runner_tests",
+      "command": [
+        "/usr/sbin/python3",
+        "-I",
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-publication-20261106/checks/lifecycle_runner_tests.py"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1",
+      "started": "2026-11-06T02:17:08.490896+00:00",
+      "finished": "2026-11-06T02:17:08.614745+00:00",
+      "returncode": 0,
+      "stdout": "lifecycle_runner_tests.stdout.log",
+      "stderr": "lifecycle_runner_tests.stderr.log"
+    },
+    {
+      "name": "archive_tests",
+      "command": [
+        "/usr/sbin/python3",
+        "-I",
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-publication-20261106/checks/archive_tests.py"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1",
+      "started": "2026-11-06T02:17:08.491257+00:00",
+      "finished": "2026-11-06T02:17:08.553729+00:00",
+      "returncode": 0,
+      "stdout": "archive_tests.stdout.log",
+      "stderr": "archive_tests.stderr.log"
+    },
+    {
+      "name": "watch_inputs_tests",
+      "command": [
+        "/usr/sbin/python3",
+        "-I",
+        "/home/ray/developer/ai/saccade_v1/build/hr-sanitizer-publication-20261106/checks/watch_inputs_tests.py"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1",
+      "started": "2026-11-06T02:17:08.491570+00:00",
+      "finished": "2026-11-06T02:17:09.351656+00:00",
+      "returncode": 0,
+      "stdout": "watch_inputs_tests.stdout.log",
+      "stderr": "watch_inputs_tests.stderr.log"
+    }
+  ],
+  "frozen_artifact_checks": [
+    {
+      "directory": "evidence/hr-sanitizer/2026-11-05-a00ab3a",
+      "artifacts_verified": 62
+    },
+    {
+      "directory": "evidence/hr-sanitizer-memory/2026-11-05",
+      "artifacts_verified": 130
+    },
+    {
+      "directory": "evidence/hr-sanitizer/2026-11-06-bounded-queue",
+      "artifacts_verified": 58
+    }
+  ],
+  "frozen_artifacts_verified": 250,
+  "gpu_work": false,
+  "frozen_evidence_modified": false,
+  "status": "PASS"
+}

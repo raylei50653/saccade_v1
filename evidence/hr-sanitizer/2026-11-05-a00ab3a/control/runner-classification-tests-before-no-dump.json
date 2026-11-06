@@ -1,0 +1,503 @@
+{
+  "schema": "hr-sanitizer-classifier-tests/1",
+  "time": "2026-11-05T13:45:09.204428+00:00",
+  "runner": "/home/ray/developer/ai/saccade_v1/scripts/run_hr_sanitizer_validation.py",
+  "runner_sha256": "1beece49e4224c1b8cc52a6ba75f22d8ca0fe10ecf58f7cf0562dc72a54f198d",
+  "scope": "No GPU execution; pure sanitizer-log/resource classifier cases plus ABI extraction.",
+  "cases": [
+    {
+      "name": "racecheck-clean-inventory",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n"
+    },
+    {
+      "name": "racecheck-internal",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Internal Racecheck Error: test\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n"
+    },
+    {
+      "name": "racecheck-unknown-diagnostic",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Unexpected diagnostic\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n"
+    },
+    {
+      "name": "racecheck-filtered-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1 (filtered: yes)\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n"
+    },
+    {
+      "name": "racecheck-missing-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n"
+    },
+    {
+      "name": "racecheck-duplicate-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)\n"
+    },
+    {
+      "name": "racecheck-archived-positive-summary",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "source": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/control-racecheck.log",
+        "sha256": "c2514f33c2381930f2222f829e434439f4f0487adb67991c976f1fa26cc1f70b"
+      }
+    },
+    {
+      "name": "racecheck-missing-positive-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": ""
+    },
+    {
+      "name": "synccheck-clean-inventory",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "synccheck-internal",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Internal Synccheck Error: test\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "synccheck-unknown-diagnostic",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Unexpected diagnostic\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "synccheck-filtered-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1 (filtered: yes)\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "synccheck-missing-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "synccheck-duplicate-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "synccheck-archived-positive-summary",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "source": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/control-synccheck.log",
+        "sha256": "96252022e73c798fe58bdba404c2faac1cb80f39925a145d0b46bb5743cb68f8"
+      }
+    },
+    {
+      "name": "synccheck-missing-positive-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": ""
+    },
+    {
+      "name": "memcheck-clean-inventory",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "memcheck-internal",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Internal Memcheck Error: test\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "memcheck-unknown-diagnostic",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Unexpected diagnostic\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "memcheck-filtered-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1 (filtered: yes)\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "memcheck-missing-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "memcheck-duplicate-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "memcheck-archived-positive-summary",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "source": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/control-memcheck.log",
+        "sha256": "3c408709fe0cbb0befa28b4f64ac0ba7cc6709f0dfafd66db591889d861cd441"
+      }
+    },
+    {
+      "name": "memcheck-missing-positive-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": ""
+    },
+    {
+      "name": "initcheck-clean-inventory",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "initcheck-internal",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Internal Initcheck Error: test\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "initcheck-unknown-diagnostic",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= Unexpected diagnostic\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "initcheck-filtered-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1 (filtered: yes)\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "initcheck-missing-launch",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "initcheck-duplicate-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "========= COMPUTE-SANITIZER\n========= Launch #1\n=========   Kernel: okay(float*)\n=========   Grid:   (1,1,1)\n=========   Block:  (1,1,1)\n=========   Stream: 0x1\n========= ERROR SUMMARY: 0 errors\n========= ERROR SUMMARY: 0 errors\n"
+    },
+    {
+      "name": "initcheck-archived-positive-summary",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "source": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/control-initcheck.log",
+        "sha256": "2ef46642ba696681f33ea9ad27fb58dfc2024b4c24b00f45199e492678266fd1"
+      }
+    },
+    {
+      "name": "initcheck-missing-positive-summary",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": ""
+    },
+    {
+      "name": "sampled-oom",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0
+        },
+        "sampled_memory_events": {
+          "oom": "1"
+        }
+      }
+    },
+    {
+      "name": "target-final-oom",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0,
+          "memory.events": "oom 1"
+        },
+        "sampled_memory_events": {}
+      }
+    },
+    {
+      "name": "target-final-local-oom",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0,
+          "memory.events.local": "oom 1"
+        },
+        "sampled_memory_events": {}
+      }
+    },
+    {
+      "name": "sampled-oom_kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0
+        },
+        "sampled_memory_events": {
+          "oom_kill": "1"
+        }
+      }
+    },
+    {
+      "name": "target-final-oom_kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0,
+          "memory.events": "oom_kill 1"
+        },
+        "sampled_memory_events": {}
+      }
+    },
+    {
+      "name": "target-final-local-oom_kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0,
+          "memory.events.local": "oom_kill 1"
+        },
+        "sampled_memory_events": {}
+      }
+    },
+    {
+      "name": "sampled-oom_group_kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0
+        },
+        "sampled_memory_events": {
+          "oom_group_kill": "1"
+        }
+      }
+    },
+    {
+      "name": "target-final-oom_group_kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0,
+          "memory.events": "oom_group_kill 1"
+        },
+        "sampled_memory_events": {}
+      }
+    },
+    {
+      "name": "target-final-local-oom_group_kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 0,
+          "memory.events.local": "oom_group_kill 1"
+        },
+        "sampled_memory_events": {}
+      }
+    },
+    {
+      "name": "systemd-result-oom-kill",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "sampled_systemd_results": [
+          "oom-kill"
+        ]
+      }
+    },
+    {
+      "name": "systemd-result-timeout",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "sampled_systemd_results": [
+          "timeout"
+        ]
+      }
+    },
+    {
+      "name": "systemd-result-resources",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "sampled_systemd_results": [
+          "resources"
+        ]
+      }
+    },
+    {
+      "name": "wrapper-exit-124",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 124
+      }
+    },
+    {
+      "name": "wrapper-exit-137",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 137
+      }
+    },
+    {
+      "name": "wrapper-exit--9",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": -9
+      }
+    },
+    {
+      "name": "target-exit-124",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 124
+        }
+      }
+    },
+    {
+      "name": "target-exit-137",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": 137
+        }
+      }
+    },
+    {
+      "name": "target-exit--9",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "target": {
+          "returncode": -9
+        }
+      }
+    },
+    {
+      "name": "outer-timeout",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "returncode": 0,
+        "outer_timeout": true
+      }
+    },
+    {
+      "name": "resource-clean",
+      "expected": false,
+      "result": false,
+      "passed": true,
+      "input": "all exit and OOM counters zero"
+    },
+    {
+      "name": "packet-abi-size",
+      "expected": true,
+      "result": true,
+      "passed": true,
+      "input": {
+        "packet_capacity": 256,
+        "packet_header_bytes": 80,
+        "packet_row_bytes": 48
+      }
+    }
+  ],
+  "passed": true,
+  "count": 53
+}

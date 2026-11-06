@@ -5,12 +5,14 @@
 
 #include <algorithm>
 #include <bit>
+#include <charconv>
 #include <cstring>
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <string_view>
 #include <vector>
 
 namespace saccade {
@@ -99,10 +101,14 @@ void diagnose(const std::string& engine, const std::filesystem::path& sequence, 
     field(a.tx, b.tx, "tx"); field(a.ty, b.ty, "ty");
 }
 void sequence_test(const std::string& engine, const std::filesystem::path& sequence,
-                   const DetectionRecords& detections, const MotionRecords& motion, std::size_t count) {
+                   const DetectionRecords& detections, const MotionRecords& motion, std::size_t count,
+                   ModelProfile profile) {
     TrackingSessionConfig cfg;
+    cfg.profile = profile;
     cfg.epoch = detections.epoch;
     cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
+    cfg.preprocess.max_width = std::max(cfg.preprocess.max_width, cfg.original_width);
+    cfg.preprocess.max_height = std::max(cfg.preprocess.max_height, cfg.original_height);
     cfg.mode = TrackingSessionMode::Serial;
     cfg.cuda_graph = false;
     Stream expected;
@@ -146,9 +152,12 @@ void sequence_test(const std::string& engine, const std::filesystem::path& seque
               << " CPU/ordinary serial/graph pipelined packet bytes identical; graph ring controls=" << prefix_count << " frames\n";
 }
 void lifecycle_test(const std::string& engine, const std::filesystem::path& sequence,
-                    const DetectionRecords& detections, const MotionRecords& motion) {
+                    const DetectionRecords& detections, const MotionRecords& motion, ModelProfile profile) {
     TrackingSessionConfig cfg;
+    cfg.profile = profile;
     cfg.epoch = detections.epoch; cfg.original_width = motion.key.original_width; cfg.original_height = motion.key.original_height;
+    cfg.preprocess.max_width = std::max(cfg.preprocess.max_width, cfg.original_width);
+    cfg.preprocess.max_height = std::max(cfg.preprocess.max_height, cfg.original_height);
     cfg.motion_slots = 1; cfg.candidate_slots = 1;
     Stream previous;
     // Perturbation intentionally exercises the ordinary boundary schedule.
@@ -240,17 +249,36 @@ void lifecycle_test(const std::string& engine, const std::filesystem::path& sequ
 }
 int main(int argc, char** argv) {
     try {
-        if (argc != 5 && argc != 6 && argc != 7) throw std::invalid_argument("usage: tracking_session_tests ENGINE SEQUENCES RECORDS SEQUENCE [--limit N|--lifecycle]");
+        if (argc < 5) throw std::invalid_argument("usage: tracking_session_tests ENGINE SEQUENCES RECORDS SEQUENCE [--profile NAME] [--limit N|--lifecycle]");
+        ModelProfile profile = kDefaultModelProfile;
+        bool profile_seen = false, limit_seen = false, lifecycle = false;
+        std::size_t limit = 0;
+        for (int i = 5; i < argc; ++i) {
+            const std::string_view arg = argv[i];
+            if (arg == "--profile" && !profile_seen && i + 1 < argc) {
+                profile = parse_model_profile(argv[++i]);
+                profile_seen = true;
+            } else if (arg == "--limit" && !limit_seen && !lifecycle && i + 1 < argc) {
+                const std::string_view value = argv[++i];
+                const auto [end, error] = std::from_chars(value.data(), value.data() + value.size(), limit);
+                if (error != std::errc{} || end != value.data() + value.size() || limit == 0)
+                    throw std::invalid_argument("--limit requires a positive integer");
+                limit_seen = true;
+            } else if (arg == "--lifecycle" && !lifecycle && !limit_seen) lifecycle = true;
+            else throw std::invalid_argument("unknown, duplicate, conflicting, or incomplete option: " + std::string(arg));
+        }
         context = argv[4];
         const std::filesystem::path records = argv[3], sequence = std::filesystem::path(argv[2]) / argv[4];
         const auto detections = read_detection_records(records / (context + ".scdr"));
         const auto motion = read_motion_records(records / (context + ".scmo"));
         check(detections.frames.size() == motion.frames.size(), "record frame counts");
-        if (argc == 6 && std::string(argv[5]) == "--lifecycle") lifecycle_test(argv[1], sequence, detections, motion);
+        std::cout << "tracking_session_tests profile=" << model_profile(profile).name
+                  << " mode=" << (lifecycle ? "lifecycle" : "sequence") << '\n' << std::flush;
+        if (lifecycle) lifecycle_test(argv[1], sequence, detections, motion, profile);
         else {
             std::size_t count = detections.frames.size();
-            if (argc == 7 && std::string(argv[5]) == "--limit") count = std::min(count, static_cast<std::size_t>(std::stoull(argv[6])));
-            sequence_test(argv[1], sequence, detections, motion, count);
+            if (limit_seen) count = std::min(count, limit);
+            sequence_test(argv[1], sequence, detections, motion, count, profile);
         }
         std::cout << "tracking_session_tests: " << checks << " checks passed\n";
         return 0;

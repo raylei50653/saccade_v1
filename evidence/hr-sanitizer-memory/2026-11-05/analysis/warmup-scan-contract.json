@@ -1,0 +1,487 @@
+{
+  "source": "deployed engine build report plus exact warmup inventory and current source API",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "engine_report_sha256": "3bcedce374f7dcb212960a1eb62ec8ecee844c8b4bdbebf07314317df6e0a18d",
+  "scan_shapes": {
+    "p5": {
+      "batch": 4,
+      "length": 60,
+      "channels": 256,
+      "state": 16,
+      "a_rows": 1,
+      "c_width": 1,
+      "has_d": true
+    },
+    "p4": {
+      "batch": 4,
+      "length": 240,
+      "channels": 256,
+      "state": 16,
+      "a_rows": 1,
+      "c_width": 1,
+      "has_d": true
+    },
+    "p3": {
+      "batch": 4,
+      "length": 960,
+      "channels": 256,
+      "state": 16,
+      "a_rows": 1,
+      "c_width": 1,
+      "has_d": true
+    }
+  },
+  "execution_order": [
+    "p5",
+    "p4",
+    "p3"
+  ],
+  "scan_core_launches": [
+    237,
+    259,
+    283
+  ],
+  "shape_evidence": "model-hr-fp16.build.txt scan custom_layer inputs U/delta,B,C; src/head_trt_network.cpp A=(1,16),D=(256); constants kHeadDInner256,kHeadDState16,kHeadCRank1; launch formula scan_kernel<true,true>",
+  "warmup_scan_family_counts": {
+    "check_finite": 9,
+    "expand_kernel": 3,
+    "finalize": 9,
+    "scan_kernel": 3,
+    "merge_kernel": 3
+  },
+  "warmup_scan_launches": [
+    {
+      "launch": 149,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        480,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 122880
+    },
+    {
+      "launch": 150,
+      "family": "expand_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49813expand_kernelENS0_11CrossParamsEPKfPf",
+      "grid": [
+        1920,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 491520
+    },
+    {
+      "launch": 151,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        1920,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 491520
+    },
+    {
+      "launch": 182,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        120,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 30720
+    },
+    {
+      "launch": 183,
+      "family": "expand_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49813expand_kernelENS0_11CrossParamsEPKfPf",
+      "grid": [
+        480,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 122880
+    },
+    {
+      "launch": 184,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        480,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 122880
+    },
+    {
+      "launch": 222,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        30,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 7680
+    },
+    {
+      "launch": 223,
+      "family": "expand_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49813expand_kernelENS0_11CrossParamsEPKfPf",
+      "grid": [
+        120,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 30720
+    },
+    {
+      "launch": 224,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        120,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 30720
+    },
+    {
+      "launch": 236,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        240,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 61440
+    },
+    {
+      "launch": 237,
+      "family": "scan_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49811scan_kernelILb1ELb1EEEvNS0_10ScanParamsEPNS_10ScanStatusE",
+      "grid": [
+        128,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "threads": 16384
+    },
+    {
+      "launch": 238,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        240,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 61440
+    },
+    {
+      "launch": 242,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        120,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 30720
+    },
+    {
+      "launch": 243,
+      "family": "merge_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812merge_kernelENS0_11CrossParamsEPKfPf",
+      "grid": [
+        30,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 7680
+    },
+    {
+      "launch": 244,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        30,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 7680
+    },
+    {
+      "launch": 258,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        960,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 245760
+    },
+    {
+      "launch": 259,
+      "family": "scan_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49811scan_kernelILb1ELb1EEEvNS0_10ScanParamsEPNS_10ScanStatusE",
+      "grid": [
+        128,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "threads": 16384
+    },
+    {
+      "launch": 260,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        960,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 245760
+    },
+    {
+      "launch": 265,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        480,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 122880
+    },
+    {
+      "launch": 266,
+      "family": "merge_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812merge_kernelENS0_11CrossParamsEPKfPf",
+      "grid": [
+        120,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 30720
+    },
+    {
+      "launch": 267,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        120,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 30720
+    },
+    {
+      "launch": 282,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        3840,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 983040
+    },
+    {
+      "launch": 283,
+      "family": "scan_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49811scan_kernelILb1ELb1EEEvNS0_10ScanParamsEPNS_10ScanStatusE",
+      "grid": [
+        128,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "threads": 16384
+    },
+    {
+      "launch": 284,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        3840,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 983040
+    },
+    {
+      "launch": 289,
+      "family": "check_finite",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812check_finiteENS0_9CheckListEPNS_10ScanStatusE",
+      "grid": [
+        1920,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 491520
+    },
+    {
+      "launch": 290,
+      "family": "merge_kernel",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a49812merge_kernelENS0_11CrossParamsEPKfPf",
+      "grid": [
+        480,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 122880
+    },
+    {
+      "launch": 291,
+      "family": "finalize",
+      "mangled": "_ZN7saccade50_GLOBAL__N__fe6e8c6a_17_selective_scan_cu_5547a4988finalizeEPfyPNS_10ScanStatusE",
+      "grid": [
+        480,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "threads": 122880
+    }
+  ],
+  "probe_scope": "Only selective_scan_cuda API on shape-identical all-zero inputs; not actual engine intermediate input bytes. No TensorRT, JPEG, tracker; analytical expected output exact+0 and flags0/doneSCAN. Optional sync each vs end is an explicit diagnostic scheduling variant."
+}

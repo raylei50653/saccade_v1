@@ -160,7 +160,7 @@ class Capture:
         # Record toolchain/SDK, NVOF, T01 test corpus and test engines, too.
         for p in [Path('/opt/cuda/bin/nvcc'),Path('/opt/cuda/bin/compute-sanitizer'),
                   Path('/usr/lib/wsl/lib/libnvidia-opticalflow.so.1'),
-                  SDK/'include/NvInferVersion.h', SDK/'lib/libnvinfer.so',
+                  SDK/'usr/include/x86_64-linux-gnu/NvInferVersion.h', SDK/'usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1',
                   Path('/home/ray/developer/ai/saccade_v1/build/t01-f03-evidence/stage/model.engine')]:
             self.track_input(p)
         for d in [WORKTREES/'m1-data-v2', Path('/home/ray/developer/ai/saccade_v1/build/preprocess-evidence/refs')]:

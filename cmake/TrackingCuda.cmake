@@ -7,8 +7,13 @@ set_target_properties(saccade_tracking_cuda PROPERTIES CUDA_STANDARD 20 CUDA_STA
 target_link_libraries(saccade_tracking_cuda PUBLIC saccade_tracking_core CUDA::cudart)
 target_compile_options(saccade_tracking_cuda PRIVATE
   --ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo -Xcompiler=-ffp-contract=off)
+add_library(saccade_tracking_nsa_test_math tests/tracking_nsa_cuda.cu)
+set_target_properties(saccade_tracking_nsa_test_math PROPERTIES CUDA_STANDARD 20 CUDA_STANDARD_REQUIRED ON)
+target_link_libraries(saccade_tracking_nsa_test_math PRIVATE saccade_tracking_core CUDA::cudart)
+target_compile_options(saccade_tracking_nsa_test_math PRIVATE
+  --ftz=false --prec-div=true --prec-sqrt=true --fmad=false -lineinfo -Xcompiler=-ffp-contract=off)
 add_executable(tracking_cuda_tests tests/tracking_cuda_tests.cpp)
-target_link_libraries(tracking_cuda_tests PRIVATE saccade_tracking_cuda saccade_tracking_reference saccade_mot_output saccade_motion)
+target_link_libraries(tracking_cuda_tests PRIVATE saccade_tracking_cuda saccade_tracking_reference saccade_mot_output saccade_motion saccade_resolved_config saccade_file_io saccade_tracking_nsa_test_math)
 add_executable(tracking_batch_benchmark tools/tracking_batch_benchmark.cpp)
 target_link_libraries(tracking_batch_benchmark PRIVATE saccade_tracking_cuda saccade_tracking_reference saccade_mot_output saccade_motion saccade_file_io saccade_sha256)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")

@@ -1,6 +1,10 @@
 #include "saccade/tracking_cuda.hpp"
 #include "saccade/tracking_math.hpp"
 #include "saccade/mot_output.hpp"
+#include "saccade/config_cli.hpp"
+#include "nsa_v2_cases.hpp"
+#include <fstream>
+#include <sstream>
 #include <cuda_runtime.h>
 
 #include <algorithm>
@@ -16,11 +20,14 @@
 #include <string>
 #include <vector>
 
+cudaError_t launch_nsa_v2_test(const float*, float*, unsigned, float, cudaStream_t);
+
 namespace {
 using namespace saccade;
 namespace math = tracking_math;
 std::uint64_t checks = 0;
 std::string context;
+TrackerConfig suite_config;
 void check(bool ok, const char* message) {
     ++checks;
     if (!ok) throw std::runtime_error(context + ": " + message);
@@ -37,6 +44,7 @@ void same(float a, float b, const char* field) {
 }
 void compare(const Track& a, const Track& b) {
     check(a.uid == b.uid && a.output_id == b.output_id && a.lifecycle == b.lifecycle, "track identity/lifecycle");
+    for (unsigned i = 0; i < 4; ++i) same(a.measurement_xyxy[i], b.measurement_xyxy[i], "measurement_xyxy");
     for (unsigned i = 0; i < 8; ++i) same(a.x[i], b.x[i], "track.x");
     for (unsigned i = 0; i < 64; ++i) same(a.P[i], b.P[i], "track.P");
     check(a.age == b.age && a.hit_streak == b.hit_streak && a.class_id == b.class_id &&
@@ -133,7 +141,7 @@ struct Harness {
         cudaStreamDestroy(stream);
     }
     void wait() { ck(cudaStreamSynchronize(stream), "wait tracker"); }
-    void reset(const TrackState& s, const TrackerConfig& c = {}) {
+    void reset(const TrackState& s, const TrackerConfig& c = suite_config) {
         *state.host = to_device(s); *config.host = c; state.upload(stream); config.upload(stream); wait();
     }
     UpdateResult step(const TrackState& cpu, const DetectionCandidates& d, const MotionContext& m, FrameId k, bool time = false) {
@@ -162,14 +170,14 @@ struct Harness {
         }
         return u;
     }
-    UpdateResult update(const PredictedState& p, const DetectionBatch& b, const MotionContext& m, const TrackerConfig& c = {}) {
+    UpdateResult update(const PredictedState& p, const DetectionBatch& b, const MotionContext& m, const TrackerConfig& c = suite_config) {
         *predicted.host = to_device(p); *batch.host = to_device(b); *motion.host = to_device(m); *config.host = c;
         predicted.upload(stream); batch.upload(stream); motion.upload(stream); config.upload(stream);
         enqueue_associate_and_update(predicted.device, batch.device, motion.device, config.device, next.device, rows.device, scratch.device, stream);
         next.download(stream); rows.download(stream); wait();
         auto u = associate_and_update(p, b, m, c); compare(to_host(*next.host, *rows.host), u); return u;
     }
-    DetectionBatch assemble(const DetectionCandidates& d, const PredictedState& p, const TrackerConfig& c = {}) {
+    DetectionBatch assemble(const DetectionCandidates& d, const PredictedState& p, const TrackerConfig& c = suite_config) {
         *candidates.host = d; *predicted.host = to_device(p); *config.host = c;
         candidates.upload(stream); predicted.upload(stream); config.upload(stream);
         enqueue_assemble_detection_batch(candidates.device, predicted.device, config.device, batch.device, scratch.device, stream);
@@ -238,7 +246,7 @@ void sequences(Harness& h) {
     check(state.tracks.size() == 3 && state.tracks.back().uid == 4 && state.tracks.back().output_id == 2, "bridge not exercised");
     std::mt19937 rng(0x5accadeu);
     for (unsigned run = 0; run < 3; ++run) {
-        TrackerConfig c; c.assoc.top_k = run == 0 ? 1 : run == 1 ? 3 : 8;
+        TrackerConfig c = suite_config; c.assoc.top_k = run == 0 ? 1 : run == 1 ? 3 : 8;
         state = initial_track_state(epoch); h.reset(state, c);
         float camera_x = 0, camera_y = 0;
         for (int k = 0; k < 96; ++k) {
@@ -261,7 +269,7 @@ void sequences(Harness& h) {
     }
 }
 void capacity_tests(Harness& h) {
-    TrackerConfig c; c.life.confirm_streak = 1;
+    TrackerConfig c = suite_config; c.life.confirm_streak = 1;
     for (unsigned n : {511u, 512u}) {
         std::vector<Track> tracks;
         for (unsigned i = 1; i <= n; ++i) tracks.push_back(track(i, -100));
@@ -327,7 +335,7 @@ void sorting_tests(Harness& h) {
             check(all_kept.rows[i].candidate_id == sorted_ids[i], "unsigned full-width candidate order");
 
         auto prior = predicted(0); prior.priors = {{1, {0, 0, 10, 20}, 0}};
-        TrackerConfig c; c.continuation.dedup_iou = 1;
+        TrackerConfig c = suite_config; c.continuation.dedup_iou = 1;
         for (unsigned cap : {count, count / 2}) {
             context = "F04b suppressed sorting count " + std::to_string(count) + " cap " + std::to_string(cap);
             c.continuation.max_candidates = cap;
@@ -378,7 +386,7 @@ void sorting_tests(Harness& h) {
             else if ((sorted_pool[i].flags & kDetectionSuppressed) && i <= inversion) ++continuation_cap;
         }
         auto prior = predicted(0); prior.priors = {{1, {0, 0, 10, 20}, 0}};
-        TrackerConfig c; c.continuation.prior_iou = 0; c.continuation.dedup_iou = 1;
+        TrackerConfig c = suite_config; c.continuation.prior_iou = 0; c.continuation.dedup_iou = 1;
         c.continuation.max_candidates = continuation_cap;
         context = "sorted mixed flags count " + std::to_string(count);
         const auto sorted = h.assemble(candidates(0, sorted_pool), prior, c);
@@ -407,7 +415,7 @@ void sorting_tests(Harness& h) {
         candidate(7, 0, -std::numeric_limits<float>::denorm_min(), kDetectionSuppressed)};
     std::shuffle(zeros.begin(), zeros.end(), rng);
     auto p = predicted(0); p.priors = {{1, {0, 0, 10, 20}, 0}};
-    TrackerConfig c; c.continuation.min_score = 0; c.continuation.dedup_iou = 1;
+    TrackerConfig c = suite_config; c.continuation.min_score = 0; c.continuation.dedup_iou = 1;
     for (unsigned cap : {1u, 2u, 3u, 4u, 5u, 7u}) {
         context = "suppressed signed zero sorting cap " + std::to_string(cap);
         c.continuation.max_candidates = cap;
@@ -495,7 +503,7 @@ void error_tests(Harness& h) {
 }
 void decision_tests(Harness& h) {
     for (unsigned top_k : {1u, 2u, 3u, 8u}) {
-        TrackerConfig c; c.assoc.top_k = top_k;
+        TrackerConfig c = suite_config; c.assoc.top_k = top_k;
         for (float score : {.8f, .45f, .28f, .1f, .05f, .049f}) {
             for (bool confirmed : {false, true}) {
                 context = "auction score/topK/UID ties";
@@ -514,7 +522,7 @@ void decision_tests(Harness& h) {
         for (auto& sample : lost.history) sample = {5, 10, 20};
         fresh.birth_frame = 7; fresh.last_observed_frame = 9; fresh.hit_streak = 3; fresh.score_sum = 2.4f; fresh.history_count = 3;
         for (auto& sample : fresh.history) sample = {5, 10, 20};
-        TrackerConfig c;
+        TrackerConfig c = suite_config;
         if (kind == 1) fresh.hit_streak = 2;
         if (kind == 2) fresh.birth_frame = 6;
         if (kind == 3) fresh.output_id = 99;
@@ -547,7 +555,7 @@ void decision_tests(Harness& h) {
     auto p = predicted(0); p.priors = {{1, {0, 0, 10, 20}, 0}};
     for (unsigned kind = 0; kind < 10; ++kind) {
         context = "continuation gates " + std::to_string(kind);
-        TrackerConfig c; c.continuation.prior_iou = .5f; c.continuation.dedup_iou = .5f;
+        TrackerConfig c = suite_config; c.continuation.prior_iou = .5f; c.continuation.dedup_iou = .5f;
         auto d = candidates(0, {candidate(8, 0, .9f, kDetectionSuppressed, 5), candidate(1, 0, .01f)});
         auto pp = p;
         if (kind == 1) c.continuation.prior_iou = std::nextafter(.5f, 1.f);
@@ -563,7 +571,7 @@ void decision_tests(Harness& h) {
         h.update(predicted(0), b, motion(0), c);
     }
     for (unsigned cap : {0u, 2u, 50u, 300u}) {
-        TrackerConfig c; c.continuation.max_candidates = cap; c.continuation.dedup_iou = 1;
+        TrackerConfig c = suite_config; c.continuation.max_candidates = cap; c.continuation.dedup_iou = 1;
         std::vector<DetectionCandidate> v;
         for (unsigned i = 0; i < 300; ++i) v.push_back(candidate(300 - i, 0, i % 2 ? .8f : .6f, kDetectionSuppressed));
         context = "continuation cap " + std::to_string(cap);
@@ -571,7 +579,7 @@ void decision_tests(Harness& h) {
         check(b.rows.size() == cap, "continuation cap not exercised");
     }
     for (unsigned cap : {0u, 1u, 2u}) {
-        TrackerConfig c; c.continuation.max_candidates = cap; c.continuation.dedup_iou = 1;
+        TrackerConfig c = suite_config; c.continuation.max_candidates = cap; c.continuation.dedup_iou = 1;
         const auto d = candidates(0, {candidate(1, 0, .9f, kDetectionSuppressed),
             candidate(2, 0, .8f, kDetectionSuppressed, 1e30f, 1e30f)});
         context = "deferred continuation NUMERIC cap " + std::to_string(cap);
@@ -586,6 +594,76 @@ void decision_tests(Harness& h) {
         check(b.error == (match ? Error::numeric : Error::none), "unvisited dedup must not propagate NUMERIC");
     }
 
+}
+void multiplier_tests(Harness& h) {
+    std::vector<float> input;
+    for (unsigned i = 0; i <= 1000000; ++i) input.push_back(static_cast<float>(i) / 1000000.0f);
+    for (const auto& pair : nsa_v2_cases) input.push_back(math::bits_float(pair[0]));
+    float *device_input = nullptr, *device_output = nullptr;
+    const auto bytes = input.size() * sizeof(float);
+    ck(cudaMalloc(&device_input, bytes), "multiplier input");
+    ck(cudaMalloc(&device_output, bytes), "multiplier output");
+    std::vector<float> output(input.size());
+    ck(cudaMemcpyAsync(device_input,input.data(),bytes,cudaMemcpyHostToDevice,h.stream), "multiplier upload");
+    ck(launch_nsa_v2_test(device_input,device_output,input.size(),.9305f,h.stream), "multiplier launch");
+    ck(cudaMemcpyAsync(output.data(),device_output,bytes,cudaMemcpyDeviceToHost,h.stream), "multiplier readback");
+    h.wait();
+    ck(cudaFree(device_input), "free multiplier input"); ck(cudaFree(device_output), "free multiplier output");
+    for (std::size_t i=0;i<input.size();++i) same(output[i],math::nsa_v2_multiplier(input[i],.9305f),"NSA multiplier");
+    for (std::size_t i=0;i<nsa_v2_cases.size();++i)
+        check(math::float_bits(output[1000001+i]) == nsa_v2_cases[i][1], "NSA independent FP32 fixture");
+    std::cout << "NSA multipliers: 1000001 grid + " << nsa_v2_cases.size() << " boundary values, zero mismatches\n";
+}
+void nsa_rows(Harness& h) {
+    auto p = predicted(3,{track(1)}); auto d = detection(1,1,.8f); d.association_score = .2f;
+    auto c = suite_config;
+    c.rows.measurement_box = false;
+    const auto filtered = h.update(p,batch(3,{d}),p.motion,c);
+    c.rows.measurement_box = true;
+    const auto measured = h.update(p,batch(3,{d}),p.motion,c);
+    compare(filtered.next,measured.next);
+    check(measured.rows[0].xyxy == d.xyxy && filtered.rows[0].xyxy != d.xyxy, "measurement row switch");
+    c.kalman.nsa_enabled = true; c.kalman.r_scale = std::numeric_limits<float>::max();
+    check(h.update(p,batch(3,{d}),p.motion,c).error == Error::numeric,"nonfinite effective noise NUMERIC parity");
+    c.kalman.r_scale = 3.5f;
+    c.life.confirm_streak = 1;
+    d.can_birth = true;
+    const auto born = h.update(predicted(0),batch(0,{d}),motion(0),c);
+    check(born.next.tracks[0].measurement_xyxy == d.xyxy && born.rows[0].xyxy == d.xyxy,"birth measurement row");
+}
+void replay(Harness& h, const std::string& id, const std::filesystem::path& detection_path,
+            const std::filesystem::path& motion_path, std::size_t max_frames) {
+    const auto detections = read_detection_records(detection_path);
+    const auto motions = read_motion_records(motion_path);
+    check(detections.epoch == motions.epoch && detections.frames.size() == motions.frames.size(), "record identity/count");
+    auto state = initial_track_state(detections.epoch); h.reset(state,suite_config);
+    const auto count = std::min(detections.frames.size(),max_frames);
+    for (std::size_t k=0;k<count;++k) {
+        context = id + " frame " + std::to_string(k);
+        auto u = h.step(state,detections.frames[k],motions.frames[k],k,id == "MOT17-04-SDP");
+        check(u.error == Error::none,"recorded frame failed"); state = std::move(u.next);
+    }
+    std::cout << id << ": " << count << " frames, zero mismatches\n";
+}
+void recorded_list(Harness& h, const std::filesystem::path& list, std::size_t max_frames) {
+    std::ifstream input(list); check(input.good(),"open record list");
+    std::string line; std::size_t count=0;
+    // Generated from the pinned selection.json: id<TAB>scdr<TAB>scmo.
+    while (std::getline(input,line)) {
+        std::istringstream row(line); std::string id,d,m,extra;
+        check(static_cast<bool>(std::getline(row,id,'\t')) && static_cast<bool>(std::getline(row,d,'\t')) &&
+              static_cast<bool>(std::getline(row,m,'\t')) && !std::getline(row,extra,'\t'),"record list fields");
+        replay(h,id,d,m,max_frames); ++count;
+    }
+    check(count != 0,"empty record list");
+    std::cout << "recorded list: " << count << " sequences, zero mismatches\n";
+}
+void timing(const Harness& h) {
+    if (!h.timed_frames) return;
+    std::cout << std::fixed << std::setprecision(6) << "MOT17-04-SDP mean GPU time/frame (" << h.timed_frames << " frames): "
+              << "F08a=" << h.times[0]*1000/h.timed_frames << " us, F04b=" << h.times[1]*1000/h.timed_frames
+              << " us, F07/F08b=" << h.times[2]*1000/h.timed_frames << " us, total="
+              << (h.times[0]+h.times[1]+h.times[2])*1000/h.timed_frames << " us\n";
 }
 void recorded(Harness& h, const std::filesystem::path& dir) {
     std::vector<std::filesystem::path> paths;
@@ -621,9 +699,28 @@ void recorded(Harness& h, const std::filesystem::path& dir) {
 } // namespace
 int main(int argc, char** argv) {
     try {
+        std::filesystem::path list,dir,config;
+        std::size_t max_frames = std::numeric_limits<std::size_t>::max();
+        bool records_only = false;
+        for (int i=1;i<argc;++i) {
+            const std::string flag = argv[i];
+            if (flag == "--records-only") { records_only = true; continue; }
+            if (!flag.starts_with("--")) { if (!dir.empty()) throw std::invalid_argument("duplicate records directory"); dir=flag; continue; }
+            if (++i == argc) throw std::invalid_argument("missing recorded option value");
+            if (flag == "--config") config=argv[i];
+            else if (flag == "--record-list") list=argv[i];
+            else if (flag == "--max-frames") max_frames=std::stoull(argv[i]);
+            else throw std::invalid_argument("unknown recorded option");
+        }
+        if (!config.empty()) suite_config=resolve_tracking_config(read_text_file(config)).tracker;
         Harness h;
-        stream_tests(h); sequences(h); capacity_tests(h); sorting_tests(h); error_tests(h); decision_tests(h);
-        if (argc > 1) recorded(h, argv[1]);
+        if (!records_only) {
+            stream_tests(h); sequences(h); capacity_tests(h); sorting_tests(h); error_tests(h); decision_tests(h);
+            nsa_rows(h); multiplier_tests(h);
+        }
+        if (!list.empty()) recorded_list(h,list,max_frames);
+        if (!dir.empty()) recorded(h,dir);
+        timing(h);
         std::cout << "tracking_cuda_tests: " << checks << " checks passed\n"; return 0;
     } catch (const std::exception& e) {
         std::cerr << "tracking_cuda_tests: " << e.what() << '\n'; return 1;

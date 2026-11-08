@@ -1,4 +1,5 @@
 #include "saccade/tracking.hpp"
+#include "nsa_v2_cases.hpp"
 #include "saccade/tracking_math.hpp"
 #include "saccade/sha256.hpp"
 
@@ -637,7 +638,7 @@ std::vector<float*> float_fields(TrackerConfig& c) {
         &c.assoc.high_thresh, &c.assoc.mid_thresh, &c.assoc.match_thresh, &c.assoc.stage2_match_thresh,
         &c.assoc.lambda, &c.assoc.stability_cost_w, &c.assoc.auction_eps, &c.assoc.stability_bid_w,
         &c.life.new_track_thresh, &c.life.confirm_score, &c.bridge.max_distance, &c.bridge.height_ratio_lo,
-        &c.bridge.height_ratio_hi, &c.bridge.margin, &c.bridge.speed_norm};
+        &c.bridge.height_ratio_hi, &c.bridge.margin, &c.bridge.speed_norm, &c.kalman.nsa_s0};
 }
 void rejected(const TrackerConfig& c, const std::string& message) {
     bool did_reject = false;
@@ -663,6 +664,10 @@ void config_tests() {
         [](auto& c) { c.assoc.mid_thresh = 0.6f; },
         [](auto& c) { c.assoc.lambda = 0; },
         [](auto& c) { c.kalman.r_scale = 0; },
+        [](auto& c) { c.kalman.nsa_s0 = 0; },
+        [](auto& c) { c.kalman.nsa_s0 = 1; },
+        [](auto& c) { c.kalman.nsa_s0 = -0.1f; },
+        [](auto& c) { c.kalman.nsa_s0 = 1.1f; },
         [](auto& c) { c.kalman.std_position = 0; },
         [](auto& c) { c.kalman.std_velocity = 0; },
         [](auto& c) { c.assoc.auction_eps = 0; },
@@ -690,6 +695,7 @@ void config_tests() {
     validate_tracker_config(edge); check(true, "config inclusive boundaries accepted");
     const std::string expected =
         "kalman.r_scale=0x1.cp+1\nkalman.std_position=0x1.99999ap-5\nkalman.std_velocity=0x1.99999ap-8\n"
+        "kalman.nsa_enabled=0\nkalman.nsa_s0=0x1.dc6a7ep-1\n"
         "batch.track_thresh=0x1.99999ap-5\ncontinuation.enabled=1\ncontinuation.min_score=0x1.99999ap-4\n"
         "continuation.prior_iou=0x1.333334p-2\ncontinuation.dedup_iou=0x1.666666p-1\ncontinuation.max_candidates=50\n"
         "assoc.high_thresh=0x1.ccccccp-2\nassoc.mid_thresh=0x1.99999ap-4\nassoc.match_thresh=0x1p-1\n"
@@ -698,15 +704,65 @@ void config_tests() {
         "life.new_track_thresh=0x1.1eb852p-2\nlife.confirm_streak=3\nlife.confirm_score=0x1p-1\nlife.track_buffer=30\n"
         "bridge.enabled=1\nbridge.trigger_streak=4\nbridge.min_lost=2\nbridge.max_distance=0x1.99999ap-2\n"
         "bridge.height_ratio_lo=0x1.333334p-1\nbridge.height_ratio_hi=0x1.b33334p+0\nbridge.margin=0x1.99999ap-5\n"
-        "bridge.speed_norm=0x1.eb851ep-4\n";
+        "bridge.speed_norm=0x1.eb851ep-4\nrows.measurement_box=0\n";
     check(canonical_tracker_config({}) == expected, "canonical config exact text");
-    check(sha256_hex(canonical_tracker_config({})) == sha256_hex(expected), "stable config hash");
+    check(sha256_hex(canonical_tracker_config({})) == "d846e2a5b447ce2c92f7dfda77f7fd52e27ee950e4065f93d1d0b3f99c960d6f", "pinned default tracker config hash");
+    auto old_default = expected;
+    for (const auto& line : {"kalman.nsa_enabled=0\n", "kalman.nsa_s0=0x1.dc6a7ep-1\n", "rows.measurement_box=0\n"}) {
+        const auto at = old_default.find(line); old_default.erase(at,std::string(line).size());
+    }
+    check(sha256_hex(old_default) == "bc8ade7c5d05163aac7ac9659623f2371453c8c577d0e7da936fb8204c573f7f", "original default config receipt");
+    std::cout << "default tracker config sha256 old=" << sha256_hex(old_default)
+              << " new=" << sha256_hex(expected) << '\n';
     struct Comma : std::numpunct<char> { char do_decimal_point() const override { return ','; } };
     const auto previous = std::locale();
     std::locale::global(std::locale(previous, new Comma));
     const auto localized = canonical_tracker_config({});
     std::locale::global(previous);
     check(localized == expected, "canonical floats independent of locale");
+}
+
+void nsa_tests() {
+    for (const auto& pair : nsa_v2_cases)
+        check(math::float_bits(math::nsa_v2_multiplier(math::bits_float(pair[0]), .9305f)) == pair[1],
+              "NSA binary32 clamp fixture");
+    TrackerConfig c;
+    check(!c.kalman.nsa_enabled && !c.rows.measurement_box && c.kalman.nsa_s0 == .9305f, "NSA defaults off");
+    auto p = predicted(3, {track(1)});
+    auto d = detection(1, 1, .8f); d.association_score = .2f;
+    const auto stock = update(p, {d}, c);
+    auto x = p.tracks[0].x; auto P = p.tracks[0].P;
+    math::kalman_update(x.data(), P.data(), d.xyxy.data(), c.kalman.std_position, c.kalman.r_scale);
+    check(stock.error == Error::none && stock.next.tracks[0].x == x && stock.next.tracks[0].P == P,
+          "disabled update exactly preserves old Kalman arithmetic");
+    std::array<float,4> box; math::state_to_box(x.data(),box.data());
+    check(stock.rows[0].xyxy == box && box != d.xyxy, "disabled rows use old filtered state box");
+    check(stock.next.tracks[0].measurement_xyxy == d.xyxy, "update retains exact detection");
+    c.rows.measurement_box = true;
+    const auto measured = update(p, {d}, c);
+    check(measured.rows[0].xyxy == d.xyxy && measured.next.tracks[0].x == x && measured.next.tracks[0].P == P,
+          "measurement rows change only output coordinates");
+    c.kalman.nsa_enabled = true;
+    const auto nsa = update(p, {d}, c);
+    x = p.tracks[0].x; P = p.tracks[0].P;
+    math::kalman_update(x.data(),P.data(),d.xyxy.data(),c.kalman.std_position,
+                       c.kalman.r_scale * math::nsa_v2_multiplier(d.observed_score,c.kalman.nsa_s0));
+    check(nsa.next.tracks[0].x == x && nsa.next.tracks[0].P == P && x != stock.next.tracks[0].x,
+          "NSA uses observed score rather than association score");
+    d.can_birth = true;
+    const auto birth = update(predicted(0), {d}, c);
+    c.kalman.nsa_enabled = false;
+    const auto birth_stock = update(predicted(0), {d}, c);
+    check(birth.next.tracks[0].x == birth_stock.next.tracks[0].x &&
+          birth.next.tracks[0].P == birth_stock.next.tracks[0].P && birth.next.tracks[0].measurement_xyxy == d.xyxy,
+          "birth measurement stored; initialization independent of NSA");
+    c.kalman.nsa_enabled = true; c.kalman.r_scale = std::numeric_limits<float>::max();
+    check(update(p,{d},c).error == Error::numeric,"nonfinite effective noise follows NUMERIC policy");
+    c.kalman.r_scale = 3.5f;
+    auto f = bridge_fixture(); c.rows.measurement_box = true;
+    const auto bridged = update(f.p, f.rows, c);
+    check(bridged.next.tracks.size() == 1 && bridged.next.tracks[0].measurement_xyxy == f.rows[0].xyxy &&
+          bridged.rows[0].xyxy == f.rows[0].xyxy, "bridge receiver keeps its measurement");
 }
 
 void sequence_tests() {
@@ -793,6 +849,7 @@ int main() {
         bridge_tests();
         capacity_protocol_tests();
         config_tests();
+        nsa_tests();
         sequence_tests();
         std::cout << "tracking_reference_tests: " << checks << " checks passed\n";
         return 0;

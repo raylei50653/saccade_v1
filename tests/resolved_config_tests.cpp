@@ -50,6 +50,21 @@ void tests() {
               "schema publishes ownership, behavior, purpose, default and constraints");
         if (!f.environment.empty()) check(env_names.insert(f.environment).second, "environment names unambiguous");
     }
+    const auto nsa = resolve_tracking_config(file("tracker.kalman.nsa_enabled=true\ntracker.kalman.nsa_s0=0.9305\ntracker.rows.measurement_box=true\n"));
+    check(nsa.tracker.kalman.nsa_enabled && nsa.tracker.rows.measurement_box && nsa.tracker.kalman.nsa_s0 == .9305f,
+          "NSA fields parsed");
+    check(canonical_resolved_config(resolve_tracking_config(canonical_resolved_config(nsa))) == canonical_resolved_config(nsa), "NSA canonical roundtrip");
+    check(resolved_config_hash(nsa) != resolved_config_hash(defaults), "NSA behavior changes hash");
+    for (const auto& key : {"tracker.kalman.nsa_enabled", "tracker.rows.measurement_box"}) {
+        reject([&] { resolve_tracking_config(file(std::string(key)+"=1\n")); }, "NSA booleans strict");
+        const auto f = std::find_if(schema.begin(),schema.end(),[&](const auto& f) { return f.key == key; });
+        check(f != schema.end() && f->owner == "F08b" && f->behavior == (std::string(key).ends_with("measurement_box") ? "B09" : "B08"), "NSA owner/behavior");
+    }
+    for (const auto& value : {"0", "1", "-0.1", "1.1", "nan", "inf"})
+        reject([&] { resolve_tracking_config(file(std::string("tracker.kalman.nsa_s0=")+value+"\n")); }, "NSA s0 open interval even when disabled");
+    const auto env_nsa = resolve_tracking_config({}, {{"SACCADE_CFG_TRACKER_KALMAN_NSA_ENABLED","true"},
+        {"SACCADE_CFG_TRACKER_ROWS_MEASUREMENT_BOX","true"}}, {{"tracker.kalman.nsa_s0","0.9"}});
+    check(env_nsa.tracker.kalman.nsa_enabled && env_nsa.tracker.rows.measurement_box && env_nsa.tracker.kalman.nsa_s0 == .9f, "NSA environment and CLI");
     const auto source = resolve_tracking_config(
         file(" tracker.bridge.enabled = false \n tracker.life.confirm_streak=5\n"),
         {{"SACCADE_CFG_TRACKER_BRIDGE_ENABLED", "true"}, {"SACCADE_CFG_TRACKER_LIFE_CONFIRM_STREAK", "6"}},

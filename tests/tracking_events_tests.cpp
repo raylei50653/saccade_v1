@@ -36,6 +36,7 @@ bool same_track(const Track& a,const Track& b) {
     for(std::size_t i=0;i<a.x.size();++i) if(!same_float(a.x[i],b.x[i])) return false;
     for(std::size_t i=0;i<a.P.size();++i) if(!same_float(a.P[i],b.P[i])) return false;
     for(std::size_t i=0;i<a.history.size();++i) if(!same_float(a.history[i].cx,b.history[i].cx)||!same_float(a.history[i].cy,b.history[i].cy)||!same_float(a.history[i].h,b.history[i].h)) return false;
+    for (unsigned i=0;i<4;++i) if (!same_float(a.measurement_xyxy[i],b.measurement_xyxy[i])) return false;
     return same_float(a.score_sum,b.score_sum)&&same_float(a.observed_score,b.observed_score)&&same_float(a.association_score,b.association_score)&&same_float(a.h_ema,b.h_ema);
 }
 void same_state(const TrackState& a,const TrackState& b) {
@@ -177,6 +178,19 @@ void packet_binding_tests() {
     events=run.recorder.events; events.back().error=Error::compute;
     check(!validate_tracking_event_packets(events,run.packets).valid,"event sticky failure mismatch rejected by packet binding");
 }
+void nsa_event_tests() {
+    TrackerConfig c; c.kalman.nsa_enabled=true; c.rows.measurement_box=true;
+    Run run(c);
+    for (FrameId f=0;f<6;++f) run.step(candidates(f,{candidate(5,static_cast<float>(f)*.3f)}),motion(f));
+    run.valid();
+    const auto bytes=encode_tracking_events(run.recorder.events);
+    const auto decoded=decode_tracking_events(bytes);
+    check(compare_tracking_events(run.recorder.events,decoded).equal,"NSA measurement event codec roundtrip");
+    check(validate_tracking_events(decoded,c).valid,"NSA decoded transitions validate");
+    mutation_rejected(decoded,c,[](auto& e){ e[index_of(e,TrackingEventKind::associate)].after.measurement_xyxy[0]+=1; },"measurement mutation rejected");
+    auto changed=decoded; changed[index_of(changed,TrackingEventKind::birth)].after.measurement_xyxy[0]+=1;
+    check(!compare_tracking_events(decoded,changed).equal,"measurement included in event comparison");
+}
 void codec_tests() {
     const auto events=lifecycle_trace(); const auto bytes=encode_tracking_events(events); const auto decoded=decode_tracking_events(bytes);
     check(compare_tracking_events(events,decoded).equal,"stable codec round trip"); check(encode_tracking_events(decoded)==bytes,"canonical encoding round trip");
@@ -202,13 +216,13 @@ void codec_tests() {
     auto invalid_kind=bytes; invalid_kind[16+4+24]=255;
     rejected([&]{ (void)decode_tracking_events(invalid_kind); },"unknown wire kind rejected");
     auto bad=bytes; bad.push_back(0); rejected([&]{ (void)decode_tracking_events(bad); },"trailing bytes rejected");
-    bad=bytes; bad[5]=2; rejected([&]{ (void)decode_tracking_events(bad); },"unknown schema rejected");
+    bad=bytes; bad[5]=3; rejected([&]{ (void)decode_tracking_events(bad); },"unknown schema rejected");
     changed=events; changed[i].after.history_count=5; rejected([&]{ (void)encode_tracking_events(changed); },"history overflow rejected");
     changed=events; changed[i].after.score_sum=std::numeric_limits<float>::infinity(); rejected([&]{ (void)encode_tracking_events(changed); },"nonfinite payload rejected");
     changed=events; changed[0].kind=static_cast<TrackingEventKind>(77); rejected([&]{ (void)encode_tracking_events(changed); },"unknown kind rejected");
 }
 } // namespace
 int main() {
-    try { model_tests(); bridge_tests(); failure_tests(); packet_binding_tests(); codec_tests(); std::cout<<checks<<" checks passed\n"; return 0; }
+    try { model_tests(); bridge_tests(); failure_tests(); packet_binding_tests(); nsa_event_tests(); codec_tests(); std::cout<<checks<<" checks passed\n"; return 0; }
     catch(const std::exception& e) { std::cerr<<"tracking events failure after "<<checks<<" checks: "<<e.what()<<'\n'; return 1; }
 }

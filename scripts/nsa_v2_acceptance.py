@@ -168,10 +168,11 @@ class Capture:
                 if p.is_file(): self.track_input(p)
         for p in sorted(Path('third_party').rglob('*')):
             if p.is_file() and 'NvOF' in p.name: self.track_input(p)
-        write_json(self.cap/'inputs.json',self.inputs)
         write_json(self.cap/'selection.json',selection)
         self.selection = selection
         self.make_lists(selection)
+        for p in (self.enabled,self.records,self.sanitizer_records,self.timing_records): self.track_input(p)
+        write_json(self.cap/'inputs.json',self.inputs)
 
     def make_lists(self, selection):
         self.enabled = self.out/'enabled.config'

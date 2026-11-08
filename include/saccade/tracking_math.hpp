@@ -30,6 +30,16 @@ SACCADE_HD inline float min(float a, float b) { return a < b ? a : b; }
 SACCADE_HD inline float max(float a, float b) { return a > b ? a : b; }
 SACCADE_HD inline float clamp(float x, float lo, float hi) { return min(max(x, lo), hi); }
 
+SACCADE_HD inline float nsa_v2_multiplier(float s, float s0) {
+    const float d = 1.0f - s;
+    const float e = 1.0f - s0;
+    const float q = d / e;
+    float m = q * q;
+    if (m < 1.0f) m = 1.0f;
+    if (m > 30.0f) m = 30.0f;
+    return m;
+}
+
 SACCADE_HD inline float det_expf(float x) {
     x = clamp(x, -87.0f, 88.0f);
     const float nf = floorf(x * 1.4426950408889634f + 0.5f);

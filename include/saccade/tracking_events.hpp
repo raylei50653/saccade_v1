@@ -10,7 +10,7 @@
 
 namespace saccade {
 
-inline constexpr const char* kTrackingEventsSchema = "tracking-events/1";
+inline constexpr const char* kTrackingEventsSchema = "tracking-events/2";
 inline constexpr std::uint32_t kNoEventCandidate = 0xffffffffU;
 
 enum class TrackingEventKind : std::uint32_t {

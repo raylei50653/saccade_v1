@@ -62,6 +62,7 @@ void encode_track(Bytes& out, const Track& t) {
         f32(out, t.history[i].cx); f32(out, t.history[i].cy); f32(out, t.history[i].h);
     }
     f32(out, t.h_ema);
+    for (float v : t.measurement_xyxy) f32(out, v);
 }
 Track decode_track(Reader& in) {
     Track t;
@@ -74,6 +75,7 @@ Track decode_track(Reader& in) {
     t.history_count = in.u32(); require(t.history_count <= kBridgeHistory, "invalid event history count");
     for (std::uint32_t i = 0; i < t.history_count; ++i) t.history[i] = {in.f32(), in.f32(), in.f32()};
     t.h_ema = in.f32();
+    for (auto& v : t.measurement_xyxy) v = in.f32();
     Bytes check; encode_track(check, t);
     return t;
 }
@@ -280,6 +282,7 @@ void validate_event(Session& s, const TrackingEvent& e, const TrackerConfig& c) 
         const bool range = stage == 1 ? score >= c.assoc.high_thresh : stage == 2 ? score >= c.assoc.mid_thresh && score < c.assoc.high_thresh : stage == 3 ? score >= c.assoc.mid_thresh : score >= c.batch.track_thresh && score < c.assoc.mid_thresh;
         require(range, "illegal association score stage");
         Track expected = e.before; expected.x = e.after.x; expected.P = e.after.P;
+        expected.measurement_xyxy = e.detection.xyxy;
         expected.age = 0; ++expected.hit_streak; expected.score_sum += e.detection.observed_score;
         expected.observed_score = e.detection.observed_score; expected.association_score = e.detection.association_score;
         expected.class_id = e.detection.class_id; expected.last_observed_frame = e.frame;
@@ -301,6 +304,7 @@ void validate_event(Session& s, const TrackingEvent& e, const TrackerConfig& c) 
                 require(false, "birth candidate order regressed");
         Track expected; expected.uid = expected.output_id = s.working_next_uid++;
         expected.x = e.after.x; expected.P = e.after.P; expected.hit_streak = 1;
+        expected.measurement_xyxy = e.detection.xyxy;
         expected.score_sum = expected.observed_score = e.detection.observed_score;
         expected.association_score = e.detection.association_score; expected.class_id = e.detection.class_id;
         expected.birth_frame = expected.last_observed_frame = e.frame; push_history(expected, e.detection);
@@ -355,7 +359,9 @@ void validate_event(Session& s, const TrackingEvent& e, const TrackerConfig& c) 
         require(e.row.uid > s.last_emit_uid && s.emitted.insert(e.row.uid).second, "emit order/identity duplicate");
         s.last_emit_uid = e.row.uid; const auto& t = it->second;
         TrackRow expected; expected.uid = t.uid; expected.output_id = t.output_id; expected.class_id = t.class_id; expected.flags = 1;
-        tracking_math::state_to_box(t.x.data(), expected.xyxy.data()); expected.observed_score = t.observed_score; expected.association_score = t.association_score;
+        if (c.rows.measurement_box) expected.xyxy = t.measurement_xyxy;
+        else tracking_math::state_to_box(t.x.data(), expected.xyxy.data());
+        expected.observed_score = t.observed_score; expected.association_score = t.association_score;
         require(same_row(expected, e.row), "emit row differs from committed decision"); break;
     }
     case TrackingEventKind::frame_commit: {
@@ -390,6 +396,7 @@ void track_fields(Fields& f, const std::string& p, const Track& t) {
     number(f,p+"birth_frame",static_cast<std::uint64_t>(t.birth_frame)); number(f,p+"last_observed_frame",static_cast<std::uint64_t>(t.last_observed_frame)); number(f,p+"history_count",t.history_count);
     for (std::uint32_t i=0;i<t.history_count;++i) { const auto h=p+"history["+std::to_string(i)+"]."; floating(f,h+"cx",t.history[i].cx); floating(f,h+"cy",t.history[i].cy); floating(f,h+"h",t.history[i].h); }
     floating(f,p+"h_ema",t.h_ema);
+    for (std::size_t i=0;i<4;++i) floating(f,p+"measurement_xyxy["+std::to_string(i)+"]",t.measurement_xyxy[i]);
 }
 void detection_fields(Fields& f, const BatchDetection& d) {
     for (std::size_t i=0;i<d.xyxy.size();++i) floating(f,"detection.xyxy["+std::to_string(i)+"]",d.xyxy[i]);
@@ -420,7 +427,7 @@ Fields fields(const TrackingEvent& e) {
 } // namespace
 
 std::vector<std::uint8_t> encode_tracking_events(std::span<const TrackingEvent> events) {
-    Bytes out{'S','C','E','V','T',1,0,0}; u64(out, events.size());
+    Bytes out{'S','C','E','V','T',2,0,0}; u64(out, events.size());
     for (const auto& e : events) {
         auto encoded = encode_event(e); require(encoded.size() <= std::numeric_limits<std::uint32_t>::max(), "oversized tracking event");
         u32(out, static_cast<std::uint32_t>(encoded.size())); out.insert(out.end(), encoded.begin(), encoded.end());
@@ -428,7 +435,7 @@ std::vector<std::uint8_t> encode_tracking_events(std::span<const TrackingEvent> 
     return out;
 }
 std::vector<TrackingEvent> decode_tracking_events(std::span<const std::uint8_t> bytes) {
-    Reader in{bytes}; const Bytes magic{'S','C','E','V','T',1,0,0};
+    Reader in{bytes}; const Bytes magic{'S','C','E','V','T',2,0,0};
     const auto header = in.take(magic.size()); require(std::equal(header.begin(), header.end(), magic.begin()), "unknown tracking-events schema");
     const auto count = in.u64(); require(count <= (bytes.size()-in.at)/40, "impossible event count");
     std::vector<TrackingEvent> events; events.reserve(static_cast<std::size_t>(count));

@@ -356,10 +356,14 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
             continue;
         }
         const auto& d = batch->rows[s->matched[i]];
-        math::kalman_update(t.x, t.P, d.xyxy, c.kalman.std_position, c.kalman.r_scale);
+        const float r_eff = c.kalman.nsa_enabled
+            ? c.kalman.r_scale * math::nsa_v2_multiplier(d.observed_score, c.kalman.nsa_s0)
+            : c.kalman.r_scale;
+        math::kalman_update(t.x, t.P, d.xyxy, c.kalman.std_position, r_eff);
         t.age = 0; ++t.hit_streak; t.score_sum += d.observed_score;
         t.observed_score = d.observed_score; t.association_score = d.association_score;
         t.class_id = d.class_id; t.last_observed_frame = predicted->frame;
+        for (unsigned j = 0; j < 4; ++j) t.measurement_xyxy[j] = d.xyxy[j];
         push_history(t, d.xyxy); t.h_ema = math::height_ema(t.h_ema, d.xyxy[3] - d.xyxy[1]);
         confirm(t, c);
         if (!finite_track(t)) numeric(s);
@@ -436,6 +440,7 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
         t.hit_streak = 1; t.score_sum = t.observed_score = d.observed_score;
         t.association_score = d.association_score; t.class_id = d.class_id;
         t.birth_frame = t.last_observed_frame = predicted->frame;
+        for (unsigned j = 0; j < 4; ++j) t.measurement_xyxy[j] = d.xyxy[j];
         push_history(t, d.xyxy); t.h_ema = d.xyxy[3] - d.xyxy[1]; confirm(t, c);
         if (!finite_track(t)) { out->error = Error::numeric; return; }
         next->tracks[next->count++] = t;
@@ -444,7 +449,10 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
         const auto& t = next->tracks[i];
         if (t.lifecycle != TrackLifecycle::confirmed || t.age != 0) continue;
         DeviceTrackRow row{}; row.uid = t.uid; row.output_id = t.output_id;
-        row.class_id = t.class_id; row.flags = 1; math::state_to_box(t.x, row.xyxy);
+        row.class_id = t.class_id; row.flags = 1;
+        if (c.rows.measurement_box) {
+            for (unsigned j = 0; j < 4; ++j) row.xyxy[j] = t.measurement_xyxy[j];
+        } else math::state_to_box(t.x, row.xyxy);
         row.observed_score = t.observed_score; row.association_score = t.association_score;
         if (!finite_box(row.xyxy)) { out->error = Error::numeric; out->count = 0; return; }
         // Keep checking boxes after capacity is reached: NUMERIC takes precedence.
@@ -494,6 +502,7 @@ DeviceTrack to_device(const Track& v) {
     out.last_observed_frame = v.last_observed_frame;
     out.history_count = v.history_count;
     out.h_ema = v.h_ema;
+    std::copy_n(std::begin(v.measurement_xyxy), 4, std::begin(out.measurement_xyxy));
     std::copy_n(std::begin(v.x), 8, std::begin(out.x));
     std::copy_n(std::begin(v.P), 64, std::begin(out.P));
     for (unsigned i = 0; i < kBridgeHistory; ++i) out.history[i] = {v.history[i].cx, v.history[i].cy, v.history[i].h};
@@ -515,6 +524,7 @@ Track to_host(const DeviceTrack& v) {
     out.last_observed_frame = v.last_observed_frame;
     out.history_count = v.history_count;
     out.h_ema = v.h_ema;
+    std::copy_n(std::begin(v.measurement_xyxy), 4, std::begin(out.measurement_xyxy));
     std::copy_n(std::begin(v.x), 8, std::begin(out.x));
     std::copy_n(std::begin(v.P), 64, std::begin(out.P));
     for (unsigned i = 0; i < kBridgeHistory; ++i) out.history[i] = {v.history[i].cx, v.history[i].cy, v.history[i].h};

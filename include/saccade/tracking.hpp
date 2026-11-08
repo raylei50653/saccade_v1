@@ -27,6 +27,8 @@ struct TrackerConfig {
         float r_scale = 3.5f;
         float std_position = 1.0f / 20.0f;
         float std_velocity = 1.0f / 160.0f;
+        bool nsa_enabled = false;
+        float nsa_s0 = 0.9305f;
     } kalman;
     struct Batch {
         float track_thresh = 0.05f;
@@ -55,9 +57,12 @@ struct TrackerConfig {
         float max_distance = 0.4f, height_ratio_lo = 0.6f, height_ratio_hi = 1.7f;
         float margin = 0.05f, speed_norm = 0.12f;
     } bridge;
+    struct Rows {
+        bool measurement_box = false;
+    } rows;
 };
 // invalid_argument on: any non-finite float; score/IoU/cost thresholds outside
-// [0,1]; not track_thresh <= mid_thresh <= high_thresh; lambda, r_scale,
+// [0,1]; nsa_s0 outside (0,1); not track_thresh <= mid_thresh <= high_thresh; lambda, r_scale,
 // std_*, eps or speed_norm <= 0; negative weights/margin/max_distance;
 // top_k outside [1,8];
 // confirm_streak or track_buffer < 1; trigger_streak < kBridgeHistory;
@@ -86,6 +91,7 @@ struct Track {
     std::array<BridgeSample, kBridgeHistory> history{}; // oldest first
     std::uint32_t history_count = 0;
     float h_ema = 0;
+    std::array<float, 4> measurement_xyxy{}; // last matched detection; never used in decisions
 };
 struct TrackState {
     Epoch epoch = 0;

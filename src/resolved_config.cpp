@@ -105,6 +105,8 @@ const std::vector<Binding>& bindings() {
         TRACK(kalman.r_scale, "F08a", "B07", "finite >0");
         TRACK(kalman.std_position, "F08a", "B07", "finite >0");
         TRACK(kalman.std_velocity, "F08a", "B07", "finite >0");
+        TRACK(kalman.nsa_enabled, "F08b", "B08", "boolean");
+        TRACK(kalman.nsa_s0, "F08b", "B08", "finite; 0<s0<1");
         TRACK(batch.track_thresh, "F04b", "B06", "[0,1]; <=assoc.mid_thresh<=assoc.high_thresh");
         TRACK(continuation.enabled, "F04b", "B06", "boolean");
         TRACK(continuation.min_score, "F04b", "B06", "[0,1]");
@@ -132,6 +134,7 @@ const std::vector<Binding>& bindings() {
         TRACK(bridge.height_ratio_hi, "F08b", "B08", "hi>lo>0");
         TRACK(bridge.margin, "F08b", "B08", "finite >=0");
         TRACK(bridge.speed_norm, "F08b", "B08", "finite >0");
+        TRACK(rows.measurement_box, "F08b", "B09", "boolean");
 #undef TRACK
         ADD("source.id", Behavior, "caller", "B01", "stable source identity", "uint64", source.id);
         ADD("source.epoch", Behavior, "caller", "B01", "state reset epoch", "uint64", source.epoch);

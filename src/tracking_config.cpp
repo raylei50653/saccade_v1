@@ -9,7 +9,7 @@
 namespace saccade {
 void validate_tracker_config(const TrackerConfig& c) {
     const float values[] = {
-        c.kalman.r_scale, c.kalman.std_position, c.kalman.std_velocity, c.batch.track_thresh,
+        c.kalman.nsa_s0, c.kalman.r_scale, c.kalman.std_position, c.kalman.std_velocity, c.batch.track_thresh,
         c.continuation.min_score, c.continuation.prior_iou, c.continuation.dedup_iou,
         c.assoc.high_thresh, c.assoc.mid_thresh, c.assoc.match_thresh, c.assoc.stage2_match_thresh,
         c.assoc.lambda, c.assoc.stability_cost_w, c.assoc.auction_eps, c.assoc.stability_bid_w,
@@ -17,6 +17,8 @@ void validate_tracker_config(const TrackerConfig& c) {
         c.bridge.height_ratio_hi, c.bridge.margin, c.bridge.speed_norm};
     for (float v : values)
         if (!std::isfinite(v)) throw std::invalid_argument("non-finite tracker config");
+    if (!(0 < c.kalman.nsa_s0 && c.kalman.nsa_s0 < 1))
+        throw std::invalid_argument("tracker nsa_s0 outside (0,1)");
     const float thresholds[] = {
         c.batch.track_thresh, c.continuation.min_score, c.continuation.prior_iou, c.continuation.dedup_iou,
         c.assoc.high_thresh, c.assoc.mid_thresh, c.assoc.match_thresh, c.assoc.stage2_match_thresh,
@@ -49,6 +51,8 @@ std::string canonical_tracker_config(const TrackerConfig& c) {
     FIELD(kalman.r_scale);
     FIELD(kalman.std_position);
     FIELD(kalman.std_velocity);
+    FIELD(kalman.nsa_enabled);
+    FIELD(kalman.nsa_s0);
     FIELD(batch.track_thresh);
     FIELD(continuation.enabled);
     FIELD(continuation.min_score);
@@ -76,6 +80,7 @@ std::string canonical_tracker_config(const TrackerConfig& c) {
     FIELD(bridge.height_ratio_hi);
     FIELD(bridge.margin);
     FIELD(bridge.speed_norm);
+    FIELD(rows.measurement_box);
 #undef FIELD
     return out.str();
 }

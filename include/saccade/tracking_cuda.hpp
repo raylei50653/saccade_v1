@@ -28,6 +28,7 @@ struct DeviceTrack {
     DeviceBridgeSample history[kBridgeHistory];
     std::uint32_t history_count;
     float h_ema;
+    float measurement_xyxy[4];
 };
 struct DeviceTrackState {
     Epoch epoch;
@@ -88,7 +89,7 @@ inline constexpr std::size_t kTrackingCudaScratchBytes = sizeof(TrackingCudaScra
 static_assert(std::is_trivial_v<DeviceTrack> && std::is_standard_layout_v<DeviceTrack>);
 static_assert(offsetof(DeviceTrack, reserved) == offsetof(DeviceTrack, association_score) + sizeof(float) &&
               offsetof(DeviceTrack, birth_frame) == offsetof(DeviceTrack, reserved) + sizeof(std::uint32_t));
-static_assert(sizeof(DeviceTrack) == 408);
+static_assert(sizeof(DeviceTrack) == 424);
 static_assert(std::is_trivial_v<DeviceTrackState> && std::is_trivial_v<DevicePredicted>);
 static_assert(std::is_trivial_v<DeviceBatch> && std::is_trivial_v<DeviceTrackingRows>);
 static_assert(std::is_trivial_v<TrackingCudaScratch>);

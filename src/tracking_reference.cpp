@@ -266,7 +266,10 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
             continue;
         }
         const auto& d = batch.rows[matched[i]];
-        math::kalman_update(t.x.data(), t.P.data(), d.xyxy.data(), c.kalman.std_position, c.kalman.r_scale);
+        const float r_eff = c.kalman.nsa_enabled
+            ? c.kalman.r_scale * math::nsa_v2_multiplier(d.observed_score, c.kalman.nsa_s0)
+            : c.kalman.r_scale;
+        math::kalman_update(t.x.data(), t.P.data(), d.xyxy.data(), c.kalman.std_position, r_eff);
         t.age = 0;
         ++t.hit_streak;
         t.score_sum += d.observed_score;
@@ -274,6 +277,7 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         t.association_score = d.association_score;
         t.class_id = d.class_id;
         t.last_observed_frame = predicted.frame;
+        t.measurement_xyxy = d.xyxy;
         push_history(t, d.xyxy);
         t.h_ema = math::height_ema(t.h_ema, d.xyxy[3] - d.xyxy[1]);
         confirm(t, c);
@@ -357,6 +361,7 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         t.association_score = d.association_score;
         t.class_id = d.class_id;
         t.birth_frame = t.last_observed_frame = predicted.frame;
+        t.measurement_xyxy = d.xyxy;
         push_history(t, d.xyxy);
         t.h_ema = d.xyxy[3] - d.xyxy[1];
         confirm(t, c);
@@ -379,7 +384,8 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         row.output_id = t.output_id;
         row.class_id = t.class_id;
         row.flags = 1;
-        math::state_to_box(t.x.data(), row.xyxy.data());
+        if (c.rows.measurement_box) row.xyxy = t.measurement_xyxy;
+        else math::state_to_box(t.x.data(), row.xyxy.data());
         row.observed_score = t.observed_score;
         row.association_score = t.association_score;
         if (!finite_box(row.xyxy)) { out.error = Error::numeric; out.rows.clear(); return out; }

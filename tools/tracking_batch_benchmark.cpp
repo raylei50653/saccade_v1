@@ -46,6 +46,7 @@ void track(Bytes& out, const Track& t) {
     real(out,t.observed_score); real(out,t.association_score); integer(out,t.birth_frame); integer(out,t.last_observed_frame);
     for (const auto& h : t.history) { real(out,h.cx); real(out,h.cy); real(out,h.h); }
     integer(out,t.history_count); real(out,t.h_ema);
+    for (float v : t.measurement_xyxy) real(out,v);
 }
 // Serialize every logical field, preserving float bits and excluding device
 // padding and unused capacity, which are not part of the tracker contract.

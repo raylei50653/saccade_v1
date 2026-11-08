@@ -669,6 +669,8 @@ baseline 654 幀完整 packet 與原 reference 相同、MOT 與 G1 baseline byte
 
 研究庫 `saccade_research` 的 `nsa-kalman-hr`（run `20261108-003`）與 `nsa-gmc-gate`（run `20261108-001`，merge `c387929`）在 80 序列 CPU replay 中，v2（s0 = 0.9305）加量測框的 G2 臂在四個判定組 HOTA／IDF1 都不下降：MOT17 held-out（02＋10）+1.03／+1.04、MOT20 +0.06／+0.61、PP22/moving +1.45／+1.65、PP22/static +2.26／+2.71；73/80 序列 HOTA 上升，高相機運動的 MOT17-13／10／05 仍下降，FP 增加。這是探索性重用資料的研究候選。
 
+版本決定（2026-11-08，實作前）：研究 `nsa-gmc-sigma` run `20261108-002`（merge `75daf30`）在 GMC 平移後把 G1 cells 的 1.4826·MAD 變異加進位置共變異。預登記的 κ = 1 對 baseline 通過，但對 G2 未達不降規則（MOT20 −0.019／−0.034、PP22/static −0.0004／−0.0003；收益集中於 MOT17-10），依事前規則正式化 G2，不含 Σ_gmc。
+
 本節只把它實作成可選設定並驗證 CPU reference、CUDA tracker 與 native session。**預設關閉**，部署預設與所有既有輸出不變；是否改成預設另由使用者決定。
 
 ### 22.2 設定（P08 schema 新欄位）

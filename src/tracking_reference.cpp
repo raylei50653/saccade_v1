@@ -269,6 +269,7 @@ UpdateResult associate_and_update(const PredictedState& predicted, const Detecti
         const float r_eff = c.kalman.nsa_enabled
             ? c.kalman.r_scale * math::nsa_v2_multiplier(d.observed_score, c.kalman.nsa_s0)
             : c.kalman.r_scale;
+        if (!math::finite(r_eff)) { out.error = Error::numeric; return out; }
         math::kalman_update(t.x.data(), t.P.data(), d.xyxy.data(), c.kalman.std_position, r_eff);
         t.age = 0;
         ++t.hit_streak;

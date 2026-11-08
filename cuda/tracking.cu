@@ -359,6 +359,7 @@ __global__ void update_kernel(const DevicePredicted* predicted, const DeviceBatc
         const float r_eff = c.kalman.nsa_enabled
             ? c.kalman.r_scale * math::nsa_v2_multiplier(d.observed_score, c.kalman.nsa_s0)
             : c.kalman.r_scale;
+        if (!math::finite(r_eff)) { numeric(s); continue; }
         math::kalman_update(t.x, t.P, d.xyxy, c.kalman.std_position, r_eff);
         t.age = 0; ++t.hit_streak; t.score_sum += d.observed_score;
         t.observed_score = d.observed_score; t.association_score = d.association_score;

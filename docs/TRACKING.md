@@ -662,3 +662,64 @@ HOTA 依序為 50.869／50.548／50.864／50.634，IDF1 為 64.975／63.218／64
 原實驗全新 CPU CTest 19/19；交付前補上 CLI 輸出路徑檢查後完整 CPU CTest 20/20。
 baseline 654 幀完整 packet 與原 reference 相同、MOT 與 G1 baseline bytes 相同；補驗四臂 MOT 均與原計分版本逐位元相同，未重新讀 GT。
 本次為開發來源，未跑新的 CUDA parity／session／效能 gate，不改寫既有正式證書或 NVOF memcheck OPEN。
+
+## 22. NSA v2 與量測框（opt-in；2026-11-08 規格，實作前固定）
+
+### 22.1 依據與範圍
+
+研究庫 `saccade_research` 的 `nsa-kalman-hr`（run `20261108-003`）與 `nsa-gmc-gate`（run `20261108-001`，merge `c387929`）在 80 序列 CPU replay 中，v2（s0 = 0.9305）加量測框的 G2 臂在四個判定組 HOTA／IDF1 都不下降：MOT17 held-out（02＋10）+1.03／+1.04、MOT20 +0.06／+0.61、PP22/moving +1.45／+1.65、PP22/static +2.26／+2.71；73/80 序列 HOTA 上升，高相機運動的 MOT17-13／10／05 仍下降，FP 增加。這是探索性重用資料的研究候選。
+
+本節只把它實作成可選設定並驗證 CPU reference、CUDA tracker 與 native session。**預設關閉**，部署預設與所有既有輸出不變；是否改成預設另由使用者決定。
+
+### 22.2 設定（P08 schema 新欄位）
+
+| key | 型別 | 預設 | 限制 | owner／behavior |
+| --- | --- | --- | --- | --- |
+| `tracker.kalman.nsa_enabled` | bool | false | boolean | F08b／B08 |
+| `tracker.kalman.nsa_s0` | f32 | 0.9305 | finite，0 < s0 < 1 | F08b／B08 |
+| `tracker.rows.measurement_box` | bool | false | boolean | F08b／B09 |
+
+`TrackerConfig` 新增對應欄位（`kalman.nsa_enabled`、`kalman.nsa_s0`、新群組 `rows.measurement_box`），`validate_tracker_config` 與 `canonical_tracker_config` 一併更新。canonical 文字增加欄位，預設設定的 tracker config hash 會改變；舊值與新值記入證據。這不改 packets 或 MOT。
+
+### 22.3 數值
+
+`tracking_math.hpp` 新增 `SACCADE_HD inline float nsa_v2_multiplier(float s, float s0)`，FP32 依序：
+
+```text
+d = 1.0f - s; e = 1.0f - s0; q = d / e; m = q * q;
+if (m < 1.0f) m = 1.0f;
+if (m > 30.0f) m = 30.0f;
+return m;
+```
+
+不呼叫 `fminf`／`fmaxf`／`std::min`／`std::max`。s 是該次 update 所用 DetectionBatch row 的 `observed_score`。
+
+F08b update（§9.4）：`nsa_enabled` 時 `r_eff = r_scale * nsa_v2_multiplier(s, nsa_s0)`；關閉時 `r_eff = r_scale`，不做乘法。以 `r_eff` 取代 `kalman_update` 的 r_scale 參數，其他 Kalman 數學不變。Birth 的 `kalman_init` 不受影響。非有限值依 §2 記 NUMERIC。
+
+### 22.4 量測框
+
+`Track` 與 `DeviceTrack` 新增 `measurement_xyxy[4]`：每次 update 寫入該 detection 的 xyxy，birth 時寫入 birth detection 的 xyxy。它不參與任何決策（關聯、bridge、prior、continuation、birth、確認）。Bridge 接手者保留自己的值。
+
+Row 輸出（§9.7）：`rows.measurement_box` 時 `row.xyxy = measurement_xyxy`，否則照舊 `state_to_box(x)`；finite 檢查不變。F09 插值使用輸出 rows，規則不變。`DeviceTrack` 由 408 bytes 變為 424 bytes（更新 static_assert）；CPU／CUDA 的狀態比較納入新欄位。
+
+### 22.5 驗收（capture 前固定）
+
+在乾淨 commit、GPU lock 下執行，證據放在 `evidence/nsa-v2/<日期>/`。任一項不過即停止，不放寬比較。
+
+1. **Build 與測試**：全新 CPU build 與全新 CUDA build（所有功能開啟）的 CTest 全部通過。新增測試至少包含：
+   - `nsa_v2_multiplier` 在 s ∈ {0, 0.5, 0.9305, 0.95, 0.99, 1} 與 clamp 邊界的 FP32 值；
+   - CPU 與 CUDA 對 [0,1] 內 1,000,001 個等距 s 加上述邊界值的 multiplier 逐位元相同；
+   - 新設定欄位的解析、限制、canonical 與 hash；
+   - 量測框的 row 選取（開／關），以及關閉時 rows 與舊版相同。
+2. **預設關閉不變**（設定全用預設）：
+   - `track_offline` 對研究 80 序列 records（`saccade_research/experiments/bridge-pair-fullpool-replay/selection.json`）的 MOT，逐一等於其預期 stock MOT（含研究修訂 A1 的 MOT20 四條）；
+   - HR `track_sequence` pipelined 的 MOT：MOT17 7 序列等於 §20.8 第 3 項的 G1 參考，PP22 69 序列等於 §20.8 第 4 項的 G1 參考。
+3. **開啟**（`nsa_enabled=true`、`nsa_s0=0.9305`、`rows.measurement_box=true`）：
+   - `track_offline` 對同 80 序列的 MOT，逐一等於研究 G2（`saccade_research/runs/nsa-gmc-gate/20261108-001/arms/G2/<seq>/mot.txt`；該 run 的 `run.json` SHA-256 `3ccda77db32725cdf38b188a7a03f99ee8af630a21374a525c317e4872de3e6c`）；
+   - CUDA tracker 對 CPU reference 在同 80 序列逐位元相同：predicted、batch、update result、完整狀態（含 `measurement_xyxy`）與 rows；
+   - HR `track_sequence` pipelined（Graph ON）的 MOT：MOT17 7 序列與 PP22 69 序列等於上面 `track_offline` 的對應輸出；`--serial` 在 MOT17 7 序列也相同。
+4. **Sanitizer**：開啟設定下，`tracking_cuda_tests` 的合成 suite 加 MOT17-10 recorded 前 60 幀，跑 memcheck、racecheck、synccheck、initcheck，0 errors／hazards。完整 HR session 的 sanitizer 不在本節範圍（§20.9、§20.10 的 OPEN 照舊）。
+5. **效能（只記錄）**：MOT17-04 records 的 tracker 單段時間，以及 HR `track_sequence` pipelined 7 序列各 3 次的 ms/frame，預設與開啟各量一次，同一次執行內比較。
+6. **Evidence report**：來源、build、各步命令與 hashes、預設 config hash 新舊值、結果與未涵蓋項目。
+
+**不涵蓋**：`track_stream` 的串流 profile、改預設後的部署驗收、品質重新計分（第 3 項 MOT 等於研究 G2，計分由研究結果推得）。

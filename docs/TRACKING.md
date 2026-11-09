@@ -725,3 +725,5 @@ Row 輸出（§9.7）：`rows.measurement_box` 時 `row.xyxy = measurement_xyxy`
 6. **Evidence report**：來源、build、各步命令與 hashes、預設 config hash 新舊值、結果與未涵蓋項目。
 
 **不涵蓋**：`track_stream` 的串流 profile、改預設後的部署驗收、品質重新計分（第 3 項 MOT 等於研究 G2，計分由研究結果推得）。
+
+**結果（NSA v2 正式驗收，2026-11-09）**：§22.5 **PASS**（`527ffe5`，乾淨 worktree，約 34 分鐘）。預設關閉時 80 序列 offline 與 76 序列 HR native 的輸出不變；開啟時 offline 80/80 等於研究 G2，CUDA 對 CPU 80 序列逐位元相同，HR pipelined 76/76 與 serial 7/7 等於 offline；四種 sanitizer 0 errors／hazards。效能只記錄：開啟臂 HR 約 +0.5% ms/frame，但兩臂未交錯，無法和執行順序分開。預設仍為關閉。證據見 [evidence/nsa-v2/2026-11-09-formal-527ffe5](../evidence/nsa-v2/2026-11-09-formal-527ffe5/REPORT.md)。

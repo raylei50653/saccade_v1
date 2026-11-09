@@ -93,7 +93,7 @@ emit 與 frame terminal 決策點取得不可回寫的快照；不從 packet 或
 Bridge 的獨立 output ID、相關資格／前後值／原因。batch candidate 與 prediction
 也明列，讓模型能拒絕漏事件、重複消費或 continuation-only birth。
 
-`tracking-events/1` 使用 little-endian、有 payload 長度的版本化編碼，只寫事件
+`tracking-events/2`（track 含 `measurement_xyxy`；`/1` 檔需原版 reader）使用 little-endian、有 payload 長度的版本化編碼，只寫事件
 有效欄位及有效 history；不寫位址、計時、padding 或未使用 history。decode 拒絕
 未知版本／enum、非 canonical bool、非有限值、錯誤長度、截斷與 trailing bytes。
 比較保留原語義順序，回報第一個 event／欄位／值差異，不重新排序消除分歧。

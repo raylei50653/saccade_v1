@@ -21,9 +21,10 @@ check_source() { sha256sum --quiet -c "$cap/source-files.sha256" || { echo 'sour
 check_source
 sequences=$(recorded sequences)
 records=$(recorded records)
-legacy=${SACCADE_LEGACY_ROOT:-/home/ray/developer/ai/saccade}
-[[ $(cd "$legacy/datasets/MOT17/train" && pwd -P) == "$sequences" ]] || { echo 'TrackEval GT root is not the evaluated sequence directory' >&2; exit 2; }
-python=${SACCADE_EVAL_PYTHON:-$HOME/.cache/saccade-v1/t01/venv/bin/python}
+source scripts/eval_common.sh
+[[ $(cd "$saccade_eval_mot17_gt" && pwd -P) == "$sequences" ]] || { echo 'TrackEval GT root is not the evaluated sequence directory' >&2; exit 2; }
+saccade_eval_require
+python=${SACCADE_AP50_PYTHON:-$HOME/.cache/saccade-v1/t01/venv/bin/python}
 run() {
   local name=$1 status=0
   shift
@@ -46,7 +47,7 @@ track() { # GROUP SEQUENCE...
   shift
   mkdir -p "$dir"
   for s in "$@"; do cp "$out/mot/$s.txt" "$dir/"; done
-  run "trackeval-$group" env SACCADE_LEGACY_ROOT="$legacy" scripts/eval_mot17.sh "$dir" "$@"
+  run "trackeval-$group" env SACCADE_MOT17_GT="$sequences" scripts/eval_mot17.sh "$dir" "$@"
   cp "$cap/trackeval-$group.log" "$cap/trackeval-$group.txt"
 }
 domain=(MOT17-04-SDP MOT17-05-SDP MOT17-09-SDP MOT17-11-SDP MOT17-13-SDP)

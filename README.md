@@ -85,6 +85,7 @@ F02 tile fusion／F03 N16 與部署特化已完成 [clean-source 整合補驗](e
 | [舊版訓練流程](docs/TRAINING_WORKFLOW.md) | 舊庫 teacher／cache／distill／GT／T3→T1 的來源參考 |
 | [T01 重跑程式與配方](training/t01/) | pinned source、patch、lockfiles 與原實驗入口 |
 | [HR 部署操作](training/hr_deploy/README.md) | HR checkpoint、匯出、reference corpus 與 manifest；目前部署身分見 TRACKING §15–§17 |
+| [MOT17／PP22 離線評分](docs/EVALUATION.md) | 本庫 TrackEval、獨立 CPU Python 環境、共享資料與 GT 覆寫；不依賴舊庫 |
 
 ### 驗收與效能證據
 

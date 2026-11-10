@@ -70,6 +70,8 @@ def inventory(repo: Path, include_artifacts: bool) -> dict:
     sdk = Path(os.environ.get("SACCADE_TENSORRT_ROOT",
                              str(home / ".cache/saccade-native-trt/10.16.1.11/sdk"))).expanduser().absolute()
     deploy = Path(os.environ.get("SACCADE_HR_DEPLOY", str(cache / "hr-deploy"))).expanduser().absolute()
+    datasets = Path(os.environ.get("SACCADE_DATASET_ROOT", str(repo.parent / "dataset"))).absolute()
+    eval_root = Path(os.environ.get("SACCADE_EVAL_ROOT", str(cache / "eval"))).absolute()
     scopes = {"repository": scan(repo)}
     if include_artifacts:
         for name, root in (("s04", cache / "s04"), ("t01", t01),
@@ -81,10 +83,10 @@ def inventory(repo: Path, include_artifacts: bool) -> dict:
     refs = [("legacy", legacy), ("research", research), ("t01", t01), ("sdk", sdk),
             ("hr_engine", deploy / "model-hr-fp16.engine"),
             ("base_weights", legacy / "models/yolo/yolo26m.pt"),
-            ("mot17", legacy / "datasets/MOT17"),
-            ("personpath22", legacy / "datasets/PersonPath22/mot_test_kf"),
-            ("trackeval", legacy / "third_party/TrackEval"),
-            ("evaluation_python", legacy / ".venv/bin/python"),
+            ("mot17", Path(os.environ.get("SACCADE_MOT17_GT", str(datasets / "MOT17/train")))),
+            ("personpath22", Path(os.environ.get("SACCADE_PP22_GT", str(datasets / "PersonPath22/mot_test_kf")))),
+            ("trackeval", repo / "third_party/TrackEval"),
+            ("evaluation_python", Path(os.environ.get("SACCADE_EVAL_PYTHON", str(eval_root / "venv/bin/python")))),
             ("t01_engine", repo / "build/t01-f03-evidence/stage/model.engine"),
             ("detection_references", repo / "build/preprocess-evidence/refs"),
             ("t01_records", worktrees / "m1-data-v2"),

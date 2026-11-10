@@ -50,6 +50,7 @@ source_hashes() {
   git ls-files -c -o --exclude-standard -z -- CMakeLists.txt cmake include src cuda tests tools fixtures \
     docs/TRACKING.md scripts/run_tracking_session_acceptance.sh scripts/run_mot17_evaluation.sh \
     scripts/score_mot17_evaluation.sh scripts/check_stream_placement.py scripts/eval_mot17.sh \
+    scripts/eval_common.sh scripts/requirements-eval.lock.txt third_party/TrackEval \
     training/hr_deploy/eval_scdr.py training/t01/t01_eval.py "$build_report" "$recorded_mot" |
     sort -zu | while IFS= read -r -d '' path; do sha256sum -- "$path"; done
 }

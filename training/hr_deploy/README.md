@@ -38,7 +38,7 @@ flock "$HOME/.cache/saccade-v1/gpu.lock" "$PYX" training/hr_deploy/export.py ver
 flock "$HOME/.cache/saccade-v1/gpu.lock" "$PY" training/hr_deploy/export.py references
 CUDA_VISIBLE_DEVICES='' "$PY" training/hr_deploy/eval_scdr.py \
   /home/ray/developer/ai/saccade_v1-worktrees/m1-data/MOT17-10-SDP.scdr \
-  /home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP \
+  /home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP \
   > "$OUT/t01-scdr-validation.json"
 CUDA_VISIBLE_DEVICES='' "$PY" training/hr_deploy/export.py validation-replay
 CUDA_VISIBLE_DEVICES='' "$PY" training/hr_deploy/export.py manifest

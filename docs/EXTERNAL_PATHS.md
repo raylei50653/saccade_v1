@@ -1,6 +1,6 @@
 # 外部路徑與符號連結
 
-盤點日期：2026-11-06；評分依賴更新：2026-11-10。本頁記錄本機檔案依賴與連結整理；GPU／模型／sanitizer 的驗收判定仍由 [STATUS](STATUS.md) 與各原始報告定義。
+盤點日期：2026-11-06；評分與資料集直連更新：2026-11-10。本頁記錄本機檔案依賴與連結整理；GPU／模型／sanitizer 的驗收判定仍由 [STATUS](STATUS.md) 與各原始報告定義。
 
 ## 目錄分工
 
@@ -14,11 +14,11 @@
 | `~/.cache/saccade-native-trt/10.16.1.11/sdk/` | pinned TensorRT SDK；三個共享函式庫版本連結都在 SDK 內 |
 | 本專案 `third_party/TrackEval/` | 固定 MOT 評分子集與 MIT LICENSE；[評分操作](EVALUATION.md)、[來源與 hashes](../third_party/TrackEval/SOURCE.json) |
 | `~/.cache/saccade-v1/eval/venv/` | 獨立 NumPy／SciPy CPU 評分環境；[安裝入口](../scripts/setup_eval.sh) |
-| `../saccade/` | 舊庫來源、base weights 與部分既有入口的資料集連結；[T01 recipe](../training/t01/recipe.json)。MOT／PP22 評分入口不再依賴此處 |
+| `../saccade/` | T01 pinned 程式的 `git archive` 來源、base weights 與歷史參考；[T01 recipe](../training/t01/recipe.json)。現行資料集入口均直接讀取共享 `dataset/` |
 | `../saccade_v1_dev/` | HR teacher／student checkpoints、cache 與研究用 Python 模組；[匯出程式](../training/hr_deploy/export.py) |
 | `../saccade_v1-worktrees/` | 驗收 records、flow、M4／G1 固定輸出及獨立建置；[TrackingSession 驗收入口](../scripts/run_tracking_session_acceptance.sh) |
-| `../dataset/MOT17/` | MOT17 實體資料；離線評分直接讀取 `train/`，可由 `SACCADE_MOT17_GT` 覆寫 |
-| `../dataset/PersonPath22/` | PersonPath22 實體資料；離線評分直接讀取 `mot_test_kf/`，可由 `SACCADE_PP22_GT` 覆寫 |
+| `../dataset/MOT17/` | MOT17 實體資料；訓練 recipe／split、HR 匯出、sanitizer／tracking 驗收與測試直接讀取；離線評分可由 `SACCADE_MOT17_GT` 覆寫 |
+| `../dataset/PersonPath22/` | PersonPath22 實體資料；tracking 驗收與離線評分直接讀取 `mot_test_kf/`，評分可由 `SACCADE_PP22_GT` 覆寫 |
 
 上表的 `../` 以目前主 checkout 為基準。部分既有入口仍固定本機絕對路徑；從其他 checkout 執行前應查看該入口，不能只搬動 repository 就視為完整搬機。
 
@@ -32,6 +32,10 @@
 | T01 產物與來源 | 7 | T01 cache 的 student／teacher checkpoint、backbone ONNX、export metadata、`runs/` 與 `src/` |
 | 寫入失敗測試 | 45 | `/dev/full`；測試 write／close 錯誤傳播，建立方式見 [SyntheticIOTest](../cmake/SyntheticIOTest.cmake) |
 | 內部 fixtures | 37 | manifest alias 與 parent-directory alias；其中七個搬移前的絕對路徑已修復 |
+
+上表是 2026-11-06 的起始快照。2026-11-10 重掃本 checkout 的 21 個資料集 symlinks，均已直接指向 `/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP/img1`，沒有經過舊庫 `datasets/` 的連結。現行程式、配方與操作範例也使用共享目錄；`evidence/`、`docs/history/` 與封存來源／命令紀錄保留原始路徑作為歷史身分。
+
+同日核對共享 MOT17 的 5,330 個檔案（含 5,316 張影格），SHA-256／大小全部符合 `manifests/t01/split-files.tsv`；split manifest 僅資料根目錄改變。`build/cpu`、`build/cuda` 的設定沒有舊資料集根目錄。`streaming`、`streaming-nvdec`、`streaming-review`、`p08/native` 等舊建置目錄與歷史驗證／binary hashes 綁定，保留其原始 CMake 設定，新的建置使用共享目錄。本機盤點與資料核對收據位於 `build/dataset-direct-20261110/`（不入 Git）。
 
 這 71 個外部連結的目標均存在。七個失效的 `alias.json` 已改為同目錄的相對目標 `contract.json`：`build/d2/` 兩個、`build/preprocess-evidence/` 一個、`build/t01-f03-evidence/` 兩個、`build/t01-head-evidence/` 兩個。修復前逐一核對同目錄 contract 與 tracked fixture 的 SHA-256 相同；新產生的 manifest alias 也使用相對路徑。舊測試 logs 與判定保留原樣。
 

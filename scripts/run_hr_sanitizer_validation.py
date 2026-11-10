@@ -341,7 +341,7 @@ def main():
     parser.add_argument("--dump-kernel-launches", action="store_true",
                         help="Diagnostic inventory only: installed sanitizer counts launch records in its error summary; never accepted as PASS")
     parser.add_argument("--engine", type=Path, default=Path("/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine"))
-    parser.add_argument("--sequence", type=Path, default=Path("/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP"))
+    parser.add_argument("--sequence", type=Path, default=Path("/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP"))
     parser.add_argument("--sanitizer", type=Path, default=Path("/opt/cuda/bin/compute-sanitizer"))
     args = parser.parse_args()
     for key in ("build", "source", "output", "engine", "sequence", "sanitizer"):

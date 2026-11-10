@@ -49,7 +49,7 @@ revision；teacher inventory 記錄的訓練 revision 為 `06e539ce2955…` 且 
 | 梯度範圍 | distill／GT1／plain GT2／T3／T1 均 `scan_stop_grad=true`；SSM 內部不學習，外圍 projection／gate／readout／upsampling／prediction head 學習。teacher 在 student stages 凍結。 |
 | Temporal | distill／GT1 不含 temporal blocks；T3 加入，T1 保留權重但單幀 forward bypass。部署語義是 T=1，不承接跨幀 ModelState。 |
 | 輸入 | RGB、CHW、float32 `/255`、stretch 到 640×640；不使用 letterbox。舊原版 teacher／GT1 用 CPU decode＋uint8 antialias resize，舊 GPU cache 用 nvJPEG＋無 antialias bilinear。T01 全鏈改用 nvJPEG GPU decode＋float antialiased stretch（[T01_TRAINING §2.1](T01_TRAINING.md#21-輸入前處理契約-t01-input1)）。 |
-| 資料根目錄 | 舊庫 `datasets/MOT17/train/<sequence>/img1`、`gt/gt.txt`、`seqinfo.ini`。 |
+| 資料根目錄 | 目前直接讀取 `/home/ray/developer/ai/dataset/MOT17/train/<sequence>/img1`、`gt/gt.txt`、`seqinfo.ini`；訓練配方與 split manifest 都使用此共享資料根目錄。 |
 | GT 篩選 | `conf==1`、MOT class 1 pedestrian、visibility ≥ 0.1；使用真實 GT boxes。 |
 | 資料範圍 | `MOT17-02/04/05/09/10/11/13-SDP`，共 5316 frames；全部七個 sequence 參與訓練，**無 holdout**。 |
 | Seed | 原 m 全鏈 `20260612`；不要套用其他 s 實驗的 seed 42。 |

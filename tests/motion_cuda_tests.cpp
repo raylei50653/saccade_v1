@@ -177,7 +177,7 @@ void real(Streams& streams) {
     Buffer<MotionContext> output(1);
     std::vector<float> previous;
     for (int frame = 0; frame < 2; ++frame) {
-        const auto path = std::string("/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP/img1/") + (frame == 0 ? "000001.jpg" : "000002.jpg");
+        const auto path = std::string("/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP/img1/") + (frame == 0 ? "000001.jpg" : "000002.jpg");
         const auto jpeg = read_text_file(path);
         const auto decoded = preprocess.enqueue({reinterpret_cast<const std::uint8_t*>(jpeg.data()), jpeg.size()}, frame, 1920, 1080);
         motion.enqueue_image(streams.d, decoded.rgb, frame);

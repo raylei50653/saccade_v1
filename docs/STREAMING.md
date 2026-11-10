@@ -77,7 +77,7 @@ host RGB 入口契約仍為 `host-rgb-input/1`；不同 decoder／chroma 取樣�
 ```sh
 cmake -S . -B build/streaming \
   -DSACCADE_STREAMING_TEST_ENGINE=/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine \
-  -DSACCADE_STREAMING_TEST_SEQUENCE=/home/ray/developer/ai/saccade/datasets/MOT17/train/MOT17-10-SDP
+  -DSACCADE_STREAMING_TEST_SEQUENCE=/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP
 ctest --test-dir build/streaming -R 'video_source|video_device|device_video|host_rgb_preprocess|tracking_rgb_session|track_stream_cli' --output-on-failure
 ```
 

@@ -1,6 +1,8 @@
 # Saccade v1 目前狀態與文件狀態
 
-更新日期：2026-11-09。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+更新日期：2026-11-11。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+
+2026-11-11 [第一輪報告版本收尾](history/2026-11-11-first-report-baseline.md)：固定核心完成、既有正式驗收、效能與 OPEN 項目的引用入口；收妥評分／資料集直連及 base weights 路徑更新。MOT17／PP22 評分已使用本庫 TrackEval 與獨立 CPU 環境，共享資料與權重的身分核對見[離線評分](EVALUATION.md)、[外部路徑](EXTERNAL_PATHS.md)及收尾紀錄。本輪僅執行本機 CPU 回歸與路徑核對，未重跑 GPU、訓練、品質或效能驗收；部署預設與既有正式證書的受測來源保持原判定。
 
 2026-11-09 [NSA v2 與量測框（TRACKING §22）](TRACKING.md#22-nsa-v2-與量測框opt-in2026-11-08-規格實作前固定)以**預設關閉**的可選設定加入 tracker：`tracker.kalman.nsa_enabled`、`nsa_s0`（0.9305）與 `tracker.rows.measurement_box`。乾淨 `527ffe5` 的[正式驗收](../evidence/nsa-v2/2026-11-09-formal-527ffe5/REPORT.md) **PASS**：預設關閉時 80 序列 offline 與 76 序列 HR native 輸出不變；開啟時 offline 80/80 等於研究 G2，CUDA 對 CPU 80 序列逐位元相同，HR pipelined／serial 等於 offline，tracker 四種 sanitizer 0 errors。品質沿用研究 G2 結果（探索性候選），未重新計分；部署預設未改，改為預設須另做部署驗收。預設 tracker config hash 因新增欄位改為 `d846e2a5…`，事件檔 schema 升為 `tracking-events/2`。
 

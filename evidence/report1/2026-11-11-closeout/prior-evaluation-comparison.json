@@ -1,0 +1,35 @@
+{
+  "scope": "local development evaluation-tools validation; no inference or formal session acceptance",
+  "source_revision": "47177dbd5b58d3d113d0e135fe1298ad568fd379",
+  "source_dirty": true,
+  "python": "/home/ray/.cache/saccade-v1/eval/venv/bin/python",
+  "numpy": "2.4.4",
+  "scipy": "1.17.1",
+  "legacy_root": "/does-not-exist/legacy-saccade",
+  "comparisons": [
+    {
+      "method": "mot17",
+      "sequence": "MOT17-10-SDP",
+      "source": "/home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow/arms/G1/MOT17-10-SDP.txt",
+      "reference": "/home/ray/developer/ai/saccade_v1/evidence/gmc-flow/2026-11-04/trackeval/G1/val/pedestrian_detailed.csv",
+      "all_detailed_fields_equal": true,
+      "fields": 276,
+      "stdout": "HOTA=50.869 DetA=54.407 AssA=47.799 IDF1=64.975 MOTA=66.89 IDSW=56",
+      "source_sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f",
+      "reference_sha256": "617187781f1ab38627932989119f145aeab22242250e9c945d7098429380d9ee",
+      "actual_detailed_sha256": "73186d074f9adf39795428acfe14eee3893c9cab64a891ae1f3d3ad1001404b7"
+    },
+    {
+      "method": "pp22",
+      "sequence": "uid_vid_00008.mp4",
+      "source": "/home/ray/developer/ai/saccade_v1-worktrees/gmc-flow/build/gmc-flow2/pp22/arms/G1/uid_vid_00008.mp4.txt",
+      "reference": "/home/ray/developer/ai/saccade_v1/evidence/gmc-flow/2026-11-04-round2/trackeval/G1/PP-all/pedestrian_detailed.csv",
+      "all_detailed_fields_equal": true,
+      "fields": 276,
+      "stdout": "HOTA=31.732 DetA=50.506 AssA=20.413 IDF1=40.228 MOTA=50.497 IDSW=146",
+      "source_sha256": "d43b9a715258034ff1c7e491109c0eb8e59708906de538df2ff08fde77af6ceb",
+      "reference_sha256": "2965da70f83d1363be88c96c26c7d2b2c60bae42f7b0edb8e68532058c6866e6",
+      "actual_detailed_sha256": "090e01b07df22bb58448f703930d5e03d4585e3023539e73f730b86359fb4375"
+    }
+  ]
+}

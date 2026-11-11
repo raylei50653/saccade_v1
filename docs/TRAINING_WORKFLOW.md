@@ -42,7 +42,7 @@ revision；teacher inventory 記錄的訓練 revision 為 `06e539ce2955…` 且 
 
 | 項目 | 原版 m 主線 |
 | --- | --- |
-| 預訓練起點 | `models/yolo/yolo26m.pt`；teacher 再做 MOT17 domain adaptation。 |
+| 預訓練起點 | `models/yolo/yolo26m.pt`（2026-11-10 已移至 `/home/ray/developer/ai/dataset/yolo26m.pt`，SHA-256 不變）；teacher 再做 MOT17 domain adaptation。 |
 | Backbone／neck → head | P3/P4/P5，stride 8/16/32，640 輸入下空間尺寸 80²/40²/20²，channels **256/512/512**。s 的 128/256/512 不能直接套用。 |
 | Mamba head | `d_model=128`、`d_state=16`、每尺度 `num_blocks=1`、`spatial_reduction=4`、四方向 Cross-Scan、PixelShuffle。 |
 | 輸出 | 80 類 cls；`reg_max=1`，每位置直接回歸 4 個 box distances，不啟用 DFL。GT 的 pedestrian 映射到 detector class 0。 |
@@ -139,7 +139,7 @@ GT cache stages 使用 features，supervision 仍來自 GT，不是 cache 裡的
 
 | 角色 | Artifact | 實際選取 epoch | SHA-256 |
 | --- | --- | ---: | --- |
-| Base | `models/yolo/yolo26m.pt` | — | `401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7` |
+| Base | `models/yolo/yolo26m.pt`（現位於 `/home/ray/developer/ai/dataset/yolo26m.pt`） | — | `401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7` |
 | Teacher | `runs/gated_det_yolo26m_v14replica/epoch_0012.ckpt` | 12（protocol 固定） | `5f1cb461cb063788ee8fb933340055add4b4003d7c945ef14f676a5a8c3bea06` |
 | Distill | `runs/mamba_distill_yolo26m_v14replica/best.ckpt` | 30 | `5bc14397102ee71763b6b260e4f43a79a797f4a3de99e64422dd53597a5ee56c` |
 | GT1 | `runs/mamba_gt_yolo26m_v14replica_stage1/best.ckpt` | 29 | `fb8434556a2a14c84b8f1c6d00bc4734bfb2897d5fbd73e01ddbc110078068de` |

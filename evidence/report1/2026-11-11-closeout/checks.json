@@ -1,0 +1,222 @@
+{
+  "schema": "saccade-report-baseline-closeout/1",
+  "recorded_at": "2026-11-11T07:54:41.563530+00:00",
+  "scope": "local report-baseline closeout; no GPU inference, training, performance or formal acceptance rerun",
+  "parent_revision": "e14c41ec4964b1be7a780ae1a973f496a1e59276",
+  "source_dirty": true,
+  "formal_acceptance": false,
+  "reviewed_source_sha256": {
+    "docs/EXTERNAL_PATHS.md": "9217053b63339fe723443a95668e1ecb4888b4c9b3c814fb949b32a30b70ca63",
+    "docs/TRAINING_WORKFLOW.md": "ae6eaca744b5d07da7b1f9b1a7271f13d2f0a60c461dd79be71efa0fa8e370af",
+    "scripts/archive_t01_experiment.py": "f90972f229a3c4c1b12685152ad6ff579239a2a0bb273c2b9069a41e546312b0",
+    "scripts/audit_external_paths.py": "6ba705cff13e02169695c177df3861ad272113cecb03fd3def2667a300af4673",
+    "training/hr_deploy/export.py": "676fc5ecec9842b0b1864b461d0078c6ccd5c32ebf8ee94fc272ec5430377738",
+    "training/t01/recipe.json": "3c65bafc4ff178fd9efef75008b3d59c94d3925bdd55f84aaf373cfda395ed01"
+  },
+  "base_weights": {
+    "path": "/home/ray/developer/ai/dataset/yolo26m.pt",
+    "bytes": 44255705,
+    "sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7"
+  },
+  "python_syntax_checked": [
+    "scripts/archive_t01_experiment.py",
+    "scripts/audit_external_paths.py",
+    "training/hr_deploy/export.py"
+  ],
+  "recipe_json_valid": true,
+  "local_checks_passed": true,
+  "commands": {
+    "cpu-build": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/cpu",
+        "--parallel",
+        "2"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 16.565768241882324
+    },
+    "cpu-ctest": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/cpu",
+        "--output-on-failure"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 51.96591591835022
+    },
+    "evaluation-tests": {
+      "argv": [
+        "/home/ray/.cache/saccade-v1/eval/venv/bin/python",
+        "tests/evaluation_tools_tests.py"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 7.307828426361084
+    },
+    "external-paths-command": {
+      "argv": [
+        "python3",
+        "scripts/audit_external_paths.py",
+        "--include-artifacts"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 5.625571012496948
+    }
+  },
+  "test_counts": {
+    "cpu_ctest_passed": 21,
+    "cpu_ctest_total": 21,
+    "evaluation_fixtures_passed": 12,
+    "evaluation_fixtures_total": 12
+  },
+  "audit_scopes": {
+    "repository": {
+      "summary": {
+        "total": 119,
+        "external": 73,
+        "broken": 0,
+        "absolute": 107,
+        "external_targets": {
+          "/dev/full": 45,
+          "/home/ray/.cache/saccade-v1/t01/export/backbone-export.json": 1,
+          "/home/ray/.cache/saccade-v1/t01/export/yolo26m-backbone-t01.onnx": 1,
+          "/home/ray/.cache/saccade-v1/t01/runs": 1,
+          "/home/ray/.cache/saccade-v1/t01/runs/t1/attempt-01/run/epoch_0001.ckpt": 2,
+          "/home/ray/.cache/saccade-v1/t01/runs/teacher/attempt-01/run/epoch_0012.ckpt": 1,
+          "/home/ray/.cache/saccade-v1/t01/src": 1,
+          "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP/img1": 21
+        }
+      },
+      "errors": []
+    },
+    "s04": {
+      "summary": {
+        "total": 0,
+        "external": 0,
+        "broken": 0,
+        "absolute": 0,
+        "external_targets": {}
+      },
+      "errors": []
+    },
+    "t01": {
+      "summary": {
+        "total": 14,
+        "external": 6,
+        "broken": 0,
+        "absolute": 7,
+        "external_targets": {
+          "/home/ray/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/bin/python3.12": 6
+        }
+      },
+      "errors": []
+    },
+    "hr_deploy": {
+      "summary": {
+        "total": 0,
+        "external": 0,
+        "broken": 0,
+        "absolute": 0,
+        "external_targets": {}
+      },
+      "errors": []
+    },
+    "tensorrt_sdk": {
+      "summary": {
+        "total": 3,
+        "external": 0,
+        "broken": 0,
+        "absolute": 0,
+        "external_targets": {}
+      },
+      "errors": []
+    }
+  },
+  "missing_named_references": [
+    {
+      "name": "acceptance_baseline",
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa-base",
+      "role": "output_created_by_acceptance_step_8",
+      "exists": false,
+      "resolved": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa-base",
+      "symlink_components": []
+    }
+  ],
+  "missing_hr_historical_sources": 11,
+  "prior_evaluation_revalidation": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "numeric_fields": 275,
+      "all_numeric_fields_equal": true,
+      "input_and_reference_and_saved_output_hashes_match": true,
+      "scorer_rerun": false,
+      "saved_csv_gzip": "prior-mot17-detailed.csv.gz"
+    },
+    {
+      "sequence": "uid_vid_00008.mp4",
+      "numeric_fields": 275,
+      "all_numeric_fields_equal": true,
+      "input_and_reference_and_saved_output_hashes_match": true,
+      "scorer_rerun": false,
+      "saved_csv_gzip": "prior-pp22-detailed.csv.gz"
+    }
+  ],
+  "prior_receipts": {
+    "prior-evaluation-comparison.json": {
+      "original_local_path": "build/evaluation-tools-20261110/comparison.json",
+      "sha256": "89623b11c26f43f9c33b835c16ff21652a03fcd4ac07348eeccd1f9f7e26262b",
+      "copied_without_modification": true
+    },
+    "prior-dataset-identity.json": {
+      "original_local_path": "build/dataset-direct-20261110/data-identity.json",
+      "sha256": "74b8ccec902e88c26078dcf14e974ba77ebb89c51aa96bd0252b60daafaa80c3",
+      "copied_without_modification": true
+    },
+    "prior-evaluation-source-hashes.json": {
+      "original_local_path": "build/evaluation-tools-20261110/precommit-worktree-hashes.json",
+      "sha256": "f7788cb49198a4e20761605b558372259ad71b0299d6c48c5a1f9e6f733e6fe6",
+      "copied_without_modification": true
+    },
+    "prior-dataset-source-hashes.json": {
+      "original_local_path": "build/dataset-direct-20261110/precommit-worktree-hashes.json",
+      "sha256": "67c803ba9091c17742c41300fd9c8ec7b59f42d37187231127e6922da3f0dfc5",
+      "copied_without_modification": true
+    }
+  },
+  "log_sha256": {
+    "cpu-build.log": "9df01a60b04ee774e3a241f45fa5620aa24870958cc08ba8b7452f515830a6fa",
+    "cpu-ctest.log": "f30f68f2e2a0f944e12a53ce177f4ae15940b8062a97346c2eac08ae63c76782",
+    "evaluation-tests.log": "45f929d418bfbef0e8dda27125ba39e99fbd4c74abbdd62e55520cd0638e7713"
+  },
+  "not_executed": [
+    "GPU inference",
+    "training",
+    "model export",
+    "archive production",
+    "sanitizers",
+    "real-sequence rescoring",
+    "performance measurement",
+    "full dataset hash sweep",
+    "push",
+    "remote CI"
+  ],
+  "local_detail_directory": "build/report1-closeout-20261111",
+  "saved_output_archives": {
+    "prior-mot17-detailed.csv.gz": {
+      "original_local_path": "build/evaluation-tools-20261110/mot17/trackeval/results/v1/pedestrian_detailed.csv",
+      "sha256": "3098763a587a0f37467739d190d5347950c867aca49d2b2d78ed06c00d814516",
+      "uncompressed_sha256": "73186d074f9adf39795428acfe14eee3893c9cab64a891ae1f3d3ad1001404b7",
+      "uncompressed_bytes": 11552,
+      "encoding": "gzip; mtime=0; original CSV bytes and CRLF preserved"
+    },
+    "prior-pp22-detailed.csv.gz": {
+      "original_local_path": "build/evaluation-tools-20261110/pp22/trackeval/results/v1/pedestrian_detailed.csv",
+      "sha256": "4b6a30226df1cbec58280991c2e0ab7b03f101ab6e1c5f8040e2bf66bd58c025",
+      "uncompressed_sha256": "090e01b07df22bb58448f703930d5e03d4585e3023539e73f730b86359fb4375",
+      "uncompressed_bytes": 11559,
+      "encoding": "gzip; mtime=0; original CSV bytes and CRLF preserved"
+    }
+  }
+}

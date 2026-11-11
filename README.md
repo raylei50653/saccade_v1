@@ -2,7 +2,7 @@
 
 Saccade v1 以 C++／CUDA／TensorRT 實作 JPEG sequence → 偵測 → GMC → geometry-first／ReID-free tracking → MOT 輸出。runtime 不依賴 Python；模型訓練與匯出使用 PyTorch／Python。專案從零重寫，以舊架構作設計基線，不復用舊 runtime 程式或遷移舊實驗數據。
 
-文件狀態更新：**2026-11-09**。目前部署為 **HR 1280×768 FP16**，CUDA Graph 預設啟用，GMC 已採 **G1 NVOFA／v1-motion/2**。M0–M4 完成，**P01 CLOSED（有範圍）**；後續 [G1 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍為 OPEN，其餘八步通過。
+文件狀態更新：**2026-11-11**。目前部署為 **HR 1280×768 FP16**，CUDA Graph 預設啟用，GMC 已採 **G1 NVOFA／v1-motion/2**。M0–M4 完成，**P01 CLOSED（有範圍）**；後續 [G1 驗收](evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/REPORT.md)的完整 session memcheck 仍為 OPEN，其餘八步通過。
 
 原 [CUDA Graph 正式驗收](evidence/cuda-graph/2026-11-04-gate-d21a144/REPORT.md)與 [F02／F03 加速後七序列 MOT 開發測試](evidence/mot/2026-11-04-full-development/REPORT.md)保留各自受測來源與 motion profile；後者 5,316 幀、21/21 份輸出與 M4 相同，品質不變，吞吐 195.85 FPS，屬 M4 之後的開發來源證據。
 
@@ -23,6 +23,7 @@ F02 tile fusion／F03 N16 與部署特化已完成 [clean-source 整合補驗](e
 | 文件 | 用途與狀態 |
 | --- | --- |
 | [目前狀態](docs/STATUS.md) | 現行部署、各階段驗收、文件狀態與未完成邊界的總入口 |
+| [第一輪報告版本](docs/history/2026-11-11-first-report-baseline.md) | 2026-11-11 本機收尾 commit、報告引用證據、CPU 檢查與保留的 OPEN 項目 |
 | [後續工作](docs/BACKLOG.md) | 已結案工作的接續關係與仍待處理項目 |
 | [外部路徑與符號連結](docs/EXTERNAL_PATHS.md) | 庫外模型／資料／worktrees 依賴、本機連結整理與唯讀盤點工具 |
 | [正式發布與獨立研究](docs/RESEARCH_BOUNDARY.md) | 固定 R0、正式依賴、研究入口、保存與針對性驗證 |

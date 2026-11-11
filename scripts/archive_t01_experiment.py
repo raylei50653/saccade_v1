@@ -23,7 +23,7 @@ TAG = "t01-experiment-final-2026-10-31"
 EXTRAS = [REPO / p for p in ["build-t01-head-evidence", "build-t01-f03-evidence", "build-preprocess-evidence",
           "build-f01-investigation", "build-preprocess-initcheck-control", "build-f01-windows",
           "evidence/preprocess/2026-10-31-usage"]]
-BASE_WEIGHT = Path.home() / "developer/ai/saccade/models/yolo/yolo26m.pt"
+BASE_WEIGHT = Path.home() / "developer/ai/dataset/yolo26m.pt"
 ACTIVE = set()
 LIBC = ctypes.CDLL(None, use_errno=True)
 

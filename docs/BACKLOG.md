@@ -1,6 +1,6 @@
 # Saccade v1 後續工作
 
-更新日期：2026-11-09。tracking M0–M4 已完成，部署模型為 HR 1280×768 FP16，**P01 CLOSED（有範圍）**。本頁先列現行結果與剩餘界線，再保留各階段原始契約及驗收紀錄；2026-10-31 的待辦已由後續證據接續。
+更新日期：2026-11-11。tracking M0–M4 已完成，部署模型為 HR 1280×768 FP16，**P01 CLOSED（有範圍）**。[第一輪報告版本收尾](history/2026-11-11-first-report-baseline.md)固定本輪交付範圍、驗證與引用入口。本頁先列現行結果與剩餘界線，再保留各階段原始契約及驗收紀錄；2026-10-31 的待辦已由後續證據接續。
 
 | 項目 | 現行狀態與入口 |
 | --- | --- |
@@ -17,6 +17,7 @@
 | 即時影像串流（2026-11-05） | [FFmpeg／NVDEC／CUDA 前處理／track_stream](STREAMING.md) 已實作，CLI 預設 GPU 解碼，開發驗證獨立記錄。外部攝影機／RTSP 連線、多來源、重連與可變 dt 不由現有證書涵蓋 |
 | P08 設定與 CPU 事件工具（2026-11-06） | [工具與契約](P08_TOOLS.md)、[本機開發來源證據](../evidence/p08/2026-11-06-development/REPORT.md)：resolved tracking schema 已接三個 CLI，CPU 實際事件、lifecycle／身份／提交模型與完整 packet binding 已落地；GPU 完整中間事件與觀察開關一致性仍 OPEN，未整體結案 |
 | NSA v2 與量測框（2026-11-09） | [TRACKING §22](TRACKING.md#22-nsa-v2-與量測框opt-in2026-11-08-規格實作前固定) 可選設定，[正式驗收](../evidence/nsa-v2/2026-11-09-formal-527ffe5/REPORT.md) PASS（乾淨 `527ffe5`）；**預設關閉**，部署未改 |
+| 評分與共享資料／權重路徑（2026-11-11） | [MOT17／PP22 評分](EVALUATION.md)已脫離舊庫，訓練／驗證直接讀取共享資料，base weights 改讀 `../dataset/yolo26m.pt`；[收尾驗證](history/2026-11-11-first-report-baseline.md)另列本機 CPU 檢查，未重跑模型或正式 session gate |
 
 ## 1. F04：先固定觀測政策，再實作
 

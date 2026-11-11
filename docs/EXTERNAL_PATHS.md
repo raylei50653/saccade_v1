@@ -14,9 +14,10 @@
 | `~/.cache/saccade-native-trt/10.16.1.11/sdk/` | pinned TensorRT SDK；三個共享函式庫版本連結都在 SDK 內 |
 | 本專案 `third_party/TrackEval/` | 固定 MOT 評分子集與 MIT LICENSE；[評分操作](EVALUATION.md)、[來源與 hashes](../third_party/TrackEval/SOURCE.json) |
 | `~/.cache/saccade-v1/eval/venv/` | 獨立 NumPy／SciPy CPU 評分環境；[安裝入口](../scripts/setup_eval.sh) |
-| `../saccade/` | T01 pinned 程式的 `git archive` 來源、base weights 與歷史參考；[T01 recipe](../training/t01/recipe.json)。現行資料集入口均直接讀取共享 `dataset/` |
+| `../saccade/` | T01 pinned 程式的 `git archive` 來源與歷史參考；[T01 recipe](../training/t01/recipe.json)。現行資料集入口均直接讀取共享 `dataset/` |
 | `../saccade_v1_dev/` | HR teacher／student checkpoints、cache 與研究用 Python 模組；[匯出程式](../training/hr_deploy/export.py) |
 | `../saccade_v1-worktrees/` | 驗收 records、flow、M4／G1 固定輸出及獨立建置；[TrackingSession 驗收入口](../scripts/run_tracking_session_acceptance.sh) |
+| `../dataset/yolo26m.pt` | T01／HR 的 base weights（SHA-256 `401cea9a…0745d0b7`）；2026-11-10 自 `../saccade/models/yolo/` 移入。[T01 recipe](../training/t01/recipe.json)、[HR 匯出](../training/hr_deploy/export.py) |
 | `../dataset/MOT17/` | MOT17 實體資料；訓練 recipe／split、HR 匯出、sanitizer／tracking 驗收與測試直接讀取；離線評分可由 `SACCADE_MOT17_GT` 覆寫 |
 | `../dataset/PersonPath22/` | PersonPath22 實體資料；tracking 驗收與離線評分直接讀取 `mot_test_kf/`，評分可由 `SACCADE_PP22_GT` 覆寫 |
 

@@ -82,7 +82,7 @@ def inventory(repo: Path, include_artifacts: bool) -> dict:
                 scopes[name] = {"root": str(root), "skipped": "missing or symlinked scan root"}
     refs = [("legacy", legacy), ("research", research), ("t01", t01), ("sdk", sdk),
             ("hr_engine", deploy / "model-hr-fp16.engine"),
-            ("base_weights", legacy / "models/yolo/yolo26m.pt"),
+            ("base_weights", home / "developer/ai/dataset/yolo26m.pt"),
             ("mot17", Path(os.environ.get("SACCADE_MOT17_GT", str(datasets / "MOT17/train")))),
             ("personpath22", Path(os.environ.get("SACCADE_PP22_GT", str(datasets / "PersonPath22/mot_test_kf")))),
             ("trackeval", repo / "third_party/TrackEval"),

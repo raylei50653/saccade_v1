@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-12",
+  "recorded_at_utc": "2026-11-12T12:22:38.956357+00:00",
+  "status": "STOPPED_ENVIRONMENT",
+  "implemented": false,
+  "formal_acceptance": false,
+  "branch": "feat/stream-view",
+  "base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+  "blocker": {
+    "path": "/etc/mediamtx.yml",
+    "reason": "Required installed MediaMTX v1.19.1 configuration is absent (ENOENT); cannot derive configuration keys from the specified file.",
+    "policy": "Stop and report on any environmental failure; no alternate configuration substituted."
+  },
+  "gates": [
+    {
+      "name": "fixed_inputs",
+      "status": "PASS",
+      "demo_frames": 654,
+      "width": 1920,
+      "height": 1080,
+      "rate": "30/1"
+    },
+    {
+      "name": "idle_gpu_and_port",
+      "status": "PASS",
+      "gpu_processes": 0,
+      "conflicting_processes": 0,
+      "port": 8554
+    },
+    {
+      "name": "required_mediamtx_configuration",
+      "status": "FAIL",
+      "errno": "ENOENT"
+    },
+    {
+      "name": "configure_build",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "overlay_cpu_gpu_parity",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "overlay_memcheck",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "cli_view_parity",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "full_ctest",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "real_data_654_frame_parity",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "live_450_frame_loopback",
+      "status": "NOT_RUN"
+    },
+    {
+      "name": "demo_sigint_cleanup",
+      "status": "NOT_RUN"
+    }
+  ],
+  "wall_ms_without_view": null,
+  "wall_ms_with_view": null,
+  "live_wall_ms": null,
+  "live_fps": null,
+  "view_mean_ms": null,
+  "view_p95_ms": null,
+  "media_artifacts": [],
+  "limits": [
+    "Preflight only; no encoder session opened and no tracking run performed.",
+    "Single-machine development verification, not formal acceptance.",
+    "Existing nvJPEG/NVOFA sanitizer OPEN items are unaffected."
+  ]
+}

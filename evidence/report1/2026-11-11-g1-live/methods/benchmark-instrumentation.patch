@@ -1,0 +1,35 @@
+--- tools/tracking_benchmark.cpp@3cbaa518f0dc37d691404e95ed85c0109c81130d
++++ methods/tracking_benchmark_delivery.cpp
+@@ -87,8 +87,10 @@
+     Bytes packets(images.size());
+     std::size_t received = 0;
+     Clock::time_point first_frame_start;
++    std::vector<Clock::time_point> enqueue_times(images.size()), receive_times(images.size());
+     const auto receive = [&] {
+         const auto packet = session.receive();
++        receive_times[received] = Clock::now();
+         if (received == 0) result.first_frame_us = microseconds(Clock::now() - first_frame_start);
+         if (packet.packet.status != saccade::ResultStatus::ok || packet.packet.frame != static_cast<saccade::FrameId>(received))
+             throw std::runtime_error("non-OK or wrong frame in " + id + " frame=" + std::to_string(received));
+@@ -97,6 +99,7 @@
+     const auto enqueue = [&](std::size_t frame) {
+         const auto& image = images[frame];
+         if (frame == 0) first_frame_start = Clock::now();
++        enqueue_times[frame] = Clock::now();
+         session.enqueue({reinterpret_cast<const std::uint8_t*>(image.data()), image.size()}, frame);
+     };
+     // Same prefix and tracker history in every fresh session; warmup packets
+@@ -130,6 +133,13 @@
+     result.hash = packet_hash(packets);
+     saccade::write_binary_file(out / (id + ".bin"),
+         {reinterpret_cast<const std::uint8_t*>(packets.data()), packets.size() * sizeof(packets[0])});
++    std::ostringstream delivery;
++    delivery << "frame,phase,enqueue_us_since_constructor_start,receive_us_since_constructor_start,enqueue_to_receive_us\n" << std::fixed << std::setprecision(6);
++    for (std::size_t i = 0; i < images.size(); ++i)
++        delivery << i << ',' << (i < warmup ? "warmup" : "measured") << ','
++                 << microseconds(enqueue_times[i] - before) << ',' << microseconds(receive_times[i] - before) << ','
++                 << microseconds(receive_times[i] - enqueue_times[i]) << '\n';
++    saccade::write_text_file(out / (id + ".delivery.csv"), delivery.str());
+     std::ostringstream samples;
+     samples << "frame,enqueue_to_receive_us\n" << std::fixed << std::setprecision(6);
+     for (std::size_t i = 0; i < result.latency_us.size(); ++i) samples << i + warmup << ',' << result.latency_us[i] << '\n';

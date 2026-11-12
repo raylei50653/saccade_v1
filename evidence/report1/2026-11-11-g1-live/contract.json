@@ -1,0 +1,41 @@
+{
+  "schema": "report1-current-g1-latency-contract/1",
+  "base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+  "runtime_clean_source": true,
+  "instrumented_harness": "adds host enqueue/receive timestamps only; runtime unchanged",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "engine_rebuilt": false,
+  "sequence": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+  "profile": "hr-1280x768",
+  "motion": "v1-motion/2 G1 NVOFA",
+  "graph": true,
+  "nsa_enabled": false,
+  "measurement_box": false,
+  "result_slots": 4,
+  "warmup_frames": 20,
+  "measured_frames_per_session": 120,
+  "prefix_frames": 140,
+  "fresh_sessions_per_style": 4,
+  "order": [
+    "single",
+    "queued",
+    "single",
+    "queued",
+    "single",
+    "queued",
+    "single",
+    "queued"
+  ],
+  "input_io": "JPEGs preloaded; disk I/O excluded",
+  "excluded": [
+    "constructor",
+    "warmup",
+    "final file output"
+  ],
+  "outlier_removal": false,
+  "quantile": "nearest-rank; median averages middle pair",
+  "clock_lock": false,
+  "gpu_lock": "/home/ray/.cache/saccade-v1/gpu.lock",
+  "telemetry": "nvidia-smi 1 second during measured process",
+  "verdict_scope": "bounded current-source latency and output parity; no model quality or sanitizer acceptance"
+}

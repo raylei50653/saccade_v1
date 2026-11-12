@@ -1,0 +1,536 @@
+{
+  "schema": "saccade-schedule-independent-review/1",
+  "created_utc": "2026-11-12T01:25:54.899315+00:00",
+  "reviewer": "schedule_contract_audit",
+  "status": "PASS_BOUNDED_INDEPENDENT_SQL_RECONSTRUCTION_AND_FIGURE_GEOMETRY",
+  "formal_acceptance": false,
+  "new_GPU_run": false,
+  "scope": "Independent raw-SQL reconstruction, not importing or invoking analyze.py; read-only SQLite. Only this review file is written.",
+  "SQL": {
+    "kernels": "SELECT k.start,k.end,s.value,k.graphId,k.correlationId,r.start,k.streamId FROM CUPTI_ACTIVITY_KIND_KERNEL k JOIN StringIds s ON s.id=k.demangledName LEFT JOIN CUPTI_ACTIVITY_KIND_RUNTIME r ON r.correlationId=k.correlationId ORDER BY k.start",
+    "graph_capture_launches": "SELECT r.start,g.graphId,g.streamId FROM CUPTI_ACTIVITY_KIND_RUNTIME r JOIN StringIds s ON s.id=r.nameId JOIN CUPTI_ACTIVITY_KIND_GRAPH_TRACE g ON g.correlationId=r.correlationId WHERE s.value LIKE 'cudaGraphLaunch%' ORDER BY r.start",
+    "copies": "SELECT c.start,c.end,c.bytes,c.streamId FROM CUPTI_ACTIVITY_KIND_MEMCPY c WHERE c.copyKind=2 AND c.streamId=14 AND c.bytes IN (56,12368) ORDER BY c.start"
+  },
+  "independent_method": [
+    "Group NODE graph kernels by runtime cudaGraphLaunch correlation and order the launches by host API start; identify D by decode and M by packet kernel, then pair all 60 launch ordinals to GRAPH-capture graph IDs and real streams.",
+    "Map frame n using nth F05 and nth D/M launch pair; independently check F02<F05<D launch<M launch<next F05 host ordering, D GPU completion<=mask<=M graph, and M D2H completion<=next-frame begin/input for all30.",
+    "Find F03 as all D graph kernels completed before its first producer initialize/finite/aggregate kernel. This independently yields302 engine kernels,3 producer kernels and5 F04 kernels per frame.",
+    "Full F06 begins at flow_input and ends after flow_output writes the working gray image. Its actual CUDA kernels are the M-stream kernels in that interval. flow_mask and predict are separate.",
+    "Tail for cross-frame statistics is flow_mask plus all9 M graph kernels. Merge each actual activity list, intersect the normalized lists using a two-pointer sweep; bounding envelopes are computed separately.",
+    "Exclude zero-based frames0,1; steady frames2..29 yield28 same-frame samples and adjacent pairs n=2..28 yield27 cross-frame samples.",
+    "Compare all30 timeline segments against independently reconstructed event bounds, counts, busy intervals and logical streams. Compare30 SVG measured-bar x/width values to those bounds, allowing only3-decimal SVG rounding."
+  ],
+  "graph_pairing": {
+    "8": {
+      "node_role": "D",
+      "graph_capture_id": 7,
+      "real_stream": 13
+    },
+    "2": {
+      "node_role": "M",
+      "graph_capture_id": 1,
+      "real_stream": 14
+    },
+    "11": {
+      "node_role": "D",
+      "graph_capture_id": 10,
+      "real_stream": 13
+    },
+    "5": {
+      "node_role": "M",
+      "graph_capture_id": 4,
+      "real_stream": 14
+    }
+  },
+  "launch_pairs_checked": 60,
+  "frame_pairs_checked": 30,
+  "stage_segments_checked": 30,
+  "figure_bars_checked": 30,
+  "independent_summary": {
+    "total_frames": 30,
+    "steady_frames": 28,
+    "adjacent_steady_pairs": 27,
+    "logical_streams": {
+      "D": 13,
+      "M": 14
+    },
+    "node_graph_roles": {
+      "8": "D",
+      "2": "M",
+      "11": "D",
+      "5": "M"
+    },
+    "node_graph_to_graph_capture_ids": {
+      "8": 7,
+      "2": 1,
+      "11": 10,
+      "5": 4
+    },
+    "f06_envelope_fully_inside_same_frame_f03": 28,
+    "ofa_bound_fully_inside_same_frame_f03": 28,
+    "f03_envelope": {
+      "samples": 28,
+      "mean_ms": 4.901667857142857,
+      "median_ms": 4.9531,
+      "min_ms": 4.664345,
+      "max_ms": 5.004958
+    },
+    "f06_envelope": {
+      "samples": 28,
+      "mean_ms": 2.644225392857143,
+      "median_ms": 2.6624485,
+      "min_ms": 2.426493,
+      "max_ms": 3.23284
+    },
+    "ofa_indirect_bound": {
+      "samples": 28,
+      "mean_ms": 2.218510607142857,
+      "median_ms": 2.213867,
+      "min_ms": 2.079802,
+      "max_ms": 2.403837
+    },
+    "tail_kernel_union": {
+      "samples": 28,
+      "mean_ms": 0.9403257142857143,
+      "median_ms": 0.9908445,
+      "min_ms": 0.255779,
+      "max_ms": 1.043789
+    },
+    "cross_frame_pairs_with_actual_kernel_overlap": 27,
+    "cross_tail_nextD_envelope_overlap": {
+      "samples": 27,
+      "mean_ms": 1.1285826666666667,
+      "median_ms": 1.159502,
+      "min_ms": 0.473606,
+      "max_ms": 1.189647
+    },
+    "cross_tail_nextD_kernel_union_overlap": {
+      "samples": 27,
+      "mean_ms": 0.9372636666666666,
+      "median_ms": 0.962797,
+      "min_ms": 0.429957,
+      "max_ms": 1.014603
+    },
+    "cross_tail_nextF03_kernel_union_overlap": {
+      "samples": 27,
+      "mean_ms": 0.9087761851851852,
+      "median_ms": 0.934028,
+      "min_ms": 0.402469,
+      "max_ms": 0.985643
+    }
+  },
+  "max_abs_summary_numeric_difference": 0,
+  "max_abs_per_segment_time_difference_ns": 0,
+  "max_abs_figure_geometry_difference_svg_units": 0.000488581756712847,
+  "prior_finding_resolved": "Full F06 was corrected to include flow_output, matching source/docs F06 step7. No remaining data/geometry finding.",
+  "visual_layout_review": "Numerical SVG bar geometry and labels/source semantics checked; full-page layout review is handled by parent.",
+  "source_hashes": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/nsys/track.sqlite",
+      "bytes": 2400256,
+      "sha256": "33dbb097a4c3aeb0b9853a6bdcd0ef0956504f1c5c4d1c169b6bfe21c3dd6f06"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/nsys/track-graph.sqlite",
+      "bytes": 1298432,
+      "sha256": "67c8e7438b28a1638ffa86f41e691aa6d67bb1921c0aee14f1b4841fa0977556"
+    },
+    {
+      "path": "evidence/report1/2026-11-12-schedule-trace/analyze.py",
+      "bytes": 18275,
+      "sha256": "104c0bceb962087c733f7a1531d26c26b3a95641912522fcdacbd20bc21aaa3e"
+    },
+    {
+      "path": "evidence/report1/2026-11-12-schedule-trace/summary.json",
+      "bytes": 4836,
+      "sha256": "30827b0f4da94f958dde09165fac50cf3251534fb2e7e77475a37e4f9c9a77e7"
+    },
+    {
+      "path": "evidence/report1/2026-11-12-schedule-trace/timeline.json",
+      "bytes": 83193,
+      "sha256": "02447bbbc890ab721d6b2a2899fb07e2192a846479219a0fa450811c171281d0"
+    },
+    {
+      "path": "evidence/report1/2026-11-12-schedule-trace/source-inputs.json",
+      "bytes": 5745,
+      "sha256": "a497769e488dd358c1e9b6b972f7be1bf62984ad176b7a026f1f84749709ddbf"
+    },
+    {
+      "path": "docs/reports/assets/report1-3cbaa518f0dc/story-schedule.svg",
+      "bytes": 12650,
+      "sha256": "1de2c91c4ecea9abb9aba6186ef94361f60ac8b172fc34ad848d72bf0f75c284"
+    },
+    {
+      "path": "docs/reports/latex/report1/schedule-sources.json",
+      "bytes": 1922,
+      "sha256": "f67be1da4c5007195a9f8bccc44142499ada1c2ec67a38e20ffef53d8bc0d130"
+    }
+  ],
+  "limits": [
+    "Historical clean fae5cb7/2026-11-05 capture, not fresh runtime-base measurement.",
+    "Kernel overlap is actual interval intersection, not SM occupancy, speedup or proof of race freedom.",
+    "OFA fixed-function engine not directly observed; indirect bounds and F06 envelope are not pure OFA time or utilization.",
+    "NODE and GRAPH are separate profiler captures; graph roles/real launch streams are paired by ordinal, not by equating synthetic profiler kernel streams.",
+    "Profiler instrumentation affects timing; do not use these times as unprofiled product latency/FPS.",
+    "No existing sanitizer OPEN/FAIL or deployment status is changed."
+  ],
+  "per_frame_independent_values": [
+    {
+      "frame": 0,
+      "f03_envelope_ns": 4616760,
+      "f06_envelope_ns": 5257409,
+      "ofa_bound_ns": 17376,
+      "tail_kernel_union_ns": 92673,
+      "f06_contained": false,
+      "ofa_contained": true,
+      "cross_envelope_ns": 0,
+      "cross_busy_ns": 0,
+      "cross_next_f03_busy_ns": 0
+    },
+    {
+      "frame": 1,
+      "f03_envelope_ns": 4679801,
+      "f06_envelope_ns": 10630786,
+      "ofa_bound_ns": 10352383,
+      "tail_kernel_union_ns": 137665,
+      "f06_contained": false,
+      "ofa_contained": false,
+      "cross_envelope_ns": 0,
+      "cross_busy_ns": 0,
+      "cross_next_f03_busy_ns": 0
+    },
+    {
+      "frame": 2,
+      "f03_envelope_ns": 4751034,
+      "f06_envelope_ns": 2530591,
+      "ofa_bound_ns": 2079802,
+      "tail_kernel_union_ns": 452614,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 473606,
+      "cross_busy_ns": 429957,
+      "cross_next_f03_busy_ns": 402469
+    },
+    {
+      "frame": 3,
+      "f03_envelope_ns": 4700825,
+      "f06_envelope_ns": 2737506,
+      "ofa_bound_ns": 2331452,
+      "tail_kernel_union_ns": 958346,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1106701,
+      "cross_busy_ns": 931082,
+      "cross_next_f03_busy_ns": 903498
+    },
+    {
+      "frame": 4,
+      "f03_envelope_ns": 4671770,
+      "f06_envelope_ns": 2479518,
+      "ofa_bound_ns": 2108506,
+      "tail_kernel_union_ns": 953965,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1102606,
+      "cross_busy_ns": 926189,
+      "cross_next_f03_busy_ns": 898636
+    },
+    {
+      "frame": 5,
+      "f03_envelope_ns": 4712634,
+      "f06_envelope_ns": 3232840,
+      "ofa_bound_ns": 2403837,
+      "tail_kernel_union_ns": 962669,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1122830,
+      "cross_busy_ns": 935403,
+      "cross_next_f03_busy_ns": 908011
+    },
+    {
+      "frame": 6,
+      "f03_envelope_ns": 4686425,
+      "f06_envelope_ns": 2628128,
+      "ofa_bound_ns": 2193851,
+      "tail_kernel_union_ns": 944812,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1100558,
+      "cross_busy_ns": 917356,
+      "cross_next_f03_busy_ns": 889963
+    },
+    {
+      "frame": 7,
+      "f03_envelope_ns": 4664345,
+      "f06_envelope_ns": 2694433,
+      "ofa_bound_ns": 2307261,
+      "tail_kernel_union_ns": 943883,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1105901,
+      "cross_busy_ns": 916810,
+      "cross_next_f03_busy_ns": 889194
+    },
+    {
+      "frame": 8,
+      "f03_envelope_ns": 4877820,
+      "f06_envelope_ns": 2671904,
+      "ofa_bound_ns": 2134074,
+      "tail_kernel_union_ns": 1002605,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1151758,
+      "cross_busy_ns": 973547,
+      "cross_next_f03_busy_ns": 944395
+    },
+    {
+      "frame": 9,
+      "f03_envelope_ns": 4966172,
+      "f06_envelope_ns": 2720994,
+      "ofa_bound_ns": 2282972,
+      "tail_kernel_union_ns": 992045,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1176495,
+      "cross_busy_ns": 962797,
+      "cross_next_f03_busy_ns": 934028
+    },
+    {
+      "frame": 10,
+      "f03_envelope_ns": 4995261,
+      "f06_envelope_ns": 2793186,
+      "ofa_bound_ns": 2261659,
+      "tail_kernel_union_ns": 1013133,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1177774,
+      "cross_busy_ns": 983563,
+      "cross_next_f03_busy_ns": 954539
+    },
+    {
+      "frame": 11,
+      "f03_envelope_ns": 5004958,
+      "f06_envelope_ns": 2500958,
+      "ofa_bound_ns": 2135866,
+      "tail_kernel_union_ns": 1017291,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1171726,
+      "cross_busy_ns": 988459,
+      "cross_next_f03_busy_ns": 959371
+    },
+    {
+      "frame": 12,
+      "f03_envelope_ns": 4964253,
+      "f06_envelope_ns": 2662688,
+      "ofa_bound_ns": 2226011,
+      "tail_kernel_union_ns": 995980,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1172526,
+      "cross_busy_ns": 966762,
+      "cross_next_f03_busy_ns": 938186
+    },
+    {
+      "frame": 13,
+      "f03_envelope_ns": 4947772,
+      "f06_envelope_ns": 2558047,
+      "ofa_bound_ns": 2184955,
+      "tail_kernel_union_ns": 996524,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1161102,
+      "cross_busy_ns": 967307,
+      "cross_next_f03_busy_ns": 938826
+    },
+    {
+      "frame": 14,
+      "f03_envelope_ns": 4966332,
+      "f06_envelope_ns": 2707009,
+      "ofa_bound_ns": 2252636,
+      "tail_kernel_union_ns": 1021452,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1177422,
+      "cross_busy_ns": 992172,
+      "cross_next_f03_busy_ns": 963148
+    },
+    {
+      "frame": 15,
+      "f03_envelope_ns": 4977757,
+      "f06_envelope_ns": 2656897,
+      "ofa_bound_ns": 2220955,
+      "tail_kernel_union_ns": 1043789,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1189647,
+      "cross_busy_ns": 1014603,
+      "cross_next_f03_busy_ns": 985643
+    },
+    {
+      "frame": 16,
+      "f03_envelope_ns": 4983997,
+      "f06_envelope_ns": 2504031,
+      "ofa_bound_ns": 2176315,
+      "tail_kernel_union_ns": 1026028,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1178446,
+      "cross_busy_ns": 996268,
+      "cross_next_f03_busy_ns": 967820
+    },
+    {
+      "frame": 17,
+      "f03_envelope_ns": 4963901,
+      "f06_envelope_ns": 2474302,
+      "ofa_bound_ns": 2155226,
+      "tail_kernel_union_ns": 1000492,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1178990,
+      "cross_busy_ns": 971692,
+      "cross_next_f03_busy_ns": 942924
+    },
+    {
+      "frame": 18,
+      "f03_envelope_ns": 4979485,
+      "f06_envelope_ns": 2662464,
+      "ofa_bound_ns": 2220795,
+      "tail_kernel_union_ns": 976748,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1150350,
+      "cross_busy_ns": 947435,
+      "cross_next_f03_busy_ns": 918923
+    },
+    {
+      "frame": 19,
+      "f03_envelope_ns": 4956093,
+      "f06_envelope_ns": 2664257,
+      "ofa_bound_ns": 2275932,
+      "tail_kernel_union_ns": 968171,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1145582,
+      "cross_busy_ns": 940138,
+      "cross_next_f03_busy_ns": 911305
+    },
+    {
+      "frame": 20,
+      "f03_envelope_ns": 4954044,
+      "f06_envelope_ns": 2508094,
+      "ofa_bound_ns": 2206939,
+      "tail_kernel_union_ns": 993868,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1171791,
+      "cross_busy_ns": 964779,
+      "cross_next_f03_busy_ns": 935818
+    },
+    {
+      "frame": 21,
+      "f03_envelope_ns": 4947100,
+      "f06_envelope_ns": 2765666,
+      "ofa_bound_ns": 2286844,
+      "tail_kernel_union_ns": 951403,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1140622,
+      "cross_busy_ns": 923563,
+      "cross_next_f03_busy_ns": 895082
+    },
+    {
+      "frame": 22,
+      "f03_envelope_ns": 4928796,
+      "f06_envelope_ns": 2789506,
+      "ofa_bound_ns": 2189499,
+      "tail_kernel_union_ns": 977036,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1148078,
+      "cross_busy_ns": 948234,
+      "cross_next_f03_busy_ns": 919242
+    },
+    {
+      "frame": 23,
+      "f03_envelope_ns": 4954108,
+      "f06_envelope_ns": 2515838,
+      "ofa_bound_ns": 2198107,
+      "tail_kernel_union_ns": 989644,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1159502,
+      "cross_busy_ns": 961099,
+      "cross_next_f03_busy_ns": 932458
+    },
+    {
+      "frame": 24,
+      "f03_envelope_ns": 4945052,
+      "f06_envelope_ns": 2703873,
+      "ofa_bound_ns": 2283292,
+      "tail_kernel_union_ns": 996108,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1167566,
+      "cross_busy_ns": 967020,
+      "cross_next_f03_busy_ns": 938251
+    },
+    {
+      "frame": 25,
+      "f03_envelope_ns": 4952156,
+      "f06_envelope_ns": 2662433,
+      "ofa_bound_ns": 2230684,
+      "tail_kernel_union_ns": 930795,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1142222,
+      "cross_busy_ns": 902857,
+      "cross_next_f03_busy_ns": 874409
+    },
+    {
+      "frame": 26,
+      "f03_envelope_ns": 4925084,
+      "f06_envelope_ns": 2537311,
+      "ofa_bound_ns": 2200123,
+      "tail_kernel_union_ns": 953227,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1151662,
+      "cross_busy_ns": 924715,
+      "cross_next_f03_busy_ns": 896107
+    },
+    {
+      "frame": 27,
+      "f03_envelope_ns": 4955453,
+      "f06_envelope_ns": 2785890,
+      "ofa_bound_ns": 2341148,
+      "tail_kernel_union_ns": 1003212,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1170414,
+      "cross_busy_ns": 974348,
+      "cross_next_f03_busy_ns": 945452
+    },
+    {
+      "frame": 28,
+      "f03_envelope_ns": 4964189,
+      "f06_envelope_ns": 2426493,
+      "ofa_bound_ns": 2098842,
+      "tail_kernel_union_ns": 1007501,
+      "f06_contained": true,
+      "ofa_contained": true,
+      "cross_envelope_ns": 1175855,
+      "cross_busy_ns": 977964,
+      "cross_next_f03_busy_ns": 949259
+    },
+    {
+      "frame": 29,
+      "f03_envelope_ns": 4949884,
+      "f06_envelope_ns": 2463454,
+      "ofa_bound_ns": 2130714,
+      "tail_kernel_union_ns": 255779,
+      "f06_contained": true,
+      "ofa_contained": true
+    }
+  ]
+}

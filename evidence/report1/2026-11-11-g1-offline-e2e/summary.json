@@ -1,0 +1,202 @@
+{
+  "schema": "report1-offline-process-e2e-summary/1",
+  "status": "PASS_BOUNDED_PROCESS_COMPLETION_AND_OUTPUT_PARITY",
+  "contract": {
+    "schema": "report1-offline-process-e2e-contract/1",
+    "runtime_base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "runtime_clean": true,
+    "benchmark_instrumentation": false,
+    "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+    "engine_rebuilt": false,
+    "sequence": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+    "frames_per_process": 654,
+    "fresh_processes": 3,
+    "model_profile": "hr-1280x768",
+    "motion": "v1-motion/2 G1 NVOFA",
+    "graph": true,
+    "mode": "pipelined",
+    "result_slots": 4,
+    "nsa_enabled": false,
+    "measurement_box": false,
+    "outputs": [
+      "final MOT",
+      "all frame packets",
+      "all frame MotionRecords",
+      "resolved config",
+      "stdout log"
+    ],
+    "primary_boundary": "external perf_counter immediately before Popen through blocking waitpid return after child process exit; watchdog timeout, no polling wait",
+    "included": [
+      "process startup",
+      "engine load and session constructor",
+      "all 654 JPEG file reads",
+      "all frame processing and lazy capture",
+      "drain and checked session close",
+      "sequence-tail interpolation and ID finalization",
+      "final MOT/packet/motion writes and checked file close",
+      "resolved-config write",
+      "stdout log write",
+      "process exit and parent wait"
+    ],
+    "excluded": [
+      "build",
+      "preflight hashing",
+      "post-run output verification/hash/compression",
+      "fsync or storage durability",
+      "camera/network/live acquisition"
+    ],
+    "cache_policy": "not cleared; preflight input hashing reads all files and may warm OS page cache",
+    "latency_interpretation": "whole offline sequence completion; wall/frames is amortized cost, not per-frame latency",
+    "gpu_lock": "/home/ray/.cache/saccade-v1/gpu.lock",
+    "telemetry": "nvidia-smi 1-second sampling over 3-run block",
+    "clock_lock": false,
+    "order": "three consecutive fresh processes",
+    "outlier_removal": false,
+    "no_gt_no_scoring": true,
+    "no_sanitizer_or_quality_acceptance": true
+  },
+  "driver_version": "621.14",
+  "process_wall_ms": {
+    "n": 3,
+    "mean": 4836.436321333334,
+    "median": 4664.052763,
+    "min": 4480.109873,
+    "max": 5365.146328
+  },
+  "amortized_process_ms_per_frame": {
+    "n": 3,
+    "mean": 7.395162570846075,
+    "median": 7.131579148318043,
+    "min": 6.85032090672783,
+    "max": 8.203587657492355
+  },
+  "aggregate_process_throughput_fps": 135.22353165599046,
+  "app_loop_wall_ms": {
+    "n": 3,
+    "mean": 3433.6866666666665,
+    "median": 3427.13,
+    "min": 3412.49,
+    "max": 3461.44
+  },
+  "app_loop_ms_per_frame": {
+    "n": 3,
+    "mean": 5.250283333333333,
+    "median": 5.24025,
+    "min": 5.21787,
+    "max": 5.29273
+  },
+  "process_minus_app_loop_ms": {
+    "n": 3,
+    "mean": 1402.7496546666669,
+    "median": 1202.6127629999996,
+    "min": 1067.6198730000006,
+    "max": 1938.0163279999997
+  },
+  "outputs": {
+    "mot.txt": {
+      "all_three_byte_equal": true,
+      "bytes_each": 594269,
+      "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f"
+    },
+    "packets.bin": {
+      "all_three_byte_equal": true,
+      "bytes_each": 8088672,
+      "sha256": "dbb226d5d4d7944cabec1fd8530a57c9c02788bf2db1ade0f790aca3e40531db"
+    },
+    "motion.scmo": {
+      "all_three_byte_equal": true,
+      "bytes_each": 28820,
+      "sha256": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15"
+    },
+    "resolved.config": {
+      "all_three_byte_equal": true,
+      "bytes_each": 6397,
+      "sha256": "1394d49366796c922760c0fa2c207c42b4d2819fa73dcaf7f9538468dce6b097"
+    }
+  },
+  "packet_prefix_matches_prior_140_frame_benchmark": true,
+  "source_inputs_binaries_unchanged": true,
+  "run_records": [
+    {
+      "ordinal": 1,
+      "returncode": 0,
+      "wall_ms": 5365.146328,
+      "start_utc": "2026-11-11T12:12:07.575162+00:00",
+      "end_utc": "2026-11-11T12:12:12.940479+00:00",
+      "perf_counter_before_ns": 1499824967757,
+      "perf_counter_after_ns": 1505190114085,
+      "app_frames": 654,
+      "app_mode": "pipelined",
+      "app_loop_wall_ms": 3427.13,
+      "app_loop_ms_per_frame": 5.24025
+    },
+    {
+      "ordinal": 2,
+      "returncode": 0,
+      "wall_ms": 4480.109873,
+      "start_utc": "2026-11-11T12:12:12.941630+00:00",
+      "end_utc": "2026-11-11T12:12:17.421955+00:00",
+      "perf_counter_before_ns": 1505191445962,
+      "perf_counter_after_ns": 1509671555835,
+      "app_frames": 654,
+      "app_mode": "pipelined",
+      "app_loop_wall_ms": 3412.49,
+      "app_loop_ms_per_frame": 5.21787
+    },
+    {
+      "ordinal": 3,
+      "returncode": 0,
+      "wall_ms": 4664.052763,
+      "start_utc": "2026-11-11T12:12:17.423040+00:00",
+      "end_utc": "2026-11-11T12:12:22.087273+00:00",
+      "perf_counter_before_ns": 1509672842405,
+      "perf_counter_after_ns": 1514336895168,
+      "app_frames": 654,
+      "app_mode": "pipelined",
+      "app_loop_wall_ms": 3461.44,
+      "app_loop_ms_per_frame": 5.29273
+    }
+  ],
+  "telemetry_observations": {
+    "samples": 15,
+    "sampling_period_seconds": 1,
+    "scope": "three-run block including startup, output and gaps; not steady-state utilization",
+    "temperature_c": {
+      "n": 15,
+      "mean": 63.13333333333333,
+      "median": 66.0,
+      "min": 49.0,
+      "max": 70.0
+    },
+    "power_w": {
+      "n": 15,
+      "mean": 99.914,
+      "median": 132.85,
+      "min": 14.23,
+      "max": 142.17
+    },
+    "utilization_percent": {
+      "n": 15,
+      "mean": 72.93333333333334,
+      "median": 100.0,
+      "min": 0.0,
+      "max": 100.0
+    },
+    "memory_mib": {
+      "n": 15,
+      "mean": 416.1333333333333,
+      "median": 495.0,
+      "min": 0.0,
+      "max": 495.0
+    }
+  },
+  "limitations": [
+    "one complete sequence, three fresh processes",
+    "file reads use uncontrolled OS cache warmed by preflight",
+    "process wall is full sequence completion, not per-frame latency",
+    "MOT is finalized after EOF",
+    "includes packet/motion/resolved/stdout outputs as well as MOT",
+    "no fsync durability claim",
+    "no live camera/network source, quality rescoring or sanitizer acceptance"
+  ]
+}

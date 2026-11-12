@@ -1,0 +1,25 @@
+r0-2-graph-single init_ms=3371.001 first_frame_ms=23.062 warmup_ms=162.258 wall_ms=808.017 wall_us_per_frame=6733.479 latency_mean_us=6733.182 p50_us=6688.756 p95_us=7003.453 p99_us=7105.958 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r0-2-graph-queued init_ms=449.523 first_frame_ms=16.849 warmup_ms=148.528 wall_ms=617.814 wall_us_per_frame=5148.452 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r0-3-graph-single init_ms=441.637 first_frame_ms=16.445 warmup_ms=144.372 wall_ms=800.533 wall_us_per_frame=6671.109 latency_mean_us=6670.856 p50_us=6646.116 p95_us=6910.287 p99_us=7056.344 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r0-3-graph-queued init_ms=442.923 first_frame_ms=17.215 warmup_ms=147.708 wall_ms=616.827 wall_us_per_frame=5140.223 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r1-2-graph-single init_ms=445.200 first_frame_ms=16.765 warmup_ms=147.488 wall_ms=808.956 wall_us_per_frame=6741.300 latency_mean_us=6741.048 p50_us=6709.366 p95_us=6970.861 p99_us=7266.554 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r1-2-graph-queued init_ms=441.310 first_frame_ms=16.940 warmup_ms=149.125 wall_ms=615.335 wall_us_per_frame=5127.788 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r1-3-graph-single init_ms=435.330 first_frame_ms=16.530 warmup_ms=146.737 wall_ms=805.382 wall_us_per_frame=6711.517 latency_mean_us=6711.250 p50_us=6681.825 p95_us=7059.139 p99_us=7214.754 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+r1-3-graph-queued init_ms=445.005 first_frame_ms=18.025 warmup_ms=162.284 wall_ms=616.361 wall_us_per_frame=5136.339 packet_sha256=db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022 packets_equal=PASS
+{
+  "schema":"tracking-latency/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+  "frames_per_session":120,
+  "warmup_frames":20,
+  "abba_rounds":2,
+  "input_io":"JPEGs preloaded; excludes disk I/O and file output",
+  "warmup_scope":"constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+  "latency_scope":"one enqueue through blocking receive, no frames in flight at start",
+  "queued_scope":"wall time per frame is throughput, not individual frame latency",
+  "packet_comparison":"selected mode repeats and single/queued, including warmup",
+  "packet_sha256":"db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022",
+  "groups":[
+    {"mode":"graph","latency_samples":480,"latency_mean_us":6714.083792,"latency_p50_us":6681.825000,"latency_p95_us":6983.035000,"latency_p99_us":7229.283000,"queued_us_per_frame_mean":5138.200492,"queued_us_per_frame_min":5127.788167,"queued_us_per_frame_max":5148.451967,"init_us_mean":808991.090875,"first_frame_us_mean":17728.838500,"warmup_us_mean":151062.598375}
+  ]
+}

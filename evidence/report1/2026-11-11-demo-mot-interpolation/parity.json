@@ -1,0 +1,223 @@
+{
+  "schema": "saccade-demo-formal-mot-gap-parity/1",
+  "status": "PASS",
+  "created_utc": "2026-11-11T13:43:29.292143+00:00",
+  "node": "v24.14.1",
+  "scope": "display gap module vs independently reproduced F09 and existing captured MOT; no inference/GT/scoring",
+  "policy": {
+    "profile": "v1-mot/1",
+    "grouping": "output_id only; UID changes permitted",
+    "minimum_observed_rows": 5,
+    "maximum_missing_frames": 35,
+    "confidence": -1,
+    "first_appearance_mot_id_mapping": true,
+    "extrapolation": false
+  },
+  "comparison": {
+    "full_precision_module_xyxy_absolute_tolerance": 1e-12,
+    "captured_mot_xywh_conf_absolute_tolerance": 0.0005000001,
+    "mot_precision_decimal_places": 3,
+    "byte_identity_claim": false
+  },
+  "cases": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "status": "PASS",
+      "frames": 654,
+      "observed_rows": 10385,
+      "interpolated_rows": 934,
+      "final_mot_rows": 11319,
+      "uid_crossing_interpolated_rows": 98,
+      "module_full_precision_xyxy_max_abs_error": 0.0,
+      "mot_three_decimal_xywh_conf_max_abs_error": 0.0005000000001018634,
+      "module_stats": {
+        "intervals": 309,
+        "filledRows": 934,
+        "inputRows": 10385,
+        "outputIds": 86,
+        "frameCount": 654,
+        "maxMissingFrames": 35,
+        "minObservations": 5,
+        "profile": "v1-mot/1"
+      },
+      "uid_crossing_witness": {
+        "frame": 90,
+        "outputId": 71,
+        "motId": 24,
+        "fromUid": 71,
+        "toUid": 106,
+        "fromFrame": 86,
+        "toFrame": 101,
+        "missingFrames": 14,
+        "fraction": 0.26666666666666666,
+        "xyxy": [
+          1807.4450520833334,
+          323.7766642252604,
+          1977.4238932291667,
+          731.4622192382812
+        ],
+        "confidence": -1,
+        "method": "v1-mot/1"
+      },
+      "inputs": {
+        "docs/demos/report1/assets/data.json": {
+          "bytes": 1302971,
+          "sha256": "1ad5ab54eec8eee92c8ceacca7136c6ed04c7631d524e790d2b96c6e863ef164"
+        },
+        "evidence/report1/2026-11-11-g1-offline-e2e/raw/run1/mot.txt": {
+          "bytes": 594269,
+          "sha256": "ccd1c2197e20d8a13a2695da8c07b2ee8e38ba46792c8f5f77d12e9882a8a35f"
+        },
+        "evidence/report1/2026-11-11-g1-offline-e2e/raw/run1/resolved.config": {
+          "bytes": 6397,
+          "sha256": "1394d49366796c922760c0fa2c207c42b4d2819fa73dcaf7f9538468dce6b097"
+        }
+      }
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "status": "PASS",
+      "frames": 600,
+      "observed_rows": 11454,
+      "interpolated_rows": 2040,
+      "final_mot_rows": 13494,
+      "uid_crossing_interpolated_rows": 149,
+      "module_full_precision_xyxy_max_abs_error": 0.0,
+      "mot_three_decimal_xywh_conf_max_abs_error": 0.0005000000001018634,
+      "module_stats": {
+        "intervals": 422,
+        "filledRows": 2040,
+        "inputRows": 11454,
+        "outputIds": 104,
+        "frameCount": 600,
+        "maxMissingFrames": 35,
+        "minObservations": 5,
+        "profile": "v1-mot/1"
+      },
+      "uid_crossing_witness": {
+        "frame": 220,
+        "outputId": 12,
+        "motId": 5,
+        "fromUid": 12,
+        "toUid": 205,
+        "fromFrame": 211,
+        "toFrame": 238,
+        "missingFrames": 26,
+        "fraction": 0.3333333333333333,
+        "xyxy": [
+          1130.3404947916667,
+          449.1165771484375,
+          1160.1980794270833,
+          536.3548990885416
+        ],
+        "confidence": -1,
+        "method": "v1-mot/1"
+      },
+      "inputs": {
+        "docs/demos/report1/assets/data-02.json": {
+          "bytes": 1419091,
+          "sha256": "13cc110b69ebd00e341bccdce3ddca726e7cd006cc7e1a2f3fe55888b0ed18e2"
+        },
+        "evidence/report1/2026-11-11-mot17-02-demo/raw/run1/mot.txt": {
+          "bytes": 706710,
+          "sha256": "75cbe9d8ea4826c376fce4fea3599eec785dacaa08f89e3dac77dfea8733fa09"
+        },
+        "evidence/report1/2026-11-11-mot17-02-demo/raw/run1/resolved.config": {
+          "bytes": 6397,
+          "sha256": "37e2b4e339a4aa47a0e7d20ba5d2953f7fc2bab0d5b5dae3c874ab3fb464d1fb"
+        }
+      }
+    },
+    {
+      "sequence": "MOT17-04-SDP",
+      "status": "PASS",
+      "frames": 1050,
+      "observed_rows": 43003,
+      "interpolated_rows": 2053,
+      "final_mot_rows": 45056,
+      "uid_crossing_interpolated_rows": 123,
+      "module_full_precision_xyxy_max_abs_error": 0.0,
+      "mot_three_decimal_xywh_conf_max_abs_error": 0.0005000000001018634,
+      "module_stats": {
+        "intervals": 587,
+        "filledRows": 2053,
+        "inputRows": 43003,
+        "outputIds": 106,
+        "frameCount": 1050,
+        "maxMissingFrames": 35,
+        "minObservations": 5,
+        "profile": "v1-mot/1"
+      },
+      "uid_crossing_witness": {
+        "frame": 240,
+        "outputId": 20,
+        "motId": 20,
+        "fromUid": 20,
+        "toUid": 69,
+        "fromFrame": 229,
+        "toFrame": 256,
+        "missingFrames": 26,
+        "fraction": 0.4074074074074074,
+        "xyxy": [
+          630.4933833369503,
+          295.6946705005787,
+          684.4817776150173,
+          465.1523053204572
+        ],
+        "confidence": -1,
+        "method": "v1-mot/1"
+      },
+      "inputs": {
+        "docs/demos/report1/assets/data-04.json": {
+          "bytes": 5229687,
+          "sha256": "ec11ff2d23bfad88ceb3a73e56b2f2b6e381677ea3a005f6679edffc57d098aa"
+        },
+        "evidence/report1/2026-11-11-mot17-04-demo/raw/run1/mot.txt": {
+          "bytes": 2376912,
+          "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778"
+        },
+        "evidence/report1/2026-11-11-mot17-04-demo/raw/run1/resolved.config": {
+          "bytes": 6397,
+          "sha256": "775fdda43c2a0f45ae29d20f8ab362dbb05c902501c5e2995302c05b5a953d35"
+        }
+      }
+    }
+  ],
+  "source_assets_unchanged": {
+    "data-02.js": "ab77fe9390e766b8a4d31b09ae3b26a57ce10e1c781e4663085f1efeb93c8fd8",
+    "data-02.json": "13cc110b69ebd00e341bccdce3ddca726e7cd006cc7e1a2f3fe55888b0ed18e2",
+    "data-04.js": "04d478f217bfc461a8c1fe6501be6356ca32eb1bf67b510b9c22ba0b03f8c861",
+    "data-04.json": "ec11ff2d23bfad88ceb3a73e56b2f2b6e381677ea3a005f6679edffc57d098aa",
+    "data.js": "b1183506bc53c359be8eff0f45fa6c840405530e6eb46943a12e6b9bf28ecf1f",
+    "data.json": "1ad5ab54eec8eee92c8ceacca7136c6ed04c7631d524e790d2b96c6e863ef164",
+    "poster-02.jpg": "fb601c34f19880469daa8c8e9a004959933c31daed2565b9736403a848cf9000",
+    "poster-04.jpg": "643568d57bbda725977c3429b1513f72742e5e5fc5a9a788bae31b361bb95eac",
+    "poster.jpg": "dfe3b3dafb35b4c9a563baf4b07e60cdd2e4bca491193201648942258de3d147",
+    "provenance-02.json": "f293f4424591f8b7d2d145fc4b64bfd3d5ee6fcd198a7d5f16b72c6521df8b65",
+    "provenance-04.json": "c74cae365003bb50942af8ca59ed036084b440a939f5c18955146d7c2705e990",
+    "provenance.json": "8da8c66b870c4a40bba2dd810db4e9e88331a5b621a604b2eb91578be80abd9d",
+    "source-02-encode.log": "89925c6abfe157fa666bee55675764dbab2ecf1d9f6205da5a48c56374ec091e",
+    "source-02.mp4": "abf26c03e944db166944317f8111c45718448f890f2606964348f88a055da107",
+    "source-04-encode.log": "9915af01de5b8f4018bb1c95f74b8b71fc9bcaf64b190b84632f9d7eabef92b3",
+    "source-04.mp4": "e494e38eab64a26fb9da7c2af91a59b81af6048b29f99b97b888ba4a2646cac4",
+    "source-encode.log": "f2b9bfde0eac18b93bc32d58efae550ea2c86e9590e3a3eceee9102cf21227f9",
+    "source.mp4": "122283393b7d622559d9b85465c140d960e06b1fecdd0259e17188591acfb0ce",
+    "tracking-demo-02.mp4": "9eb7d0077e0f845aeb7882c0122c40211e6dade29f2a5781c5e525845ff12742",
+    "tracking-demo-04.mp4": "f1044c6c6794d1bc7045fe90207dae503d0acaa1f04643bf8e7e258ad9ae7390",
+    "tracking-demo-poster-02.jpg": "70d5e275f40464e6c6b32aedb9cf7f0ffb644adc8ae2342eb1268add892b7c12",
+    "tracking-demo-poster-04.jpg": "4ac281f0643db956a5f510d63237de02fecbe425949bb8792cbd3157a6a6b683",
+    "tracking-demo-poster.jpg": "3bb834c1374ae18ea1f404ffb1d029ff00d50d25dd7d97d3d226f5f042063532",
+    "tracking-demo.mp4": "5f9618d44eae53b5d7056120b37b67f3735a0ddef29a9e7643fb4bc9a48aa6c0",
+    "video-render-02.json": "ca2a694af6964679bfb525ccc93fa812e573749c705c3563aac96138de8a7c63",
+    "video-render-04.json": "804294df2381e4cd2cf23f3e3b24e839af1b7a5c1561900736cb8d209c5ac9e5",
+    "video-render.json": "fbb9786a32ec11cd438f35aa3290bbf4065aced8153e93c376060f9d5c32e3e6"
+  },
+  "module": {
+    "path": "docs/demos/report1/gap-fill.js",
+    "sha256": "65a7e5f56bbd4de4739565ce8f5e6d584354aec892fe93394d5d6d72fa87e9d2"
+  },
+  "checker": {
+    "path": "docs/demos/report1/methods/check_mot_gap_parity.py",
+    "sha256": "03e3ac064b53ef52ff58083b87a3613995a611b3803289fb843d3a728350123d"
+  }
+}

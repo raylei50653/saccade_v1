@@ -1,0 +1,54 @@
+{
+  "schema": "report1-mot17-04-demo-summary/1",
+  "status": "PASS_COMPLETE_SOURCE_CAPTURE",
+  "contract": {
+    "schema": "report1-mot17-04-demo-capture/1",
+    "runtime_base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "runtime_clean": true,
+    "sequence": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-04-SDP",
+    "frames": 1050,
+    "fps": 30,
+    "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+    "engine_rebuilt": false,
+    "model_profile": "hr-1280x768",
+    "motion": "v1-motion/2 G1 NVOFA",
+    "cuda_graph": true,
+    "mode": "pipelined",
+    "result_slots": 4,
+    "nsa_enabled": false,
+    "measurement_box": false,
+    "purpose": "one complete source capture for prerecorded technical replay",
+    "not_a_performance_benchmark": true,
+    "no_gt_no_scoring": true,
+    "no_new_quality_or_sanitizer_acceptance": true,
+    "gpu_lock": "/home/ray/.cache/saccade-v1/gpu.lock"
+  },
+  "driver_version": "621.14",
+  "source_inputs_binaries_unchanged": true,
+  "outputs": {
+    "mot.txt": {
+      "bytes": 2376912,
+      "sha256": "07545c9dbddbf0d03e602ad743fbde3fc75555eea47457b3e32465f6a9fa5778"
+    },
+    "resolved.config": {
+      "bytes": 6397,
+      "sha256": "775fdda43c2a0f45ae29d20f8ab362dbb05c902501c5e2995302c05b5a953d35"
+    },
+    "motion.scmo": {
+      "bytes": 46244,
+      "sha256": "86c391a3dc905f6a9bb60ad999cb54d47a5b06bf6147204e3725530f72c54f75"
+    },
+    "packets.bin": {
+      "bytes": 12986400,
+      "sha256": "b6a3a3922ddce40aac30d96d85ca5b2e33170cb75fbe36e8245812d3f7d8b483"
+    }
+  },
+  "observed_process_wall_seconds": 6.933592151999619,
+  "metrics": null,
+  "limitations": [
+    "single source capture, not a latency benchmark",
+    "no GT opened or quality scores recomputed",
+    "MOT17-04 is in-domain data; not a new held-out evaluation",
+    "no full-session sanitizer gate or external camera/RTSP verification"
+  ]
+}

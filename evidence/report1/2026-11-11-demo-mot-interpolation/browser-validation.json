@@ -1,0 +1,347 @@
+{
+  "schema": "saccade-demo-browser-validation/1",
+  "checks": [
+    {
+      "name": "file:// opens with real decoded H.264 and correct initial frame",
+      "status": "PASS"
+    },
+    {
+      "name": "display interpolation defaults on but paused coordinates stay exact",
+      "status": "PASS"
+    },
+    {
+      "name": "adjacent observed boxes interpolate coordinates only without mutating data",
+      "status": "PASS"
+    },
+    {
+      "name": "interpolation does not bridge gaps, identities, predicted rows or births",
+      "status": "PASS"
+    },
+    {
+      "name": "terminal frames and phase limits never extrapolate coordinates",
+      "status": "PASS"
+    },
+    {
+      "name": "ID selection retains output ID and distinct internal UID",
+      "status": "PASS"
+    },
+    {
+      "name": "next/previous buttons move exactly one source frame",
+      "status": "PASS"
+    },
+    {
+      "name": "typing a source frame uses one-based JPEG numbering",
+      "status": "PASS"
+    },
+    {
+      "name": "missing selected ID stays selected and reports no observation",
+      "status": "PASS"
+    },
+    {
+      "name": "first/second/last source frame boundaries and controls",
+      "status": "PASS"
+    },
+    {
+      "name": "rapid seeks finish on the last requested frame",
+      "status": "PASS"
+    },
+    {
+      "name": "raw / overlay / side-by-side view buttons work",
+      "status": "PASS"
+    },
+    {
+      "name": "box and trail toggles change the visible layer state",
+      "status": "PASS"
+    },
+    {
+      "name": "native video avoids pixel copies and comparison reuses its paused image",
+      "status": "PASS"
+    },
+    {
+      "name": "ID controls retain their DOM nodes across source frame updates",
+      "status": "PASS"
+    },
+    {
+      "name": "clicking a visible bbox selects its output ID",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard arrows step and Escape clears selected ID",
+      "status": "PASS"
+    },
+    {
+      "name": "rate selection, actual playback and pause work",
+      "status": "PASS"
+    },
+    {
+      "name": "real display refreshes move boxes within a held source frame at 0.25x",
+      "status": "PASS"
+    },
+    {
+      "name": "turning interpolation off during playback immediately restores raw geometry",
+      "status": "PASS"
+    },
+    {
+      "name": "pause, stall, rate change and exact stepping reset the interpolation clock",
+      "status": "PASS"
+    },
+    {
+      "name": "fullscreen works with the canvas stage",
+      "status": "PASS"
+    },
+    {
+      "name": "320px and 390px viewports reflow without horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "sequence selector exposes all three complete replay datasets",
+      "status": "PASS"
+    },
+    {
+      "name": "selecting MOT17-02 resets identity while retaining display preferences",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 does not borrow MOT17-10 benchmark results or sample counts",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 frame bounds, raw rows and selected identity are source-specific",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 actual slow playback interpolates only its own source rows",
+      "status": "PASS"
+    },
+    {
+      "name": "switching a playing source back to MOT17-10 pauses and restores its metrics",
+      "status": "PASS"
+    },
+    {
+      "name": "rapid sequence changes cancel stale readiness, seeks and playback callbacks",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 selector and split view fit a narrow viewport",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 loads 1050-frame media with source-specific rows, links and unmeasured metrics",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 exact steps, terminal frame and scene bookmarks cover the full 35 seconds",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 real slow playback interpolates only matching packet identities",
+      "status": "PASS"
+    },
+    {
+      "name": "three-source rapid switching cancels old clocks and restores each source frame range",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 selector and split view fit 320px without horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "formal MOT gap filling defaults on and reproduces all three source totals without changing packets",
+      "status": "PASS"
+    },
+    {
+      "name": "same-UID formal gaps show exact endpoint interpolation while paused and stepping",
+      "status": "PASS"
+    },
+    {
+      "name": "formal output-ID gaps may cross UIDs and remain explicitly separate from observations",
+      "status": "PASS"
+    },
+    {
+      "name": "gap controls preserve raw rows and preferences while raw or hidden layers suppress the badge",
+      "status": "PASS"
+    },
+    {
+      "name": "gap bounds never extrapolate and source-switch races cannot retain another source table",
+      "status": "PASS"
+    },
+    {
+      "name": "local HTTP delivery loads identical data and video",
+      "status": "PASS"
+    },
+    {
+      "name": "no page errors or external network services",
+      "status": "PASS"
+    }
+  ],
+  "browsers": [
+    "156.0.8078.79"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "screenshots": [
+    "preview.png",
+    "preview-02.png",
+    "preview-04.png"
+  ],
+  "interpolationObservations": {
+    "rafSamples": 36,
+    "activeSubframeSamples": 34,
+    "sameFrameMovementObserved": true
+  },
+  "mot02InterpolationObservations": {
+    "rafSamples": 24,
+    "activeSamples": 22
+  },
+  "mot04InterpolationObservations": {
+    "rafSamples": 24,
+    "activeSamples": 21
+  },
+  "gapFillTotals": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "filledRows": 934
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "filledRows": 2040
+    },
+    {
+      "sequence": "MOT17-04-SDP",
+      "filledRows": 2053
+    }
+  ],
+  "gapSwitchObservations": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "frame": 90,
+      "gapRows": [
+        {
+          "outputId": 10,
+          "motId": 7,
+          "fromUid": 10,
+          "toUid": 10,
+          "xyxy": [
+            58.10683898925781,
+            419.8983520507812,
+            121.48726959228516,
+            571.0600524902344
+          ],
+          "fromFrame": 89,
+          "toFrame": 109,
+          "missingFrames": 19,
+          "fraction": 0.05,
+          "confidence": -1,
+          "method": "v1-mot/1"
+        },
+        {
+          "outputId": 71,
+          "motId": 24,
+          "fromUid": 71,
+          "toUid": 106,
+          "xyxy": [
+            1807.4450520833334,
+            323.7766642252604,
+            1977.4238932291667,
+            731.4622192382812
+          ],
+          "fromFrame": 86,
+          "toFrame": 101,
+          "missingFrames": 14,
+          "fraction": 0.26666666666666666,
+          "confidence": -1,
+          "method": "v1-mot/1"
+        }
+      ],
+      "filledRows": 934
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "frame": 220,
+      "gapRows": [
+        {
+          "outputId": 12,
+          "motId": 5,
+          "fromUid": 12,
+          "toUid": 205,
+          "xyxy": [
+            1130.3404947916667,
+            449.1165771484375,
+            1160.1980794270833,
+            536.3548990885416
+          ],
+          "fromFrame": 211,
+          "toFrame": 238,
+          "missingFrames": 26,
+          "fraction": 0.3333333333333333,
+          "confidence": -1,
+          "method": "v1-mot/1"
+        },
+        {
+          "outputId": 18,
+          "motId": 8,
+          "fromUid": 18,
+          "toUid": 18,
+          "xyxy": [
+            1102.114599609375,
+            437.79644775390625,
+            1137.99580078125,
+            536.3868774414062
+          ],
+          "fromFrame": 217,
+          "toFrame": 222,
+          "missingFrames": 4,
+          "fraction": 0.6,
+          "confidence": -1,
+          "method": "v1-mot/1"
+        },
+        {
+          "outputId": 77,
+          "motId": 26,
+          "fromUid": 143,
+          "toUid": 143,
+          "xyxy": [
+            723.12529296875,
+            438.79469604492186,
+            865.49990234375,
+            874.65048828125
+          ],
+          "fromFrame": 196,
+          "toFrame": 226,
+          "missingFrames": 29,
+          "fraction": 0.8,
+          "confidence": -1,
+          "method": "v1-mot/1"
+        }
+      ],
+      "filledRows": 2040
+    },
+    {
+      "sequence": "MOT17-04-SDP",
+      "frame": 221,
+      "gapRows": [
+        {
+          "outputId": 61,
+          "motId": 49,
+          "fromUid": 61,
+          "toUid": 61,
+          "xyxy": [
+            887.1225382486979,
+            -111.0470682779948,
+            929.7516886393229,
+            24.53312047322591
+          ],
+          "fromFrame": 220,
+          "toFrame": 223,
+          "missingFrames": 2,
+          "fraction": 0.3333333333333333,
+          "confidence": -1,
+          "method": "v1-mot/1"
+        }
+      ],
+      "filledRows": 2053
+    }
+  ],
+  "status": "PASS",
+  "created_utc": "2026-11-11T13:47:19.773Z"
+}

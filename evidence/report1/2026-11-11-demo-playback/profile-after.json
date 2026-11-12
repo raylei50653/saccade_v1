@@ -1,0 +1,246 @@
+{
+  "scope": "Headless Chromium local viewer; instrumented JS wall time, not GPU inference or screen presentation guarantee",
+  "browser": "156.0.8078.79",
+  "viewport": {
+    "width": 1440,
+    "height": 1000,
+    "dpr": 2
+  },
+  "cases": [
+    {
+      "name": "04-overlay-trails-interpolation",
+      "sequence": "MOT17-04-SDP",
+      "view": "overlay",
+      "trails": {
+        "count": 5654,
+        "meanMs": 0.0024230633185320536,
+        "p95Ms": 0,
+        "maxMs": 0.10000000055879354,
+        "totalMs": 13.700000002980232
+      },
+      "interpolation": true,
+      "render": {
+        "count": 132,
+        "meanMs": 1.1871212120520684,
+        "p95Ms": 1.599999999627471,
+        "maxMs": 1.8999999994412065,
+        "totalMs": 156.69999999087304
+      },
+      "ui": {
+        "count": 132,
+        "meanMs": 0.320454545417857,
+        "p95Ms": 0.599999999627471,
+        "maxMs": 0.6999999992549419,
+        "totalMs": 42.29999999515712
+      },
+      "images": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "chips": 106,
+      "elapsedMs": 3507.100000000559,
+      "mediaSeconds": 3.5069999999999997,
+      "decodedFrames": 106,
+      "droppedFrames": 0,
+      "rafIntervals": {
+        "count": 210,
+        "meanMs": 16.66571428571427,
+        "p95Ms": 16.799999999999272,
+        "maxMs": 16.800000000000182,
+        "totalMs": 3499.7999999999965
+      },
+      "rendersPerSecond": 37.63793447577171
+    },
+    {
+      "name": "04-raw",
+      "sequence": "MOT17-04-SDP",
+      "view": "raw",
+      "trails": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "interpolation": true,
+      "render": {
+        "count": 105,
+        "meanMs": 0.8266666666915019,
+        "p95Ms": 1,
+        "maxMs": 1.2000000001862645,
+        "totalMs": 86.8000000026077
+      },
+      "ui": {
+        "count": 105,
+        "meanMs": 0.41809523810765575,
+        "p95Ms": 0.6000000005587935,
+        "maxMs": 0.7000000001862645,
+        "totalMs": 43.90000000130385
+      },
+      "images": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "chips": 105,
+      "elapsedMs": 3501.199999999255,
+      "mediaSeconds": 3.501199999999999,
+      "decodedFrames": 105,
+      "droppedFrames": 0,
+      "rafIntervals": {
+        "count": 209,
+        "meanMs": 16.666028708133975,
+        "p95Ms": 16.700000000000728,
+        "maxMs": 16.80000000000109,
+        "totalMs": 3483.2000000000007
+      },
+      "rendersPerSecond": 29.9897178110426
+    },
+    {
+      "name": "04-overlay-no-trails",
+      "sequence": "MOT17-04-SDP",
+      "view": "overlay",
+      "trails": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "interpolation": true,
+      "render": {
+        "count": 198,
+        "meanMs": 0.8383838383791348,
+        "p95Ms": 1.2000000001862645,
+        "maxMs": 1.5,
+        "totalMs": 165.99999999906868
+      },
+      "ui": {
+        "count": 198,
+        "meanMs": 0.22272727266894748,
+        "p95Ms": 0.599999999627471,
+        "maxMs": 0.7000000001862645,
+        "totalMs": 44.0999999884516
+      },
+      "images": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "chips": 106,
+      "elapsedMs": 3505.2999999998137,
+      "mediaSeconds": 3.5052000000000003,
+      "decodedFrames": 106,
+      "droppedFrames": 0,
+      "rafIntervals": {
+        "count": 210,
+        "meanMs": 16.666190476190476,
+        "p95Ms": 16.700000000000728,
+        "maxMs": 16.80000000000109,
+        "totalMs": 3499.8999999999996
+      },
+      "rendersPerSecond": 56.485892790919614
+    },
+    {
+      "name": "04-overlay-no-interpolation",
+      "sequence": "MOT17-04-SDP",
+      "view": "overlay",
+      "trails": {
+        "count": 4539,
+        "meanMs": 0.0019828155979441896,
+        "p95Ms": 0,
+        "maxMs": 0.10000000055879354,
+        "totalMs": 8.999999999068677
+      },
+      "interpolation": false,
+      "render": {
+        "count": 106,
+        "meanMs": 1.1339622641790588,
+        "p95Ms": 1.5,
+        "maxMs": 1.7999999998137355,
+        "totalMs": 120.20000000298023
+      },
+      "ui": {
+        "count": 106,
+        "meanMs": 0.38207547172447137,
+        "p95Ms": 0.599999999627471,
+        "maxMs": 0.7000000001862645,
+        "totalMs": 40.50000000279397
+      },
+      "images": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "chips": 106,
+      "elapsedMs": 3501.199999999255,
+      "mediaSeconds": 3.501199999999999,
+      "decodedFrames": 105,
+      "droppedFrames": 0,
+      "rafIntervals": {
+        "count": 209,
+        "meanMs": 16.666028708133975,
+        "p95Ms": 16.799999999999272,
+        "maxMs": 16.80000000000291,
+        "totalMs": 3483.2000000000007
+      },
+      "rendersPerSecond": 30.275334171147765
+    },
+    {
+      "name": "10-overlay-trails-interpolation",
+      "sequence": "MOT17-10-SDP",
+      "view": "overlay",
+      "trails": {
+        "count": 2272,
+        "meanMs": 0.0029049295777107366,
+        "p95Ms": 0,
+        "maxMs": 0.19999999925494194,
+        "totalMs": 6.6000000005587935
+      },
+      "interpolation": true,
+      "render": {
+        "count": 132,
+        "meanMs": 0.7863636363410589,
+        "p95Ms": 1.1000000005587935,
+        "maxMs": 1.2000000001862645,
+        "totalMs": 103.79999999701977
+      },
+      "ui": {
+        "count": 132,
+        "meanMs": 0.22651515148269633,
+        "p95Ms": 0.40000000037252903,
+        "maxMs": 0.599999999627471,
+        "totalMs": 29.899999995715916
+      },
+      "images": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0,
+        "totalMs": 0
+      },
+      "chips": 105,
+      "elapsedMs": 3501.399999999441,
+      "mediaSeconds": 3.5013000000000005,
+      "decodedFrames": 105,
+      "droppedFrames": 0,
+      "rafIntervals": {
+        "count": 209,
+        "meanMs": 16.666028708133975,
+        "p95Ms": 16.700000000000728,
+        "maxMs": 16.80000000000291,
+        "totalMs": 3483.2000000000007
+      },
+      "rendersPerSecond": 37.69920603187898
+    }
+  ]
+}

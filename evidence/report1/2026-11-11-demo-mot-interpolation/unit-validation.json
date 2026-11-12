@@ -1,0 +1,109 @@
+{
+  "schema": "saccade-gap-fill-validation/1",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "35 missing source frames fill; 36 missing source frames do not",
+      "status": "PASS"
+    },
+    {
+      "name": "four input rows do not fill; five input rows qualify",
+      "status": "PASS"
+    },
+    {
+      "name": "leading, trailing and existing source rows are never synthesized",
+      "status": "PASS"
+    },
+    {
+      "name": "formal MOT rule allows UID changes while retaining their provenance",
+      "status": "PASS"
+    },
+    {
+      "name": "different output IDs never merge even when the internal UID is the same",
+      "status": "PASS"
+    },
+    {
+      "name": "all packet row flags count and may form endpoints as in SequenceOutput::add",
+      "status": "PASS"
+    },
+    {
+      "name": "formal rule adds no geometry filter beyond the original packet rows",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT IDs follow global first appearance and packet order, not numeric order",
+      "status": "PASS"
+    },
+    {
+      "name": "binary64 fractions use the same arithmetic order as formal interpolation",
+      "status": "PASS"
+    },
+    {
+      "name": "phase is display-only, clamped, and gives exact interval midpoints",
+      "status": "PASS"
+    },
+    {
+      "name": "input rows stay immutable and sampled coordinates do not alias the index",
+      "status": "PASS"
+    },
+    {
+      "name": "fill descriptors are ordered by formal MOT ID within each source frame",
+      "status": "PASS"
+    },
+    {
+      "name": "empty inputs and zero gap configuration emit no synthetic rows",
+      "status": "PASS"
+    },
+    {
+      "name": "module is available both as CommonJS and a buildless browser global",
+      "status": "PASS"
+    },
+    {
+      "name": "data.json reproduces its retained formal interpolation row count",
+      "status": "PASS"
+    },
+    {
+      "name": "data-02.json reproduces its retained formal interpolation row count",
+      "status": "PASS"
+    },
+    {
+      "name": "data-04.json reproduces its retained formal interpolation row count",
+      "status": "PASS"
+    }
+  ],
+  "datasets": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "intervals": 309,
+      "filledRows": 934,
+      "inputRows": 10385,
+      "outputIds": 86,
+      "frameCount": 654,
+      "maxMissingFrames": 35,
+      "minObservations": 5,
+      "profile": "v1-mot/1"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "intervals": 422,
+      "filledRows": 2040,
+      "inputRows": 11454,
+      "outputIds": 104,
+      "frameCount": 600,
+      "maxMissingFrames": 35,
+      "minObservations": 5,
+      "profile": "v1-mot/1"
+    },
+    {
+      "sequence": "MOT17-04-SDP",
+      "intervals": 587,
+      "filledRows": 2053,
+      "inputRows": 43003,
+      "outputIds": 106,
+      "frameCount": 1050,
+      "maxMissingFrames": 35,
+      "minObservations": 5,
+      "profile": "v1-mot/1"
+    }
+  ]
+}

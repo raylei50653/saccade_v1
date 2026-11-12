@@ -1,0 +1,30 @@
+{
+  "schema": "saccade-demo-playback-profile/1",
+  "scope": "Headless Chromium local viewer; instrumented JS wall time, not GPU inference or screen presentation guarantee",
+  "browser": "156.0.8078.79",
+  "viewport": {
+    "width": 1440,
+    "height": 1000,
+    "dpr": 2
+  },
+  "after_app_sha256": "4d9f4d8a68778ca6ccdcb6d148d5479d01cd4800c3edd94d93d7af4bdcb247a1",
+  "original_source_assets_unchanged": 27,
+  "source_video_fps": 30,
+  "image_interpolation": false,
+  "native_video_copy_calls": 0,
+  "decoded_frames": 527,
+  "dropped_frames": 0,
+  "render_p95_ms": {
+    "04-overlay-trails-interpolation": 1.599999999627471,
+    "04-raw": 1,
+    "04-overlay-no-trails": 1.2000000001862645,
+    "04-overlay-no-interpolation": 1.5,
+    "10-overlay-trails-interpolation": 1.1000000005587935
+  },
+  "limits": [
+    "Headless Chromium uses software rendering in this environment.",
+    "Concurrent unrelated workloads were not stopped; results do not guarantee screen presentation cadence on another machine.",
+    "Earlier diagnostic runs had cold-start and scheduling outliers; no universal FPS or end-to-end inference speedup claim.",
+    "Native-mode pixel-copy elimination is structural and browser-tested; side-by-side retains source-frame caching."
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "schema": "saccade-archived-schedule-inputs/1",
+  "analysis_date": "2026-11-12",
+  "operation": "Exact compressed snapshots and read-only reanalysis of archived SQLite; no new GPU run",
+  "capture_source": {
+    "commit": "fae5cb7c56388195b5dda0c356383b3bd9963c4f",
+    "clean_source": true,
+    "capture_date": "2026-11-05",
+    "driver": "617.42",
+    "GPU": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "CUDA": "13.4.92",
+    "TensorRT": "10.16.1.11",
+    "Nsight_Systems": "2026.3.2",
+    "motion_profile": "v1-motion/2 G1 NVOFA",
+    "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+    "model_profile": "hr-1280x768",
+    "sequence": "MOT17-10-SDP",
+    "frames": 30,
+    "CUDA_Graph": true,
+    "caller_mode": "track_sequence pipelined"
+  },
+  "frame_mapping_authority": "Ordered frame submission; prefix seqinfo.ini fixed seqLength=30; scripts/run_tracking_session_acceptance.sh lines271-274 and302-304; first F05 corresponds source JPEG1. Frame index retained as zero-based.",
+  "sqlite_inputs": [
+    {
+      "name": "track.sqlite",
+      "bytes": 2400256,
+      "sha256": "33dbb097a4c3aeb0b9853a6bdcd0ef0956504f1c5c4d1c169b6bfe21c3dd6f06",
+      "gzip_path": "inputs/track.sqlite.gz",
+      "gzip_bytes": 511963,
+      "gzip_sha256": "f9a98e6714b098333d01d43d48bde1f42b22f40027ad67c2410845c0d56aedb4"
+    },
+    {
+      "name": "track-graph.sqlite",
+      "bytes": 1298432,
+      "sha256": "67c8e7438b28a1638ffa86f41e691aa6d67bb1921c0aee14f1b4841fa0977556",
+      "gzip_path": "inputs/track-graph.sqlite.gz",
+      "gzip_bytes": 272239,
+      "gzip_sha256": "5744505b835d5da3df0f148fb9b65bd2b63c437196e4d1d836b983f2dc4dba9f"
+    }
+  ],
+  "original_raw_sources": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/nsys/track.sqlite",
+      "bytes": 2400256,
+      "sha256": "33dbb097a4c3aeb0b9853a6bdcd0ef0956504f1c5c4d1c169b6bfe21c3dd6f06",
+      "verified_against": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys.sha256"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/nsys/track-graph.sqlite",
+      "bytes": 1298432,
+      "sha256": "67c8e7438b28a1638ffa86f41e691aa6d67bb1921c0aee14f1b4841fa0977556",
+      "verified_against": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys.sha256"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/nsys/track.nsys-rep",
+      "bytes": 672991,
+      "sha256": "bdccd11b58e4ccdbbf9b0e8ad22ebfd0e5ae157ad02e69013b279e4a9769211d",
+      "verified_against": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys.sha256"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/nsys/track-graph.nsys-rep",
+      "bytes": 365699,
+      "sha256": "9e9f51f447d2d960e1015d16abe8be9149c532ccaeec5e421989194e776b4b2b",
+      "verified_against": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys.sha256"
+    }
+  ],
+  "supporting_snapshots": [
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys.sha256",
+      "snapshot": "inputs/nsys.sha256",
+      "bytes": 680,
+      "sha256": "3e64988ff9edb8c9d437321cb7efba92323d6abd297d54277bd0f2802ff56bca"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/source.txt",
+      "snapshot": "inputs/source.txt",
+      "bytes": 129,
+      "sha256": "d250f6e9e5636976512c1231526a0cd2c83e24526811ceecbed8593329c21592"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/environment.log",
+      "snapshot": "inputs/environment.log",
+      "bytes": 1146,
+      "sha256": "60157db0fc3b1e1999bddcf3cbc4d66a8e87fb0898949fa8e158af328b9db83b"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys-node.command",
+      "snapshot": "inputs/nsys-node.command",
+      "bytes": 570,
+      "sha256": "5cac1c864de83e40b7f6065acb1a5cfb2850b755a66a3f54e20e70ad48d3af82"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys-graph.command",
+      "snapshot": "inputs/nsys-graph.command",
+      "bytes": 578,
+      "sha256": "ed9de42f9dda32a2e1b905ee4050dee3b6c4efbce2570e66bdcdce04c9f868c6"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/ofa-overlap.csv",
+      "snapshot": "inputs/ofa-overlap.csv",
+      "bytes": 1628,
+      "sha256": "72f3c44871994f3718d30c07e09f5fa8b894f42787bdaf6cda990e56de47fc66"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/nsys-output-compare.log",
+      "snapshot": "inputs/nsys-output-compare.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/hr-pipelined-MOT17-10-SDP.log",
+      "snapshot": "inputs/hr-pipelined-MOT17-10-SDP.log",
+      "bytes": 2291,
+      "sha256": "fce230263a66fbc1e86a2f2a3901feade59b0c7caeadde5621f382a5d2e96cf3"
+    },
+    {
+      "original_path": "/home/ray/developer/ai/saccade_v1-worktrees/g1-ofa/build/v1-motion-2-acceptance-3/prefix/MOT17-10-SDP/seqinfo.ini",
+      "snapshot": "inputs/prefix-seqinfo.ini",
+      "bytes": 105,
+      "sha256": "8caad74faac7a38fb93d1eeba58b643449537ea03df5b183618850cd02af1ff9"
+    }
+  ],
+  "historical_evidence_unchanged": true,
+  "formal_acceptance": false
+}

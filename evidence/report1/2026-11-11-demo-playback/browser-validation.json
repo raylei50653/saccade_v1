@@ -1,0 +1,182 @@
+{
+  "schema": "saccade-demo-browser-validation/1",
+  "checks": [
+    {
+      "name": "file:// opens with real decoded H.264 and correct initial frame",
+      "status": "PASS"
+    },
+    {
+      "name": "display interpolation defaults on but paused coordinates stay exact",
+      "status": "PASS"
+    },
+    {
+      "name": "adjacent observed boxes interpolate coordinates only without mutating data",
+      "status": "PASS"
+    },
+    {
+      "name": "interpolation does not bridge gaps, identities, predicted rows or births",
+      "status": "PASS"
+    },
+    {
+      "name": "terminal frames and phase limits never extrapolate coordinates",
+      "status": "PASS"
+    },
+    {
+      "name": "ID selection retains output ID and distinct internal UID",
+      "status": "PASS"
+    },
+    {
+      "name": "next/previous buttons move exactly one source frame",
+      "status": "PASS"
+    },
+    {
+      "name": "typing a source frame uses one-based JPEG numbering",
+      "status": "PASS"
+    },
+    {
+      "name": "missing selected ID stays selected and reports no observation",
+      "status": "PASS"
+    },
+    {
+      "name": "first/second/last source frame boundaries and controls",
+      "status": "PASS"
+    },
+    {
+      "name": "rapid seeks finish on the last requested frame",
+      "status": "PASS"
+    },
+    {
+      "name": "raw / overlay / side-by-side view buttons work",
+      "status": "PASS"
+    },
+    {
+      "name": "box and trail toggles change the visible layer state",
+      "status": "PASS"
+    },
+    {
+      "name": "native video avoids pixel copies and comparison reuses its paused image",
+      "status": "PASS"
+    },
+    {
+      "name": "ID controls retain their DOM nodes across source frame updates",
+      "status": "PASS"
+    },
+    {
+      "name": "clicking a visible bbox selects its output ID",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard arrows step and Escape clears selected ID",
+      "status": "PASS"
+    },
+    {
+      "name": "rate selection, actual playback and pause work",
+      "status": "PASS"
+    },
+    {
+      "name": "real display refreshes move boxes within a held source frame at 0.25x",
+      "status": "PASS"
+    },
+    {
+      "name": "turning interpolation off during playback immediately restores raw geometry",
+      "status": "PASS"
+    },
+    {
+      "name": "pause, stall, rate change and exact stepping reset the interpolation clock",
+      "status": "PASS"
+    },
+    {
+      "name": "fullscreen works with the canvas stage",
+      "status": "PASS"
+    },
+    {
+      "name": "320px and 390px viewports reflow without horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "sequence selector exposes all three complete replay datasets",
+      "status": "PASS"
+    },
+    {
+      "name": "selecting MOT17-02 resets identity while retaining display preferences",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 does not borrow MOT17-10 benchmark results or sample counts",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 frame bounds, raw rows and selected identity are source-specific",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 actual slow playback interpolates only its own source rows",
+      "status": "PASS"
+    },
+    {
+      "name": "switching a playing source back to MOT17-10 pauses and restores its metrics",
+      "status": "PASS"
+    },
+    {
+      "name": "rapid sequence changes cancel stale readiness, seeks and playback callbacks",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-02 selector and split view fit a narrow viewport",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 loads 1050-frame media with source-specific rows, links and unmeasured metrics",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 exact steps, terminal frame and scene bookmarks cover the full 35 seconds",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 real slow playback interpolates only matching packet identities",
+      "status": "PASS"
+    },
+    {
+      "name": "three-source rapid switching cancels old clocks and restores each source frame range",
+      "status": "PASS"
+    },
+    {
+      "name": "MOT17-04 selector and split view fit 320px without horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "local HTTP delivery loads identical data and video",
+      "status": "PASS"
+    },
+    {
+      "name": "no page errors or external network services",
+      "status": "PASS"
+    }
+  ],
+  "browsers": [
+    "156.0.8078.79"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "screenshots": [
+    "preview.png",
+    "preview-02.png",
+    "preview-04.png"
+  ],
+  "interpolationObservations": {
+    "rafSamples": 36,
+    "activeSubframeSamples": 33,
+    "sameFrameMovementObserved": true
+  },
+  "mot02InterpolationObservations": {
+    "rafSamples": 24,
+    "activeSamples": 22
+  },
+  "mot04InterpolationObservations": {
+    "rafSamples": 24,
+    "activeSamples": 22
+  },
+  "status": "PASS",
+  "created_utc": "2026-11-11T13:31:08.395Z"
+}

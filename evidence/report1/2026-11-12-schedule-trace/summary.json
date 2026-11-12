@@ -1,0 +1,169 @@
+{
+  "schema": "saccade-archived-schedule-analysis/1",
+  "analysis_date": "2026-11-12",
+  "capture_source": {
+    "commit": "fae5cb7c56388195b5dda0c356383b3bd9963c4f",
+    "clean_source": true,
+    "capture_date": "2026-11-05",
+    "driver": "617.42",
+    "GPU": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "CUDA": "13.4.92",
+    "TensorRT": "10.16.1.11",
+    "Nsight_Systems": "2026.3.2",
+    "motion_profile": "v1-motion/2 G1 NVOFA",
+    "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+    "model_profile": "hr-1280x768",
+    "sequence": "MOT17-10-SDP",
+    "frames": 30,
+    "CUDA_Graph": true,
+    "caller_mode": "track_sequence pipelined"
+  },
+  "new_GPU_capture": false,
+  "total_frames": 30,
+  "steady_frame_indices": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "steady_frames": 28,
+  "steady_source_frames": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30
+  ],
+  "adjacent_steady_pairs": 27,
+  "frame_numbering": "frame is zero-based enqueue index; source_frame is one-based JPEG frame",
+  "logical_streams": {
+    "D": 13,
+    "M": 14
+  },
+  "node_graph_roles": {
+    "8": "D",
+    "2": "M",
+    "11": "D",
+    "5": "M"
+  },
+  "node_graph_to_graph_capture_ids": {
+    "8": 7,
+    "2": 1,
+    "11": 10,
+    "5": 4
+  },
+  "f06_envelope_fully_inside_same_frame_f03": 28,
+  "ofa_bound_fully_inside_same_frame_f03": 28,
+  "f03_envelope": {
+    "samples": 28,
+    "mean_ms": 4.901667857142857,
+    "median_ms": 4.9531,
+    "min_ms": 4.664345,
+    "max_ms": 5.004958
+  },
+  "f06_envelope": {
+    "samples": 28,
+    "mean_ms": 2.644225392857143,
+    "median_ms": 2.6624485,
+    "min_ms": 2.426493,
+    "max_ms": 3.23284
+  },
+  "ofa_indirect_bound": {
+    "samples": 28,
+    "mean_ms": 2.218510607142857,
+    "median_ms": 2.213867,
+    "min_ms": 2.079802,
+    "max_ms": 2.403837
+  },
+  "tail_kernel_union": {
+    "samples": 28,
+    "mean_ms": 0.9403257142857143,
+    "median_ms": 0.9908445,
+    "min_ms": 0.255779,
+    "max_ms": 1.043789
+  },
+  "cross_frame_pairs_with_actual_kernel_overlap": 27,
+  "cross_tail_nextD_envelope_overlap": {
+    "samples": 27,
+    "mean_ms": 1.1285826666666667,
+    "median_ms": 1.159502,
+    "min_ms": 0.473606,
+    "max_ms": 1.189647
+  },
+  "cross_tail_nextD_kernel_union_overlap": {
+    "samples": 27,
+    "mean_ms": 0.9372636666666666,
+    "median_ms": 0.962797,
+    "min_ms": 0.429957,
+    "max_ms": 1.014603
+  },
+  "cross_tail_nextF03_kernel_union_overlap": {
+    "samples": 27,
+    "mean_ms": 0.9087761851851852,
+    "median_ms": 0.934028,
+    "min_ms": 0.402469,
+    "max_ms": 0.985643
+  },
+  "methods": {
+    "frame_mapping": "One ordered F02/F05 pair per frame; each F05 host API window has exactly one D graph launch (310 kernels) and one M tail graph launch (9 kernels). Both graph roles and actual D/M stream IDs verified by matching all 60 node/graph capture launch orders. Frame0 has extra TensorRT warmup/capture work and is retained but excluded from steady statistics; frame1 is first Execute.",
+    "same_frame_F06": "flow_input start through flow_output end, including the final motion-image write; excludes later flow_mask and predict. Full interval includes CUDA and indirect fixed-function work/waits.",
+    "OFA_bound": "flow_input end through flow_cells start. This is an indirect enclosing interval, not OFA engine activity or exact latency.",
+    "D_next_activity": "CUDA kernels of F02/F05/F03/producer/F04 for n+1; excludes nvJPEG private stream, JPEG hardware, H2D and OFA hardware.",
+    "M_tail_activity": "Post-candidate flow_mask plus all 9 real CUDA kernels of the n-th M graph, ending at packet; excludes earlier F06/predict and subsequent D2H. Separate M_graph fields omit flow_mask.",
+    "actual_overlap": "Intersect union of actual kernel start/end intervals across both roles; no stage gap or engine bound counted as kernel busy.",
+    "envelope_overlap": "Intersect minimum-start/maximum-end bounding intervals; includes gaps and is reported separately."
+  },
+  "limits": [
+    "Historical clean fae5cb7 capture, driver 617.42, G1, same fixed HR engine; not a fresh trace of 3cbaa518f0dc.",
+    "Nsight Systems node instrumentation changes execution timing; these numbers are schedule evidence, not unprofiled latency or current FPS.",
+    "OFA fixed-function engine is not directly visible; F06/OFA intervals do not measure OFA utilization.",
+    "Kernel activity overlap does not establish occupancy, speedup or absence of races; original sanitizer OPEN/FAIL remains."
+  ]
+}

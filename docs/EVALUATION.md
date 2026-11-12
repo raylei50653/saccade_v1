@@ -45,6 +45,33 @@ PP22 保留追蹤原始 FPS 與 frame numbers，只將 GT 出現過的 frame pre
 
 `score_mot17_evaluation.sh` 保留原本的 gates、revision、dirty-mode、source hashes 檢查與 MOT17-02 最後評分次序；GT 的實體根目錄必須與 capture 記錄的 `sequences` 相同，再將這個已核對的位置傳給 MOT 評分入口。這支 scorer 對應歷史 M4 流程；`run_mot17_evaluation.sh` 仍依 [TRACKING §20](TRACKING.md)標示 retired，新版 session 驗收入口是 `run_tracking_session_acceptance.sh`。該驗收腳本其他固定 artifacts／資料路徑仍依其原契約管理。
 
+## 一次執行品質與速度評估
+
+`eval_run.py` 以系統 Python 標準函式庫協調 native capture、TrackEval 及速度量測；評分 worker 使用上表的 `SACCADE_EVAL_PYTHON`／`SACCADE_EVAL_ROOT`。例如：
+
+```sh
+python3 -I -B scripts/eval_run.py --benchmark MOT17 \
+  --build build/eval-run --out build/my-evaluation \
+  /home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP \
+  /home/ray/developer/ai/dataset/MOT17/train/MOT17-02-SDP
+```
+
+`--benchmark` 可選 `MOT17`、`MOT20`、`MOT15`、`DanceTrack`、`PP22`。`--build` 必須包含 `track_sequence` 與 `tracking_benchmark`；相對 build 路徑以本庫根目錄為準。`--out` 必須是尚不存在的 `build/[A-Za-z0-9][A-Za-z0-9._-]*`，相對於本庫根目錄。輸入序列必須同屬一個 GT parent、名稱唯一，且各有 `seqinfo.ini`、其中 `imDir` 指定的影像目錄與 `gt/gt.txt`。
+
+預設 engine 為 `/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine`，可用 `--engine` 指定；profile 固定 `hr-1280x768`，capture 固定關閉 `tracker.kalman.nsa_enabled` 與 `tracker.rows.measurement_box`。GPU capture 與 speed 全程持有 `~/.cache/saccade-v1/gpu.lock`，每個 native 呼叫均以 `timeout -k 30s 3600s` 執行，並每秒記錄 `nvidia-smi` telemetry；釋放 lock 後才評分。工具接受 dirty tree，`environment.json` 記錄 HEAD、porcelain、binary identity、兩個 binary 與 engine hashes、GPU 與 driver；binary dirty 或 commit 不符 HEAD 時，`RESULTS.md` 首行會顯示警示。
+
+品質遵循 2026-11-11 primary156 的凍結規則：MOT17／MOT20／MOT15 分別使用同名 TrackEval adapter；DanceTrack 保留 GT 前七欄並補 class 1、visibility 1，使用 MOT17 adapter；PP22 只保留 GT 出現過的原始 frame predictions，維持 frame numbers 與完整 `seqLength`，也使用 MOT17 adapter。GT 與 predictions 全部在輸出目錄的 `scoring/` 準備，不寫回資料集。所有序列在同一次 pedestrian HOTA／CLEAR／Identity 評分中聚合，`COMBINED` 直接讀取 TrackEval detailed CSV，沒有平均各序列分數。
+
+速度固定使用前 140 frames、20 warmup、120 measured、2 rounds、graph，共 4 個 single 與 4 個 queued fresh sessions。single mean／p50／p95／p99 取自工具 summary 的 480 個 pooled samples；queued FPS 為 `1e6 / queued_us_per_frame_mean`。summary 的 queued mean／min／max 與每個 session 的 tracker config hash 比對結果保留在 `environment.json`；若暴露的 hash 與 capture 不符則失敗。少於 140 frames 的序列不量速，註記 `fewer than 140 frames`；`--no-speed` 只略過速度步驟。
+
+`results.csv`、`results.json`、`RESULTS.md` 包含逐序列品質、速度及一列只有品質的 `COMBINED`。JSON／CSV 保留完整精度，Markdown 品質及毫秒顯示三位小數；另保留 `command.json`、`telemetry.csv`、capture／speed／scoring logs。queued FPS 使用預載 JPEG，排除磁碟 I/O 與輸出檔案；它不是逐 frame latency、live stream 或 camera FPS，量測不鎖 clocks。
+
+CPU fixtures（stub GPU binaries，真實 TrackEval worker）：
+
+```sh
+python3 -I -B tests/eval_run_tests.py
+```
+
 ## 驗證
 
 ```sh

@@ -1,6 +1,6 @@
 {
-  "started_utc": "2026-11-12T15:18:48.336616+00:00",
-  "code_commit": "61819bf85a41ab4f4fe8c3ee6234e16717caf87c",
+  "started_utc": "2026-11-12T15:32:32.490435+00:00",
+  "code_commit": "b32abf338c1573e25b45b183d3734de5e76de52f",
   "G1": [
     {
       "sequence": "MOT17-10-SDP",
@@ -30,6 +30,18 @@
       "sequence": "ADL-Rundle-6",
       "expected": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
       "actual": "7a351781d8abeb7e809414b625a63fdc1b2b023c54799a22498d4b88caecf06f",
+      "pass": true
+    },
+    {
+      "sequence": "dancetrack0004",
+      "expected": "503f5596d5b17ea335bfae78027e87e1a14cea76de14916aaf08e49578c94c59",
+      "actual": "503f5596d5b17ea335bfae78027e87e1a14cea76de14916aaf08e49578c94c59",
+      "pass": true
+    },
+    {
+      "sequence": "uid_vid_00008.mp4",
+      "expected": "d43b9a715258034ff1c7e491109c0eb8e59708906de538df2ff08fde77af6ceb",
+      "actual": "d43b9a715258034ff1c7e491109c0eb8e59708906de538df2ff08fde77af6ceb",
       "pass": true
     }
   ],
@@ -213,9 +225,154 @@
         }
       },
       "pass": true
+    },
+    {
+      "sequence": "dancetrack0004",
+      "metrics": {
+        "HOTA": {
+          "actual": 29.92103024422424,
+          "expected": 29.92103024422424,
+          "pass": true
+        },
+        "DetA": {
+          "actual": 59.44152903012119,
+          "expected": 59.44152903012119,
+          "pass": true
+        },
+        "AssA": {
+          "actual": 15.163973996347439,
+          "expected": 15.163973996347439,
+          "pass": true
+        },
+        "IDF1": {
+          "actual": 32.29619716739155,
+          "expected": 32.29619716739155,
+          "pass": true
+        },
+        "MOTA": {
+          "actual": 74.33493240296555,
+          "expected": 74.33493240296555,
+          "pass": true
+        },
+        "IDSW": {
+          "actual": 44,
+          "expected": 44,
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "sequence": "uid_vid_00008.mp4",
+      "metrics": {
+        "HOTA": {
+          "actual": 31.73204072884118,
+          "expected": 31.73204072884118,
+          "pass": true
+        },
+        "DetA": {
+          "actual": 50.50626094407006,
+          "expected": 50.50626094407006,
+          "pass": true
+        },
+        "AssA": {
+          "actual": 20.4132377835615,
+          "expected": 20.4132377835615,
+          "pass": true
+        },
+        "IDF1": {
+          "actual": 40.22761009401287,
+          "expected": 40.22761009401287,
+          "pass": true
+        },
+        "MOTA": {
+          "actual": 50.49692380501657,
+          "expected": 50.49692380501657,
+          "pass": true
+        },
+        "IDSW": {
+          "actual": 146,
+          "expected": 146,
+          "pass": true
+        }
+      },
+      "pass": true
     }
   ],
-  "G3": [],
+  "G3": [
+    {
+      "benchmark": "MOT17",
+      "metrics": {
+        "HOTA": {
+          "existing_printed": "64.256",
+          "runner_rounded": "64.256",
+          "pass": true
+        },
+        "DetA": {
+          "existing_printed": "67.382",
+          "runner_rounded": "67.382",
+          "pass": true
+        },
+        "AssA": {
+          "existing_printed": "61.768",
+          "runner_rounded": "61.768",
+          "pass": true
+        },
+        "IDF1": {
+          "existing_printed": "71.516",
+          "runner_rounded": "71.516",
+          "pass": true
+        },
+        "MOTA": {
+          "existing_printed": "77.559",
+          "runner_rounded": "77.559",
+          "pass": true
+        },
+        "IDSW": {
+          "existing_printed": "229",
+          "runner_rounded": "229",
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "benchmark": "PP22",
+      "metrics": {
+        "HOTA": {
+          "existing_printed": "31.732",
+          "runner_rounded": "31.732",
+          "pass": true
+        },
+        "DetA": {
+          "existing_printed": "50.506",
+          "runner_rounded": "50.506",
+          "pass": true
+        },
+        "AssA": {
+          "existing_printed": "20.413",
+          "runner_rounded": "20.413",
+          "pass": true
+        },
+        "IDF1": {
+          "existing_printed": "40.228",
+          "runner_rounded": "40.228",
+          "pass": true
+        },
+        "MOTA": {
+          "existing_printed": "50.497",
+          "runner_rounded": "50.497",
+          "pass": true
+        },
+        "IDSW": {
+          "existing_printed": "146",
+          "runner_rounded": "146",
+          "pass": true
+        }
+      },
+      "pass": true
+    }
+  ],
   "G4": [
     {
       "sequence": "MOT17-10-SDP",
@@ -261,91 +418,131 @@
       "tracker_config_check": "PASS",
       "session_count": 8,
       "pass": true
+    },
+    {
+      "sequence": "dancetrack0004",
+      "frames": 1203,
+      "status": "PASS",
+      "latency_samples": 480,
+      "tracker_config_check": "PASS",
+      "session_count": 8,
+      "pass": true
+    },
+    {
+      "sequence": "uid_vid_00008.mp4",
+      "frames": 798,
+      "status": "PASS",
+      "latency_samples": 480,
+      "tracker_config_check": "PASS",
+      "session_count": 8,
+      "pass": true
     }
   ],
   "G5": {
     "eval_run_tests": {
-      "tests": 10,
-      "pass": true,
-      "scope": "CPU implementation tests before code commit"
+      "tests": 12,
+      "pass": true
     },
     "evaluation_tools_tests": {
       "tests": 12,
-      "pass": true,
-      "scope": "CPU implementation tests before code commit"
+      "pass": true
     }
   },
   "own_defects_fixed": [
     {
-      "scope": "evidence draft",
-      "defect": "Incorrectly stated all seven frozen command.json files were missing after observing only MOT17-10 missing.",
-      "fix": "Checked all seven; corrected missing count to 3/7 (the three MOT17 sequences).",
-      "effect_on_runner_or_metrics": "none",
-      "GPU_reruns": 0
+      "scope": "local CPU-test command orchestration",
+      "issue": "Parallel command redirection raced with creation of build/eval-run-work2; the evaluation-tools test did not start on that invocation.",
+      "fix": "Created the log directory first and reran the command; both CPU suites subsequently passed, including clean-HEAD G5.",
+      "runner_worker_test_code_failure": false,
+      "gpu_reruns": 0
+    },
+    {
+      "scope": "evidence wording",
+      "issue": "Notes initially mentioned CRLF only for detailed CSV, while native summary TXT also uses CRLF.",
+      "fix": "Corrected the report Notes and preserved all native bytes.",
+      "gpu_reruns": 0
     }
   ],
-  "status": "STOP_INPUT_FAILURE",
-  "stop": {
-    "status": "STOP_INPUT_FAILURE",
-    "stopped_utc": "2026-11-12T15:21:31.092341+00:00",
-    "sequence": "dancetrack0004",
-    "error": "capture dancetrack0004 failed (1); see /home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-DanceTrack/quality/dancetrack0004/track.log",
-    "binary_error": "track_sequence: cannot open input: /home/ray/developer/ai/dataset/DanceTrack/val/dancetrack0004/img1/000001.jpg",
-    "required_image": "/home/ray/developer/ai/dataset/DanceTrack/val/dancetrack0004/img1/000001.jpg",
-    "required_image_exists": false,
-    "image_directory_sample": [
-      "00000001.jpg",
-      "00000002.jpg",
-      "00000003.jpg",
-      "00000004.jpg",
-      "00000005.jpg"
-    ],
-    "remaining_GPU_work": "not run",
-    "target_processes": []
-  },
-  "completed_runs": [
-    "MOT17",
-    "MOT20",
-    "MOT15"
-  ],
-  "failed_run": "DanceTrack",
-  "unexecuted_run": "PP22",
-  "gate_status": {
-    "G1": "PASS 5/5 completed; 2/7 unavailable",
-    "G2": "PASS 30/30 completed metrics; 12/42 unavailable",
-    "G3": "UNEXECUTED 0/2 controls",
-    "G4": "PASS 5/5 completed; 2/7 unavailable",
-    "G5": "PASS 10+12 CPU tests"
+  "DanceTrack_link_gate": {
+    "view": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/inputs/dancetrack0004",
+    "primary156_view": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/image-views/dancetrack0004",
+    "expected_links": 1203,
+    "actual_links": 1203,
+    "compared": 1203,
+    "matched": 1203,
+    "both_sides_symlinks": true,
+    "method": "readlink -f on both sides for every frame",
+    "pass": true
   },
   "MOT17-10_speed_comparison": {
     "single_mean_ms": {
       "g1_live": 6.712865,
-      "runner": 6.696337196,
-      "difference_percent": -0.24621088015325254
+      "runner": 6.696703583000001,
+      "difference_percent": -0.24075289760778773
     },
     "single_p95_ms": {
       "g1_live": 6.981673,
-      "runner": 6.903524999999999,
-      "difference_percent": -1.119330567329646
+      "runner": 6.984476,
+      "difference_percent": 0.04014797026443695
     },
     "single_p99_ms": {
       "g1_live": 7.22844,
-      "runner": 7.157335,
-      "difference_percent": -0.9836838930668335
+      "runner": 7.145472,
+      "difference_percent": -1.1477995252087592
     },
     "queued_fps": {
       "g1_live": 194.620666,
-      "runner": 195.85055261102812,
-      "difference_percent": 0.6319403978548355
+      "runner": 196.38668538194597,
+      "difference_percent": 0.9074161640912015
     }
   },
-  "frozen_command_availability": {
-    "MOT17-10-SDP": false,
-    "MOT17-02-SDP": false,
-    "MOT17-04-SDP": false,
-    "MOT20-01": true,
-    "ADL-Rundle-6": true,
-    "dancetrack0004": true,
-    "uid_vid_00008.mp4": true
+  "MOT17-10_attempt1_comparison": {
+    "single_mean_ms": {
+      "attempt_1": 6.696337196,
+      "runner": 6.696703583000001,
+      "difference_percent": 0.005471453860161901
+    },
+    "single_p95_ms": {
+      "attempt_1": 6.903524999999999,
+      "runner": 6.984476,
+      "difference_percent": 1.1726038509312309
+    },
+    "single_p99_ms": {
+      "attempt_1": 7.157335,
+      "runner": 7.145472,
+      "difference_percent": -0.16574604933260462
+    },
+    "queued_fps": {
+      "attempt_1": 195.85055261102812,
+      "runner": 196.38668538194597,
+      "difference_percent": 0.27374585558745945
+    }
+  },
+  "completed_utc": "2026-11-12T15:35:01.042528+00:00",
+  "status": "PASS",
+  "build_identity": {
+    "code_commit": "b32abf338c1573e25b45b183d3734de5e76de52f",
+    "runs": 5,
+    "captures": 7,
+    "speed_sessions": 56,
+    "identity_records": 63,
+    "source_dirty": false,
+    "clean_git_porcelain_runs": 5,
+    "warning_count": 0,
+    "same_binary_and_engine_hashes": true,
+    "files": {
+      "track_sequence": {
+        "path": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/track_sequence",
+        "sha256": "6e0844b634768105d176b84bc7c5020ffb2bbe7977f22a353fe0b1b1a5c6e90c"
+      },
+      "tracking_benchmark": {
+        "path": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/tracking_benchmark",
+        "sha256": "2228dec8271a274265914d84533048a6a50c1c34dd94b9c227d4170da80445a0"
+      },
+      "engine": {
+        "path": "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876"
+      }
+    }
   }
 }

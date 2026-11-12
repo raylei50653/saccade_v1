@@ -1,0 +1,17 @@
+{
+  "schema":"tracking-latency/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00008.mp4",
+  "frames_per_session":120,
+  "warmup_frames":20,
+  "abba_rounds":2,
+  "input_io":"JPEGs preloaded; excludes disk I/O and file output",
+  "warmup_scope":"constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+  "latency_scope":"one enqueue through blocking receive, no frames in flight at start",
+  "queued_scope":"wall time per frame is throughput, not individual frame latency",
+  "packet_comparison":"selected mode repeats and single/queued, including warmup",
+  "packet_sha256":"75544a621777ac6e9977cc22e6ed8d17325ed824e70845ecb4ce572bd21b43bb",
+  "groups":[
+    {"mode":"graph","latency_samples":480,"latency_mean_us":6815.445852,"latency_p50_us":6791.192000,"latency_p95_us":7031.437000,"latency_p99_us":7357.915000,"queued_us_per_frame_mean":5161.586698,"queued_us_per_frame_min":5144.235292,"queued_us_per_frame_max":5197.106508,"init_us_mean":568822.435000,"first_frame_us_mean":16804.367625,"warmup_us_mean":150469.261625}
+  ]
+}

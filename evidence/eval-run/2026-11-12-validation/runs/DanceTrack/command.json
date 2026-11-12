@@ -9,7 +9,7 @@
     "--build",
     "build/eval-run",
     "--out",
-    "build/eval-run-val-DanceTrack",
+    "build/eval-run-val2-DanceTrack",
     "/home/ray/developer/ai/dataset/DanceTrack/val/dancetrack0004"
   ],
   "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
@@ -23,8 +23,8 @@
         "3600s",
         "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/track_sequence",
         "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
-        "/home/ray/developer/ai/dataset/DanceTrack/val/dancetrack0004",
-        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-DanceTrack/quality/dancetrack0004/mot.txt",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/inputs/dancetrack0004",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/quality/dancetrack0004/mot.txt",
         "--profile",
         "hr-1280x768",
         "--set",
@@ -32,13 +32,54 @@
         "--set",
         "tracker.rows.measurement_box=false",
         "--resolved-config",
-        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-DanceTrack/quality/dancetrack0004/resolved.config"
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/quality/dancetrack0004/resolved.config"
       ],
       "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
-      "started_utc": "2026-11-12T15:20:19.708390+00:00",
+      "started_utc": "2026-11-12T15:34:05.958222+00:00",
       "log": "quality/dancetrack0004/track.log",
-      "returncode": 1,
-      "wall_seconds": 1.0661206429995218
+      "returncode": 0,
+      "wall_seconds": 7.311666224999499
+    },
+    {
+      "step": "speed dancetrack0004",
+      "argv": [
+        "timeout",
+        "-k",
+        "30s",
+        "3600s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/tracking_benchmark",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/inputs/dancetrack0004",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/speed/dancetrack0004",
+        "--frames",
+        "120",
+        "--warmup",
+        "20",
+        "--rounds",
+        "2",
+        "--only",
+        "graph"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:34:13.270846+00:00",
+      "log": "speed/dancetrack0004.log",
+      "returncode": 0,
+      "wall_seconds": 11.503594127001634
+    },
+    {
+      "step": "scoring",
+      "argv": [
+        "/home/ray/.cache/saccade-v1/eval/venv/bin/python",
+        "-I",
+        "-B",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/scripts/eval_trackeval.py",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/scoring"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:34:25.195754+00:00",
+      "log": "scoring/trackeval.log",
+      "returncode": 0,
+      "wall_seconds": 0.7100651140008267
     }
   ]
 }

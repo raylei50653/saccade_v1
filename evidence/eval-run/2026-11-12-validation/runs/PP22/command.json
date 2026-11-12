@@ -1,0 +1,85 @@
+{
+  "argv": [
+    "/usr/sbin/python3",
+    "-I",
+    "-B",
+    "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/scripts/eval_run.py",
+    "--benchmark",
+    "PP22",
+    "--build",
+    "build/eval-run",
+    "--out",
+    "build/eval-run-val2-PP22",
+    "/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00008.mp4"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+  "steps": [
+    {
+      "step": "capture uid_vid_00008.mp4",
+      "argv": [
+        "timeout",
+        "-k",
+        "30s",
+        "3600s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/track_sequence",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00008.mp4",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-PP22/quality/uid_vid_00008.mp4/mot.txt",
+        "--profile",
+        "hr-1280x768",
+        "--set",
+        "tracker.kalman.nsa_enabled=false",
+        "--set",
+        "tracker.rows.measurement_box=false",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-PP22/quality/uid_vid_00008.mp4/resolved.config"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:34:26.918943+00:00",
+      "log": "quality/uid_vid_00008.mp4/track.log",
+      "returncode": 0,
+      "wall_seconds": 5.276909689999229
+    },
+    {
+      "step": "speed uid_vid_00008.mp4",
+      "argv": [
+        "timeout",
+        "-k",
+        "30s",
+        "3600s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/tracking_benchmark",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00008.mp4",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-PP22/speed/uid_vid_00008.mp4",
+        "--frames",
+        "120",
+        "--warmup",
+        "20",
+        "--rounds",
+        "2",
+        "--only",
+        "graph"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:34:32.197071+00:00",
+      "log": "speed/uid_vid_00008.mp4.log",
+      "returncode": 0,
+      "wall_seconds": 12.521767406000436
+    },
+    {
+      "step": "scoring",
+      "argv": [
+        "/home/ray/.cache/saccade-v1/eval/venv/bin/python",
+        "-I",
+        "-B",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/scripts/eval_trackeval.py",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-PP22/scoring"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:34:45.941313+00:00",
+      "log": "scoring/trackeval.log",
+      "returncode": 0,
+      "wall_seconds": 0.4486397870005021
+    }
+  ]
+}

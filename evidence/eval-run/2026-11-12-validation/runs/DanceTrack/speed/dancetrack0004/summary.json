@@ -1,0 +1,17 @@
+{
+  "schema":"tracking-latency/1",
+  "status":"PASS",
+  "sequence":"/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val2-DanceTrack/inputs/dancetrack0004",
+  "frames_per_session":120,
+  "warmup_frames":20,
+  "abba_rounds":2,
+  "input_io":"JPEGs preloaded; excludes disk I/O and file output",
+  "warmup_scope":"constructor, first frame, and warmup times separately reported; lazy capture during warmup is excluded from latency samples",
+  "latency_scope":"one enqueue through blocking receive, no frames in flight at start",
+  "queued_scope":"wall time per frame is throughput, not individual frame latency",
+  "packet_comparison":"selected mode repeats and single/queued, including warmup",
+  "packet_sha256":"5820dbb6a50a1c161c99c2c4467da2ddc125fa01c059677af25002067fa4cbff",
+  "groups":[
+    {"mode":"graph","latency_samples":480,"latency_mean_us":6518.159177,"latency_p50_us":6457.178000,"latency_p95_us":6758.058000,"latency_p99_us":8489.187000,"queued_us_per_frame_mean":5116.002233,"queued_us_per_frame_min":5048.739208,"queued_us_per_frame_max":5276.044842,"init_us_mean":469570.769625,"first_frame_us_mean":16861.322500,"warmup_us_mean":149137.478375}
+  ]
+}

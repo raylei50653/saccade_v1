@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "cmake",
+    "-S",
+    ".",
+    "-B",
+    "build/eval-run",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DSACCADE_ENABLE_CUDA=ON",
+    "-DSACCADE_ENABLE_PREPROCESS=ON",
+    "-DSACCADE_ENABLE_POSTPROCESS=ON",
+    "-DSACCADE_ENABLE_MODEL_PRODUCER=ON",
+    "-DSACCADE_ENABLE_TENSORRT=ON",
+    "-DSACCADE_ENABLE_MODEL_TRT=ON",
+    "-DSACCADE_ENABLE_DETECTION_SESSION=ON",
+    "-DSACCADE_ENABLE_FLOW=ON",
+    "-DSACCADE_TENSORRT_ROOT=/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk",
+    "-DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc",
+    "-DCMAKE_CUDA_ARCHITECTURES=120"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+  "started_utc": "2026-11-12T15:17:29.028590+00:00",
+  "git_head": "61819bf85a41ab4f4fe8c3ee6234e16717caf87c",
+  "git_status_porcelain": ""
+}

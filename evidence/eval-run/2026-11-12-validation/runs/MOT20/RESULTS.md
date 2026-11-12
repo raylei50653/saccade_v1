@@ -2,7 +2,7 @@
 
 | sequence | frames | HOTA | DetA | AssA | IDF1 | MOTA | IDSW | single_mean_ms | single_p50_ms | single_p95_ms | single_p99_ms | queued_ms_per_frame | queued_fps | speed_note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| MOT20-01 | 429 | 50.586 | 56.904 | 45.413 | 63.577 | 70.891 | 147 | 6.899 | 6.883 | 7.087 | 7.362 | 5.148 | 194.240 |  |
+| MOT20-01 | 429 | 50.586 | 56.904 | 45.413 | 63.577 | 70.891 | 147 | 6.887 | 6.865 | 7.122 | 7.346 | 5.133 | 194.811 |  |
 | COMBINED | 429 | 50.586 | 56.904 | 45.413 | 63.577 | 70.891 | 147 |  |  |  |  |  |  |  |
 
 FPS is queued completion throughput with preloaded JPEGs, measured on frames 21–140 of each sequence. It excludes disk I/O and output files.

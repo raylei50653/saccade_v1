@@ -1,6 +1,26 @@
 # Saccade v1 目前狀態與文件狀態
 
-更新日期：2026-11-11。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+更新日期：2026-11-12。依目前 checkout 的文件、正式報告與驗收腳本整理；F02／F03 加速已補上乾淨 `23ade53`、`v1-motion/1` 的正式整合驗收，以及固定 engine 的 clean-source ABBA 效能量測；原開發測時與現行 G1 memcheck OPEN 分列。完整文件分組見 [README](../README.md#文件分組)，接續工作見 [BACKLOG](BACKLOG.md)。
+
+[第一輪詳細報告](reports/report1-3cbaa518f0dc.md)固定以 `3cbaa518f0dc` 整理系統／模型／同步架構、端到端計時邊界與既有延遲證據；G1 全序列吞吐、較早 cuFFT 的逐幀分位數與 dirty-source 階段歸因分別標示。該詳細稿的原次整理只重算既有資料，未新增 GPU 量測或改變部署預設。
+
+2026-11-12 報告 v1.1 補入[官方／微調 YOLO26m 與 HR Mamba 三方比較](reports/report1-3cbaa518f0dc.md#92-官方原版對照與各資料集表現)：五資料集、156 段、每模型 135,503 幀；HOTA 七個主要群組 HR 對微調為 3 勝／4 負，逐段 55 勝／101 負。MOT17／MOT20 合併較高，DanceTrack／PP22 較低，另列受控 TRT 速度與 engine 成本。品質採 raw6 one2many＋共用 F04／G1；官方原始 one2one 僅有模型層控制。既有資料已曝露、FP16 數值 screen FAIL 與原 sanitizer OPEN 保留；本次只整理已完成研究，沒有新推論、計分、調參或部署變更。
+
+同日 v1.2 改為[圖解報告](reports/latex/report1/report.pdf)：主文先講目的，再用真實三影格、五步流程、五資料集比較、七群組增減與延遲／吞吐圖解讀結果。主 PDF 共 10 頁，原 20 頁 [v1.1 技術版](reports/latex/report1/technical-reference-v1.1.pdf)及詳細稿的技術段落保留；只改圖文、重建文件，未新增推論、評分或實驗。
+
+同日 v1.3 將 n／n+1 排程加回圖解主文第 3 頁（全稿 11 頁），以[原始 G1 Nsight trace 重算](../evidence/report1/2026-11-12-schedule-trace/summary.json)畫出示意與實測時間軸。歷史乾淨 `fae5cb7`／driver 617.42、30 幀中，排除初始化與首次 Execute 後完整 F06 28/28 落在同幀 F03 內；27/27 組相鄰穩態幀有跨幀 CUDA 活動交集，平均 0.937 ms，主要為 F03(n+1) 與上一幀 mask／tracking tail。壓縮原始 SQLite、frame／graph 角色映射、逐幀表及獨立稽核一併保存；本次沒有新 GPU capture，profiler 觀察不作新延遲、加速或 sanitizer 驗收。
+
+同日 v1.4 在圖解報告第 6 頁加入 single 平均值、P95／P99 標記，以及 single／queued 尾延遲表。原 48 份逐幀 CSV 合併後重算 12 組、每組 480 筆樣本，P95／P99 採 nearest-rank 第 456／476 筆，與保存摘要相同；沒有平均各 run 分位數或重新測速。MOT17-10 的 HR single P95 雖略低於微調版，P99 卻較高，02 則兩者都較高。全稿仍為 11 頁，核對收據與來源檔隨交付包保存。
+
+同日 v1.5 只改文字：第 4 頁與詳細稿 §1.4 標明 MOT17 七段中 04／05／09／11／13 為兩個本地模型的訓練序列、10 為選模，held-out 02 的 HOTA 為官方／微調／HR 36.761／37.710／40.565，選模 10 為 HR 低 1.332；官方到微調的 MOT17 合併差距 15.02 在 02 只剩 0.949。未參與本地訓練的 MOT20 為較能代表跨資料集的比較（微調較官方 +12.756，HR 再 +7.742）。第 6 頁開頭改回 HR 平均延遲 +14.79–17.42%、吞吐 −15.13–15.52%；MOT17-10 single 尾端差距小於 0.2 ms、時脈未鎖定，不再當成結論。數字均取自既有逐段 CSV 與摘要，沒有新推論、計分或測速。
+
+同日另製作[獨立 Dataflow LaTeX／PDF](reports/latex/dataflow/dataflow.pdf)，9 頁、四張圖，固定 `3cbaa518f0dc`／HR／G1 說明資料物件、D／M 分支、ready／consumed、預測暫存、共同 commit 版本及 CPU 輸出邊界。31 個來源物件與基準 bytes 核對，保留已核對的歷史 Nsight 時間軸；只做圖文與編譯，沒有新推論、測速或驗收，原第一輪報告保持原樣。
+
+2026-11-11 另製作[主管／專案交付正式報告（PDF）](reports/latex/report1/report.pdf)與 [LaTeX 原稿](reports/latex/report1/README.md)，並補跑乾淨 `3cbaa518f0dc` 的 [G1 逐幀延遲](../evidence/report1/2026-11-11-g1-live/REPORT.md)：JPEG 預載、MOT17-10 前 140 幀、每模式 4 fresh sessions／480 筆暖機後樣本。Single mean／p95 為 6.712865／6.981673 ms；四格 queued 交付 mean／p95 為 20.254368／21.181116 ms，interval 5.138200 ms/frame（194.620666 FPS）。八份完整 packets 相同；driver 621.14，與歷史 617.42 分列。完整 654 幀離線程序（含啟動／讀寫／定稿）三次平均 4.836436 秒，MOT／packets／motion／設定三次相同；不當作逐幀 latency，檔案 cache 未清，另存[獨立收據](../evidence/report1/2026-11-11-g1-offline-e2e/REPORT.md)。兩組皆不構成品質重評或 sanitizer 驗收，部署預設與既有 OPEN／FAIL 保留；報告及新增收據尚未 commit／push。
+
+同日新增[現場技術展示台](demos/report1/index.html)與[離線操作說明](demos/report1/README.md)：支援 MOT17-10（654 幀／10,385 筆 observed rows）、02（600 幀／11,454 筆）與 04（1,050 幀／43,003 筆）切換，提供並排、逐幀、慢放、ID／UID、G1 位移、播放框插值與預設開啟的 MOT 缺幀補框。補框與正式 F09 相同：依 output ID、至少 5 筆 rows、最多 35 個缺幀，允許 UID 接回；虛線與「補」標籤區分原始觀測，分數、筆數與原座標分開顯示。三序列補框 934／2,040／2,053 筆，合計 5,027 筆與獨立 F09 計算完全一致，另核對既有 69,869 筆 MOT 的三位小數捨入界，見[對照收據](../evidence/report1/2026-11-11-demo-mot-interpolation/REPORT.md)。原圖／資料／三支備用 MP4 保持原始逐幀；不改寫來源封包。一般畫面使用原生影片搭配透明框，並排模式快取來源幀。Chromium file／HTTP 的 43 項互動檢查與 17 項補框規則測試通過，見 [validation.json](demos/report1/validation.json)。
+
+02／04 的展示來源仍為相同乾淨 `3cbaa518f0dc`／原 engine 各完整擷取一次，見 [02 收據](../evidence/report1/2026-11-11-mot17-02-demo/REPORT.md)及 [04 收據](../evidence/report1/2026-11-11-mot17-04-demo/REPORT.md)；補框接入沒有新推論、讀 GT 或重評品質。02／04 的效能欄位仍顯示尚未量測，切回 10 恢復原量測；27 個展示來源資產 hashes 未變，runtime、預設、正式驗收與外部發布狀態未改。
 
 2026-11-11 [第一輪報告版本收尾](history/2026-11-11-first-report-baseline.md)：固定核心完成、既有正式驗收、效能與 OPEN 項目的引用入口；收妥評分／資料集直連及 base weights 路徑更新。MOT17／PP22 評分已使用本庫 TrackEval 與獨立 CPU 環境，共享資料與權重的身分核對見[離線評分](EVALUATION.md)、[外部路徑](EXTERNAL_PATHS.md)及收尾紀錄。本輪僅執行本機 CPU 回歸與路徑核對，未重跑 GPU、訓練、品質或效能驗收；部署預設與既有正式證書的受測來源保持原判定。
 

@@ -1,0 +1,94 @@
+{
+  "schema": "saccade-dataflow-figures/1",
+  "date": "2026-11-12",
+  "source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+  "source_pin_verified": true,
+  "generator": "render_figures.py",
+  "generator_sha256": "7c11df9e0f2e00ac520c18fe7471f56600a06150b2b5b293333d07527d0692f9",
+  "profile": "HR 1280x768/G1 v1-motion2/Graph ON; rings MI/CS/results=2/2/4",
+  "sources": [
+    {
+      "path": "src/tracking_session.cpp",
+      "bytes": 35790,
+      "sha256": "8681f7fd8c971560d5d8b39893648e9aa9436038cf5f55300e683b371fd9e538"
+    },
+    {
+      "path": "cuda/flow_motion.cu",
+      "bytes": 14375,
+      "sha256": "fe0d9f04cca3a7258dce9032b39ed9f027c6fbdf7116418cbab818f7a98344e3"
+    },
+    {
+      "path": "cuda/tracking_session.cu",
+      "bytes": 7781,
+      "sha256": "fea74953fc9e8678805b8377111fa9b3b7461f0139217fad07531ecc35df5b29"
+    },
+    {
+      "path": "include/saccade/tracking_session.hpp",
+      "bytes": 4222,
+      "sha256": "b62381ab6993863fbb62d07ea6f6313c2f9bfd78b2cd178522253f2dd0625844"
+    },
+    {
+      "path": "include/saccade/model_profile.hpp",
+      "bytes": 2141,
+      "sha256": "06e7058f61dc4cae75ca1f590c630cb0b222aaec62c6cd58345aa21558112dba"
+    },
+    {
+      "path": "include/saccade/protocol.hpp",
+      "bytes": 4320,
+      "sha256": "264c9062ad4eeb587ed348781d93ea6d826ad9c3c960fe435ec2eab44d7e885f"
+    },
+    {
+      "path": "include/saccade/flow_motion_cuda.hpp",
+      "bytes": 1896,
+      "sha256": "691c41d3830198b4007d7c04b255645abc90650187c345a98146856188ac74e4"
+    },
+    {
+      "path": "include/saccade/flow_config.hpp",
+      "bytes": 1024,
+      "sha256": "eca65824245439ece139c1466922ea8855d4f268fc337158e2a8e4c1d2f05492"
+    },
+    {
+      "path": "src/mot_output.cpp",
+      "bytes": 5552,
+      "sha256": "c037aaa37f45133ff42be534cdc07e5d13d05526a3e6cf49e5be1589d501275f"
+    }
+  ],
+  "figures": [
+    {
+      "name": "flow",
+      "svg": "docs/reports/latex/dataflow/assets/flow.svg",
+      "svg_sha256": "2df5ab3c923b87dcd6e9e15ecd158f00c7da7aac9e4ca5fc9ca8d95e1f373ad1",
+      "pdf": "docs/reports/latex/dataflow/assets/flow.pdf",
+      "pdf_sha256": "ab7477d8510cd7c0b0655e61867696c10bc76973b75a5d0909667f272fc7f97d",
+      "width": 1000,
+      "height": 1200,
+      "fonts_embedded": true,
+      "vector_only": true
+    },
+    {
+      "name": "state",
+      "svg": "docs/reports/latex/dataflow/assets/state.svg",
+      "svg_sha256": "fd64341693d5d014901744fb2e13351c83dc12a858695dd988d13a56fbdc09f0",
+      "pdf": "docs/reports/latex/dataflow/assets/state.pdf",
+      "pdf_sha256": "1968d27dc247697d7925e10712e4f4da6502d2e5b341585a7efe4d707ec09c14",
+      "width": 1000,
+      "height": 880,
+      "fonts_embedded": true,
+      "vector_only": true
+    },
+    {
+      "name": "leases",
+      "svg": "docs/reports/latex/dataflow/assets/leases.svg",
+      "svg_sha256": "57db5ffef0d673a68671f05e3e75a4eee611ead728dd3cc845fadc501812c549",
+      "pdf": "docs/reports/latex/dataflow/assets/leases.pdf",
+      "pdf_sha256": "8c19146f5a97551e5a51046f6b51785f5b242a97af4dc673f8f5a8e3eeba8484",
+      "width": 1000,
+      "height": 910,
+      "fonts_embedded": true,
+      "vector_only": true
+    }
+  ],
+  "new_GPU_measurement": false,
+  "scope": "implementation-derived data dependencies, state publication and ownership; not timing or a new safety acceptance",
+  "conversion_tool": "rsvg-convert version 2.63.4\n\nlibraries used:\n  cairo 1.18.6\n  pango 1.58.2\n  harfbuzz 15.1.0\n  fontconfig 2.18.3"
+}

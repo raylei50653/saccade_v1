@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="930" viewBox="0 0 1000 930" role="img" aria-labelledby="title desc"><title id="title">n／n+1：把能重疊的工作接起來</title><desc id="desc">上半為依賴示意，下半為歷史 G1 Nsight trace 的三個相鄰影格階段區間。</desc><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0.000" y="0.000" width="1000.000" height="930.000" fill="#FFFFFF" stroke="none" rx="0" opacity="1"/>
+<text x="28.000" y="43.000" font-size="31" fill="#16324F" font-weight="700" text-anchor="start">n／n+1：把能重疊的工作接起來</text>
+<text x="28.000" y="84.000" font-size="23" fill="#536578" font-weight="400" text-anchor="start">D 偵測路徑可往下一幀前進；M 的身份狀態仍依幀順序提交。</text>
+<rect x="28.000" y="108.000" width="944.000" height="256.000" fill="#F5F8FA" stroke="#DCE4EA" rx="10" opacity="1"/>
+<text x="48.000" y="143.000" font-size="24" fill="#16324F" font-weight="700" text-anchor="start">依賴示意</text>
+<text x="952.000" y="143.000" font-size="21" fill="#536578" font-weight="400" text-anchor="end">框寬不是時間</text>
+<text x="48.000" y="196.000" font-size="23" fill="#16324F" font-weight="700" text-anchor="start">D 偵測</text>
+<text x="48.000" y="267.000" font-size="23" fill="#087F8C" font-weight="700" text-anchor="start">M 追蹤</text>
+<rect x="180.000" y="164.000" width="295.000" height="47.000" fill="#315C9A" stroke="none" rx="7" opacity="1"/>
+<text x="327.500" y="195.000" font-size="24" fill="#FFFFFF" font-weight="600" text-anchor="middle">前處理＋偵測 n</text>
+<path d="M480.000,187.500 L495.000,187.500" stroke="#16324F" stroke-width="2.5" fill="none"/>
+<path d="M485.9955289764732,191.8496553411123 L495,187.5 L485.9955289764732,183.1503446588877" stroke="#16324F" stroke-width="2.5" fill="none"/>
+<rect x="500.000" y="164.000" width="305.000" height="47.000" fill="#315C9A" stroke="none" rx="7" opacity="1"/>
+<text x="652.500" y="195.000" font-size="23" fill="#FFFFFF" font-weight="600" text-anchor="middle">下一幀偵測路徑 n+1</text>
+<path d="M475,211 V230 H500 V242" stroke="#536578" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+<text x="230.000" y="268.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">等候候選 ready</text>
+<rect x="500.000" y="242.000" width="168.000" height="45.000" fill="#087F8C" stroke="none" rx="7" opacity="1"/>
+<text x="584.000" y="272.000" font-size="22" fill="#FFFFFF" font-weight="600" text-anchor="middle">關聯／提交 n</text>
+<path d="M675.000,264.000 L811.000,264.000" stroke="#087F8C" stroke-width="2.5" fill="none" stroke-dasharray="5 4"/>
+<path d="M801.9955289764732,268.3496553411123 L811,264 L801.9955289764732,259.6503446588877" stroke="#087F8C" stroke-width="2.5" fill="none"/>
+<text x="744.000" y="246.000" font-size="18" fill="#087F8C" font-weight="400" text-anchor="middle">commit(n) 後</text>
+<rect x="820.000" y="242.000" width="140.000" height="45.000" fill="#087F8C" stroke="none" rx="7" opacity="1"/>
+<text x="890.000" y="272.000" font-size="21" fill="#FFFFFF" font-weight="600" text-anchor="middle">追蹤 n+1</text>
+<text x="48.000" y="323.000" font-size="23" fill="#203247" font-weight="400" text-anchor="start">可重疊的工作往前做；同一份狀態不能跨越前幀的 commit。</text>
+<text x="48.000" y="350.000" font-size="20" fill="#536578" font-weight="400" text-anchor="start">slot 以 ready／consumed 交接：最後讀取完成才重用，結果滿時背壓。</text>
+<text x="28.000" y="410.000" font-size="26" fill="#16324F" font-weight="700" text-anchor="start">Nsight 實測：第 21–23 幀</text>
+<text x="28.000" y="447.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">同幀 F03 偵測與 G1 運動估計也可重疊；下列為階段起訖區間。</text>
+<rect x="28.000" y="480.000" width="944.000" height="88.000" fill="#F5F8FA" stroke="none" rx="6" opacity="1"/>
+<text x="48.000" y="524.000" font-size="23" fill="#16324F" font-weight="700" text-anchor="start">D 偵測</text>
+<rect x="28.000" y="578.000" width="944.000" height="88.000" fill="#F5F8FA" stroke="none" rx="6" opacity="1"/>
+<text x="48.000" y="622.000" font-size="23" fill="#087F8C" font-weight="700" text-anchor="start">M 追蹤</text>
+<path d="M175.000,477.000 L175.000,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="175.000" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">0</text>
+<path d="M265.694,477.000 L265.694,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="265.694" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">2</text>
+<path d="M356.387,477.000 L356.387,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="356.387" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">4</text>
+<path d="M447.081,477.000 L447.081,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="447.081" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">6</text>
+<path d="M537.775,477.000 L537.775,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="537.775" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">8</text>
+<path d="M628.468,477.000 L628.468,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="628.468" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">10</text>
+<path d="M719.162,477.000 L719.162,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="719.162" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">12</text>
+<path d="M809.856,477.000 L809.856,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="809.856" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">14</text>
+<path d="M900.549,477.000 L900.549,677.000" stroke="#DCE4EA" stroke-width="1.5" fill="none"/>
+<text x="900.549" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">16</text>
+<text x="946.000" y="710.000" font-size="21" fill="#536578" font-weight="400" text-anchor="end">ms</text>
+<rect x="175.000" y="499.000" width="4.394" height="39.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<rect x="179.620" y="499.000" width="1.307" height="39.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<rect x="181.704" y="499.000" width="224.650" height="39.000" fill="#315C9A" stroke="none" rx="2" opacity="1"/>
+<text x="294.029" y="526.000" font-size="21" fill="#FFFFFF" font-weight="600" text-anchor="middle">F03 21</text>
+<rect x="233.422" y="597.000" width="113.734" height="39.000" fill="#B6DFDC" stroke="none" rx="2" opacity="1"/>
+<text x="290.289" y="624.000" font-size="21" fill="#16324F" font-weight="600" text-anchor="middle">G1 21</text>
+<rect x="347.635" y="597.000" width="1.807" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<rect x="406.365" y="499.000" width="1.326" height="39.000" fill="#7D9BC0" stroke="none" rx="2" opacity="1"/>
+<rect x="407.700" y="499.000" width="5.450" height="39.000" fill="#7D9BC0" stroke="none" rx="2" opacity="1"/>
+<rect x="413.215" y="499.000" width="4.395" height="39.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<rect x="417.727" y="597.000" width="2.534" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<rect x="417.895" y="499.000" width="1.313" height="39.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<rect x="419.947" y="499.000" width="224.335" height="39.000" fill="#315C9A" stroke="none" rx="2" opacity="1"/>
+<text x="532.115" y="526.000" font-size="21" fill="#FFFFFF" font-weight="600" text-anchor="middle">F03 22</text>
+<rect x="420.707" y="597.000" width="50.156" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<path d="M445.786,638.000 L445.786,658.000" stroke="#087F8C" stroke-width="1.5" fill="none"/>
+<text x="445.786" y="680.000" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">尾 21</text>
+<rect x="471.048" y="597.000" width="0.768" height="39.000" fill="#7A68A6" stroke="none" rx="2" opacity="1"/>
+<rect x="472.842" y="597.000" width="125.414" height="39.000" fill="#B6DFDC" stroke="none" rx="2" opacity="1"/>
+<text x="535.549" y="624.000" font-size="21" fill="#16324F" font-weight="600" text-anchor="middle">G1 22</text>
+<rect x="598.693" y="597.000" width="2.493" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<rect x="644.292" y="499.000" width="1.332" height="39.000" fill="#7D9BC0" stroke="none" rx="2" opacity="1"/>
+<rect x="645.635" y="499.000" width="4.284" height="39.000" fill="#7D9BC0" stroke="none" rx="2" opacity="1"/>
+<rect x="649.991" y="499.000" width="4.477" height="39.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<rect x="654.626" y="597.000" width="2.479" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<rect x="654.713" y="499.000" width="1.292" height="39.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<rect x="656.792" y="499.000" width="223.505" height="39.000" fill="#315C9A" stroke="none" rx="2" opacity="1"/>
+<text x="768.545" y="526.000" font-size="21" fill="#FFFFFF" font-weight="600" text-anchor="middle">F03 23</text>
+<rect x="657.550" y="597.000" width="48.800" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<path d="M681.950,638.000 L681.950,658.000" stroke="#087F8C" stroke-width="1.5" fill="none"/>
+<text x="681.950" y="680.000" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">尾 22</text>
+<rect x="706.506" y="597.000" width="0.762" height="39.000" fill="#7A68A6" stroke="none" rx="2" opacity="1"/>
+<rect x="708.317" y="597.000" width="126.495" height="39.000" fill="#B6DFDC" stroke="none" rx="2" opacity="1"/>
+<text x="771.565" y="624.000" font-size="21" fill="#16324F" font-weight="600" text-anchor="middle">G1 23</text>
+<rect x="835.082" y="597.000" width="2.103" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<rect x="880.308" y="499.000" width="1.336" height="39.000" fill="#7D9BC0" stroke="none" rx="2" opacity="1"/>
+<rect x="881.654" y="499.000" width="5.462" height="39.000" fill="#7D9BC0" stroke="none" rx="2" opacity="1"/>
+<rect x="891.702" y="597.000" width="2.528" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<rect x="894.691" y="597.000" width="49.072" height="39.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<path d="M919.227,638.000 L919.227,658.000" stroke="#087F8C" stroke-width="1.5" fill="none"/>
+<text x="919.227" y="680.000" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">尾 23</text>
+<rect x="944.446" y="597.000" width="0.554" height="39.000" fill="#7A68A6" stroke="none" rx="2" opacity="1"/>
+<text x="28.000" y="756.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">圖例：</text>
+<rect x="117.000" y="739.000" width="23.000" height="17.000" fill="#315C9A" stroke="none" rx="2" opacity="1"/>
+<text x="149.000" y="756.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">F03 偵測</text>
+<rect x="322.000" y="739.000" width="23.000" height="17.000" fill="#B6DFDC" stroke="none" rx="2" opacity="1"/>
+<text x="354.000" y="756.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">G1 區間</text>
+<rect x="520.000" y="739.000" width="23.000" height="17.000" fill="#087F8C" stroke="none" rx="2" opacity="1"/>
+<text x="552.000" y="756.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">追蹤工作</text>
+<rect x="733.000" y="739.000" width="23.000" height="17.000" fill="#BB6A2B" stroke="none" rx="2" opacity="1"/>
+<text x="765.000" y="756.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">F02／F05</text>
+<text x="28.000" y="799.000" font-size="22" fill="#536578" font-weight="400" text-anchor="start">長條包含階段內空檔；不表示 SM 持續忙碌或 OFA 純硬體耗時。</text>
+<text x="28.000" y="839.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">來源：2026-11-05／乾淨 fae5cb7／G1；原 trace 30 幀，取相鄰三幀。</text>
+<text x="28.000" y="874.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">OFA 本體未被直接觀察；此圖用既有 CUDA 活動重建，沒有新跑 GPU。</text>
+<text x="28.000" y="909.000" font-size="21" fill="#536578" font-weight="400" text-anchor="start">Profiler 會影響時間；這些區間不取代無 profiler 的產品延遲與吞吐。</text></g></svg>

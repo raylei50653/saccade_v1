@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1150" viewBox="0 0 1600 1150" role="img" aria-labelledby="title desc">
+<title id="title">Saccade v1｜執行順序與交付邊界</title>
+<desc id="desc">基準 3cbaa518f0dc 的概念時序圖：D 偵測與 M 運動估計同幀重疊，候選完成後才擷取 mask 並執行 tracking tail，成功 commit 後兩次 D2H 再 receive。所有寬度僅表示依賴順序，不表示量測延遲。</desc>
+<defs><marker id="arrow-0F8B8D" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0F8B8D"/></marker><marker id="arrow-2563EB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2563EB"/></marker><marker id="arrow-4F46E5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5"/></marker><marker id="arrow-DCE3ED" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#DCE3ED"/></marker></defs>
+<g font-family="Noto Sans CJK TC, Noto Sans, sans-serif">
+<rect x="0" y="0" width="1600" height="1150" rx="0" fill="#F5F7FB" stroke="none" stroke-width="1"/>
+<text x="64" y="42" font-size="16" font-weight="700" fill="#2563EB" text-anchor="start">SACCADE V1  /  FIGURE 03</text>
+<text x="64" y="90" font-size="36" font-weight="700" fill="#17263C" text-anchor="start">執行順序與交付邊界</text>
+<text x="64" y="128" font-size="19" font-weight="400" fill="#64748B" text-anchor="start">以 ready／consumed 事件連接雙 stream；同幀運動估計與偵測可重疊。</text>
+<text x="1536" y="44" font-size="16" font-weight="500" fill="#64748B" text-anchor="end">BASELINE  3cbaa518f0dc</text>
+<rect x="1178" y="69" width="358" height="45" rx="22" fill="#EAF0FB" stroke="none" stroke-width="1"/>
+<text x="1357" y="99" font-size="18" font-weight="600" fill="#2563EB" text-anchor="middle">依賴示意，非量測時間比例</text>
+<rect x="64" y="156" width="10" height="10" rx="3" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="85" y="167" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">D：偵測</text>
+<rect x="234" y="156" width="10" height="10" rx="3" fill="#0F8B8D" stroke="none" stroke-width="1"/>
+<text x="255" y="167" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">M：有序狀態更新</text>
+<rect x="514" y="156" width="10" height="10" rx="3" fill="#4F46E5" stroke="none" stroke-width="1"/>
+<text x="535" y="167" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">Host：提交與交付</text>
+<rect x="48" y="196" width="1504" height="654" rx="24" fill="#FFFFFF" stroke="#DCE3ED" stroke-width="1"/>
+<text x="274" y="232" font-size="17" font-weight="600" fill="#64748B" text-anchor="start">時間順序</text>
+<path d="M 370 226 L 1480 226" fill="none" stroke="#DCE3ED" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-DCE3ED)"/>
+<rect x="64" y="250" width="1472" height="104" rx="14" fill="#F5F3FF" stroke="none" stroke-width="1"/>
+<rect x="64" y="366" width="1472" height="142" rx="14" fill="#EFF5FF" stroke="none" stroke-width="1"/>
+<rect x="64" y="548" width="1472" height="142" rx="14" fill="#EDF9F7" stroke="none" stroke-width="1"/>
+<rect x="64" y="730" width="1472" height="96" rx="14" fill="#F5F3FF" stroke="none" stroke-width="1"/>
+<text x="88" y="287" font-size="22" font-weight="700" fill="#4F46E5" text-anchor="start">CPU caller</text>
+<text x="88" y="319" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">提交與輸入控制</text>
+<text x="88" y="413" font-size="22" font-weight="700" fill="#2563EB" text-anchor="start">Detect · D</text>
+<text x="88" y="445" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">F01–F05 / D Graph</text>
+<text x="88" y="595" font-size="22" font-weight="700" fill="#0F8B8D" text-anchor="start">Main · M</text>
+<text x="88" y="627" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">依 frame 有序</text>
+<text x="88" y="768" font-size="22" font-weight="700" fill="#4F46E5" text-anchor="start">Host result</text>
+<text x="88" y="799" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">接收與後處理</text>
+<path d="M 390 338 V 386" fill="none" stroke="#4F46E5" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-4F46E5)"/>
+<path d="M 445 437 L 465 437" fill="none" stroke="#2563EB" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-2563EB)"/>
+<path d="M 575 437 L 600 437" fill="none" stroke="#2563EB" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-2563EB)"/>
+<path d="M 890 437 L 910 437" fill="none" stroke="#2563EB" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-2563EB)"/>
+<path d="M 1120 437 L 1150 437" fill="none" stroke="#2563EB" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-2563EB)"/>
+<path d="M 520 492 V 526 H 620 V 568" fill="none" stroke="#0F8B8D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-0F8B8D)"/>
+<path d="M 1015 492 V 524 H 1172 V 568" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-2563EB)"/>
+<path d="M 805 619 L 825 619" fill="none" stroke="#0F8B8D" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-0F8B8D)"/>
+<path d="M 1005 619 L 1120 619" fill="none" stroke="#0F8B8D" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 5" marker-end="url(#arrow-0F8B8D)"/>
+<path d="M 1225 619 L 1245 619" fill="none" stroke="#0F8B8D" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-0F8B8D)"/>
+<path d="M 1362 674 V 744" fill="none" stroke="#4F46E5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-4F46E5)"/>
+<rect x="270" y="266" width="240" height="72" rx="12" fill="#FFFFFF" stroke="#4F46E5" stroke-width="1.4"/>
+<rect x="270" y="266" width="5" height="72" rx="2" fill="#4F46E5" stroke="none" stroke-width="1"/>
+<text x="390.0" y="297" font-size="20" font-weight="700" fill="#4F46E5" text-anchor="middle">enqueue(k)</text>
+<text x="390.0" y="326" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">JPEG bytes / staging</text>
+<text x="566" y="286" font-size="18" font-weight="500" fill="#17263C" text-anchor="start">下一次 JPEG decode 前，host 等 rgb_read_done</text>
+<text x="566" y="318" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">原圖 RGB 的最後 F02／F05 reader 完成後才可重用。</text>
+<rect x="270" y="386" width="175" height="106" rx="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="270" y="386" width="5" height="106" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="357.5" y="417" font-size="20" font-weight="700" fill="#2563EB" text-anchor="middle">F01 / F02</text>
+<text x="357.5" y="446" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">decode · resize</text>
+<text x="357.5" y="471" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">GPU RGB → images</text>
+<rect x="465" y="386" width="110" height="106" rx="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="465" y="386" width="5" height="106" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="520.0" y="417" font-size="20" font-weight="700" fill="#2563EB" text-anchor="middle">F05</text>
+<text x="520.0" y="446" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">灰階 MI</text>
+<text x="520.0" y="471" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">獨立 slot</text>
+<rect x="600" y="386" width="290" height="106" rx="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="600" y="386" width="5" height="106" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="745.0" y="417" font-size="20" font-weight="700" fill="#2563EB" text-anchor="middle">F03 · TensorRT</text>
+<text x="745.0" y="446" font-size="18" font-weight="400" fill="#17263C" text-anchor="middle">YOLO26m + scan head</text>
+<text x="745.0" y="471" font-size="18" font-weight="400" fill="#17263C" text-anchor="middle">D Graph</text>
+<rect x="910" y="386" width="210" height="106" rx="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="910" y="386" width="5" height="106" rx="2" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="1015.0" y="417" font-size="20" font-weight="700" fill="#2563EB" text-anchor="middle">producer → F04</text>
+<text x="1015.0" y="446" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">finite checks · NMS</text>
+<text x="1015.0" y="471" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">D Graph</text>
+<rect x="1150" y="386" width="330" height="106" rx="12" fill="#E4EDFF" stroke="#B2C9F5" stroke-width="1"/>
+<text x="1315" y="419" font-size="20" font-weight="700" fill="#2563EB" text-anchor="middle">D(k+1) 可開始</text>
+<text x="1315" y="449" font-size="17" font-weight="400" fill="#2563EB" text-anchor="middle">與 M(k) tracking tail 重疊</text>
+<text x="1315" y="475" font-size="17" font-weight="400" fill="#64748B" text-anchor="middle">依各 slot 的 consumed 保護重用</text>
+<rect x="604" y="510" width="104" height="27" rx="8" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="616" y="529" font-size="17" font-weight="600" fill="#0F8B8D" text-anchor="start">mi_ready(k)</text>
+<rect x="958" y="510" width="219" height="27" rx="8" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="970" y="529" font-size="17" font-weight="600" fill="#2563EB" text-anchor="start">candidates_ready(k)</text>
+<rect x="600" y="568" width="205" height="106" rx="12" fill="#FFFFFF" stroke="#0F8B8D" stroke-width="1.4"/>
+<rect x="600" y="568" width="5" height="106" rx="2" fill="#0F8B8D" stroke="none" stroke-width="1"/>
+<text x="702.5" y="599" font-size="20" font-weight="700" fill="#0F8B8D" text-anchor="middle">F06 · G1</text>
+<text x="702.5" y="628" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">NVOFA → median</text>
+<text x="702.5" y="653" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">previous gray / mask</text>
+<rect x="825" y="568" width="180" height="106" rx="12" fill="#FFFFFF" stroke="#0F8B8D" stroke-width="1.4"/>
+<rect x="825" y="568" width="5" height="106" rx="2" fill="#0F8B8D" stroke="none" stroke-width="1"/>
+<text x="915.0" y="599" font-size="20" font-weight="700" fill="#0F8B8D" text-anchor="middle">F08a</text>
+<text x="915.0" y="628" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">GMC control</text>
+<text x="915.0" y="653" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">一次 Kalman predict</text>
+<text x="1060" y="597" font-size="17" font-weight="400" fill="#64748B" text-anchor="middle">候選等待</text>
+<rect x="1120" y="568" width="105" height="106" rx="12" fill="#FFFFFF" stroke="#0F8B8D" stroke-width="1.4"/>
+<rect x="1120" y="568" width="5" height="106" rx="2" fill="#0F8B8D" stroke="none" stroke-width="1"/>
+<text x="1172.5" y="599" font-size="20" font-weight="700" fill="#0F8B8D" text-anchor="middle">Mask(k)</text>
+<text x="1172.5" y="628" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">本幀遮罩</text>
+<text x="1172.5" y="653" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">供下幀用</text>
+<rect x="1245" y="568" width="235" height="106" rx="12" fill="#FFFFFF" stroke="#0F8B8D" stroke-width="1.4"/>
+<rect x="1245" y="568" width="5" height="106" rx="2" fill="#0F8B8D" stroke="none" stroke-width="1"/>
+<text x="1362.5" y="599" font-size="20" font-weight="700" fill="#0F8B8D" text-anchor="middle">M tracking tail</text>
+<text x="1362.5" y="628" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">F04b → F07 / F08b</text>
+<text x="1362.5" y="653" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">commit → packet</text>
+<rect x="1245" y="744" width="235" height="70" rx="12" fill="#FFFFFF" stroke="#4F46E5" stroke-width="1.4"/>
+<rect x="1245" y="744" width="5" height="70" rx="2" fill="#4F46E5" stroke="none" stroke-width="1"/>
+<text x="1362.5" y="775" font-size="20" font-weight="700" fill="#4F46E5" text-anchor="middle">D2H → receive(k)</text>
+<text x="1362.5" y="804" font-size="17" font-weight="400" fill="#17263C" text-anchor="middle">56 B + 12,368 B</text>
+<text x="288" y="767" font-size="18" font-weight="500" fill="#17263C" text-anchor="start">成功 commit 同時發布 TrackState、gray 與 mask 的新版本。</text>
+<text x="288" y="799" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">M tail 之後依序複製 MotionContext、ResultPacket；完成事件之後 host 才讀取。</text>
+<rect x="64" y="878" width="464" height="168" rx="18" fill="#FFFFFF" stroke="#DCE3ED" stroke-width="1"/>
+<text x="88" y="916" font-size="17" font-weight="700" fill="#2563EB" text-anchor="start">01</text>
+<text x="129" y="916" font-size="22" font-weight="700" fill="#17263C" text-anchor="start">同幀重疊</text>
+<text x="88" y="954" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">F05 發布獨立 MI 後，M 上的 F06／predict</text>
+<text x="88" y="983" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">可與 D 上的 F03／F04 同時執行。</text>
+<text x="88" y="1012" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">OFA 是固定功能引擎，前後處理仍使用 CUDA。</text>
+<rect x="568" y="878" width="464" height="168" rx="18" fill="#FFFFFF" stroke="#DCE3ED" stroke-width="1"/>
+<text x="592" y="916" font-size="17" font-weight="700" fill="#0F8B8D" text-anchor="start">02</text>
+<text x="633" y="916" font-size="22" font-weight="700" fill="#17263C" text-anchor="start">有限 slot 的交接</text>
+<text x="592" y="954" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">MI 與 candidates 各有 ready／consumed。</text>
+<text x="592" y="983" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">M 完成最後讀取後發布 consumed，D 才重用。</text>
+<text x="592" y="1012" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">結果 ring 滿時，以背壓保留待接收結果。</text>
+<rect x="1072" y="878" width="464" height="168" rx="18" fill="#FFFFFF" stroke="#DCE3ED" stroke-width="1"/>
+<text x="1096" y="916" font-size="17" font-weight="700" fill="#4F46E5" text-anchor="start">03</text>
+<text x="1137" y="916" font-size="22" font-weight="700" fill="#17263C" text-anchor="start">跨幀狀態邊界</text>
+<text x="1096" y="954" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">D(k+1) 可與 M(k) 的 tracking tail 重疊。</text>
+<text x="1096" y="983" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">M(k+1) 不得越過 commit(k)。</text>
+<text x="1096" y="1012" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">失敗不發布 working state；首次錯誤保留。</text>
+<path d="M 64 1082 L 1536 1082" fill="none" stroke="#DCE3ED" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="64" y="1116" font-size="17" font-weight="400" fill="#64748B" text-anchor="start">G1 / v1-motion/2   ·   HR 1280×768   ·   CUDA Graph ON</text>
+<text x="1536" y="1116" font-size="17" font-weight="400" fill="#64748B" text-anchor="end">來源：TrackingSession 實作；區塊寬度不代表延遲或硬體利用率。</text>
+</g>
+</svg>

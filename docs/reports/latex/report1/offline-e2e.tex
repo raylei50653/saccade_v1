@@ -1,0 +1,28 @@
+% Generated from the independent full-process completion evidence.
+本組從外部計時程式即將啟動 \code{track_sequence} 起，量至程序正常退出並由 parent 完成 blocking wait。使用同一乾淨基準、原 engine、HR／G1／Graph／pipelined、四格 ring、NSA OFF；MOT17-10 完整 654 幀，連續三個 fresh processes。沒有修改 CLI 或 runtime，也沒有 profiler。\cite{offline}
+
+\begin{finding}
+\textbf{涵蓋的完整離線邊界：} 程式啟動、engine 載入、初始化、全部 JPEG 讀取與處理、drain／close、序列尾插值與 ID 定稿、MOT／packet／motion／設定與 log 寫入，直到程序退出。這是整段序列完成時間。
+\end{finding}
+
+\begin{table}[H]
+\caption{完整 654 幀離線端到端耗時，單位秒}
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}Yrr@{}}
+\toprule
+Fresh process & 外部完整程序時間 & CLI 內部處理迴圈 \\
+\midrule
+1 & 5.365146 & 3.427130 \\
+2 & 4.480110 & 3.412490 \\
+3 & 4.664053 & 3.461440 \\
+\midrule
+平均 & 4.836436 & 3.433687 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+完整程序平均 \textbf{4.836 秒／654 幀}，攤提為 7.395163 ms/frame，三次總幀數除以總時間換算為 135.224 FPS。這些是包含啟動與尾端輸出的離線完成成本，不能讀作每一幀的交付延遲。完整程序與 CLI 內部迴圈平均相差 1.403 秒，包含程序啟動、constructor、close、EOF 定稿與寫檔等成本，不能全數歸因為模型初始化。
+
+\textbf{輸出與保管。} 三次 MOT、完整 packets、motion records 與 resolved config 均逐 byte 相同；全部 654 張輸入、source 與 binary 的前後 hash 相同。完整 packets 的前 140 幀也等於上一組逐幀 benchmark，連接兩種量測範圍的輸出一致性。
+
+\textbf{適用範圍。} 讀檔路徑確實納入，但 preflight hashing 已讀過輸入，作業系統 page cache 未清除，不代表冷磁碟效能。量測包含檔案 write／checked close，不涵蓋 fsync 持久化。只測一序列、三次 fresh processes；沒有相機／網路來源或逐幀最終 MOT 延遲。15 筆程序期遙測的 GPU utilization 平均 72.93\%、最大 100\%，最高 70\,°C、142.17 W、495 MiB；同樣不能當作穩態利用率。

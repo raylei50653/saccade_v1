@@ -1,0 +1,2 @@
+% Recomputed from the archived G1 trace; see schedule-sources.json and schedule-trace/summary.json.
+\textbf{實測看到了什麼？} 排除初始化與第一次 Execute 後，28 幀的完整 G1／F06 都落在同幀 F03 的時間窗內；27 組相鄰幀都有跨幀 CUDA 活動重疊，平均約 \textbf{0.94 ms}。主要交集是下一幀 F03 與上一幀的 mask／追蹤尾端。這是歷史 profiler trace 的排程觀察，產品延遲仍以無 profiler 的量測解讀。\cite{nsys}

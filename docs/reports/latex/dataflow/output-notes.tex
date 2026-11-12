@@ -1,0 +1,26 @@
+\section{結果回到 CPU 之後，什麼時候才算完成}
+TrackingSession 依設定固定採 JPEG、host RGB 或 device video 輸入。兩個 CLI 共用 GPU 追蹤主線，但「收到本幀結果」與「最終 MOT 已完成」是不同時點。
+
+\textbf{D2H 交付小型結果副本。} M stream 依序複製 \code{MotionContext} 56 B 與固定 packet 12,368 B，每幀共 12,424 B，再記錄 done event。前者是受測 ABI 的 struct 大小，後者是序列化 bytes，並非 \code{sizeof(ResultPacket)}。\code{receive()} 等 done、核對 packet 的 epoch／frame，回傳 owned 副本並歸還 host slot，不追加 GPU predict／update。\textbf{Device MotionContext 使用單一重用 buffer；FAILED／SKIPPED 封包附帶的 motion 不保證是新的當幀估計，須先看 packet.status。}\footnote{\path{src/tracking_session.cpp}:479--502；\path{include/saccade/protocol.hpp}:15--18。}
+
+現行 tracker 只輸出 confirmed、age=0 的 observed rows；預設 \code{measurement_box=false}，座標取濾波後 Kalman state。ABI 可表達 predicted rows，不表示目前會輸出 lost tracks。\footnote{\path{cuda/tracking.cu}:449--463；預設設定見 \path{include/saccade/tracking.hpp}。}
+
+\begin{table}[H]
+\caption{入口共用追蹤計算，輸出政策不同}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{24mm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+環節 & JPEG sequence & 影片／串流 CLI \\
+\midrule
+輸入 & CPU 讀 JPEG，nvJPEG 交付 GPU RGB & 預設 FFmpeg／NVDEC 交付 device NV12／P010，經 CUDA 色彩轉換 \\
+提交／接收 & result ring 滿時先 receive；EOF 後 drain & 每幀 enqueue 後立即 receive、寫出並 flush；預設一格 result ring \\
+輸出政策 & \code{v1-mot/1}：首次遇到的 output ID 重編號，EOF 後插值、排序及寫最終 MOT & \code{stream-observations/1}：保留 packet output ID，逐幀輸出，不作序列尾插值 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{離線補框在 CPU 定稿時做。} \code{SequenceOutput::add()} 收集 packet 全部 rows，不另篩 observed flag。\code{finish()} 預設對至少五筆 rows 的同一輸出 ID，在兩筆 rows 間最多補 35 個缺幀；線性插值 xyxy，補入列 conf=$-1$。writer 轉成 left／top／width／height、取三位小數，不另裁切座標。串流檔案則是逐幀可讀的前綴，正常 EOF／frame-limit 與成功退出才表示要求範圍完成。\footnote{\path{include/saccade/mot_output.hpp}:20--22；\path{src/mot_output.cpp}:16--82；\path{tools/track_stream.cpp}:231--267、349--374。}
+
+\textbf{三個完成邊界：} M 計算／commit 之後還有兩次 D2H；done event 之後還有 \code{receive()} 的 CPU 複製與核對；JPEG 的最終 MOT 還要等 EOF 後 \code{output.finish()} 與寫檔。\code{track_sequence} 的 wall time 停在 drain 完成，排除其後的 close、插值與最終寫檔。\footnote{\path{tools/track_sequence.cpp}:124--148；stream 預設與 flush 見 \path{tools/track_stream.cpp}:84--104、214--216。}
+
+來源 \code{pts_us} 沒有改變 Kalman dt：目前每個解碼幀仍做一次固定步長 predict。即時 flush 亦不代表 fsync 或下游已收到結果。

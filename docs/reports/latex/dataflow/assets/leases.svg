@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="910" viewBox="0 0 1000 910" role="img" aria-labelledby="title desc"><title id="title">誰讀完、誰歸還：slot 的可重用條件</title><desc id="desc">Graph-on MI/candidate/result ring lifetimes; host-owned result slots are released by receive, not a consumed event.</desc><defs><marker id="315C9A" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#315C9A"/></marker><marker id="087F8C" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#087F8C"/></marker><marker id="7462A3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#7462A3"/></marker><marker id="536578" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#536578"/></marker><marker id="A9632B" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#A9632B"/></marker></defs><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0" y="0" width="1000" height="910" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="28" y="43" font-size="31" fill="#16324F" font-weight="700" text-anchor="start">誰讀完、誰歸還：slot 的可重用條件</text>
+<text x="28" y="82" font-size="22" fill="#536578" font-weight="400" text-anchor="start">Graph ON 路徑；MI／candidate／result 容量為 2／2／4，header 不能取代同步。</text>
+<rect x="28" y="125" width="944" height="151" rx="10" fill="#F5F8FA" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="44" y="161" font-size="24" fill="#087F8C" font-weight="700" text-anchor="start">MI ring</text>
+<text x="44" y="197" font-size="20" fill="#536578" font-weight="400" text-anchor="start">2 個 slot</text>
+<rect x="210" y="147" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#087F8C" stroke-width="1.5"/>
+<text x="276" y="173" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">D 寫灰階</text>
+<path d="M345,180 L361,180" stroke="#087F8C" stroke-width="2" fill="none" marker-end="url(#087F8C)"/>
+<rect x="365" y="147" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#087F8C" stroke-width="1.5"/>
+<text x="431" y="173" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">mi_ready</text>
+<path d="M500,180 L516,180" stroke="#087F8C" stroke-width="2" fill="none" marker-end="url(#087F8C)"/>
+<rect x="520" y="147" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#087F8C" stroke-width="1.5"/>
+<text x="586" y="173" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">M 讀取</text>
+<text x="586" y="197" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">G1／gray copy</text>
+<path d="M655,180 L671,180" stroke="#087F8C" stroke-width="2" fill="none" marker-end="url(#087F8C)"/>
+<rect x="675" y="147" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#087F8C" stroke-width="1.5"/>
+<text x="741" y="173" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">mi_consumed</text>
+<path d="M810,180 L826,180" stroke="#087F8C" stroke-width="2" fill="none" marker-end="url(#087F8C)"/>
+<rect x="830" y="147" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#087F8C" stroke-width="1.5"/>
+<text x="896" y="173" font-size="19" fill="#087F8C" font-weight="600" text-anchor="middle">D 再重用</text>
+<text x="210" y="249" font-size="20" fill="#536578" font-weight="400" text-anchor="start">M 做完 flow_output 後才發布 consumed；下一個 producer 先 wait。</text>
+<rect x="28" y="301" width="944" height="151" rx="10" fill="#F5F8FA" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="44" y="337" font-size="24" fill="#315C9A" font-weight="700" text-anchor="start">CS ring</text>
+<text x="44" y="373" font-size="20" fill="#536578" font-weight="400" text-anchor="start">2 個 slot</text>
+<rect x="210" y="323" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#315C9A" stroke-width="1.5"/>
+<text x="276" y="349" font-size="19" fill="#315C9A" font-weight="600" text-anchor="middle">D：F04 寫入</text>
+<path d="M345,356 L361,356" stroke="#315C9A" stroke-width="2" fill="none" marker-end="url(#315C9A)"/>
+<rect x="365" y="323" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#315C9A" stroke-width="1.5"/>
+<text x="431" y="349" font-size="19" fill="#315C9A" font-weight="600" text-anchor="middle">CS ready</text>
+<path d="M500,356 L516,356" stroke="#315C9A" stroke-width="2" fill="none" marker-end="url(#315C9A)"/>
+<rect x="520" y="323" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#315C9A" stroke-width="1.5"/>
+<text x="586" y="349" font-size="19" fill="#315C9A" font-weight="600" text-anchor="middle">M 讀取</text>
+<text x="586" y="373" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">mask ＋ graph</text>
+<path d="M655,356 L671,356" stroke="#315C9A" stroke-width="2" fill="none" marker-end="url(#315C9A)"/>
+<rect x="675" y="323" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#315C9A" stroke-width="1.5"/>
+<text x="741" y="349" font-size="19" fill="#315C9A" font-weight="600" text-anchor="middle">CS consumed</text>
+<path d="M810,356 L826,356" stroke="#315C9A" stroke-width="2" fill="none" marker-end="url(#315C9A)"/>
+<rect x="830" y="323" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#315C9A" stroke-width="1.5"/>
+<text x="896" y="349" font-size="19" fill="#315C9A" font-weight="600" text-anchor="middle">D 再重用</text>
+<text x="210" y="425" font-size="20" fill="#536578" font-weight="400" text-anchor="start">Graph 路徑等 M tail 最後讀取完成，才允許 D 覆寫該候選 slot。</text>
+<rect x="28" y="477" width="944" height="151" rx="10" fill="#F5F8FA" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="44" y="513" font-size="24" fill="#7462A3" font-weight="700" text-anchor="start">Host results</text>
+<text x="44" y="549" font-size="20" fill="#536578" font-weight="400" text-anchor="start">4 個 pinned slot</text>
+<rect x="210" y="499" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#7462A3" stroke-width="1.5"/>
+<text x="276" y="525" font-size="19" fill="#7462A3" font-weight="600" text-anchor="middle">M：D2H</text>
+<text x="276" y="549" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">56 B＋packet</text>
+<path d="M345,532 L361,532" stroke="#7462A3" stroke-width="2" fill="none" marker-end="url(#7462A3)"/>
+<rect x="365" y="499" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#7462A3" stroke-width="1.5"/>
+<text x="431" y="525" font-size="19" fill="#7462A3" font-weight="600" text-anchor="middle">done event</text>
+<path d="M500,532 L516,532" stroke="#7462A3" stroke-width="2" fill="none" marker-end="url(#7462A3)"/>
+<rect x="520" y="499" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#7462A3" stroke-width="1.5"/>
+<text x="586" y="525" font-size="19" fill="#7462A3" font-weight="600" text-anchor="middle">CPU receive</text>
+<text x="586" y="549" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">等待＋取回複本</text>
+<path d="M655,532 L671,532" stroke="#7462A3" stroke-width="2" fill="none" marker-end="url(#7462A3)"/>
+<rect x="675" y="499" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#7462A3" stroke-width="1.5"/>
+<text x="741" y="525" font-size="19" fill="#7462A3" font-weight="600" text-anchor="middle">lease 歸還</text>
+<text x="741" y="549" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">received 前進</text>
+<path d="M810,532 L826,532" stroke="#7462A3" stroke-width="2" fill="none" marker-end="url(#7462A3)"/>
+<rect x="830" y="499" width="132" height="66" rx="7" fill="#FFFFFF" stroke="#7462A3" stroke-width="1.5"/>
+<text x="896" y="525" font-size="19" fill="#7462A3" font-weight="600" text-anchor="middle">M 再 D2H</text>
+<text x="210" y="601" font-size="20" fill="#536578" font-weight="400" text-anchor="start">滿 4 份未接收結果時 enqueue 拒絕；host 先 receive，再繼續提交。</text>
+<rect x="28" y="681" width="944" height="153" rx="10" fill="#FFF8EF" stroke="#D4B590" stroke-width="1.5"/>
+<text x="48" y="718" font-size="26" fill="#A9632B" font-weight="700" text-anchor="start">共用 RGB 另有一條保護邊</text>
+<text x="48" y="754" font-size="22" fill="#203247" font-weight="400" text-anchor="start">下一次 nvJPEG decode 前，host 等待 rgb_read_done。</text>
+<text x="48" y="784" font-size="22" fill="#203247" font-weight="400" text-anchor="start">此事件接在 D 上最後的 F05 原圖讀取之後；RGB 不是 MI ring 的一格。</text>
+<text x="48" y="814" font-size="22" fill="#203247" font-weight="400" text-anchor="start">nvJPEG 有私有工作，僅靠下一個 D 工作的提交順序不足以保護 RGB。</text>
+<text x="28" y="878" font-size="19" fill="#536578" font-weight="400" text-anchor="start">MI／CS 由 CUDA ready／consumed 交接；host result 由 receive 計數歸還，沒有額外 consumed event。</text></g></svg>

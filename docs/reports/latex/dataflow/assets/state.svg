@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="880" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc"><title id="title">計算先寫 working，成功後才發布新版本</title><desc id="desc">Two payload slots share a single committed-slot index in Control. Failed work does not replace the last committed state.</desc><defs><marker id="315C9A" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#315C9A"/></marker><marker id="087F8C" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#087F8C"/></marker><marker id="7462A3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#7462A3"/></marker><marker id="536578" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#536578"/></marker><marker id="A9632B" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#A9632B"/></marker></defs><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0" y="0" width="1000" height="880" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="28" y="43" font-size="31" fill="#16324F" font-weight="700" text-anchor="start">計算先寫 working，成功後才發布新版本</text>
+<text x="28" y="82" font-size="22" fill="#536578" font-weight="400" text-anchor="start">TrackState、gray、mask 以同一個版本索引前進；Control 本身是一份提交控制。</text>
+<rect x="40" y="135" width="400" height="230" rx="10" fill="#F6F2FC" stroke="#7462A3" stroke-width="1.5"/>
+<text x="56" y="167" font-size="24" fill="#7462A3" font-weight="700" text-anchor="start">committed：上次成功的版本</text>
+<text x="56" y="197" font-size="21" fill="#536578" font-weight="400" text-anchor="start">TrackState：身份、位置、生命週期</text>
+<text x="56" y="226" font-size="21" fill="#536578" font-weight="400" text-anchor="start">gray：上次成功影像</text>
+<text x="56" y="255" font-size="21" fill="#536578" font-weight="400" text-anchor="start">mask：上次成功人物遮罩</text>
+<text x="56" y="284" font-size="21" fill="#536578" font-weight="400" text-anchor="start">本幀只讀；首幀從空狀態開始</text>
+<rect x="560" y="135" width="400" height="230" rx="10" fill="#EDF8F7" stroke="#087F8C" stroke-width="1.5"/>
+<text x="576" y="167" font-size="24" fill="#087F8C" font-weight="700" text-anchor="start">本幀暫存與 working 輸出</text>
+<text x="576" y="197" font-size="21" fill="#536578" font-weight="400" text-anchor="start">predict → 獨立 DevicePredicted</text>
+<text x="576" y="226" font-size="21" fill="#536578" font-weight="400" text-anchor="start">update → working TrackState</text>
+<text x="576" y="255" font-size="21" fill="#536578" font-weight="400" text-anchor="start">gray：本幀 MI 寫回</text>
+<text x="576" y="284" font-size="21" fill="#536578" font-weight="400" text-anchor="start">mask：本幀 kept 人物建立</text>
+<text x="576" y="313" font-size="21" fill="#536578" font-weight="400" text-anchor="start">PREDICTED 暫存不是 TS 版本</text>
+<text x="500" y="218" font-size="22" fill="#7462A3" font-weight="700" text-anchor="middle">讀舊</text>
+<text x="500" y="292" font-size="22" fill="#087F8C" font-weight="700" text-anchor="middle">算新</text>
+<path d="M444,244 L556,244" stroke="#7462A3" stroke-width="2" fill="none" marker-end="url(#7462A3)"/>
+<path d="M760,365 V407 H500 V428" stroke="#087F8C" stroke-width="2.3" fill="none" marker-end="url(#087F8C)"/>
+<rect x="180" y="430" width="640" height="105" rx="10" fill="#FFFFFF" stroke="#16324F" stroke-width="1.5"/>
+<text x="196" y="462" font-size="24" fill="#16324F" font-weight="700" text-anchor="start">Control：只有一個共同版本選擇</text>
+<text x="196" y="492" font-size="21" fill="#536578" font-weight="400" text-anchor="start">working_slot = 1 − committed_slot</text>
+<text x="196" y="521" font-size="21" fill="#536578" font-weight="400" text-anchor="start">核對身份與錯誤；成功才更新 committed_slot</text>
+<path d="M380,536 V565 H240 V589" stroke="#087F8C" stroke-width="2.3" fill="none" marker-end="url(#087F8C)"/>
+<path d="M620,536 V565 H760 V589" stroke="#A9632B" stroke-width="2.3" fill="none" marker-end="url(#A9632B)"/>
+<text x="185" y="578" font-size="22" fill="#087F8C" font-weight="700" text-anchor="middle">成功</text>
+<text x="815" y="578" font-size="22" fill="#A9632B" font-weight="700" text-anchor="middle">失敗</text>
+<rect x="40" y="590" width="400" height="175" rx="10" fill="#EDF8F7" stroke="#087F8C" stroke-width="1.5"/>
+<text x="56" y="622" font-size="24" fill="#087F8C" font-weight="700" text-anchor="start">commit 發布 working 版本</text>
+<text x="56" y="652" font-size="21" fill="#536578" font-weight="400" text-anchor="start">committed_slot ← working_slot</text>
+<text x="56" y="681" font-size="21" fill="#536578" font-weight="400" text-anchor="start">committed_frame 前進一幀</text>
+<text x="56" y="710" font-size="21" fill="#536578" font-weight="400" text-anchor="start">TS／gray／mask 一起成為新參考</text>
+<text x="56" y="739" font-size="21" fill="#536578" font-weight="400" text-anchor="start">下一幀讀取這一版</text>
+<rect x="560" y="590" width="400" height="175" rx="10" fill="#FFF7EF" stroke="#A9632B" stroke-width="1.5"/>
+<text x="576" y="622" font-size="24" fill="#A9632B" font-weight="700" text-anchor="start">保留原 committed 版本</text>
+<text x="576" y="652" font-size="20" fill="#536578" font-weight="400" text-anchor="start">working 可以停留在部分計算</text>
+<text x="576" y="681" font-size="20" fill="#536578" font-weight="400" text-anchor="start">鎖定首次 fail_frame／fail_code</text>
+<text x="576" y="710" font-size="20" fill="#536578" font-weight="400" text-anchor="start">本幀 packet：FAILED</text>
+<text x="576" y="739" font-size="20" fill="#536578" font-weight="400" text-anchor="start">已排入後幀：SKIPPED_AFTER_FAILURE</text>
+<text x="28" y="810" font-size="22" fill="#203247" font-weight="400" text-anchor="start">新狀態的發布由同一條 M stream 排序；沒有讓兩幀同時改寫已提交狀態。</text>
+<text x="28" y="849" font-size="21" fill="#536578" font-weight="400" text-anchor="start">FAILED／SKIPPED 的 count=0；成功但無人的 OK/count=0 是另一種結果。</text></g></svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="415" viewBox="0 0 1000 415" role="img" aria-labelledby="title desc"><title id="title">希望把『這裡有人』變成『這是同一個人』</title><desc id="desc">五步邏輯流程示意，非 GPU 計時或實際排程。</desc><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0" y="0" width="1000" height="415" rx="0" fill="#FFFFFF" stroke="none"/>
+<text x="28" y="43" font-size="31" fill="#16324F" font-weight="700" text-anchor="start">希望把『這裡有人』變成『這是同一個人』</text>
+<text x="28" y="82" font-size="24" fill="#536578" font-weight="400" text-anchor="start">辨識每一幀的人，再把跨幀觀測接成持續的 ID。</text>
+<rect x="223" y="117" width="555" height="161" rx="12" fill="#EFF7F8" stroke="#087F8C"/>
+<text x="500" y="144" font-size="22" fill="#087F8C" font-weight="600" text-anchor="middle">GPU：中間影像、候選與追蹤狀態留在裝置上</text>
+<rect x="28" y="169" width="168" height="84" rx="9" fill="#F3F6F9" stroke="#DCE4EA"/>
+<text x="112" y="202" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">讀畫面</text>
+<text x="112" y="233" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">JPEG／串流</text>
+<path d="M199,211 L211,211" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M205,204 L217,211 L205,218" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="222" y="169" width="168" height="84" rx="9" fill="#FFFFFF" stroke="#DCE4EA"/>
+<text x="306" y="202" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">找人</text>
+<text x="306" y="233" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">人在哪裡？</text>
+<path d="M393,211 L405,211" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M399,204 L411,211 L399,218" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="416" y="169" width="168" height="84" rx="9" fill="#FFFFFF" stroke="#DCE4EA"/>
+<text x="500" y="202" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">估計相機位移</text>
+<text x="500" y="233" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">背景移了多少？</text>
+<path d="M587,211 L599,211" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M593,204 L605,211 L593,218" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="610" y="169" width="168" height="84" rx="9" fill="#FFFFFF" stroke="#DCE4EA"/>
+<text x="694" y="202" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">接續 ID</text>
+<text x="694" y="233" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">與哪條軌跡相接？</text>
+<path d="M781,211 L793,211" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M787,204 L799,211 L787,218" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="804" y="169" width="168" height="84" rx="9" fill="#F3F6F9" stroke="#DCE4EA"/>
+<text x="888" y="202" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">輸出</text>
+<text x="888" y="233" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">座標＋ID</text>
+<text x="28" y="319" font-size="23" fill="#203247" font-weight="400" text-anchor="start">CPU 負責讀入、排程、接收結果與寫檔；JPEG 解碼另走 GPU。</text>
+<text x="28" y="354" font-size="23" fill="#203247" font-weight="400" text-anchor="start">目的：減少反覆搬資料，讓偵測、相機運動補償與追蹤接在一起。</text>
+<text x="28" y="391" font-size="21" fill="#536578" font-weight="400" text-anchor="start">邏輯流程示意；框寬與順序不代表實際 GPU 耗時或跨 stream 排程。</text></g></svg>

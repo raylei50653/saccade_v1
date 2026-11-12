@@ -1,0 +1,750 @@
+{
+  "schema": "saccade-dataflow-contract-audit/1",
+  "created_utc": "2026-11-12T02:57:59.017182+00:00",
+  "base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+  "status": "PASS_READ_ONLY_SOURCE_AND_CONTRACT_AUDIT",
+  "formal_acceptance": false,
+  "new_GPU_run": false,
+  "new_experiment": false,
+  "runtime_modified": false,
+  "scope": "HR1280x768 FP16 engine / FP32 IO, G1 v1-motion/2; current implementation authoritative over historical PCR design prose",
+  "sources": [
+    {
+      "path": "src/tracking_session.cpp",
+      "bytes": 35790,
+      "sha256": "8681f7fd8c971560d5d8b39893648e9aa9436038cf5f55300e683b371fd9e538",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "cuda/flow_motion.cu",
+      "bytes": 14375,
+      "sha256": "fe0d9f04cca3a7258dce9032b39ed9f027c6fbdf7116418cbab818f7a98344e3",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/model_profile.hpp",
+      "bytes": 2141,
+      "sha256": "06e7058f61dc4cae75ca1f590c630cb0b222aaec62c6cd58345aa21558112dba",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/preprocess.hpp",
+      "bytes": 3263,
+      "sha256": "41223c8de4445f10b388135666672b1b791825c3613939e9dd49dd78a67e6d4d",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/postprocess.hpp",
+      "bytes": 4315,
+      "sha256": "596f8db8987452b37970aaabd5f88a81b929f496350f02ab5b3d7e6484195368",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/tracking.hpp",
+      "bytes": 7343,
+      "sha256": "d8b33806890ff6cacfcc538c83c5051da5400019a299b86451ff041a61abe373",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/tracking_cuda.hpp",
+      "bytes": 5543,
+      "sha256": "9f3686d10774d914503bfbd697b4634dde9e261a461104096b5903f73b0af496",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/motion.hpp",
+      "bytes": 3778,
+      "sha256": "90ea291e85ac22e6b86c31e007648ac10a83d8d18e29c7cabfcefd4a14765405",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/flow_config.hpp",
+      "bytes": 1024,
+      "sha256": "eca65824245439ece139c1466922ea8855d4f268fc337158e2a8e4c1d2f05492",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/flow_records.hpp",
+      "bytes": 1078,
+      "sha256": "542c25d0026d66d170948e93d6bda539ed6ac60050fe6cb6b0802a26644bb6c2",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/flow_motion_cuda.hpp",
+      "bytes": 1896,
+      "sha256": "691c41d3830198b4007d7c04b255645abc90650187c345a98146856188ac74e4",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/protocol.hpp",
+      "bytes": 4320,
+      "sha256": "264c9062ad4eeb587ed348781d93ea6d826ad9c3c960fe435ec2eab44d7e885f",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/mot_output.hpp",
+      "bytes": 2995,
+      "sha256": "9e522575d23855218ed86bb8aca1c9003e76547753594a36e392af6ca1577a52",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/selective_scan_cuda.hpp",
+      "bytes": 3942,
+      "sha256": "27ec6eaa2847be117707cf236a70099b9f2679a9fd9969df8202695aa76c7e13",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "include/saccade/detail/flow_cells.cuh",
+      "bytes": 650,
+      "sha256": "35122dc0c1dbd63c532da15fc9d30211d9437d9398dc92379116ba901359ae1c",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "src/mot_output.cpp",
+      "bytes": 5552,
+      "sha256": "c037aaa37f45133ff42be534cdc07e5d13d05526a3e6cf49e5be1589d501275f",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "cuda/postprocess.cu",
+      "bytes": 32387,
+      "sha256": "a608f6bed7d898a57bb960925079325fb6a4742931b93eedd871731797cc37bc",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "cuda/tracking.cu",
+      "bytes": 33217,
+      "sha256": "f2c1949a81f7dc88f113003ad2fd727b485d0c329475421206148b82adb45f20",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "cuda/tracking_session.cu",
+      "bytes": 7781,
+      "sha256": "fea74953fc9e8678805b8377111fa9b3b7461f0139217fad07531ecc35df5b29",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "src/tracking_tail_graph.cpp",
+      "bytes": 5753,
+      "sha256": "51f0dcf09330455f314197a383c78e41775774dafc714562c3351c1e54dcfc4e",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "tools/track_sequence.cpp",
+      "bytes": 9027,
+      "sha256": "5283a893d95c87f307337382405085f3209e12415d77efdbb1ccebc8a9f17bfa",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "tools/track_stream.cpp",
+      "bytes": 21020,
+      "sha256": "df50e44ce91b757d95ea060d70715508d83ec793f8fe377d3ebd6917f0fb2652",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "src/head_trt_network.cpp",
+      "bytes": 20264,
+      "sha256": "ec25a1d08301e416c0dacfdfd148cf09d7dd6e25e9d540afabef0ff3b7c53263",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "docs/TRACKING.md",
+      "bytes": 71017,
+      "sha256": "9cac8bad1cafa76f139391bf29fa616568494c63b35be98e2cb21539dc09fdea",
+      "matches_base_git_object": true
+    },
+    {
+      "path": "docs/SCAN_CONTRACT.md",
+      "bytes": 20311,
+      "sha256": "47e37a78139197b97df2d53e85ee6e73e9af4683b2ddc7f8be06007dc87cf506",
+      "matches_base_git_object": true
+    }
+  ],
+  "source_file_count": 25,
+  "all_listed_sources_equal_base_git_objects": true,
+  "objects": [
+    {
+      "id": "frame-input",
+      "name": "Compressed JPEG and frame metadata",
+      "location": "CPU file/source and owned pinned staging",
+      "dtype_shape": "variable-length uint8 JPEG bytes; FrameId=int64 processing index, Epoch=uint64",
+      "payload": "compressed byte count varies; default max_jpeg_bytes=16 MiB",
+      "producer": "track_sequence file read / caller",
+      "consumer": "NativePreprocessor F01",
+      "lifetime": "enqueue owns a copy before return; staging reuse follows preprocessor completion; FrameId is zero-based contiguous, independent of source image IDs/PTS",
+      "sources": [
+        {
+          "path": "include/saccade/preprocess.hpp",
+          "line_start": 18,
+          "line_end": 47
+        },
+        {
+          "path": "include/saccade/protocol.hpp",
+          "line_start": 12,
+          "line_end": 14
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 393,
+          "line_end": 410
+        }
+      ]
+    },
+    {
+      "id": "original-rgb",
+      "name": "Original-resolution planar RGB8",
+      "location": "GPU shared preprocessor allocation",
+      "dtype_shape": "uint8 [3,H_original,W_original], contiguous R/G/B planes",
+      "payload_bytes_1920x1080": 6220800,
+      "producer": "nvJPEG hardware backend plus color conversion, or device-video conversion / explicit host-RGB input mode",
+      "consumer": "F02 model resize; F05 flow grayscale",
+      "lifetime": "borrowed; before next decode/overwrite host waits rgb_read_done recorded on D after F05, because nvJPEG uses private streams",
+      "sources": [
+        {
+          "path": "include/saccade/preprocess.hpp",
+          "line_start": 25,
+          "line_end": 45
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 401,
+          "line_end": 415
+        }
+      ]
+    },
+    {
+      "id": "model-images",
+      "name": "Model images tensor",
+      "location": "GPU, D stream",
+      "dtype_shape": "FP32 NCHW [1,3,768,1280] for explicitly selected HR profile",
+      "payload_bytes": 11796480,
+      "producer": "F02 normalize /255 and antialiased bilinear stretch resize",
+      "consumer": "F03 TensorRT input",
+      "lifetime": "single fixed model input reused in D order; F03 enqueue precedes next F02 write; Graph binds fixed address",
+      "sources": [
+        {
+          "path": "include/saccade/model_profile.hpp",
+          "line_start": 14,
+          "line_end": 40
+        },
+        {
+          "path": "include/saccade/preprocess.hpp",
+          "line_start": 25,
+          "line_end": 45
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 422,
+          "line_end": 435
+        }
+      ]
+    },
+    {
+      "id": "model-outputs",
+      "name": "Six raw tensors and producer outcome",
+      "location": "GPU, D Graph",
+      "dtype_shape": "FP32 cls_p3/p4/p5 [1,80,96,160]/[1,80,48,80]/[1,80,24,40], reg counterparts replace 80 by 4; 9 ScanStatus objects each 2 uint32",
+      "raw_positions": 20160,
+      "raw_payload_bytes": 6773760,
+      "scan_status_logical_payload_bytes": 72,
+      "scan_status_reserved_allocation_bytes": 2304,
+      "producer_status_bytes": 8,
+      "producer": "F03 TensorRT and selective scan plugins; model_producer_cuda aggregate finite checks / plugin flags",
+      "consumer": "F04 decode/NMS",
+      "lifetime": "fixed D-local raw outputs/scratch reused in D stream order; aggregate producer status must precede F04; FP16 engine tactics do not imply FP16 I/O or scan state",
+      "sources": [
+        {
+          "path": "include/saccade/model_profile.hpp",
+          "line_start": 17,
+          "line_end": 38
+        },
+        {
+          "path": "include/saccade/postprocess.hpp",
+          "line_start": 38,
+          "line_end": 53
+        },
+        {
+          "path": "include/saccade/selective_scan_cuda.hpp",
+          "line_start": 17,
+          "line_end": 24
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 139,
+          "line_end": 182
+        }
+      ]
+    },
+    {
+      "id": "candidate-slot",
+      "name": "DetectionCandidates candidate slot CS",
+      "location": "GPU ring; default 2 slots",
+      "dtype_shape": "64-byte header + up to 300 rows of 32 bytes; each row FP32 xyxy/score, uint32 class_id/candidate_id/flags",
+      "payload_bytes_fixed": 9664,
+      "producer": "F04 decode -> global all-class Top-300 -> person filter -> NMS; rows retain kept/suppressed classification",
+      "consumer": "M candidate identity checks; current mask; F04b",
+      "lifetime": "D waits consumed before slot reuse and publishes ready; M waits ready. Graph path releases CS only after the entire M tail graph, not immediately after F04b",
+      "sources": [
+        {
+          "path": "include/saccade/postprocess.hpp",
+          "line_start": 16,
+          "line_end": 24
+        },
+        {
+          "path": "include/saccade/postprocess.hpp",
+          "line_start": 64,
+          "line_end": 80
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 418,
+          "line_end": 461
+        }
+      ]
+    },
+    {
+      "id": "motion-image",
+      "name": "Motion image MI",
+      "location": "GPU pitched NVOF-owned GRAYSCALE8 ring; default 2 slots",
+      "dtype_shape": "uint8 [floor(H/s),floor(W/s)], row pitch >= width; s=max(1,ceil(W/1920),ceil(H/1080))",
+      "logical_payload_bytes_at_1080p": 2073600,
+      "allocation_bytes": "pitch*height determined by NVOF; logical payload is not exact allocated bytes",
+      "producer": "F05 reads original planar RGB, independently from model images",
+      "consumer": "F06 NvOFExecute reference and flow_output current-gray delivery",
+      "lifetime": "D waits MI consumed then produces and records ready; M waits ready; M releases consumed only after final flow_output copy",
+      "sources": [
+        {
+          "path": "include/saccade/flow_config.hpp",
+          "line_start": 9,
+          "line_end": 22
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 149,
+          "line_end": 159
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 197,
+          "line_end": 217
+        }
+      ]
+    },
+    {
+      "id": "dense-flow",
+      "name": "OFA output and reduced flow cells",
+      "location": "GPU NVOF buffers and M scratch",
+      "dtype_shape": "raw grid4 SHORT2 (2 int16, S10.5) [ceil(Hm/4),ceil(Wm/4)] with pitch; reduced cells float32(dx,dy) [floor(Hm/8),floor(Wm/8)]",
+      "raw_logical_payload_bytes_1080p": 518400,
+      "cell_logical_payload_bytes_1080p": 259200,
+      "producer": "host NvOFExecute submits fixed-function OFA work on M IO streams, then CUDA component-wise median of each 2x2 group of grid vectors",
+      "consumer": "component-wise global median after exclusion by previous committed person mask",
+      "lifetime": "private fixed OFA input/output and scratch are M-ordered; actual pitch/private SDK memory excluded from these logical bytes; no D2H dense-flow payload in JPEG tracking mainline",
+      "sources": [
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 147,
+          "line_end": 169
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 203,
+          "line_end": 217
+        },
+        {
+          "path": "include/saccade/detail/flow_cells.cuh",
+          "line_start": 5,
+          "line_end": 14
+        },
+        {
+          "path": "include/saccade/flow_records.hpp",
+          "line_start": 9,
+          "line_end": 26
+        }
+      ]
+    },
+    {
+      "id": "motion-context",
+      "name": "MotionContext global translation",
+      "location": "GPU M output then pinned CPU result field",
+      "dtype_shape": "epoch/frame/reference_frame, MotionStatus, peak/pcr/confidence, FP32 tx/ty in original-image pixels",
+      "native_abi_bytes_in_supported_build": 56,
+      "producer": "F06 masked global component-wise median; min 8 retained cells for valid estimate",
+      "consumer": "F08a GMC control/Kalman predict; per-frame output/flow record",
+      "lifetime": "M updates one motion context in order; copied to pinned host only after M tail, followed by packet copy and one done event; not ResultPacket wire ABI",
+      "sources": [
+        {
+          "path": "include/saccade/motion.hpp",
+          "line_start": 32,
+          "line_end": 43
+        },
+        {
+          "path": "include/saccade/flow_config.hpp",
+          "line_start": 9,
+          "line_end": 13
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 53,
+          "line_end": 70
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 479,
+          "line_end": 482
+        }
+      ]
+    },
+    {
+      "id": "predicted",
+      "name": "PredictedState and confirmed-track prior",
+      "location": "GPU M working storage",
+      "dtype_shape": "DevicePredicted holds up to 512 DeviceTrack and 512 DevicePredictedPrior rows; FP32 8D state / 8x8 covariance and xyxy priors",
+      "payload": "native DevicePredicted ABI; no claim that its logical fields are a wire encoding",
+      "producer": "F08a reads last committed tracks plus motion, performs one GMC control and one Kalman predict for the active working slot",
+      "consumer": "F04b prior gating; F07/F08b association/update",
+      "lifetime": "never independently committed; M-only reuse in frame order. Prior belongs to this frame after GMC and predict, not previous-frame boxes",
+      "sources": [
+        {
+          "path": "include/saccade/tracking.hpp",
+          "line_start": 104,
+          "line_end": 122
+        },
+        {
+          "path": "include/saccade/tracking_cuda.hpp",
+          "line_start": 18,
+          "line_end": 54
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 447,
+          "line_end": 455
+        }
+      ]
+    },
+    {
+      "id": "detection-batch",
+      "name": "F04b DetectionBatch",
+      "location": "GPU M",
+      "dtype_shape": "DeviceBatch header and up to 300 rows, FP32 xyxy/observed_score/association_score, class/ID and can_continue/can_birth flags",
+      "payload": "native DeviceBatch ABI; fixed capacity 300, separate from ResultPacket capacity 256",
+      "producer": "F04b combines current candidates and current confirmed prior",
+      "consumer": "F07/F08b sparse association, update and lifecycle",
+      "lifetime": "M stage after candidate ready; continuation-only suppressed rows may not birth; output rows sorted by candidate_id for deterministic downstream traversal",
+      "sources": [
+        {
+          "path": "include/saccade/tracking.hpp",
+          "line_start": 125,
+          "line_end": 137
+        },
+        {
+          "path": "include/saccade/tracking_cuda.hpp",
+          "line_start": 55,
+          "line_end": 66
+        },
+        {
+          "path": "cuda/tracking.cu",
+          "line_start": 115,
+          "line_end": 259
+        }
+      ]
+    },
+    {
+      "id": "committed-state",
+      "name": "Committed/working TrackState, gray, mask and Control",
+      "location": "GPU, M-ordered double versions",
+      "dtype_shape": "two TrackState capacities of 512 tracks (DeviceTrack 424 B); gray uint8 [2,Hm,Wm]; mask uint8 [2,floor(Hm/8),floor(Wm/8)]; common Control committed_slot/working_slot",
+      "track_row_bytes": 424,
+      "gray_payload_bytes_at_1080p_two_versions": 4147200,
+      "mask_payload_bytes_at_1080p_two_versions": 64800,
+      "producer": "flow_output writes current gray working version; flow_mask writes current kept-person mask working version; F08b writes next tracks working version",
+      "consumer": "next committed frame F06 uses gray/mask; F08a uses committed tracks",
+      "lifetime": "begin selects working_slot=1-committed_slot; only successful commit flips shared slot/frame, logically publishing all three together. Failed partial working state is not published; no full-state rollback copy required",
+      "sources": [
+        {
+          "path": "include/saccade/tracking_cuda.hpp",
+          "line_start": 18,
+          "line_end": 39
+        },
+        {
+          "path": "include/saccade/protocol.hpp",
+          "line_start": 65,
+          "line_end": 75
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 24,
+          "line_end": 45
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 163,
+          "line_end": 169
+        },
+        {
+          "path": "cuda/tracking_session.cu",
+          "line_start": 29,
+          "line_end": 70
+        }
+      ]
+    },
+    {
+      "id": "result-delivery",
+      "name": "ResultPacket and owned host result",
+      "location": "one GPU packet buffer, pinned CPU ring (default 4), then caller-owned copied result",
+      "dtype_shape": "canonical little-endian packet: 80-byte header, capacity 256, 48-byte rows; count/status/identity and unused bytes explicitly encoded",
+      "packet_bytes": 12368,
+      "host_motion_bytes": 56,
+      "per_frame_D2H_bytes": 12424,
+      "producer": "M graph packet encoder after commit; then two ordered D2H copies on M",
+      "consumer": "receive waits done, copies bytes/decodes/validates epoch-frame, CPU SequenceOutput or stream output",
+      "lifetime": "pinned host slot retained until receive; full ring throws recoverable receive-first before enqueue. Device packet can be one allocation because M ordering serializes packet(k+1) after D2H(k)",
+      "sources": [
+        {
+          "path": "include/saccade/protocol.hpp",
+          "line_start": 12,
+          "line_end": 18
+        },
+        {
+          "path": "cuda/tracking_session.cu",
+          "line_start": 78,
+          "line_end": 101
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 396,
+          "line_end": 398
+        },
+        {
+          "path": "src/tracking_session.cpp",
+          "line_start": 479,
+          "line_end": 503
+        },
+        {
+          "path": "cuda/tracking.cu",
+          "line_start": 449,
+          "line_end": 463
+        }
+      ],
+      "current_row_selection": "cuda tracking emits confirmed tracks with age==0 only, flags=1 observed. With default measurement_box=false, xyxy comes from filtered Kalman state; enabling measurement_box changes emitted coordinates to last matched measurement only, not association decisions."
+    }
+  ],
+  "thresholds": [
+    {
+      "purpose": "F04 score floor",
+      "rule": "best all-class sigmoid score >= 0.001",
+      "source": {
+        "path": "include/saccade/postprocess.hpp",
+        "line_start": 16,
+        "line_end": 23
+      }
+    },
+    {
+      "purpose": "F04 selection and NMS",
+      "rule": "global all-class Top-300 first, then person class0; NMS suppresses only if IoU > 0.5; kept and suppressed rows preserved; inverse stretch mapping to original xyxy, no clipping",
+      "sources": [
+        {
+          "path": "cuda/postprocess.cu",
+          "line_start": 305,
+          "line_end": 322
+        },
+        {
+          "path": "cuda/postprocess.cu",
+          "line_start": 348,
+          "line_end": 352
+        },
+        {
+          "path": "cuda/postprocess.cu",
+          "line_start": 411,
+          "line_end": 430
+        }
+      ]
+    },
+    {
+      "purpose": "F04b kept",
+      "rule": "kept score >= 0.05 enters batch with can_birth=true (new track birth still requires observed_score >= 0.28 and other lifecycle rules)",
+      "sources": [
+        {
+          "path": "include/saccade/tracking.hpp",
+          "line_start": 33,
+          "line_end": 52
+        },
+        {
+          "path": "cuda/tracking.cu",
+          "line_start": 203,
+          "line_end": 208
+        },
+        {
+          "path": "cuda/tracking.cu",
+          "line_start": 435,
+          "line_end": 443
+        }
+      ]
+    },
+    {
+      "purpose": "F04b suppressed continuation",
+      "rule": "score >= 0.10, IoU with this-frame confirmed predicted prior >= 0.30, dedup IoU > 0.70 rejected, max 50 accepted; can_birth=false; association_score=min(observed_score,0.28)",
+      "sources": [
+        {
+          "path": "include/saccade/tracking.hpp",
+          "line_start": 36,
+          "line_end": 39
+        },
+        {
+          "path": "cuda/tracking.cu",
+          "line_start": 179,
+          "line_end": 229
+        }
+      ]
+    },
+    {
+      "purpose": "G1 foreground mask",
+      "rule": "current kept class0 boxes with score >= 0.45; cell center x/y must lie in half-open [x1,x2),[y1,y2). Writes working mask now; next successful frame uses it via committed_slot. Global reduction excludes prior committed mask, not current mask; missed/low-score people can remain.",
+      "sources": [
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 24,
+          "line_end": 35
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 53,
+          "line_end": 70
+        }
+      ]
+    },
+    {
+      "purpose": "G1 validity",
+      "rule": "SLOW, grid4, cell8, min 8 unmasked cells; componentwise medians, translation-only in original pixels, no fusion with old PCR",
+      "sources": [
+        {
+          "path": "include/saccade/flow_config.hpp",
+          "line_start": 7,
+          "line_end": 22
+        },
+        {
+          "path": "cuda/flow_motion.cu",
+          "line_start": 62,
+          "line_end": 70
+        }
+      ]
+    }
+  ],
+  "output_profiles": {
+    "JPEG_sequence": {
+      "profile": "v1-mot/1",
+      "rules": "SequenceOutput.add consumes every supplied ResultPacket row (does not filter observed flag); frame=MOT processing index+1, output_id mapped by first appearance to dense per-sequence IDs. finish() requires no failure and fills gaps only for IDs with >=5 supplied rows, <=35 missing frames, conf=-1; output sorted frame/id and written at EOF.",
+      "sources": [
+        {
+          "path": "include/saccade/mot_output.hpp",
+          "line_start": 20,
+          "line_end": 43
+        },
+        {
+          "path": "src/mot_output.cpp",
+          "line_start": 16,
+          "line_end": 60
+        },
+        {
+          "path": "tools/track_sequence.cpp",
+          "line_start": 125,
+          "line_end": 148
+        }
+      ]
+    },
+    "stream": {
+      "profile": "stream-observations/1",
+      "rules": "track_stream defaults HR, GPU device-video/NVDEC, result_slots=1, immediate enqueue/receive cadence, native IDs, no EOF interpolation/global renumber. Explicit CPU decode path is separate. PTS does not make fixed-step Kalman variable-dt.",
+      "sources": [
+        {
+          "path": "tools/track_stream.cpp",
+          "line_start": 84,
+          "line_end": 103
+        },
+        {
+          "path": "tools/track_stream.cpp",
+          "line_start": 349,
+          "line_end": 369
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Current code is exactly the pinned base for the listed 25 files. Report rendering is not a new runtime/model/GPU experiment or formal acceptance.",
+    "FP16 engine tactics do not turn all tensors, scan plugins or tracker state into FP16. Input and six raw outputs are FP32.",
+    "Frame-local T=1 spatial scan resets its state per call; no cross-frame Mamba hidden state. Cross-frame identities live in tracker/motion/control.",
+    "NVOFA is fixed-function GPU hardware with host NvOFExecute submission. CUDA trace bounds do not directly expose OFA engine busy/utilization.",
+    "G1 flow image comes from original RGB; no Hanning/PCR/cuFFT is in the current G1 path. motion.hpp still contains legacy motion/1 types and is shared, not proof of current FFT execution.",
+    "CUDA Graph includes only D(F03/producer/F04) and M tail(F04b/association/update/commit/packet). F01/F02/F05, G1, predict, mask, event handoffs and D2H are outside those graphs.",
+    "Working/committed dual state is distinct from MI/CS/result rings. Counts 2/2/4 are defaults and do not mean every API/CLI is HR or ring4.",
+    "Cross-frame work may overlap, but M(n+1) remains after M(n) commit/packet/D2H in a single consumer stream; stream/resource overlap is not race-free proof.",
+    "After failure custom compute is gated, but control/commit/packet and some library/scratch work may still run. First failure remains sticky, prior committed state remains valid, and already-submitted tails receive FAILED/SKIPPED status with zero rows.",
+    "Canonical ResultPacket 12368-byte wire encoding is different from native MotionContext 56-byte ABI and internal device struct ABIs; do not serialize native structs as interchangeable packets.",
+    "Logical tensor/row payload sizes exclude pitch padding, TensorRT workspace, intermediate activations, driver/nvJPEG/NVOF private allocations and cache; do not present their sum as total VRAM.",
+    "Full G1 memcheck, native full Graph racecheck and nvJPEG initcheck retain their existing OPEN/FAIL limits; a documentation audit does not close these gates.",
+    "The packet ABI permits observed/predicted flags, but the current CUDA tracker emits only confirmed tracks matched this frame (age==0, observed flag). Do not infer that lost/predicted rows are continuously emitted. Default coordinates are Kalman state boxes, not raw detector measurement boxes.",
+    "After failure, flow_context returns without writing when run_stage=false, so the reused MotionContext can retain an earlier frame. receive validates packet epoch/frame only. Interpret motion only after the enclosing ResultPacket is OK, then use MotionStatus validity; failed/skipped attached motion is not a newly validated estimate."
+  ],
+  "document_review": {
+    "status": "PASS_READ_ONLY_IMPLEMENTATION_AND_SCOPE_REVIEW",
+    "reviewed_utc": "2026-11-12T03:10:23.786975+00:00",
+    "base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "operation": "Final read-only TEX and SVG semantic review against pinned implementation; visual inspection of flow and state SVGs",
+    "inputs": [
+      {
+        "path": "docs/reports/latex/dataflow/dataflow.tex",
+        "sha256": "440d8f504e11ae217fc91aca36e3b6cc41fbd11a6393872390e50a03381ca891"
+      },
+      {
+        "path": "docs/reports/latex/dataflow/output-notes.tex",
+        "sha256": "6a9eee574320e74801deda68db94246dd6277e432f2f352f3236965d85ee8f7e"
+      },
+      {
+        "path": "docs/reports/latex/dataflow/assets/flow.svg",
+        "sha256": "2df5ab3c923b87dcd6e9e15ecd158f00c7da7aac9e4ca5fc9ca8d95e1f373ad1"
+      },
+      {
+        "path": "docs/reports/latex/dataflow/assets/leases.svg",
+        "sha256": "57db5ffef0d673a68671f05e3e75a4eee611ead728dd3cc845fadc501812c549"
+      },
+      {
+        "path": "docs/reports/latex/dataflow/assets/state.svg",
+        "sha256": "fd64341693d5d014901744fb2e13351c83dc12a858695dd988d13a56fbdc09f0"
+      }
+    ],
+    "confirmed": [
+      "Motion table orders committed gray/MI input, cells/median, MotionContext, working gray write and mi_consumed before predict/prior; current mask follows candidate availability",
+      "Control is one shared control object; TrackState, gray and mask each use paired payload versions with common committed/working slot",
+      "Predict writes separate DevicePredicted scratch; update writes working TrackState",
+      "D graph contains F03/producer/F04; M graph contains F04b/association-update/commit/packet; motion/predict/mask and D2H lie outside those graph boundaries",
+      "M(n+1) is ordered after prior M commit/packet/D2H, including failure paths; only successful commit advances the shared version",
+      "MI/CS ready and consumed, result receive-count lease, and separate RGB host-wait protection agree with implementation",
+      "Motion uses previous committed mask; current kept person score >=0.45 builds next working mask; no current-frame mask is retroactively used by preceding G1",
+      "FP32 IO/raw payloads are distinct from FP16 tactics; canonical packet bytes are distinct from native MotionContext ABI",
+      "Current output rows are confirmed age=0 observed; default measurement_box=false returns filtered Kalman state coordinates",
+      "Failed/skipped attached single-buffer MotionContext may be stale; packet status must be checked before interpreting motion",
+      "Session input mode is fixed by configuration; JPEG offline CPU interpolation/final write and stream native observed-output profiles retain distinct completion boundaries",
+      "Current G1, no temporal Mamba hidden state, fixed-function OFA visibility, historical trace scope, and open sanitizer boundaries are stated without new acceptance claims"
+    ],
+    "resolved_clarifications": [
+      "MI need not be smaller at1080p s1: wording now says motion grayscale image and explicitly states s1/s2",
+      "M(n+1) ordering after failure clarified; only success advances committed state",
+      "Fixed per-session input mode made explicit",
+      "Separate prediction scratch and working TrackState made explicit in prose and state figure",
+      "Current observed-row selection and default filtered coordinates stated in output notes",
+      "Stale failed/skipped MotionContext boundary stated in output notes"
+    ],
+    "remaining_implementation_findings": [],
+    "figure_review_scope": {
+      "flow.svg": "SVG text/arrows inspected; rendered image visually inspected",
+      "leases.svg": "SVG text and synchronization semantics inspected",
+      "state.svg": "SVG text/arrows inspected; rendered image visually inspected",
+      "schedule.svg": "Historical plot semantic scope checked in main text; trace measurement recomputation is owned by separate evidence review"
+    },
+    "new_GPU_run": false,
+    "new_experiment": false,
+    "formal_acceptance": false,
+    "limitation": "Documentation review only. This is not runtime, performance, quality, sanitizer, engine rebuild, or formal acceptance evidence.",
+    "final_layout_review": "Reread full current dataflow.tex and output-notes.tex after local raggedright/allowbreak typesetting edit. All implementation and scope clarifications remain resolved. Current input hashes identify the reviewed delivery bytes; historical draft byte-difference reconstruction is not asserted."
+  }
+}

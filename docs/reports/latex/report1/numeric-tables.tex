@@ -1,0 +1,71 @@
+% Generated from the same saved metrics as model-comparison.tex.
+\begin{table}[H]
+\caption{資料覆蓋與 HOTA；Δ 為 HR 減比較對象（pp）}
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}Yrrrrrrr@{}}
+\toprule
+資料集 & 段數 & 幀數 & 官方 & 微調 & HR & Δ 官方 & Δ 微調 \\
+\midrule
+MOT17 & 7 & 5,316 & 46.011 & 61.030 & 63.083 & +17.072 & +2.053 \\
+MOT20 & 4 & 8,931 & 16.892 & 29.647 & 37.390 & +20.498 & +7.742 \\
+MOT15 & 11 & 5,500 & 43.277 & 44.901 & 45.054 & +1.777 & +0.153 \\
+DanceTrack & 65 & 67,304 & 35.869 & 36.245 & 35.702 & -0.167 & -0.543 \\
+PP22 & 69 & 48,452 & 43.638 & 43.623 & 41.649 & -1.989 & -1.974 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\begin{table}[H]
+\caption{完整品質數字；IDSW 是次數，其餘為百分點尺度}
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}P{22mm}Yrrrrrr@{}}
+\toprule
+資料集 & 模型 & HOTA & DetA & AssA & IDF1 & MOTA & IDSW \\
+\midrule
+MOT17 & 官方 YOLO26m & 46.011 & 42.638 & 50.107 & 55.597 & 45.275 & 332 \\
+MOT17 & 微調 YOLO26m & 61.030 & 63.036 & 59.670 & 71.329 & 73.291 & 364 \\
+MOT17 & 現行 HR Mamba & 63.083 & 66.295 & 60.523 & 71.528 & 76.216 & 385 \\
+MOT20 & 官方 YOLO26m & 16.892 & 8.196 & 34.995 & 15.976 & 9.598 & 418 \\
+MOT20 & 微調 YOLO26m & 29.647 & 27.800 & 32.076 & 41.116 & 36.965 & 2401 \\
+MOT20 & 現行 HR Mamba & 37.390 & 41.121 & 34.505 & 51.204 & 54.961 & 3754 \\
+MOT15 & 官方 YOLO26m & 43.277 & 40.579 & 46.502 & 55.483 & 22.676 & 261 \\
+MOT15 & 微調 YOLO26m & 44.901 & 41.253 & 49.103 & 56.522 & 19.777 & 211 \\
+MOT15 & 現行 HR Mamba & 45.054 & 41.218 & 49.557 & 56.816 & 19.178 & 211 \\
+DanceTrack & 官方 YOLO26m & 35.869 & 60.478 & 21.515 & 36.675 & 74.088 & 7734 \\
+DanceTrack & 微調 YOLO26m & 36.245 & 61.008 & 21.775 & 37.520 & 76.594 & 7646 \\
+DanceTrack & 現行 HR Mamba & 35.702 & 59.367 & 21.702 & 37.431 & 73.996 & 8318 \\
+PP22 & 官方 YOLO26m & 43.638 & 45.211 & 42.521 & 48.216 & 47.942 & 4517 \\
+PP22 & 微調 YOLO26m & 43.623 & 45.663 & 42.240 & 50.269 & 43.333 & 4484 \\
+PP22 & 現行 HR Mamba & 41.649 & 44.103 & 39.914 & 47.947 & 39.138 & 5138 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\begin{table}[H]
+\caption{七個既定群組；逐段勝／平／負為 HR 相對微調版}
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}Yrrrrrr@{}}
+\toprule
+群組 & 段數 & 官方 & 微調 & HR & Δ 微調 & 勝／平／負 \\
+\midrule
+MOT17/all & 7 & 46.011 & 61.030 & 63.083 & +2.053 & 4/0/3 \\
+MOT20/all & 4 & 16.892 & 29.647 & 37.390 & +7.742 & 4/0/0 \\
+MOT15/moving & 5 & 40.244 & 44.184 & 43.335 & -0.849 & 1/0/4 \\
+MOT15/other & 6 & 47.116 & 45.783 & 47.275 & +1.492 & 1/0/5 \\
+DanceTrack/all & 65 & 35.869 & 36.245 & 35.702 & -0.543 & 29/0/36 \\
+PP22/moving & 9 & 45.152 & 44.694 & 42.607 & -2.087 & 2/0/7 \\
+PP22/static & 60 & 43.527 & 43.546 & 41.581 & -1.965 & 14/0/46 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\begin{table}[H]
+\caption{MOT17-10 前 140 幀；F03 和完整 tracking 分開測量}
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}Yrrrrr@{}}
+\toprule
+模型 & F03 ms & Single mean ms & Single p95 ms & Queued FPS & Engine MiB \\
+\midrule
+官方 YOLO26m & 3.744 & 5.734 & 6.938 & 245.175 & 42.506 \\
+微調 YOLO26m & 3.809 & 5.938 & 7.178 & 230.123 & 40.868 \\
+現行 HR Mamba & 4.790 & 6.816 & 7.139 & 194.417 & 57.939 \\
+\bottomrule
+\end{tabularx}
+\end{table}

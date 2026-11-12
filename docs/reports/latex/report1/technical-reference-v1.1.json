@@ -1,0 +1,119 @@
+{
+  "schema": "report-preserved-reference/1",
+  "document_version": "1.1",
+  "purpose": "Preserve the full 20-page technical report while the main report is rewritten as an illustrated project explanation.",
+  "original_delivery": {
+    "schema": "saccade-report-delivery/1",
+    "created_utc": "2026-11-11T12:15:37.187028+00:00",
+    "report_base": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "audience": "主管／專案交付",
+    "language": "zh-Hant",
+    "pages": 20,
+    "compiler": "XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026/Arch Linux)",
+    "artifacts": {
+      "report.tex": {
+        "bytes": 32450,
+        "sha256": "0d88144016e9554b280b97cd710644eddfddadface958565d089ebca707e5443"
+      },
+      "report.pdf": {
+        "bytes": 5876755,
+        "sha256": "cf5cc3d4cf15421e02677d7b4519fc701af2466653d9ebb23ec6079d70cb856f"
+      },
+      "live-results.tex": {
+        "bytes": 2818,
+        "sha256": "a6c897466c4ef75d0e18336c8ac9a2f9b9f39c7b5c9d0a634975ac5cc7870397"
+      },
+      "offline-e2e.tex": {
+        "bytes": 2258,
+        "sha256": "c185fe2357948a020eaab983bd0d3260cf04da489befe1dedb08dbadec835498"
+      },
+      "model-comparison.tex": {
+        "bytes": 9465,
+        "sha256": "c58f6806486345b09403af4abd93d480467ab2dd9a692671a541142ca513a796"
+      },
+      "render_live_results.py": {
+        "bytes": 7746,
+        "sha256": "ba8a833878edf23f9dbc65ee17250428f8c0279562f95089bb0bf3892b543628"
+      },
+      "render_comparison.py": {
+        "bytes": 20151,
+        "sha256": "b2caf9fbdfdcf82de84d81eeced4c86ce756024c9d02d859b7df59589d03a82d"
+      },
+      "comparison-sources.json": {
+        "bytes": 3697,
+        "sha256": "17849b10aafb05fd6b8177c49e141c9447f5d41ddda1278e4c5b19d4b97c1471"
+      },
+      "Makefile": {
+        "bytes": 284,
+        "sha256": "f9f6f8bce936046ef0f382d983cd2fab5333fedf58ee14019e6b114d3768061c"
+      },
+      "README.md": {
+        "bytes": 5323,
+        "sha256": "1b0956cdae349f8748eae208dbc7c4acbaab9dd98d4c6bb01b5a1a1910954f70"
+      }
+    },
+    "measurement_summaries": [
+      {
+        "summary": "evidence/report1/2026-11-11-g1-live/summary.json",
+        "sha256": "caef13b6080fed37295f81b1753e0debde142e28a9726ba0cdfdf3ff692325af",
+        "status": "PASS_BOUNDED_MEASUREMENT_AND_PACKET_PARITY"
+      },
+      {
+        "summary": "evidence/report1/2026-11-11-g1-offline-e2e/summary.json",
+        "sha256": "04d3655bdb18afc77c0953319dfd1a2e9ffbf97a656b2b34b7eeaabde167e7bc",
+        "status": "PASS_BOUNDED_PROCESS_COMPLETION_AND_OUTPUT_PARITY"
+      }
+    ],
+    "verification": {
+      "latex_warnings": 0,
+      "missing_glyphs": 0,
+      "undefined_references": 0,
+      "overfull_boxes": 0,
+      "font_embedding_checked": true,
+      "visual_review": "20-page contact sheet; full-size primary-group and complete quality/performance tables",
+      "live_evidence_verifier": "PASS: 69 checksums, full packets, raw statistics and custody",
+      "offline_e2e_verifier": "PASS: 55 checksums, full outputs, timing statistics and custody",
+      "git_diff_check": "PASS",
+      "comparison_render": "PASS: deterministic rendering and 11 relative comparison links",
+      "comparison_input_hashes": "PASS: 14 sources match original evidence manifests",
+      "comparison_table_audit": "PASS: 15 quality rows and all population counts independently cross-checked"
+    },
+    "delivery_scope": "local files only; no commit/push/remote CI in this task",
+    "runtime_model_defaults_changed": false,
+    "new_training_quality_scoring_sanitizer": false,
+    "evidence_scope": "bounded latency and full offline process completion plus summaries of existing native TRT model/dataset comparisons; not camera-to-consumer end-to-end, new inference/rescoring, or new formal runtime acceptance",
+    "updated_utc": "2026-11-12T00:50:56.066513+00:00",
+    "document_version": "1.1",
+    "technical_markdown": {
+      "path": "docs/reports/report1-3cbaa518f0dc.md",
+      "bytes": 52099,
+      "sha256": "35fe2cf894268bf596b6b3043a9906d672535a4f450683ab607d7776dc634eec"
+    },
+    "comparison": {
+      "sources": "comparison-sources.json",
+      "primary_datasets": 5,
+      "primary_groups": 7,
+      "sequences": 156,
+      "frames_per_model": 135503,
+      "cells": 468,
+      "source_hashes_verified": 14,
+      "quality_rows_independently_checked": 15,
+      "operation": "render existing metrics only",
+      "formal_acceptance": false,
+      "primary_SportsMOT_included": false,
+      "FP16_numerical_screen": "FAIL_RETAINED"
+    }
+  },
+  "file_mapping": {
+    "report.pdf": "technical-reference-v1.1.pdf",
+    "report.tex": "technical-reference-v1.1.tex"
+  },
+  "unchanged_inputs": [
+    "live-results.tex",
+    "offline-e2e.tex",
+    "model-comparison.tex",
+    "assets/system.pdf",
+    "assets/model.pdf",
+    "assets/schedule.pdf"
+  ]
+}

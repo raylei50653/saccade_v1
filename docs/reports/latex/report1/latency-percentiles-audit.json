@@ -1,0 +1,1481 @@
+{
+  "schema": "report-latency-percentiles-independent-audit/1",
+  "created_utc": "2026-11-12T01:39:48.793501+00:00",
+  "reviewer": "independent raw CSV recomputation; no import or invocation of benchmark aggregation code",
+  "status": "PASS_POOLED_NEAREST_RANK_P95_P99_FROM_ALL_TRACKING_DELIVERY_SAMPLES",
+  "formal_acceptance": false,
+  "new_GPU_run": false,
+  "new_measurements": false,
+  "runtime_or_model_changed": false,
+  "scope": {
+    "sequences": [
+      "MOT17-10-SDP",
+      "MOT17-02-SDP"
+    ],
+    "arms": [
+      "official",
+      "finetuned",
+      "main"
+    ],
+    "modes": [
+      "single",
+      "queued"
+    ],
+    "groups": 12,
+    "raw_delivery_CSV_files": 48,
+    "samples_per_group": 480,
+    "total_measured_samples": 5760,
+    "frames_per_session": 140,
+    "warmup_frames": 20,
+    "measured_frames_per_session": 120,
+    "fresh_sessions_per_group": 4,
+    "JPEGs_preloaded": true
+  },
+  "method": {
+    "input_column": "delivery_ms",
+    "selection": "per-session rows[20:] from each 140-row delivery.csv; no outlier removal",
+    "pooling": "concatenate all four 120-sample measured sessions for each sequence/mode/arm, then sort",
+    "mean": "arithmetic mean of all 480 pooled measured samples",
+    "quantile": "nearest-rank: sorted_values[ceil(p * N) - 1]",
+    "nearest_rank_one_based_for_N480": {
+      "P95": 456,
+      "P99": 476
+    },
+    "not_average_session_percentiles": true,
+    "comparison_tolerance_ms": 1e-12
+  },
+  "original_audit_boundary": {
+    "file": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/methods/pipeline-tools/benchmark-statistics-review.json",
+    "implementation": "methods/pipeline-tools/audit_benchmarks.py",
+    "historical_checks": "existing audit code explicitly compares pooled mean and P95, not each group P99",
+    "this_audit_addition": "all 12 tracking P99 values independently recomputed from raw delivery.csv and compared with summary"
+  },
+  "timing_boundary": {
+    "delivery": "enqueue call start to same-frame receive return; endpoint before caller copy/check",
+    "single": "no other frame remains in flight at submission; same-frame receive immediately follows enqueue",
+    "queued": "four result slots; delivery includes in-flight waiting and caller receive policy",
+    "excludes": [
+      "JPEG disk reads",
+      "model/session initialization",
+      "first 20 warmup frames",
+      "output file writing"
+    ],
+    "separate_from": "queued throughput is a separate whole-run wall interval, not reciprocal per-frame delivery latency"
+  },
+  "interpretation": {
+    "MOT17_10_single_HR_vs_finetuned": "P95 is slightly lower but P99 higher; no blanket tail-latency win",
+    "MOT17_02_single_HR_vs_finetuned": "P95 and P99 both higher",
+    "queued_HR_vs_finetuned": "P95 and P99 higher for both sequences"
+  },
+  "limitations": [
+    "480 measured samples per group are four repeats of one 120-frame post-warmup prefix, not 480 distinct unseen images.",
+    "For nearest-rank P99 at N=480, the selected observation is rank 476 and at most four samples are strictly above it; extreme-tail support is small.",
+    "Percentiles describe this measured sample pool and are not a long-term tail-latency guarantee or a confidence bound.",
+    "P95/P99 are cumulative thresholds, not means of the slowest 5%/1% of samples.",
+    "Single and queued are different submission/receive modes; their delivery distributions must remain labeled separately.",
+    "No fresh inference, GPU measurement, quality scoring, sanitizer or formal runtime acceptance was performed."
+  ],
+  "maximum_absolute_summary_difference_ms": 0.0,
+  "source_manifest": {
+    "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/SHA256SUMS",
+    "bytes": 166328,
+    "sha256": "85ea15c4e7ac01c0e89c69cc9882589ff717dd30ed29365f414b9fb929cb8e63"
+  },
+  "source_count": 50,
+  "sources": [
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/summary.json",
+      "bytes": 22270,
+      "sha256": "25845f2530b71688af59f379a9a4a8f17851252d7b186e7adb9af051ac8be8aa",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/methods/pipeline-tools/benchmark-statistics-review.json",
+      "bytes": 9610,
+      "sha256": "e662881bb2c5d9c067acfe24031682231453226f281296fcf4615f9f5679d370",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o0-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "984bd89bb2c31853a35055f3b09137d2ba128d58e2a319388ebb6653588cdef8",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o5-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "abdc3fb6564be4ab5cd154974db3a73c0e1a817678e6f40e968422ac6f7b5bf2",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o0-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "3ed7295d90bca7014cdf19771acd061135013c038779544a767fa8c9410fae1e",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o5-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "85f7ee694819c2bd47993cc20b14980d434d40ee75eaa467460fbce268e9061b",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o1-official/delivery.csv",
+      "bytes": 2437,
+      "sha256": "f193432dcd2c882c5f343caf45b0904ea55806563a9c5e8f907bbe322b453c75",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o4-official/delivery.csv",
+      "bytes": 2437,
+      "sha256": "9f6b2997355c61e0883bf9252f04a4c5399de747666b019db31052d0aa028813",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o1-official/delivery.csv",
+      "bytes": 2437,
+      "sha256": "9a4bae0010688214699bddd9b2abd1c66ae9eb0db95980f587b1db7da69a84f8",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o4-official/delivery.csv",
+      "bytes": 2437,
+      "sha256": "7a1f6bdcbf30ed775165ed7231b334ade1efb1d7dae40b86265f9d4a6c109498",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o2-finetuned/delivery.csv",
+      "bytes": 2438,
+      "sha256": "62542204b9ee82f25d292f4dd69c69e3fd6dba6ada4a55a86708cffb165410fe",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o3-finetuned/delivery.csv",
+      "bytes": 2437,
+      "sha256": "1c93853d6d0f558a484aef1ef466fa7cd282192c004cfef546940cfca58fc2d0",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o2-finetuned/delivery.csv",
+      "bytes": 2436,
+      "sha256": "ee6fda72bf790857ace44255aac71e8c7bbd64451aebc92bb2acff50875ee742",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o3-finetuned/delivery.csv",
+      "bytes": 2437,
+      "sha256": "08308ef60be12f8c07f32aa7091c527949d97d73878647fc707e9e50f72447d6",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o0-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "d08baec055de1e9ae84a7269539d5d6546fbe90342d31549474477f00dff96aa",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o5-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "301b65ddd75281d36a9429e83995a66509bbbe64a8ef6a735e3f282871a1a05d",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o0-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "4577f4d0fb85dedf5d6468e8516c213618d811ea3f97e188cf201599e7f94550",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o5-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "07e80b93e0cc710b8e608cb40bfaffee6769f4548db11d15579dd12a29dd4f04",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o1-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "0f5408ce84a9eec76dbad2efe3b275ccd4d6264633df5fe22c500052acd415a2",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o4-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "31be252d3690086c207478bd483e4536ee27867d17cdc622158cb45388efbc44",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o1-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "6446cb8396bdb7d2121e0c537d9da6241e6dd68b89877f82c5ecba74610ab8b7",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o4-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "2aebfa01d20e76ef2b85d6bce6f7043fcb1ee0904abd56aea10a7c3d7771b14a",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o2-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "1c6e7dbf6e59ffa7b46d29467d5aeed68d21cd2cf6d44522acfe55ea78725084",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o3-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "d434eb860d3033df6c784e557a20fd5d393abcf6e5d16cf509c7e7d5d6be0e45",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o2-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "75e4dbfd6b671ea9a4c0ed243551c6d5e1e669148efc50b4f44176164e186028",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o3-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "a5c1f7c7b9b248d78f0606c975991ec4d7a1f3911ba97aca4fdd279b001a8d4e",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o0-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "16e1a4ed47e86d1b15d1cb1bfe60a34ee8dbbf561d3f1b2d35d5bcebad1c731b",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o5-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "f6f26d3b6c8526be099566942b127790581a74d9651d34d508216179a51f5514",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o0-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "5dde4c3c5691b3b4ced0eaa8faaa30cb2947251ae0c3a7ef9e1ff333f6c32ca2",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o5-main/delivery.csv",
+      "bytes": 2437,
+      "sha256": "5b1f4d2dd22e18d8a6c3eb6bbe49fcdab5c7750dc2e2ad1761aae65dd7945d7b",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o1-official/delivery.csv",
+      "bytes": 2436,
+      "sha256": "7de421a74bf755f934f3066909cb98ce29a5546e4eeabf08b2408d0c7e7174bb",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o4-official/delivery.csv",
+      "bytes": 2437,
+      "sha256": "ab16c02d6eb92bce3bf22859e0ddb0409a776d0aed8560aab13646afbbf035da",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o1-official/delivery.csv",
+      "bytes": 2436,
+      "sha256": "f5d458233eda56771fdb39110bb43c21104476608aae5e645c75988b6e41d25e",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o4-official/delivery.csv",
+      "bytes": 2436,
+      "sha256": "f64ba81adee51dffa18fbed3c85b22fae2ab95d2c4016fe708531b947066bfab",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o2-finetuned/delivery.csv",
+      "bytes": 2437,
+      "sha256": "71c35ff23b9bc2fc296f1c54ab28f7b4d6958fb9eea051c85766f5cd85baea87",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o3-finetuned/delivery.csv",
+      "bytes": 2437,
+      "sha256": "52997220baa508870157444db2453e0c55cf275b9f9ec1ba2c676075d72ac650",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o2-finetuned/delivery.csv",
+      "bytes": 2437,
+      "sha256": "956cc6e583bad43f7fe01565bb4d31f23001b769480b562865cac40da635bff5",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o3-finetuned/delivery.csv",
+      "bytes": 2437,
+      "sha256": "4f1dcd6a235dbed478931091d5c01797e28b72ac4b11d37f827f66cca08c05e2",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o0-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "da7c036444d2ce82150c0adf2895aa71144c23425f42391c6a248ad89473ad82",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o5-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "358b54f66b9ddf3a50a7674b8a2ef02cec6322636ba2aaf4bc5cdff4e2cbbf72",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o0-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "1edb968388c80450f2812a68d41033d2f6f7d9f5341e6f50ee1828938f82f669",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o5-main/delivery.csv",
+      "bytes": 2557,
+      "sha256": "61ff11075d68ee4cfe597e2bb374add680062ffae2d00d628a264a3995b5bfaf",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o1-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "f459bf3077832f80b2f3659d93d9dde2e26594e159103e29d2a3420aec8d0870",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o4-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "656c1f096e34af97777beaf3d08b95bd8e5c10ed35c26e0b68da5363d31b1af7",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o1-official/delivery.csv",
+      "bytes": 2556,
+      "sha256": "0c5311c07ee1e01a962a6b906ab2ace157da1318a5dbd2efd22fe9dd5e8bff4e",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o4-official/delivery.csv",
+      "bytes": 2557,
+      "sha256": "098d4abc1e15aebeb0e1fbe8792512c6766ebfb8d00087ff0159ab5b58a0e374",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o2-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "1a298b5163a35f02d5f6ddc4280d7dbd16338aa794d79ef107a8f40db85a785c",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o3-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "9107a441d42be66e24e0446d157aee38c023fc9f147cb00f65e7f3efaf392979",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o2-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "9ad5e4a5116a695fee5de3b1dcf3bd3f83dd1bb333a2aee5bdc6128651aae009",
+      "matches_original_manifest": true
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o3-finetuned/delivery.csv",
+      "bytes": 2557,
+      "sha256": "cfada9b2a37f793f0ba176cc5b125fe9a02ab7bec2e0b132ce7090962bfeffc9",
+      "matches_original_manifest": true
+    }
+  ],
+  "groups": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "mode": "single",
+      "arm": "main",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 6.815614158333333,
+        "p95": 7.138781,
+        "p99": 7.494436
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 6.815614158333333,
+        "p95": 7.138781,
+        "p99": 7.494436
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 7.13379475,
+        "p99": 7.447922
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.847511283333334,
+          "p95_ms": 7.241074,
+          "p99_ms": 7.494436
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.809988525,
+          "p95_ms": 7.052967,
+          "p99_ms": 7.17995
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.861337525,
+          "p95_ms": 7.180405,
+          "p99_ms": 7.960486
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.7436193,
+          "p95_ms": 7.060733,
+          "p99_ms": 7.156816
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "mode": "single",
+      "arm": "official",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 5.73432475625,
+        "p95": 6.938432,
+        "p99": 7.088236
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 5.73432475625,
+        "p95": 6.938432,
+        "p99": 7.088236
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 6.21907425,
+        "p99": 6.366095
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.63191225,
+          "p95_ms": 5.99932,
+          "p99_ms": 6.227001
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.547649666666667,
+          "p95_ms": 5.786256,
+          "p99_ms": 5.876456
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.701792975,
+          "p95_ms": 6.021832,
+          "p99_ms": 6.177527
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.055944133333333,
+          "p95_ms": 7.068889,
+          "p99_ms": 7.183396
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "mode": "single",
+      "arm": "finetuned",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 5.93766955,
+        "p95": 7.177594,
+        "p99": 7.339331
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 5.93766955,
+        "p95": 7.177594,
+        "p99": 7.339331
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 6.3500135,
+        "p99": 6.5375505
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.461828716666667,
+          "p95_ms": 7.329057,
+          "p99_ms": 7.477163
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c0-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.742084266666667,
+          "p95_ms": 5.98388,
+          "p99_ms": 6.166627
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.787941458333333,
+          "p95_ms": 6.02616,
+          "p99_ms": 6.332211
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-single-c1-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.7588237583333335,
+          "p95_ms": 6.060957,
+          "p99_ms": 6.174201
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "mode": "queued",
+      "arm": "main",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 20.28110513958333,
+        "p95": 21.309439,
+        "p99": 21.747886
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 20.28110513958333,
+        "p95": 21.309439,
+        "p99": 21.747886
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 21.2868915,
+        "p99": 21.6905845
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.324610641666666,
+          "p95_ms": 21.325788,
+          "p99_ms": 21.650539
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.317850425,
+          "p95_ms": 21.246961,
+          "p99_ms": 21.809078
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.233191616666666,
+          "p95_ms": 21.258033,
+          "p99_ms": 21.756613
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.248767875,
+          "p95_ms": 21.316784,
+          "p99_ms": 21.546108
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "mode": "queued",
+      "arm": "official",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 16.0751614875,
+        "p95": 16.953768,
+        "p99": 17.317418
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 16.0751614875,
+        "p95": 16.953768,
+        "p99": 17.317418
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 16.93561225,
+        "p99": 17.23010825
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.117681508333334,
+          "p95_ms": 16.865288,
+          "p99_ms": 17.216778
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.071866916666668,
+          "p95_ms": 17.017936,
+          "p99_ms": 17.317418
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.022982491666667,
+          "p95_ms": 16.998654,
+          "p99_ms": 17.332981
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.088115033333334,
+          "p95_ms": 16.860571,
+          "p99_ms": 17.053256
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "mode": "queued",
+      "arm": "finetuned",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 17.130360629166667,
+        "p95": 19.908373,
+        "p99": 20.528659
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 17.130360629166667,
+        "p95": 19.908373,
+        "p99": 20.528659
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 18.78431525,
+        "p99": 19.2988765
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 17.945800541666667,
+          "p95_ms": 20.151397,
+          "p99_ms": 21.083245
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c0-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.430853825,
+          "p95_ms": 17.489915,
+          "p99_ms": 17.960865
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.425875075,
+          "p95_ms": 17.437756,
+          "p99_ms": 17.622737
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-10-SDP-tracking-queued-c1-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 17.718913075,
+          "p95_ms": 20.058193,
+          "p99_ms": 20.528659
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "mode": "single",
+      "arm": "main",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 6.77659169375,
+        "p95": 6.999336,
+        "p99": 7.213623
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 6.77659169375,
+        "p95": 6.999336,
+        "p99": 7.213623
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 6.999423999999999,
+        "p99": 7.15623625
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.749436825,
+          "p95_ms": 6.961394,
+          "p99_ms": 7.156233
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.786615833333333,
+          "p95_ms": 7.019435,
+          "p99_ms": 7.187734
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.781980916666667,
+          "p95_ms": 6.979689,
+          "p99_ms": 7.034183
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 6.7883332,
+          "p95_ms": 7.037178,
+          "p99_ms": 7.246795
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "mode": "single",
+      "arm": "official",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 5.631623897916667,
+        "p95": 5.881876,
+        "p99": 6.125578
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 5.631623897916667,
+        "p95": 5.881876,
+        "p99": 6.125578
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 5.87482225,
+        "p99": 6.11317
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.6054976666666665,
+          "p95_ms": 5.797978,
+          "p99_ms": 6.125578
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.657452216666667,
+          "p95_ms": 5.944971,
+          "p99_ms": 6.097415
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.614389708333333,
+          "p95_ms": 5.911063,
+          "p99_ms": 6.083088
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.649156,
+          "p95_ms": 5.845277,
+          "p99_ms": 6.146599
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "mode": "single",
+      "arm": "finetuned",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 5.7713429125,
+        "p95": 6.023891,
+        "p99": 6.159844
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 5.7713429125,
+        "p95": 6.023891,
+        "p99": 6.159844
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 6.0223207500000004,
+        "p99": 6.171977
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.765960933333333,
+          "p95_ms": 6.067037,
+          "p99_ms": 6.098678
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c0-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.793151783333333,
+          "p95_ms": 6.050938,
+          "p99_ms": 6.29443
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.773043258333334,
+          "p95_ms": 6.002336,
+          "p99_ms": 6.159844
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-single-c1-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 5.753215675,
+          "p95_ms": 5.968972,
+          "p99_ms": 6.134956
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "mode": "queued",
+      "arm": "main",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 20.31615575,
+        "p95": 21.215789,
+        "p99": 21.539004
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 20.31615575,
+        "p95": 21.215789,
+        "p99": 21.539004
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 21.217385999999998,
+        "p99": 21.48944425
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.307832858333335,
+          "p95_ms": 21.235909,
+          "p99_ms": 21.782143
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.292595958333333,
+          "p95_ms": 21.141199,
+          "p99_ms": 21.459703
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o0-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.288401625,
+          "p95_ms": 21.170585,
+          "p99_ms": 21.218656
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o5-main/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 20.375792558333334,
+          "p95_ms": 21.321851,
+          "p99_ms": 21.497275
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "mode": "queued",
+      "arm": "official",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 15.983438085416667,
+        "p95": 16.760612,
+        "p99": 16.994093
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 15.983438085416667,
+        "p95": 16.760612,
+        "p99": 16.994093
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 16.76333125,
+        "p99": 16.95681725
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 15.94312345,
+          "p95_ms": 16.760612,
+          "p99_ms": 16.931676
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 15.967457508333334,
+          "p95_ms": 16.718186,
+          "p99_ms": 16.910454
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o1-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 15.952277441666666,
+          "p95_ms": 16.690847,
+          "p99_ms": 16.990607
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o4-official/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.070893941666668,
+          "p95_ms": 16.88368,
+          "p99_ms": 16.994532
+        }
+      ]
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "mode": "queued",
+      "arm": "finetuned",
+      "fresh_sessions": 4,
+      "pooled_delivery_ms": {
+        "samples": 480,
+        "mean": 17.2383640375,
+        "p95": 19.983974,
+        "p99": 20.255409
+      },
+      "summary_delivery_ms": {
+        "samples": 480,
+        "mean": 17.2383640375,
+        "p95": 19.983974,
+        "p99": 20.255409
+      },
+      "absolute_differences_ms": {
+        "mean": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "nearest_rank_one_based": {
+        "P95": 456,
+        "P99": 476
+      },
+      "maximum_samples_strictly_above_percentile": {
+        "P95": 24,
+        "P99": 4
+      },
+      "average_of_session_percentiles_ms_for_diagnostic_only": {
+        "p95": 18.8342455,
+        "p99": 19.342941749999998
+      },
+      "sessions": [
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 18.219937866666665,
+          "p95_ms": 20.082211,
+          "p99_ms": 20.241303
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c0-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 17.663752491666667,
+          "p95_ms": 20.213532,
+          "p99_ms": 20.418097
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o2-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.651707608333332,
+          "p95_ms": 17.826172,
+          "p99_ms": 19.258929
+        },
+        {
+          "source": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/MOT17-02-SDP-tracking-queued-c1-o3-finetuned/delivery.csv",
+          "input_rows": 140,
+          "warmup_rows_excluded": 20,
+          "measured_samples": 120,
+          "mean_ms": 16.418058183333333,
+          "p95_ms": 17.215067,
+          "p99_ms": 17.453438
+        }
+      ]
+    }
+  ],
+  "report_plot_table_review": {
+    "status": "PASS_NUMERIC_MARKERS_TABLE_VALUES_AND_INTERPRETATION",
+    "checked_utc": "2026-11-12T01:44:22.381965+00:00",
+    "independent_method": "parse output SVG XML and recover marker coordinates through displayed 0..8 ms axis; compare with independently pooled raw-CSV percentiles; parse six output TeX rows and both Markdown copies",
+    "single_plot_samples_per_group": 480,
+    "P95_circle_markers_checked": 6,
+    "P99_diamond_markers_checked": 6,
+    "axis_mapping": {
+      "units": "ms",
+      "zero_x_SVG": 128,
+      "eight_ms_x_SVG": 378,
+      "span_SVG_units": 250
+    },
+    "maximum_reverse_scale_error_ms": 8.881784197001252e-16,
+    "marker_values": [
+      {
+        "sequence": "MOT17-10-SDP",
+        "arm": "official",
+        "P95_ms": 6.938432,
+        "P99_ms": 7.088236,
+        "SVG_cx_P95": 344.826,
+        "SVG_cx_P99": 349.507375,
+        "absolute_reverse_scale_errors_ms": {
+          "P95": 8.881784197001252e-16,
+          "P99": 8.881784197001252e-16
+        }
+      },
+      {
+        "sequence": "MOT17-10-SDP",
+        "arm": "finetuned",
+        "P95_ms": 7.177594,
+        "P99_ms": 7.339331,
+        "SVG_cx_P95": 352.29981250000003,
+        "SVG_cx_P99": 357.35409374999995,
+        "absolute_reverse_scale_errors_ms": {
+          "P95": 8.881784197001252e-16,
+          "P99": 8.881784197001252e-16
+        }
+      },
+      {
+        "sequence": "MOT17-10-SDP",
+        "arm": "main",
+        "P95_ms": 7.138781,
+        "P99_ms": 7.494436,
+        "SVG_cx_P95": 351.08690624999997,
+        "SVG_cx_P99": 362.20112500000005,
+        "absolute_reverse_scale_errors_ms": {
+          "P95": 8.881784197001252e-16,
+          "P99": 8.881784197001252e-16
+        }
+      },
+      {
+        "sequence": "MOT17-02-SDP",
+        "arm": "official",
+        "P95_ms": 5.881876,
+        "P99_ms": 6.125578,
+        "SVG_cx_P95": 311.808625,
+        "SVG_cx_P99": 319.4243125,
+        "absolute_reverse_scale_errors_ms": {
+          "P95": 0.0,
+          "P99": 8.881784197001252e-16
+        }
+      },
+      {
+        "sequence": "MOT17-02-SDP",
+        "arm": "finetuned",
+        "P95_ms": 6.023891,
+        "P99_ms": 6.159844,
+        "SVG_cx_P95": 316.24659375,
+        "SVG_cx_P99": 320.49512500000003,
+        "absolute_reverse_scale_errors_ms": {
+          "P95": 0.0,
+          "P99": 8.881784197001252e-16
+        }
+      },
+      {
+        "sequence": "MOT17-02-SDP",
+        "arm": "main",
+        "P95_ms": 6.999336,
+        "P99_ms": 7.213623,
+        "SVG_cx_P95": 346.72925,
+        "SVG_cx_P99": 353.42571875,
+        "absolute_reverse_scale_errors_ms": {
+          "P95": 0.0,
+          "P99": 8.881784197001252e-16
+        }
+      }
+    ],
+    "table_rows_checked": 6,
+    "table_numeric_values_checked": 24,
+    "Markdown_table_copies_checked": 2,
+    "table_rows": [
+      {
+        "sequence": "MOT17-10-SDP",
+        "arm": "official",
+        "displayed_ms": {
+          "single_P95": "6.938",
+          "single_P99": "7.088",
+          "queued_P95": "16.954",
+          "queued_P99": "17.317"
+        },
+        "matches_independent_CSV_rounded_3_decimals": true,
+        "Markdown_copies_checked": 2
+      },
+      {
+        "sequence": "MOT17-10-SDP",
+        "arm": "finetuned",
+        "displayed_ms": {
+          "single_P95": "7.178",
+          "single_P99": "7.339",
+          "queued_P95": "19.908",
+          "queued_P99": "20.529"
+        },
+        "matches_independent_CSV_rounded_3_decimals": true,
+        "Markdown_copies_checked": 2
+      },
+      {
+        "sequence": "MOT17-10-SDP",
+        "arm": "main",
+        "displayed_ms": {
+          "single_P95": "7.139",
+          "single_P99": "7.494",
+          "queued_P95": "21.309",
+          "queued_P99": "21.748"
+        },
+        "matches_independent_CSV_rounded_3_decimals": true,
+        "Markdown_copies_checked": 2
+      },
+      {
+        "sequence": "MOT17-02-SDP",
+        "arm": "official",
+        "displayed_ms": {
+          "single_P95": "5.882",
+          "single_P99": "6.126",
+          "queued_P95": "16.761",
+          "queued_P99": "16.994"
+        },
+        "matches_independent_CSV_rounded_3_decimals": true,
+        "Markdown_copies_checked": 2
+      },
+      {
+        "sequence": "MOT17-02-SDP",
+        "arm": "finetuned",
+        "displayed_ms": {
+          "single_P95": "6.024",
+          "single_P99": "6.160",
+          "queued_P95": "19.984",
+          "queued_P99": "20.255"
+        },
+        "matches_independent_CSV_rounded_3_decimals": true,
+        "Markdown_copies_checked": 2
+      },
+      {
+        "sequence": "MOT17-02-SDP",
+        "arm": "main",
+        "displayed_ms": {
+          "single_P95": "6.999",
+          "single_P99": "7.214",
+          "queued_P95": "21.216",
+          "queued_P99": "21.539"
+        },
+        "matches_independent_CSV_rounded_3_decimals": true,
+        "Markdown_copies_checked": 2
+      }
+    ],
+    "unit_and_mode_labels": "left plot single delivery milliseconds with separate mean/P95/P99 symbols; right plot queued throughput FPS; table labels single and queued P95/P99 in milliseconds",
+    "narrative_checks": {
+      "cumulative_threshold_description": true,
+      "pooled_480_sample_description": true,
+      "single_vs_queued_waiting_boundary": true,
+      "MOT17_10_P95_lower_P99_higher": true,
+      "MOT17_02_both_higher": true,
+      "queued_both_sequences_both_percentiles_higher": true,
+      "strictly_above_P99_at_most_four": true
+    },
+    "resolved_wording_finding": "Replaced inclusive-looking P99以上最多四筆 with strictly-above wording (超過 P99 的樣本最多四筆 / 第476筆之後); percentile itself and ties are not counted as strictly above.",
+    "artifacts": [
+      {
+        "path": "docs/reports/assets/report1-3cbaa518f0dc/story-speed.svg",
+        "bytes": 10362,
+        "sha256": "93d61e539c9868a695d32f040f03d7a25208764117e2eb8500807cd4bbe2e047"
+      },
+      {
+        "path": "docs/reports/latex/report1/assets/story-speed.pdf",
+        "bytes": 144222,
+        "sha256": "98144dcfbda42a25f4c6ab87dc9fc2ccc223c224d5b3347782af494a9d7153a4"
+      },
+      {
+        "path": "docs/reports/latex/report1/render_story_figures.py",
+        "bytes": 12596,
+        "sha256": "f68d5af2adc1ec91b97c6b9988c26d2dd40913fec1e9d867528d226bd52c8ec5"
+      },
+      {
+        "path": "docs/reports/latex/report1/latency-percentiles.tex",
+        "bytes": 693,
+        "sha256": "4956abab44952ce69d9359c497be81320502792b48bfb7de4aecb650f1ce6500"
+      },
+      {
+        "path": "docs/reports/latex/report1/render_comparison.py",
+        "bytes": 23076,
+        "sha256": "02498d60526b26ad3c3f3394909271925c23590a544692658d4844b01b7b3317"
+      },
+      {
+        "path": "docs/reports/latex/report1/report.tex",
+        "bytes": 16465,
+        "sha256": "d144284b6d48286844e96aac959c3453eb7f674e989f3cf04c5ec9ca857d6bdd"
+      },
+      {
+        "path": "docs/reports/report1-3cbaa518f0dc.md",
+        "bytes": 60173,
+        "sha256": "5a9a2c788405a16ef048be93ddd3a90668e2832e1e03285adb8bffcbc89ed808"
+      }
+    ],
+    "formal_acceptance": false,
+    "new_GPU_run": false
+  }
+}

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650" role="img" aria-labelledby="title desc"><title id="title">換模型之後，速度差多少？</title><desc id="desc">兩個 MOT17 前 140 幀的受控速度比較；左圖顯示單幀平均、P95、P99 延遲，右圖為排隊吞吐。分位數由同組 480 個原始樣本合併計算。</desc><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0" y="0" width="1000" height="650" rx="0" fill="#FFFFFF" stroke="none"/>
+<text x="28" y="43" font-size="32" fill="#16324F" font-weight="700" text-anchor="start">換模型之後，速度差多少？</text>
+<rect x="30" y="74" width="24" height="16" rx="3" fill="#9AAABD" stroke="none"/>
+<text x="64" y="91" font-size="23" fill="#203247" font-weight="400" text-anchor="start">官方 YOLO26m</text>
+<rect x="350" y="74" width="24" height="16" rx="3" fill="#16324F" stroke="none"/>
+<text x="384" y="91" font-size="23" fill="#203247" font-weight="400" text-anchor="start">微調 YOLO26m</text>
+<rect x="670" y="74" width="24" height="16" rx="3" fill="#087F8C" stroke="none"/>
+<text x="704" y="91" font-size="23" fill="#203247" font-weight="400" text-anchor="start">現行 HR Mamba</text>
+<rect x="28" y="119" width="23" height="13" rx="2" fill="#536578" stroke="none"/>
+<text x="61" y="133" font-size="21" fill="#536578" font-weight="400" text-anchor="start">平均</text>
+<circle cx="160" cy="126" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<text x="175" y="133" font-size="21" fill="#536578" font-weight="400" text-anchor="start">P95</text>
+<path d="M254,119 L261,126 L254,133 L247,126 Z" fill="#203247"/>
+<text x="270" y="133" font-size="21" fill="#536578" font-weight="400" text-anchor="start">P99</text>
+<text x="350" y="133" font-size="20" fill="#536578" font-weight="400" text-anchor="start">（左圖，單位 ms）</text>
+<text x="28" y="174" font-size="25" fill="#16324F" font-weight="700" text-anchor="start">單幀交付延遲（ms）↓</text>
+<path d="M128.0,195 L128.0,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="128.0" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">0</text>
+<path d="M190.5,195 L190.5,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="190.5" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">2</text>
+<path d="M253.0,195 L253.0,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="253.0" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">4</text>
+<path d="M315.5,195 L315.5,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="315.5" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">6</text>
+<path d="M378.0,195 L378.0,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="378.0" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">8</text>
+<text x="28" y="216" font-size="23" fill="#16324F" font-weight="600" text-anchor="start">MOT17-10</text>
+<rect x="128" y="233" width="179.1976486328125" height="24" rx="3" fill="#9AAABD" stroke="none"/>
+<path d="M307.1976486328125,245 L349.507375,245" fill="none" stroke="#203247" stroke-width="2"/>
+<path d="M344.826,245 L344.826,239" fill="none" stroke="#203247" stroke-width="1.5"/>
+<circle cx="344.826" cy="239" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<path d="M349.507375,245 L349.507375,251" fill="none" stroke="#203247" stroke-width="1.5"/>
+<path d="M349.507375,244 L356.507375,251 L349.507375,258 L342.507375,251 Z" fill="#203247"/>
+<text x="116" y="254" font-size="22" fill="#536578" font-weight="600" text-anchor="end">5.73</text>
+<rect x="128" y="271" width="185.5521734375" height="24" rx="3" fill="#16324F" stroke="none"/>
+<path d="M313.55217343749996,283 L357.35409374999995,283" fill="none" stroke="#203247" stroke-width="2"/>
+<path d="M352.29981250000003,283 L352.29981250000003,277" fill="none" stroke="#203247" stroke-width="1.5"/>
+<circle cx="352.29981250000003" cy="277" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<path d="M357.35409374999995,283 L357.35409374999995,289" fill="none" stroke="#203247" stroke-width="1.5"/>
+<path d="M357.35409374999995,282 L364.35409374999995,289 L357.35409374999995,296 L350.35409374999995,289 Z" fill="#203247"/>
+<text x="116" y="292" font-size="22" fill="#16324F" font-weight="600" text-anchor="end">5.94</text>
+<rect x="128" y="309" width="212.98794244791665" height="24" rx="3" fill="#087F8C" stroke="none"/>
+<path d="M340.9879424479167,321 L362.20112500000005,321" fill="none" stroke="#203247" stroke-width="2"/>
+<path d="M351.08690624999997,321 L351.08690624999997,315" fill="none" stroke="#203247" stroke-width="1.5"/>
+<circle cx="351.08690624999997" cy="315" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<path d="M362.20112500000005,321 L362.20112500000005,327" fill="none" stroke="#203247" stroke-width="1.5"/>
+<path d="M362.20112500000005,320 L369.20112500000005,327 L362.20112500000005,334 L355.20112500000005,327 Z" fill="#203247"/>
+<text x="116" y="330" font-size="22" fill="#087F8C" font-weight="600" text-anchor="end">6.82</text>
+<text x="28" y="380" font-size="23" fill="#16324F" font-weight="600" text-anchor="start">MOT17-02</text>
+<rect x="128" y="397" width="175.98824680989583" height="24" rx="3" fill="#9AAABD" stroke="none"/>
+<path d="M303.9882468098958,409 L319.4243125,409" fill="none" stroke="#203247" stroke-width="2"/>
+<path d="M311.808625,409 L311.808625,403" fill="none" stroke="#203247" stroke-width="1.5"/>
+<circle cx="311.808625" cy="403" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<path d="M319.4243125,409 L319.4243125,415" fill="none" stroke="#203247" stroke-width="1.5"/>
+<path d="M319.4243125,408 L326.4243125,415 L319.4243125,422 L312.4243125,415 Z" fill="#203247"/>
+<text x="116" y="418" font-size="22" fill="#536578" font-weight="600" text-anchor="end">5.63</text>
+<rect x="128" y="435" width="180.35446601562498" height="24" rx="3" fill="#16324F" stroke="none"/>
+<path d="M308.354466015625,447 L320.49512500000003,447" fill="none" stroke="#203247" stroke-width="2"/>
+<path d="M316.24659375,447 L316.24659375,441" fill="none" stroke="#203247" stroke-width="1.5"/>
+<circle cx="316.24659375" cy="441" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<path d="M320.49512500000003,447 L320.49512500000003,453" fill="none" stroke="#203247" stroke-width="1.5"/>
+<path d="M320.49512500000003,446 L327.49512500000003,453 L320.49512500000003,460 L313.49512500000003,453 Z" fill="#203247"/>
+<text x="116" y="456" font-size="22" fill="#16324F" font-weight="600" text-anchor="end">5.77</text>
+<rect x="128" y="473" width="211.76849042968752" height="24" rx="3" fill="#087F8C" stroke="none"/>
+<path d="M339.7684904296875,485 L353.42571875,485" fill="none" stroke="#203247" stroke-width="2"/>
+<path d="M346.72925,485 L346.72925,479" fill="none" stroke="#203247" stroke-width="1.5"/>
+<circle cx="346.72925" cy="479" r="5.5" fill="#FFFFFF" stroke="#203247" stroke-width="2"/>
+<path d="M353.42571875,485 L353.42571875,491" fill="none" stroke="#203247" stroke-width="1.5"/>
+<path d="M353.42571875,484 L360.42571875,491 L353.42571875,498 L346.42571875,491 Z" fill="#203247"/>
+<text x="116" y="494" font-size="22" fill="#087F8C" font-weight="600" text-anchor="end">6.78</text>
+<text x="515" y="174" font-size="25" fill="#16324F" font-weight="700" text-anchor="start">排隊吞吐（FPS）↑</text>
+<path d="M615.0,195 L615.0,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="615.0" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">0</text>
+<path d="M698.3333333333334,195 L698.3333333333334,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="698.3333333333334" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">100</text>
+<path d="M781.6666666666666,195 L781.6666666666666,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="781.6666666666666" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">200</text>
+<path d="M865.0,195 L865.0,501" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="865.0" y="530" font-size="21" fill="#536578" font-weight="400" text-anchor="middle">300</text>
+<text x="515" y="216" font-size="23" fill="#16324F" font-weight="600" text-anchor="start">MOT17-10</text>
+<rect x="615" y="233" width="204.31231626882953" height="24" rx="3" fill="#9AAABD" stroke="none"/>
+<text x="827.3123162688296" y="254" font-size="23" fill="#536578" font-weight="600" text-anchor="start">245.2</text>
+<rect x="615" y="271" width="191.76954023029282" height="24" rx="3" fill="#16324F" stroke="none"/>
+<text x="814.7695402302928" y="292" font-size="23" fill="#16324F" font-weight="600" text-anchor="start">230.1</text>
+<rect x="615" y="309" width="162.01444948653457" height="24" rx="3" fill="#087F8C" stroke="none"/>
+<text x="785.0144494865345" y="330" font-size="23" fill="#087F8C" font-weight="600" text-anchor="start">194.4</text>
+<text x="515" y="380" font-size="23" fill="#16324F" font-weight="600" text-anchor="start">MOT17-02</text>
+<rect x="615" y="397" width="205.4250910573637" height="24" rx="3" fill="#9AAABD" stroke="none"/>
+<text x="828.4250910573637" y="418" font-size="23" fill="#536578" font-weight="600" text-anchor="start">246.5</text>
+<rect x="615" y="435" width="190.54165395764076" height="24" rx="3" fill="#16324F" stroke="none"/>
+<text x="813.5416539576407" y="456" font-size="23" fill="#16324F" font-weight="600" text-anchor="start">228.6</text>
+<rect x="615" y="473" width="161.72094738869174" height="24" rx="3" fill="#087F8C" stroke="none"/>
+<text x="784.7209473886917" y="494" font-size="23" fill="#087F8C" font-weight="600" text-anchor="start">194.1</text>
+<text x="28" y="572" font-size="21" fill="#536578" font-weight="400" text-anchor="start">各前 140 幀；20 幀暖機；每組 4 sessions／480 樣本；JPEG 預載。</text>
+<text x="28" y="607" font-size="20" fill="#536578" font-weight="400" text-anchor="start">P95／P99 採合併樣本 nearest-rank；無 profiler，排除讀檔、初始化與寫檔。</text>
+<text x="28" y="638" font-size="20" fill="#536578" font-weight="400" text-anchor="start">來源：TRT 性能研究；不代表完整資料集或攝影機端到端速度。</text></g></svg>

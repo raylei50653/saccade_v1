@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Saccade v1｜追蹤觀測回放台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="assets/data.js"></script>
+  <script defer src="assets/data-02.js"></script>
+  <script defer src="assets/data-04.js"></script>
+  <script defer src="gap-fill.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main id="demo-root">
+    <header class="masthead">
+      <div>
+        <div class="eyebrow"><span class="brand-mark" aria-hidden="true"></span>SACCADE <span class="brand-version">v1</span><span class="eyebrow-rule"></span>TECHNICAL REPLAY</div>
+        <h1>追蹤觀測回放台</h1>
+        <p class="subtitle">逐幀查看輸出 ID、狀態框與畫面運動補償。</p>
+      </div>
+      <div class="source-identity">
+        <label class="sequence-selector" for="sequence-select"><span>展示序列</span><select id="sequence-select"><option value="MOT17-10-SDP">MOT17-10-SDP</option><option value="MOT17-02-SDP">MOT17-02-SDP</option><option value="MOT17-04-SDP">MOT17-04-SDP</option></select></label>
+        <div class="replay-badge"><span aria-hidden="true"></span>預先計算結果回放</div>
+        <div><strong id="sequence-label">MOT17-10-SDP</strong><span class="identity-divider">／</span><span id="source-format">1920 × 1080 · 來源 30 FPS</span></div>
+        <div class="identity-small">固定來源 <code id="baseline-label">3cbaa518f0dc</code> · HR / G1 / Graph ON</div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="player-panel" aria-label="影片與逐幀操作">
+        <div class="player-toolbar">
+          <div class="view-switch" role="group" aria-label="畫面模式">
+            <button id="view-overlay" class="active" type="button" data-view="overlay" aria-pressed="true">追蹤</button>
+            <button id="view-side" type="button" data-view="sideBySide" aria-pressed="false">原圖／追蹤並排</button>
+            <button id="view-raw" type="button" data-view="raw" aria-pressed="false">原圖</button>
+          </div>
+          <button id="fullscreen-button" class="quiet-button fullscreen-button" type="button" title="全螢幕" aria-label="將回放畫面切換全螢幕">⛶ <span>全螢幕</span></button>
+        </div>
+
+        <div id="stage" class="stage">
+          <video id="source-video" muted playsinline preload="auto" aria-hidden="true"></video>
+          <canvas id="video-canvas" class="video-layer" aria-hidden="true"></canvas>
+          <canvas id="replay-canvas" aria-label="追蹤結果影像；點選框可檢視輸出 ID" tabindex="0"></canvas>
+          <div id="loading-state" class="loading-state"><span class="loading-dot"></span><span>載入本機回放資料…</span></div>
+          <div id="error-state" class="error-state" role="alert" hidden></div>
+        </div>
+
+        <div class="playback-section">
+          <div class="frame-topline">
+            <div class="frame-position"><span class="frame-label">來源影格</span><strong id="frame-label">001</strong><span class="muted">/ <span id="frame-total">654</span></span></div>
+            <div class="time-position"><span id="time-label">00:00.000</span><span class="muted"> / <span id="duration-label">00:21.800</span></span></div>
+          </div>
+          <label class="sr-only" for="frame-slider">選擇來源影格</label>
+          <input id="frame-slider" class="frame-slider" type="range" min="0" max="653" value="0" step="1" disabled>
+          <div class="transport">
+            <div class="transport-main">
+              <button id="restart-button" class="icon-button" type="button" title="回到起點" aria-label="回到起點" disabled>↤</button>
+              <button id="previous-button" class="icon-button" type="button" title="前一幀（←）" aria-label="前一幀" disabled>‹</button>
+              <button id="play-button" class="play-button" type="button" disabled><span id="play-icon" aria-hidden="true">▶</span><span id="play-label">播放</span></button>
+              <button id="next-button" class="icon-button" type="button" title="後一幀（→）" aria-label="後一幀" disabled>›</button>
+            </div>
+            <div class="transport-options">
+              <label class="compact-field" for="playback-rate">速度 <select id="playback-rate"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+              <label class="compact-field frame-input-label" for="frame-input">跳至 <input id="frame-input" type="number" min="1" max="654" value="1" inputmode="numeric" aria-label="來源影格編號"></label>
+            </div>
+          </div>
+          <div class="overlay-controls">
+            <div class="checkboxes"><label><input id="show-boxes" type="checkbox" checked>狀態框與 ID</label><label><input id="show-trails" type="checkbox" checked>最近 30 幀軌跡</label><label title="平滑相鄰同身份的觀測框；暫停／逐幀時觀測框保留原始座標。"><input id="show-interpolation" type="checkbox" checked>顯示插值（播放時）</label><label title="與正式 MOT 定稿相同：同一輸出 ID 至少 5 筆觀測，最多補 35 個缺幀，允許 UID 接回。虛線為利用前後觀測的離線補框。"><input id="show-gap-fill" type="checkbox" checked>MOT 缺幀補框</label></div>
+            <div class="bookmarks" aria-label="場景定位"><span>場景</span><button type="button" data-bookmark="60">起段</button><button type="button" data-bookmark="327">中段</button><button type="button" data-bookmark="600">尾段</button></div>
+          </div>
+        </div>
+        <div class="player-footnote"><span class="status-dot" aria-hidden="true"></span><span id="player-status">準備回放</span><span id="interpolation-status" class="interpolation-status">逐幀補框</span><span id="gap-fill-status" class="gap-fill-status" hidden>補框 0</span><span class="keyboard-hint">Space 播放／暫停 · ← → 逐幀 · Esc 清除選取</span></div>
+      </section>
+
+      <aside class="inspector" aria-label="逐幀觀測與軌跡檢視">
+        <section class="inspector-section frame-summary">
+          <div class="section-eyebrow">CURRENT FRAME</div>
+          <div class="observed-heading"><h2>輸出軌跡</h2><div><strong id="observed-count">0</strong><span>筆／本幀</span></div></div>
+          <p class="section-description">點選畫面中的框，或選擇輸出 ID。</p>
+          <p id="gap-count-note" class="gap-count-note">實線為原始觀測；虛線為 MOT 缺幀插值。</p>
+          <div id="id-list" class="id-list" aria-label="本幀輸出 ID"></div>
+          <p id="empty-observations" class="empty-note">此幀尚無已確認軌跡輸出。</p>
+        </section>
+
+        <section class="inspector-section selected-section" aria-label="選取的輸出身份">
+          <div class="selected-heading"><h2 id="selected-title">選取軌跡</h2><button id="clear-selection" class="text-button" type="button" hidden>清除</button></div>
+          <div id="selection-empty" class="selection-empty"><span class="selection-crosshair" aria-hidden="true">⌖</span><p>選擇一個 ID<br><span>逐幀檢視它的觀測狀態</span></p></div>
+          <div id="selection-content" hidden>
+            <div id="selected-state" class="selection-state">本幀有觀測</div>
+            <dl class="detail-grid">
+              <div><dt>內部 UID</dt><dd id="selected-uid">—</dd></div>
+              <div><dt>觀測分數</dt><dd id="selected-score">—</dd></div>
+              <div><dt>關聯分數</dt><dd id="selected-association">—</dd></div>
+              <div><dt>Row 狀態</dt><dd id="selected-flags">—</dd></div>
+            </dl>
+            <div class="coordinate-field"><span>觀測框 xyxy</span><code id="selected-box">—</code></div>
+            <div id="selected-gap-coordinates" class="coordinate-field gap-coordinates" hidden><span>插值框 xyxy（本來源幀）</span><code id="selected-gap-box">—</code></div>
+            <p id="selected-history" class="selection-history"></p>
+            <div class="appearance-controls"><button id="previous-appearance" type="button">← 前次輸出</button><button id="next-appearance" type="button">下次輸出 →</button></div>
+          </div>
+          <p class="micro-note">顯示 packet 的 output_id。虛線與「補」標籤為離線插值，沒有新增觀測分數；不能據此確認遮擋原因。</p>
+        </section>
+
+        <section class="inspector-section motion-section">
+          <div class="motion-heading"><h2>G1 畫面位移</h2><span id="motion-state" class="small-badge">初始化</span></div>
+          <div class="motion-values"><div><span>Δx</span><strong id="motion-x">—</strong><span>px</span></div><div><span>Δy</span><strong id="motion-y">—</strong><span>px</span></div></div>
+          <p class="micro-note">前幀 → 本幀的影像內容位移，非相機姿態。</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="measurement-section" aria-label="獨立效能實測">
+      <div class="measurement-heading"><div><span class="section-eyebrow">MEASURED SEPARATELY</span><h2 id="measurement-title">MOT17-10-SDP｜獨立效能量測</h2></div><p id="measurement-scope">播放速度依來源時間軸；以下數字取自獨立量測。</p></div>
+      <div class="measurement-grid">
+        <div class="measurement"><div class="measurement-label">逐幀提交 → 收到封包 <span>p95</span></div><div class="measurement-number"><strong id="metric-single">6.982</strong><span>ms</span></div><p id="metric-single-note">JPEG 預載 · 480 筆暖機後樣本</p></div>
+        <div class="measurement"><div class="measurement-label">四格佇列交付 <span>p95</span></div><div class="measurement-number"><strong id="metric-queued">21.181</strong><span>ms</span></div><p id="metric-queued-note">含在途等待與 caller 接收政策</p></div>
+        <div class="measurement"><div class="measurement-label">排隊處理吞吐</div><div class="measurement-number"><strong id="metric-throughput">194.6</strong><span>FPS</span></div><p id="metric-throughput-note">處理間隔換算；不是逐幀延遲</p></div>
+        <div class="measurement"><div id="metric-offline-label" class="measurement-label">完整 654 幀離線完成</div><div class="measurement-number"><strong id="metric-offline">4.836</strong><span>秒</span></div><p id="metric-offline-note">含啟動、讀檔、定稿與最終寫檔</p></div>
+      </div>
+    </section>
+
+    <footer class="page-footer"><p>實線：原始觀測 · 虛線：MOT 離線缺幀插值（≤35 幀）· 背景維持 30 FPS · <a id="source-download" href="assets/source.mp4" download>原始影片</a> · <a id="backup-download" href="assets/tracking-demo.mp4" download>備用影片：原始逐幀</a></p><p>HR 1280×768 FP16 · NSA OFF · Driver 621.14 · 相機／RTSP 端到端尚未量測</p></footer>
+  </main>
+</body>
+</html>

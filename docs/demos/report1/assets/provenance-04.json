@@ -1,0 +1,221 @@
+{
+  "schema": "saccade-report1-mot17-04-replay-assets/1",
+  "baseline": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+  "purpose": "1050-frame MOT17-04 prerecorded packet observations and source-only video",
+  "new_inference_capture": "evidence/report1/2026-11-11-mot17-04-demo/",
+  "no_new_gt_quality_scoring_or_sanitizer": true,
+  "runtime_modified": false,
+  "source_inputs": {
+    "sequence": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-04-SDP",
+    "frame_count": 1050,
+    "fps": 30,
+    "jpeg_bytes": 244650083,
+    "image_hashes_verified_before_after_encode": true,
+    "archived_manifest": "evidence/report1/2026-11-11-mot17-04-demo/inputs-before.json",
+    "archived_manifest_sha256": "186689d33fd1f81ee863a6fb3060293b7f8942bfc961c61f274c5bf2200edb98",
+    "packets_gzip": "evidence/report1/2026-11-11-mot17-04-demo/raw/run1/packets.bin.gz",
+    "packets_gzip_sha256": "a00b24c1b16a6a43197b6d33a9a0d7757f845da039640a18d1d76aaa5cb72b6c",
+    "packet_raw_sha256": "b6a3a3922ddce40aac30d96d85ca5b2e33170cb75fbe36e8245812d3f7d8b483",
+    "motion_gzip": "evidence/report1/2026-11-11-mot17-04-demo/raw/run1/motion.scmo.gz",
+    "motion_gzip_sha256": "01474d926585276145749efe914e57dc92c14e779923b7e7f677bcd1231345ba",
+    "motion_raw_sha256": "86c391a3dc905f6a9bb60ad999cb54d47a5b06bf6147204e3725530f72c54f75",
+    "capture_summary_sha256": "6b7ae50e95a10246855b5f9c441da494b809c352edd0a27bb4c01ed86a264bb6",
+    "poster_source": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-04-SDP/img1/000221.jpg",
+    "poster_source_sha256": "643568d57bbda725977c3429b1513f72742e5e5fc5a9a788bae31b361bb95eac"
+  },
+  "packet_validation": {
+    "rows": 43003,
+    "flags_1": 43003,
+    "boxes_partly_outside_frame": 10045,
+    "unique_uid_count": 106,
+    "unique_output_id_count": 106,
+    "min_rows_per_frame": 0,
+    "max_rows_per_frame": 47,
+    "uid_output_id_changes": {
+      "63": [
+        52,
+        63
+      ],
+      "69": [
+        20,
+        69
+      ],
+      "78": [
+        42,
+        78
+      ],
+      "85": [
+        33,
+        85
+      ],
+      "89": [
+        52,
+        89
+      ],
+      "92": [
+        17,
+        92
+      ],
+      "111": [
+        95,
+        111
+      ],
+      "116": [
+        79,
+        116
+      ],
+      "117": [
+        38,
+        117
+      ],
+      "146": [
+        122,
+        146
+      ],
+      "151": [
+        79,
+        151
+      ],
+      "154": [
+        97,
+        154
+      ]
+    },
+    "canonical_headers_reserved_unused_float_encoding_validated": true
+  },
+  "motion_validation": {
+    "status_counts": {
+      "1": 1,
+      "2": 1049
+    },
+    "frame_bytes": 44,
+    "header_bytes": 44,
+    "translation_units": "original-image pixels, reference frame to current image content; not camera pose or velocity",
+    "g1_compatibility_fields": "peak_x, peak_y and pcr always zero; confidence=1 only for valid status"
+  },
+  "metrics": null,
+  "metrics_reason": "Source capture is not a per-frame latency benchmark; MOT17-10 metrics must not be attributed to04.",
+  "encode": {
+    "argv": [
+      "ffmpeg",
+      "-hide_banner",
+      "-nostdin",
+      "-n",
+      "-framerate",
+      "30",
+      "-start_number",
+      "1",
+      "-i",
+      "/home/ray/developer/ai/dataset/MOT17/train/MOT17-04-SDP/img1/%06d.jpg",
+      "-frames:v",
+      "1050",
+      "-an",
+      "-vf",
+      "scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=iec61966-2-1:colorspace=bt709",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "21",
+      "-threads",
+      "4",
+      "-pix_fmt",
+      "yuv420p",
+      "-fps_mode",
+      "passthrough",
+      "-color_range",
+      "tv",
+      "-colorspace",
+      "bt709",
+      "-color_primaries",
+      "bt709",
+      "-color_trc",
+      "iec61966-2-1",
+      "-movflags",
+      "+faststart",
+      "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source-04.mp4"
+    ],
+    "wall_seconds": 39.29466521199993,
+    "uses_gpu": false,
+    "ffmpeg_version": "ffmpeg version n9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "lossy_video": true,
+    "color_policy": "full-rangeJPEG BT601 to limitedBT709, sRGB transfer metadata"
+  },
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "color_range": "tv",
+        "color_space": "bt709",
+        "color_transfer": "iec61966-2-1",
+        "color_primaries": "bt709",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "nb_frames": "1050",
+        "nb_read_frames": "1050"
+      }
+    ],
+    "format": {
+      "duration": "35.000000",
+      "size": "25336552"
+    },
+    "command": [
+      "ffprobe",
+      "-v",
+      "error",
+      "-count_frames",
+      "-select_streams",
+      "v:0",
+      "-show_entries",
+      "stream=codec_name,width,height,pix_fmt,avg_frame_rate,r_frame_rate,nb_frames,nb_read_frames,color_range,color_space,color_transfer,color_primaries:format=duration,size",
+      "-of",
+      "json",
+      "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source-04.mp4"
+    ],
+    "mp4_box_order": [
+      "ftyp",
+      "moov",
+      "free",
+      "mdat"
+    ],
+    "faststart_verified": true
+  },
+  "generator": {
+    "path": "docs/demos/report1/methods/build_data_04.py",
+    "sha256": "4f460bf74a65b8924b99232c8b3ba92dcebe461262acddcdc55f84f59842bfcc"
+  },
+  "artifacts": {
+    "data-04.json": {
+      "bytes": 5229687,
+      "sha256": "ec11ff2d23bfad88ceb3a73e56b2f2b6e381677ea3a005f6679edffc57d098aa"
+    },
+    "data-04.js": {
+      "bytes": 5229765,
+      "sha256": "04d478f217bfc461a8c1fe6501be6356ca32eb1bf67b510b9c22ba0b03f8c861"
+    },
+    "source-04.mp4": {
+      "bytes": 25336552,
+      "sha256": "e494e38eab64a26fb9da7c2af91a59b81af6048b29f99b97b888ba4a2646cac4"
+    },
+    "poster-04.jpg": {
+      "bytes": 232079,
+      "sha256": "643568d57bbda725977c3429b1513f72742e5e5fc5a9a788bae31b361bb95eac"
+    },
+    "source-04-encode.log": {
+      "bytes": 12592,
+      "sha256": "9915af01de5b8f4018bb1c95f74b8b71fc9bcaf64b190b84632f9d7eabef92b3"
+    }
+  },
+  "limitations": [
+    "prerecorded result playback, not live inference",
+    "35-second source30FPS is not a throughput claim",
+    "no new held-out evaluation",
+    "state-estimate boxes with no offline MOT interpolation in packet replay"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "saccade-report-story-figures/1",
+  "revision_date": "2026-11-12",
+  "generator": "render_story_figures.py",
+  "generator_sha256": "f68d5af2adc1ec91b97c6b9988c26d2dd40913fec1e9d867528d226bd52c8ec5",
+  "sources": [
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-primary156/bundle/metrics/summary.json",
+      "sha256": "41d399bf79564f557e0b38009433ec489284351cee4ec2b30d63a1e7339411f7"
+    },
+    {
+      "path": "evidence/model-comparison/2026-11-11-yolo26m-trt-performance/performance/pipeline/summary.json",
+      "sha256": "25845f2530b71688af59f379a9a4a8f17851252d7b186e7adb9af051ac8be8aa"
+    }
+  ],
+  "figures": [
+    {
+      "name": "pipeline",
+      "svg": "docs/reports/assets/report1-3cbaa518f0dc/story-pipeline.svg",
+      "svg_sha256": "8b15ebbb5693ea379f6213151c1e2f9eb56db195d8a838110b315f1f7e31f4f4",
+      "pdf": "docs/reports/latex/report1/assets/story-pipeline.pdf",
+      "pdf_sha256": "19f84b9f8191e282f075365c440cdca8cd25df220abf4ff8960d0d6edf64ce0e",
+      "fonts_embedded": true,
+      "vector_only": true,
+      "data_scope": "logical explanatory diagram; not GPU scheduling or timing"
+    },
+    {
+      "name": "datasets",
+      "svg": "docs/reports/assets/report1-3cbaa518f0dc/story-datasets.svg",
+      "svg_sha256": "2bceaa5c125a3e2132f3e942f4bfee9519b5f163c85fabd0bfd7aaae8e5c59a9",
+      "pdf": "docs/reports/latex/report1/assets/story-datasets.pdf",
+      "pdf_sha256": "00f79d784b14cf78270d50be8f33703db3488d921904c11ee77d45751d96114b",
+      "fonts_embedded": true,
+      "vector_only": true,
+      "data_scope": "existing metrics; no new inference/scoring"
+    },
+    {
+      "name": "group-deltas",
+      "svg": "docs/reports/assets/report1-3cbaa518f0dc/story-group-deltas.svg",
+      "svg_sha256": "7c51f08c399f40079357478ca7f62d4406978687719a80f0bfb13b0e000ed4ce",
+      "pdf": "docs/reports/latex/report1/assets/story-group-deltas.pdf",
+      "pdf_sha256": "c8d6e0897f9fe30ae5ef20881d71fc7ec7b0d8a1847adca5d7e754fbe01388bb",
+      "fonts_embedded": true,
+      "vector_only": true,
+      "data_scope": "existing metrics; no new inference/scoring"
+    },
+    {
+      "name": "speed",
+      "svg": "docs/reports/assets/report1-3cbaa518f0dc/story-speed.svg",
+      "svg_sha256": "93d61e539c9868a695d32f040f03d7a25208764117e2eb8500807cd4bbe2e047",
+      "pdf": "docs/reports/latex/report1/assets/story-speed.pdf",
+      "pdf_sha256": "98144dcfbda42a25f4c6ab87dc9fc2ccc223c224d5b3347782af494a9d7153a4",
+      "fonts_embedded": true,
+      "vector_only": true,
+      "data_scope": "existing metrics; no new inference/scoring"
+    }
+  ],
+  "new_inference_or_scoring": false,
+  "conversion_tool": "rsvg-convert version 2.63.4\n\nlibraries used:\n  cairo 1.18.6\n  pango 1.58.2\n  harfbuzz 15.1.0\n  fontconfig 2.18.3"
+}

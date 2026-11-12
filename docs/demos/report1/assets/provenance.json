@@ -1,0 +1,199 @@
+{
+  "schema": "saccade-report1-replay-assets/1",
+  "baseline": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+  "purpose": "source-only playback video and exact observations for an offline demonstration",
+  "new_inference_or_scoring": false,
+  "runtime_or_historical_evidence_modified": false,
+  "generator": {
+    "path": "docs/demos/report1/methods/build_data.py",
+    "sha256": "3e0b3c01fa4b82c91e19740cb691860fba91a974e4a7658a3a546f2fa37480b6"
+  },
+  "source_inputs": {
+    "sequence": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+    "frame_count": 654,
+    "fps": 30,
+    "jpeg_bytes": 89638455,
+    "image_hashes_verified_against_archived_manifest": true,
+    "image_hashes_checked_before_and_after_encode": true,
+    "archived_manifest": "evidence/report1/2026-11-11-g1-offline-e2e/inputs-before.json",
+    "archived_manifest_sha256": "f1f74019d2977de2be2de45db6ad0d4904f111ca64de2e1089428781d7ea03e1",
+    "seqinfo_sha256": "6867998f66753629b7a4e4093d1e473131be0fa6a23fa7263b4f197bef9db3d8",
+    "poster_source": "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP/img1/000221.jpg",
+    "poster_source_sha256": "dfe3b3dafb35b4c9a563baf4b07e60cdd2e4bca491193201648942258de3d147",
+    "packets_gzip": "evidence/report1/2026-11-11-g1-offline-e2e/raw/run1/packets.bin.gz",
+    "packets_gzip_sha256": "33307295a43526c082951496641658b04922e5d3280e58f8c64ff9df0944b9a5",
+    "packet_raw_sha256": "dbb226d5d4d7944cabec1fd8530a57c9c02788bf2db1ade0f790aca3e40531db",
+    "motion_gzip": "evidence/report1/2026-11-11-g1-offline-e2e/raw/run1/motion.scmo.gz",
+    "motion_gzip_sha256": "06d63b1342ea4c36b6f1088553d359114336ba46e273ddaf1ad8162600d128de",
+    "motion_raw_sha256": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+    "live_summary": "evidence/report1/2026-11-11-g1-live/summary.json",
+    "live_summary_sha256": "caef13b6080fed37295f81b1753e0debde142e28a9726ba0cdfdf3ff692325af",
+    "offline_summary": "evidence/report1/2026-11-11-g1-offline-e2e/summary.json",
+    "offline_summary_sha256": "04d3655bdb18afc77c0953319dfd1a2e9ffbf97a656b2b34b7eeaabde167e7bc"
+  },
+  "packet_validation": {
+    "rows": 10385,
+    "flags_1": 10385,
+    "boxes_partly_outside_frame": 501,
+    "unique_uid_count": 90,
+    "unique_output_id_count": 86,
+    "min_rows_per_frame": 0,
+    "max_rows_per_frame": 23,
+    "uid_output_id_changes": {
+      "106": [
+        71,
+        106
+      ],
+      "162": [
+        140,
+        162
+      ],
+      "266": [
+        252,
+        266
+      ],
+      "373": [
+        313,
+        373
+      ],
+      "439": [
+        15,
+        439
+      ]
+    },
+    "canonical_headers_reserved_unused_float_encoding_validated": true
+  },
+  "motion_validation": {
+    "status_counts": {
+      "1": 1,
+      "2": 653
+    },
+    "frame_bytes": 44,
+    "header_bytes": 44,
+    "translation_units": "original-image pixels, reference frame to current image content; not camera pose or velocity",
+    "g1_compatibility_fields": "peak_x, peak_y and pcr always zero; confidence=1 only for valid status"
+  },
+  "encode": {
+    "argv": [
+      "ffmpeg",
+      "-hide_banner",
+      "-nostdin",
+      "-n",
+      "-framerate",
+      "30",
+      "-start_number",
+      "1",
+      "-i",
+      "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP/img1/%06d.jpg",
+      "-frames:v",
+      "654",
+      "-an",
+      "-vf",
+      "scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=iec61966-2-1:colorspace=bt709",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "21",
+      "-threads",
+      "4",
+      "-pix_fmt",
+      "yuv420p",
+      "-fps_mode",
+      "passthrough",
+      "-color_range",
+      "tv",
+      "-colorspace",
+      "bt709",
+      "-color_primaries",
+      "bt709",
+      "-color_trc",
+      "iec61966-2-1",
+      "-movflags",
+      "+faststart",
+      "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source.mp4"
+    ],
+    "wall_seconds": 19.52868982400014,
+    "uses_gpu": false,
+    "ffmpeg_version": "ffmpeg version n9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe_version": "ffprobe version n9.0.2 Copyright (c) 2007-2026 the FFmpeg developers",
+    "color_policy": "JPEG full-range BT.601 YCbCr to limited-range BT.709 YCbCr; sRGB transfer metadata; browser playback asset, not model input",
+    "lossy_video": true,
+    "source_jpegs_unchanged": true
+  },
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "color_range": "tv",
+        "color_space": "bt709",
+        "color_transfer": "iec61966-2-1",
+        "color_primaries": "bt709",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "nb_frames": "654",
+        "nb_read_frames": "654"
+      }
+    ],
+    "format": {
+      "duration": "21.800000",
+      "size": "30511972"
+    },
+    "mp4_box_order": [
+      "ftyp",
+      "moov",
+      "free",
+      "mdat"
+    ],
+    "faststart_verified": true,
+    "command": [
+      "ffprobe",
+      "-v",
+      "error",
+      "-count_frames",
+      "-select_streams",
+      "v:0",
+      "-show_entries",
+      "stream=codec_name,width,height,pix_fmt,avg_frame_rate,r_frame_rate,nb_frames,nb_read_frames,color_range,color_space,color_transfer,color_primaries:format=duration,size",
+      "-of",
+      "json",
+      "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source.mp4"
+    ]
+  },
+  "artifacts": {
+    "data.json": {
+      "bytes": 1302971,
+      "sha256": "1ad5ab54eec8eee92c8ceacca7136c6ed04c7631d524e790d2b96c6e863ef164"
+    },
+    "data.js": {
+      "bytes": 1302992,
+      "sha256": "b1183506bc53c359be8eff0f45fa6c840405530e6eb46943a12e6b9bf28ecf1f"
+    },
+    "poster.jpg": {
+      "bytes": 149000,
+      "sha256": "dfe3b3dafb35b4c9a563baf4b07e60cdd2e4bca491193201648942258de3d147"
+    },
+    "source.mp4": {
+      "bytes": 30511972,
+      "sha256": "122283393b7d622559d9b85465c140d960e06b1fecdd0259e17188591acfb0ce"
+    },
+    "source-encode.log": {
+      "bytes": 7930,
+      "sha256": "f2b9bfde0eac18b93bc32d58efae550ea2c86e9590e3a3eceee9102cf21227f9"
+    }
+  },
+  "limitations": [
+    "prerecorded result playback, not a live-inference recording",
+    "source playback is30FPS and separate from benchmark throughput",
+    "IDs are tracker output IDs, not GT identities",
+    "state-estimate boxes, no offline MOT interpolation",
+    "visual clipping or trails do not modify the recorded observations",
+    "independent benchmark metrics do not measure this player or video encoding"
+  ]
+}

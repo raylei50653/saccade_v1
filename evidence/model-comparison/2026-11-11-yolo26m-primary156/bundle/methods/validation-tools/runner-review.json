@@ -1,0 +1,49 @@
+{
+  "checks": {
+    "MOT17_import_hashes_and_native_CPU_exact_guard": true,
+    "advisory_GPU_lock_per_native_command": true,
+    "all_three_fixed_TRT_engines": true,
+    "atomic_receipt_publication": true,
+    "binary_engine_runner_manifest_before_after_hash_guard": true,
+    "fixed_full_scope_156_and_135503_frames": true,
+    "fresh_exit_zero_before_validation": true,
+    "no_live_tracking_parameter_tuning": true,
+    "no_stale_config_environment": true,
+    "per_cell_failures_preserved_and_scope_not_reduced": true,
+    "source_population_unique_ids": true,
+    "validation_before_capture_completion_marker": true
+  },
+  "limits": [
+    "Timeout handling terminates subprocess wrapper; the runner does not explicitly kill a native child process group. If TIMEOUT occurs, do not assume GPU child termination; preserve failure and inspect/stop before retry.",
+    "Failed output directories are intentionally retained and cannot be retried in place by exclusive mkdir; any recovery needs an explicit new attempt path or carefully reviewed resume procedure.",
+    "Current validation helper/script/baseline hashes are recorded here; runner before/after core binding does not itself include those helper files. Keep them frozen during this capture.",
+    "Per-cell structural validation does not prove full GPU session sanitizer acceptance or independent dataset generalization."
+  ],
+  "population": {
+    "benchmarks": {
+      "DanceTrack": 65,
+      "MOT15": 11,
+      "MOT17": 7,
+      "MOT20": 4,
+      "PP22": 69
+    },
+    "frames_per_arm": 135503,
+    "sequences": 156,
+    "total_cells": 468,
+    "total_frames": 406509
+  },
+  "preflight_receipts": [
+    "preflight-MOT17-10.json",
+    "preflight-MOT17-05.json"
+  ],
+  "result": "PASS_FOR_RUNNING_SCOPE_WITH_NOTED_LIMITS",
+  "runner_sha256": "e15b20fb1f64d46c95b3abfd413b01316a9283ba9757846854bb888988f7616b",
+  "selection_sha256": "e02f664aed9db891ee778bb0bb9f24a09504408f1aaa93b3a4b368bd442023a0",
+  "validation_memory_bound": {
+    "maximum_packet_file_bytes": 51982704,
+    "maximum_sequence_frames": 4203,
+    "method": "one sequence at a time; native validator reads one bounded file, not entire arm"
+  },
+  "validator_script_sha256": "383f12a8c2d0c7cf107803d3fffe371aadfc70abdbef9038f4ee398ef1c7afcd",
+  "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e"
+}

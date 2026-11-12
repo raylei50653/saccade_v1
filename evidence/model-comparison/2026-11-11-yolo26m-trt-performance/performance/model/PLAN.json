@@ -1,0 +1,87 @@
+{
+  "ABBA_rounds_per_process": 1,
+  "all_inputs_timed": 4,
+  "created_utc": "2026-11-11T13:49:54.001383+00:00",
+  "cycles": 2,
+  "default_engine_order_per_cycle": [
+    "main",
+    "official-default",
+    "official-default",
+    "main"
+  ],
+  "default_scope": "separate comparison, original decoded end2end output; includes decode/top-k inside engine",
+  "fresh_processes_per_arm_per_comparison": 4,
+  "inputs": {
+    "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine": {
+      "bytes": 60753004,
+      "sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876"
+    },
+    "/home/ray/.cache/saccade-v1/hr-deploy/refs/model-images.f32": {
+      "bytes": 47185920,
+      "sha256": "0d2ad63d8d74b02858099d48b100887667d0b6040cca2bfd39d1faf7edec5611"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/report1-live-20261111/cuda/libsaccade_file_io.a": {
+      "bytes": 15472,
+      "sha256": "6bc43359c7a82130e771680044b6518b326382424bfd1ad1be4eec0d382b61f4"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/report1-live-20261111/cuda/libsaccade_scan_trt.a": {
+      "bytes": 174562,
+      "sha256": "7945e1a7604a5892144fc73f5ee96e0b9f18d0623e97281f03af90678dadde51"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/report1-live-20261111/cuda/libsaccade_selective_scan.a": {
+      "bytes": 49534,
+      "sha256": "e27b72cc4f84d7af0c692c9928a739f883b41050e6b92c682b1f3d217ebeac51"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/report1-live-20261111/cuda/libsaccade_selective_scan_cuda.a": {
+      "bytes": 253034,
+      "sha256": "b4004fb87f739d7eea0d836016c7987bf1e0af6671881aa66f0204c5eb5ea2a8"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/report1-live-20261111/cuda/libsaccade_sha256.a": {
+      "bytes": 10642,
+      "sha256": "5a309bf1b7eac2787aff0e463297ef039459aa6063c6281876b947b1b26d41d8"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine": {
+      "bytes": 42853316,
+      "sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/model.engine": {
+      "bytes": 42663860,
+      "sha256": "33e484b593500f23aaab16e8dbc7bf6e0b19e929a71474c45b1a7da3e0308895"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/model.engine": {
+      "bytes": 44570732,
+      "sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/build.json": {
+      "bytes": 1928,
+      "sha256": "08bf340bf57dc1143489c17fd1dbcb90506b5aaef111b5d1ff16625d9ea7eba8"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/model_compare": {
+      "bytes": 413056,
+      "sha256": "b15c3255c878363137a9b026d1d25ba010d398d1e020de786fe7e3ec0b4c64ee"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/model_compare.cpp": {
+      "bytes": 15311,
+      "sha256": "21e4791b91390509ca1d6ef29c361959982d68c845d9d07723ab14ae2ee16b74"
+    },
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/run_model.py": {
+      "bytes": 8965,
+      "sha256": "a8361ebe887edeb9269e82310703667574fcd8dc9521e339dcfd3ee686bf1cec"
+    }
+  },
+  "iterations_per_ABBA_group": 40,
+  "no_gpu_interference": "shared GPU flock held for entire series",
+  "queued_replays_per_group": 64,
+  "raw_engine_order_per_cycle": [
+    "main",
+    "official",
+    "finetuned",
+    "finetuned",
+    "official",
+    "main"
+  ],
+  "same_engine_under_modes": "ordinary then Graph then Graph then ordinary per input",
+  "scope": "four fixed real HR images resident before measured model-only calls; no profiler",
+  "stats": "nearest-rank per-invocation percentiles; queued batch intervals are throughput",
+  "warmup_per_group": 12
+}

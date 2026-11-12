@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/model.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/TUD-Stadtmitte",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/TUD-Stadtmitte/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/TUD-Stadtmitte/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/TUD-Stadtmitte/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/TUD-Stadtmitte/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:09:31.812106+00:00",
+  "engine_sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+  "exit_code": 0,
+  "frames": 179,
+  "imported": false,
+  "mot_sha256": "c9b264f7918921866b34376470d459aeb86cc317e52e4faf178b24212d93be2a",
+  "motion_sha256": "a05129f622209c6a024ec006028f2e9bba5841b2b72775ef22cacb2db2b86a22",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "c83a4c18736a41d14bf0eca9ec451d4b5efb41c7c6876cea9c18fb3d388c275b",
+  "resolved_config_sha256": "66eb40884618862926f3d2d2a352b22385cd51352f9ca47603195c3ea0b686ca",
+  "started_utc": "2026-11-11T15:09:30.043026+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/official/TUD-Stadtmitte.json",
+    "sha256": "34ec907cb9333e590748a46c87438505492b26bc83b55367769300b6071c9a6b"
+  },
+  "wall_seconds_including_lock_wait": 1.7690996460005408
+}

@@ -1,0 +1,39 @@
+round=0 input=0 ordinal=0 mode=ordinary complete
+round=0 input=0 ordinal=1 mode=graph complete
+round=0 input=0 ordinal=2 mode=graph complete
+round=0 input=0 ordinal=3 mode=ordinary complete
+round=0 input=1 ordinal=0 mode=ordinary complete
+round=0 input=1 ordinal=1 mode=graph complete
+round=0 input=1 ordinal=2 mode=graph complete
+round=0 input=1 ordinal=3 mode=ordinary complete
+round=0 input=2 ordinal=0 mode=ordinary complete
+round=0 input=2 ordinal=1 mode=graph complete
+round=0 input=2 ordinal=2 mode=graph complete
+round=0 input=2 ordinal=3 mode=ordinary complete
+round=0 input=3 ordinal=0 mode=ordinary complete
+round=0 input=3 ordinal=1 mode=graph complete
+round=0 input=3 ordinal=2 mode=graph complete
+round=0 input=3 ordinal=3 mode=ordinary complete
+{
+"status":"PASS",
+"layout":"raw6",
+"verify_only":false,
+"engine_sha256":"fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+"images_sha256":"0d2ad63d8d74b02858099d48b100887667d0b6040cca2bfd39d1faf7edec5611",
+"frames_verified":4,
+"input_timing_frames":[0,1,2,3],
+"iterations_per_group":40,
+"warmup_per_group":12,
+"rounds":1,
+"queued_replays_per_group":64,
+"initialization_ms":115.736933,
+"timing_excludes":"H2D,D2H,allocation,initialization,warmup,verification,file_IO",
+"single_scope":"one enqueue/Graph launch through event synchronization; GPUevent span and CPUwall reported",
+"queued_scope":"back-to-back same-input replays per batch; interval/throughput, not individual frame latency",
+"ordinary_repeat_and_graph_bits_equal":true,
+"persistent_cache_bytes":0,
+"nvtx":"none",
+"aux_streams":0,
+"scan_status_count":0,
+"formal_acceptance":false
+}

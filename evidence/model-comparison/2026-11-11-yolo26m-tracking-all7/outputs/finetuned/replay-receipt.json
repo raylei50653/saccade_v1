@@ -1,0 +1,273 @@
+{
+  "arm": "finetuned",
+  "scope": "fixed main-derived G1 motion; current CPU tracker defaults; not full native session acceptance",
+  "track_offline_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+  "sequences": {
+    "MOT17-10-SDP": {
+      "detection_sha256": "b1fa4fa3c097c9b2776b9772ee337355e8a364f88a4bca7bacf239cc7993a5c2",
+      "motion_sha256": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 654,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 23432,
+        "suppressed": 172691,
+        "class_dropped": 77,
+        "degenerate": 0,
+        "low_score": 12813978,
+        "topk_dropped": 174462
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-10-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-10-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-10-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-10-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.1092287089995807,
+      "mot_sha256": "e474fc71fc4d68c5070451646ac1deb1d5c102af709e12fbddce6c72a3c39df1",
+      "packets_sha256": "cb195b0518fe72556254a78aa3e96ac05dcb7e4dd49612195d4d52380c393932",
+      "resolved_config_sha256": "e465399fffc8e6dd8cd4b7692a20770c4245c3b3f0e450356c29603c58e18d8c",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-10-SDP.packets.bin",
+        "654"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=654 observed_rows=10419 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-02-SDP": {
+      "detection_sha256": "68f9756d6fe6d80cbb49ae4b8bd913173184acb4625a2342a58d3475d021ea74",
+      "motion_sha256": "f9209da865ea02ef3b8a681be87803e38902c4e4b7bcb957413095be9f22e59c",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 600,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 21439,
+        "suppressed": 158557,
+        "class_dropped": 4,
+        "degenerate": 0,
+        "low_score": 11516438,
+        "topk_dropped": 399562
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-02-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-02-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-02-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-02-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-02-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.11553640000056475,
+      "mot_sha256": "69755fc90518ed3d35d934e6972a364d9db0495d78a9c3bd0e35548e3b6b588a",
+      "packets_sha256": "a9963b25a4b7d0e96f9c2244effed5e5e3e3351b5511d1b2488fefd9d6bd1334",
+      "resolved_config_sha256": "b9ad77a65e6999cc1cb864ffc5d6029739af2e79df5a4d2909007b00c0a91b60",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-02-SDP.packets.bin",
+        "600"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=600 observed_rows=12315 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-04-SDP": {
+      "detection_sha256": "1180818d2446d6a5604b50d4cc76e7c10aa680fb54fbae907fed75912b2b6018",
+      "motion_sha256": "86c391a3dc905f6a9bb60ad999cb54d47a5b06bf6147204e3725530f72c54f75",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 1050,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 38275,
+        "suppressed": 276725,
+        "class_dropped": 0,
+        "degenerate": 0,
+        "low_score": 20446352,
+        "topk_dropped": 406648
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-04-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-04-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-04-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-04-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-04-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.21320223699967755,
+      "mot_sha256": "7dd9b69190f0e0a3b1ac8ee03c4c734cba0b2ca58b78bfe92680436996a06238",
+      "packets_sha256": "bf6f17454066854f7835ff97186f64d0b11cf7161b0b928b69c2e30f8b377bc0",
+      "resolved_config_sha256": "01e4e7bdd00b86ff211c2734db7acbe37007ccadbdb54019c981f4c2a335b4f2",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-04-SDP.packets.bin",
+        "1050"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=1050 observed_rows=38548 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-05-SDP": {
+      "detection_sha256": "715eb13e2624ce91fca9c3d9d3a6357ec1ff6cb2872c6557ff043f2868460f88",
+      "motion_sha256": "4aea9129563b935064ddb97bb5b421bd13d4a137fb649c50954682ba9fc20b56",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 837,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 19578,
+        "suppressed": 165096,
+        "class_dropped": 50,
+        "degenerate": 0,
+        "low_score": 16684403,
+        "topk_dropped": 4793
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-05-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-05-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-05-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-05-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-05-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.09462117200018838,
+      "mot_sha256": "c604ac228d4a145016a09fcc26aac4ad8775267380c48f52d663529f2dc98ba3",
+      "packets_sha256": "97ad218e0fe7c9b27ae2498dde69358a751ecd469e720869d320ae974e90f94a",
+      "resolved_config_sha256": "b5c821d610b098bbe89130c9943c9c57044debc97e512bbec06859b2d47f93ed",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-05-SDP.packets.bin",
+        "837"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=837 observed_rows=5463 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-09-SDP": {
+      "detection_sha256": "0aa81d7fc1a502377b105732a63d6b4de570dc14e84a2a8cb8718a1f1f1778a3",
+      "motion_sha256": "e9231cb9b367a9bc873bd8c670812ed77ef0d5d863930b10ecf5b650f587a93a",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 525,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 6973,
+        "suppressed": 58088,
+        "class_dropped": 188,
+        "degenerate": 0,
+        "low_score": 10518751,
+        "topk_dropped": 0
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-09-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-09-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-09-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-09-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-09-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.0803245249999236,
+      "mot_sha256": "8f8d9e728a4adcf13dbd711e8b6308184ff916a7c00b802ddf3db953cffdf306",
+      "packets_sha256": "94b04dcd15c6d3a01e5f8bc25d72f0e4d4af3ccae9a8489d6af78358afecd3c5",
+      "resolved_config_sha256": "3f44d9330e1c543f583b582bfe368dbce4e7e66967a87f993c85b5ed15c74697",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-09-SDP.packets.bin",
+        "525"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=525 observed_rows=4140 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-11-SDP": {
+      "detection_sha256": "49963518684f05652bb5632023af2b3006a9b11813bd6be8e6144679bb7a13df",
+      "motion_sha256": "54df6c378370b8c7e75ad9d21def1fc7fa2b3e73a99ef9e6cdf6188e1dab7e5f",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 900,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 26218,
+        "suppressed": 191057,
+        "class_dropped": 118,
+        "degenerate": 0,
+        "low_score": 17857552,
+        "topk_dropped": 69055
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-11-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-11-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-11-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-11-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-11-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.14082669999970676,
+      "mot_sha256": "52bfaaf8fb388723bc383d140902369ef192c5fb1c234f7bf6b380e3296df99a",
+      "packets_sha256": "c2b87076314285c922a0f53fb011f4fbf5ddd75a8be5e500085de8800823b8c5",
+      "resolved_config_sha256": "7c0357916d4159b2c67fde7d71d832a703915127480d6e91fba9d4b2e907f831",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-11-SDP.packets.bin",
+        "900"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=900 observed_rows=7567 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-13-SDP": {
+      "detection_sha256": "15043203ee70016926c4f79395e4dc52fb7a2ec483eb638f88bafea52717cdd8",
+      "motion_sha256": "90a03f809f8e548b3878303887261d55a8bb870ede11fac4bec297f7be6f28a9",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 750,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 28239,
+        "suppressed": 173263,
+        "class_dropped": 903,
+        "degenerate": 0,
+        "low_score": 14763225,
+        "topk_dropped": 154370
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/MOT17-13-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-13-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-13-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-13-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-13-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.17266816000028484,
+      "mot_sha256": "098f72f5c1630dbcb9c850a9afcb75e698e953f4dc5fdc4097903d68dbb50d35",
+      "packets_sha256": "84641b973e6ce123dd67877358c94779e7b5ab95bc7c3ce2469daf173b5f2a57",
+      "resolved_config_sha256": "c2d42affb4f0fa910e1d5ca22f18e81a7b50af3718b0aec276620f4235faa639",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-all7-20261111/finetuned/mot/MOT17-13-SDP.packets.bin",
+        "750"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=750 observed_rows=10087 predicted_rows=0 canonical=true all_status_ok=true"
+    }
+  }
+}

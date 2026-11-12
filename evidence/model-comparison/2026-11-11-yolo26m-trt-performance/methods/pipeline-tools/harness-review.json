@@ -1,0 +1,51 @@
+{
+  "result": "PASS_REVIEW",
+  "scope": "read-only review of native quality runner and model/pipeline measurement contracts; not performance results",
+  "reviewed_sha256": {
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/tracking_session.cpp": "1cc81929cde361ef4bcbd33ae252dfbcaac6ed4c63c2a5a733877f31e50b7029",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/detection_session.cpp": "3be2e9a6bcbfa6b67ccd4444d1bd27acfde7ec030d7eddffee9986e5b7e6ce57",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/yolo_producer.cu": "c2d8b47ec2d7369f90a8634c4fa6720e772b6b7430efeaf3bb9b50ab99f7242f",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/yolo_producer_cuda.hpp": "a414b43b5aee6d16d13a07f5525929ea6d998bb8a453c89d0fee6f59de05bcbd",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/pipeline_benchmark.cpp": "27864c62e58f942892eb5cbb2f8293a6ba56eedfcab8eb142968031d7bc289e0",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/pipeline_benchmark": "f5063a08bbdc91f1bf03890682b6ce675553c1856efb95066fdefce51d79bd39",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/run_quality.py": "7ab39890cdd1b11ac26d3cfe345e5cba625568ffaa9109859ba8f2a854baaf74",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/model_compare.cpp": "21e4791b91390509ca1d6ef29c361959982d68c845d9d07723ab14ae2ee16b74",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/run_model.py": "3a5c9729c7b7cdb008f26bd934b3e749bab1e6d1e8d319dcdecff660ca7ac26a",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/run_pipeline.py": "0ffa6f3087a40355e78b98e4bcdab1a1f70f0cebdf1c250b0a8686234393191f"
+  },
+  "native_adapter": [
+    "exact 7IO plainYOLO versus16IO originalmain validation; names/types/shapes/linear device bindings checked",
+    "no ONNX scan outputs invented; generic producer checks all input/raw elements and publishes flags/done",
+    "main retains original producer kernels and nine real plugin statuses",
+    "full654main SCDR/MOT/packets/motion matchedfrozen G1; four finite/NaN controls passed"
+  ],
+  "quality_runner": [
+    "three nativeFP16 arms cover seven uniqueSDP sequences5316frames each",
+    "each native packetstream canonicalvalidated and byteexact againstCPU replay with its captured modelconditionedG1",
+    "additional fixedmain-derivedG1 CPUreplay keptseparate fromnative modelconditionedG1 scoring",
+    "same tracker/output config verified; NSA andmeasurement_boxfalse",
+    "currentnative qualityslots2/2/4; performanceharnessnowmatches deployment2/2/4",
+    "sameTrackEval MOT17 train pedestrian preprocessing; trueCOMBINED, fullGTcoverage, percentfields parsedcorrectly"
+  ],
+  "pipeline_timing": [
+    "total140frames: first20warmup and120measured per freshsession",
+    "JPEG disk reads occur before initialization; modelinit/warmup/finalize/output outside measured delivery/interval regions",
+    "delivery start before enqueue; end immediatelyafter native receive returns beforecaller copying/checks",
+    "latency includes nativeAPI internal checks/returncopy aspartofreceive; callerresultcopy occursaftertimestamp",
+    "queued interval includes callerresultcopies, ringfill/drain; it is throughput, not individualframe latency",
+    "singleandqueued use same history, GraphON tracking/G1 and deployed2candidate/2motion/4result slots",
+    "DetectionSession originalordinary enqueue path has noGraph; commonacrossthreearms",
+    "full140packet/SCDRhash comparison acrossfreshsessions+single/queued required by orchestrator"
+  ],
+  "model_timing": [
+    "same four residentFP32HRimages, H2D/D2H/verification excluded from timed regions",
+    "ordinary/Graph/Graph/ordinary innerABBA per image; four freshprocesses perarm percomparison",
+    "poison/repeat/Graph snapshots verifyall four inputs, alloutputsfinite and realmainstatus flags/done",
+    "GPUeventspan andCPUwall bothreported; queued64sameinputreplays reported as interval/throughput",
+    "raw6 primarycomparison and originaldecodeddefault comparison explicitly different engineworkscopes",
+    "whole-device free-memory snapshots labeled correctly; notprivateallocation attribution orNVMLpeak"
+  ],
+  "orchestrator_review_note": "Suggested explicitexpectedmatrix assertions beforetiming to strengthenaggregate-only partial-result handling; normalfullrunloops already specifycompletebalancedorders",
+  "source_frozen": true,
+  "gpu_benchmarks_run_by_reviewer": false
+}

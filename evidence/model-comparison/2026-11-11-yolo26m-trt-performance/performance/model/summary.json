@@ -1,0 +1,280 @@
+{
+  "default_comparison_scope": "official-default includes YOLO one2one decode and top-k; raw6 comparisons exclude F04",
+  "excludes": "H2D,D2H,allocation,initialization,warmup,verification,file_IO",
+  "formal_acceptance": false,
+  "groups": [
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "main",
+      "comparison": "raw6",
+      "cpu_wall_single_ms": {
+        "mean": 6.44667900703125,
+        "p50": 6.488157,
+        "p95": 6.881272,
+        "p99": 7.040094,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 6.3989461231859375,
+        "p50": 6.441599846,
+        "p95": 6.839392185,
+        "p99": 7.000448227,
+        "samples": 1280
+      },
+      "mode": "ordinary",
+      "queued_batches": 32,
+      "queued_cpu_fps": 156.88149819275932,
+      "queued_cpu_interval_ms": 6.374237953613282,
+      "queued_gpu_fps": 156.90836203175854,
+      "queued_gpu_interval_ms": 6.373146638275391,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "main",
+      "comparison": "raw6",
+      "cpu_wall_single_ms": {
+        "mean": 4.83737290625,
+        "p50": 4.829391,
+        "p95": 4.942866,
+        "p99": 4.978615,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 4.790332229803906,
+        "p50": 4.783199787,
+        "p95": 4.892928123,
+        "p99": 4.922336102,
+        "samples": 1280
+      },
+      "mode": "graph",
+      "queued_batches": 32,
+      "queued_cpu_fps": 208.52524707027354,
+      "queued_cpu_interval_ms": 4.795582376953125,
+      "queued_gpu_fps": 208.57605859698003,
+      "queued_gpu_interval_ms": 4.794414117932129,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "official",
+      "comparison": "raw6",
+      "cpu_wall_single_ms": {
+        "mean": 4.84311521328125,
+        "p50": 4.855139,
+        "p95": 5.221173,
+        "p99": 5.542433,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 4.793083224453906,
+        "p50": 4.805888176,
+        "p95": 5.164031982,
+        "p99": 5.457632065,
+        "samples": 1280
+      },
+      "mode": "ordinary",
+      "queued_batches": 32,
+      "queued_cpu_fps": 209.18139619485223,
+      "queued_cpu_interval_ms": 4.780539848144532,
+      "queued_gpu_fps": 209.22938701706286,
+      "queued_gpu_interval_ms": 4.779443338513672,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "official",
+      "comparison": "raw6",
+      "cpu_wall_single_ms": {
+        "mean": 3.7894495609375,
+        "p50": 3.777875,
+        "p95": 3.892794,
+        "p99": 3.950623,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 3.7443464746617185,
+        "p50": 3.735039949,
+        "p95": 3.842495918,
+        "p99": 3.886464119,
+        "samples": 1280
+      },
+      "mode": "graph",
+      "queued_batches": 32,
+      "queued_cpu_fps": 267.47252373252195,
+      "queued_cpu_interval_ms": 3.738701777832031,
+      "queued_gpu_fps": 267.55972605998403,
+      "queued_gpu_interval_ms": 3.737483270467285,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "finetuned",
+      "comparison": "raw6",
+      "cpu_wall_single_ms": {
+        "mean": 4.89911150546875,
+        "p50": 4.901827,
+        "p95": 5.242404,
+        "p99": 5.369795,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 4.846996547654688,
+        "p50": 4.85296011,
+        "p95": 5.183712006,
+        "p99": 5.31366396,
+        "samples": 1280
+      },
+      "mode": "ordinary",
+      "queued_batches": 32,
+      "queued_cpu_fps": 206.67745266842948,
+      "queued_cpu_interval_ms": 4.838457156738281,
+      "queued_gpu_fps": 206.72729673374803,
+      "queued_gpu_interval_ms": 4.837290555237793,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "finetuned",
+      "comparison": "raw6",
+      "cpu_wall_single_ms": {
+        "mean": 3.855260628125,
+        "p50": 3.847008,
+        "p95": 3.945003,
+        "p99": 4.08581,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 3.809106893653125,
+        "p50": 3.80486393,
+        "p95": 3.89369607,
+        "p99": 4.028672218,
+        "samples": 1280
+      },
+      "mode": "graph",
+      "queued_batches": 32,
+      "queued_cpu_fps": 263.5751890190215,
+      "queued_cpu_interval_ms": 3.793983810546875,
+      "queued_gpu_fps": 263.66240553031105,
+      "queued_gpu_interval_ms": 3.792728804050293,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "main",
+      "comparison": "original-default",
+      "cpu_wall_single_ms": {
+        "mean": 6.50260683984375,
+        "p50": 6.362438,
+        "p95": 6.957988,
+        "p99": 9.770953,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 6.44851040468125,
+        "p50": 6.316256046,
+        "p95": 6.899295807,
+        "p99": 8.794464111,
+        "samples": 1280
+      },
+      "mode": "ordinary",
+      "queued_batches": 32,
+      "queued_cpu_fps": 152.87427255129174,
+      "queued_cpu_interval_ms": 6.541323031738282,
+      "queued_gpu_fps": 152.90382075682814,
+      "queued_gpu_interval_ms": 6.5400589406484375,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "main",
+      "comparison": "original-default",
+      "cpu_wall_single_ms": {
+        "mean": 4.928589859375,
+        "p50": 4.9241,
+        "p95": 5.041022,
+        "p99": 5.334077,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 4.871180647603125,
+        "p50": 4.871136189,
+        "p95": 4.955103874,
+        "p99": 5.027071953,
+        "samples": 1280
+      },
+      "mode": "graph",
+      "queued_batches": 32,
+      "queued_cpu_fps": 205.09446345297752,
+      "queued_cpu_interval_ms": 4.8758020239257815,
+      "queued_gpu_fps": 205.1537938781677,
+      "queued_gpu_interval_ms": 4.874391943216309,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "official-default",
+      "comparison": "original-default",
+      "cpu_wall_single_ms": {
+        "mean": 4.89586504296875,
+        "p50": 4.910174,
+        "p95": 5.247253,
+        "p99": 5.35651,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 4.8497582078,
+        "p50": 4.863903999,
+        "p95": 5.19756794,
+        "p99": 5.294879913,
+        "samples": 1280
+      },
+      "mode": "ordinary",
+      "queued_batches": 32,
+      "queued_cpu_fps": 206.84335394829137,
+      "queued_cpu_interval_ms": 4.834576412109375,
+      "queued_gpu_fps": 206.87625843950482,
+      "queued_gpu_interval_ms": 4.83380745351416,
+      "queued_replays": 2048
+    },
+    {
+      "all_four_input_output_bits_stable_across_processes": true,
+      "arm": "official-default",
+      "comparison": "original-default",
+      "cpu_wall_single_ms": {
+        "mean": 3.9056112625,
+        "p50": 3.903886,
+        "p95": 3.971783,
+        "p99": 3.998935,
+        "samples": 1280
+      },
+      "fresh_processes": 4,
+      "gpu_event_single_ms": {
+        "mean": 3.861927376317969,
+        "p50": 3.859391928,
+        "p95": 3.915904045,
+        "p99": 3.944319963,
+        "samples": 1280
+      },
+      "mode": "graph",
+      "queued_batches": 32,
+      "queued_cpu_fps": 257.80698014508533,
+      "queued_cpu_interval_ms": 3.8788709267578123,
+      "queued_gpu_fps": 257.8714964041786,
+      "queued_gpu_interval_ms": 3.8779004812250975,
+      "queued_replays": 2048
+    }
+  ],
+  "queued_scope": "64 back-to-back replays per batch; throughput interval, not individual-frame latency",
+  "single_scope": "one enqueue/Graph through CUDA event synchronization; model only",
+  "status": "PASS"
+}

@@ -1,0 +1,41 @@
+{
+  "benchmark": "PP22",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+    "/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00092.mp4",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/uid_vid_00092.mp4/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/uid_vid_00092.mp4/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/uid_vid_00092.mp4/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/uid_vid_00092.mp4/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:18:38.076765+00:00",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "exit_code": 0,
+  "frames": 897,
+  "imported": false,
+  "mot_sha256": "1c43e159088d502d180bf42caa94fb916a999306dfa9403b73ddeeff1cd3c186",
+  "motion_sha256": "2debd7fee9e4548496b1e18eb66b2c306c3854ec1fb206350f3bd7918561b67e",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "ab13d2475d3ddeb8e35f5f9367b1f988ce1d2f744c4360f7f94516f1dae2fa5d",
+  "resolved_config_sha256": "0d490de0de2529a0be0e9fef0d5703372096ea0a72e3c37704a7c6390d7af9e2",
+  "started_utc": "2026-11-11T15:18:32.096056+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/main/uid_vid_00092.mp4.json",
+    "sha256": "226eb0e9b932ee307266df70fb008666d4c3e313d9153da8d99808cf87b7f4f3"
+  },
+  "wall_seconds_including_lock_wait": 5.980730328999925
+}

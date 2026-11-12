@@ -1,0 +1,6852 @@
+{
+  "arm": "finetuned",
+  "base_sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+  "initializers": [
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.0.conv.weight",
+      "sha256": "c382b84fcd41dc6ef5c5f2e97027124e5a240e970a864e12283b7d8581479482",
+      "shape": [
+        64,
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.0.bn.weight",
+      "sha256": "db6b5b4174d7098047beac022c4c5732deb1430d90bd8775dab01927454f9b83",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.0.bn.bias",
+      "sha256": "d9ec6e99be508d8fee3cca7251706ab3463317213c463ac19591094d695d6763",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.0.bn.running_mean",
+      "sha256": "1c6bb26c1d4a14a4237ddeac2819dc4453a0023af4a71efca902da74d0edd26f",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.0.bn.running_var",
+      "sha256": "427ff0ae908d8adf23518b18c3ad8bb21e4ef02273f581507558396929053e87",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.1.conv.weight",
+      "sha256": "570d06c9633e3960e4c862547558b377776576611e7e6253ddfedf019b5526a3",
+      "shape": [
+        128,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.1.bn.weight",
+      "sha256": "417dfe6f690932ed012927fb464277690068b023150a18c302a30ae5b900bbc1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.1.bn.bias",
+      "sha256": "3acb5aa44aa5b705bddf7b5ab3b812af5ba6bf2fb660628034970a85b8b05fa2",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.1.bn.running_mean",
+      "sha256": "a08c0e2f6fab54566262ac7894567b1445ee3334f5a455c6700237794ace8874",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.1.bn.running_var",
+      "sha256": "72b1565a945e09814ab5ef9c1dccd7f0fc220468695d6f94eabc39e6f9b6aa60",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv1.conv.weight",
+      "sha256": "9c99121fc7ab4ac9b85dc2535a33303ab68564ba1c3b51c8876eb22cd5ee36be",
+      "shape": [
+        128,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv1.bn.weight",
+      "sha256": "704a4448bc78ff035f25295aac1afd24b0d7d3166fd657ac480869d7aeabeda0",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv1.bn.bias",
+      "sha256": "70bfe9b98425bd64fa37af7c88f8f7ecec979bebcb88544bb9b3492a96e9e832",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv1.bn.running_mean",
+      "sha256": "6a5072668028f2601ce49d3264fdece599ca690ae900da752168eedfb0defdf3",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv1.bn.running_var",
+      "sha256": "318fd8431bfddbbcab73069b20ccaef2ddb4902da3f6543276ea52b09d91df4e",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv2.conv.weight",
+      "sha256": "7b6263e1dfc12055c8c684232384e61c40d4f02d7ca9ad76bf7a0d4721f8f0fc",
+      "shape": [
+        256,
+        192,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv2.bn.weight",
+      "sha256": "b1e3de3cd59cdc64ef0e679665f88040447f94b294745f7c0c9861ad5b508ca5",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv2.bn.bias",
+      "sha256": "6e58363a3ce6676cb47c5e60cad0af94c28673dea714abc009aa133e2050bb5a",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv2.bn.running_mean",
+      "sha256": "a5b10ffe34278a06460e1db9525dbfb4a91cb3fdc819ee0752c40ccf35aad5e7",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.cv2.bn.running_var",
+      "sha256": "3a548dc93f826a321cf33cb0e10017c4b50d9511e2633aaf5a82599f10052b1a",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv1.conv.weight",
+      "sha256": "a28e666b5e99b968dbaafd87790ce90c49bbd24d9ccdb8a05898934206310a0c",
+      "shape": [
+        32,
+        64,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv1.bn.weight",
+      "sha256": "8bcf1fcb7fb6724f99ea3c81490cc63525bfeaebadcc1b5ae541237f21a69b14",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv1.bn.bias",
+      "sha256": "0d35348d94be567703f30cc87630fe77e429204e32c670936d1deba28c12ca2b",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv1.bn.running_mean",
+      "sha256": "5895fa0348eb15e12ab8f13606d45ee1f7db1ba42437b83b0fc98ba30ebdd2df",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv1.bn.running_var",
+      "sha256": "c11f0fbb17a2753381317f7072628c71d8868f2741913526a948a5b778466eb0",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv2.conv.weight",
+      "sha256": "f942a0610e5cbcbad159f2739ff12429af6713073fd86ceb21c9b54dd29e8136",
+      "shape": [
+        32,
+        64,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv2.bn.weight",
+      "sha256": "4aa4ef165f62d218467562d886cc1015dc384ff572cb9aad3d8edd7d0ae6a36e",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv2.bn.bias",
+      "sha256": "c241873baef61a1f927abdf02dab03e887528d390749d6eedb25a2d15cc44622",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv2.bn.running_mean",
+      "sha256": "aab73a432e0415fdae4e945e3eebddffaa2c650bb0040f86daa9f8c55180f79b",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv2.bn.running_var",
+      "sha256": "cd94575b393b710248d1fe35652050be6346060c305f0073060f684f5a3b5732",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv3.conv.weight",
+      "sha256": "16166ccc121ef331e07496cac08cc0054b055f1602b25ac812eec7c2c4e9d8e5",
+      "shape": [
+        64,
+        64,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv3.bn.weight",
+      "sha256": "1dc449431a763681a8de210e834eaf86f7cbf4651bc153d1106aa71f48969959",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv3.bn.bias",
+      "sha256": "e6451501c139ed55dddba26de265daa3e2eb459a9e50c3c8efe566c6d23f9ad0",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv3.bn.running_mean",
+      "sha256": "2a5ab2cb22f1eb200d779f04b5fa555701209e900b112b328aa912992e889402",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.cv3.bn.running_var",
+      "sha256": "84af567160b1660ebdfe3c90af269f599ab38e080b0c455b5a912a39cc18c33f",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv1.conv.weight",
+      "sha256": "3df269d1bb2c5913f39e12699c4d178c27e92935f6336ed187055619389da3ce",
+      "shape": [
+        32,
+        32,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv1.bn.weight",
+      "sha256": "06ec6a71da0be188d6d8199eb71463a8adda1a85c78e2385626939fd0d723271",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv1.bn.bias",
+      "sha256": "b942a3dc5a9779f8c0d2cd1dbf3b9cc316f1c700012918f6f62445400813d5b8",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "e94823708b2b0ee8bb915ebbdceb24350d13f86eb8a848d20a79c8b110f2c80c",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv1.bn.running_var",
+      "sha256": "ca7a739e8978d6ad4e38be2bdf5d0a367457440d2abb5fbb2dabde644c090d99",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv2.conv.weight",
+      "sha256": "b40fb2949148537d166bcd44c1a8006697c5eaa4cd33fcfbc060baeaf75506d4",
+      "shape": [
+        32,
+        32,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv2.bn.weight",
+      "sha256": "6591c4518a7a54cc6a9e9c771c515694b496380f84e22e3ec66820637fd3a6c5",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv2.bn.bias",
+      "sha256": "5182e026fb5bbab224d5c799895b0c7e5039f6e96342b1ec54f673f9ca196c27",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "6da16c02d9a51af3652647111f5310294d1bbe562ee4fc740bc85ad26384ed50",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.0.cv2.bn.running_var",
+      "sha256": "5cc3c09076c224f8cf1cd266931a0f05303864e6c0e2f80d04cc04c5b18ef8e6",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv1.conv.weight",
+      "sha256": "dfa6c2b01dabd3cee3758129f83bff418b7f23146ec178a609a1116848607439",
+      "shape": [
+        32,
+        32,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv1.bn.weight",
+      "sha256": "5093caed2251749bced0e1d202b112062e21a899cf4c1586fc12ba2bc9e04320",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv1.bn.bias",
+      "sha256": "f218f97bc1574f4d264687061c2b82782797d910124cae998519f51dd5918f7b",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "b0e4f2145165b292732510f365c9278ec73b80064fe5aec0e099c5b2fe31fc62",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv1.bn.running_var",
+      "sha256": "641527d68eaa6726f19706c27cd984a4910261d41f24fbb1f3af6c7ed5d67afd",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv2.conv.weight",
+      "sha256": "307aaa880ce43453d14f840d061222621c7f56e6ef15db15e8d0fa0cabc382c3",
+      "shape": [
+        32,
+        32,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv2.bn.weight",
+      "sha256": "d32d258b02bd099dfa3ee8fa65e6ab937ab8ed0f666d4b2d99f4081eaa7c4a54",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv2.bn.bias",
+      "sha256": "1533f06445fea4ab753e32d89d7f78a52f0cf5dc04378fcbaf4f6d7a0a76d1a3",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "e01277d17c35c7aa187ccc831e34c825e104a878f1fedc77f0f6397c92d27865",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.2.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.2.m.0.m.1.cv2.bn.running_var",
+      "sha256": "dc08f85df486775a6c41566ef5b3edd766d0c89acab95fce88ce8f98f63ba596",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.3.conv.weight",
+      "sha256": "0637fb352ab7aee4cfa44fe763b3b2c4d01221acd26332d13a8e8cedbc305316",
+      "shape": [
+        256,
+        256,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.3.bn.weight",
+      "sha256": "0458c6766277280a4f95456bde226be686fdd9c54a377790e4335ef17b502558",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.3.bn.bias",
+      "sha256": "0ff5d30a10b637d146036c2336c15b4c616356ed9e7ed839d76d64a1b70f21bd",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.3.bn.running_mean",
+      "sha256": "22fbb2fcd0b5c6f13a47a70e0f5a50456b2099498e1ee54904b34b00bfd4f9ac",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.3.bn.running_var",
+      "sha256": "9f38358cf654454a330324337ff2eef4106a000be89134ef255046c74eafbb68",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv1.conv.weight",
+      "sha256": "f591727c096a2310d0dec79d96b17dbc8629dc6e7fbb4c35b612aa02c5ad93eb",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv1.bn.weight",
+      "sha256": "140fba45d4e9dd247f19bc1e5c9c4986dc70cdaf711aa769a9ef0d4f066b56f4",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv1.bn.bias",
+      "sha256": "ba6d51c5e99d8e135f811e97aa675f62ee36e89390a673a1d89d7a8f37bcd5f9",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv1.bn.running_mean",
+      "sha256": "46993ee318a01d52b845fb2264844a2fad4278bc9bdbd67a3234740685b5edbc",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv1.bn.running_var",
+      "sha256": "75eb747775b0ce06228b351c6e974dfc74b1374aafaea9e487d5560b4ea958f0",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv2.conv.weight",
+      "sha256": "2992e086aaa76bdf30b8fa26bf368f1d754ba429f031fc72002699d995afe772",
+      "shape": [
+        512,
+        384,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv2.bn.weight",
+      "sha256": "8ecfbe26df7b059df529c396995ef0719375be25d495d4e2d5d71a9d8b71bf26",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv2.bn.bias",
+      "sha256": "61fb8cfe43921b5212f211fa8f7743f1158442fecda4fb9ead5b18b435553b8d",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv2.bn.running_mean",
+      "sha256": "d04b7b90abc7c55970f7742317ed26836d9ee6d11e1c5d21832f0842356c6b2f",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.cv2.bn.running_var",
+      "sha256": "ccde540f16723f69cc86a64c32b8771ea623f3d144fe081a9cd23685a693d004",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv1.conv.weight",
+      "sha256": "00d434d6695101970983a02d0a5c692bdc0be0d53754109675402eca8ef3ffa4",
+      "shape": [
+        64,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv1.bn.weight",
+      "sha256": "39bf48794ac64ca54415257b465e761578bcb6ab9bb70bee9cb458b7b9fd1bf0",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv1.bn.bias",
+      "sha256": "c73fd8b3be8569ed486e44429a5982b6f5dbf62bfabedbde2ac1dbdcc3a84a67",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv1.bn.running_mean",
+      "sha256": "42cfbfa212469c312377c2a28546b9de43b28b19f3ec507efca279bd4de330a6",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv1.bn.running_var",
+      "sha256": "4aa67042dad3c158f60a0746c82ae8858f3420f1b1661fedbed4b80faf7e3452",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv2.conv.weight",
+      "sha256": "e82a780ff1acd08bada065b3ae3c817add231eb387852c6bee5ffe5eabc353db",
+      "shape": [
+        64,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv2.bn.weight",
+      "sha256": "01fb527d845f356c35da561d03beaf086ae8d6aebd1929bc52dc10cb480c5807",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv2.bn.bias",
+      "sha256": "7d379bbdd3bec150112f77d8168011039038b3c377525fb9758bde9eeda5d8c5",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv2.bn.running_mean",
+      "sha256": "b431c8050bfaeabb388a5b8bae171992b80d5b430829ed680f026aed0b737def",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv2.bn.running_var",
+      "sha256": "c968d3b0ff6c796365b9ae7941ad12edaf85d4b8345e2e7ea9c6a76af82d4d3c",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv3.conv.weight",
+      "sha256": "85bc9b7c76902f714f3f9090f7294178dea5bc583b02b1899829dca890abc1f1",
+      "shape": [
+        128,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv3.bn.weight",
+      "sha256": "475737c98f74172e81a30f3fc863def56a391c0621d0573baeeae2abc776d3a3",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv3.bn.bias",
+      "sha256": "ed23eb1c5b57b7a4095444123bbbb90f6fa07b2c2f2fac9bfebbd013b3c8773c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv3.bn.running_mean",
+      "sha256": "020c307bbc19685e51d3e5721c030acd397abc27645b44e678d7c2b3c3771cd2",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.cv3.bn.running_var",
+      "sha256": "b1b25fdd7211cab9b872807c006d73c606f685828f9e3a1636fc32fbed0c86ba",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv1.conv.weight",
+      "sha256": "1de0a2b61e9566a3da9d164b586c6a42e1f5299cdeff56d4f2989f51e2475f1e",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv1.bn.weight",
+      "sha256": "a495ce871023bbacca4f014003bb0952ced05e3340e8460a4e04bda76fb8c4b1",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv1.bn.bias",
+      "sha256": "286cb5e42a709ad475993363668a6dbab817e1b1370e4200eb8a4aa4037526b8",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "c49ab889c21ffd7ec4aa50b4bf1f104e6b38f483187fe78c015102a24e2f8224",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv1.bn.running_var",
+      "sha256": "0797703288665b105652b03294cae13c15b67fe7f5ba93e8cce71faf04b39b6d",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv2.conv.weight",
+      "sha256": "b99681fb5044a966cff6b4c2f898615794ab2d794c286ad7706ec02e296c72ba",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv2.bn.weight",
+      "sha256": "b00e296ef7f174455b0af399154035a7a683890a05a12ec0f10b1024b31d72a8",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv2.bn.bias",
+      "sha256": "59399aa2e7c259128b448b895b61bc047fde552338244dccc9447156551cd639",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "bf6e8dacb7b8566255d5396e8418dafc251b5b8bc3d7fac27e1b10f3f312d943",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.0.cv2.bn.running_var",
+      "sha256": "d2b00b34d1bc29b2c1c1f5139dddc097ac6968138d1612fe055e978321036893",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv1.conv.weight",
+      "sha256": "d53d82783214353406ceb97aa5a26563135a4d290984176fba4f4b11089001f1",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv1.bn.weight",
+      "sha256": "6b610a71768d0eb9a3ecba00b37aed83acbe11f765ba026cfcf44822fbd8a203",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv1.bn.bias",
+      "sha256": "c59712cd2dba630d59bfc5195d90888268a9b4cd93ab6e8d3f057daa1a09863b",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "361430a621b5ad7eb5a7c8de25163e86ba8f1df9cf89bc41e7813ac36d4df4c5",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv1.bn.running_var",
+      "sha256": "af76d4424be280e97d0abb3736cbd0380390e129d4ab07e87b8741bb5bd21902",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv2.conv.weight",
+      "sha256": "4d9b2d2d3150213f06bda424607c84fba6a9a3b1ad3c3d4957bb36eb57cb3e87",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv2.bn.weight",
+      "sha256": "1a83fce50923c674c482e2d9805ed1541d522bb7f78d8d975e84a3fbc94b0cd9",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv2.bn.bias",
+      "sha256": "cfba629b467bfbafb137de9976b31de36e4dab1f2b1a749b574590bd7aecb35f",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "e20873bf55a1d677c561bc6371576c92a23655b4ae0a5bde2cbff65aa39f7e77",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.4.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.4.m.0.m.1.cv2.bn.running_var",
+      "sha256": "adf342ac2559370584b4636bcf3fc290feb69f554b9e217ca8ffa2e0dcb058c0",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.5.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.5.conv.weight",
+      "sha256": "0d487fb76a89de77fcb401c5d05ba889c0a07077c4ab5d6d271672ad540600ea",
+      "shape": [
+        512,
+        512,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.5.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.5.bn.weight",
+      "sha256": "75c6bfb03e099d0f40b7a791f98e5639fdb584bfd860c00eddde7e1ba5d15080",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.5.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.5.bn.bias",
+      "sha256": "e631a6ad48e085ed775a488bf638ad8777f6818f383a6d92d25dfe5e4aed1688",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.5.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.5.bn.running_mean",
+      "sha256": "2f83dcaa9efdce39d39b4a086cbbbe3ad632eadff426b4d187382eb1989de2ac",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.5.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.5.bn.running_var",
+      "sha256": "d3bde8144163da5abfb0863a10005ec9211b094f2c57127057c39028bb09716a",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv1.conv.weight",
+      "sha256": "19a8d6790e28071dd2fa63be77b6c2689a4dd38d1ad522e55c5cc10d118e19d4",
+      "shape": [
+        512,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv1.bn.weight",
+      "sha256": "a0b4a017d73b82c7d01ed318351670cb21775b16a6f01ba658e1202ee40fe95b",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv1.bn.bias",
+      "sha256": "a0f5aa8b69fa1248e376764ed7e85aec529ddca01c1f099e7a5e70761f34c0dd",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv1.bn.running_mean",
+      "sha256": "7dca0dd13dd3e4dacba4f75bbeb88e39085554e0761f9aa59900521927bd42e5",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv1.bn.running_var",
+      "sha256": "1c3e8242778b9d1a81fb83acf95fffedd5cd1122e9a1defd3fe22d348c62ae5b",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv2.conv.weight",
+      "sha256": "30ee5c66ababf0c5644bd2e0579567b9b9d21d1b686f1b7c01281bc06088d381",
+      "shape": [
+        512,
+        768,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv2.bn.weight",
+      "sha256": "2c989ab2252749f3827275bca73d6a0802f758fae959e88f9ed6fc38a5f562c6",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv2.bn.bias",
+      "sha256": "74371bd7debc5ef400f6f39d6bea156e68a94a53cfd4310319003d232d618762",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv2.bn.running_mean",
+      "sha256": "1da610829b04173242ffb4f5e016a607c6cab72a6365e2c2af9beac9d68b045f",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.cv2.bn.running_var",
+      "sha256": "ce3097ae42b116e15a7a834b2ced88e6a9800658c2bba304c2a1d998565bc90e",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv1.conv.weight",
+      "sha256": "83f3169ad39afa54b8deb4ad809963d2db8299fe6cd376d761eb6e332e027321",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv1.bn.weight",
+      "sha256": "9c0926689f987c3577d5f2da93a2d31620bab34414bbc3de971ec99c8c647f56",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv1.bn.bias",
+      "sha256": "d0f2eade698ee4dac9e5db478124c13269886b2f49024f6c8c1d1a286a079f07",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv1.bn.running_mean",
+      "sha256": "f8e8dbe20c453104fb37350b878b6381fe1b88f97d2d70709f415de4fbd00fa1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv1.bn.running_var",
+      "sha256": "a1f8acba9451997320bf6ce3c66430ad6d14e7a623d9631ee49aca4e2c442602",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv2.conv.weight",
+      "sha256": "b09ff4db4d9252a682837d1bb4f1940265953e964a37d68154b54addba9e30b6",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv2.bn.weight",
+      "sha256": "bdd439b58bb1bbe8bfa6937601cd9f97bbc95c522a8664e5ed7ca7d99b5e6a85",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv2.bn.bias",
+      "sha256": "3c803ef13792bb159ace8ab11cbf4c9df7316ada75ad06f519704eebff782353",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv2.bn.running_mean",
+      "sha256": "f731ba87f913ceac07aec78ae471d686576458f33056473ae2f95b7ea4c7f761",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv2.bn.running_var",
+      "sha256": "32eb866b0330fd4e3665b52a60ed2c2e9473197a6f9d97bb18a3ce23802f17e5",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv3.conv.weight",
+      "sha256": "45a6e9c4b2161fe164ee8983ffa2a2970ba2f8210e640d67cbea8c65b4fb8a15",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv3.bn.weight",
+      "sha256": "0cc121ea0f8a212da416ddac4e106458a05e9e86d67a23c0aa66f75bb2e83605",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv3.bn.bias",
+      "sha256": "3af7fa672077abdda3c5d1a158064d0c7b7159bf57861843a045ccf5fd80b23d",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv3.bn.running_mean",
+      "sha256": "b94829c47bd95767c912929d6389cab370c27b80c6cabd98caa31dfc62db5823",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.cv3.bn.running_var",
+      "sha256": "751e1a75b3279fbb1bf90e4af9c9a4f1855679aae3c684121c07f8d3fc7de375",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv1.conv.weight",
+      "sha256": "381ef3a8f9eb8b8355758b41ab8db2f1546c10a1778bcb9b4c42a8ce84d39242",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv1.bn.weight",
+      "sha256": "9535640017fd072be6d4a2dbf94098e293cd47a004636b8fa14b70c8cd6379f7",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv1.bn.bias",
+      "sha256": "28a6bcb3ebc6455eaa49ba2578a687948f9b0cb9583df90aba9ff4c525f34353",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "60160fc15a0fee0e899d120f29a38e2ac0b96210672e32afacf22cf14b1ec3bc",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv1.bn.running_var",
+      "sha256": "19eb7a5f459a0c524c63acae98109eb1d6ed86c689909ada0e0bed9380b14a6b",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv2.conv.weight",
+      "sha256": "13a18e240ebfbd342628b467f6c20b3e5aedd0b95aa252a1d7c8321e36cfaee2",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv2.bn.weight",
+      "sha256": "f3b690a99b1e6392f6388b63cf5b10cbcf61e8fec50923ecfc6e56bd26d1a00f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv2.bn.bias",
+      "sha256": "db47c852ba53ed0bf42dc28d37ba90e9ff74e5b39e9eceb37f47eccb6aa440a4",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "ce818721e8bf104d9018246f00cd32cd52d6f646499d6e414aebd2796b4587c4",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.0.cv2.bn.running_var",
+      "sha256": "9deffbeba74158a7ad1a83d18e6a2779ca52495fc2f3d26707db93c921d387c6",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv1.conv.weight",
+      "sha256": "6cf96727b12152e417131fa0cd17039e17d65761534f1a72b619ba106af5cf4b",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv1.bn.weight",
+      "sha256": "5c2edfc501b016a2f0c9153f5410d9ee2c033106a9cf29db252b224993da6069",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv1.bn.bias",
+      "sha256": "f146a457320cf938045ba1904a4ae7ea7cd8bc003437ce86cc303c13bf2d461f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "f97ed37c502f2fc008074efa9368b68e8746e5f2bd7bf1282a98d073f4b4145c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv1.bn.running_var",
+      "sha256": "99fc1ad4b0364c7ef8a0f2f66f20707bf2ba9ff20da9be23d76cd22c0304caf4",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv2.conv.weight",
+      "sha256": "0c839aeaea9c10f086e3388b9ac23c2d4ffaffc52edcfad1c08299f359b0ffcd",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv2.bn.weight",
+      "sha256": "e286cbda5529782a68b17007bab79c38f882d4ceed7fbc220488da876d1865d9",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv2.bn.bias",
+      "sha256": "7ab995cb1ee6fa1fa9c5a7dfb184189a215eaebeb478f5a5191f1715a7c6e158",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "3adac87cd5b3a0d3ff734abd930dab40a39e82ca831c556ff9c9c580a80133cf",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.6.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.6.m.0.m.1.cv2.bn.running_var",
+      "sha256": "9db3d1e2b035ad4b17ce79075a910677edf743102b0dbed0e6ed872fe83ec2ef",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.7.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.7.conv.weight",
+      "sha256": "26ef015bc57d355c8028701b2d7052732ff0206c52a8fe6b018142a483f21c43",
+      "shape": [
+        512,
+        512,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.7.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.7.bn.weight",
+      "sha256": "ab305ed35ec08dffaa1800c91c151f196bc4c861af7d275c73be890cc64733c5",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.7.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.7.bn.bias",
+      "sha256": "b026a3c00e012400d15e2929c9902c17fc5fc27d11e7056f0cb4b48c7b06ae3d",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.7.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.7.bn.running_mean",
+      "sha256": "399933d0745c58be2af36c383f35c6d552c0a5dd0f4f7689b387a7766a5fb1d6",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.7.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.7.bn.running_var",
+      "sha256": "73bb536dabb7c4043cf96b2a0aa4324dcbac62ef7052ae9f61c006f8a2a563e8",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv1.conv.weight",
+      "sha256": "91526bbc409cc481e7e502c66f68e76822d4bc869fae3f7a7f572e4dcfe8e0c3",
+      "shape": [
+        512,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv1.bn.weight",
+      "sha256": "1a1f97db30f7b8b5563d9eb249033370e97ceb8a7fbdf9b22e9f9e6f5f26e3fc",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv1.bn.bias",
+      "sha256": "803ca58441a1667e7253b2e0c8bbe1bcc792e6e31c1f1b4550ab2ea8d23427dd",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv1.bn.running_mean",
+      "sha256": "aa51e312094ee70af753d6bf384eca65fdddbc71574bb367ba2a9199d291e6d8",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv1.bn.running_var",
+      "sha256": "9c37b429431560aabc0c0acc47626d811b457a47f4ed52e2a53984bb678a7950",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv2.conv.weight",
+      "sha256": "914b6a07ec95376382269f7d0e47545172ae484bfb37d78294fd4aecd7018f73",
+      "shape": [
+        512,
+        768,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv2.bn.weight",
+      "sha256": "98d92184d70ce8deeac7484764919ddfa117ab5dc6515363129ecd198ae99aed",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv2.bn.bias",
+      "sha256": "6737dcbbbfde13ff7a82a24a2b008165d6d0ce5c7e6352b9c5e82713b3d9cd3a",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv2.bn.running_mean",
+      "sha256": "b9eb11b6c45d52ce2a3c99ea89f407af4d9e856c55421a9f0412e9c9d8d0fc70",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.cv2.bn.running_var",
+      "sha256": "f2611599bea5601029d0a1f9a701697cc835c307b77cac3497c4a6d90fa17325",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv1.conv.weight",
+      "sha256": "a0dfcf2abfdbfe43fb14c0444e5c2eeef85555b63632eda6547c2d3a6af4278f",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv1.bn.weight",
+      "sha256": "1efac72adc0e0e440c6224eab8b26f29bc47a6fb7ef047e43b63cf3c84dae8cd",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv1.bn.bias",
+      "sha256": "d54e30930785028f8b7d1e0934b88c78f015700c9e8ded04f9ad869aff5a8afb",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv1.bn.running_mean",
+      "sha256": "44876da1fd13401a06331a35b780f244a1264fb656b67fdbdce37ac5095f034c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv1.bn.running_var",
+      "sha256": "562377343f325710e35bc81ca90b7c03dba2c23ad62154bdf348360cf6b369cf",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv2.conv.weight",
+      "sha256": "3aa3393eec2984c487e90abdd8c815850f952cd550a28f353e175a284a511dd3",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv2.bn.weight",
+      "sha256": "a1f12d9dbd0c72a28c789ca6f093673afe12fa3730ee881da2f30bccc79a3a5f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv2.bn.bias",
+      "sha256": "33d487890dbf924a2723f583e3135eca9d72ab7007373d070cf011d5cbbc846f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv2.bn.running_mean",
+      "sha256": "ff9c7e762cf607e70a1b6895afe75b0017784f4ce8f9a25d304f751414be191c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv2.bn.running_var",
+      "sha256": "bc15d04168733fa2a9825987221f15102bce570617969538896d5e4f753aee2b",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv3.conv.weight",
+      "sha256": "b48915da40a897d794e97e44e2e70f8f9546f025947d9822b589da5135a73c23",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv3.bn.weight",
+      "sha256": "d7decf8ab711f74b37a354b8e9883d4b2c4cc3024c82f5909c02f689413acf69",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv3.bn.bias",
+      "sha256": "ce6499e944a43266a823074a1ab90f0eb896d2629e7c19c94b40e4898dfb72c6",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv3.bn.running_mean",
+      "sha256": "35ac149c071b7c8236a7871a8b4b8309453eb11ed5c7a26c3c20a1e5e0d73ea9",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.cv3.bn.running_var",
+      "sha256": "bf86516d5f60becc87e27d10bb92c349155047a831808df5d5979ce43f33bf12",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv1.conv.weight",
+      "sha256": "60fa8909286fa751920cbd6d916a83645593bdd74bfb580c23c2e235fcaed868",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv1.bn.weight",
+      "sha256": "077252166b789d77c49f574e439d171f67ccf308cec99997794c73f37619256e",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv1.bn.bias",
+      "sha256": "a3376f33ee66b068ddc7c2fa7491806c40c71f4c6689e90156cd629eca7b67e7",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "48755614a4dee88ce5404d0aee25a47469f6923d5920c747be474eff3f61b41e",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv1.bn.running_var",
+      "sha256": "2e6cab5c70095bad5330c38a89328296a107f18e16ab7113ac9c2c871887bd1d",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv2.conv.weight",
+      "sha256": "38141fbd497db6d557b63ebdae0db30cf784cd1179103df0d18c718f7bec6f68",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv2.bn.weight",
+      "sha256": "17ee8da11693b7964b25c4e2f62166b26ff870899982f1a07ae680064d03a316",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv2.bn.bias",
+      "sha256": "fc65205e67aaec656e8ef0984b2f66dbc7d48fa18c4409837626c68ee5dac919",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "9a0ca2853a4faec1d0722fc451089e25f8502181567f7a483a84dbb7b0977d7f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.0.cv2.bn.running_var",
+      "sha256": "5c34de88984ed14958fb2942ae19ad3fb5d9a31d2597a76ea54537626235e4b1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv1.conv.weight",
+      "sha256": "56b68c0344020278e44be6672b54188131aa40cbad2d4354e36c4a8382080e42",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv1.bn.weight",
+      "sha256": "9abcf9b67fa215c1f29630da55ce6fcb3c82e5d542b6e01ebdeb4efcbc41e331",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv1.bn.bias",
+      "sha256": "b2e7b96e7a0594b8a2efab6a4048b2f2ecb59408ea692eccdc00d91223aafb74",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "5baee8b363d7c6971e2681d731656e61167161effe112f377a01f7dcd82ca759",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv1.bn.running_var",
+      "sha256": "b4352701a8a37c27136769da222ce3aefb1f47fd806839186369a797615190b1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv2.conv.weight",
+      "sha256": "dde85538cbb6542aca87a483b4a3a4794574ea1b17668e6d09a36644400339c6",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv2.bn.weight",
+      "sha256": "37bad8d4432f44c6e87e6fa86f8af6790b1228cc3f691e6df19737d0c2f460c0",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv2.bn.bias",
+      "sha256": "f39618b4144a180824adb17feb0a9c5de5fae1f540808b8dadbe962970e24534",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "787a36f988c08258dc3ca21b692d05b66329ada12fb12975f464ce49c40549ff",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.8.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.8.m.0.m.1.cv2.bn.running_var",
+      "sha256": "a89580992c2309079994e37c48ac8550aa364db55693834935c4b73cbe0e7ffb",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv1.conv.weight",
+      "sha256": "14248a9a524ed4db16babd113220e20931e59db9ab5ec46ad67dca46082d5b38",
+      "shape": [
+        256,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv1.bn.weight",
+      "sha256": "dc8dd46d2120dc15a9934afcf04eb275fdadbc0830815166de5f16d213f29812",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv1.bn.bias",
+      "sha256": "81ac5e27db5fec8e5a7156f28bb4ab72a834e75a018e54909dc8b5fd7be5d7f8",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv1.bn.running_mean",
+      "sha256": "3beca51d78b240a8d19cac7afd2699ee3beaee6cb792eb3c93af21a034a99b91",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv1.bn.running_var",
+      "sha256": "3355dc0d29b0be11905b58b8218036ab9944c752e939070a94e386f9fa16953d",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv2.conv.weight",
+      "sha256": "5f3ff9201b581d522c6a6c663f3a210d2998a039ed562745689a0b37bb267d40",
+      "shape": [
+        512,
+        1024,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv2.bn.weight",
+      "sha256": "384a85d7a0f8638c61a0e39c21c57871306e2087bd887c8bd37d3b6ed35a3a01",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv2.bn.bias",
+      "sha256": "1cf80010b165a536616313c571bd52d1ed5195aa5a4e438899f24d6d8de100b5",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv2.bn.running_mean",
+      "sha256": "7f594d826ea1fd98f4bfc021bd1130fdf29c6c63638a9a4863a5d89ddda00a96",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.9.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.9.cv2.bn.running_var",
+      "sha256": "664f76610852e724458855c6f7b57538faffb8c13a5f42638ba954ad5837b45f",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv1.conv.weight",
+      "sha256": "5ac06fe8d208bb02ded8cdac575df92b270d1c66571c100fef85425ab5582264",
+      "shape": [
+        512,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv1.bn.weight",
+      "sha256": "d5469a4befb40b0fa0f18b004f01c3dc0f2dfec6dcb6f1a78ed39700b42a8ca0",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv1.bn.bias",
+      "sha256": "7b1cf79eb9dd19c14f689d58230f701f54071b07c028f82e0b5bd89fd6cd179b",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv1.bn.running_mean",
+      "sha256": "a1979718838c1ec781dabd8f615985ed6829c1b929e26f34ffa366b9510a3c2c",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv1.bn.running_var",
+      "sha256": "e48c48f419c7421b39d281f937fd83ce21f02fab0f54b4bc3aef79ebff6b4163",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv2.conv.weight",
+      "sha256": "48f75fd2079687c965c8a540b729a1667869e7f516a62ac606e9477427ff9c41",
+      "shape": [
+        512,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv2.bn.weight",
+      "sha256": "b724d85bd54844c16137c7cee50c83b996e0e32634e1fdcf18e37d69981ec255",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv2.bn.bias",
+      "sha256": "16ed9100b9e5e7f16fb07f631bd6355491d3404c628dbe3df7e37767bda1076e",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv2.bn.running_mean",
+      "sha256": "ca03d125e6010872aff4176b8227adb1f0999c2400a467a5315a0ca159acf737",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.cv2.bn.running_var",
+      "sha256": "2c3bc1713cd9596fd641f0dbae5a8cac9064c319cd214322dd5c309699afb263",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.qkv.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.qkv.conv.weight",
+      "sha256": "75c78c82d9a3547851810b8dfffe488c5dc8dc63532afaf794016edfadca9a4c",
+      "shape": [
+        512,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.qkv.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.qkv.bn.weight",
+      "sha256": "f6bec7119ebdc204dc9b798b78d763e89df2ebd8a7b126c53b759bd3015fbc3f",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.qkv.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.qkv.bn.bias",
+      "sha256": "7e6d3269f2cbdcd5a2656baa5e282443ff3c8974eb19ebe33c5093d8bc38175a",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.qkv.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.qkv.bn.running_mean",
+      "sha256": "1643fd8aae3417c53979dbb69ad82800916da9efa885f03bf7100e2dcedd6783",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.qkv.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.qkv.bn.running_var",
+      "sha256": "d6377fc39dfa168edfe6a955f4358a642e997b90d1f8bb7a3db1a8527ee89022",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.proj.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.proj.conv.weight",
+      "sha256": "3f57b4994d86e617c545abe7a9ad603ff50e947da86964ac0a717aa33639dd79",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.proj.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.proj.bn.weight",
+      "sha256": "869fea103db469c02f024d88f181ad88dd1e15dfbcd8631aa6ebd6f62fa33a78",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.proj.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.proj.bn.bias",
+      "sha256": "d95510c2947a4305b7bfc691c1813e1b10ddb963c2aa2316087262faf4472e33",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.proj.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.proj.bn.running_mean",
+      "sha256": "6050433246efa2dc566d4f205e7816f5dae42653ef24abbe6874e0380d92c733",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.proj.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.proj.bn.running_var",
+      "sha256": "5b0779ef6afcb2a66cd02124139dbfaebbfedb77898341bf5b8f7c991b4dfbd6",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.pe.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.pe.conv.weight",
+      "sha256": "ad9bb618b311bd43422bfbd32f2e8271179241ba167fa2e886a68baeb002027b",
+      "shape": [
+        256,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.pe.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.pe.bn.weight",
+      "sha256": "2156827c09c46775848b162e5175642a4f63cb011acce7a18ad2b524b8b13fe4",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.pe.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.pe.bn.bias",
+      "sha256": "a79fb4e7b09a2ad84dfb33d401346d2c8e321e432916bf7a3b28a096d06e3f6e",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.pe.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.pe.bn.running_mean",
+      "sha256": "5b96129e5fdaf7444bca631780641f5cf85e6427154f312d483aed4727eca800",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.attn.pe.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.attn.pe.bn.running_var",
+      "sha256": "dbbbb9f25168741045affbbc9099edb914064ec77c42868adc8139826b92f25d",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.0.conv.weight",
+      "sha256": "a9eecd8319e1f33e90443ee01e166ac480112e4587563242af0939ab7c667eb9",
+      "shape": [
+        512,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.0.bn.weight",
+      "sha256": "aec5fdbbc10ce6d991718c3aa3c4240f4e3711c9762102b22d067eb1a17fe5af",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.0.bn.bias",
+      "sha256": "d1e5924ce0dcacad627129d832cdeca8be866b61c0404eafe1124317a02b8b29",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.0.bn.running_mean",
+      "sha256": "9a82ab9f7e756defde42ff2ee18bf4bc4803f56c710431e84dfda383a66c6d22",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.0.bn.running_var",
+      "sha256": "692bc3139c28a67fc6b9f9cb7f169301b950a79f718dd2d7145623409c5f6a28",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.1.conv.weight",
+      "sha256": "eaad05d4bc1dad00108af55291d4e3ff77603e6ce93f1cb815a316c3a1e9978a",
+      "shape": [
+        256,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.1.bn.weight",
+      "sha256": "e845092eac9d75c9474eafe7137203a955e61c72716c3f0ed3174f2d97612227",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.1.bn.bias",
+      "sha256": "4aeca32b5c0859b86d0c7e575165faf8066cd4a8b9abb76baddf04f91b8c2f78",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.1.bn.running_mean",
+      "sha256": "f6a89927de2164e138fb35748642761e9f082ad897d332b99fcdba0bb660a5df",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.10.m.0.ffn.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.10.m.0.ffn.1.bn.running_var",
+      "sha256": "bace4b67344fcf3763be757a35e377592ca69d017f3ee49dca80a62ca5590277",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv1.conv.weight",
+      "sha256": "347fb70698b8ee2cc6cab4cc66de6f969e4b58c93c8a7cebaca11b1c11bb2b78",
+      "shape": [
+        512,
+        1024,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv1.bn.weight",
+      "sha256": "4f8f646d46158c5c9ec20e10ec8baff002644e275bc0d7e0fd097ee7b94d283e",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv1.bn.bias",
+      "sha256": "aaab1043b3638ce2edc56155963661e83b203967ce469b904766a9545695e861",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv1.bn.running_mean",
+      "sha256": "995483041fb4d0535039a320551905c927de9b91ce0d8057327d02fd38074ce5",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv1.bn.running_var",
+      "sha256": "233aad29d879fb53ca5b2d91335bda93224251da16ef986f7abcb81c0f7a9715",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv2.conv.weight",
+      "sha256": "0e3002ae7d9588044a5d679f57631ad205b701fb39bb9cbff8709e7ea702f579",
+      "shape": [
+        512,
+        768,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv2.bn.weight",
+      "sha256": "b45a8a7f31132487a2e5c1784885d3f6986c59f4950adbf6921fc830a1c9bb9a",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv2.bn.bias",
+      "sha256": "9a9dad9635dcea6190a560f62bf9fff686941e4bea7216cb136ddf11d89d2e7b",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv2.bn.running_mean",
+      "sha256": "a17c7281218e9f7a9ba55ecf39d3a59d715646f4c793dc8122721dad32ff1451",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.cv2.bn.running_var",
+      "sha256": "86b5bf3d936a7fafb1f9c9ad350f411d3d73be56e4a4de0ef75d171c0d19a877",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv1.conv.weight",
+      "sha256": "3d7be97a7765abf4961a6b3f482c6acec4fd548019d886596dc058e3409d2c46",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv1.bn.weight",
+      "sha256": "85942a54e21b4fafea1e7768d7b0f9ee0360d91e8b8cda90a6c65b9b052e1d81",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv1.bn.bias",
+      "sha256": "c447d0043aa01d1b007e43eac2ecc9daed416f03843de5538f33e6a8502fe61b",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv1.bn.running_mean",
+      "sha256": "d8ea7346e71b9df8fd7afde8e2463239737173385c547f03fdcd08b5b8e25785",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv1.bn.running_var",
+      "sha256": "11e9acefe3dbea4a020e3d5c21cf037b2bd21e155db346237d09d014dc78da78",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv2.conv.weight",
+      "sha256": "6486eff766398ea547c19cb0a1a26aeb091750eac58b8d9994c731b6e104b0c3",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv2.bn.weight",
+      "sha256": "5c4c082146b99537ec453b036256470bafe803e1a29814bbf77355fec9c1f8c7",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv2.bn.bias",
+      "sha256": "b5fcdbb6dbe2171cf13badc2d3047641ff0b82d75496eebcecea972f1c67b3bb",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv2.bn.running_mean",
+      "sha256": "173247d37f363fda412f4583b924da72ebec13b9a3acb8dd4a743b7ffd980365",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv2.bn.running_var",
+      "sha256": "9688c5e698b76e4de59faa616bcdf595e73af97a91b9433642d8cd2e65670796",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv3.conv.weight",
+      "sha256": "71c3ae3bff310620ab301652399338950f20b3f18970e5c7b4aeebe8eea3533d",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv3.bn.weight",
+      "sha256": "8f3be69368818439d0fb66920917adf5360728f4a6b502efb7fe6119afc83293",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv3.bn.bias",
+      "sha256": "31fe3159ac98bd8a8deaf4cd81900e6365f1bb2f25943f789477242f1aa6f34f",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv3.bn.running_mean",
+      "sha256": "2373f209b7e50045e4ee119430b1eb41cfcd4bfeac01dea521b91ecbcbe53edf",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.cv3.bn.running_var",
+      "sha256": "65b85687e320b790af06119b5231d1881bcadc50deddb54574ea9495ff1dca1b",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv1.conv.weight",
+      "sha256": "175cbe764dc53d69431dcbbb807cdac72516b3dfea38159ad7da74af567d277e",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv1.bn.weight",
+      "sha256": "9669993e4960293d638cb64bd9d2bdb2ef1237271317910b7c97e6c9ceddb3fe",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv1.bn.bias",
+      "sha256": "328f370e27412450fd35f33223e62d13504a736d645c3ee79b0662f2dc2c75e1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "4abc7744903f58cc44a2421b98d428a1730480a11bf50abd9e9bf5324ff7a920",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv1.bn.running_var",
+      "sha256": "d87cabea06fb352382513726adcd428c8be0715e46890e63c4e7dfe0f5240304",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv2.conv.weight",
+      "sha256": "26739523f22bb88330fdef11bab04770159aebf304e240074c2350fdd0dd6814",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv2.bn.weight",
+      "sha256": "84f4c081c38b636e5c7d4469952c8f118dd81c22cc597e69011306cf2dc5238a",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv2.bn.bias",
+      "sha256": "1c8d024a8f2bea4056da29aefa4dda06c4250d5f493da6013ec1a00e2341dec1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "0189225a1c36788c98d94b42acbf21593b8154834bd5e2b4737839a3d6551a52",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.0.cv2.bn.running_var",
+      "sha256": "8c23ab5092a1d368cdccbe120d47cb07f5e92f9c8c0726f2609bf867508421d4",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv1.conv.weight",
+      "sha256": "972ecb20ee92fa4d532a0a651b0ee4177ddaa44624e05c42e1b520150a9fe61b",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv1.bn.weight",
+      "sha256": "ef149b8724a22fc1409d16162f595f9107c5736a15a05819a8f92a7679c1d758",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv1.bn.bias",
+      "sha256": "6f677eaca2e7ae0adff77719e46ce440c22f3ac6fc52555f92c92f7da0c4ed0a",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "acc74c4ed48b791fd9b3349075ae058d2047302254658aa1df2a7df54ad35e29",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv1.bn.running_var",
+      "sha256": "fe7d9b15f53990579fc330b8882bd6e852dd3c1e17e1e4c5f497c4b4939ebeef",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv2.conv.weight",
+      "sha256": "31ef9bd7257720543e9d7b1542623b7712ffbdb534fc57a2e631abab4dc2accb",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv2.bn.weight",
+      "sha256": "02d08ae5a1a57e5933f9049d97d80c8e86b2fd749aba4c1fcb56e1fbbdc696f6",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv2.bn.bias",
+      "sha256": "3785a290971a34d78126c1e3eb6c7976a74db7581af020a55fd4fd59aded5b97",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "76e81a37e307b2011d96c8e192fe28eeb3178772d1c49f729f4156728e711b76",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.13.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.13.m.0.m.1.cv2.bn.running_var",
+      "sha256": "9b2b2a0e17b979e14de405cccfcc9167e9a810cc0f69bfb5c84fa948e9aa3fc1",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv1.conv.weight",
+      "sha256": "720ce6a00a73cce76e2664bfae7b73e45ffca74f084f223d12f89da311672123",
+      "shape": [
+        256,
+        1024,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv1.bn.weight",
+      "sha256": "bb71e4276d7706c9b5bab9b4f2b6aaa5a90372316d52ef0df73d0be8f5c5c8a3",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv1.bn.bias",
+      "sha256": "8ca461fb92022e38e0daf4c9a71c1613b056e0a2fea5c15829024de08f196e1f",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv1.bn.running_mean",
+      "sha256": "187da36939a9525d560a613c07c316a8a4355a3db692ae26bbc7848144eeaaee",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv1.bn.running_var",
+      "sha256": "c05fa7b61c7e9d57bc8ff98c09feef5cd5bff8c86baa4e3acc408dc76fa814f2",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv2.conv.weight",
+      "sha256": "711c2d8f8cb4f443c3ee1f9c633d90e50c962e108a0d0773ffffec2be81b7fe2",
+      "shape": [
+        256,
+        384,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv2.bn.weight",
+      "sha256": "a55c983e494e9fd49f2b18e9689c4a7e841c83560e25c0df6267bbfadb8e5613",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv2.bn.bias",
+      "sha256": "803ef9ac6ad0dd25c6f5b096eed92e642ca55748ec1d65e5a4e3e4398a680a43",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv2.bn.running_mean",
+      "sha256": "76146006c17d67521a762ca4359aa39260275662c303b825a74f481b16bbc334",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.cv2.bn.running_var",
+      "sha256": "bfd7d06be085e9c5fb65332c18c2ff3f33f015327488cea3cb459449edbc19ee",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv1.conv.weight",
+      "sha256": "008ab34c1c6925a3a248370956c1d730ddbd7498f14128934638425d7f3197a7",
+      "shape": [
+        64,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv1.bn.weight",
+      "sha256": "2cd5b1fa520bb4b8853671243bc4345d4760c72176c768354cb0e8d42582fc2f",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv1.bn.bias",
+      "sha256": "c49bc64fcf4029651c02ec251f96e9e4a03f00dd1a578a1f9b6977db8804321b",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv1.bn.running_mean",
+      "sha256": "0393dc9a9f73f27c8758876800f30a9378f94cc1fb381f192024278c6d9e9640",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv1.bn.running_var",
+      "sha256": "3fbb57018e6bd5bfee8c0148781de63897103d163795fe6a338ff91594676000",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv2.conv.weight",
+      "sha256": "617f0850c7bcefa60c8c8be5dcafa6090cf3aefc6b77daa29a0e3b27c61f2cad",
+      "shape": [
+        64,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv2.bn.weight",
+      "sha256": "b862fe4a51eca65439af8e47cde88c612d6fbebb2c7e1acb1acee4d528d1fdae",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv2.bn.bias",
+      "sha256": "d11c4499968daa3e81c61c0d3629b5ee46c4cf8861331676d23b3452043dfb2e",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv2.bn.running_mean",
+      "sha256": "2d32eae1555c21810ea9b90fcce22deb3c55b6e6125d5ffdddd9ab09250c5894",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv2.bn.running_var",
+      "sha256": "1ad06c3919ce0cef9753b04c6c2fbde54e1a71bedd52b4eeb1d7c994dd7c1d65",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv3.conv.weight",
+      "sha256": "ccdae30b51618344358ed75610fc945fa966718cd9ab9b060653dee13c1fed93",
+      "shape": [
+        128,
+        128,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv3.bn.weight",
+      "sha256": "70f641a91c16cb667332bd08f7a36e919ebc1995328a1c16ba0ee1bc3d1d94a9",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv3.bn.bias",
+      "sha256": "d0c824039ac1010ae5b23f42fceb5ed4ce8e271f20927b9b15018c503d2c1ea4",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv3.bn.running_mean",
+      "sha256": "c9dca5671d800e6958a1bfdf5c9b89157df44806489496c7ee9c6b277225af06",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.cv3.bn.running_var",
+      "sha256": "abdf22e482abb0b0649ee8d0b5dddc50d2eaac460b318619fa6862c8c1118688",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv1.conv.weight",
+      "sha256": "22aeb5154a3090084d0e7d7d629c9ac4906e126a4b1ee5c9499a3d92b7818d79",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv1.bn.weight",
+      "sha256": "8e051f3a56bb758895f22b9d638a27b283bca61d6830e0c2604285627925e18f",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv1.bn.bias",
+      "sha256": "9f4eb2dea7cd4b97f92672776f5e7b2368fb016a52bf1236ca8f5589891ceac6",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "3d01079506d938874230d9864f7dfb0bd89587c19a18f314f7c6f004ba85cb69",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv1.bn.running_var",
+      "sha256": "297ffaeaa07fffd2829743d61cccb55a2d7ffe0c6ccb5fa166b5fffe988b168f",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv2.conv.weight",
+      "sha256": "c685ac3d1dad5c606cbdda82f26b4e80e26155c977c364cfc424aef491fda34d",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv2.bn.weight",
+      "sha256": "786d4d4f1959415398aa632146d3f94dea8fa8cb27b3e9abcb5d7b4b3606059b",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv2.bn.bias",
+      "sha256": "039820a759049e20509ddf123903881eadb5451a59085a99e7b31e45c5c20afa",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "3340293e8a9a198bc3be4a6d6964db7e0186710db39d53376b92cd56875db555",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.0.cv2.bn.running_var",
+      "sha256": "71e3d1ab48599452b14063ed361db5a5dfe62afc03b1adb98ccf048ccba50f2a",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv1.conv.weight",
+      "sha256": "fd575c566309c192d034d59cd5595415cd06cbed9ce1fe62572361f0881724f1",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv1.bn.weight",
+      "sha256": "30abf448d158711ce1827da49496feb9af98cd30df6d307af8f74d8837be6c99",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv1.bn.bias",
+      "sha256": "dbd8d5c9de9694134fc28541ac490da9ba16f78c9e52fe856521e4550000ef3b",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "aa5c87d0a05204e9fe75366da9ec8143878ece141e05a3dd762d5f99961f5062",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv1.bn.running_var",
+      "sha256": "8d86ec64e272d59723c8915b37bd160222db9cfc1e827a8469eedcf08a1cbfe2",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv2.conv.weight",
+      "sha256": "ad11471b7521ae37197ab885b0745f5ba55db609c98b1ef9f9d6b42aab09bca2",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv2.bn.weight",
+      "sha256": "c25ef6ec07062e15dc7d3ef786dd8b22bf563dd31779bf6e539868213e95cf66",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv2.bn.bias",
+      "sha256": "8b244c884d297d5b501ccc2799d4905c6b32f582aa78822e68ae4879a863c4eb",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "dd018710cd4460b718dfb37a5123a31a65416dc3932e6a7ecf09bf64c1591913",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.16.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.16.m.0.m.1.cv2.bn.running_var",
+      "sha256": "87c8e5f060d60a6f819dd297f432577d03eece9bb85da5ac8b10e9e20017ac2a",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.17.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.17.conv.weight",
+      "sha256": "e0f1c6a65029f9d010e2f6cea09b12feb10890516949d1b6bb0f3ee35447fc83",
+      "shape": [
+        256,
+        256,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.17.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.17.bn.weight",
+      "sha256": "cf019b9de5681f480b85e6fbc9f24471c113dc45bd20619f4715f3d577b119dd",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.17.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.17.bn.bias",
+      "sha256": "00fab9d14d9fed05a5654c16c3127c22a5dba0712919481a8baa368b56492558",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.17.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.17.bn.running_mean",
+      "sha256": "108c8395199486d4eaa072aaa269abefa1867126bccf830fbe7e49bdfbd557c3",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.17.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.17.bn.running_var",
+      "sha256": "f0bf0f74104ad5beaea70d8dc620a5cb8dac6af86c5cc370d335ef637dc122e6",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv1.conv.weight",
+      "sha256": "16a40fcff2fd829d0b6d6d3b5b504e4fddae6204231d79b5d796ffd74da62bde",
+      "shape": [
+        512,
+        768,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv1.bn.weight",
+      "sha256": "1a910e2ff96681873fabe82d3deb67582eae975b18fe12f006e3ff2e6570de44",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv1.bn.bias",
+      "sha256": "286f0459d698ebcf0adeeb0ea9b5239b4810c39dbb7ceda8e9f9a6f5a90c587f",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv1.bn.running_mean",
+      "sha256": "11459af19ad0fb3a197502af6f876a513ae46864cd7a0307b6d4c36a4c1de8f0",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv1.bn.running_var",
+      "sha256": "dcfba9c58d3ec29ea24a687556a1dc0e585f9b4c9f5088562aacb24bb11ec3b4",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv2.conv.weight",
+      "sha256": "706b3ec2d5a99faa33b4a2343fc9ef694c4096c17a658e14fcc96b64047c6b10",
+      "shape": [
+        512,
+        768,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv2.bn.weight",
+      "sha256": "78231b94cb598661d8750872b4721b2bf69c50cc940c68263df7760c5a9671c2",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv2.bn.bias",
+      "sha256": "ceca66d34eaf6b408ab4b099bc1f27760a07b4b61cb40971a0526856895837ba",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv2.bn.running_mean",
+      "sha256": "3be2fe14f195f54d7835c6213815b7a71d34215c639ba6a32cc86dc02d7324c3",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.cv2.bn.running_var",
+      "sha256": "d2ca3e64c893baeeb3e5a0aca1566274068f732a8e5cf038879df19d6836c063",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv1.conv.weight",
+      "sha256": "ab9ad98d7f815d195ab43cff048c2cc51257a44e7da2ea8e8e2422ed5d412a75",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv1.bn.weight",
+      "sha256": "68c0a26130189d586032cc44c8e160a068d6bfff6d2372cadfef52bdfe649985",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv1.bn.bias",
+      "sha256": "082e0382dd617ed5f9d4d404d3f3cdb80169c190f35ca99f1602b47e44aeb0a6",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv1.bn.running_mean",
+      "sha256": "d99604683ddf35bc3bbb95124a5bce2eb9b64d1bad604d0ed36550003e765464",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv1.bn.running_var",
+      "sha256": "3dfede9f7b1db852f9de0f0b02a70d2967e6616a9d76ded3ccbe2ae78d4d6c7c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv2.conv.weight",
+      "sha256": "6655a0deb56e2e92573b551d7fab58a59b9b533379a8088b7603edf3fb14b7cd",
+      "shape": [
+        128,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv2.bn.weight",
+      "sha256": "4a76145203b131b73fcb1f4065db7f203534e7c2f0df8426e8129784b8977d1a",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv2.bn.bias",
+      "sha256": "42c3929ec7f8e477cb4db11cd06872586e74c6ba3d264974d9ea7b393285a92c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv2.bn.running_mean",
+      "sha256": "6a6a970a858f547581d1ebc9d41ae01ddd9e121279dc018d319726c8bab76ab0",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv2.bn.running_var",
+      "sha256": "0f247b093b69ee78b23ad581e56aefdd419cff4256d97c54f0dca3ba250cab70",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv3.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv3.conv.weight",
+      "sha256": "c920068cb441800ecaf970713eb003cb94bc69e49369da3cdcea4df056493b5f",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv3.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv3.bn.weight",
+      "sha256": "adbe58a5f99b5592fae7aa500fb81f2ea915d96944479daa7961ad150024230c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv3.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv3.bn.bias",
+      "sha256": "297114ff74adf7e95c0ed8e3c9c6756f173b5f8d49782e8400eab6dcee741967",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv3.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv3.bn.running_mean",
+      "sha256": "13cee1156e297a559c10a4461116718afc938c75039b909ad5769339db27243c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.cv3.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.cv3.bn.running_var",
+      "sha256": "3ee44dd55811a478546f3ded2d55c553be857e99b11625d495aad04ea114eec1",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv1.conv.weight",
+      "sha256": "6108e2f46c0877e4e7459e860c0e74f1e087b3fb48bb040ab06cd627e6086793",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv1.bn.weight",
+      "sha256": "54302daedb2fb57a590cb24dd82f5081d0b36fa776b8c135a35ca2744c113fba",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv1.bn.bias",
+      "sha256": "490bbea5447f6e4ffd96ee628bad406b8b79e0ef6a9b67a57d0ff801c14d1caa",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv1.bn.running_mean",
+      "sha256": "67c533480fdb8145428791a8fdfcb9d8f609e8123310af2865488e8223e8453c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv1.bn.running_var",
+      "sha256": "7329a15f65bcd7fb096f4168825ad3f485be1366f5ed410cdaaa4141264bd9e5",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv2.conv.weight",
+      "sha256": "f2f0e71960e77dd15aca03cf77bde63aa2d52eb9210e99bb0bbeaf750b637cfb",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv2.bn.weight",
+      "sha256": "5f578005e9238090e317d0d4f75c836b8673997b4574313007f0bac8c4d79c6c",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv2.bn.bias",
+      "sha256": "3c5f84a09ebe3c7c7c91758cb025189b8baa378a75ab412af051283f37008aa6",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv2.bn.running_mean",
+      "sha256": "c05f44104eaf08221418122b8128c087bedfcd31cedf9107a462810512cf44ea",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.0.cv2.bn.running_var",
+      "sha256": "96841ff90b79c6e464162f74e0cd805b3ff8546ea4b5336a59748b57314ac7a2",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv1.conv.weight",
+      "sha256": "12f328a840e7987b3c8ef06e9584572e56e0a5f916c993fb53d4da3f1acb1be8",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv1.bn.weight",
+      "sha256": "093c5989b33395584cf2d070d3e31b2563c4337dda60b5e887dd1adfbff07756",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv1.bn.bias",
+      "sha256": "046014b0558a990a2ee9c9bf825506d2cd7cdb740a372721cf13bc01e1e210e2",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv1.bn.running_mean",
+      "sha256": "1f45d72af1ec82bcf43ec08ba1be327e0c253d05efaa237dd7748bc876e924d0",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv1.bn.running_var",
+      "sha256": "2a2bf35fc71115e81441f5dbdb272456cb12468a23b2db9d7aeac65c55080729",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv2.conv.weight",
+      "sha256": "a768ebfcf2a2d64e0e78cb9f5f1a6caa2d7374fb5089bc524e3e27609ab0489b",
+      "shape": [
+        128,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv2.bn.weight",
+      "sha256": "c9a09e653a0c15da949b5472e95a642f84a146ebbccb42a88559e363a5b53b3f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv2.bn.bias",
+      "sha256": "6d876f618881770e7012a5cfa805861c52e9b7a5e2d876c2c6b0d89e750e7d8f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv2.bn.running_mean",
+      "sha256": "3f07b185e6b8ece1a6d295650693bb5be1bf15befd834108e12c347fdcc63f93",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.19.m.0.m.1.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.19.m.0.m.1.cv2.bn.running_var",
+      "sha256": "ad5b9b870aad763a7ea8a02b02f0e31a2486d54184b531ec924a1e41a906db2a",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.20.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.20.conv.weight",
+      "sha256": "401b62212e5853b99d77c2f659c673de2b4190a0060f4363819889ae157d3b88",
+      "shape": [
+        512,
+        512,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.20.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.20.bn.weight",
+      "sha256": "75771ac0b423a88733edd9b3460d99ea85bdb23bf2a969d193e9086f608ead0d",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.20.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.20.bn.bias",
+      "sha256": "c1c2386bb4fec515d3d1ea906a717cb32341f08f5e1a854f50eeb14ccc063aa2",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.20.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.20.bn.running_mean",
+      "sha256": "ad5e5b8f7f646d0482ded1fcd54fdd9f10a093cac2ea3e2edfd620dd1137cc1e",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.20.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.20.bn.running_var",
+      "sha256": "8579f2f6308b5a1fd1b8fc842e27448903905a4569d9ebe5c1ac6280a1a365f1",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv1.conv.weight",
+      "sha256": "a97493d3370a1aace5a68c43a647c0446a64ee760c385cf920a8fc9fb65cf469",
+      "shape": [
+        512,
+        1024,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv1.bn.weight",
+      "sha256": "58e71a6b92e9dbe1f0cdb7a7a16b3107595580d6390b58b8670567dc6c40ebad",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv1.bn.bias",
+      "sha256": "6872b4e3d77dc8b2e99268f6432fe00e68d2767c3a8cb947aeec69e26a4fb6b7",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv1.bn.running_mean",
+      "sha256": "37c82dffccc1030009031ed4fc7e9611e374207bb7d8577ee823567f873f1e4b",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv1.bn.running_var",
+      "sha256": "734d6463a1aeebbb8553ecbaf4fd7bb4b7aa205ebb9f1c50e9352d5391ce98cb",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv2.conv.weight",
+      "sha256": "e7da4bd65007f20c8221667c114c9f4792053093e87a55c59408b5ab8ca48c68",
+      "shape": [
+        512,
+        768,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv2.bn.weight",
+      "sha256": "b5c47c07f6eed5593fd48713a44ec7b9d88a6347a14ba87f6ae2f601ec0e8e72",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv2.bn.bias",
+      "sha256": "56b8972448477c8a179d2a01225ee174bb1aeb6a789a46f808e27c100d4ef6bc",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv2.bn.running_mean",
+      "sha256": "119e3a33c4b057b2726ff8f869791758afe92f5199154b26b7239c1cf3e4040e",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.cv2.bn.running_var",
+      "sha256": "722beec9c6a16d40c646530a0127504c53c5def693bf47d21082241c7760b929",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv1.conv.weight",
+      "sha256": "5416c79d4d2d0447955ce3cef3ac68f823b85e9a1c8a4201ab427d28a6c3cabf",
+      "shape": [
+        128,
+        256,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv1.bn.weight",
+      "sha256": "3530725d5e2199ff33f9118d4ae5614e92aa023f1659c3940d86ae73541d10ff",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv1.bn.bias",
+      "sha256": "d2f121a619eecef4a0ac56bcd7a3b3263220617a018040bb658465003f5e0e22",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv1.bn.running_mean",
+      "sha256": "2fdf62614791ba8a6e73f5335fdc93dca260449290c987527cb1ff72fa834d1f",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv1.bn.running_var",
+      "sha256": "317b32d5200ec382957f30e204f08a72f6fa4b9fb89a5f56c77ca0812f846719",
+      "shape": [
+        128
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv2.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv2.conv.weight",
+      "sha256": "ed141b025353412f054e27a5d3d1f876b45f3aee4a2ef84fd7c97e45e43e7c1f",
+      "shape": [
+        256,
+        128,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv2.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv2.bn.weight",
+      "sha256": "73e6061875e0172dc8d18b5ba9fbdf71e98545b7a62962fb0121c2569377dd80",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv2.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv2.bn.bias",
+      "sha256": "4223d7acc76a155a6369eeb7761978e474c90ab46c36b183b9c5e3e1be9d8a63",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv2.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv2.bn.running_mean",
+      "sha256": "a5fc6d534c130ae5ee6830e5534e401750f2a75a4cb497ad4db9cc379ec46b5c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.0.cv2.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.0.cv2.bn.running_var",
+      "sha256": "62075b1ddcea275470acff117de4c054cfab6884aa2a89b21a50f3c3fd533e4f",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.qkv.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.qkv.conv.weight",
+      "sha256": "d8389bd49deca12ccae85b58718d08acd2a9c03fdbcd7cee0aab2d7b32d6f2fe",
+      "shape": [
+        512,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.qkv.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.qkv.bn.weight",
+      "sha256": "150037bc78eaf6239f74e37b42899e5a0b94d3a69f73286a900f7f226d861cb0",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.qkv.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.qkv.bn.bias",
+      "sha256": "c5b96429e4c87d494ba1c7fe34b9e3f2c3a1248599825baad1c065d71a09d003",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.qkv.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.qkv.bn.running_mean",
+      "sha256": "eaed8de389a7e02408bea9fa26c8c0d6c4303ca054a9ec552983d3453c228cb1",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.qkv.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.qkv.bn.running_var",
+      "sha256": "e7526486eab53c4d37048af74417364812c57b8dfb938fa3cb8c313d64283d1d",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.proj.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.proj.conv.weight",
+      "sha256": "e8bb4db19954e798850c823c4b91905964f899a4a740ec9778b1c2c1f5634563",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.proj.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.proj.bn.weight",
+      "sha256": "e2e52834debc306347c8d6c4ff4417b3c76bed7550f46dd02a6681b6df736d0c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.proj.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.proj.bn.bias",
+      "sha256": "ba6fcc22f3220aa8422d83f9d9b53fc98d002787d4abd587f22707968466d9a0",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.proj.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.proj.bn.running_mean",
+      "sha256": "6b941c98750381b52147013babef15139e7bcf71acac26b54da4ed149e7839b3",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.proj.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.proj.bn.running_var",
+      "sha256": "4d06edd8242808f761809402f7fa640356b234162dbc6081192189b44e099efa",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.pe.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.pe.conv.weight",
+      "sha256": "3cb715eacff616c9fa94ceac4475be71a10cf3e99be5eaefa106b4feee21cec1",
+      "shape": [
+        256,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.pe.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.pe.bn.weight",
+      "sha256": "03bb7e2b2e2ec5a70f8136a000f4043d02434b0812d014c6bbbdb2682eaa169e",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.pe.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.pe.bn.bias",
+      "sha256": "4dda6df1141c94e6949a9aca9ae616bb325670c1774933bfec11af05d820e7f2",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.pe.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.pe.bn.running_mean",
+      "sha256": "cc16cedaa7549a8df66e5007f3430f87b6b4bef65c4a161e300862fdbbbf7df7",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.attn.pe.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.attn.pe.bn.running_var",
+      "sha256": "5a56c85a6eed4747e782653cde183d3fafa4cf140fe83de781c2467a3121e9cc",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.0.conv.weight",
+      "sha256": "53c3a8a9ecaf72bfff8603140caac8b5fa2d1b128b3ca379b9ed2c8e1354b5eb",
+      "shape": [
+        512,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.0.bn.weight",
+      "sha256": "7d3a46315b6a908db23ede3fd9dd49023956a8417b8365604828eeb53cb92426",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.0.bn.bias",
+      "sha256": "13d286858a7579f5643621f0ba112556155767f3d338fbb35827e6d10705e8dc",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.0.bn.running_mean",
+      "sha256": "1dc46c8cabcd3701532fd0a127573f5559cde736b9133fca312bdd442bfd8aea",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.0.bn.running_var",
+      "sha256": "fb058c914d8f02b086966121f1e8ddc1a2d014f3d0cedc1d759ba17923a6d4df",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.1.conv.weight",
+      "sha256": "ff9e52c1c4f4b05a83df92fc1e1f2af922ed986b0061909e8ebce159ef494ae9",
+      "shape": [
+        256,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.1.bn.weight",
+      "sha256": "463ad03d4cac69e7385fbd5d252400d8ad6712a234f94fe9c356f54cace3f877",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.1.bn.bias",
+      "sha256": "e99d5f090c24b32e9a312752f6cd5cab3fb2b7bd4c2c6056b021b43cd7e3b17f",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.1.bn.running_mean",
+      "sha256": "eee061b68cafad882af323c9cf05f46f914007a9cdaa04293b683d875f120316",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.22.m.0.1.ffn.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.22.m.0.1.ffn.1.bn.running_var",
+      "sha256": "bfb9af8e09fac18be031b37965f4d7752809bdcd1fa32287e09e1b7bb5134ce0",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.0.conv.weight",
+      "sha256": "852a6f5402d1aa76477bb2e596410f24476d1972813c9321a6b637f4a7eba48e",
+      "shape": [
+        64,
+        256,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.0.bn.weight",
+      "sha256": "be77f2517e513440ff46ad4e7dd29f8be382d0e8cb877317a1467ad3c33b6c39",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.0.bn.bias",
+      "sha256": "d9be85e721a273a2b3d6d4549068d778a46c7f3f3f4ef2b8b19c7452c73bed2d",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.0.bn.running_mean",
+      "sha256": "cf5b1d3c2535acc15881b19714d43d6fe79bb1177d80e4919e9b3a5dbe082cae",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.0.bn.running_var",
+      "sha256": "c9bab71281b00e44368288ab5d26a59436883c65421b2769902dcc5807b608c0",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.1.conv.weight",
+      "sha256": "d9ae59477b50caa35fcc5eb22b360ec87554d99e394100d7b765a48fdb1bf980",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.1.bn.weight",
+      "sha256": "2da184bc7f4a27bace2975d7dfbc9ad6932bd86134e7211fdcfbdf3ec981ff85",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.1.bn.bias",
+      "sha256": "aa987e951cc004b00d2586aa3e0ceb0bdf1d0937bf94fc0ca42884789b046ac2",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.1.bn.running_mean",
+      "sha256": "f44706c9ce4ca0f9e611a72b5bccc531a67a84b0374ff22cb69ac25ea93e8382",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.1.bn.running_var",
+      "sha256": "8382dc1e1c928093b94a2547d5e096d54840bd710d6f04b394b922e5fb32528c",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.2.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.2.weight",
+      "sha256": "b274f2a26f4ed37c409e82557a88eadc6aec90f039f749848f5be7a0c61b8f11",
+      "shape": [
+        4,
+        64,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.0.2.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.0.2.bias",
+      "sha256": "5c68419980ee8964e861b17df5295a50f6cccafd1a607f0ed1ba8f524169a3dc",
+      "shape": [
+        4
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.0.conv.weight",
+      "sha256": "077108bbeb22e88a66d626f8cce6ea8586a3490f88eb134380b875bb9a3c2c5a",
+      "shape": [
+        64,
+        512,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.0.bn.weight",
+      "sha256": "a092a1ad8772cd9dc96941dc09ca40e81a1aa9d11bc9b94f79eccaf7c85e06e4",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.0.bn.bias",
+      "sha256": "699a0da2b7e93a152806798890d4262e6b40cdb2195b119f708d28a77d87abd4",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.0.bn.running_mean",
+      "sha256": "782c8a9b74cecd1a3ee817dd391ca825eb1ee8c0bb1b494145a77d3deee0b129",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.0.bn.running_var",
+      "sha256": "91f6e1238c3f8c3f3b7ed9cde3c02e75fd67193d364dd5c076fc714ecd204a54",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.1.conv.weight",
+      "sha256": "603d849b4e2ba95a6c88d9b322857f3c0ca7e8b6fce0e033ac23700d619af15d",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.1.bn.weight",
+      "sha256": "0345c0a162e03ae50d1f65ee138bae69032be4fa974e443101eda4f7aa061715",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.1.bn.bias",
+      "sha256": "005983b405e23eb670218de9910462b4c7ed42467ad995238ec55213beec924d",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.1.bn.running_mean",
+      "sha256": "d3883d01b145c209c22c4126c3e8e71de9b5646417abd97da547420916c84701",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.1.bn.running_var",
+      "sha256": "a6120c53d7fa6307bc9f8cfd00087520451b06263c0a1145cfadbf1803e21733",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.2.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.2.weight",
+      "sha256": "f25d165367b327afde450e78507a72b596f2c1c72710419bb4a8088e5fa2b0d9",
+      "shape": [
+        4,
+        64,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.1.2.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.1.2.bias",
+      "sha256": "b58e9105e53f889258cc5fe2a91faa4f65910d40a31e56d8b07285f31970fcb8",
+      "shape": [
+        4
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.0.conv.weight",
+      "sha256": "48161001cabf1f42853aa8589f19642e2573c6ab6fd13f531710383ebd66e101",
+      "shape": [
+        64,
+        512,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.0.bn.weight",
+      "sha256": "4c0e6691856f2282c74901b7e30bb307c52bdaf7a281123726b28c4668f8310c",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.0.bn.bias",
+      "sha256": "be087730b071917378e00a9209d27ba72372ddecd52557b1eb5053c72822843d",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.0.bn.running_mean",
+      "sha256": "b71423ae06ca71bb5c9adeed646de5c24cfc0051e5727aa78beb4c998dda0bdf",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.0.bn.running_var",
+      "sha256": "c005f7ff2533bcabf88589fb1d95c38d174944770abbe5f331a7bf7b334496df",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.1.conv.weight",
+      "sha256": "896b9eb7941664ff65e3c21fa6921e85bed137f5c19ad46fa70ed7af86176b54",
+      "shape": [
+        64,
+        64,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.1.bn.weight",
+      "sha256": "c8f66323614bf5596aa45c6f8b61a97407bb62df9671564b70ed216e77e4f84e",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.1.bn.bias",
+      "sha256": "3ee0f14d8ee4c51946b2fe3dcf95aff870d0c64e7023ffbdcc8974c70fcda4ba",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.1.bn.running_mean",
+      "sha256": "e9f2e40074fb0bfcda4be2bd960fc78a400b0ff1e9acae4006059bf1ababf753",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.1.bn.running_var",
+      "sha256": "d63f602b25c3e4983bf15b7b45471ee37f8cafbf1ce30f09a8c6b82d85c52e21",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.2.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.2.weight",
+      "sha256": "b647773f1bcc5d3b4c52e7a8fd439370e6eb17f080d9109632dae61d2176e128",
+      "shape": [
+        4,
+        64,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv2.2.2.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv2.2.2.bias",
+      "sha256": "deb3ae629fc89e552ddd22296cd36236efa8ff6e342b1ce4bdf52440aa4f56b2",
+      "shape": [
+        4
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.0.conv.weight",
+      "sha256": "219dfebf9b0101f244570e3ef5818d3a9c9d90f8df9c64b4326877d4e8f828c9",
+      "shape": [
+        256,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.0.bn.weight",
+      "sha256": "44cfe6fe5e1ba1eb8edf05fd94b36a81cd024c527c88601619e5a645d9602a0c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.0.bn.bias",
+      "sha256": "73989015f5cf50e3060d6b7e3231984d921d915d41c8cb8c3a42a365e9a9543b",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.0.bn.running_mean",
+      "sha256": "8b8d6d2e7760bb90c71adf1846897b2acd8521d94c01087156c264e267fab777",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.0.bn.running_var",
+      "sha256": "6ff7185d3c80a0e26e503459763ce641c305025515c9cf756253c97d997ffc62",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.1.conv.weight",
+      "sha256": "6803e4296e8d260471908c2d5f6257bb8db7320d43bb8af7a906955c054d53a6",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.1.bn.weight",
+      "sha256": "42ec1d1e186756b9ce6b9c24a2f3f4ea1a8c3388fd0b54bf2d3475996a1ae5f5",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.1.bn.bias",
+      "sha256": "f05a1a5bb70c4205339940fa339d1f901adaecbed5b34b32269c67df81574291",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.1.bn.running_mean",
+      "sha256": "2b686000bd9bd09249780d834862b91d0db2e321e5c2caf1f9a2ec51c584b6b8",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.0.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.0.1.bn.running_var",
+      "sha256": "7c210a2600275ea1353597ebcd5360cfae5eaf478b1480202b1f33194eae41ef",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.0.conv.weight",
+      "sha256": "77dbabb7255e224b93806295e197dfdf8570081e124c3eda42538ac2fca86f51",
+      "shape": [
+        256,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.0.bn.weight",
+      "sha256": "7947fcb4a57530f8313ce1f56f8d4780cc68e157eb7992bb6a36d337dccdd8df",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.0.bn.bias",
+      "sha256": "9bce9280379276bfab1bbe619863a5d23d96166edc8e1248afde2c740e56a5b9",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.0.bn.running_mean",
+      "sha256": "fb33b848785b7cbb2703f8e4b344de27d40543eaf3006a5ceb526668288e5396",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.0.bn.running_var",
+      "sha256": "27abd0662af43e04cd4e049d75fe012e2c123f47fb599c34a207ece749a118f1",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.1.conv.weight",
+      "sha256": "ed751e82afabd5830ee47569fcc26007eb2e7499c9d2062fc6154d35889753d5",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.1.bn.weight",
+      "sha256": "24f97fc1e67fae7e099ac4b906192bf0bd2414c09e7251434ecef8f24fbb7ce7",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.1.bn.bias",
+      "sha256": "72b6d7e8074275d2734fd42b89b180dee2452b4a7b8c18da63f026e35c0a2976",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.1.bn.running_mean",
+      "sha256": "e6950de39f59956b3b0c867844b3ed9e53c96c05e8e1a6b496eafb262f443153",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.1.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.1.1.bn.running_var",
+      "sha256": "edbd2504982e955a954aee4c9c6c134504ff8c61bbb3846269270922ea0ba44c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.2.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.2.weight",
+      "sha256": "da032c624fcd97c2279ad7fc05dbc18789dc98992d3d6d834d7918f64563b028",
+      "shape": [
+        80,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.0.2.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.0.2.bias",
+      "sha256": "4b7722f794d39a28fcdea8902408a3247ec39b3293f375d85e238f3146291309",
+      "shape": [
+        80
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.0.conv.weight",
+      "sha256": "de6d27c4a46be0c45cfbac2512bde63dbb64b9b7ba46c1117aaf51e64143cb4e",
+      "shape": [
+        512,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.0.bn.weight",
+      "sha256": "404f7ab1b02b81070cc105d7a51669fdc19e6e499724e6ef0ffa22084aee744d",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.0.bn.bias",
+      "sha256": "9a64d445487eb708f3b48821aeff0e65138c83acc2dc849cd7268d225e44d521",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.0.bn.running_mean",
+      "sha256": "6f2a802dce84e491f6d8f56966f7557957162c40eea31fe7b9cfbd40767bd277",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.0.bn.running_var",
+      "sha256": "6af039761141146c22bf0c4f081885b8ff100c17906d1b15ce73b76c4997c4cf",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.1.conv.weight",
+      "sha256": "5e89c105d7c1afaf1a19b8458c8b03882ecab2359f2cb421fe7fe540293b72a8",
+      "shape": [
+        256,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.1.bn.weight",
+      "sha256": "bd7dd4f1f56c802cf9902b0e73ca26cc413845e510ac8b7d24ed61dac4a78775",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.1.bn.bias",
+      "sha256": "27e8c4c6b1dea6ae314143ba61b9e2a57ea7533880300f126b2949354e333fe5",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.1.bn.running_mean",
+      "sha256": "9af870c014fd3494fed41392dca22de7b5358ee93d11574692922205b2c4ccc0",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.0.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.0.1.bn.running_var",
+      "sha256": "2fdb27306cb6cafe1380de91db599201cb42e6930159d97230be9613bab530a4",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.0.conv.weight",
+      "sha256": "65e47a949b33cc16cc9472eacdb43bca20835d8e9ed71ec61ad3128a865c8c15",
+      "shape": [
+        256,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.0.bn.weight",
+      "sha256": "3d1cd616e3101adf0d5f852bb7d9897fae3abc8280b412c34a982b89433f445c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.0.bn.bias",
+      "sha256": "c1ef6e3458d71d58536915b3c21315c165985dece0916f750a8cd8445dcc2802",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.0.bn.running_mean",
+      "sha256": "392dbf16b87fa6ccc75041f81c859d1ebe993a1c4013dcbf4846a02ac0a08656",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.0.bn.running_var",
+      "sha256": "424d6a01df53918f9dbe0302ef04469f7d53356f1eb3631e02a77992847c5b45",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.1.conv.weight",
+      "sha256": "695f7c14220fb66266d4ac2897311dc7df12843da912847da15b950cc616b5ae",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.1.bn.weight",
+      "sha256": "45355ac144f9d7545d0b0be759487f326c4195bc1a299589c98fd46347af8b6c",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.1.bn.bias",
+      "sha256": "d55653a39296bba2523e38da97df58986ff977ea3699a68df822f58d830eb856",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.1.bn.running_mean",
+      "sha256": "822963df2a12c7a7f8c150a45af0a1260eb2cfd240c0729c527b37bad258f2af",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.1.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.1.1.bn.running_var",
+      "sha256": "9224f8a86f5a8d530cee215db2787a4169b18c9927ce67b2da61896d86dd934d",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.2.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.2.weight",
+      "sha256": "cb6420c4a3320bf7ab371060bc2b4a1379bc4a8ffa33ef12958dd29fd2e5be87",
+      "shape": [
+        80,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.1.2.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.1.2.bias",
+      "sha256": "00f5dedc910603af69e77aa3021ec2e839b5a2f9cb7403f7baa2def0710facc0",
+      "shape": [
+        80
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.0.conv.weight",
+      "sha256": "4b717b027d5b2875532aac4dc9ce4eced14d53ce1b2be1f9162fe903d97cc4ec",
+      "shape": [
+        512,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.0.bn.weight",
+      "sha256": "c6d1e278cca830cd1b99edfc03f7794a2d3ddb4fcc11d768905ac404a3d3b9ac",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.0.bn.bias",
+      "sha256": "41408398393d181b9c5e07e0bf62ffc914b225b37cffb4f1799479aef18df099",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.0.bn.running_mean",
+      "sha256": "c862dc803917e78cd718cc9a97be46078456e8363e8b7da567c9dc43f270bd07",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.0.bn.running_var",
+      "sha256": "8d7519a9eff559624101491f308358900cf088e232f64492ba3899b4306ecbce",
+      "shape": [
+        512
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.1.conv.weight",
+      "sha256": "131a24961cc4966dd07caf4fd4cf0d3087424e77a3eba8657aa5699bcb0511f3",
+      "shape": [
+        256,
+        512,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.1.bn.weight",
+      "sha256": "4cbf49005264d75c49902f5fb24ad45cb609e8758f092e1fbb5e1c029f9127b1",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.1.bn.bias",
+      "sha256": "9254421a75cff9902c91661baf8cdefb6b883eaaaf020d1abd10cff09b5c7a9a",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.1.bn.running_mean",
+      "sha256": "cdfec9eccaa2dc037d28c2d6835a4682c77d3c1a228e1b98cbf895159efbbb33",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.0.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.0.1.bn.running_var",
+      "sha256": "14c07d8f2636e77616b96c75ed61eaea3870ecb6450056eacbbb926bb6e11ca0",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.0.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.0.conv.weight",
+      "sha256": "14d62b7bebfe9d48a575de955df5737a156ef81cd70b65215ce55c7d83147e09",
+      "shape": [
+        256,
+        1,
+        3,
+        3
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.0.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.0.bn.weight",
+      "sha256": "dd22ed043c604c7b4e7622e108ffdafe321795b266a2b98eac8cd29eb65a15fe",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.0.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.0.bn.bias",
+      "sha256": "8f539216a9e6e80e8f3ecfdb6cde850f2b8dc6ab94a9689f691bcb24f1e8c071",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.0.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.0.bn.running_mean",
+      "sha256": "926938e336dd7f7b84c827b12b51c8f702130216218622defd563c165aa202c5",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.0.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.0.bn.running_var",
+      "sha256": "c48c227a0792228e2f86126d6f694de47eb79d3f819ada6c511ad5134b898b4d",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.1.conv.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.1.conv.weight",
+      "sha256": "13248bfddb8988e71a2513660c66cbe61f01fc077d28207467cd58e8bede1af7",
+      "shape": [
+        256,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.1.bn.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.1.bn.weight",
+      "sha256": "bcf64583b5fc66eef0a4b35819da0d504ee45e669a1ea2de447a296877e97e13",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.1.bn.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.1.bn.bias",
+      "sha256": "e9bca99a0672153f7f5e807ee0ee2a2145364c844cc394c498dbfcc3940edee5",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.1.bn.running_mean"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.1.bn.running_mean",
+      "sha256": "4be493f03ee574ddbe5dc1f07f321058e4b2f2e0d3054ff89ec0a44b195f9521",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.1.1.bn.running_var"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.1.1.bn.running_var",
+      "sha256": "27177987d2b8d65927e948161ba34dd5e9f2fcc6313d564abbeecfdab0014ad2",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.2.weight"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.2.weight",
+      "sha256": "326c6d4f6591b4eb47c966edef96cbc3886aa5bf6084b4de72c6d19aa0b4c725",
+      "shape": [
+        80,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "dtype": "<f4",
+      "fixed_weight_keys": [
+        "model.23.cv3.2.2.bias"
+      ],
+      "matched": true,
+      "name": "backbone.layers.23.cv3.2.2.bias",
+      "sha256": "791996b2946052d1c5346b6f40274c6f9bdb172f2f13c19e82a9e34d461ebaeb",
+      "shape": [
+        80
+      ]
+    }
+  ],
+  "onnx_sha256": "4ae9405c8cc984d992760a2aa32353daaa133ccec6894e876f17a19960d7aa36",
+  "scope": "every ONNX initializer byte-matched against literal fixed checkpoint tensors; derived Constant operators are not weight initializers",
+  "status": "PASS",
+  "teacher_sha256": "08be5abae55d26b762e262948ded7d3deb11295aa0509ee04ad3582a2c9774cd",
+  "teacher_state": "model primary EMA",
+  "unmatched_initializers": []
+}

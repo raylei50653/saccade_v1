@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/model.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/ETH-Sunnyday",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Sunnyday/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Sunnyday/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Sunnyday/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Sunnyday/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:08:51.353644+00:00",
+  "engine_sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+  "exit_code": 0,
+  "frames": 354,
+  "imported": false,
+  "mot_sha256": "6455dc7fc1d7b56bbf4f917c4a817bb1e9f7611c2978a4cb6173d0584ad59df1",
+  "motion_sha256": "bdcdea17421eea9258957c00c57d96b228071d37d7a9ae7f22aba87006b4ee2b",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "a36de96ea4c6be30dd57d4983b9b1fa50e022f7b0cd9e2bf3886d11e754d5257",
+  "resolved_config_sha256": "b0e6aaed80803f3c2f099cd35ad46d1e04ef941228186769b41e6418bb1e6cd4",
+  "started_utc": "2026-11-11T15:08:48.832269+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/official/ETH-Sunnyday.json",
+    "sha256": "12221032be825abf6b04176b2d0eb2f952353003bfba80e3982bd53e285161ad"
+  },
+  "wall_seconds_including_lock_wait": 2.5213936649997777
+}

@@ -1,0 +1,799 @@
+{
+  "candidate_slots": 2,
+  "cycles": 2,
+  "delivery_scope": "enqueue call start to receive return; end before caller copy/check",
+  "detection_graph": false,
+  "excludes": "JPEG disk reads, model initialization, first20frames, output file writes",
+  "formal_acceptance": false,
+  "frames_per_session": 140,
+  "groups": [
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 8.847712185416666,
+        "p50": 8.41995,
+        "p95": 11.774563,
+        "p99": 17.017037,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 899.917505,
+        "p50": 703.734857,
+        "p95": 1470.882474,
+        "p99": 1470.882474,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 8.8490065895,
+      "mode": "single",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 8.8490065895,
+        "p50": 8.39713,
+        "p95": 10.187616433,
+        "p99": 10.187616433,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 113.00703529665961
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 7.840573022916667,
+        "p50": 6.804082,
+        "p95": 13.616808,
+        "p99": 26.331674,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 610.78553675,
+        "p50": 610.467388,
+        "p95": 617.623496,
+        "p99": 617.623496,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 7.8419552915,
+      "mode": "single",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 7.8419552915,
+        "p50": 6.704147308,
+        "p95": 11.201924233,
+        "p99": 11.201924233,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 127.51921718858986
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 6.876932804166667,
+        "p50": 6.872081,
+        "p95": 7.405998,
+        "p99": 7.796768,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 651.380964,
+        "p50": 608.547929,
+        "p95": 767.763465,
+        "p99": 767.763465,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 6.8778262085,
+      "mode": "single",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 6.8778262085,
+        "p50": 6.846061342,
+        "p95": 6.950604967,
+        "p99": 6.950604967,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 145.39477586161516
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 25.98977704375,
+        "p50": 26.110676,
+        "p95": 28.459847,
+        "p99": 30.259586,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 709.2390085,
+        "p50": 702.337965,
+        "p95": 730.051917,
+        "p99": 730.051917,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 6.589397925,
+      "mode": "queued",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 6.589397925,
+        "p50": 6.546064642,
+        "p95": 6.685742908,
+        "p99": 6.685742908,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 151.75893327158565
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 19.766573295833332,
+        "p50": 19.81824,
+        "p95": 21.873518,
+        "p99": 22.761659,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 623.58487825,
+        "p50": 624.241684,
+        "p95": 632.349392,
+        "p99": 632.349392,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.015996052,
+      "mode": "queued",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 5.015996052,
+        "p50": 4.920532208,
+        "p95": 5.138214525,
+        "p99": 5.138214525,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 199.3621983815708
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 19.965705120833334,
+        "p50": 20.136473,
+        "p95": 22.02204,
+        "p99": 23.654858,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 605.5512265,
+        "p50": 601.20096,
+        "p95": 619.606151,
+        "p99": 619.606151,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.068365275,
+      "mode": "queued",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 5.068365275,
+        "p50": 5.061751525,
+        "p95": 5.117968792,
+        "p99": 5.117968792,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 197.30227514038046
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 6.815614158333333,
+        "p50": 6.784638,
+        "p95": 7.138781,
+        "p99": 7.494436,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 762.2440175,
+        "p50": 763.944058,
+        "p95": 771.561344,
+        "p99": 771.561344,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 6.817343725,
+      "mode": "single",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 6.817343725,
+        "p50": 6.811562208,
+        "p95": 6.863186442,
+        "p99": 6.863186442,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 146.68469719854122
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 5.73432475625,
+        "p50": 5.636761,
+        "p95": 6.938432,
+        "p99": 7.088236,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 671.2881267500001,
+        "p50": 633.163542,
+        "p95": 787.257641,
+        "p99": 787.257641,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.7359825959999995,
+      "mode": "single",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 5.7359825959999995,
+        "p50": 5.633553117,
+        "p95": 6.057660358,
+        "p99": 6.057660358,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 174.33804640504877
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 5.93766955,
+        "p50": 5.781517,
+        "p95": 7.177594,
+        "p99": 7.339331,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 664.605449,
+        "p50": 661.785953,
+        "p95": 672.148624,
+        "p99": 672.148624,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.93934418325,
+      "mode": "single",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 5.93934418325,
+        "p50": 5.760598667,
+        "p95": 6.46366645,
+        "p99": 6.46366645,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 168.36875741604211
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 20.28110513958333,
+        "p50": 20.511536,
+        "p95": 21.309439,
+        "p99": 21.747886,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 758.15595625,
+        "p50": 750.18503,
+        "p95": 787.713336,
+        "p99": 787.713336,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.1435741440000005,
+      "mode": "queued",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 5.1435741440000005,
+        "p50": 5.137452167,
+        "p95": 5.152684792,
+        "p99": 5.152684792,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 194.41733938384147
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 16.0751614875,
+        "p50": 16.26354,
+        "p95": 16.953768,
+        "p99": 17.317418,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 662.6030392499999,
+        "p50": 658.313952,
+        "p95": 671.272325,
+        "p99": 671.272325,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 4.0787229499999995,
+      "mode": "queued",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 4.0787229499999995,
+        "p50": 4.076600375,
+        "p95": 4.09177305,
+        "p99": 4.09177305,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 245.17477952259546
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 17.130360629166667,
+        "p50": 16.810315,
+        "p95": 19.908373,
+        "p99": 20.528659,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 668.45992375,
+        "p50": 653.720129,
+        "p95": 689.368364,
+        "p99": 689.368364,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 4.345493723,
+      "mode": "queued",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 4.345493723,
+        "p50": 4.1703772,
+        "p95": 4.549471483,
+        "p99": 4.549471483,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6",
+      "sequence": "MOT17-10-SDP",
+      "throughput_fps": 230.12344827635138
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 8.551139575,
+        "p50": 8.351512,
+        "p95": 9.071566,
+        "p99": 9.569751,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 752.8138425,
+        "p50": 729.471003,
+        "p95": 811.530169,
+        "p99": 811.530169,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 8.552179821,
+      "mode": "single",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 8.552179821,
+        "p50": 8.295743967,
+        "p95": 9.271405992,
+        "p99": 9.271405992,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 116.92925323488706
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 6.853928183333333,
+        "p50": 6.868959,
+        "p95": 7.390089,
+        "p99": 7.744685,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 627.66782775,
+        "p50": 592.549129,
+        "p95": 705.132046,
+        "p99": 705.132046,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 6.85499688525,
+      "mode": "single",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 6.85499688525,
+        "p50": 6.840535858,
+        "p95": 6.889076908,
+        "p99": 6.889076908,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 145.87898677995244
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 7.012852029166667,
+        "p50": 6.983396,
+        "p95": 7.786508,
+        "p99": 8.616704,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 691.41187075,
+        "p50": 670.81958,
+        "p95": 755.579229,
+        "p99": 755.579229,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 7.0139917835,
+      "mode": "single",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 7.0139917835,
+        "p50": 6.880816592,
+        "p95": 7.412070792,
+        "p99": 7.412070792,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 142.5721658745653
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 26.136181647916665,
+        "p50": 26.285449,
+        "p95": 28.885932,
+        "p99": 29.659189,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 687.44780625,
+        "p50": 665.90787,
+        "p95": 747.42157,
+        "p99": 747.42157,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 6.6326082085,
+      "mode": "queued",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 6.6326082085,
+        "p50": 6.610882,
+        "p95": 6.712096342,
+        "p99": 6.712096342,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 150.77025033959535
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 19.739822039583334,
+        "p50": 19.914714,
+        "p95": 21.57847,
+        "p99": 22.767056,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 600.77238475,
+        "p50": 579.596042,
+        "p95": 660.227715,
+        "p99": 660.227715,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.01028651675,
+      "mode": "queued",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 5.01028651675,
+        "p50": 4.958633492,
+        "p95": 5.064169567,
+        "p99": 5.064169567,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 199.58938409148416
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 20.147762247916667,
+        "p50": 20.410162,
+        "p95": 22.015258,
+        "p99": 22.939173,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 583.4351712499999,
+        "p50": 580.281925,
+        "p95": 603.843242,
+        "p99": 603.843242,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.11381071875,
+      "mode": "queued",
+      "path": "detect",
+      "process_interval_ms": {
+        "mean": 5.11381071875,
+        "p50": 5.089310267,
+        "p95": 5.161602558,
+        "p99": 5.161602558,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 195.54888809893927
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 6.77659169375,
+        "p50": 6.761825,
+        "p95": 6.999336,
+        "p99": 7.213623,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 706.927063,
+        "p50": 699.899816,
+        "p95": 718.814817,
+        "p99": 718.814817,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 6.777789225,
+      "mode": "single",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 6.777789225,
+        "p50": 6.783241975,
+        "p95": 6.789469525,
+        "p99": 6.789469525,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 147.54073441993174
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 5.631623897916667,
+        "p50": 5.59319,
+        "p95": 5.881876,
+        "p99": 6.125578,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 630.48056975,
+        "p50": 629.674765,
+        "p95": 649.102295,
+        "p99": 649.102295,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.6329123105,
+      "mode": "single",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 5.6329123105,
+        "p50": 5.615543792,
+        "p95": 5.658812967,
+        "p99": 5.658812967,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 177.52806095276068
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 5.7713429125,
+        "p50": 5.75693,
+        "p95": 6.023891,
+        "p99": 6.159844,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 613.30366,
+        "p50": 611.75584,
+        "p95": 625.760954,
+        "p99": 625.760954,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.7726575625,
+      "mode": "single",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 5.7726575625,
+        "p50": 5.767414467,
+        "p95": 5.794646608,
+        "p99": 5.794646608,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 173.2304383506379
+    },
+    {
+      "arm": "main",
+      "delivery_ms": {
+        "mean": 20.31615575,
+        "p50": 20.542804,
+        "p95": 21.215789,
+        "p99": 21.539004,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 710.015341,
+        "p50": 699.526045,
+        "p95": 731.005442,
+        "p99": 731.005442,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 5.15290904975,
+      "mode": "queued",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 5.15290904975,
+        "p50": 5.14707365,
+        "p95": 5.168599658,
+        "p99": 5.168599658,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 194.0651368664301
+    },
+    {
+      "arm": "official",
+      "delivery_ms": {
+        "mean": 15.983438085416667,
+        "p50": 16.156323,
+        "p95": 16.760612,
+        "p99": 16.994093,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 619.31947325,
+        "p50": 613.070043,
+        "p95": 632.721036,
+        "p99": 632.721036,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 4.0566287645,
+      "mode": "queued",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 4.0566287645,
+        "p50": 4.049140625,
+        "p95": 4.077713883,
+        "p99": 4.077713883,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 246.51010926883643
+    },
+    {
+      "arm": "finetuned",
+      "delivery_ms": {
+        "mean": 17.2383640375,
+        "p50": 16.766842,
+        "p95": 19.983974,
+        "p99": 20.255409,
+        "samples": 480
+      },
+      "fresh_processes": 4,
+      "initialization_ms": {
+        "mean": 652.20687825,
+        "p50": 614.158726,
+        "p95": 763.983902,
+        "p99": 763.983902,
+        "samples": 4
+      },
+      "interval_ms_per_frame": 4.37349690225,
+      "mode": "queued",
+      "path": "tracking",
+      "process_interval_ms": {
+        "mean": 4.37349690225,
+        "p50": 4.226496592,
+        "p95": 4.621211542,
+        "p99": 4.621211542,
+        "samples": 4
+      },
+      "result_hash_identical_all_modes_and_repeats": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f",
+      "sequence": "MOT17-02-SDP",
+      "throughput_fps": 228.6499847491689
+    }
+  ],
+  "motion_slots_tracking": 2,
+  "order": [
+    "main",
+    "official",
+    "finetuned",
+    "finetuned",
+    "official",
+    "main"
+  ],
+  "prefixes": [
+    "MOT17-10-SDP",
+    "MOT17-02-SDP"
+  ],
+  "result_slots": 4,
+  "ring_slots": 4,
+  "samples_per_group": 480,
+  "status": "PASS",
+  "throughput_scope": "wall interval including same caller copy/check, ring fill/drain, after warmup",
+  "tracking_graph": true,
+  "warmup": 20
+}

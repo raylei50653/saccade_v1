@@ -1,0 +1,41 @@
+{
+  "benchmark": "PP22",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine",
+    "/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00035.mp4",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/uid_vid_00035.mp4/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/uid_vid_00035.mp4/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/uid_vid_00035.mp4/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/uid_vid_00035.mp4/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:14:16.830330+00:00",
+  "engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+  "exit_code": 0,
+  "frames": 673,
+  "imported": false,
+  "mot_sha256": "0f1aac5715f99ec3ace5dff246515adb0ccdc6cac147b4080414f6d78cfea678",
+  "motion_sha256": "ce1271cefd14163739ccd6cad4499c2c7f4ecc59c9bf45f1931eb1521459786f",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "892d929b97ce40cd596e1d32d10eb8fbe5d0cf67462e7a2d83eefbbb9c647351",
+  "resolved_config_sha256": "21346e508951067fcdd7843b50df5851b83d0ba0cd435b74c811d72c4d75bddc",
+  "started_utc": "2026-11-11T15:14:12.855216+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/finetuned/uid_vid_00035.mp4.json",
+    "sha256": "5fdc8b2f175aa6c0df5a9efbdd795291300138cc9e75504d77283dbd7a45b2bf"
+  },
+  "wall_seconds_including_lock_wait": 3.975133388999893
+}

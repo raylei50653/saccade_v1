@@ -1,0 +1,399 @@
+{
+  "result": "PASS",
+  "controls": [
+    {
+      "control": "mot/main/all7",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 1.4551915228366852e-11,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 2.220446049250313e-16,
+          "ulps_at_reference_scale": 1.0
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 1.4551915228366852e-11,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "control": "mot/main/prior_actual_02+10",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 0,
+      "max_ULP_error": 0,
+      "nonzero_rounding_differences": [],
+      "result": "PASS"
+    },
+    {
+      "control": "mot/main/prior_actual_training5",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 7.275957614183426e-12,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 7.275957614183426e-12,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "control": "mot/official/all7",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 0,
+      "max_ULP_error": 0,
+      "nonzero_rounding_differences": [],
+      "result": "PASS"
+    },
+    {
+      "control": "mot/finetuned/all7",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 1.4551915228366852e-11,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 1.4551915228366852e-11,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "control": "fixed-motion/main/all7",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 1.4551915228366852e-11,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 2.220446049250313e-16,
+          "ulps_at_reference_scale": 1.0
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 1.4551915228366852e-11,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "control": "fixed-motion/main/prior_actual_02+10",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 0,
+      "max_ULP_error": 0,
+      "nonzero_rounding_differences": [],
+      "result": "PASS"
+    },
+    {
+      "control": "fixed-motion/main/prior_actual_training5",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 7.275957614183426e-12,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 7.275957614183426e-12,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "control": "fixed-motion/official/all7",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 7.275957614183426e-12,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 5.551115123125783e-17,
+          "ulps_at_reference_scale": 0.25
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 7.275957614183426e-12,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "control": "fixed-motion/finetuned/all7",
+      "numeric_fields": 275,
+      "integer_counts_exact": true,
+      "floating_bound": "32 binary64 ulps at max(1,abs(reference))",
+      "max_absolute_error": 1.4551915228366852e-11,
+      "max_ULP_error": 1.0,
+      "nonzero_rounding_differences": [
+        {
+          "field": "MOTP",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "sMOTA",
+          "absolute_error": 1.1102230246251565e-16,
+          "ulps_at_reference_scale": 0.5
+        },
+        {
+          "field": "MOTP_sum",
+          "absolute_error": 1.4551915228366852e-11,
+          "ulps_at_reference_scale": 1.0
+        }
+      ],
+      "result": "PASS"
+    }
+  ],
+  "scores": {
+    "mot": {
+      "02+10": {
+        "main": {
+          "HOTA": 45.08600982341081,
+          "DetA": 46.410297704402346,
+          "AssA": 44.080235006151135,
+          "MOTA": 55.00000000000001,
+          "IDF1": 56.03968063725038,
+          "CLR_FP": 2687,
+          "CLR_FN": 11294,
+          "IDSW": 158,
+          "Frag": 286,
+          "GT_Dets": 31420,
+          "GT_IDs": 119,
+          "Frames": 1254
+        },
+        "official": {
+          "HOTA": 40.4595412069031,
+          "DetA": 39.583652875237505,
+          "AssA": 41.696970650691036,
+          "MOTA": 44.76766390833864,
+          "IDF1": 51.2588663170374,
+          "CLR_FP": 2085,
+          "CLR_FN": 15158,
+          "IDSW": 111,
+          "Frag": 271,
+          "GT_Dets": 31420,
+          "GT_IDs": 119,
+          "Frames": 1254
+        },
+        "finetuned": {
+          "HOTA": 44.33213292925194,
+          "DetA": 48.45818660690314,
+          "AssA": 40.90354844701247,
+          "MOTA": 56.982813494589436,
+          "IDF1": 55.84128780274133,
+          "CLR_FP": 2650,
+          "CLR_FN": 10699,
+          "IDSW": 167,
+          "Frag": 303,
+          "GT_Dets": 31420,
+          "GT_IDs": 119,
+          "Frames": 1254
+        }
+      },
+      "training5": {
+        "main": {
+          "HOTA": 68.92970365617862,
+          "DetA": 74.70491615918137,
+          "AssA": 63.84809175103784,
+          "MOTA": 84.4578804851812,
+          "IDF1": 76.90544632739426,
+          "CLR_FP": 3393,
+          "CLR_FN": 8950,
+          "IDSW": 227,
+          "Frag": 196,
+          "GT_Dets": 80877,
+          "GT_IDs": 427,
+          "Frames": 4062
+        },
+        "official": {
+          "HOTA": 47.910519675795584,
+          "DetA": 43.80881779890636,
+          "AssA": 52.814438554800994,
+          "MOTA": 45.47275492414407,
+          "IDF1": 57.20036542160889,
+          "CLR_FP": 8382,
+          "CLR_FN": 35497,
+          "IDSW": 221,
+          "Frag": 382,
+          "GT_Dets": 80877,
+          "GT_IDs": 427,
+          "Frames": 4062
+        },
+        "finetuned": {
+          "HOTA": 66.5663428656259,
+          "DetA": 69.17807724703489,
+          "AssA": 64.4195926392056,
+          "MOTA": 79.62708804728167,
+          "IDF1": 76.92612137203166,
+          "CLR_FP": 3063,
+          "CLR_FN": 13217,
+          "IDSW": 197,
+          "Frag": 186,
+          "GT_Dets": 80877,
+          "GT_IDs": 427,
+          "Frames": 4062
+        }
+      }
+    },
+    "fixed-motion": {
+      "02+10": {
+        "main": {
+          "HOTA": 45.08600982341081,
+          "DetA": 46.410297704402346,
+          "AssA": 44.080235006151135,
+          "MOTA": 55.00000000000001,
+          "IDF1": 56.03968063725038,
+          "CLR_FP": 2687,
+          "CLR_FN": 11294,
+          "IDSW": 158,
+          "Frag": 286,
+          "GT_Dets": 31420,
+          "GT_IDs": 119,
+          "Frames": 1254
+        },
+        "official": {
+          "HOTA": 40.460040174904364,
+          "DetA": 39.584021346172136,
+          "AssA": 41.69801395177527,
+          "MOTA": 44.7422024188415,
+          "IDF1": 51.25082886249924,
+          "CLR_FP": 2089,
+          "CLR_FN": 15162,
+          "IDSW": 111,
+          "Frag": 271,
+          "GT_Dets": 31420,
+          "GT_IDs": 119,
+          "Frames": 1254
+        },
+        "finetuned": {
+          "HOTA": 44.40164409915815,
+          "DetA": 48.444335928269176,
+          "AssA": 41.041300897772146,
+          "MOTA": 56.995544239338,
+          "IDF1": 56.05021164793461,
+          "CLR_FP": 2657,
+          "CLR_FN": 10689,
+          "IDSW": 166,
+          "Frag": 303,
+          "GT_Dets": 31420,
+          "GT_IDs": 119,
+          "Frames": 1254
+        }
+      },
+      "training5": {
+        "main": {
+          "HOTA": 68.92970365617862,
+          "DetA": 74.70491615918137,
+          "AssA": 63.84809175103784,
+          "MOTA": 84.4578804851812,
+          "IDF1": 76.90544632739426,
+          "CLR_FP": 3393,
+          "CLR_FN": 8950,
+          "IDSW": 227,
+          "Frag": 196,
+          "GT_Dets": 80877,
+          "GT_IDs": 427,
+          "Frames": 4062
+        },
+        "official": {
+          "HOTA": 47.94263381332378,
+          "DetA": 43.83121796161225,
+          "AssA": 52.853442767594814,
+          "MOTA": 45.47028203321092,
+          "IDF1": 57.227533034739395,
+          "CLR_FP": 8375,
+          "CLR_FN": 35498,
+          "IDSW": 229,
+          "Frag": 377,
+          "GT_Dets": 80877,
+          "GT_IDs": 427,
+          "Frames": 4062
+        },
+        "finetuned": {
+          "HOTA": 66.54238455371126,
+          "DetA": 69.1495128253179,
+          "AssA": 64.40029027195308,
+          "MOTA": 79.59864980155051,
+          "IDF1": 76.92206259518834,
+          "CLR_FP": 3114,
+          "CLR_FN": 13195,
+          "IDSW": 191,
+          "Frag": 184,
+          "GT_Dets": 80877,
+          "GT_IDs": 427,
+          "Frames": 4062
+        }
+      }
+    }
+  }
+}

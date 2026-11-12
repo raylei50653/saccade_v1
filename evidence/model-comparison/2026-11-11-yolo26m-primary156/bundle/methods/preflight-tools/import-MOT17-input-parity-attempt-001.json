@@ -1,0 +1,6 @@
+{
+  "status": "FAIL",
+  "reason": "Audit assumed prior inputs-after.json included raw6 engine entries; it binds only main engine. Both raw6 engines are correctly bound by prior quality-binaries-after.json.",
+  "error": "KeyError: /home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine",
+  "correction": "Compare all three engine hashes to dedicated prior quality-binaries-after authority; additionally check JPEG-input-manifest entries only when present. No input/model/binary was changed."
+}

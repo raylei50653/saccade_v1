@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/ETH-Bahnhof",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ETH-Bahnhof/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ETH-Bahnhof/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ETH-Bahnhof/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ETH-Bahnhof/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:08:29.793877+00:00",
+  "engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+  "exit_code": 0,
+  "frames": 1000,
+  "imported": false,
+  "mot_sha256": "7c9d3567aa98fe8392b8bcbb74fe16a9dcefaac532fabc536bafddf6842beadf",
+  "motion_sha256": "2fe670dde878e849e5e56c1473a171d776fc6cbb7c0d59eb90b2f0fb3b45b02d",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "4c562d5fba904984d8cc65f9705a0fac7123314d4ff7850e0782e7657c38f1e0",
+  "resolved_config_sha256": "2652ef3d34c221907d7e08380b81406d249572013c9dac260e3618ed7a062004",
+  "started_utc": "2026-11-11T15:08:23.856320+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/finetuned/ETH-Bahnhof.json",
+    "sha256": "0300824f5bdd37f55708a92cdb5536f5cbaf9dae24707ce1c27a904cfbb51d92"
+  },
+  "wall_seconds_including_lock_wait": 5.937578613998994
+}

@@ -1,0 +1,138 @@
+{
+  "created_utc": "2026-11-11T13:37:39.986937+00:00",
+  "objective": "Determine whether deployed HR Mamba has quality, latency, throughput or resource advantages versus original and fine-tuned YOLO26m after equivalent TensorRT export",
+  "research_only": true,
+  "deployment_changed": false,
+  "arms": {
+    "main": "existing deployed engine8292cc23..., unchanged",
+    "official_raw": "official401cea... one2many raw6",
+    "finetuned_raw": "UA2e4 primaryEMA08be... one2many raw6",
+    "official_default": "official401cea... defaultone2one end2end decoded output, separate native-original control"
+  },
+  "common_build": {
+    "shape": [
+      1,
+      3,
+      768,
+      1280
+    ],
+    "io": "FP32",
+    "tactics": "FP16 allowed",
+    "TF32": false,
+    "BF16": false,
+    "INT8": false,
+    "workspace_bytes": 268435456,
+    "optimization_level": 3,
+    "max_aux_streams": 0,
+    "SDK": "TensorRT10.16.1.11"
+  },
+  "export_validation": {
+    "real_refs": [
+      1,
+      218,
+      437,
+      654
+    ],
+    "sequence": "MOT17-10-SDP",
+    "checks": [
+      "weight hashes and primaryEMA",
+      "PT vs ONNX FP32 numerical reference",
+      "ONNX checker",
+      "TRT finite/repeat/Graph output equality",
+      "FP16 raw relative errors reported; quality rescored without tuning",
+      "actual engine tensor dtypes and layer/tactic inspection"
+    ]
+  },
+  "quality": {
+    "sequences": {
+      "MOT17-02-SDP": 600,
+      "MOT17-04-SDP": 1050,
+      "MOT17-05-SDP": 837,
+      "MOT17-09-SDP": 525,
+      "MOT17-10-SDP": 654,
+      "MOT17-11-SDP": 900,
+      "MOT17-13-SDP": 750
+    },
+    "scope": "all7 native raw6 engines, same F04/tracker/config; each detector own native G1; supplemental fixed main-G1 CPU replay from captured SCDR",
+    "roles": "training04/05/09/11/13; model-selectionval10; post-M4 reusedeval02",
+    "GT_scorer": "same frozen vendoredTrackEval MOT17 train pedestrian DO_PREPROC=True",
+    "default_original": "separate one2one output; quality/detection semantics differ and must not be labelled raw6-equivalent"
+  },
+  "model_benchmark": {
+    "inputs": "same4 frozen real HR FP32 images, uploads excluded",
+    "modes": [
+      "ordinary",
+      "CUDA Graph"
+    ],
+    "warmup": 12,
+    "samples_per_run": 40,
+    "mode_order_per_input": "ordinary,graph,graph,ordinary",
+    "throughput": "separate batches64replays with GPUevents+wall",
+    "arm_order": [
+      "main",
+      "official_raw",
+      "finetuned_raw",
+      "finetuned_raw",
+      "official_raw",
+      "main"
+    ],
+    "cycles": 2,
+    "default_control_order": [
+      "main",
+      "official_default",
+      "official_default",
+      "main"
+    ],
+    "default_cycles": 2,
+    "sessions": "fresh process/context per arm call; output repeat/Graph bits checked all4 inputs"
+  },
+  "pipeline_benchmark": {
+    "prefixes": [
+      "MOT17-10-SDP",
+      "MOT17-02-SDP"
+    ],
+    "frames": 140,
+    "warmup_frames": 20,
+    "measured_frames": 120,
+    "model_arms": [
+      "main",
+      "official_raw",
+      "finetuned_raw"
+    ],
+    "modes": [
+      "single",
+      "queued"
+    ],
+    "CUDA_Graph": true,
+    "ring_slots": 4,
+    "arm_order": "main,official,fine,fine,official,main x2cycles",
+    "delivery_boundary": "before enqueue to immediately after receive before validation/copy",
+    "queued_interval": "wall completed frames throughput separate from per-frame queued delivery latency",
+    "stages": [
+      "complete detection (F01/F02/F03/F04)",
+      "complete tracking (G1/F04b/tracking/packet)"
+    ],
+    "timing_excludes": [
+      "file reads (JPEG preloaded)",
+      "constructors",
+      "warmup",
+      "output writes"
+    ],
+    "cold_start": "constructor and first-frame separately reported"
+  },
+  "controls": [
+    "exclusive GPU flock across campaign; no builds/profilers during timed measurement",
+    "no threshold tuning or model replacement",
+    "main research-adapter packets/SCDR must reproduce original native binary",
+    "targeted invalid-input checks for new zero-plugin-status YOLO producer",
+    "full quality and status checks separate from timing",
+    "record inputs/source/binary/engine hashes and thermal/device telemetry",
+    "stage profiling only separate from benchmark if needed"
+  ],
+  "limits": [
+    "same FP16 allowed flags do not imply everylayer FP16; inspect actual tactics",
+    "different score calibration at fixed tracker thresholds is part of deployment comparison",
+    "seven-sequence quality includes training sequences; retain02/10 separately",
+    "not a new formal CUDA/sanitizer acceptance"
+  ]
+}

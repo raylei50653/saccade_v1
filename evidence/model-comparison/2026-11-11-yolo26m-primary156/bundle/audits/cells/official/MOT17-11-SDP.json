@@ -1,0 +1,61 @@
+{
+  "arm": "official",
+  "build_identity": {
+    "build.engine_sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+    "build.executable_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+    "build.schema": "saccade-build-identity/1",
+    "build.source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "build.source_dirty": "true",
+    "input.seqinfo_sha256": "b6487e5ae527741884ae30d3dd470c406f5b4aa8ed35381085941c421a43784b"
+  },
+  "completed_utc": "2026-11-11T14:38:30.041739+00:00",
+  "config_sha256": "e82ffa1aa5ce9f17a24b8894fb71bf429aaceffa51aed00162daee75bb7e8f24",
+  "epoch": 1,
+  "frames": 900,
+  "frozen_tracker_output_sha256": "aafaf8b821a573e8f45725c68a300b2dd890fe5e2358e5388eb30b60f0ffa28e",
+  "height": 1080,
+  "motion": {
+    "all_floats_finite": true,
+    "all_frame_references_contiguous": true,
+    "epoch": 1,
+    "frames": 900,
+    "key": [
+      1920,
+      1080,
+      1,
+      1920,
+      1080
+    ],
+    "sha256_of_file": "b2a49091db62785626848e963d66b4bd9ddf8eee19d544c546d35aee9d11a079",
+    "status_counts": {
+      "0": 0,
+      "1": 1,
+      "2": 899,
+      "3": 0
+    }
+  },
+  "packets": {
+    "all_status_ok": true,
+    "all_unique_UID_ID_class0_finite_boxes": true,
+    "bytes_raw": 11131200,
+    "canonical_all_frames": true,
+    "observed_rows": 7983,
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/MOT17-11-SDP/packets.bin",
+    "predicted_rows": 0,
+    "sha256_raw": "f8b48ddb1895e845a644fc0417834d326c9649ea0ef12a8d6289210300e62b62",
+    "validator_command": [
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/validate_packets",
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/MOT17-11-SDP/packets.bin",
+      "900"
+    ],
+    "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e",
+    "validator_stdout": "PASS frames=900 observed_rows=7983 predicted_rows=0 canonical=true all_status_ok=true"
+  },
+  "scope": "CPU structural/config validation only; not GPU/session sanitizer or quality acceptance",
+  "sequence": "MOT17-11-SDP",
+  "source_and_execution_config_correct": true,
+  "status": "PASS",
+  "tracker_output_matches_frozen_baseline": true,
+  "wall_seconds": 0.01991834000000381,
+  "width": 1920
+}

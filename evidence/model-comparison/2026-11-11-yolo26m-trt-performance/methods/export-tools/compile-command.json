@@ -1,0 +1,25 @@
+{
+  "command": [
+    "c++",
+    "-std=c++20",
+    "-O2",
+    "-Wno-deprecated-declarations",
+    "-I",
+    "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/include/x86_64-linux-gnu",
+    "-I",
+    "/opt/cuda/include",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/build_engine.cpp",
+    "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1",
+    "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvonnxparser.so.10.16.1",
+    "-L",
+    "/opt/cuda/lib64",
+    "-Wl,--disable-new-dtags,-rpath,/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu:/opt/cuda/lib64",
+    "-lcudart",
+    "-o",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/build_engine"
+  ],
+  "exit_code": 0,
+  "compiler": "c++ (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "source_sha256": "fcf0e609425117336ff45618c00cf2315ba2c05784da704fa3e28d342ecb3688",
+  "binary_sha256": "f92b706b39f5a12b87cf8f0b5865135da3f672849bf3ca1dee33cfecf40f5908"
+}

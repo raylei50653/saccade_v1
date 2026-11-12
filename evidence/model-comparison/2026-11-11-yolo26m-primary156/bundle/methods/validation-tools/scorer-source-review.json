@@ -1,0 +1,45 @@
+{
+  "checks": {
+    "DanceTrack_keeps_first7_GT_fields_and_sets_class_visibility_only": true,
+    "MOT15_adapter_bypasses_class_distractor_preprocessing": true,
+    "MOT17_control_checked_against_prior_native_TRT": true,
+    "MOT20_adapter_retains_class6_distractor_semantics": true,
+    "PP22_predfilter_uses_original_GT_present_frames_and_unchanged_seqLength": true,
+    "all_156_required_before_full_PASS": true,
+    "five_dataset_and_global_aggregates_are_descriptive_supplements": true,
+    "frozen_current_and_historical_TrackEval_algorithms_exact_bytes": true,
+    "no_GT_scoring_or_GPU_work_by_this_review": true,
+    "primary_groups_disjoint_full156_population": true,
+    "same_three_arms_only_after_complete_group_capture": true,
+    "worker_and_aggregate_recombine_full_metric_objects": true,
+    "worker_audits_actual_selected_GT_metadata_tracker_reads": true
+  },
+  "core_sources": {
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/scoring-tools/aggregate_primary.py": "9dd67cdb4872b32ab13b60f60a92db333a6a5efe8f77c5b07e006409d78d5c57",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/scoring-tools/score_primary.py": "2b603baf080cb76fa82baf083bd579e8afc84e61cc81bc0dd4497366b965a885",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/scoring-tools/worker.py": "0ecefe3fe168fdc5af9c3d139d690683401e000bf5985a192355d5ba78b329c0"
+  },
+  "descriptive_comparison": {
+    "no_adoption": true,
+    "no_gate_change": true,
+    "tie_tolerance_pp": 1e-09
+  },
+  "final_audit_script": {
+    "path": "build/yolo26m-trt-primary156-20261111/validation-tools/audit_primary.py",
+    "sha256": "05bc3700ad066ea81c520d321ebd91904e45e8c2b2ab8f01be27774516d8c5ce"
+  },
+  "metrics_population": {
+    "datasets": 5,
+    "frames_per_arm": 135503,
+    "primary_groups": 7,
+    "sequences": 156
+  },
+  "result": "PASS_SOURCE_REVIEW_AND_BOUNDED_MOT17_SELF_TEST",
+  "scope": "independent read-only source review; final full156 audit remains pending until captures/scoring complete",
+  "self_test": {
+    "arms": 3,
+    "path": "build/yolo26m-trt-primary156-20261111/validation-tools/scorer-preflight-MOT17.json",
+    "sequences": 7,
+    "sha256": "e0284278a50442c293000e0cc20969d427bb70a16e6bfb0079d91d967200845a"
+  }
+}

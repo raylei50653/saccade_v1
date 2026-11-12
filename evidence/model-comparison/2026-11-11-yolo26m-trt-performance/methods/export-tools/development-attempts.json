@@ -1,0 +1,20 @@
+{
+  "initial_compile_failures": [
+    "TensorRT version C functions initially namespace-qualified; corrected to global symbols",
+    "SDK has versioned libraries, no libnvinfer.so linker alias; corrected to explicit .so.10.16.1 files"
+  ],
+  "initial_builder_launch_before_successful_compile": {
+    "exit_code": 69,
+    "engine_produced": false
+  },
+  "initializer_audit_attempt_001": {
+    "status": "FAIL",
+    "log": "initializer-audit.log",
+    "reason": "CPU audit lacked pinned saccade pickle source path"
+  },
+  "initializer_audit_attempt_002": {
+    "status": "PASS",
+    "log": "initializer-audit-002.log",
+    "correction": "added pinned source paths; weights/export graphs unchanged"
+  }
+}

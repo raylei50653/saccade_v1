@@ -1,0 +1,588 @@
+{
+  "export_and_build_contract_status": "PASS",
+  "formal_acceptance": false,
+  "gpu_work_complete": true,
+  "main_frozen_engine": {
+    "modified": false,
+    "path": "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+    "sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876"
+  },
+  "models": [
+    {
+      "actual_engine_format_counts": {
+        "Float": 9,
+        "Half": 506,
+        "UInt64": 4,
+        "UInt8": 116
+      },
+      "arm": "official",
+      "build_options": {
+        "actual_aux_streams": 0,
+        "bf16": false,
+        "build_wall_seconds": 51.2902,
+        "cuda_driver_api": 13050,
+        "cuda_runtime": 13040,
+        "engine_bytes": 44570732,
+        "fp16": true,
+        "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+        "int8": false,
+        "io": [
+          {
+            "dtype": "FP32",
+            "mode": "input",
+            "name": "images",
+            "shape": [
+              1,
+              3,
+              768,
+              1280
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "cls_p3",
+            "shape": [
+              1,
+              80,
+              96,
+              160
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "cls_p4",
+            "shape": [
+              1,
+              80,
+              48,
+              80
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "cls_p5",
+            "shape": [
+              1,
+              80,
+              24,
+              40
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "reg_p3",
+            "shape": [
+              1,
+              4,
+              96,
+              160
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "reg_p4",
+            "shape": [
+              1,
+              4,
+              48,
+              80
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "reg_p5",
+            "shape": [
+              1,
+              4,
+              24,
+              40
+            ]
+          }
+        ],
+        "max_aux_streams": 0,
+        "network": "weakly_typed",
+        "onnx_parser_version": 100,
+        "optimization_level": 3,
+        "profiling_verbosity": "detailed",
+        "sm": "12.0",
+        "status": "PASS",
+        "tensor_rt_errors": 0,
+        "tensorrt_build": 11,
+        "tensorrt_version": 101601,
+        "tf32": false,
+        "timing_cache": "none supplied",
+        "workspace_bytes": 268435456
+      },
+      "engine_bytes": 44570732,
+      "engine_layer_count": 236,
+      "engine_sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+      "files": {
+        "build.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/build.json",
+          "sha256": "e5470e82c6fe276b9a3efa9f5c5f79846ee4c9fa6c5406efd76ad872368be07b"
+        },
+        "export.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/export.json",
+          "sha256": "4059d7abcb1870958009af007b9748f5cc9245eb1b220667c41a4ec8f17896af"
+        },
+        "initializer-audit.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/initializer-audit.json",
+          "sha256": "d7f77361951bb22a67988ba81d39a5d7d6765644e1a8de22d4d0c6437dcd3875"
+        },
+        "layers.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/layers.json",
+          "sha256": "f3581d29d6ba99e3d3a16cab75ed865b9d46965c14ad5544fc28ba080562b721"
+        },
+        "onnx-verify.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/onnx-verify.json",
+          "sha256": "e84f89b2fb7d0c85bfda24247ecf8f0ff4e254a30f4617ab17341c4c9aa5e1ef"
+        },
+        "trt-verify.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/trt-verify.json",
+          "sha256": "4d73e7a53cc29a403e6b46590ea83761fcafe231d261b43082d278d3f2976d2b"
+        }
+      },
+      "initializer_count": 542,
+      "onnx_pt_rel_l2_max": 5.184377103815078e-06,
+      "onnx_sha256": "26d0dcaa20e6a22173dc60ee92e51fedff0cb3e381b0eb3d613b441e98a4a382",
+      "scope": {
+        "default_decoded": "finite required; TopK ordering/set metrics reported, no equivalence claim",
+        "raw6_fp16_rel_l2": 0.01
+      },
+      "trt_repeat_graph_finite_status": "PASS",
+      "trt_vs_pt_diagnostic_status": "FAIL",
+      "trt_vs_pt_max_raw_rel_l2": 0.024059917336392473,
+      "unmatched_initializers": []
+    },
+    {
+      "actual_engine_format_counts": {
+        "Float": 11,
+        "Half": 514,
+        "UInt64": 4,
+        "UInt8": 118
+      },
+      "arm": "finetuned",
+      "build_options": {
+        "actual_aux_streams": 0,
+        "bf16": false,
+        "build_wall_seconds": 52.8308,
+        "cuda_driver_api": 13050,
+        "cuda_runtime": 13040,
+        "engine_bytes": 42853316,
+        "fp16": true,
+        "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+        "int8": false,
+        "io": [
+          {
+            "dtype": "FP32",
+            "mode": "input",
+            "name": "images",
+            "shape": [
+              1,
+              3,
+              768,
+              1280
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "cls_p3",
+            "shape": [
+              1,
+              80,
+              96,
+              160
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "cls_p4",
+            "shape": [
+              1,
+              80,
+              48,
+              80
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "cls_p5",
+            "shape": [
+              1,
+              80,
+              24,
+              40
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "reg_p3",
+            "shape": [
+              1,
+              4,
+              96,
+              160
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "reg_p4",
+            "shape": [
+              1,
+              4,
+              48,
+              80
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "reg_p5",
+            "shape": [
+              1,
+              4,
+              24,
+              40
+            ]
+          }
+        ],
+        "max_aux_streams": 0,
+        "network": "weakly_typed",
+        "onnx_parser_version": 100,
+        "optimization_level": 3,
+        "profiling_verbosity": "detailed",
+        "sm": "12.0",
+        "status": "PASS",
+        "tensor_rt_errors": 0,
+        "tensorrt_build": 11,
+        "tensorrt_version": 101601,
+        "tf32": false,
+        "timing_cache": "none supplied",
+        "workspace_bytes": 268435456
+      },
+      "engine_bytes": 42853316,
+      "engine_layer_count": 240,
+      "engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+      "files": {
+        "build.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/build.json",
+          "sha256": "3709c76fd7e6e1ea11b035b5399831e53cfbb85a52f812b4da180db3340831ab"
+        },
+        "export.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/export.json",
+          "sha256": "b2f4d191f7becf9e6267a5f90d15a32065050938c126a68a15e3db34ba35d888"
+        },
+        "initializer-audit.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/initializer-audit.json",
+          "sha256": "0c5c3b30ce51cc995a02d7dec0c41f472ee713fbd5dbd4f42d42758cbae513d4"
+        },
+        "layers.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/layers.json",
+          "sha256": "236cd0dbd31ebb2171fe1fa65844ad390e50a5ce6ede772b6beb19791a2cd839"
+        },
+        "onnx-verify.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/onnx-verify.json",
+          "sha256": "c019e5e7a1cb7a363e9716be6bed13b96ce3cc9bf0b7f5b8a034d9e15d86c44a"
+        },
+        "trt-verify.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/trt-verify.json",
+          "sha256": "9103ab0c29c4776e5cc91bf582eaacd83fa06e83e66a82ce80e31d9e121979bc"
+        }
+      },
+      "initializer_count": 542,
+      "onnx_pt_rel_l2_max": 3.08132422682537e-06,
+      "onnx_sha256": "4ae9405c8cc984d992760a2aa32353daaa133ccec6894e876f17a19960d7aa36",
+      "scope": {
+        "default_decoded": "finite required; TopK ordering/set metrics reported, no equivalence claim",
+        "raw6_fp16_rel_l2": 0.01
+      },
+      "trt_repeat_graph_finite_status": "PASS",
+      "trt_vs_pt_diagnostic_status": "FAIL",
+      "trt_vs_pt_max_raw_rel_l2": 0.015371027549029208,
+      "unmatched_initializers": []
+    },
+    {
+      "actual_engine_format_counts": {
+        "Float": 2,
+        "Half": 522,
+        "Int32": 4,
+        "Int64": 2,
+        "UInt64": 4,
+        "UInt8": 172
+      },
+      "arm": "official-default",
+      "build_options": {
+        "actual_aux_streams": 0,
+        "bf16": false,
+        "build_wall_seconds": 41.8524,
+        "cuda_driver_api": 13050,
+        "cuda_runtime": 13040,
+        "engine_bytes": 42663860,
+        "fp16": true,
+        "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+        "int8": false,
+        "io": [
+          {
+            "dtype": "FP32",
+            "mode": "input",
+            "name": "images",
+            "shape": [
+              1,
+              3,
+              768,
+              1280
+            ]
+          },
+          {
+            "dtype": "FP32",
+            "mode": "output",
+            "name": "output0",
+            "shape": [
+              1,
+              300,
+              6
+            ]
+          }
+        ],
+        "max_aux_streams": 0,
+        "network": "weakly_typed",
+        "onnx_parser_version": 100,
+        "optimization_level": 3,
+        "profiling_verbosity": "detailed",
+        "sm": "12.0",
+        "status": "PASS",
+        "tensor_rt_errors": 0,
+        "tensorrt_build": 11,
+        "tensorrt_version": 101601,
+        "tf32": false,
+        "timing_cache": "none supplied",
+        "workspace_bytes": 268435456
+      },
+      "engine_bytes": 42663860,
+      "engine_layer_count": 236,
+      "engine_sha256": "33e484b593500f23aaab16e8dbc7bf6e0b19e929a71474c45b1a7da3e0308895",
+      "files": {
+        "build.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/build.json",
+          "sha256": "d9d6a5f9fea28c34d2e5dfaa6027e86ad765725db718bdaeed6223eddabbebc8"
+        },
+        "export.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/export.json",
+          "sha256": "486480af28bc5fb8b9077f4b50451af95ed41b6b94a2782e9f62b3cde7d88633"
+        },
+        "initializer-audit.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/initializer-audit.json",
+          "sha256": "87ae15ad2fd92b6a74444b616fccc3259f9e594510c1addc4632bfe4b604234b"
+        },
+        "layers.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/layers.json",
+          "sha256": "fa8000dea8658b1e672faf7496a90b8159a7fc47734f5062771a29ef37fb7670"
+        },
+        "onnx-verify.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/onnx-verify.json",
+          "sha256": "afa7d26896823a0541a72a6d44b440056011f3911d0d1aff37191e8006a31070"
+        },
+        "trt-verify.json": {
+          "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/trt-verify.json",
+          "sha256": "901192338b84ec7df8eccce3c7a3f86936f0536e4d9120666ba5b801734d0cf9"
+        }
+      },
+      "initializer_count": 542,
+      "onnx_pt_rel_l2_max": 0.02084040463301614,
+      "onnx_sha256": "429917ae2f7e0e244db62a20c9205bf5caa3326db5c82482ac2b7d5d582acbc0",
+      "scope": {
+        "default_decoded": "finite required; TopK ordering/set metrics reported, no equivalence claim",
+        "raw6_fp16_rel_l2": 0.01
+      },
+      "trt_repeat_graph_finite_status": "PASS",
+      "trt_vs_pt_diagnostic_status": "PASS",
+      "trt_vs_pt_max_raw_rel_l2": 0.5568626986329284,
+      "unmatched_initializers": []
+    }
+  ],
+  "native_sdk_hashes": {
+    "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer.so.10.16.1": "5731ee938cb5826ec948fec01734e16e9aea94dc4eca37e91878f07d95b50708",
+    "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvinfer_builder_resource_sm120.so.10.16.1": "af1f41f0cd9e8a78567dbf113fb9ed5d0b32f4ceb14af98e61957c3a224f4e19",
+    "/home/ray/.cache/saccade-native-trt/10.16.1.11/sdk/usr/lib/x86_64-linux-gnu/libnvonnxparser.so.10.16.1": "2b517c9d21d90d8eef5c9c5b1b9acbe46c39ccd4bb36b927ef29776d5fde48e3"
+  },
+  "official_default_scope": "Actual original one2one/end2end speed control; decodedTop300 set/order can change underFP16; finite/repeatGraphpass does not claim equality",
+  "official_fp32_diagnostic": {
+    "max_rel_l2": 6.496692021366207e-06,
+    "rows": [
+      {
+        "case": 0,
+        "outputs": {
+          "cls_p3": {
+            "finite": true,
+            "max_abs": 0.000400543212890625,
+            "rel_l2": 7.282685640990379e-07
+          },
+          "cls_p4": {
+            "finite": true,
+            "max_abs": 0.000438690185546875,
+            "rel_l2": 1.2056040852545809e-06
+          },
+          "cls_p5": {
+            "finite": true,
+            "max_abs": 0.0002040863037109375,
+            "rel_l2": 7.288398293123659e-07
+          },
+          "reg_p3": {
+            "finite": true,
+            "max_abs": 0.0008177757263183594,
+            "rel_l2": 4.775368362893996e-06
+          },
+          "reg_p4": {
+            "finite": true,
+            "max_abs": 0.000530242919921875,
+            "rel_l2": 4.888922616942753e-06
+          },
+          "reg_p5": {
+            "finite": true,
+            "max_abs": 0.00011539459228515625,
+            "rel_l2": 2.9684290022618316e-06
+          }
+        },
+        "pass": true
+      },
+      {
+        "case": 1,
+        "outputs": {
+          "cls_p3": {
+            "finite": true,
+            "max_abs": 0.0002307891845703125,
+            "rel_l2": 6.75555532428486e-07
+          },
+          "cls_p4": {
+            "finite": true,
+            "max_abs": 0.000240325927734375,
+            "rel_l2": 7.90441800365647e-07
+          },
+          "cls_p5": {
+            "finite": true,
+            "max_abs": 0.0004291534423828125,
+            "rel_l2": 8.005866802334665e-07
+          },
+          "reg_p3": {
+            "finite": true,
+            "max_abs": 0.0007028579711914062,
+            "rel_l2": 4.220785578170471e-06
+          },
+          "reg_p4": {
+            "finite": true,
+            "max_abs": 0.0011873245239257812,
+            "rel_l2": 4.40694838108929e-06
+          },
+          "reg_p5": {
+            "finite": true,
+            "max_abs": 0.00019502639770507812,
+            "rel_l2": 2.5204945441946185e-06
+          }
+        },
+        "pass": true
+      },
+      {
+        "case": 2,
+        "outputs": {
+          "cls_p3": {
+            "finite": true,
+            "max_abs": 0.000598907470703125,
+            "rel_l2": 6.689299246917993e-07
+          },
+          "cls_p4": {
+            "finite": true,
+            "max_abs": 0.0005340576171875,
+            "rel_l2": 9.813220206127645e-07
+          },
+          "cls_p5": {
+            "finite": true,
+            "max_abs": 0.0001983642578125,
+            "rel_l2": 7.336913127051205e-07
+          },
+          "reg_p3": {
+            "finite": true,
+            "max_abs": 0.0021958351135253906,
+            "rel_l2": 4.983586561361167e-06
+          },
+          "reg_p4": {
+            "finite": true,
+            "max_abs": 0.0005691051483154297,
+            "rel_l2": 3.844428613605686e-06
+          },
+          "reg_p5": {
+            "finite": true,
+            "max_abs": 0.0001392364501953125,
+            "rel_l2": 2.181394329144912e-06
+          }
+        },
+        "pass": true
+      },
+      {
+        "case": 3,
+        "outputs": {
+          "cls_p3": {
+            "finite": true,
+            "max_abs": 0.000370025634765625,
+            "rel_l2": 7.443614002410487e-07
+          },
+          "cls_p4": {
+            "finite": true,
+            "max_abs": 0.000438690185546875,
+            "rel_l2": 1.0831433647862338e-06
+          },
+          "cls_p5": {
+            "finite": true,
+            "max_abs": 9.1552734375e-05,
+            "rel_l2": 5.1056647539508e-07
+          },
+          "reg_p3": {
+            "finite": true,
+            "max_abs": 0.00095367431640625,
+            "rel_l2": 6.496692021366207e-06
+          },
+          "reg_p4": {
+            "finite": true,
+            "max_abs": 0.0005514621734619141,
+            "rel_l2": 5.963068290529337e-06
+          },
+          "reg_p5": {
+            "finite": true,
+            "max_abs": 0.00012159347534179688,
+            "rel_l2": 2.9374800990897768e-06
+          }
+        },
+        "pass": true
+      }
+    ],
+    "scope": "bounded official FP32/noTF32 diagnostic using identical ONNX, four same fixed inputs; no full-sequence quality or performance acceptance",
+    "status": "PASS",
+    "tolerance": 0.0001
+  },
+  "primary_fp16_one_percent_raw_screen": "FAIL",
+  "primary_screen_note": "No relaxation: official2.406%,finetuned1.537% rawrelativeL2. Actual native FP16 tracker quality must be scored separately.",
+  "product_speed_measurement_in_this_delivery": false,
+  "screen_failures_preserved": true,
+  "source_and_binary_hashes": {
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/audit_exports.py": "7aaae49c81f7035f4cd49f16c78bc87a737befbf4f2446d57e3c99a5e3e5e432",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/build_engine": "f92b706b39f5a12b87cf8f0b5865135da3f672849bf3ca1dee33cfecf40f5908",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/build_engine.cpp": "fcf0e609425117336ff45618c00cf2315ba2c05784da704fa3e28d342ecb3688",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/build_engine_fp32_diagnostic": "b459d0caa4640b0b83f9857736118d1871f9b2095c7d8c25fc58685acd091c0f",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/build_engine_fp32_diagnostic.cpp": "3f31b521c4fe050acfc58520e1db129cfa5b293e3fed017d00035913da83eb21",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/compare_trt.py": "7c8b620c5a0ffd81adbf65422d3d5fae64c49713c3f2a5bb12eaae03588a02e1",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/export_models.py": "6d664630658b823173d6f78ed070e847c8ba8b7bbd15ded96123efcd0b3466a0",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/run_remaining.py": "431b39e47e97fa9e89d1c26e130b1c2e9415fab4238e47a323a9dd18232c3077",
+    "/home/ray/developer/ai/saccade_v1/training/t01/t01_export.py": "072a09c18afb9afe2942ac52a656d2d70595c3514fe31d1ade52536dbf98a169"
+  },
+  "status": "COMPLETE_WITH_NUMERICAL_SCREEN_FAILURE"
+}

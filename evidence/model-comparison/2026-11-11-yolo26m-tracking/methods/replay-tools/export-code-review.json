@@ -1,0 +1,28 @@
+{
+  "result": "PASS_CODE_REVIEW",
+  "scope": "Independent source inspection; runtime outputs separately validated by replay_arm.py",
+  "reviewed_sha256": {
+    "build/yolo26m-threeway-20261111/detector-tools/export.py": "0ac59295b435da818e068d01d115cd2fc4e873015d74c4b9ae3a059cd09baced",
+    "build/yolo26m-threeway-20261111/detector-tools/f04_wrapper.cpp": "66162655739dea88eaf1d9c511da98beebfc19c48ffd4b30931d7c143e6bb8b8",
+    "build/yolo26m-threeway-20261111/detector-tools/libf04.so": "9e0232f41ad3d7b39285212073b9d23504fbdc53a44d347ebea91b063df83a8b",
+    "build/yolo26m-threeway-20261111/detector-tools/build.json": "76c82adecd80109661cf7270f3bd3bc1cdcb875866d1bb32fc6541efa7a08df1"
+  },
+  "checks": [
+    "teacher loads strict checkpoint model primaryEMA; not train_model",
+    "stock uses pinned official weights with expected digest",
+    "one2many logits and raw LTRB distances; no GT in inference",
+    "levelwise raw copy respects80x20160/4x20160 channel-major layout",
+    "native postprocess_reference preserves original anchor ids and suppressed rows",
+    "exact binary64 stretch mapping then native FP32 original-pixel divide",
+    "compiler disables contraction and fast math",
+    "SCDR frameidentity and completion flags checked per frame",
+    "modelstates and JPEG inputs stable before/after; source hashes recorded",
+    "output atomic rename after complete frame count"
+  ],
+  "limitations": [
+    "fixedG1 motion masks derive from main detector",
+    "official arm denotes official pretrained weights on shared one2manyF04 path, not Ultralytics default end2end inference",
+    "native scalarF04 can differ from historical Torch decode in rounding and ties",
+    "result compares detector choice under same tracker; no new full native session/sanitizer acceptance"
+  ]
+}

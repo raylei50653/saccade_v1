@@ -1,0 +1,61 @@
+{
+  "arm": "finetuned",
+  "build_identity": {
+    "build.engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+    "build.executable_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+    "build.schema": "saccade-build-identity/1",
+    "build.source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "build.source_dirty": "true",
+    "input.seqinfo_sha256": "f311a7b21d1d31611dacbb15b1bad8b9873e96f68efff17c5d0d100e9638f1b2"
+  },
+  "completed_utc": "2026-11-11T15:04:23.208801+00:00",
+  "config_sha256": "672b7bb1057c4cf45aa1c4dcc194ece6e5bde005f6cbb181533273f472d64deb",
+  "epoch": 1,
+  "frames": 1202,
+  "frozen_tracker_output_sha256": "aafaf8b821a573e8f45725c68a300b2dd890fe5e2358e5388eb30b60f0ffa28e",
+  "height": 1080,
+  "motion": {
+    "all_floats_finite": true,
+    "all_frame_references_contiguous": true,
+    "epoch": 1,
+    "frames": 1202,
+    "key": [
+      1920,
+      1080,
+      1,
+      1920,
+      1080
+    ],
+    "sha256_of_file": "acbf4257a129f3a892b17f887a604be457694ed68e604e106398eeee43396e7f",
+    "status_counts": {
+      "0": 0,
+      "1": 1,
+      "2": 1201,
+      "3": 0
+    }
+  },
+  "packets": {
+    "all_status_ok": true,
+    "all_unique_UID_ID_class0_finite_boxes": true,
+    "bytes_raw": 14866336,
+    "canonical_all_frames": true,
+    "observed_rows": 14140,
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0079/packets.bin",
+    "predicted_rows": 0,
+    "sha256_raw": "334db3df93140c4a2f4dabf08609bd06913502f207a0ff9c3e2a4790660710e0",
+    "validator_command": [
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/validate_packets",
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0079/packets.bin",
+      "1202"
+    ],
+    "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e",
+    "validator_stdout": "PASS frames=1202 observed_rows=14140 predicted_rows=0 canonical=true all_status_ok=true"
+  },
+  "scope": "CPU structural/config validation only; not GPU/session sanitizer or quality acceptance",
+  "sequence": "dancetrack0079",
+  "source_and_execution_config_correct": true,
+  "status": "PASS",
+  "tracker_output_matches_frozen_baseline": true,
+  "wall_seconds": 0.030413828000746435,
+  "width": 1920
+}

@@ -1,0 +1,41 @@
+{
+  "benchmark": "DanceTrack",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/image-views/dancetrack0057",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0057/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0057/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0057/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0057/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T14:50:58.451713+00:00",
+  "engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+  "exit_code": 0,
+  "frames": 622,
+  "imported": false,
+  "mot_sha256": "64c0cbc0c33a33c3e173e0f1b71584526662c0b039007afdd57305a6745ad0ce",
+  "motion_sha256": "a6be5843fe87894c5137c48baf771ed248f3308877780ff3fc1674f25c233472",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "6d411b77019e4a0ef2ccea51ccfe17833d703d7f52c0fce83bc60e50f0fb26b9",
+  "resolved_config_sha256": "3824e84fba89aa43cc591b23c4a7a0c9f12a72050a51c4841f9b0ee59347f06b",
+  "started_utc": "2026-11-11T14:50:54.576309+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/finetuned/dancetrack0057.json",
+    "sha256": "f5a9d2181813c0baa1577be34627095e40867165755aa62c9a83894af01aa887"
+  },
+  "wall_seconds_including_lock_wait": 3.8754300470009184
+}

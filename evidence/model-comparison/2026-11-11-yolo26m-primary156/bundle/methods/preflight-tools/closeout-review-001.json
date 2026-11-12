@@ -1,0 +1,65 @@
+{
+  "confirmed_positive_checks": [
+    "final gate rejects live/partial capture and requires468cells/406509frames,21imports447fresh",
+    "schemas align with existing summary and independent audit producers",
+    "archive streams sourcehash and decompresses every gzip to check full SHA256 and byte count",
+    "1404archive count is enforced and raw sourceoutputs retained",
+    "report preserves seven primary groups, descriptive pooled scope, reused data, raw6 caveat, FP16screenFAIL and no new timing/deployment claim"
+  ],
+  "findings": [
+    {
+      "evidence": "all_files skips every path whose basename is SHA256SUMS. A temporary nested/SHA256SUMS was modified after write_manifest; verify_manifest still returned PASS with files_verified1 while actual payload files were2.",
+      "file": "closeout-tools/closeout.py",
+      "id": "C001",
+      "lines": [
+        228,
+        253
+      ],
+      "priority": "P2",
+      "requested_fix": "Exclude only the root manifest path, and require nested same-name payload files to be listed/hash-verified.",
+      "title": "Nested SHA256SUMS files are excluded from supposedly complete manifest"
+    },
+    {
+      "evidence": "Publication moves files individually, then REPORT, then SHA256SUMS. A failure after some moves leaves evidence subdirectories; the next execute rejects every existing directory at lines265-267. A failure moving/verifying the final manifest may leave REPORT visible without completed bundle receipt.",
+      "file": "closeout-tools/closeout.py",
+      "id": "C002",
+      "lines": [
+        264,
+        267,
+        319,
+        335
+      ],
+      "priority": "P1",
+      "requested_fix": "Use a recoverable final publication protocol with a completion marker/report exposed only after the published payload+manifest verification, or atomically publish a complete directory while preserving prior provenance. Preserve failed staging and permit validated resume.",
+      "title": "Partial publication is not recoverable and can expose REPORT before manifest"
+    },
+    {
+      "evidence": "render_report links per-sequence.csv and scoring-audit.per-sequence.csv. gate verifies JSON audit hashes/counts but no CSV row/value parity. audit_primary writes PASS JSON before the CSV; a CSV write failure could leave a partial CSV accepted for packaging.",
+      "file": "closeout-tools/closeout.py",
+      "id": "C003",
+      "lines": [
+        148,
+        155,
+        276,
+        280
+      ],
+      "priority": "P2",
+      "requested_fix": "Validate primary-groups.csv,datasets.csv,per-sequence.csv and audit per-sequence CSV against corresponding JSON, including exact unique row sets (21/15/468/156) and full-precision numeric parity before staging/report generation.",
+      "title": "Published CSV rows/values are not checked against final JSON authorities"
+    }
+  ],
+  "pending": "re-review corrected implementation before execution",
+  "probe": {
+    "fixture_removed": true,
+    "fixture_under_preflight_tempdir": true,
+    "manifest_verifier_returned": "PASS",
+    "nested_SHA256SUMS_tamper_detected": false
+  },
+  "reviewed_sources": {
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/closeout-tools/README.md": "3e26a394b1305e9629abb9b27800ece79c802b0f17dafa082bba033c65d43066",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/closeout-tools/closeout.py": "ba0af26bc8efbab113cfd736ee2f8c8eed1cca2793a20ffe5bbbb2b8c9a9418b",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/closeout-tools/render_report.py": "841f8a0ce878c1fe463b3c40a4d37b28d4b555a2cfb33bd19bd4eaa6dd27be1b"
+  },
+  "scope": "independent read-only source review; no full closeout executed, no frozen inputs/tools modified",
+  "status": "CHANGES_REQUESTED"
+}

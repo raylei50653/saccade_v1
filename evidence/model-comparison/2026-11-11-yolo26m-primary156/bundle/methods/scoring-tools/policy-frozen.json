@@ -1,0 +1,30 @@
+{
+  "schema": "saccade-research-evaluation-scope/1",
+  "effective_date": "2026-11-11",
+  "authority": "User requested removing SportsMOT from continuing evaluation because tracking may include background spectators outside player-only annotations.",
+  "default_scope": "primary",
+  "primary_benchmarks": ["DanceTrack", "MOT15", "MOT17", "MOT20", "PP22"],
+  "primary_groups": [
+    "DanceTrack/all",
+    "MOT15/moving",
+    "MOT15/other",
+    "MOT17/all",
+    "MOT20/all",
+    "PP22/moving",
+    "PP22/static"
+  ],
+  "excluded_from_default": {
+    "SportsMOT": {
+      "reason": "Player-only GT does not cover every person emitted by a generic person tracker; unannotated spectators and true player-to-spectator association errors cannot be separated by missing GT alone.",
+      "primary_quality_gate": false,
+      "primary_mechanism_gate": false,
+      "default_replay": false,
+      "default_scoring": false,
+      "default_parameter_selection": false,
+      "existing_results": "Retain with original frozen criteria and descriptive annotation limits.",
+      "future_use": "Optional separate analysis only for an explicitly defined player-tracking question."
+    }
+  },
+  "historical_rules": "Do not edit frozen runners, selections, registrations, score events or verdicts. Any analysis using the new scope is separately labeled and never retroactively upgrades a previous FAIL or NO_CONSISTENT_SUPPORT.",
+  "scope_limits": "Dataset exclusion is a task/annotation alignment decision, not evidence that all previous false positives were spectators or that all observed tracking errors were annotation errors."
+}

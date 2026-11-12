@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/export-tools/audit_exports.py", line 32, in <module>
+    payload = torch.load(TEACHER, map_location='cpu', weights_only=False)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ray/.cache/saccade-v1/t01/venv-export/lib/python3.12/site-packages/torch/serialization.py", line 1579, in load
+    return _load(
+           ^^^^^^
+  File "/home/ray/.cache/saccade-v1/t01/venv-export/lib/python3.12/site-packages/torch/serialization.py", line 2190, in _load
+    result = unpickler.load()
+             ^^^^^^^^^^^^^^^^
+  File "/home/ray/.cache/saccade-v1/t01/venv-export/lib/python3.12/site-packages/torch/serialization.py", line 2179, in find_class
+    return super().find_class(mod_name, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'saccade'

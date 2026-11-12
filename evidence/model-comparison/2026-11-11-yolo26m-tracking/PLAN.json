@@ -1,0 +1,37 @@
+{
+  "arms": [
+    "official",
+    "finetuned",
+    "main"
+  ],
+  "created_utc": "2026-11-11T13:08:56.476600+00:00",
+  "detector_input": "nvJPEG RGB, FP32 /255, float antialiased bilinear stretch 1280x768",
+  "limits": [
+    "MOT17-10 was used for model selection",
+    "MOT17-02 is post-M4 reused evaluation, not a new independent evaluation",
+    "Detector precision/backend differs; this is a deployed-model comparison, not architecture-only ablation",
+    "No per-arm threshold tuning; no throughput/latency or sanitizer claims"
+  ],
+  "main": "deployed native TensorRT FP16 engine; scan plugins and input/output FP32",
+  "motion": "fixed G1 SCMO from main detector mask; identical motion records across all arms, not recomputed per detector",
+  "official_and_finetuned": "original YOLO one2many head, gate disabled, strict FP32; not default Ultralytics one2one",
+  "postprocess": "native F04 reference for YOLO arms; native CUDA F04 for main; top300/conf0.001/NMS0.5, full kept and suppressed rows",
+  "quality_metrics": [
+    "HOTA",
+    "DetA",
+    "AssA",
+    "IDF1",
+    "MOTA",
+    "IDSW",
+    "Frag",
+    "FP",
+    "FN"
+  ],
+  "scope": "Two-sequence, fixed-tracker/G1 detector comparison; development research, no deployment changes",
+  "scorer": "vendored TrackEval MOT17 train pedestrian DO_PREPROC=True; per-sequence and COMBINED",
+  "sequences": {
+    "MOT17-02-SDP": 600,
+    "MOT17-10-SDP": 654
+  },
+  "tracker": "current native CPU track_offline, default tracker, NSA/measurement_box disabled; same MOT formatting and EOF interpolation"
+}

@@ -1,0 +1,59 @@
+{
+  "arms": [
+    "official",
+    "finetuned",
+    "main"
+  ],
+  "created_utc": "2026-11-11T13:19:50.928460+00:00",
+  "detector_input": "nvJPEG RGB, FP32 /255, float antialiased bilinear stretch 1280x768",
+  "groups": {
+    "post_M4_eval": [
+      "MOT17-02-SDP"
+    ],
+    "training": [
+      "MOT17-04-SDP",
+      "MOT17-05-SDP",
+      "MOT17-09-SDP",
+      "MOT17-11-SDP",
+      "MOT17-13-SDP"
+    ],
+    "validation": [
+      "MOT17-10-SDP"
+    ]
+  },
+  "limits": [
+    "MOT17-10 was used for model selection",
+    "MOT17-02 is post-M4 reused evaluation, not a new independent evaluation",
+    "Detector precision/backend differs; this is a deployed-model comparison, not architecture-only ablation",
+    "No per-arm threshold tuning; no throughput/latency or sanitizer claims"
+  ],
+  "main": "deployed native TensorRT FP16 engine; scan plugins and input/output FP32",
+  "motion": "fixed G1 SCMO from main detector mask; identical motion records across all arms, not recomputed per detector",
+  "official_and_finetuned": "original YOLO one2many head, gate disabled, strict FP32; not default Ultralytics one2one",
+  "postprocess": "native F04 reference for YOLO arms; native CUDA F04 for main; top300/conf0.001/NMS0.5, full kept and suppressed rows",
+  "prior_two_sequence_receipts": "../2026-11-11-yolo26m-tracking",
+  "quality_metrics": [
+    "HOTA",
+    "DetA",
+    "AssA",
+    "IDF1",
+    "MOTA",
+    "IDSW",
+    "Frag",
+    "FP",
+    "FN"
+  ],
+  "reuse": "10/02 detector cells are imported byte-for-byte from the completed earlier comparison; remaining five sequences fresh inference. All seven jointly replayed and rescored.",
+  "scope": "All seven MOT17 unique SDP sequences, fixed-tracker/G1 detector comparison; development research, no deployment changes",
+  "scorer": "vendored TrackEval MOT17 train pedestrian DO_PREPROC=True; per-sequence and COMBINED",
+  "sequences": {
+    "MOT17-02-SDP": 600,
+    "MOT17-04-SDP": 1050,
+    "MOT17-05-SDP": 837,
+    "MOT17-09-SDP": 525,
+    "MOT17-10-SDP": 654,
+    "MOT17-11-SDP": 900,
+    "MOT17-13-SDP": 750
+  },
+  "tracker": "current native CPU track_offline, default tracker, NSA/measurement_box disabled; same MOT formatting and EOF interpolation"
+}

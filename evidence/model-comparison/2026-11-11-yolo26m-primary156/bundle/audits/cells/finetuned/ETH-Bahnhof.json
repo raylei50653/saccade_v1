@@ -1,0 +1,61 @@
+{
+  "arm": "finetuned",
+  "build_identity": {
+    "build.engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+    "build.executable_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+    "build.schema": "saccade-build-identity/1",
+    "build.source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "build.source_dirty": "true",
+    "input.seqinfo_sha256": "482d6fd0021afb3a8fea2f9c10a4be1876e909b7ae3170c6a40011cc1dcfa2e9"
+  },
+  "completed_utc": "2026-11-11T15:08:29.859010+00:00",
+  "config_sha256": "2652ef3d34c221907d7e08380b81406d249572013c9dac260e3618ed7a062004",
+  "epoch": 1,
+  "frames": 1000,
+  "frozen_tracker_output_sha256": "aafaf8b821a573e8f45725c68a300b2dd890fe5e2358e5388eb30b60f0ffa28e",
+  "height": 480,
+  "motion": {
+    "all_floats_finite": true,
+    "all_frame_references_contiguous": true,
+    "epoch": 1,
+    "frames": 1000,
+    "key": [
+      640,
+      480,
+      1,
+      640,
+      480
+    ],
+    "sha256_of_file": "2fe670dde878e849e5e56c1473a171d776fc6cbb7c0d59eb90b2f0fb3b45b02d",
+    "status_counts": {
+      "0": 0,
+      "1": 1,
+      "2": 999,
+      "3": 0
+    }
+  },
+  "packets": {
+    "all_status_ok": true,
+    "all_unique_UID_ID_class0_finite_boxes": true,
+    "bytes_raw": 12368000,
+    "canonical_all_frames": true,
+    "observed_rows": 11222,
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ETH-Bahnhof/packets.bin",
+    "predicted_rows": 0,
+    "sha256_raw": "4c562d5fba904984d8cc65f9705a0fac7123314d4ff7850e0782e7657c38f1e0",
+    "validator_command": [
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/validate_packets",
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ETH-Bahnhof/packets.bin",
+      "1000"
+    ],
+    "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e",
+    "validator_stdout": "PASS frames=1000 observed_rows=11222 predicted_rows=0 canonical=true all_status_ok=true"
+  },
+  "scope": "CPU structural/config validation only; not GPU/session sanitizer or quality acceptance",
+  "sequence": "ETH-Bahnhof",
+  "source_and_execution_config_correct": true,
+  "status": "PASS",
+  "tracker_output_matches_frozen_baseline": true,
+  "wall_seconds": 0.023494786999435746,
+  "width": 640
+}

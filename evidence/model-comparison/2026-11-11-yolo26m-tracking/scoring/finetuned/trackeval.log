@@ -1,0 +1,35 @@
+
+CLEAR Config:
+THRESHOLD            : 0.5                           
+PRINT_CONFIG         : True                          
+
+Identity Config:
+THRESHOLD            : 0.5                           
+PRINT_CONFIG         : True                          
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating v1
+
+
+HOTA: v1-pedestrian                HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-SDP                       38.076    43.333    33.939    48.33     71.395    40.151    65.381    81.607    40.375    49.09     74.694    36.668    
+MOT17-10-SDP                       51.572    54.826    48.703    61.669    71.627    54.659    69.889    80.5      54.796    68.875    75.142    51.754    
+COMBINED                           44.21     48.041    41.032    53.78     71.504    47.129    67.824    81.097    46.916    58.057    74.903    43.487    
+
+CLEAR: v1-pedestrian               MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-SDP                       49.981    78.792    50.525    59.109    87.319    32.258    41.935    25.806    37.446    10983     7598      1595      101       20        26        16        120       
+MOT17-10-SDP                       66.501    77.566    67.03     76.564    88.927    50.877    43.86     5.2632    49.324    9830      3009      1224      68        29        25        3         164       
+COMBINED                           56.731    78.213    57.269    66.241    88.071    41.176    42.857    15.966    42.299    20813     10607     2819      169       49        51        19        284       
+
+Identity: v1-pedestrian            IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-SDP                       47.254    39.621    58.531    7362      11219     5216      
+MOT17-10-SDP                       66.061    61.469    71.395    7892      4947      3162      
+COMBINED                           55.417    48.549    64.548    15254     16166     8378      
+
+Count: v1-pedestrian               Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-SDP                       12578     18581     107       62        
+MOT17-10-SDP                       11054     12839     88        57        
+COMBINED                           23632     31420     195       119       
+RESULT HOTA=44.21 DetA=48.041 AssA=41.032 IDF1=55.417 MOTA=56.731 IDSW=169

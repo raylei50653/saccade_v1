@@ -1,0 +1,61 @@
+{
+  "arm": "finetuned",
+  "build_identity": {
+    "build.engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+    "build.executable_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+    "build.schema": "saccade-build-identity/1",
+    "build.source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "build.source_dirty": "true",
+    "input.seqinfo_sha256": "12d63a5f3eead91fbcce9d62721ae58d715c9e5fcd465482bd9473faa7e05d3d"
+  },
+  "completed_utc": "2026-11-11T15:09:03.178216+00:00",
+  "config_sha256": "390fbcd670769f5c6dccd83dbe7d607274b80fac1ec63e90406bb1aacd9a4801",
+  "epoch": 1,
+  "frames": 340,
+  "frozen_tracker_output_sha256": "aafaf8b821a573e8f45725c68a300b2dd890fe5e2358e5388eb30b60f0ffa28e",
+  "height": 375,
+  "motion": {
+    "all_floats_finite": true,
+    "all_frame_references_contiguous": true,
+    "epoch": 1,
+    "frames": 340,
+    "key": [
+      1242,
+      375,
+      1,
+      1242,
+      375
+    ],
+    "sha256_of_file": "373d250eb39b7aa09df950bad4192595fbf324f7a3267c57ac87f7b6f1f0c584",
+    "status_counts": {
+      "0": 0,
+      "1": 1,
+      "2": 339,
+      "3": 0
+    }
+  },
+  "packets": {
+    "all_status_ok": true,
+    "all_unique_UID_ID_class0_finite_boxes": true,
+    "bytes_raw": 4205120,
+    "canonical_all_frames": true,
+    "observed_rows": 910,
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/KITTI-13/packets.bin",
+    "predicted_rows": 0,
+    "sha256_raw": "a3dc6cab2f9fdfdb4140035b1e70cce4f884dfcaabd82dcf932438fcd00b5886",
+    "validator_command": [
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/validate_packets",
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/KITTI-13/packets.bin",
+      "340"
+    ],
+    "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e",
+    "validator_stdout": "PASS frames=340 observed_rows=910 predicted_rows=0 canonical=true all_status_ok=true"
+  },
+  "scope": "CPU structural/config validation only; not GPU/session sanitizer or quality acceptance",
+  "sequence": "KITTI-13",
+  "source_and_execution_config_correct": true,
+  "status": "PASS",
+  "tracker_output_matches_frozen_baseline": true,
+  "wall_seconds": 0.00891198300087126,
+  "width": 1242
+}

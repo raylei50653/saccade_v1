@@ -1,0 +1,121 @@
+{
+  "result": "PASS",
+  "scope": "independent read-only validation of scored9rows; no rescoring",
+  "scores_csv_sha256": "ca3d968be7b50292e7dc68a5f2650864533e945417e63c70df947ad74fb61566",
+  "rows_verified": 9,
+  "checks": [
+    {
+      "arm": "official",
+      "sequence": "MOT17-02-SDP",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 38.91609708842366,
+      "mota_recorded_percent": 38.916097088423655,
+      "frames": 600,
+      "issues": []
+    },
+    {
+      "arm": "official",
+      "sequence": "MOT17-10-SDP",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 53.952800062310146,
+      "mota_recorded_percent": 53.952800062310146,
+      "frames": 654,
+      "issues": []
+    },
+    {
+      "arm": "official",
+      "sequence": "COMBINED",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 45.06047103755569,
+      "mota_recorded_percent": 45.0604710375557,
+      "frames": 1254,
+      "issues": []
+    },
+    {
+      "arm": "finetuned",
+      "sequence": "MOT17-02-SDP",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 49.98116355416824,
+      "mota_recorded_percent": 49.98116355416823,
+      "frames": 600,
+      "issues": []
+    },
+    {
+      "arm": "finetuned",
+      "sequence": "MOT17-10-SDP",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 66.50050626995872,
+      "mota_recorded_percent": 66.50050626995872,
+      "frames": 654,
+      "issues": []
+    },
+    {
+      "arm": "finetuned",
+      "sequence": "COMBINED",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 56.73138128580521,
+      "mota_recorded_percent": 56.73138128580521,
+      "frames": 1254,
+      "issues": []
+    },
+    {
+      "arm": "main",
+      "sequence": "MOT17-02-SDP",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 46.78434960443464,
+      "mota_recorded_percent": 46.78434960443464,
+      "frames": 600,
+      "issues": []
+    },
+    {
+      "arm": "main",
+      "sequence": "MOT17-10-SDP",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 66.88994469974297,
+      "mota_recorded_percent": 66.88994469974297,
+      "frames": 654,
+      "issues": []
+    },
+    {
+      "arm": "main",
+      "sequence": "COMBINED",
+      "mapped_fields_verified": 12,
+      "percent_scaling_pass": true,
+      "mota_formula_percent": 55.00000000000001,
+      "mota_recorded_percent": 55.00000000000001,
+      "frames": 1254,
+      "issues": []
+    }
+  ],
+  "combined_counts_additive": true,
+  "cross_arm_gt_and_frames_identical": true,
+  "combined_hota_source": "TrackEval COMBINED_SEQ aggregate, never arithmetic mean of per-sequence HOTA",
+  "main_published_reference_comparison": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "reference": "/home/ray/developer/ai/saccade_v1/evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/scoring/val/pedestrian_detailed.csv",
+      "reference_sha256": "73186d074f9adf39795428acfe14eee3893c9cab64a891ae1f3d3ad1001404b7",
+      "numeric_fields_exact_equal": 275,
+      "differences": []
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "reference": "/home/ray/developer/ai/saccade_v1/evidence/tracking-session/2026-11-05-v1-motion-2-acceptance-2/capture/scoring/MOT17-02/pedestrian_detailed.csv",
+      "reference_sha256": "32a31e2672fc6045c05ce4e85851b802bc2c1a97215e417fd8a5323457d59af8",
+      "numeric_fields_exact_equal": 275,
+      "differences": []
+    }
+  ],
+  "inputs": [
+    "/home/ray/developer/ai/saccade_v1/evidence/model-comparison/2026-11-11-yolo26m-tracking/scores.csv"
+  ],
+  "failures": []
+}

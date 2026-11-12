@@ -1,0 +1,75 @@
+{
+  "arm": "official-default",
+  "base": {
+    "path": "/home/ray/developer/ai/dataset/yolo26m.pt",
+    "sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7"
+  },
+  "inputs": [
+    {
+      "dtype": 1,
+      "name": "images",
+      "shape": [
+        1,
+        3,
+        768,
+        1280
+      ]
+    }
+  ],
+  "ir_version": 9,
+  "onnx": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official-default/model.onnx",
+  "onnx_bytes": 82572667,
+  "onnx_sha256": "429917ae2f7e0e244db62a20c9205bf5caa3326db5c82482ac2b7d5d582acbc0",
+  "operators": {
+    "Add": 33,
+    "BatchNormalization": 106,
+    "Cast": 3,
+    "Concat": 44,
+    "Constant": 145,
+    "ConstantOfShape": 2,
+    "Conv": 112,
+    "Div": 10,
+    "Expand": 2,
+    "Flatten": 2,
+    "Gather": 12,
+    "GatherElements": 2,
+    "MatMul": 4,
+    "MaxPool": 3,
+    "Mod": 1,
+    "Mul": 119,
+    "ReduceMax": 1,
+    "Reshape": 16,
+    "Resize": 2,
+    "Shape": 13,
+    "Sigmoid": 98,
+    "Slice": 18,
+    "Softmax": 2,
+    "Split": 4,
+    "Sub": 1,
+    "Tile": 2,
+    "TopK": 2,
+    "Transpose": 5,
+    "Unsqueeze": 51
+  },
+  "opset": 20,
+  "outputs": [
+    {
+      "dtype": 1,
+      "name": "output0",
+      "shape": [
+        1,
+        300,
+        6
+      ]
+    }
+  ],
+  "policy": "original one2one/end2end decoded Top300, no NMS",
+  "scan_status_outputs": false,
+  "teacher": null,
+  "versions": {
+    "onnx": "1.21.0",
+    "onnxruntime": "1.24.4",
+    "torch": "2.11.0",
+    "ultralytics": "8.4.37"
+  }
+}

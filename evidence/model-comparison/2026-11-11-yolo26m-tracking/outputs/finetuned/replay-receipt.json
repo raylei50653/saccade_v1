@@ -1,0 +1,83 @@
+{
+  "arm": "finetuned",
+  "scope": "fixed main-derived G1 motion; current CPU tracker defaults; not full native session acceptance",
+  "track_offline_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+  "sequences": {
+    "MOT17-10-SDP": {
+      "detection_sha256": "b1fa4fa3c097c9b2776b9772ee337355e8a364f88a4bca7bacf239cc7993a5c2",
+      "motion_sha256": "85dfd326b65a384c87fedd6aacfd9f107063543a1551163a3a773ba426c0cc15",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 654,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 23432,
+        "suppressed": 172691,
+        "class_dropped": 77,
+        "degenerate": 0,
+        "low_score": 12813978,
+        "topk_dropped": 174462
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/MOT17-10-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-10-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-10-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-10-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-10-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.11120045999996364,
+      "mot_sha256": "e474fc71fc4d68c5070451646ac1deb1d5c102af709e12fbddce6c72a3c39df1",
+      "packets_sha256": "cb195b0518fe72556254a78aa3e96ac05dcb7e4dd49612195d4d52380c393932",
+      "resolved_config_sha256": "e465399fffc8e6dd8cd4b7692a20770c4245c3b3f0e450356c29603c58e18d8c",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-10-SDP.packets.bin",
+        "654"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=654 observed_rows=10419 predicted_rows=0 canonical=true all_status_ok=true"
+    },
+    "MOT17-02-SDP": {
+      "detection_sha256": "68f9756d6fe6d80cbb49ae4b8bd913173184acb4625a2342a58d3475d021ea74",
+      "motion_sha256": "f9209da865ea02ef3b8a681be87803e38902c4e4b7bcb957413095be9f22e59c",
+      "binary_sha256": "746cf86479ec787ec943eff2efe266d34f272fca181426cc5547f37af0c43c3b",
+      "input_validation": {
+        "frames": 600,
+        "all_frame_status_ok": true,
+        "all_header_and_row_invariants_pass": true,
+        "kept": 21439,
+        "suppressed": 158557,
+        "class_dropped": 4,
+        "degenerate": 0,
+        "low_score": 11516438,
+        "topk_dropped": 399562
+      },
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/cpu/track_offline",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/MOT17-02-SDP/detections.scdr",
+        "/home/ray/developer/ai/saccade_v1-worktrees/hr-records-v2/MOT17-02-SDP.scmo",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-02-SDP.txt",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-02-SDP.config",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-02-SDP.packets.bin"
+      ],
+      "exit": 0,
+      "elapsed_s": 0.11647684199942887,
+      "mot_sha256": "69755fc90518ed3d35d934e6972a364d9db0495d78a9c3bd0e35548e3b6b588a",
+      "packets_sha256": "a9963b25a4b7d0e96f9c2244effed5e5e3e3351b5511d1b2488fefd9d6bd1334",
+      "resolved_config_sha256": "b9ad77a65e6999cc1cb864ffc5d6029739af2e79df5a4d2909007b00c0a91b60",
+      "packet_validation_command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/replay-tools/validate_packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-threeway-20261111/finetuned/mot/MOT17-02-SDP.packets.bin",
+        "600"
+      ],
+      "packet_validation_exit": 0,
+      "packet_validation": "PASS frames=600 observed_rows=12315 predicted_rows=0 canonical=true all_status_ok=true"
+    }
+  }
+}

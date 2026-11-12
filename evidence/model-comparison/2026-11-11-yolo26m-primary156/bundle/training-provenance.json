@@ -1,0 +1,141 @@
+{
+  "authorities": {
+    "deployment": {
+      "bytes": 9053,
+      "path": "/home/ray/.cache/saccade-v1/hr-deploy/manifest.json",
+      "sha256": "d13434afb6246fa67467d9f9758cf897308c229bb0be69acb7275fe4a5410989"
+    },
+    "finetuned_manifest": {
+      "bytes": 33125,
+      "path": "/home/ray/developer/ai/saccade_v1_dev/build-hr/HR01-UA2-20261102/manifest.json",
+      "sha256": "2f5ab8c586991a3bcb016e3ac4a7416253a9538a634ae0efc663c819b36f333a"
+    },
+    "finetuned_selection": {
+      "bytes": 5282,
+      "path": "/home/ray/developer/ai/saccade_v1_dev/build-hr/HR01-UA2-20261102/teacher/selection.json",
+      "sha256": "4ecab79b364d9d1abaf940e8704e84d3fbb564c131c981ce30aa5f99a5b639e9"
+    },
+    "main_manifest": {
+      "bytes": 140183611,
+      "path": "/home/ray/developer/ai/saccade_v1_dev/build-hr-mixed/HR01-MS-FULL25-20261103/manifest.json",
+      "sha256": "102fd4829758d8d7c183da37b81bf03eb4874324497baa8e49b921b118222f63"
+    },
+    "main_selection": {
+      "bytes": 2443,
+      "path": "/home/ray/developer/ai/saccade_v1_dev/build-hr-mixed/HR01-MS-FULL25-20261103/mixed/selection.json",
+      "sha256": "ee79d9456a80bafa31105d2569ac487b531e6608118be398bc6ed2eb2f72a4f2"
+    },
+    "prior_comparison_role": {
+      "bytes": 2207,
+      "path": "/home/ray/developer/ai/saccade_v1/evidence/model-comparison/2026-11-11-yolo26m-tracking-all7/PLAN.json",
+      "sha256": "af53ab0d4558a5bd16e7cdb02a5a858d471e3f218619dfd18a5af5812971dd6c"
+    }
+  },
+  "current_data_exposure": "All156 already exposed; these training-time holdout declarations do not make the present repeated evaluation blind.",
+  "finetuned": {
+    "checkpoint_sha256": "08be5abae55d26b762e262948ded7d3deb11295aa0509ee04ad3582a2c9774cd",
+    "dataset": {
+      "root": "/home/ray/developer/ai/saccade/datasets/MOT17",
+      "split": {
+        "eval": [
+          "MOT17-02-SDP"
+        ],
+        "train": [
+          "MOT17-04-SDP",
+          "MOT17-05-SDP",
+          "MOT17-09-SDP",
+          "MOT17-11-SDP",
+          "MOT17-13-SDP"
+        ],
+        "val": [
+          "MOT17-10-SDP"
+        ]
+      }
+    },
+    "extra_training_source": {
+      "annotations_root": "/home/ray/developer/ai/dataset/MOTSynth/mot_annotations",
+      "aug_seed_offset": 2,
+      "batching": "two different frames per pseudo-clip (T=2), B4 clips: same 8-image batch and loss normalisation as MOT17",
+      "dataset": "motsynth",
+      "frames_root": "/home/ray/developer/ai/dataset/MOTSynth/frames_step20",
+      "geometry": "hr-input/1 stretch, identical to MOT17 (all sequences 1920x1080)",
+      "ignore": "rows outside the filter are dropped as in MOT17; nothing painted",
+      "mix": "each epoch: every MOT17 batch followed by one MOTSynth batch (508 + 508 steps); warmup over the 1016-step first epoch",
+      "stream_seed_offset": 1,
+      "targets": "MOT17/T01 GT filter: conf 1, class 1, visibility >= 0.1; boxes not clamped"
+    },
+    "held_out_at_training": "MOT17-02 is not cached or evaluated by this pipeline",
+    "run": "HR01-UA2-20261102",
+    "selected_epoch": 4,
+    "selected_primary_EMA": true,
+    "selection_policy": "t01-selection/1: full MOT17-10 AP50, then small recall@0.25 (640-stretch min side 4-16 px), then later epoch"
+  },
+  "main": {
+    "checkpoint_sha256": "53bccffe9bdbf37bdcfc81d03e95ccbd2d142d67a557ea015b76d356e4fa5f7d",
+    "dataset": {
+      "root": "/home/ray/developer/ai/saccade/datasets/MOT17",
+      "split": {
+        "eval": [
+          "MOT17-02-SDP"
+        ],
+        "train": [
+          "MOT17-04-SDP",
+          "MOT17-05-SDP",
+          "MOT17-09-SDP",
+          "MOT17-11-SDP",
+          "MOT17-13-SDP"
+        ],
+        "val": [
+          "MOT17-10-SDP"
+        ]
+      }
+    },
+    "held_out_at_training": "MOT17-02 is not cached or evaluated by this pipeline",
+    "run": "HR01-MS-FULL25-20261103",
+    "selected_epoch": 10,
+    "selected_epoch_sampling": {
+      "frame_slots": 2048,
+      "sample_order_sha256": "322c28d69cdcbd7bb2e3bc9f8b235955bb06103e0ad184a3a71fc62ab5908e7a",
+      "source_frame_slots": {
+        "mot17": 1536,
+        "motsynth": 512
+      },
+      "source_sequences": {
+        "mot17": 5,
+        "motsynth": 378
+      },
+      "source_unique_frames": {
+        "mot17": 1536,
+        "motsynth": 512
+      },
+      "updates": 128
+    },
+    "selection_policy": "t01-selection/1: full MOT17-10 AP50, then small recall@0.25 (640-stretch min side 4-16 px), then later epoch",
+    "teacher": {
+      "teacher": "/home/ray/developer/ai/saccade_v1_dev/build-hr/HR01-UA2-20261102/teacher/attempt-001/epoch_0004.ckpt",
+      "teacher_sha256": "08be5abae55d26b762e262948ded7d3deb11295aa0509ee04ad3582a2c9774cd"
+    },
+    "validation_scope": "primary EMA only; raw/shadow validation UNEXECUTED"
+  },
+  "official": {
+    "checkpoint_sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+    "scope": "literal upstream pretrained base; local UA2/Full25 train/val split does not describe official pretraining; upstream full training corpus was not audited here"
+  },
+  "prior_MOT17_comparison_roles": {
+    "post_M4_eval": [
+      "MOT17-02-SDP"
+    ],
+    "training": [
+      "MOT17-04-SDP",
+      "MOT17-05-SDP",
+      "MOT17-09-SDP",
+      "MOT17-11-SDP",
+      "MOT17-13-SDP"
+    ],
+    "validation": [
+      "MOT17-10-SDP"
+    ]
+  },
+  "schema": "primary156-training-provenance-excerpt/1",
+  "scope": "Read-only excerpts from original model/run records; no weights copied or rehashed by this helper; no claim of blind evaluation."
+}

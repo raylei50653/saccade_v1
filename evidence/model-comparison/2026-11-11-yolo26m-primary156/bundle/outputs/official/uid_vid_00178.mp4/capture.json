@@ -1,0 +1,41 @@
+{
+  "benchmark": "PP22",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/model.engine",
+    "/home/ray/developer/ai/dataset/PersonPath22/mot_test_kf/uid_vid_00178.mp4",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/uid_vid_00178.mp4/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/uid_vid_00178.mp4/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/uid_vid_00178.mp4/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/uid_vid_00178.mp4/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:23:21.864866+00:00",
+  "engine_sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+  "exit_code": 0,
+  "frames": 447,
+  "imported": false,
+  "mot_sha256": "b5bb7dd67cd7e6cd131778fc5c03ebe18debc486af930a6e1124677e77cadf3b",
+  "motion_sha256": "2d0f5c24640ff0bf4ce5f9b944455efde71a32cebaaa865c75cebe58e1c23c8d",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "1d3a62f211f27307cb9e3d787557661e2e85aca8560ed5540508f3b0892f4796",
+  "resolved_config_sha256": "a11f0b26aa0933e1290b7f786fe9e784747a7f065884bdeb581e04dec8e59a8f",
+  "started_utc": "2026-11-11T15:23:18.892708+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/official/uid_vid_00178.mp4.json",
+    "sha256": "18280a717014e5b0e8cc50e5cb5a7e6d6e4684f766594365f18430d07e09176b"
+  },
+  "wall_seconds_including_lock_wait": 2.97217480099971
+}

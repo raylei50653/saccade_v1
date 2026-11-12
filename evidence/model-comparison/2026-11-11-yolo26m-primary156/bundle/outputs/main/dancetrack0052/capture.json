@@ -1,0 +1,41 @@
+{
+  "benchmark": "DanceTrack",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/image-views/dancetrack0052",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/dancetrack0052/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/dancetrack0052/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/dancetrack0052/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/dancetrack0052/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T14:49:51.663380+00:00",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "exit_code": 0,
+  "frames": 1203,
+  "imported": false,
+  "mot_sha256": "f211866409e977cb62ed9060206ca052f7a6166483a0cb1199c320ad3db60fe0",
+  "motion_sha256": "0ac2f0b557a0a05d86af05c9dde220012d384e9a00f18caa46a1292ddb55f60c",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "e2dfab2d1c19bd0bf7babf6e512239771dc8b1c845c3c414051adbe8b603dbf4",
+  "resolved_config_sha256": "5de393b9354ad87c67f7ad7751d75e24c24dd4fabd12c117bc15aaa09b70d95a",
+  "started_utc": "2026-11-11T14:49:43.927089+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/main/dancetrack0052.json",
+    "sha256": "6daf954261851720fdcf28a31b76b33e1879dcda19b8217c56f870026278b411"
+  },
+  "wall_seconds_including_lock_wait": 7.736322454000401
+}

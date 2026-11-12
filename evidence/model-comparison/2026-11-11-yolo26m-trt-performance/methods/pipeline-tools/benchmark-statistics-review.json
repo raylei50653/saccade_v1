@@ -1,0 +1,326 @@
+{
+  "result": "PASS",
+  "model_sessions": 20,
+  "model_groups": 10,
+  "model_invocations_per_group": 1280,
+  "pipeline_sessions": 96,
+  "pipeline_groups": 24,
+  "pipeline_delivery_samples_per_group": 480,
+  "full_expected_matrices_present": true,
+  "engine_input_harness_hash_receipts_before_after_equal": true,
+  "pooled_nearest_rank_percentiles_recomputed": true,
+  "weighted_queued_intervals_recomputed": true,
+  "per_arm_output_hashes_stable": true,
+  "model_statistics": [
+    {
+      "key": "raw6/main/ordinary",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 6.839392185,
+      "queued_gpu_interval_ms": 6.373146638275391,
+      "queued_gpu_fps": 156.90836203175854,
+      "checks_pass": true
+    },
+    {
+      "key": "raw6/main/graph",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 4.892928123,
+      "queued_gpu_interval_ms": 4.794414117932129,
+      "queued_gpu_fps": 208.57605859698003,
+      "checks_pass": true
+    },
+    {
+      "key": "raw6/official/ordinary",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 5.164031982,
+      "queued_gpu_interval_ms": 4.779443338513672,
+      "queued_gpu_fps": 209.22938701706286,
+      "checks_pass": true
+    },
+    {
+      "key": "raw6/official/graph",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 3.842495918,
+      "queued_gpu_interval_ms": 3.737483270467285,
+      "queued_gpu_fps": 267.55972605998403,
+      "checks_pass": true
+    },
+    {
+      "key": "raw6/finetuned/ordinary",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 5.183712006,
+      "queued_gpu_interval_ms": 4.837290555237793,
+      "queued_gpu_fps": 206.72729673374803,
+      "checks_pass": true
+    },
+    {
+      "key": "raw6/finetuned/graph",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 3.89369607,
+      "queued_gpu_interval_ms": 3.792728804050293,
+      "queued_gpu_fps": 263.66240553031105,
+      "checks_pass": true
+    },
+    {
+      "key": "original-default/main/ordinary",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 6.899295807,
+      "queued_gpu_interval_ms": 6.5400589406484375,
+      "queued_gpu_fps": 152.90382075682814,
+      "checks_pass": true
+    },
+    {
+      "key": "original-default/main/graph",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 4.955103874,
+      "queued_gpu_interval_ms": 4.874391943216309,
+      "queued_gpu_fps": 205.1537938781677,
+      "checks_pass": true
+    },
+    {
+      "key": "original-default/official-default/ordinary",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 5.19756794,
+      "queued_gpu_interval_ms": 4.83380745351416,
+      "queued_gpu_fps": 206.87625843950482,
+      "checks_pass": true
+    },
+    {
+      "key": "original-default/official-default/graph",
+      "samples": 1280,
+      "fresh_processes": 4,
+      "p95_gpu_event_ms": 3.915904045,
+      "queued_gpu_interval_ms": 3.8779004812250975,
+      "queued_gpu_fps": 257.8714964041786,
+      "checks_pass": true
+    }
+  ],
+  "pipeline_statistics": [
+    {
+      "key": "MOT17-10-SDP/detect/main/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 11.774563,
+      "interval_ms_per_frame": 8.8490065895,
+      "throughput_fps": 113.00703529665961,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/detect/official/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 13.616808,
+      "interval_ms_per_frame": 7.8419552915,
+      "throughput_fps": 127.51921718858986,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/detect/finetuned/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 7.405998,
+      "interval_ms_per_frame": 6.8778262085,
+      "throughput_fps": 145.39477586161516,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/detect/main/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 28.459847,
+      "interval_ms_per_frame": 6.589397925,
+      "throughput_fps": 151.75893327158565,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/detect/official/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 21.873518,
+      "interval_ms_per_frame": 5.015996052,
+      "throughput_fps": 199.3621983815708,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/detect/finetuned/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 22.02204,
+      "interval_ms_per_frame": 5.068365275,
+      "throughput_fps": 197.30227514038046,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/tracking/main/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 7.138781,
+      "interval_ms_per_frame": 6.817343725,
+      "throughput_fps": 146.68469719854122,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/tracking/official/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 6.938432,
+      "interval_ms_per_frame": 5.7359825959999995,
+      "throughput_fps": 174.33804640504877,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/tracking/finetuned/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 7.177594,
+      "interval_ms_per_frame": 5.93934418325,
+      "throughput_fps": 168.36875741604211,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/tracking/main/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 21.309439,
+      "interval_ms_per_frame": 5.1435741440000005,
+      "throughput_fps": 194.41733938384147,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/tracking/official/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 16.953768,
+      "interval_ms_per_frame": 4.0787229499999995,
+      "throughput_fps": 245.17477952259546,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-10-SDP/tracking/finetuned/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 19.908373,
+      "interval_ms_per_frame": 4.345493723,
+      "throughput_fps": 230.12344827635138,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/detect/main/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 9.071566,
+      "interval_ms_per_frame": 8.552179821,
+      "throughput_fps": 116.92925323488706,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/detect/official/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 7.390089,
+      "interval_ms_per_frame": 6.85499688525,
+      "throughput_fps": 145.87898677995244,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/detect/finetuned/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 7.786508,
+      "interval_ms_per_frame": 7.0139917835,
+      "throughput_fps": 142.5721658745653,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/detect/main/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 28.885932,
+      "interval_ms_per_frame": 6.6326082085,
+      "throughput_fps": 150.77025033959535,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/detect/official/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 21.57847,
+      "interval_ms_per_frame": 5.01028651675,
+      "throughput_fps": 199.58938409148416,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/detect/finetuned/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 22.015258,
+      "interval_ms_per_frame": 5.11381071875,
+      "throughput_fps": 195.54888809893927,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/tracking/main/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 6.999336,
+      "interval_ms_per_frame": 6.777789225,
+      "throughput_fps": 147.54073441993174,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/tracking/official/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 5.881876,
+      "interval_ms_per_frame": 5.6329123105,
+      "throughput_fps": 177.52806095276068,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/tracking/finetuned/single",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 6.023891,
+      "interval_ms_per_frame": 5.7726575625,
+      "throughput_fps": 173.2304383506379,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/tracking/main/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 21.215789,
+      "interval_ms_per_frame": 5.15290904975,
+      "throughput_fps": 194.0651368664301,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/tracking/official/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 16.760612,
+      "interval_ms_per_frame": 4.0566287645,
+      "throughput_fps": 246.51010926883643,
+      "checks_pass": true
+    },
+    {
+      "key": "MOT17-02-SDP/tracking/finetuned/queued",
+      "samples": 480,
+      "fresh_processes": 4,
+      "p95_delivery_ms": 19.983974,
+      "interval_ms_per_frame": 4.37349690225,
+      "throughput_fps": 228.6499847491689,
+      "checks_pass": true
+    }
+  ],
+  "GPU_used": false,
+  "new_measurements": false
+}

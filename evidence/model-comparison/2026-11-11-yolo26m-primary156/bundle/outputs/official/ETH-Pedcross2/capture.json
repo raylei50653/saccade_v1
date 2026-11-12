@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/model.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/ETH-Pedcross2",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Pedcross2/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Pedcross2/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Pedcross2/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/official/ETH-Pedcross2/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:08:40.589354+00:00",
+  "engine_sha256": "fad51c68686166c659386814b8f14f90dd4531afd12c2739a20031fbe6e6376e",
+  "exit_code": 0,
+  "frames": 837,
+  "imported": false,
+  "mot_sha256": "c44487d801b3488bb18b4985452c441bf20096022b6f8d0cdf427c20650a6c45",
+  "motion_sha256": "f1b5cdc2238690c32fa9985cc67d710c1503f366d43b957a3118c3fa5dedd53a",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "e885e87f53853f906c543da9c5d711dd73be0ffeb199f1ededf3a049664f219c",
+  "resolved_config_sha256": "5cbd6f9887d1e3ccf7199ff9f888e7221dce6632860526f25ff90230aa0bedb3",
+  "started_utc": "2026-11-11T15:08:35.708050+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/official/ETH-Pedcross2.json",
+    "sha256": "655a07587f742b65bc75d228faabc46eb789f05fc0f26b64a4a62930ac77e8e3"
+  },
+  "wall_seconds_including_lock_wait": 4.881321552000372
+}

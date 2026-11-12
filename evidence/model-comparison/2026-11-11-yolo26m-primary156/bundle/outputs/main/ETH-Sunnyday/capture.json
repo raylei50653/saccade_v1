@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/ETH-Sunnyday",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/ETH-Sunnyday/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/ETH-Sunnyday/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/ETH-Sunnyday/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/main/ETH-Sunnyday/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:08:48.726831+00:00",
+  "engine_sha256": "8292cc233019d08f1b1b6cfbc12f1fe1644f66f2164fd8f50a69b660a7817876",
+  "exit_code": 0,
+  "frames": 354,
+  "imported": false,
+  "mot_sha256": "6433dc65894152a608d3de6b2fcc9f218b6c80c89ae88ffb2dd2f7e2189b615d",
+  "motion_sha256": "d4a129a9d5026af09ed26585372f4259ba282eee36fb4a5831d5a75ac666731f",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "848455954da7c558cdb4b45ab3defb53a68e33f674457e22a5168633e853a7c2",
+  "resolved_config_sha256": "b76a5394925fe6feeec0250b5f075da5fe6dd5fa652e2601af2f3163b72e6472",
+  "started_utc": "2026-11-11T15:08:45.653497+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/main/ETH-Sunnyday.json",
+    "sha256": "5860b76d2e38de06002cfcd264c7dc3ece7620373e88cb79e11196e6d7e193ed"
+  },
+  "wall_seconds_including_lock_wait": 3.0733539659995586
+}

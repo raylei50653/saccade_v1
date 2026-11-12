@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/ADL-Rundle-8",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ADL-Rundle-8/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ADL-Rundle-8/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ADL-Rundle-8/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/ADL-Rundle-8/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:08:11.992986+00:00",
+  "engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+  "exit_code": 0,
+  "frames": 654,
+  "imported": false,
+  "mot_sha256": "18d09fc966532a2df95117a57ae555407aa4be0a83b95cc797dd497611bbf135",
+  "motion_sha256": "22225c2ec00a4d0a65165649150ae933e24fd27930ea031c3319be1b5671b107",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "38a5923e4771cd2b6308a4e6322c8b0cb9acd75623f4e7c44729d66353868792",
+  "resolved_config_sha256": "f6824dbc31e49932bfa39d7099a931a2d5e036ff1018a1e9a85b28078bd94d6b",
+  "started_utc": "2026-11-11T15:08:08.118033+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/finetuned/ADL-Rundle-8.json",
+    "sha256": "ee51bb9104fb3697787ad47609dae4b9da11725db678815ceeff8cfbdbca8ce7"
+  },
+  "wall_seconds_including_lock_wait": 3.8749702659988543
+}

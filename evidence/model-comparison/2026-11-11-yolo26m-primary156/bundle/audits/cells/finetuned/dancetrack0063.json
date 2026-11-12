@@ -1,0 +1,61 @@
+{
+  "arm": "finetuned",
+  "build_identity": {
+    "build.engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+    "build.executable_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+    "build.schema": "saccade-build-identity/1",
+    "build.source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "build.source_dirty": "true",
+    "input.seqinfo_sha256": "8bed1f230a7171ffcc98fe562cb714266ac00393b68d45635ca6552846015dbf"
+  },
+  "completed_utc": "2026-11-11T14:52:27.253310+00:00",
+  "config_sha256": "6d4adffa0b0006190bc0571549fe8b0041aa6bf3931a88c9f57980f74f61d022",
+  "epoch": 1,
+  "frames": 1000,
+  "frozen_tracker_output_sha256": "aafaf8b821a573e8f45725c68a300b2dd890fe5e2358e5388eb30b60f0ffa28e",
+  "height": 1080,
+  "motion": {
+    "all_floats_finite": true,
+    "all_frame_references_contiguous": true,
+    "epoch": 1,
+    "frames": 1000,
+    "key": [
+      1920,
+      1080,
+      1,
+      1920,
+      1080
+    ],
+    "sha256_of_file": "4183f46ae6194c5d2406b94b41bb2d54fe968fcf24d7a7732d5ba5a823be294e",
+    "status_counts": {
+      "0": 0,
+      "1": 1,
+      "2": 999,
+      "3": 0
+    }
+  },
+  "packets": {
+    "all_status_ok": true,
+    "all_unique_UID_ID_class0_finite_boxes": true,
+    "bytes_raw": 12368000,
+    "canonical_all_frames": true,
+    "observed_rows": 6860,
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0063/packets.bin",
+    "predicted_rows": 0,
+    "sha256_raw": "a961f82035a4f7d00b7eb1b4aac1eed46e107c175012efe7c3657a316dd28285",
+    "validator_command": [
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/validate_packets",
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/dancetrack0063/packets.bin",
+      "1000"
+    ],
+    "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e",
+    "validator_stdout": "PASS frames=1000 observed_rows=6860 predicted_rows=0 canonical=true all_status_ok=true"
+  },
+  "scope": "CPU structural/config validation only; not GPU/session sanitizer or quality acceptance",
+  "sequence": "dancetrack0063",
+  "source_and_execution_config_correct": true,
+  "status": "PASS",
+  "tracker_output_matches_frozen_baseline": true,
+  "wall_seconds": 0.027711390999684227,
+  "width": 1920
+}

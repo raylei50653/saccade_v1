@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "model_sessions": 20,
+  "model_groups": 10,
+  "model_single_samples": 12800,
+  "model_queued_batches": 320,
+  "model_queued_replays": 20480,
+  "pipeline_sessions": 96,
+  "pipeline_groups": 24,
+  "pipeline_measured_frames": 11520,
+  "pipeline_total_frames_including_warmup": 13440,
+  "all_percentiles": "nearest rank recomputed from pooled individual samples",
+  "queued_intervals": "recomputed from batches or equal-frame process wall intervals; never labelled per-frame latency",
+  "result_hashes": "same within model/sequence/path across single/queued and fresh repeats, not compared across detectors",
+  "exact_memory_fields_stable": {
+    "main": {
+      "engine_plan_bytes": 60753004,
+      "engine_getDeviceMemorySizeV2_bytes": 135170048,
+      "explicit_IO_and_status_allocations_bytes": 18570312
+    },
+    "official": {
+      "engine_plan_bytes": 44570732,
+      "engine_getDeviceMemorySizeV2_bytes": 137136128,
+      "explicit_IO_and_status_allocations_bytes": 18570240
+    },
+    "finetuned": {
+      "engine_plan_bytes": 42853316,
+      "engine_getDeviceMemorySizeV2_bytes": 135170048,
+      "explicit_IO_and_status_allocations_bytes": 18570240
+    },
+    "official-default": {
+      "engine_plan_bytes": 42663860,
+      "engine_getDeviceMemorySizeV2_bytes": 135170048,
+      "explicit_IO_and_status_allocations_bytes": 11803680
+    }
+  },
+  "memory_delta_caution": "cudaMemGetInfo free bytes are device-level staged observations, not private allocation attribution",
+  "scope": "independent CPU reading only; no new inference or measurement"
+}

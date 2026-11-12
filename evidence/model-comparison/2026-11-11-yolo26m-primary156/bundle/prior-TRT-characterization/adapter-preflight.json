@@ -1,0 +1,74 @@
+{
+  "scope": "targeted producer and native-adapter correctness; not performance acceptance",
+  "steps": [
+    {
+      "name": "producer-negative-controls",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/producer_probe"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "main-detection",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/detect_sequence",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/preflight/main.scdr",
+        "--profile",
+        "hr-1280x768"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "main-tracking",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/preflight/main.txt",
+        "--profile",
+        "hr-1280x768",
+        "--motion",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/preflight/main.scmo",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/preflight/main.packets.bin",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/preflight/main.config",
+        "--set",
+        "execution.candidate_slots=4",
+        "--set",
+        "execution.motion_slots=4",
+        "--set",
+        "execution.result_slots=4"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "official-detection",
+      "command": [
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/detect_sequence",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/official/model.engine",
+        "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+        "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/preflight/official.scdr",
+        "--profile",
+        "hr-1280x768"
+      ],
+      "exit": 0
+    }
+  ],
+  "binary_hashes_before": {
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/producer_probe": "2e8ad9d3f60aed1896d5a193b55dcd7e0b9bc6beb4172176dc5a4ccac8841a80",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/detect_sequence": "fb6488c49a9d57b9b58e963cacee8e4e8ed905ad2ca942088771ede4b218c8b2",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1"
+  },
+  "main_SCDR_equal_frozen": true,
+  "main_MOT_packets_motion_equal_formal_G1": true,
+  "official_detection_frames": 654,
+  "binary_hashes_after": {
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/producer_probe": "2e8ad9d3f60aed1896d5a193b55dcd7e0b9bc6beb4172176dc5a4ccac8841a80",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/detect_sequence": "fb6488c49a9d57b9b58e963cacee8e4e8ed905ad2ca942088771ede4b218c8b2",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1"
+  },
+  "result": "PASS"
+}

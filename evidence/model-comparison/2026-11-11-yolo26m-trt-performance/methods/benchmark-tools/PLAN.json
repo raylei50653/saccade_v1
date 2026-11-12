@@ -1,0 +1,71 @@
+{
+  "status": "FIXED_BEFORE_MEASUREMENT",
+  "four_inputs": "MOT17-10 f1/218/437/654, exact hr-deploy refs/model-images.f32",
+  "raw_model_order": [
+    "main",
+    "official",
+    "finetuned",
+    "finetuned",
+    "official",
+    "main"
+  ],
+  "original_default_order": [
+    "main",
+    "official-default",
+    "official-default",
+    "main"
+  ],
+  "cycles_each": 2,
+  "fresh_processes_per_arm_per_comparison": 4,
+  "per_process": {
+    "ABBA": [
+      "ordinary",
+      "graph",
+      "graph",
+      "ordinary"
+    ],
+    "inputs_timed": 4,
+    "warmup_per_group": 12,
+    "single_samples_per_group": 40,
+    "queued_replays_per_group": 64
+  },
+  "timing_excludes": [
+    "H2D",
+    "D2H",
+    "allocation",
+    "initialization",
+    "warmup",
+    "verification",
+    "file_IO"
+  ],
+  "verification": "all four outputs finite, repeat and graph bitwise equal; all status outputs checked when real scan statuses exist",
+  "queued_scope": "batch throughput interval; not individual frame latency",
+  "execution_condition": "root GO only after all engine builds and quality checks; complete series holds GPU lock",
+  "pipeline": {
+    "sequences": [
+      "MOT17-10-SDP",
+      "MOT17-02-SDP"
+    ],
+    "total_frames": 140,
+    "warmup_frames": 20,
+    "per_group_measured_samples": 480,
+    "styles": [
+      "single",
+      "queued"
+    ],
+    "tracking_graph": true,
+    "detection_graph": false,
+    "detection_reason": "current native DetectionSession has no Graph API; all arms share ordinary enqueue in this path",
+    "path_order": [
+      "detect",
+      "tracking"
+    ],
+    "latency_endpoint": "before enqueue to immediately after receive, before caller copy/check",
+    "queued_throughput": "measured wall interval includes same caller copy/check and ring fill/drain; not individual frame latency",
+    "slots": {
+      "candidate": 2,
+      "motion_tracking": 2,
+      "result": 4
+    }
+  }
+}

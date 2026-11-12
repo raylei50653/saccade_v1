@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-11-11T13:46:53.367404+00:00",
+  "before_timed_measurements": true,
+  "changes": [
+    {
+      "field": "pipeline_benchmark.CUDA_Graph",
+      "original": "true for pipeline entry",
+      "effective": {
+        "detection": false,
+        "tracking": true
+      },
+      "reason": "Existing DetectionSession has ordinary enqueue only; TrackingSession has deployed Graph path. Preserve actual API semantics."
+    },
+    {
+      "field": "pipeline_benchmark.internal_slots",
+      "effective": {
+        "detection_candidates": 2,
+        "tracking_candidates": 2,
+        "motion": 2,
+        "results": 4
+      },
+      "reason": "Match deployed native defaults; result ring4 alone does not mean internal buffers4."
+    },
+    {
+      "field": "diagnostic",
+      "added": "one bounded official FP32/noTF32 TensorRT export from same ONNX and same four references",
+      "reason": "Official/fine raw FP16 exceeded exporter preset1% relativeL2 screen. KeepFAIL; FP32control distinguishes ONNX/parsing fromprecision shift. No parametersearch."
+    }
+  ],
+  "primary_outputs_preserved": true,
+  "no_threshold_tuning": true
+}

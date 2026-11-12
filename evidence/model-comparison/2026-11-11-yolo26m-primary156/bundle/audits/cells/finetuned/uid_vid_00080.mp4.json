@@ -1,0 +1,61 @@
+{
+  "arm": "finetuned",
+  "build_identity": {
+    "build.engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+    "build.executable_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+    "build.schema": "saccade-build-identity/1",
+    "build.source_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
+    "build.source_dirty": "true",
+    "input.seqinfo_sha256": "15dc74884118cef839bc3e9a70c52ac687cb85886e72ba24583df8a9ae4a3a81"
+  },
+  "completed_utc": "2026-11-11T15:17:38.808928+00:00",
+  "config_sha256": "de9a016f1f3fe0144ff0c5c4a0917499075fa03a113ffb02e4b1cb1f277f2ec4",
+  "epoch": 1,
+  "frames": 452,
+  "frozen_tracker_output_sha256": "aafaf8b821a573e8f45725c68a300b2dd890fe5e2358e5388eb30b60f0ffa28e",
+  "height": 1080,
+  "motion": {
+    "all_floats_finite": true,
+    "all_frame_references_contiguous": true,
+    "epoch": 1,
+    "frames": 452,
+    "key": [
+      1920,
+      1080,
+      1,
+      1920,
+      1080
+    ],
+    "sha256_of_file": "2a93930799127e50feaf6eb3aba9dcb7929279af56a70d83893d23fa8fa1b779",
+    "status_counts": {
+      "0": 0,
+      "1": 1,
+      "2": 451,
+      "3": 0
+    }
+  },
+  "packets": {
+    "all_status_ok": true,
+    "all_unique_UID_ID_class0_finite_boxes": true,
+    "bytes_raw": 5590336,
+    "canonical_all_frames": true,
+    "observed_rows": 23492,
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/uid_vid_00080.mp4/packets.bin",
+    "predicted_rows": 0,
+    "sha256_raw": "94c7500f98ead6d4da636e93f79a4f608dadd6aa15d34c6545c8419e222e39fb",
+    "validator_command": [
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/validate_packets",
+      "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/uid_vid_00080.mp4/packets.bin",
+      "452"
+    ],
+    "validator_sha256": "b03679c4766f00dde9bb44945053352ad7e51d776d213eafe9c8e39ac21c3b0e",
+    "validator_stdout": "PASS frames=452 observed_rows=23492 predicted_rows=0 canonical=true all_status_ok=true"
+  },
+  "scope": "CPU structural/config validation only; not GPU/session sanitizer or quality acceptance",
+  "sequence": "uid_vid_00080.mp4",
+  "source_and_execution_config_correct": true,
+  "status": "PASS",
+  "tracker_output_matches_frozen_baseline": true,
+  "wall_seconds": 0.013642465999510023,
+  "width": 1920
+}

@@ -1,0 +1,41 @@
+{
+  "benchmark": "MOT15",
+  "binary_sha256": "7b0a6dc1d23fefbeb03f2f5e4cba31890d944c349c404904c60f7ad72f912ae1",
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/artifacts/finetuned/model.engine",
+    "/home/ray/developer/ai/dataset/MOT15/MOT15/train/KITTI-13",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/KITTI-13/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/KITTI-13/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/KITTI-13/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/cells/finetuned/KITTI-13/resolved.config"
+  ],
+  "completed_utc": "2026-11-11T15:09:03.131883+00:00",
+  "engine_sha256": "9720adc960119ae3a55fbfaf4f80a4dbc6b495ad47fd09e95fbfd97398382e0c",
+  "exit_code": 0,
+  "frames": 340,
+  "imported": false,
+  "mot_sha256": "f398eb8921bca02897a7ec36382e1cc0c2a34d279daa3bf3329f6a1bfec302b9",
+  "motion_sha256": "373d250eb39b7aa09df950bad4192595fbf324f7a3267c57ac87f7b6f1f0c584",
+  "native_interval_not_a_controlled_performance_measurement": true,
+  "packets_sha256": "a3dc6cab2f9fdfdb4140035b1e70cce4f884dfcaabd82dcf932438fcd00b5886",
+  "resolved_config_sha256": "390fbcd670769f5c6dccd83dbe7d607274b80fac1ec63e90406bb1aacd9a4801",
+  "started_utc": "2026-11-11T15:09:00.356752+00:00",
+  "status": "PASS",
+  "validation": {
+    "path": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-primary156-20261111/validation-tools/cells/finetuned/KITTI-13.json",
+    "sha256": "5bdc570be81257a516db8bc3cb518172294a39ac09ea3fe6ff30a7f7dc02296d"
+  },
+  "wall_seconds_including_lock_wait": 2.7751505199994426
+}

@@ -1,0 +1,38 @@
+{
+  "GPU_lock": "held across the whole series; root approval after all builds and quality tests",
+  "candidate_slots": 2,
+  "created_utc": "2026-11-11T13:53:31.655618+00:00",
+  "cycles": 2,
+  "detection_graph": false,
+  "endpoint": "receive return before caller copy/check; input JPEG preloaded, initialization/warmup excluded",
+  "frames_total": 140,
+  "fresh_processes_per_arm_path_mode_sequence": 4,
+  "measured_per_session": 120,
+  "modes": [
+    "single",
+    "queued"
+  ],
+  "motion_slots_tracking": 2,
+  "order": [
+    "main",
+    "official",
+    "finetuned",
+    "finetuned",
+    "official",
+    "main"
+  ],
+  "paths": [
+    "detect",
+    "tracking"
+  ],
+  "result_slots": 4,
+  "ring_slots": 4,
+  "sequences": [
+    "MOT17-10-SDP",
+    "MOT17-02-SDP"
+  ],
+  "sessions": 96,
+  "statistics": "pooled per-frame nearest-rank percentiles, 480 delivery samples per group; interval is throughput",
+  "tracking_graph": true,
+  "warmup": 20
+}

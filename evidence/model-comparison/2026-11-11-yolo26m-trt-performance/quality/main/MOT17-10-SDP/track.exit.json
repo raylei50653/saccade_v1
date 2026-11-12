@@ -1,0 +1,24 @@
+{
+  "command": [
+    "flock",
+    "/home/ray/.cache/saccade-v1/gpu.lock",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/pipeline-tools/track_sequence",
+    "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+    "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-10-SDP/mot.txt",
+    "--profile",
+    "hr-1280x768",
+    "--set",
+    "tracker.kalman.nsa_enabled=false",
+    "--set",
+    "tracker.rows.measurement_box=false",
+    "--packets",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-10-SDP/packets.bin",
+    "--motion",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-10-SDP/motion.scmo",
+    "--resolved-config",
+    "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-10-SDP/resolved.config"
+  ],
+  "exit_code": 0,
+  "wall_seconds_including_lock_wait": 4.737851161000435
+}

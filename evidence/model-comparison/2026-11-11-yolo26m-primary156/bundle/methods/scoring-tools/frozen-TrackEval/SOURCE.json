@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "upstream_url": "https://github.com/JonathonLuiten/TrackEval",
+  "license": "MIT",
+  "source_snapshot": {
+    "repository": "/home/ray/developer/ai/saccade",
+    "commit": "e48f3b39d5bfeb192a08d8a02cd2c04cf053bdd2",
+    "path": "third_party/TrackEval",
+    "git_tree": "b0ba3a0c5b82550156c6afd1ca949fe5ec155161",
+    "last_path_commit": "0f164c989b98a2750f1dc6e75185c7f26d3d2220",
+    "upstream_commit": null,
+    "note": "The historical vendor snapshot does not identify its upstream commit; no upstream revision is inferred."
+  },
+  "supported_scope": {
+    "dataset": "MotChallenge2DBox",
+    "metrics": [
+      "HOTA",
+      "CLEAR",
+      "Identity",
+      "Count"
+    ],
+    "plot_curves": false,
+    "required_dependencies": [
+      "numpy",
+      "scipy"
+    ],
+    "optional_dependency": "tqdm"
+  },
+  "unchanged_files_sha256": {
+    "LICENSE": "f7e548c5729e464d878dd4abf691e323bbea028a756d08395d88b83e43dd2d86",
+    "trackeval/eval.py": "7190887a1ab116e302da5b6b57bbc36a7c38c4267984c1518f44a25f025680fe",
+    "trackeval/_timing.py": "62e60638efc675bccc35c7da65158f0f19ce31f332121efe7cc748bd92ad2b30",
+    "trackeval/utils.py": "c082ecfbb5061619642b82a034454022806f8e870f774e54dbfbdacaaf097132",
+    "trackeval/datasets/_base_dataset.py": "9094b50490b5567ed6f22cac6aa6ec969f4d467d4d28515546e0b875ffe976f5",
+    "trackeval/datasets/mot_challenge_2d_box.py": "d636323991fa30e183acd898d89e26e3be04f8000b56c3f2f45b9940315af54f",
+    "trackeval/metrics/_base_metric.py": "dac8b87bf3801269aa280b1cf91184f483de4f4e5c158bd07a4b1733b1a5722b",
+    "trackeval/metrics/hota.py": "c582255c3d36bdb49c3ceeb2a5bd912cee009190dfcfe465b4173d03aaa97d6a",
+    "trackeval/metrics/clear.py": "ab3963eac401073fe1b2957c734af1e531368f42fca49627c14422350b2744f0",
+    "trackeval/metrics/identity.py": "e76b1bdcbf5b193662431596a984cf70a5be32e903eb5f2a3d9921b4762f93ba",
+    "trackeval/metrics/count.py": "ffce9a3ed557f164f7a811f0a8cf66f609eec0af822dbc87d8fdaef560032163"
+  },
+  "modified_initializers": {
+    "trackeval/__init__.py": {
+      "source_sha256": "636586f4cc90a0be21e8aff605fb7fe97c089b3c46fafd43745d4c41bedceae3",
+      "vendored_sha256": "bad61913fce6d63f026a70d2bffd9ae78399f31861c496688d361fcae8c83cef",
+      "change": "Restrict eager imports to the supported MOT evaluation subset."
+    },
+    "trackeval/datasets/__init__.py": {
+      "source_sha256": "09911297082107bdf35837442d460bf4c6172dc9d46b76c89d8b2d4dbb7ff82b",
+      "vendored_sha256": "4d4552139c748c20d81905acfc6392bae4e10e42ada518d7baa56611ef1475a0",
+      "change": "Restrict eager imports to the supported MOT evaluation subset."
+    },
+    "trackeval/metrics/__init__.py": {
+      "source_sha256": "5fd5d495814450ecdb45e60cfd6a2b20b79c75a455d1a2ea2171a0df3cc2dc90",
+      "vendored_sha256": "d7865e6b944f58d06267931160aec5d4be09d1130d88e402f142d51fd919b698",
+      "change": "Restrict eager imports to the supported MOT evaluation subset."
+    }
+  }
+}

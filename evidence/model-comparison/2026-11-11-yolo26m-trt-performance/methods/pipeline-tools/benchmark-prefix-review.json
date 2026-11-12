@@ -1,0 +1,928 @@
+{
+  "result": "PASS",
+  "pipeline_sessions_verified": 96,
+  "reference_prefixes": 12,
+  "frames_per_session": 140,
+  "measured_native_quality_prefixes_exact": true,
+  "all_single_queued_and_fresh_results_match": true,
+  "tracking_byte_scope": "all140complete12368-byte canonical packets, including unused/reserved bytes",
+  "detection_byte_scope": "all140complete9664-byte candidate frames, normalizing only SCDR fileheader count",
+  "references": {
+    "MOT17-10-SDP/detect/main": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-10-SDP/detections.scdr",
+      "prefix_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    "MOT17-10-SDP/detect/official": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/official/MOT17-10-SDP/detections.scdr",
+      "prefix_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    "MOT17-10-SDP/detect/finetuned": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/finetuned/MOT17-10-SDP/detections.scdr",
+      "prefix_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    "MOT17-10-SDP/tracking/main": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-10-SDP/packets.bin",
+      "prefix_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    "MOT17-10-SDP/tracking/official": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/official/MOT17-10-SDP/packets.bin",
+      "prefix_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    "MOT17-10-SDP/tracking/finetuned": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/finetuned/MOT17-10-SDP/packets.bin",
+      "prefix_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    "MOT17-02-SDP/detect/main": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-02-SDP/detections.scdr",
+      "prefix_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    "MOT17-02-SDP/detect/official": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/official/MOT17-02-SDP/detections.scdr",
+      "prefix_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    "MOT17-02-SDP/detect/finetuned": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/finetuned/MOT17-02-SDP/detections.scdr",
+      "prefix_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    "MOT17-02-SDP/tracking/main": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/main/MOT17-02-SDP/packets.bin",
+      "prefix_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    "MOT17-02-SDP/tracking/official": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/official/MOT17-02-SDP/packets.bin",
+      "prefix_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    "MOT17-02-SDP/tracking/finetuned": {
+      "source": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/quality/finetuned/MOT17-02-SDP/packets.bin",
+      "prefix_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    }
+  },
+  "checks": [
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-single-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6345a328cb0c9f53e4f6e8d201ad225e9c790d60116c8c44943611207518fc1c"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "a60e7e4fe5d8336cf17883bff20b7789491234aa277c74517bcdaddecae4b06e"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-detect-queued-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "42d7abb91057012ef2ebb3b5fe147e20db9969659ced2f09cb45df955c48f2d0"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-single-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "ab97e91758547490634c9aa6b3e330db87410d7fec63935b06abdf57e0d512c6"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "6ff8c5506620b4b74e1fca2dd763822df175297db6221f8403713eabc66bface"
+    },
+    {
+      "sequence": "MOT17-10-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-10-SDP-tracking-queued-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "db77362c1c5fff9ebe858087b4c3726601549b8f57b0ca3506557b20171fb022"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-single-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "8ae2a57e95342fda5f18547f7a6946c1b270dbc0ed8f2d90262e10f0b773d06a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "b5f7d0bea6ff5fad63ed68bc4930f4ee659e2958c114e971f783ab7919340c2e"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "detect",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-detect-queued-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "34396e81fb7c1d6db1553b207432cecdc973e192a6ff6d3f76519fdb454b4116"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "single",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-single-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c0-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c0-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c0-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c0-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c0-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c0-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c1-o0-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c1-o1-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c1-o2-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "finetuned",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c1-o3-finetuned",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "f90446dfa3875c4d9c36cc3f9cb3e1c0efd9dc475c125861b5bcf2aef8ad781f"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "official",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c1-o4-official",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "5b5a74ad97e9bfdc4639757e92e7eced2d712e3b5b190f94d71b089fe563d83a"
+    },
+    {
+      "sequence": "MOT17-02-SDP",
+      "path": "tracking",
+      "arm": "main",
+      "mode": "queued",
+      "output": "/home/ray/developer/ai/saccade_v1/build/yolo26m-trt-comparison-20261111/benchmark-tools/pipeline-runs/MOT17-02-SDP-tracking-queued-c1-o5-main",
+      "full_native_quality_prefix_exact": true,
+      "result_sha256": "d41912d300aee82d59dd066c08d7623a3fc7d077841d515629cfeef4a0b6b105"
+    }
+  ],
+  "GPU_used": false,
+  "new_measurements": false
+}

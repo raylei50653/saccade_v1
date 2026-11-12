@@ -1,0 +1,125 @@
+{
+  "pass_": true,
+  "submitted": 654,
+  "view_frames": 654,
+  "mot_byte_parity": true,
+  "packet_byte_parity": true,
+  "wall_ms": {
+    "plain": 6139.2,
+    "view": 6002.68
+  },
+  "view_probe": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "nb_frames": "654",
+    "nb_read_frames": "654"
+  },
+  "media": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.mp4",
+      "bytes": 21945458,
+      "sha256": "f888aeb6f33ff1d07a8a8b82e8522d820a041d6819de2706dc9d585289015ce1"
+    }
+  ],
+  "commands": [
+    {
+      "name": "real-plain",
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=15s",
+        "300s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/track_stream",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source.mp4",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/plain.txt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/plain.bin"
+      ]
+    },
+    {
+      "name": "real-view",
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=15s",
+        "300s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/track_stream",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source.mp4",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.txt",
+        "--packets",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.bin",
+        "--view",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.mp4"
+      ]
+    },
+    {
+      "name": "real-view-probe",
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=15s",
+        "300s",
+        "ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=codec_name,width,height,nb_read_frames,nb_frames",
+        "-of",
+        "json",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.mp4"
+      ]
+    },
+    {
+      "name": "real-view-jpegs",
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=15s",
+        "300s",
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-nostdin",
+        "-n",
+        "-i",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.mp4",
+        "-vf",
+        "select=eq(n\\,180)+eq(n\\,195)+eq(n\\,210)",
+        "-fps_mode",
+        "vfr",
+        "-q:v",
+        "3",
+        "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/evidence/streaming/2026-11-12-view-output/review-%03d.jpg"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/plain.bin",
+      "bytes": 8088672,
+      "sha256": "f385a2a49816f648eebc3496a2620012f78c2c03bd4718cea465f81ab7658a73"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/plain.txt",
+      "bytes": 557448,
+      "sha256": "475719ec6cb0347e3a4ee8a1c08e75916dd1f58e24e7dd98ad1c56e95b7e4f4a"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.bin",
+      "bytes": 8088672,
+      "sha256": "f385a2a49816f648eebc3496a2620012f78c2c03bd4718cea465f81ab7658a73"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/runs/r1/view.txt",
+      "bytes": 557448,
+      "sha256": "475719ec6cb0347e3a4ee8a1c08e75916dd1f58e24e7dd98ad1c56e95b7e4f4a"
+    }
+  ]
+}

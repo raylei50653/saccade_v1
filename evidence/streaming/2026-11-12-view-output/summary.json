@@ -1,80 +1,197 @@
 {
-  "date": "2026-11-12",
-  "recorded_at_utc": "2026-11-12T12:22:38.956357+00:00",
-  "status": "STOPPED_ENVIRONMENT",
-  "implemented": false,
+  "status": "PASS_DEVELOPMENT",
   "formal_acceptance": false,
+  "date": "2026-11-12",
   "branch": "feat/stream-view",
+  "parent_commit": "015d1740a0756454afe1a6cad96f7ae6e8d9f113",
   "base_commit": "3cbaa518f0dc37d691404e95ed85c0109c81130d",
-  "blocker": {
-    "path": "/etc/mediamtx.yml",
-    "reason": "Required installed MediaMTX v1.19.1 configuration is absent (ENOENT); cannot derive configuration keys from the specified file.",
-    "policy": "Stop and report on any environmental failure; no alternate configuration substituted."
-  },
+  "source_dirty": true,
   "gates": [
     {
-      "name": "fixed_inputs",
+      "name": "preflight",
       "status": "PASS",
-      "demo_frames": 654,
-      "width": 1920,
-      "height": 1080,
-      "rate": "30/1"
+      "checks": 17
     },
     {
-      "name": "idle_gpu_and_port",
+      "name": "overlay",
       "status": "PASS",
-      "gpu_processes": 0,
-      "conflicting_processes": 0,
-      "port": 8554
-    },
-    {
-      "name": "required_mediamtx_configuration",
-      "status": "FAIL",
-      "errno": "ENOENT"
-    },
-    {
-      "name": "configure_build",
-      "status": "NOT_RUN"
-    },
-    {
-      "name": "overlay_cpu_gpu_parity",
-      "status": "NOT_RUN"
+      "byte_parity_cases": 8,
+      "resolutions": [
+        "1920x1080",
+        "322x194"
+      ],
+      "max_boxes": 256
     },
     {
       "name": "overlay_memcheck",
-      "status": "NOT_RUN"
+      "status": "PASS",
+      "errors": 0
     },
     {
-      "name": "cli_view_parity",
-      "status": "NOT_RUN"
+      "name": "cli",
+      "status": "PASS",
+      "cases": 55
     },
     {
-      "name": "full_ctest",
-      "status": "NOT_RUN"
+      "name": "ctest",
+      "status": "PASS",
+      "passed": 67,
+      "total": 67
     },
     {
-      "name": "real_data_654_frame_parity",
-      "status": "NOT_RUN"
+      "name": "real_data",
+      "status": "PASS",
+      "frames": 654,
+      "mot_bytes_equal": true,
+      "packet_bytes_equal": true
     },
     {
-      "name": "live_450_frame_loopback",
-      "status": "NOT_RUN"
+      "name": "loopback",
+      "status": "PASS",
+      "submitted": 450,
+      "end": "frame-limit",
+      "exit": 0,
+      "recording_frames": 301,
+      "recording_limit_s": 10
     },
     {
-      "name": "demo_sigint_cleanup",
-      "status": "NOT_RUN"
+      "name": "demo_sigint",
+      "status": "PASS",
+      "script_exit": 130,
+      "tracker_exit": 130,
+      "submitted": 434,
+      "received": 434,
+      "remaining_children": 0
     }
   ],
-  "wall_ms_without_view": null,
-  "wall_ms_with_view": null,
-  "live_wall_ms": null,
-  "live_fps": null,
-  "view_mean_ms": null,
-  "view_p95_ms": null,
-  "media_artifacts": [],
-  "limits": [
-    "Preflight only; no encoder session opened and no tracking run performed.",
-    "Single-machine development verification, not formal acceptance.",
-    "Existing nvJPEG/NVOFA sanitizer OPEN items are unaffected."
-  ]
+  "wall_ms": {
+    "plain": 6139.2,
+    "view": 6002.68
+  },
+  "live_wall_ms": 19977.1,
+  "live_fps": 22.5257920318765,
+  "view_timing_us": {
+    "count": 450,
+    "mean": 1281.3370111111112,
+    "p95": 1538.36,
+    "method": "host steady_clock before ready-event wait/pool acquisition through successful avcodec_send_frame; includes copy, box upload, overlay, stream synchronize; excludes packet drain/mux and tracking"
+  },
+  "demo": {
+    "pass_": true,
+    "command": [
+      "timeout",
+      "--signal=INT",
+      "--kill-after=20s",
+      "90s",
+      "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/scripts/run_stream_view_demo.sh",
+      "/home/ray/developer/ai/saccade_v1/docs/demos/report1/assets/source.mp4"
+    ],
+    "run_path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view-demo/20261112T125546Z",
+    "signal_after_s": 20,
+    "script_exit": 130,
+    "tracker_exit": 130,
+    "submitted": 434,
+    "received": 434,
+    "end": "cancelled",
+    "wall_ms": 19617.4,
+    "mot_bytes": 356280,
+    "cleanup_s": 0.2704200200005289,
+    "remaining_children": []
+  },
+  "binaries": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/track_stream",
+      "bytes": 4058392,
+      "sha256": "28470971c5a9a377489ebea7379ea1152e504c48f7f71d52f8c8f156387d7c15"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/video_overlay_tests",
+      "bytes": 150608,
+      "sha256": "f5a5d28badb0c19d306111f0a5e99b8def6ac53a6db30d9319116e24f045fa1c"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view/timing/track_stream",
+      "bytes": 4058392,
+      "sha256": "6b6e4aa0ac63bb4bb43cf834c565c1a04734a59d6fc75f863942b10247e38434"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/src/video_view.cpp",
+      "bytes": 17631,
+      "sha256": "282776557c4c385d01bbfb32f63ce1d8012c2489723ecdd582250c0327ec7c11"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/cuda/video_overlay.cu",
+      "bytes": 2914,
+      "sha256": "23d14284021c58bc5a2cdd0c0d1d8dc86d516e045c3f59fd207a365cd1b20bd4"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/include/saccade/video_view.hpp",
+      "bytes": 1129,
+      "sha256": "88fc08d96d3165713d112eb2bf4439446d75571d2faae805829e9014f96da3a4"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/include/saccade/video_overlay.hpp",
+      "bytes": 1805,
+      "sha256": "03b2d0de6b997a8db752031b354627a7790a254caeb00132adfc65df07eaac23"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/tools/track_stream.cpp",
+      "bytes": 23752,
+      "sha256": "345c603aea005e60074a29a67c2d0f3ca9f8b9880a2bfe5deee9238566771ce8"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/cmake/Streaming.cmake",
+      "bytes": 5020,
+      "sha256": "3674ea4b58278c5010cc8fd95da37fb71f8b6c0b9c033f73410f606da77431e6"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/tests/video_overlay_tests.cpp",
+      "bytes": 7061,
+      "sha256": "17b81169c50b23993aebececfbc196e31ff7c9606758ed00ecb1a78eec83b4a1"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/tests/track_stream_cli_tests.py",
+      "bytes": 26179,
+      "sha256": "4d1474794f14ecf259257e20b0c56222f5b5d40d5094064358e94bfef256f441"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/scripts/run_stream_view_demo.sh",
+      "bytes": 3872,
+      "sha256": "e1087ed6dfafc6e1e1d7ac851ad164a172f0480871febc907acb1007e3d083e3"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/scripts/stream_view_demo.mediamtx.yml",
+      "bytes": 361,
+      "sha256": "bb5c5887f1bcb0c3da8a7bcafb9f5b19df6ed684bac5b722a6481bb0462e2241"
+    }
+  ],
+  "media_manifest": "media-manifest.json",
+  "review_frames": [
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/evidence/streaming/2026-11-12-view-output/frame-180.jpg",
+      "bytes": 167902,
+      "sha256": "09000611cd02db7e49917e644c76f4ae5d939cc8d09e6246f3eb541c491ea198"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/evidence/streaming/2026-11-12-view-output/frame-195.jpg",
+      "bytes": 163597,
+      "sha256": "02329efa449bba37c37330d97096a81abccf4725b37111b2a5a9bb3ab32b92bb"
+    },
+    {
+      "path": "/home/ray/developer/ai/saccade_v1-worktrees/stream-view/evidence/streaming/2026-11-12-view-output/frame-210.jpg",
+      "bytes": 162560,
+      "sha256": "03db52b4d4f3e3e6ac71ea267103a12ce4a6e5ee4da178c244604d7126ca0a9f"
+    }
+  ],
+  "limitations": [
+    "single-machine development verification; not formal acceptance",
+    "existing nvJPEG/NVOFA sanitizer OPEN unchanged",
+    "NV12 only; no CPU/software fallback, reconnect, retry, dropping or audio",
+    "instrumented timing binary is separate; final production source has no timing hook",
+    "RTSP recording is a 10-second prefix; full teardown-boundary recording is not verified clean",
+    "recorder reports initial packet timestamp unset/DTS adjustment; prefix decode error log is empty"
+  ],
+  "p08_cli_cases": 18
 }

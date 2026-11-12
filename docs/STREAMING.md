@@ -66,6 +66,26 @@ CLI 明列 `output_profile=stream-observations/1`：每筆使用 packet 的穩�
 
 失敗／skipped packets 可保留在 packet 檔，失敗後不新增有效 MOT rows。close／flush 檢查不等於 fsync 耐久性。CLI 隱藏 FFmpeg 原生日誌以避免 RTSP credential 出現在 URL 診斷中；可重用來源庫不改寫應用程式的全域 FFmpeg logger。
 
+## 畫面輸出（`--view`）與 RTSP 展示
+
+`--view URL` 在原尺寸影像上畫出 tracking 方框與十進位 `output_id`，以 `h264_nvenc` 輸出 H.264。`rtsp://` 開頭使用 RTSP muxer／TCP，其餘值視為本機檔案，由副檔名選容器；檔案必須是新路徑，且與 engine、來源及其他輸出不同。URL 不寫入 CLI 日誌；`view.codec=h264_nvenc`、`view.target=rtsp|file` 只識別輸出方式。畫面輸出不進入 resolved tracking config，也不改變 MOT／packet bytes。
+
+```sh
+build/stream-view/track_stream MODEL.engine input.mp4 tracks.txt \
+  --packets packets.bin --view annotated.mp4
+build/stream-view/track_stream MODEL.engine rtsp://127.0.0.1:8554/in tracks-live.txt \
+  --view rtsp://127.0.0.1:8554/tracked --timeout-ms 5000
+scripts/run_stream_view_demo.sh SOURCE_VIDEO [ENGINE]
+```
+
+demo 使用 `build/stream-view/track_stream`，預設 engine 為 `/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine`。它啟動 RTSP／TCP-only MediaMTX，以 `ffmpeg -re -stream_loop -1 -c copy` 發布 `/in`，等待可讀後才執行 tracker，輸出放在 `build/stream-view-demo/<UTC timestamp>/`。script 指定既有 `--timeout-ms 15000`，讓長 GOP 來源有時間交付首個可解碼幀；CLI 預設不變。`RTSP_LISTEN` 預設 `127.0.0.1:8554`；需先備妥 MediaMTX v1.19.1、FFmpeg、ffprobe 與此 streaming build。Ctrl-C 先讓 tracker drain（退出 130），再停止 publisher 與 MediaMTX。
+
+WSLg 可執行 `ffplay -rtsp_transport tcp rtsp://127.0.0.1:8554/tracked`；Windows VLC 開啟 `rtsp://localhost:8554/tracked`，使用 WSL2 NAT 的 localhost forwarding。更改 listen port 時同步修改 viewer URL。
+
+畫面路徑為 `NVDEC surface → GPU device copy → CUDA overlay → NVENC`，不修改 decoder surface，不下載影像。僅接受 CUDA decode／NV12；`--decode cpu --view` 與 P010 第一幀會在建立輸出前拒絕，沒有 CPU overlay 或軟體 encoder fallback。輸出保留嚴格遞增的來源 `pts_us`（減去第一幀時間），缺失或倒退即失敗；30 fps 只是 rate-control hint。RTSP I/O 沿用 `--timeout-ms` 的期限。
+
+本機檔案來源不做即時 pacing；demo 的 `-re` 才限制輸入速度。looped source 會讓場景回到開頭，但 tracking session／IDs 持續，並不自動重設。沒有 reconnect、retry、丟幀、音訊或多串流；view 連線、編碼或寫入錯誤都是 fatal，錯誤 drain 不再寫入 view。這是單機開發展示與驗證，**不是正式 acceptance**，也不關閉既有 nvJPEG／NVOFA sanitizer OPEN 項目。
+
 ## 支援與驗證邊界
 
 GPU 入口支援 NV12（8-bit）與 P010（10-bit）surface，CUDA 轉換政策為 `device-video-color/1`：BT.601／BT.709／BT.2020 NCL、full／limited range、以 `(x/2,y/2)` 取 chroma，clamp 後 round-to-nearest-even 成 RGB8，再套用原 F02。HDR transfer 與 BT.2020 constant luminance 明確拒絕；本版沒有 tone mapping、旋轉 metadata、去交錯或可變時間差追蹤。

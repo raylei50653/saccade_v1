@@ -1,5 +1,6 @@
 #include "saccade/tracking_session.hpp"
 #include "saccade/video_source.hpp"
+#include "saccade/video_view.hpp"
 #include "saccade/mot_output.hpp"
 #include "saccade/config_cli.hpp"
 #include "saccade/resolved_session.hpp"
@@ -38,7 +39,7 @@ static_assert(decltype(stop_signal)::is_always_lock_free);
 extern "C" void handle_stop(int signal) { stop_signal.store(signal, std::memory_order_relaxed); }
 int interrupted() { return stop_signal.load(std::memory_order_relaxed); }
 
-constexpr std::string_view usage = "usage: track_stream ENGINE SOURCE OUT.txt [--decode cuda|cpu] [--device N] [--format NAME] [--profile NAME] [--frames N] [--timeout-ms N] [--rtsp-transport tcp|udp] [--packets OUT.bin] [--no-cuda-graph] [--serial] [--epoch N] [--config FILE] [--set KEY=VALUE] [--resolved-config FILE]";
+constexpr std::string_view usage = "usage: track_stream ENGINE SOURCE OUT.txt [--decode cuda|cpu] [--device N] [--format NAME] [--profile NAME] [--frames N] [--timeout-ms N] [--rtsp-transport tcp|udp] [--packets OUT.bin] [--view URL] [--no-cuda-graph] [--serial] [--epoch N] [--config FILE] [--set KEY=VALUE] [--resolved-config FILE]";
 
 class Signals {
 public:
@@ -71,7 +72,7 @@ template<class T> T number(std::string_view text, std::string_view flag) {
 }
 
 struct Options {
-    std::string engine, source;
+    std::string engine, source, view;
     std::filesystem::path output, packets, config_path, resolved_path;
     std::string config_text;
     saccade::ConfigAssignments assignments, environment;
@@ -135,6 +136,10 @@ Options parse(int argc, char** argv) {
             else if (argument == "--timeout-ms") options.video.timeout_ms = number<int>(value, argument);
             else if (argument == "--rtsp-transport") options.video.rtsp_transport = value;
             else if (argument == "--packets") options.packets = value;
+            else if (argument == "--view") {
+                if (value.empty()) throw std::invalid_argument("--view requires a target");
+                options.view = value;
+            }
             else if (argument == "--epoch") options.assignments.emplace_back("source.epoch", value);
             else throw std::invalid_argument("unknown stream option");
         }
@@ -158,6 +163,8 @@ Options parse(int argc, char** argv) {
     options.video.device = options.tracking.device;
     options.video.backend = resolved.implementation.input == "device-video" ?
         saccade::VideoDecodeBackend::Cuda : saccade::VideoDecodeBackend::Cpu;
+    if (!options.view.empty() && options.video.backend != saccade::VideoDecodeBackend::Cuda)
+        throw std::invalid_argument("--view requires implementation.input=device-video");
     return options;
 }
 
@@ -189,6 +196,18 @@ void validate_outputs(const Options& options) {
             (!options.config_path.empty() && resolved == normalized(options.config_path)))
             throw std::invalid_argument("resolved config output must differ from inputs and other outputs");
         check(options.resolved_path);
+    }
+    if (!options.view.empty() && !options.view.starts_with("rtsp://")) {
+        try {
+            const auto view = normalized(options.view);
+            if (view == output || (!options.packets.empty() && view == normalized(options.packets)) ||
+                (!options.resolved_path.empty() && view == normalized(options.resolved_path)) ||
+                (!options.config_path.empty() && view == normalized(options.config_path)))
+                throw std::invalid_argument("view output must differ from inputs and other outputs");
+            check(options.view);
+        } catch (const std::filesystem::filesystem_error&) {
+            throw std::invalid_argument("view output path validation failed");
+        }
     }
 }
 
@@ -318,6 +337,7 @@ int run(Options options) {
         }
     });
     std::unique_ptr<saccade::TrackingSession> session;
+    std::unique_ptr<saccade::VideoView> view;
     std::unique_ptr<StreamOutput> output;
     std::exception_ptr error;
     std::uint64_t submitted = 0, received = 0;
@@ -328,6 +348,8 @@ int run(Options options) {
         stopped = interrupted() != 0;
         if (!first && !stopped) throw std::runtime_error("video source contains no frames");
         if (first) {
+            if (!options.view.empty() && frame.device_frame.format != saccade::VideoSurfaceFormat::Nv12)
+                throw std::invalid_argument("--view requires NV12; P010 is unsupported");
             auto resolved = resolve_stream(options, static_cast<std::uint32_t>(frame.width),
                                                   static_cast<std::uint32_t>(frame.height));
             if (resolved.source.width != static_cast<std::uint32_t>(frame.width) ||
@@ -336,6 +358,9 @@ int run(Options options) {
             saccade::mark_native_input_origins(resolved, "decoded-frame-metadata");
             options.tracking = saccade::session_config_from_resolved(resolved);
             session = std::make_unique<saccade::TrackingSession>(options.engine, options.tracking);
+            if (!options.view.empty())
+                view = std::make_unique<saccade::VideoView>(
+                    saccade::VideoViewConfig{options.view, options.video.device, options.video.timeout_ms}, frame.width, frame.height);
             const auto build_identity = saccade::tracking_build_identity(options.engine) +
                 "video.open.input_format=" + options.video.input_format + '\n' +
                 "video.open.max_width=" + std::to_string(options.video.max_width) + '\n' +
@@ -348,10 +373,24 @@ int run(Options options) {
             output = std::make_unique<StreamOutput>(options);
             std::cout << "output_profile=stream-observations/1\noutput_ids=native\ninterpolation=disabled\n"
                       << "tracker_time_model=fixed-step\n" << source.identity() << '\n' << session->identity() << record;
+            if (view) std::cout << "view.codec=h264_nvenc\nview.target="
+                                << (options.view.starts_with("rtsp://") ? "rtsp" : "file") << '\n';
             const auto receive = [&] {
                 const auto result = session->receive();
                 ++received;
                 output->add(result);
+                if (result.packet.frame != static_cast<saccade::FrameId>(frame.index))
+                    throw std::logic_error("stream result frame differs from current source surface");
+                if (view && result.packet.status == saccade::ResultStatus::ok && !output->failed()) {
+                    std::vector<saccade::ViewBox> boxes;
+                    boxes.reserve(result.packet.tracks.size());
+                    for (const auto& track : result.packet.tracks) {
+                        if (track.output_id > std::numeric_limits<std::uint32_t>::max())
+                            throw std::runtime_error("view output_id exceeds uint32 range");
+                        boxes.push_back({static_cast<std::uint32_t>(track.output_id), track.xyxy});
+                    }
+                    view->write(frame.device_frame, frame.pts_us, boxes);
+                }
             };
             while (!interrupted()) {
                 if (frame.width != options.tracking.original_width || frame.height != options.tracking.original_height)
@@ -395,6 +434,7 @@ int run(Options options) {
     watcher.request_stop();
     watcher.join();
     if (session) cleanup([&] { session->close(); }, error);
+    if (view) cleanup([&] { view->close(); }, error);
     cleanup([&] { source.close(); }, error);
     if (output) cleanup([&] { output->close(); }, error);
     if (error) std::rethrow_exception(error);

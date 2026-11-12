@@ -1,5 +1,5 @@
 #!/bin/sh
-# NOT EXECUTED: environmental preflight failure; retained requested command only.
+# Run 2: exact requested configure; corrected reference config passed preflight.
 cmake -S /home/ray/developer/ai/saccade_v1-worktrees/stream-view -B /home/ray/developer/ai/saccade_v1-worktrees/stream-view/build/stream-view -DCMAKE_BUILD_TYPE=Release \
   -DSACCADE_ENABLE_CUDA=ON -DSACCADE_ENABLE_PREPROCESS=ON -DSACCADE_ENABLE_POSTPROCESS=ON \
   -DSACCADE_ENABLE_MODEL_PRODUCER=ON -DSACCADE_ENABLE_TENSORRT=ON -DSACCADE_ENABLE_MODEL_TRT=ON \

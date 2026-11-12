@@ -56,6 +56,8 @@ python3 -I -B scripts/eval_run.py --benchmark MOT17 \
   /home/ray/developer/ai/dataset/MOT17/train/MOT17-02-SDP
 ```
 
+若原始 `img1` 使用 8 位影像檔名，runner 會在 `OUT/inputs/<name>` 建立 6 位檔名的 symlink view 供兩個 native 工具讀取，評分仍使用原始 GT 與 `seqinfo.ini`，並在 `environment.json` 記錄 view。
+
 `--benchmark` 可選 `MOT17`、`MOT20`、`MOT15`、`DanceTrack`、`PP22`。`--build` 必須包含 `track_sequence` 與 `tracking_benchmark`；相對 build 路徑以本庫根目錄為準。`--out` 必須是尚不存在的 `build/[A-Za-z0-9][A-Za-z0-9._-]*`，相對於本庫根目錄。輸入序列必須同屬一個 GT parent、名稱唯一，且各有 `seqinfo.ini`、其中 `imDir` 指定的影像目錄與 `gt/gt.txt`。
 
 預設 engine 為 `/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine`，可用 `--engine` 指定；profile 固定 `hr-1280x768`，capture 固定關閉 `tracker.kalman.nsa_enabled` 與 `tracker.rows.measurement_box`。GPU capture 與 speed 全程持有 `~/.cache/saccade-v1/gpu.lock`，每個 native 呼叫均以 `timeout -k 30s 3600s` 執行，並每秒記錄 `nvidia-smi` telemetry；釋放 lock 後才評分。工具接受 dirty tree，`environment.json` 記錄 HEAD、porcelain、binary identity、兩個 binary 與 engine hashes、GPU 與 driver；binary dirty 或 commit 不符 HEAD 時，`RESULTS.md` 首行會顯示警示。

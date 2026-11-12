@@ -73,18 +73,37 @@ def arguments(argv=None):
     if len({path.parent for path in args.sequences}) != 1:
         parser.error("sequences must share one parent directory (GT root)")
     args.frames = {}
+    args.inputs = {}
+    args.image_views = {}
     for path in args.sequences:
         if not (path / "seqinfo.ini").is_file() or not (path / "gt/gt.txt").is_file():
             parser.error(f"missing seqinfo.ini or gt/gt.txt: {path}")
         try:
             info = configparser.ConfigParser()
             info.read_string((path / "seqinfo.ini").read_text())
-            image_dir = path / info["Sequence"]["imDir"]
-            args.frames[path.name] = int(info["Sequence"]["seqLength"])
+            sequence = info["Sequence"]
+            image_dir = path / sequence["imDir"]
+            extension = sequence["imExt"]
+            args.frames[path.name] = int(sequence["seqLength"])
         except (OSError, ValueError, KeyError, configparser.Error) as error:
             parser.error(f"cannot read sequence layout: {path}: {error}")
         if not image_dir.is_dir():
             parser.error(f"missing image directory: {image_dir}")
+        args.inputs[path.name] = path
+        if (image_dir / f"{1:06d}{extension}").is_file():
+            continue
+        if (image_dir / f"{1:08d}{extension}").is_file():
+            if sequence["imDir"] != "img1":
+                parser.error(f"8-digit image view requires imDir == img1: {path}")
+            view = args.out / "inputs" / path.name
+            args.inputs[path.name] = view
+            args.image_views[path.name] = {
+                "original_path": str(path), "view_path": str(view),
+                "source_digits": 8, "link_count": args.frames[path.name],
+                "imExt": extension,
+            }
+        else:
+            parser.error(f"missing images (expected 000001{extension} or 00000001{extension}): {image_dir}")
     return args
 
 
@@ -202,6 +221,7 @@ def main(argv=None):
                    "git_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip(),
                    "git_status_porcelain": subprocess.check_output(["git", "status", "--porcelain"], cwd=REPO, text=True),
                    "eval_python": eval_python(), "captures": {}, "speed": {},
+                   "image_views": {},
                    "files": {name: {"path": str(path), "sha256": sha256(path)} for name, path in (
                        ("track_sequence", args.build / "track_sequence"),
                        ("tracking_benchmark", args.build / "tracking_benchmark"), ("engine", args.engine))}}
@@ -228,6 +248,14 @@ def main(argv=None):
     dump(args.out / "command.json", commands)
     dump(args.out / "environment.json", environment)
     try:
+        for name, record in args.image_views.items():
+            original, view = Path(record["original_path"]), Path(record["view_path"])
+            (view / "img1").mkdir(parents=True)
+            shutil.copyfile(original / "seqinfo.ini", view / "seqinfo.ini")
+            for fid in range(1, args.frames[name] + 1):
+                source = (original / "img1" / f"{fid:08d}{record['imExt']}").resolve(strict=True)
+                (view / "img1" / f"{fid:06d}{record['imExt']}").symlink_to(source)
+            environment["image_views"][name] = {key: value for key, value in record.items() if key != "imExt"}
         lock_path = Path.home() / ".cache/saccade-v1/gpu.lock"
         lock_path.parent.mkdir(parents=True, exist_ok=True)
         with lock_path.open("a") as lock:
@@ -242,7 +270,7 @@ def main(argv=None):
                     for seq in args.sequences:
                         dest = args.out / "quality" / seq.name
                         dest.mkdir(parents=True)
-                        run("capture " + seq.name, [args.build / "track_sequence", args.engine, seq, dest / "mot.txt",
+                        run("capture " + seq.name, [args.build / "track_sequence", args.engine, args.inputs[seq.name], dest / "mot.txt",
                             "--profile", "hr-1280x768", "--set", "tracker.kalman.nsa_enabled=false",
                             "--set", "tracker.rows.measurement_box=false", "--resolved-config", dest / "resolved.config"],
                             dest / "track.log", gpu=True)
@@ -255,7 +283,7 @@ def main(argv=None):
                             environment["speed"][seq.name] = {"speed_note": note, "tracker_config_check": "not run"}
                             continue
                         dest = args.out / "speed" / seq.name
-                        run("speed " + seq.name, [args.build / "tracking_benchmark", args.engine, seq, dest,
+                        run("speed " + seq.name, [args.build / "tracking_benchmark", args.engine, args.inputs[seq.name], dest,
                             "--frames", "120", "--warmup", "20", "--rounds", "2", "--only", "graph"],
                             args.out / "speed" / (seq.name + ".log"), gpu=True)
                         values, audit = speed_result(dest, environment["captures"][seq.name])

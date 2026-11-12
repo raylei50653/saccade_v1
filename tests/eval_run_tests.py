@@ -32,6 +32,8 @@ except BlockingIOError:
 else:
     raise RuntimeError('GPU binary called without lock')
 seq, out = Path(sys.argv[2]), Path(sys.argv[3])
+if 'STUB_SEQUENCE' in os.environ:
+    assert seq == Path(os.environ['STUB_SEQUENCE'])
 identity = ('source_commit=' + os.environ['STUB_COMMIT'] + '\\nsource_dirty='
             + os.environ.get('STUB_DIRTY', 'false') + '\\ntracker_config_sha256=capture-hash\\n')
 '''
@@ -39,7 +41,7 @@ TRACK = COMMON + '''
 assert sys.argv[4:10] == ['--profile', 'hr-1280x768', '--set',
     'tracker.kalman.nsa_enabled=false', '--set', 'tracker.rows.measurement_box=false']
 assert sys.argv[10] == '--resolved-config'
-out.write_bytes((seq / 'predictions.txt').read_bytes())
+out.write_bytes(Path(os.environ.get('STUB_PREDICTIONS', seq / 'predictions.txt')).read_bytes())
 Path(sys.argv[11]).write_text(identity)
 print(identity, end='')
 print('capture stderr', file=sys.stderr)
@@ -104,6 +106,7 @@ class EvalRunTests(unittest.TestCase):
         seq = self.root / "data" / name
         (seq / "gt").mkdir(parents=True)
         (seq / "images").mkdir()
+        (seq / "images/000001.jpg").write_bytes(b"fixture image")
         (seq / "seqinfo.ini").write_text(
             f"[Sequence]\nname={name}\nimDir=images\nimExt=.jpg\nseqLength={frames}\n"
             "imWidth=640\nimHeight=480\nframeRate=30\n")
@@ -158,6 +161,37 @@ class EvalRunTests(unittest.TestCase):
         (self.out / "marker").write_text("previous result")
         self.run_eval(seq, code=2)
         self.assertEqual(list(self.out.iterdir()), [self.out / "marker"])
+
+    def test_eight_digit_image_view_for_capture_and_speed(self):
+        seq = self.sequence("dance", frames=140)
+        (seq / "images").rename(seq / "img1")
+        (seq / "img1/000001.jpg").unlink()
+        info = seq / "seqinfo.ini"
+        info.write_text(info.read_text().replace("imDir=images", "imDir=img1"))
+        for fid in range(1, 141):
+            (seq / "img1" / f"{fid:08d}.jpg").write_bytes(b"fixture image")
+        view = self.out / "inputs/dance"
+        self.env.update(STUB_SEQUENCE=str(view), STUB_PREDICTIONS=str(seq / "predictions.txt"))
+        self.run_eval(seq, benchmark="DanceTrack")
+        self.assertEqual((view / "seqinfo.ini").read_bytes(), info.read_bytes())
+        self.assertEqual(len(list((view / "img1").iterdir())), 140)
+        for fid in range(1, 141):
+            link = view / "img1" / f"{fid:06d}.jpg"
+            self.assertTrue(link.is_symlink())
+            self.assertEqual(link.readlink(), (seq / "img1" / f"{fid:08d}.jpg").resolve(strict=True))
+        environment = json.loads((self.out / "environment.json").read_text())
+        self.assertEqual(environment["gt_root"], str(seq.parent))
+        self.assertEqual(environment["image_views"], {"dance": {
+            "original_path": str(seq), "view_path": str(view), "source_digits": 8, "link_count": 140}})
+        self.assertEqual((self.out / "scoring/gt/dance/seqinfo.ini").read_bytes(), info.read_bytes())
+        self.assertEqual(self.rows()[0]["HOTA"], 100.0)
+
+    def test_missing_images_exits_during_argument_validation(self):
+        seq = self.sequence()
+        (seq / "images/000001.jpg").unlink()
+        result = self.run_eval(seq, code=2)
+        self.assertIn("missing images", result.stderr)
+        self.assertFalse(self.out.exists())
 
     def test_dancetrack_transform_real_worker(self):
         seq = self.sequence("dance")

@@ -1,0 +1,85 @@
+{
+  "argv": [
+    "/usr/sbin/python3",
+    "-I",
+    "-B",
+    "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/scripts/eval_run.py",
+    "--benchmark",
+    "MOT20",
+    "--build",
+    "build/eval-run",
+    "--out",
+    "build/eval-run-val-MOT20",
+    "/home/ray/developer/ai/dataset/MOT20/MOT20/train/MOT20-01"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+  "steps": [
+    {
+      "step": "capture MOT20-01",
+      "argv": [
+        "timeout",
+        "-k",
+        "30s",
+        "3600s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/track_sequence",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/dataset/MOT20/MOT20/train/MOT20-01",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-MOT20/quality/MOT20-01/mot.txt",
+        "--profile",
+        "hr-1280x768",
+        "--set",
+        "tracker.kalman.nsa_enabled=false",
+        "--set",
+        "tracker.rows.measurement_box=false",
+        "--resolved-config",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-MOT20/quality/MOT20-01/resolved.config"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:19:44.620415+00:00",
+      "log": "quality/MOT20-01/track.log",
+      "returncode": 0,
+      "wall_seconds": 3.331237210000836
+    },
+    {
+      "step": "speed MOT20-01",
+      "argv": [
+        "timeout",
+        "-k",
+        "30s",
+        "3600s",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run/tracking_benchmark",
+        "/home/ray/.cache/saccade-v1/hr-deploy/model-hr-fp16.engine",
+        "/home/ray/developer/ai/dataset/MOT20/MOT20/train/MOT20-01",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-MOT20/speed/MOT20-01",
+        "--frames",
+        "120",
+        "--warmup",
+        "20",
+        "--rounds",
+        "2",
+        "--only",
+        "graph"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:19:47.952685+00:00",
+      "log": "speed/MOT20-01.log",
+      "returncode": 0,
+      "wall_seconds": 12.010253905000354
+    },
+    {
+      "step": "scoring",
+      "argv": [
+        "/home/ray/.cache/saccade-v1/eval/venv/bin/python",
+        "-I",
+        "-B",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/scripts/eval_trackeval.py",
+        "/home/ray/developer/ai/saccade_v1-worktrees/eval-run/build/eval-run-val-MOT20/scoring"
+      ],
+      "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/eval-run",
+      "started_utc": "2026-11-12T15:20:01.590437+00:00",
+      "log": "scoring/trackeval.log",
+      "returncode": 0,
+      "wall_seconds": 0.645231706001141
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "scope": "CPU implementation tests run before code commit; no GPU work",
+  "commands": [
+    [
+      "python3",
+      "-I",
+      "-B",
+      "tests/eval_run_tests.py"
+    ],
+    [
+      "/home/ray/.cache/saccade-v1/eval/venv/bin/python",
+      "-I",
+      "-B",
+      "tests/evaluation_tools_tests.py"
+    ]
+  ],
+  "results": [
+    {
+      "tests": 10,
+      "returncode": 0
+    },
+    {
+      "tests": 12,
+      "returncode": 0
+    }
+  ],
+  "note": "Original stdout/stderr are retained in the adjacent gzip logs; the later validation driver stopped before its planned test repeats."
+}

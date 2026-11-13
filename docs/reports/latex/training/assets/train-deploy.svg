@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520" role="img" aria-labelledby="title desc"><title id="title">從訓練權重到 TensorRT engine</title><desc id="desc">匯出與部署驗收的四個步驟，以及每一步的檢查結果。</desc><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0.0" y="0.0" width="1000.0" height="520.0" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="28.0" y="42.0" font-size="31" fill="#16324F" font-weight="700" text-anchor="start">從訓練權重到 TensorRT engine</text>
+<text x="28.0" y="80.0" font-size="22" fill="#536578" font-weight="400" text-anchor="start">PyTorch 只用在訓練與匯出；部署端是 C++／CUDA／TensorRT，每一步都先對數字再往下走。</text>
+<rect x="28.0" y="108.0" width="210.0" height="250.0" rx="10" fill="#FFFFFF" stroke="#16324F" stroke-width="2.5"/>
+<text x="133.0" y="146.0" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">① Backbone</text>
+<text x="133.0" y="176.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">→ ONNX</text>
+<path d="M46.0,196.0 L220.0,196.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="133.0" y="234.0" font-size="18" fill="#203247" font-weight="600" text-anchor="middle">特徵與訓練 cache 的</text>
+<text x="133.0" y="268.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">51,118,080 個元素</text>
+<text x="133.0" y="302.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">FP16 捨入後逐位元相同</text>
+<path d="M241.0,232.0 L259.0,232.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M253.0,225.0 L265.0,232.0 L253.0,239.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="268.0" y="108.0" width="210.0" height="250.0" rx="10" fill="#FFFFFF" stroke="#16324F" stroke-width="2.5"/>
+<text x="373.0" y="146.0" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">② Head 權重</text>
+<text x="373.0" y="176.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">→ SWB bundle</text>
+<path d="M286.0,196.0 L460.0,196.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="373.0" y="234.0" font-size="18" fill="#203247" font-weight="600" text-anchor="middle">轉成原生格式，由</text>
+<text x="373.0" y="268.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">自寫的 scan plugin</text>
+<text x="373.0" y="302.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">在 TensorRT 內執行</text>
+<path d="M481.0,232.0 L499.0,232.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M493.0,225.0 L505.0,232.0 L493.0,239.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="508.0" y="108.0" width="210.0" height="250.0" rx="10" fill="#FFFFFF" stroke="#16324F" stroke-width="2.5"/>
+<text x="613.0" y="146.0" font-size="25" fill="#16324F" font-weight="700" text-anchor="middle">③ FP32 engine</text>
+<text x="613.0" y="176.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">native 錄製</text>
+<path d="M526.0,196.0 L700.0,196.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="613.0" y="234.0" font-size="18" fill="#203247" font-weight="600" text-anchor="middle">AP50 86.0092%</text>
+<text x="613.0" y="268.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">訓練紀錄 86.0093%</text>
+<text x="613.0" y="302.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">門檻 ±0.1 pp：PASS</text>
+<path d="M721.0,232.0 L739.0,232.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M733.0,225.0 L745.0,232.0 L733.0,239.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="748.0" y="108.0" width="210.0" height="250.0" rx="10" fill="#EFF7F8" stroke="#087F8C" stroke-width="2.5"/>
+<text x="853.0" y="146.0" font-size="25" fill="#087F8C" font-weight="700" text-anchor="middle">④ FP16 engine</text>
+<text x="853.0" y="176.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">部署版本</text>
+<path d="M766.0,196.0 L940.0,196.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="853.0" y="234.0" font-size="18" fill="#203247" font-weight="600" text-anchor="middle">AP50 86.0156%</text>
+<text x="853.0" y="268.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">模型 25.7 → 6.4 ms</text>
+<text x="853.0" y="302.0" font-size="18" fill="#203247" font-weight="400" text-anchor="middle">同 engine 重跑一致</text>
+<rect x="28.0" y="384.0" width="944.0" height="106.0" rx="10" fill="#F3F6F9" stroke="none" stroke-width="1.5"/>
+<text x="48.0" y="418.0" font-size="20" fill="#16324F" font-weight="700" text-anchor="start">驗收用同一個尺：MOT17-10 的 AP50，必須落在訓練時記錄值 ±0.1 個百分點內。</text>
+<text x="48.0" y="450.0" font-size="19" fill="#203247" font-weight="400" text-anchor="start">FP16 只用在卷積等運算；scan plugin、模型輸入與六個原始輸出維持 FP32。</text>
+<text x="48.0" y="478.0" font-size="19" fill="#536578" font-weight="400" text-anchor="start">部署 engine 以 SHA-256 8292cc23…7876 固定；之後重 build 就是新候選，要重做驗收。</text></g></svg>

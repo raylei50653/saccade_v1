@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="title desc"><title id="title">部署模型的兩半，各從哪個訓練階段來</title><desc id="desc">四個訓練階段的順序、各階段學什麼、選定 checkpoint 的 MOT17-10 val AP50，以及部署模型的 backbone 與 head 各來自哪一階段。</desc><g font-family="Noto Sans CJK TC, Noto Sans, sans-serif"><rect x="0.0" y="0.0" width="1000.0" height="640.0" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.5"/>
+<text x="28.0" y="42.0" font-size="31" fill="#16324F" font-weight="700" text-anchor="start">部署模型的兩半，各從哪個訓練階段來</text>
+<text x="28.0" y="80.0" font-size="22" fill="#536578" font-weight="400" text-anchor="start">先把整個 YOLO26m 調成會找行人，再讓新的 Mamba head 模仿它，最後用標註答案修正。</text>
+<rect x="28.0" y="104.0" width="210.0" height="46.0" rx="8" fill="#F3F6F9" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="133.0" y="134.0" font-size="21" fill="#16324F" font-weight="600" text-anchor="middle">官方 YOLO26m 權重</text>
+<path d="M133.0,150.0 L133.0,176.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M126.0,170.0 L133.0,182.0 L140.0,170.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="28.0" y="184.0" width="210.0" height="196.0" rx="10" fill="#FFFFFF" stroke="#16324F" stroke-width="2.5"/>
+<text x="133.0" y="220.0" font-size="27" fill="#16324F" font-weight="700" text-anchor="middle">① Teacher</text>
+<text x="133.0" y="254.0" font-size="20" fill="#536578" font-weight="400" text-anchor="middle">微調整個 YOLO26m</text>
+<text x="133.0" y="283.0" font-size="21" fill="#203247" font-weight="600" text-anchor="middle">學會找 MOT 行人</text>
+<path d="M46.0,302.0 L220.0,302.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="133.0" y="333.0" font-size="20" fill="#16324F" font-weight="700" text-anchor="middle">UA2 e4｜87.46%</text>
+<text x="133.0" y="362.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">53.6 分鐘</text>
+<path d="M241.0,282.0 L259.0,282.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M253.0,275.0 L265.0,282.0 L253.0,289.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="268.0" y="184.0" width="210.0" height="196.0" rx="10" fill="#FFFFFF" stroke="#536578" stroke-width="2.5"/>
+<text x="373.0" y="220.0" font-size="27" fill="#536578" font-weight="700" text-anchor="middle">② Cache</text>
+<text x="373.0" y="254.0" font-size="20" fill="#536578" font-weight="400" text-anchor="middle">Teacher 凍結</text>
+<text x="373.0" y="283.0" font-size="21" fill="#203247" font-weight="600" text-anchor="middle">存下每幀特徵與輸出</text>
+<path d="M286.0,302.0 L460.0,302.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="373.0" y="333.0" font-size="20" fill="#536578" font-weight="700" text-anchor="middle">4,716 幀｜76 GB</text>
+<text x="373.0" y="362.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">2.8 分鐘</text>
+<path d="M481.0,282.0 L499.0,282.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M493.0,275.0 L505.0,282.0 L493.0,289.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="508.0" y="184.0" width="210.0" height="196.0" rx="10" fill="#FFFFFF" stroke="#087F8C" stroke-width="2.5"/>
+<text x="613.0" y="220.0" font-size="27" fill="#087F8C" font-weight="700" text-anchor="middle">③ Distill</text>
+<text x="613.0" y="254.0" font-size="20" fill="#536578" font-weight="400" text-anchor="middle">Mamba head</text>
+<text x="613.0" y="283.0" font-size="21" fill="#203247" font-weight="600" text-anchor="middle">模仿 Teacher 的輸出</text>
+<path d="M526.0,302.0 L700.0,302.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="613.0" y="333.0" font-size="20" fill="#087F8C" font-weight="700" text-anchor="middle">e21｜81.94%</text>
+<text x="613.0" y="362.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">24.8 分鐘</text>
+<path d="M721.0,282.0 L739.0,282.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M733.0,275.0 L745.0,282.0 L733.0,289.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<rect x="748.0" y="184.0" width="210.0" height="196.0" rx="10" fill="#FFFFFF" stroke="#087F8C" stroke-width="2.5"/>
+<text x="853.0" y="220.0" font-size="27" fill="#087F8C" font-weight="700" text-anchor="middle">④ GT1</text>
+<text x="853.0" y="254.0" font-size="20" fill="#536578" font-weight="400" text-anchor="middle">Mamba head</text>
+<text x="853.0" y="283.0" font-size="21" fill="#203247" font-weight="600" text-anchor="middle">改用標註答案修正</text>
+<path d="M766.0,302.0 L940.0,302.0" fill="none" stroke="#DCE4EA" stroke-width="1.5"/>
+<text x="853.0" y="333.0" font-size="20" fill="#087F8C" font-weight="700" text-anchor="middle">Full25 e10｜86.01%</text>
+<text x="853.0" y="362.0" font-size="19" fill="#536578" font-weight="400" text-anchor="middle">26.7 分鐘</text>
+<path d="M133.0,380.0 L133.0,428.0" fill="none" stroke="#16324F" stroke-width="3" stroke-dasharray="6,5"/>
+<path d="M126.0,422.0 L133.0,434.0 L140.0,422.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M853.0,380.0 L853.0,428.0" fill="none" stroke="#087F8C" stroke-width="3" stroke-dasharray="6,5"/>
+<path d="M846.0,422.0 L853.0,434.0 L860.0,422.0" fill="none" stroke="#087F8C" stroke-width="3"/>
+<text x="493.0" y="414.0" font-size="19" fill="#536578" font-weight="600" text-anchor="middle">部署時組合成一個模型</text>
+<rect x="28.0" y="436.0" width="944.0" height="112.0" rx="10" fill="#EFF7F8" stroke="#087F8C" stroke-width="1.5"/>
+<rect x="48.0" y="454.0" width="380.0" height="76.0" rx="8" fill="#FFFFFF" stroke="#16324F" stroke-width="2"/>
+<text x="238.0" y="486.0" font-size="22" fill="#16324F" font-weight="700" text-anchor="middle">Backbone／neck（YOLO26m）</text>
+<text x="238.0" y="515.0" font-size="18" fill="#536578" font-weight="400" text-anchor="middle">取自 ① Teacher；③④ 期間凍結不動</text>
+<text x="452.0" y="500.0" font-size="30" fill="#203247" font-weight="700" text-anchor="middle">＋</text>
+<rect x="478.0" y="454.0" width="290.0" height="76.0" rx="8" fill="#FFFFFF" stroke="#087F8C" stroke-width="2"/>
+<text x="623.0" y="486.0" font-size="22" fill="#087F8C" font-weight="700" text-anchor="middle">Mamba spatial head</text>
+<text x="623.0" y="515.0" font-size="18" fill="#536578" font-weight="400" text-anchor="middle">取自 ④ GT1 e10（EMA）</text>
+<path d="M772.0,492.0 L806.0,492.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<path d="M800.0,485.0 L812.0,492.0 L800.0,499.0" fill="none" stroke="#16324F" stroke-width="3"/>
+<text x="890.0" y="484.0" font-size="21" fill="#16324F" font-weight="700" text-anchor="middle">TensorRT</text>
+<text x="890.0" y="512.0" font-size="21" fill="#16324F" font-weight="700" text-anchor="middle">FP16 engine</text>
+<text x="28.0" y="580.0" font-size="18" fill="#203247" font-weight="400" text-anchor="start">資料：MOT17 五段訓練序列＋MOTSynth 合成影片（①、④）；③ 只讀 ② 的 MOT17 cache；④ 從 ③ 的選定權重接續。</text>
+<text x="28.0" y="608.0" font-size="17" fill="#536578" font-weight="400" text-anchor="start">百分比為 MOT17-10 val AP50（選模用的開發分數）；時間為單次正式 run 的牆鐘時間。部署 head 只看單一影格（T=1）。</text></g></svg>

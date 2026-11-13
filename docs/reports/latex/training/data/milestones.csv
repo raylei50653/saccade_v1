@@ -1,0 +1,10 @@
+step,date,label,change,teacher_ap50,student_ap50,source
+0,2026-10-30,T01（640）,原配方正式重訓：gated teacher 固定 e12，學生 Distill→GT1→T3→T1,68.81,67.58440686451651,saccade_v1 docs/T01_TRAINING.md §8; training/hr_deploy/README.md
+1,2026-10-31,CW＋GT1-native（640）,Teacher 不用 gate、凍結 BN、加首輪 warmup 與輕量增強、以 val AP50 早停；GT1 讓 SSM 內部參數一起學,78.64610343619194,75.76140141916622,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-stage-chain.csv
+2,2026-11-01,改成 1280×768（HR run #3）,只改輸入解析度，配方不變,84.81393255468542,82.84393009981845,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-stage-chain.csv
+3,2026-11-01,Teacher 加 MOTSynth（MS1）,每個 MOT17 批次後接一個 MOTSynth 批次,86.2522867321673,,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-teacher-recipes.csv
+4,2026-11-02,對齊 Ultralytics 微調＋EMA（UA1）,有效 batch 64、AdamW 1.19e-4、3-epoch warmup、權重 EMA,86.78872210604868,,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-teacher-recipes.csv
+5,2026-11-02,加縮放／平移增強（UA2）,scale 0.5、translate 0.1；部署 backbone 來自這一版,87.46229152445021,,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-teacher-recipes.csv
+6,2026-11-02,用 UA2 重建 cache、重訓學生（UA2D）,Cache／Distill／GT1 配方不變，只換 Teacher,,85.27056637313952,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-stage-chain.csv
+7,2026-11-02,GT1 加 EMA 與早停（UA2G）,EMA 0.998、patience 5；峰值未升，選定點較穩,,85.08202388734928,research 92542386 evidence/hr/2026-11-02/figures/hr-summary-stage-chain.csv
+8,2026-11-03,學生也加 MOTSynth（Full25，部署）,每次更新 12 張 MOT17＋4 張 MOTSynth,,86.00928859904053,research 92542386 evidence/hr/2026-11-03/full25/epochs.csv

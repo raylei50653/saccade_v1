@@ -22,7 +22,7 @@ nvcc=${NVCC:-/opt/cuda/bin/nvcc}
 sanitizer=${SANITIZER:-/opt/cuda/bin/compute-sanitizer}
 t01=${SACCADE_T01_ROOT:-$HOME/.cache/saccade-v1/t01}
 py=$t01/venv-export/bin/python
-cxx=${CXX:-c++}
+cxx=${CXX:-${SACCADE_GCC_ROOT:-$HOME/.local/opt/gcc-16.2.0}/bin/g++}
 arch=${SACCADE_CUDA_ARCHITECTURES:-120}
 sanitizer_timeout=${SACCADE_PREPROCESS_SANITIZER_TIMEOUT:-300}
 [[ $sanitizer_timeout =~ ^[1-9][0-9]*$ && $arch =~ ^[0-9]+$ ]] || usage

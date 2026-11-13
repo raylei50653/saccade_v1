@@ -1,5 +1,6 @@
 # Pinned host compiler: GCC 16.2.0 built by scripts/build_gcc.sh.
-#   cmake -S . -B build/<name> -DCMAKE_TOOLCHAIN_FILE=cmake/toolchain-gcc-16.2.0.cmake ...
+# saccade_v1 selects this file by default (cmake/CompilerPin.cmake); other
+# projects can pass it as -DCMAKE_TOOLCHAIN_FILE=<path>/toolchain-gcc-16.2.0.cmake.
 # Set SACCADE_GCC_ROOT to use a different install location.
 #
 # Only the compiler is pinned. Programs still load the system libstdc++ and
@@ -12,7 +13,8 @@ else()
 endif()
 
 if(NOT EXISTS "${_saccade_gcc_root}/bin/g++")
-  message(FATAL_ERROR "GCC 16.2.0 not found at ${_saccade_gcc_root}; run scripts/build_gcc.sh")
+  message(FATAL_ERROR "GCC 16.2.0 not found at ${_saccade_gcc_root}; run scripts/build_gcc.sh, "
+    "or pass -DSACCADE_ALLOW_UNPINNED_COMPILER=ON to build with another compiler")
 endif()
 
 set(CMAKE_C_COMPILER "${_saccade_gcc_root}/bin/gcc")

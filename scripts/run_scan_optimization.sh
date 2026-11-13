@@ -10,7 +10,7 @@ baseline_ref=${2:-HEAD}
   echo 'output must be a new build/NAME directory' >&2; exit 2;
 }
 nvcc=${NVCC:-/opt/cuda/bin/nvcc}
-cxx=${CXX:-c++}
+cxx=${CXX:-${SACCADE_GCC_ROOT:-$HOME/.local/opt/gcc-16.2.0}/bin/g++}
 arch=${SACCADE_CUDA_ARCHITECTURES:-120}
 build_only=${SACCADE_SCAN_BUILD_ONLY:-0}
 lock_timeout=${SACCADE_SCAN_LOCK_TIMEOUT:-600}

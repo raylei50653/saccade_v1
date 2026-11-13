@@ -17,7 +17,7 @@ baseline_ref=${2:-f4865cdb27f0e624b8cc26219e78f4aa938690df}
   exit 2
 }
 nvcc=${NVCC:-/opt/cuda/bin/nvcc}
-cxx=${CXX:-c++}
+cxx=${CXX:-${SACCADE_GCC_ROOT:-$HOME/.local/opt/gcc-16.2.0}/bin/g++}
 arch=${SACCADE_CUDA_ARCHITECTURES:-120}
 verify_timeout=${SACCADE_RESIZE_VERIFY_TIMEOUT:-300}
 benchmark_timeout=${SACCADE_RESIZE_BENCHMARK_TIMEOUT:-300}

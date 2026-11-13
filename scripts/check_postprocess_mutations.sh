@@ -33,7 +33,8 @@ timeout_seconds=${SACCADE_POSTPROCESS_MUTATION_TIMEOUT:-300}
 [[ $timeout_seconds =~ ^[1-9][0-9]*$ ]] || usage
 cache_value() { awk -v key="$1" 'index($0,key ":")==1 {sub(/^[^=]*=/, ""); print; exit}' "$baseline/CMakeCache.txt"; }
 nvcc=$(cache_value CMAKE_CUDA_COMPILER)
-cxx=$(cache_value CMAKE_CXX_COMPILER)
+# With the pinned toolchain file the compiler is recorded here, not in CMakeCache.txt.
+cxx=$(sed -n 's/^set(CMAKE_CXX_COMPILER "\(.*\)")$/\1/p' "$baseline"/CMakeFiles/*/CMakeCXXCompiler.cmake | head -n 1)
 [[ -n $nvcc && -n $cxx ]] || { echo 'baseline compiler identities are missing' >&2; exit 2; }
 
 mkdir -p build && mkdir "$stage_name"

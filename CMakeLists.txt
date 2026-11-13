@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
+include(cmake/CompilerPin.cmake)
 project(saccade_v1_protocol LANGUAGES CXX)
+saccade_check_pinned_compiler()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -161,6 +163,7 @@ add_test(NAME postprocess_reference COMMAND postprocess_tests)
 option(SACCADE_ENABLE_CUDA "Build the synthetic CUDA protocol executor and GPU tests" OFF)
 if(SACCADE_ENABLE_CUDA)
   enable_language(CUDA)
+  saccade_check_pinned_compiler()
   find_package(CUDAToolkit REQUIRED)
   execute_process(COMMAND git rev-parse HEAD WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     OUTPUT_VARIABLE SACCADE_BUILD_COMMIT OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)

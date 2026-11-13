@@ -22,7 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Configure
-        run: cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release
+        # The pinned GCC 16.2.0 (scripts/build_gcc.sh) is not installed on hosted runners.
+        run: cmake -S . -B build/cpu -DCMAKE_BUILD_TYPE=Release -DSACCADE_ALLOW_UNPINNED_COMPILER=ON
       - name: Build
         run: cmake --build build/cpu --parallel 2
       - name: Verify protocol, checked I/O, config, model manifest (schema 1, 2 and 3), selective-scan reference, head weight delivery and head reference contracts

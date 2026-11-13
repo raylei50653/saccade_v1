@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "timeout",
+    "-k",
+    "30s",
+    "3600s",
+    "python3",
+    "-I",
+    "-B",
+    "scripts/eval_run.py",
+    "--benchmark",
+    "MOT17",
+    "--build",
+    "build/gcc16",
+    "--out",
+    "build/gcc16-eval-MOT17",
+    "/home/ray/developer/ai/dataset/MOT17/train/MOT17-10-SDP",
+    "/home/ray/developer/ai/dataset/MOT17/train/MOT17-02-SDP",
+    "/home/ray/developer/ai/dataset/MOT17/train/MOT17-04-SDP"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/gcc16",
+  "started_utc": "2026-11-13T12:44:00.399671+00:00",
+  "env_overrides": {}
+}

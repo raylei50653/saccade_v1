@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "timeout",
+    "-k",
+    "30s",
+    "3600s",
+    "cmake",
+    "-S",
+    ".",
+    "-B",
+    "build/gcc16-asan",
+    "-DCMAKE_BUILD_TYPE=Debug",
+    "-DCMAKE_TOOLCHAIN_FILE=cmake/toolchain-gcc-16.2.0.cmake",
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+    "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer",
+    "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/gcc16",
+  "started_utc": "2026-11-13T12:20:48.980878+00:00",
+  "env_overrides": {}
+}

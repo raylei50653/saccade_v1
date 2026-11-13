@@ -1,0 +1,57 @@
+{
+  "release": "GCC 16.2.0 (official release tarball)",
+  "tarball": {
+    "url": "https://ftp.gnu.org/gnu/gcc/gcc-16.2.0/gcc-16.2.0.tar.xz",
+    "bytes": 107200820,
+    "sha256": "e6738e29597f733270731aa90600f37ffdc045079dfc27ec7e8192cc81085c3e",
+    "sha512_matches": "https://gcc.gnu.org/pub/gcc/releases/gcc-16.2.0/sha512.sum (independent server)"
+  },
+  "signature": {
+    "verifier": "gpgv --keyring gnu-keyring.gpg (https://ftp.gnu.org/gnu/gnu-keyring.gpg)",
+    "result": "good signature",
+    "signed": "2026-08-07 16:29:12 CST",
+    "key": "7F74F97C103468EE5D750B583AB00996FC26A641",
+    "signer": "Richard Guenther (GCC) <rguenth@gcc.gnu.org>"
+  },
+  "in_tree_prerequisites": [
+    "gmp-6.3.0",
+    "mpfr-4.2.2",
+    "mpc-1.3.1",
+    "isl-0.24",
+    "gettext-0.22"
+  ],
+  "prerequisites_verified_by": "contrib/download_prerequisites (built-in SHA-512 list)",
+  "configured_with": "Configured with: /home/ray/.cache/saccade-toolchain/src/gcc-16.2.0/configure --prefix=/home/ray/.local/opt/gcc-16.2.0 --enable-languages=c,c++ --disable-multilib --enable-bootstrap --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror",
+  "differences_from_arch_gcc_16_2_1": [
+    "source: 16.2.0 release instead of 16.2.1+r23+gd564253eb6c8 (23 branch commits later)",
+    "languages c,c++ only (Arch: ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol)",
+    "--disable-multilib (Arch: --enable-multilib)",
+    "plain bootstrap (Arch: --with-build-config=bootstrap-lto); affects only the compiler's own speed",
+    "GMP/MPFR/MPC/ISL in-tree and static (Arch: system shared libraries)",
+    "--prefix=~/.local/opt/gcc-16.2.0 (Arch: /usr)"
+  ],
+  "build": {
+    "script": "scripts/build_gcc.sh @ 3f1f9d2f",
+    "jobs": 32,
+    "wall": "23:53",
+    "cpu_percent": 1271,
+    "bootstrap_stage2_vs_stage3": "Comparison successful.",
+    "log": "gcc-build/build-gcc-16.2.0.log.gz"
+  },
+  "install": {
+    "prefix": "/home/ray/.local/opt/gcc-16.2.0",
+    "size": "293M",
+    "links": [
+      "/home/ray/.local/bin/gcc-16.2.0",
+      "/home/ray/.local/bin/g++-16.2.0"
+    ],
+    "g++_sha256": "955eea54c5c101b60ac23bddd457289f56bf0d3a58256860d5b1b9f5a99b6d82",
+    "cc1plus_sha256": "11078beeece2458cf1bdb354579485d06246f8080f14a1f687ace8ab0b222c95",
+    "cc1plus_shared_deps": [
+      "libz.so.1",
+      "libzstd.so.1",
+      "libm.so.6",
+      "libc.so.6"
+    ]
+  }
+}

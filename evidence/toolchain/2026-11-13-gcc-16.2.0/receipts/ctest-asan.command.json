@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "timeout",
+    "-k",
+    "30s",
+    "7200s",
+    "ctest",
+    "--test-dir",
+    "build/gcc16-asan",
+    "--output-on-failure",
+    "--timeout",
+    "1800",
+    "--output-junit",
+    "/home/ray/developer/ai/saccade_v1-worktrees/gcc16/build/gcc16-work/ctest-asan.junit.xml"
+  ],
+  "cwd": "/home/ray/developer/ai/saccade_v1-worktrees/gcc16",
+  "started_utc": "2026-11-13T12:24:38.088677+00:00",
+  "env_overrides": {
+    "LD_LIBRARY_PATH": "/home/ray/.local/opt/gcc-16.2.0/lib64"
+  }
+}
